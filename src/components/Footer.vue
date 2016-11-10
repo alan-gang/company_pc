@@ -12,8 +12,7 @@
           span.el-dropdown-link 游戏
             // i.el-icon-caret-top.el-icon--right
           el-dropdown-menu(slot="dropdown")
-            el-dropdown-item(v-for=" (game, index) in games ") 
-              router-link(:to="'/games/' + game.url") {{game.name}}
+            el-dropdown-item(v-for=" (game, index) in games " @click.native="openGame(game.url)") {{game.name}}
         el-dropdown(menu-align="start")
           span.el-dropdown-link 个人
             // i.el-icon-caret-top.el-icon--right
@@ -58,6 +57,9 @@ export default {
   computed: {
   },
   methods: {
+    openGame (url) {
+      this.$emit('openGame', url)
+    }
   },
   components: {
   }

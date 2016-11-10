@@ -12,7 +12,7 @@
 
 
     // footer
-    dsFooter(:games="games")
+    dsFooter(:games="games" v-on:openGame="openTab")
 
     
 
@@ -96,8 +96,7 @@ export default {
       right 0
       top HH
       bottom FH
-      overflow-x hidden
-      overflow-y auto
+      overflow hidden
       background #aaa
   
   .fade-enter-active, .fade-leave-active 

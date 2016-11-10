@@ -1,16 +1,16 @@
 <template lang="jade">
   section
-    component(v-for="page in pages" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size]" v-moveable="" v-resizeable="")
+    component(v-for="page in pages" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.url ]" v-bind:style="[ pageSizes[page.size] || page.position || pageSizes.default ]" v-moveable="" v-resizeable="")
       .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.url)")
       //.move-bar(slot="movebar")
       .resize-x(slot="resize-x")
-        .cursor
       .resize-y(slot="resize-y")
-        .cursor
-      ToolBar(slot="toolbar" v-bind:title="page.name" v-bind:star="page.star" v-on:full="full(page.url)" v-on:minus="minus(page.url)" v-on:close="close(page.url)" v-on:star="star(page)")
+      ToolBar(slot="toolbar" v-bind:title="page.name" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.url)" v-on:star="star(page)")
       .scroll-content(slot="scroll-content") 
         LuckyNumber(v-bind:numbers="page.numbers" v-bind:NPER="page.NPER" v-bind:PNPER="page.PNPER" v-bind:FNPER="page.FNPER")
         GameInfo(v-bind:NPER="page.NPER" v-bind:timeout="page.timeout")
+        GameMenu
+
 
     
 </template>
@@ -23,13 +23,36 @@ import util from '../util'
 import ToolBar from 'components/ToolBar'
 import LuckyNumber from 'components/LuckyNumber'
 import GameInfo from 'components/GameInfo'
+import GameMenu from 'components/GameMenu'
 
 export default {
   mixins: [base],
   props: ['pages'],
   data () {
     return {
-      moving: false
+      pageSizes: {
+        full: {
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%'
+        },
+        minus: {
+          top: '99%',
+          left: 0,
+          width: 0,
+          height: 0,
+          minWidth: 0,
+          minHeight: 0,
+          opacity: 0
+        },
+        default: {
+          top: '10%',
+          left: '25%',
+          width: '8rem',
+          height: '6rem'
+        }
+      }
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -50,17 +73,30 @@ export default {
     openAPage (url) {
       this.$emit('openTab', url)
     },
-    full (url) {
-      this.$emit('updatePage', url, {size: 'full'})
+    full (page) {
+      if (page.size !== 'full') this.setDefaultPosition(page)
+      this.$emit('updatePage', page.url, {size: page.size === 'full' ? '' : 'full'}, page)
     },
-    minus (url) {
-      this.$emit('updatePage', url, {size: 'minus'})
+    minus (page) {
+      this.setDefaultPosition(page)
+      this.$emit('updatePage', page.url, {size: 'minus'}, page)
     },
     close (url) {
       this.$emit('closeTab', url)
     },
     star (page) {
-      this.$emit('updatePage', page.url, {star: !page.star})
+      this.$emit('updatePage', page.url, {star: !page.star}, page)
+    },
+    setDefaultPosition (page) {
+      let el = this.$el.querySelector('.page-' + page.url)
+      console.log(el.style.top, el.style.left, el.style.width, el.style.height)
+      let position = {
+        top: el.style.top,
+        left: el.style.left,
+        width: el.style.width,
+        height: el.style.height
+      }
+      this.$emit('updatePage', page.url, {position: position}, page)
     }
   },
   components: {
@@ -68,7 +104,8 @@ export default {
     Two,
     ToolBar,
     LuckyNumber,
-    GameInfo
+    GameInfo,
+    GameMenu
   },
   directives: {
     moveable: {
@@ -89,6 +126,7 @@ export default {
           height = offset.height
           boxOffset = util.getOffset(el.parentNode)
           canMove = true
+          el.style.transition = 'none'
           sx = evt.clientX
           sy = evt.clientY
         })
@@ -100,6 +138,7 @@ export default {
           if (dx < 0 && left <= 20) dx = 0
           if (dy > 0 && (boxOffset.height - 20 <= top + height)) dy = 0
           if (dy < 0 && top <= 20) dy = 0
+          if (dx === 0 && dy === 0) return
           left += dx
           el.style.left = left + 'px'
           sx = evt.clientX
@@ -109,9 +148,11 @@ export default {
         })
         util.addEvent('mouseup', target, (evt) => {
           canMove = false
+          el.style.transition = ''
         })
         util.addEvent('mouseleave', target, (evt) => {
           canMove = false
+          el.style.transition = ''
         })
       },
       unbind (el) {
@@ -140,6 +181,7 @@ export default {
           height = offset.height
           boxOffset = util.getOffset(el.parentNode)
           canResizeX = true
+          el.style.transition = 'none'
           sx = evt.clientX
         })
         util.addEvent('mousemove', targetX, (evt) => {
@@ -147,7 +189,7 @@ export default {
           evt.stopPropagation()
           if (!canResizeX) return
           dx = evt.movementX || (evt.clientX - sx)
-          if (dx > 0 && (boxOffset.width - 20 <= left + width)) dx = 0
+          if (dx > 0 && (boxOffset.width - 20 <= left + width)) return
           width += dx
           el.style.width = width + 'px'
           sx = evt.clientX
@@ -156,9 +198,11 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           canResizeX = false
+          el.style.transition = ''
         })
         util.addEvent('mouseleave', targetX, (evt) => {
           canResizeX = false
+          el.style.transition = ''
         })
         // Y
         util.addEvent('mousedown', targetY, (evt) => {
@@ -171,6 +215,7 @@ export default {
           height = offset.height
           boxOffset = util.getOffset(el.parentNode)
           canResizeY = true
+          el.style.transition = 'none'
           sy = evt.clientY
         })
         util.addEvent('mousemove', targetY, (evt) => {
@@ -178,7 +223,7 @@ export default {
           evt.stopPropagation()
           if (!canResizeY) return
           dy = evt.movementY || (evt.clientY - sy)
-          if (dy > 0 && (boxOffset.height - 20 <= top + height)) dy = 0
+          if (dy > 0 && (boxOffset.height - 20 <= top + height)) return
           height += dy
           el.style.height = height + 'px'
           sy = evt.clientY
@@ -187,9 +232,11 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           canResizeY = false
+          el.style.transition = ''
         })
         util.addEvent('mouseleave', targetY, (evt) => {
           canResizeY = false
+          el.style.transition = ''
         })
       },
       unbind (el) {
@@ -223,51 +270,54 @@ export default {
     cursor move
   .resize-x
     position absolute
-    right -.1rem
+    right - (HH / 2)
     top HH
     bottom HH
     width HH
     z-index 1
-    .cursor
-      cursor e-resize
+    cursor e-resize
+    &:hover
+      width 8 * HH
+      right -4 * HH
   
   .resize-y
     position absolute
     right 0
-    bottom -.1rem
+    bottom - (HH / 2)
     left 0
     height HH
     z-index 1
-    .cursor
-      cursor n-resize
-  .cursor
-    position absolute
-    left .1rem
-    right .1rem
-    top .1rem
-    bottom .1rem
+    cursor n-resize
+    &:hover
+      height 8 * HH
+      bottom -4 * HH
+      
   
-     
+  #app .page .scroll-content
+      background-color #ddd
+  
   .page
     position absolute
-    top 15%
-    left 15%
+    // top 15%
+    // left 25%
+    // transform translate3d(-50%, -50%, 0)
+    transition all linear .2s
+    // transition-property top left right bottom
+    // width 8rem
+    // height 6rem
     min-width 8rem
     min-height 6rem
     border .01rem solid #ccc
     background-color #eee
-    overflow hidden
+    overflow visible
     box-shadow 0 0 .2rem .05rem #777
     z-index 0
     &.active
       z-index 1
-    &.full
-      top 0 !important
-      left 0 !important
-      right 0
-      bottom 0
-    &.minus
-      display none
+    
+    
+  
+      
 </style>
 
 

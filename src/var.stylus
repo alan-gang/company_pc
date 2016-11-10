@@ -8,10 +8,15 @@ TH = .44rem
 LH = .44rem
 // gameinfo heights
 GH = .66rem
+// gameMenuHeights
+GMH = .44rem
 // common padding w
 PW = .15rem
+
 
 // common.css
 a
   text-decoration none
   color #666
+dl, dd, dt
+  margin 0
