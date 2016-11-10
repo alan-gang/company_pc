@@ -1,0 +1,17 @@
+// header heights
+HH = .44rem
+// footer heights
+FH = .44rem
+// toolbar heights
+TH = .44rem
+// luckynumber heights
+LH = .44rem
+// gameinfo heights
+GH = .66rem
+// common padding w
+PW = .15rem
+
+// common.css
+a
+  text-decoration none
+  color #666
