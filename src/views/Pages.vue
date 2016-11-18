@@ -2,16 +2,12 @@
   section
     component(v-for="page in pages" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.url ]" v-bind:style="[ pageSizes[page.size] || page.position || pageSizes.default ]" v-moveable="" v-resizeable="")
       .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.url)")
-      //.move-bar(slot="movebar")
+      .move-bar(slot="movebar")
       .resize-x(slot="resize-x")
       .resize-y(slot="resize-y")
       ToolBar(slot="toolbar" v-bind:title="page.name" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.url)" v-on:star="star(page)")
-      .scroll-content(slot="scroll-content") 
-        LuckyNumber(v-bind:numbers="page.numbers" v-bind:NPER="page.NPER" v-bind:PNPER="page.PNPER" v-bind:FNPER="page.FNPER")
-        GameInfo(v-bind:NPER="page.NPER" v-bind:timeout="page.timeout")
-        GameMenu
-
-
+      
+      
     
 </template>
 
@@ -21,9 +17,6 @@ import One from './One'
 import Two from './Two'
 import util from '../util'
 import ToolBar from 'components/ToolBar'
-import LuckyNumber from 'components/LuckyNumber'
-import GameInfo from 'components/GameInfo'
-import GameMenu from 'components/GameMenu'
 
 export default {
   mixins: [base],
@@ -102,10 +95,7 @@ export default {
   components: {
     One,
     Two,
-    ToolBar,
-    LuckyNumber,
-    GameInfo,
-    GameMenu
+    ToolBar
   },
   directives: {
     moveable: {
@@ -113,7 +103,7 @@ export default {
         let canMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
         let boxOffset = util.getOffset(el.parentNode)
-        let target = el // el.querySelector('.move-bar')
+        let target = el.querySelector('.move-bar')
         let sx = 0
         let sy = 0
         let dx = 0
@@ -270,7 +260,7 @@ export default {
     cursor move
   .resize-x
     position absolute
-    right - (HH / 2)
+    right - HH
     top HH
     bottom HH
     width HH
@@ -283,7 +273,7 @@ export default {
   .resize-y
     position absolute
     right 0
-    bottom - (HH / 2)
+    bottom - HH
     left 0
     height HH
     z-index 1
@@ -293,18 +283,11 @@ export default {
       bottom -4 * HH
       
   
-  #app .page .scroll-content
-      background-color #ddd
+
   
   .page
     position absolute
-    // top 15%
-    // left 25%
-    // transform translate3d(-50%, -50%, 0)
     transition all linear .2s
-    // transition-property top left right bottom
-    // width 8rem
-    // height 6rem
     min-width 8rem
     min-height 6rem
     border .01rem solid #ccc

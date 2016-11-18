@@ -4,7 +4,7 @@
     | &nbsp;期&nbsp;
     i.el-icon-time {{ showTime }}
     el-button-group
-      el-button ？五星直选
+      el-button ？{{ title }}
       el-button 走势图
     el-button-group.right
       el-button 投注记录
@@ -15,8 +15,10 @@
 import util from '../util'
 export default {
   props: {
-    NPER: String,
-    timeout: String
+    NPER: Number,
+    CNPER: Number,
+    timeout: Number,
+    title: String
   },
   data () {
     return {
@@ -26,9 +28,6 @@ export default {
     }
   },
   computed: {
-    CNPER () {
-      return Number(this.NPER) + 1
-    },
     showTime () {
       return util.timeFormat(this.time)
     }
@@ -78,7 +77,6 @@ export default {
     float right
     top .2rem
     .el-button
-      padding 0
       border none
     
 </style>

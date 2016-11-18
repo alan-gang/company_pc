@@ -1,5 +1,6 @@
 <script>
   import store from '../store'
+  
   export default {
     data () {
       return {
@@ -43,12 +44,12 @@
       // }
       openPage (url) {
         store.actions.updateAllPages({active: false})
-        let page = store.actions.updatePage(url, {active: true, opened: true})
-        if (page && page.size === 'minus') store.actions.updatePage(url, {size: ''}, page)
+        let page = this.updatePage(url, {active: true, opened: true})
+        if (page && page.size === 'minus') this.updatePage(url, {size: ''}, page)
         return page
       },
-      updatePage (url, options) {
-        store.actions.updatePage(url, options)
+      updatePage (url, options, page) {
+        return store.actions.updatePage(url, options, page)
       },
       setPages (pages) {
         store.actions.setPages(pages)

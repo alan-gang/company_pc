@@ -12,7 +12,7 @@
 
 
     // footer
-    dsFooter(:games="games" v-on:openGame="openTab")
+    dsFooter(:pages="pages" v-on:openPage="openTab")
 
     
 
@@ -26,22 +26,48 @@ export default {
   mixins: [base],
   data () {
     return {
-      games: [
-        {id: 1, name: '广东时时彩', opened: false, active: false, size: '', star: false, numbers: [5, 8, 5, 6, 8], NPER: '150730053', FNPER: '502', PNPER: '518', timeout: '', url: 'one'},
-        {id: 2, name: '狮子头', opened: false, active: false, size: '', star: false, numbers: [5, 8, 5, 6, 8], NPER: '150730053', FNPER: '502', PNPER: '518', timeout: '', url: 'two'},
-        {id: 3, name: '螺蛳粉', opened: false, active: false, size: '', star: false, numbers: [5, 8, 5, 6, 8], NPER: '150730053', FNPER: '502', PNPER: '518', timeout: '', url: 'three'},
-        {id: 4, name: '双皮奶', opened: false, active: false, size: '', star: false, numbers: [5, 8, 5, 6, 8], NPER: '150730053', FNPER: '502', PNPER: '518', timeout: '', url: 'four'},
-        {id: 5, name: '蚵仔煎', opened: false, active: false, size: '', star: false, numbers: [5, 8, 5, 6, 8], NPER: '150730053', FNPER: '502', PNPER: '518', timeout: '', url: 'five'}
+      pages: [
+        {
+          id: 1,
+          url: 'one',
+          name: '广东时时彩',
+          opened: false,
+          active: false,
+          size: '',
+          star: false,
+          game: {
+            // 最近的已开奖期数
+            NPER: 150730053,
+            // 即将开奖的期数
+            CNPER: 150730053 + 1,
+            // 即将开奖倒计时
+            // 秒
+            timeout: 5 * 60,
+            // 剩余的奖期数
+            FNPER: 502,
+            // 开过的奖期数
+            PNPER: 518,
+            // 当前玩法
+            type: '5-1-1'
+          },
+          numbers: [5, 8, 5, 6, 8],
+          NPER: '150730053',
+          FNPER: '502',
+          PNPER: '518',
+          timeout: '',
+          rows: [],
+          type: {id: '5-1-1', title: '直选复式'}
+        }
       ]
     }
   },
   computed: {
     tabs () {
-      return this.games.filter(game => game.opened)
+      return this.pages.filter(game => game.opened)
     }
   },
   created () {
-    this.setPages(this.games)
+    this.setPages(this.pages)
   },
   methods: {
     openTab (url) {
@@ -76,28 +102,27 @@ export default {
     font-size .14rem
     margin 0
     
-  #app
-    header
-      position absolute
-      top 0
-      right: 0
-      left: 0
-      height HH
-    footer
-      position absolute
-      bottom 0
-      left 0
-      right 0
-      height FH
-      background #efefef
-    .scroll-content
-      position absolute
-      left 0
-      right 0
-      top HH
-      bottom FH
-      overflow hidden
-      background #aaa
+  header
+    position absolute
+    top 0
+    right: 0
+    left: 0
+    height HH
+  footer
+    position absolute
+    bottom 0
+    left 0
+    right 0
+    height FH
+    background #efefef
+  .scroll-content
+    position absolute
+    left 0
+    right 0
+    top HH
+    bottom FH
+    overflow hidden
+    background #aaa
   
   .fade-enter-active, .fade-leave-active 
     transition: opacity .5s

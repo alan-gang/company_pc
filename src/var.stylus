@@ -8,10 +8,23 @@ TH = .44rem
 LH = .44rem
 // gameinfo heights
 GH = .66rem
-// gameMenuHeights
+// gameMenu heights
 GMH = .44rem
+// gamecenter heights
+GCH = .52rem
+// gameorderbar heights
+GOH = .44rem
+// game amoutbar heights
+GAH = .44rem
+// game follow bar heights
+GFH = .44rem
 // common padding w
 PW = .15rem
+
+
+// common colors
+BLUE = #06c
+RED = red
 
 
 // common.css

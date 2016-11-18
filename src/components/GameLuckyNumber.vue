@@ -2,7 +2,7 @@
   h6.lucky-numbers
     span.NPER {{ NPER }} 
     | 期 &nbsp;
-    span.number(v-for=" n in numbers ") {{ n }}
+    span.number(v-for=" n in lucknumbers ") {{ n }}
     span.timeout &nbsp;开奖超时，请刷新
     span.right
       | 已开
@@ -15,10 +15,10 @@
 <script>
 export default {
   props: {
-    NPER: String,
-    FNPER: String,
-    PNPER: String,
-    numbers: Array
+    NPER: Number,
+    FNPER: Number,
+    PNPER: Number,
+    lucknumbers: Array
   },
   data () {
     return {
@@ -49,7 +49,7 @@ export default {
       line-height .3rem
       text-align center
       font-size .16rem
-      background-color red
+      background-color RED
       border-radius 50%
       margin .07rem .035rem
     .timeout
