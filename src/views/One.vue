@@ -26,7 +26,7 @@
         GameFollowList(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:pay="pay" v-on:setFollow="setFollow")
 
       <!-- 总计栏 -->
-      GameAmountBar(:show="follow.show" v-bind:n="n" v-bind:pay="pay"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-on:showFollow="showFollow" v-if="ns.length > 0")
+      GameAmountBar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-on:showFollow="showFollow" v-if="ns.length > 0")
       <!-- 下单 -->
       GameOrderBar.fixed( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
       
@@ -117,6 +117,18 @@ export default {
     },
     canOrder () {
       return !!(this.n && this.point)
+    },
+    // 已投注注数
+    N () {
+      return this.ns.reduce((p, n) => {
+        return (p += n.n)
+      }, 0)
+    },
+    // 已投注注数金额
+    NPAY () {
+      return this.ns.reduce((p, n) => {
+        return (p += n.pay)
+      }, 0)
     }
   },
   methods: {
@@ -161,6 +173,7 @@ export default {
     },
     removeOrder (index) {
       this.ns.splice(index, 1)
+      if (this.ns.length === 0) this.follow.show = false
     }
   },
   components: {

@@ -228,7 +228,8 @@
           nsl: this.nsl,
           ps: this.ps,
           psl: this.psl,
-          value: this.value
+          value: this.value,
+          r: this.r
         }) : 0
       }
     },

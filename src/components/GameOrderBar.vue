@@ -1,6 +1,6 @@
 <template lang="jade">
   el-row
-    el-col.left(:span="16")
+    el-col.left(:span="15")
       el-button(icon="minus" size="mini" @click.native="setTimes(-1)")
       el-button {{ times }}
       el-button(icon="plus" size="mini" @click.native="setTimes(1)")
@@ -12,7 +12,7 @@
         el-option(v-for="i in points" v-bind:label="i" v-bind:value="i")
 
 
-    el-col.right(:span="8")
+    el-col.right(:span="9")
       | 已选 
       span.count {{ n }} 
       | 注 共 
