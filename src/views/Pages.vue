@@ -1,20 +1,17 @@
 <template lang="jade">
   section
-    component(v-for="page in pages" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.url ]" v-bind:style="[ pageSizes[page.size] || page.position || pageSizes.default ]" v-moveable="" v-resizeable="")
-      .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.url)")
-      .move-bar(slot="movebar")
-      .resize-x(slot="resize-x")
-      .resize-y(slot="resize-y")
-      ToolBar(slot="toolbar" v-bind:title="page.name" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.url)" v-on:star="star(page)")
-      
-      
-    
+      component(v-for="(page, index) in pages" v-bind:key="page.id" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
+        .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.id)")
+        .move-bar(slot="movebar")
+        .resize-x(slot="resize-x")
+        .resize-y(slot="resize-y")
+        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="['ds-icon-game-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)")
+
 </template>
 
 <script>
 import base from 'components/base'
-import One from './One'
-import Two from './Two'
+import SSC from './games/SSC'
 import util from '../util'
 import ToolBar from 'components/ToolBar'
 
@@ -23,6 +20,7 @@ export default {
   props: ['pages'],
   data () {
     return {
+      // 可打开的最大的页数
       pageSizes: {
         full: {
           top: 0,
@@ -31,57 +29,90 @@ export default {
           height: '100%'
         },
         minus: {
-          top: '99%',
-          left: 0,
-          width: 0,
-          height: 0,
-          minWidth: 0,
-          minHeight: 0,
+          top: '70%',
+          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)',
           opacity: 0
         },
         default: {
-          top: '10%',
+          top: '5%',
           left: '25%',
-          width: '8rem',
-          height: '6rem'
+          width: '9.3rem',
+          height: '9rem'
         }
-      }
+      },
+      // 提供随机的位置
+      // 没有记录过位置的窗口将自动分配位置
+      P: [
+        // left top
+        {
+          left: '.15rem',
+          top: '.15rem',
+          right: 'auto',
+          bottom: 'auto'
+        },
+        // right top
+        {
+          right: '.15rem',
+          top: '.15rem',
+          left: 'auto',
+          bottom: 'auto'
+        },
+        // left bottom
+        {
+          left: '.15rem',
+          bottom: '.15rem',
+          top: 'auto'
+        },
+        // right bottom
+        {
+          right: '.15rem',
+          bottom: '.15rem',
+          top: 'auto',
+          left: 'auto'
+        },
+        // center
+        {
+          top: '5%',
+          left: '25%',
+          width: '9.3rem',
+          height: '9rem'
+        }
+      ]
+
     }
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route': 'openRoute'
   },
   beforeRouteEnter (to, from, next) {
     next((vm) => {
       return vm.openAPage(to.params.url)
     })
   },
-  computed: {
-  },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    '$route': 'openRoute'
-  },
   methods: {
     openRoute ({params: {url}}) {
-      this.openAPage(url)
+      if (url) this.openAPage(url)
     },
     openAPage (url) {
-      this.$emit('openTab', url)
+      this.$emit('open-tab', url)
     },
     full (page) {
       if (page.size !== 'full') this.setDefaultPosition(page)
-      this.$emit('updatePage', page.url, {size: page.size === 'full' ? '' : 'full'}, page)
+      this.updatePage(page.url, {size: page.size === 'full' ? '' : 'full'}, page)
     },
     minus (page) {
-      this.setDefaultPosition(page)
-      this.$emit('updatePage', page.url, {size: 'minus'}, page)
+      if (page.size !== 'full') this.setDefaultPosition(page)
+      this.updatePage(page.id, {size: 'minus'}, page)
     },
     close (url) {
-      this.$emit('closeTab', url)
+      this.$emit('close-tab', url)
     },
     star (page) {
-      this.$emit('updatePage', page.url, {star: !page.star}, page)
+      this.updatePage(page.id, {star: !page.star}, page)
     },
     setDefaultPosition (page) {
-      let el = this.$el.querySelector('.page-' + page.url)
+      let el = this.$el.querySelector('.page-' + page.id)
       console.log(el.style.top, el.style.left, el.style.width, el.style.height)
       let position = {
         top: el.style.top,
@@ -89,17 +120,17 @@ export default {
         width: el.style.width,
         height: el.style.height
       }
-      this.$emit('updatePage', page.url, {position: position}, page)
+      this.updatePage(page.id, {position: position}, page)
     }
   },
   components: {
-    One,
-    Two,
+    SSC,
     ToolBar
   },
   directives: {
     moveable: {
-      inserted (el, binding) {
+      inserted (el, binding, vnode) {
+        // console.log(el, binding, vnode)
         let canMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
         let boxOffset = util.getOffset(el.parentNode)
@@ -124,10 +155,10 @@ export default {
           if (!canMove) return
           dx = evt.movementX || (evt.clientX - sx)
           dy = evt.movementY || (evt.clientY - sy)
-          if (dx > 0 && (boxOffset.width - 20 <= left + width)) dx = 0
-          if (dx < 0 && left <= 20) dx = 0
-          if (dy > 0 && (boxOffset.height - 20 <= top + height)) dy = 0
-          if (dy < 0 && top <= 20) dy = 0
+          if (dx > 0 && (boxOffset.width - 15 <= left + width)) dx = 0
+          if (dx < 0 && left <= 15) dx = 0
+          if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
+          if (dy < 0 && top <= 15) dy = 0
           if (dx === 0 && dy === 0) return
           left += dx
           el.style.left = left + 'px'
@@ -179,7 +210,7 @@ export default {
           evt.stopPropagation()
           if (!canResizeX) return
           dx = evt.movementX || (evt.clientX - sx)
-          if (dx > 0 && (boxOffset.width - 20 <= left + width)) return
+          if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
           width += dx
           el.style.width = width + 'px'
           sx = evt.clientX
@@ -213,7 +244,7 @@ export default {
           evt.stopPropagation()
           if (!canResizeY) return
           dy = evt.movementY || (evt.clientY - sy)
-          if (dy > 0 && (boxOffset.height - 20 <= top + height)) return
+          if (dy > 0 && (boxOffset.height - 15 <= top + height)) return
           height += dy
           el.style.height = height + 'px'
           sy = evt.clientY
@@ -236,6 +267,44 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+  // @media(max-width: 1024px)
+  //   html
+  //     overflow auto
+  //     font-size 80px
+  //   header
+  //     display none
+  //   footer
+  //     z-index 1
+  //     background none
+  //     background-color GREY !important
+  //   .page
+  //   .game-content
+  //   .dialog-page
+  //     position relative !important
+  //     left 0 !important
+  //     top 0 !important
+  //   .dialog-page
+  //     width 100% !important
+  //     height 80% !important
+  //     .cover
+  //     .move-bar
+  //     .resize-x
+  //     .resize-y
+  //     .tool-bar
+  //       display none !important
+  //     .amout-bar
+  //       position relative !important
+      
+  //     // max-width 1024px !important
+  //   .dialog-page ~ .dialog-page
+  //     display none
+  // @media(max-width: 600px)
+  //   footer
+  //     position relative !important
+  //     top 0 !important
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../var.stylus'
@@ -245,58 +314,74 @@ export default {
     right 0
     top 0
     bottom 0
-    background-color rgba(200,200,200,.8)
     z-index 1
     display none
+    background-color rgba(0,0,0,.2)
+    opacity 0
     &.show{
       display: block
     }
+    &.show ~ .move-bar
+    &.show ~ .resize-x
+    &.show ~ .resize-y
+      display none
   .move-bar
     position absolute
     top 0
-    left 0
-    right 0
-    height HH
+    left 4 * TH
+    right 4 * TH
+    height TH
     cursor move
+    &:hover
+      height 2 * TH
+      top -1 * TH
+      
+      z-index 1
+      
   .resize-x
     position absolute
-    right - HH
-    top HH
-    bottom HH
-    width HH
+    right - TH
+    top TH
+    bottom TH
+    width TH
     z-index 1
     cursor e-resize
     &:hover
-      width 8 * HH
-      right -4 * HH
+      width 2 * TH
+      right -1 * TH
+      
   
   .resize-y
     position absolute
     right 0
-    bottom - HH
+    bottom - TH
     left 0
-    height HH
+    height TH
     z-index 1
     cursor n-resize
     &:hover
-      height 8 * HH
-      bottom -4 * HH
-      
-  
-
-  
+      height 2 * TH
+      bottom -1 * TH
   .page
+    overflow hidden
+  .dialog-page
     position absolute
-    transition all linear .2s
-    min-width 8rem
-    min-height 6rem
-    border .01rem solid #ccc
-    background-color #eee
+    min-width 7rem
+    min-height 4rem
     overflow visible
-    box-shadow 0 0 .2rem .05rem #777
     z-index 0
+    radius()
+    background-color #ededed
+    box-shadow 0 0 .1rem rgba(0,0,0,.5)
     &.active
       z-index 1
+    &.full
+      .move-bar
+        cursor default
+        &:hover
+          height TH
+          top 0
+          z-index 0
     
     
   

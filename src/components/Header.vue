@@ -1,9 +1,17 @@
 <template lang="jade">
-  header
-    .tab(v-for=" tab in tabs" v-bind:class="{active: tab.active}" @click.self="openTab(tab.url)") 
-      | {{ tab.name }}
-      i.el-icon-close( @click.stop="closeTab(tab.url)")
-
+  header.font-light
+    .tab(v-for=" tab in tabs" v-bind:class="[{active: tab.active}, 'ds-icon-game-small']" @click.self="openTab(tab.id)") 
+      | {{ tab.title }}
+      i.el-icon-close( @click.stop="closeTab(tab.id)")
+    
+    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="click" v-model="show" v-bind:popper-class="'collect ' + (likedTabs.length > 0 ? true : false)")
+      dl.submenu.font-white
+        dd(v-for="i in likedTabs" v-bind:class="['ds-icon-game-small']") {{ i.title }}
+          i.el-icon-delete2
+    .tab.my-collect.el-icon-star-on(v-popover:collect="collect") 
+      | 我的收藏
+      
+    
 
    
 </template>
@@ -12,20 +20,22 @@
 export default {
 
   props: {
-    tabs: Array
+    tabs: Array,
+    likedTabs: Array
   },
   data () {
     return {
+      show: false
     }
   },
   computed: {
   },
   methods: {
     openTab (url) {
-      this.$emit('openTab', url)
+      this.$emit('open-tab', url)
     },
     closeTab (url) {
-      this.$emit('closeTab', url)
+      this.$emit('close-tab', url)
     }
   },
   components: {
@@ -33,26 +43,72 @@ export default {
 
 }
 </script>
+<style lang="stylus">
+  @import '../var.stylus'
+  H = .3rem
+  .el-popover.collect
+    font-size .12rem
+    transform translateX(.05rem) translateY(-.12rem)
+    padding PW 0
+    min-width 1.6rem
+    radius(0)
+    dd[class*=ds-icon-]
+      padding 0 PW
+      padding-left 2 * PW + .05rem
+      background-position PW center
+      line-height H
+      cursor pointer
+      &:hover
+        color BLUE
+      i
+        color LIGHT
+        float right
+        line-height H
+        cursor pointer
+        &:hover
+          color RED
+</style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
   header
-    background-color #bbb
+    font-size .12rem
+    background-color rgba(255, 255, 255, .1)
   .tab
     float left
-    line-height: HH - .02rem
-    padding 0 .15rem
-    margin 0 .05rem
-    background-color: #ddd
-    border 1px solid #ccc
-    border-radius .05rem
-    color #666
+    min-width 1.6rem
+    line-height: HH
+    padding-left .3rem
     box-sizing border-box
+    background-color rgba(0,0,0,.4)
+    font-shadow()
+    cursor pointer
+    &[class*=ds-icon-]
+      background-position .1rem center
+    &:hover
+      color WHITE
+      background-color rgba(0,0,0,.6)
+    &:active
     &.active
-      background-color #55b
-      color #fff 
+      background-color BLUE
+      color WHITE 
     >i
-      margin-left: .15rem
-      cursor pointer
+      color LIGHT
+      float right
+      transform perspective(500px) translateZ(-150px)
+      &:hover
+        color WHITE
+      line-height: HH
+      font-size .1rem
+      text-shadow none
+      margin: 0 .1rem
+  
+  &.my-collect
+    position absolute
+    right 0
+    &:before
+      font-size .16rem
+      line-height .16rem
+
   
 </style>

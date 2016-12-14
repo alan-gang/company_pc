@@ -1,3 +1,4 @@
+// repeat a string s t times
 let repeat = (s, t) => {
   if (typeof s.repeat === 'function') return s.repeat(t)
   let r = ''
@@ -6,6 +7,12 @@ let repeat = (s, t) => {
     t--
   }
   return r
+}
+// remove duplicate in a string by split by i
+let removeDuplicate = (s, i) => {
+  return s.split(i).filter((n, i, arr) => {
+    return i === arr.findIndex(nn => nn === n)
+  }).join(' ')
 }
 /**
  * 排列
@@ -35,5 +42,6 @@ function factorial (n) {
 
 module.exports = {
   repeat,
-  C
+  C,
+  removeDuplicate
 }

@@ -1,23 +1,26 @@
 <template lang="jade">
 
-    el-row
-      el-col.title.grid-content.bg-purple-dark(:span="row.title.length > 3 ? 3 : 2")
+    el-row.row
+      el-col.title(:span="titleSpan")
         span {{ row.title }}
-      el-col.numbers(:span="row.buttons ? 14: 20")
+      el-col(:span="24 - titleSpan")
         el-row
-          el-col.has-after(:span="2" v-for=" n in row.values || numbers " v-bind:class="{ selected: n.selected }" @click.native=" n.selected = !n.selected ") {{ n.title }}
-            span.after 18 
-      el-col.buttons(:span=" row.title.length > 3 ? 7 : 8 " v-if="row.buttons")
-        el-button(v-for="btn in row.buttons" @click="click(btn)") {{ btn }}
+          el-col.numbers(:span="17")
+            el-row
+              el-col.has-after(:span="2" v-for=" n in numbers " v-bind:class="{ selected: n.selected }" @click.native=" n.selected = !n.selected ") {{ n.title }}
+                span.after 18 
+          el-col.buttons(:span="7" v-if="row.buttons" )
+            .ds-button(v-for="(btn, index) in row.buttons" @click="click(btn)" v-bind:class="{selected: btnIndex === index}") {{ btn }}
 
 </template>
 
 <script>
   export default {
-    props: ['row'],
+    props: ['row', 'titleSpan'],
     data () {
       return {
-        numbers: []
+        numbers: [],
+        btnIndex: -1
       }
     },
     computed: {
@@ -36,18 +39,25 @@
       ns () {
         this.row.ns = this.ns
         this.$emit('numbers-change')
+        this.btnIndex = this.getBtnIndex()
+      },
+      row () {
+        this.updateNumbers()
       }
     },
     created () {
-      this.numbers = (this.row.values || Array(this.row.max - this.row.min + 1).fill(0)).map((n, index) => {
-        return (n = {
-          selected: false,
-          value: this.row.min + index,
-          title: this.row.min + index
-        })
-      })
+      this.updateNumbers()
     },
     methods: {
+      updateNumbers () {
+        this.numbers = this.row.values || Array(this.row.max - this.row.min + 1).fill(0).map((n, index) => {
+          return (n = {
+            selected: false,
+            value: this.row.min + index,
+            title: this.row.min + index
+          })
+        })
+      },
       click (btn) {
         switch (btn) {
           case '全':
@@ -87,6 +97,15 @@
       },
       clear () {
         this.numbers.forEach(n => (n.selected = false))
+      },
+      getBtnIndex () {
+        if (this.ns.length === 0) return 5
+        if (this.ns.length === this.numbers.length) return 0
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n >= this.numbers.length)) return 1
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n < this.numbers.length)) return 2
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
+        return -1
       }
     }
   }
@@ -95,17 +114,16 @@
 <style lang="stylus" scoped>
   @import '../var.stylus'
     .el-row
-      padding-left PW
-      margin .05rem 0
+      &.row
+        padding 0 .2rem
+        margin .05rem 0
       width 100%
       &:hover
         .title
-          color #fff
+          color WHITE
           span
             background-color BLUE
-            &:after
-              border-left-color BLUE
-          
+            box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
       .el-row
         width 100%
     .el-col
@@ -114,63 +132,78 @@
     
     // 万位、
     .title
-      // min-width 1rem
+      float left
+      min-width .6rem
+      font-size .16rem
       font-weight bold
       color #333
+      &.el-col-3
+        min-width .95rem
+      // margin-right PW
       span
         position relative
-        padding .1rem
-        background-color #ccc
-        &:after
-          position absolute
-          top 0
-          left 100%
-          content ''
-          width 0 
-          height 0 
-          border-top .17rem solid transparent
-          border-bottom .17rem solid transparent
+        padding .065rem .1rem
+        padding-right .17rem
+        background-color #d9d9d9
+        radius()
+        border-top-right-radius .25rem 50%
+        border-bottom-right-radius .25rem 50%
           
-          border-left .17rem solid #ccc
     // 数字区
     .numbers
+      font-size .2rem
       color #333
-      font-weight bold
       .el-col
         position relative
         text-align center
         border-radius 50%
-        font-size .2rem
         width GCH
         margin 0 .01rem
         cursor pointer
         &:hover
         &.selected
+          box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+          font-shadow()
           color #fff
           .after
             color #fff
-        
         &:hover
           background-color BLUE
         &.selected
-          background-color RED
+          background-color DANGER
           
       .el-col.has-after
-        line-height .6 * GCH
+        line-height .7 * GCH
       .after
         position absolute
         bottom 0
         left 0
         right 0
-        font-size .12rem
-        color #666
+        line-height .225rem
+        font-size .14rem
         font-weight normal
+        color #666
 
     // 按钮区
     .buttons
-      .el-button
-        border none
-        background-color transparent
-        margin 0 .1rem 0 0
-        
+      text-align right
+      .ds-button
+        width .26rem
+        line-height .26rem
+        padding 0 
+        margin 0 .05rem
+        color #666
+        box-shadow none
+        text-shadow none
+        &:hover
+          color WHITE
+          background-color BLUE
+          shadow()
+          font-shadow()
+        &.selected
+          color WHITE
+          background-color DANGER
+          shadow()
+          font-shadow()
+          
 </style>

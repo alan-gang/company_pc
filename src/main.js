@@ -31,7 +31,7 @@ import App from './App'
 //   // render: h => h(App)
 // }).$mount('#app', h => h(App))
 
-new Vue({
+export default new Vue({
   el: '#app',
   router: router,
   render: h => h(App)

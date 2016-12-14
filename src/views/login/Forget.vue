@@ -1,0 +1,284 @@
+<template lang="jade">
+
+  dl.forget-form
+    dt 找回登录密码
+      
+    dd
+      StepTabs(:steps="steps" v-bind:stepIndex="stepIndex")
+
+    dd.actions(v-if="stepIndex !== 0 && stepIndex !== lastStepIndex")
+      span.back-step.ds-button.text-button.light.small(@click="stepIndex--") 
+        | <返回上一步
+    
+    dd.radios(v-if="stepIndex === 0")
+      label.ds-radio-label(v-for="(r, index) in radios"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }") 
+        span.ds-radio
+        | {{ r }}
+
+    dl.inner-form
+      
+      dt.ds-icon-notice(v-if="notice") {{ notice }}
+
+
+      dd.ds-icon-user(v-if="stepIndex === 0")
+        input(placeholder="用户名" v-model="userName")
+
+      dd.ds-icon-edit(v-if="stepIndex === 0")
+        input(placeholder="验证码" v-model="code")
+        i.ds-icon-code()
+        // v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}"
+
+      dd.table(v-if="stepIndex === 1 && radioIndex === 2")
+        label(for="schoolName")你中学的名称：
+        input(v-model="schoolName" id="schoolName")
+
+      dd.table(v-if="stepIndex === 1 && radioIndex === 2")
+        label(style="width: 1.3rem" for="friendName") 你最好朋友的姓名：
+        input(v-model="friendName" id="friendName")
+
+      dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
+        label 已绑定手机为: 
+          span.phone {{ '+006******5378' }}
+          br
+          | 系统已向此手机发送了验证短信，请注意查收！ 
+      
+      dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 1")
+        input(placeholder="请输入接收到的验证码" v-model="phoneCode")
+        label
+          .ds-button.secondary 重新发送
+
+
+      dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 0")
+        label 已绑定邮箱为: 
+          span.email {{ 'wfjf******@163.com' }}
+          br
+          | 系统已向此邮箱发送了验证短信，请注意查收！ 
+      
+      dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 0")
+        input(placeholder="请输入接收到的验证码" v-model="emailCode")
+        label
+          .ds-button.secondary 重新发送
+
+
+      dd.ds-icon-pwd(v-if="stepIndex === 2 && !finish")
+        input(placeholder="新密码" v-model="newpwd")
+
+      dd.ds-icon-pwd(v-if="stepIndex === 2 && !finish")
+        input(placeholder="确认新密码" v-model="newpwdrepeat")
+
+
+      dd.ds-icon-success.table(v-if="stepIndex === lastStepIndex && finish")
+        span.white
+          | 登录密码修改成功
+        br
+        span.time {{ time }}
+        | 秒后将跳转至
+        router-link.login(:to="'/login'") 登录
+        |页
+        
+
+      dd.ds-button.positive.full.bold.next(v-if="stepIndex != lastStepIndex" @click="next") 下一步
+
+      dd.ds-button.positive.full.bold.next(v-if="stepIndex === lastStepIndex && !finish" @click="done") 提交
+
+      dd.actions(v-if="!finish")
+        router-link.back.ds-button.text-button.light.small(:to="'/login'") 
+          | <返回登录
+        router-link.try.ds-button.text-button.light.small(:to="'/login/try'") 
+          | 试玩登录
+</template>
+
+<script>
+import StepTabs from 'components/StepTabs'
+export default {
+  data () {
+    return {
+      // static props
+      stepIndex: 0,
+      steps: ['输入基本信息', '验证信息', '修改密码'],
+      radioIndex: 0,
+      radios: ['通过邮箱找回', '通过手机找回', '通过安全问题找回'],
+      finish: false,
+      time: 5,
+      notice: '',
+      // unser input items
+      userName: '',
+      code: '',
+      emailCode: '',
+      phoneCode: '',
+      schoolName: '',
+      friendName: '',
+      newpwd: '',
+      newpwdrepeat: ''
+    }
+  },
+  computed: {
+    lastStepIndex () {
+      return this.steps.length - 1
+    }
+  },
+  watch: {
+    finish (n) {
+      if (this.finish) this.countTime()
+    }
+  },
+  methods: {
+    countTime () {
+      this.time = 5
+      let t = setInterval(() => {
+        this.time--
+        if (this.time === 0) this.$router.push('/login') && clearInterval(t)
+      }, 1000)
+    },
+    next () {
+      if (this.canNext()) this.stepIndex++
+    },
+    done () {
+      if (this.hasEmpty(2)) this.finish = true
+    },
+    canNext () {
+      return this.hasEmpty()
+    },
+    hasEmpty (step) {
+      let hasEmpty = false
+      let notice = '输入值不能为空！'
+      switch (step || this.stepIndex) {
+        case 0:
+          hasEmpty = this.userName && this.code
+          break
+        case 1:
+          if (this.radioIndex === 0) hasEmpty = this.emailCode
+          if (this.radioIndex === 1) hasEmpty = this.phoneCode
+          if (this.radioIndex === 2) hasEmpty = this.schoolName && this.friendName
+          break
+        case 2:
+          hasEmpty = this.newpwd && (this.newpwdrepeat === this.newpwd || (notice = '两次输入的密码不一致！') && false)
+          console.log(hasEmpty, notice)
+      }
+
+      return hasEmpty ? !(this.notice = '') : !(this.notice = notice)
+    }
+  },
+  components: {
+    StepTabs
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
+  .forget-form
+    dt
+      color WHITE
+      font-size .18rem
+      text-align center
+    .ds-icon-notice
+      padding .08rem PW
+      padding-left PW + .08rem + .16rem
+      font-size .14rem
+      line-height .2rem
+      color GOLD
+      text-align left
+      border 1px solid GOLD
+      radius()
+    .radios
+      text-align center
+      margin .3rem 0
+    &>.actions
+      padding PW*.52 .25rem
+    .inner-form
+      max-width 3.5rem
+      min-width 3.5rem
+      margin 0 auto
+      margin-top .3rem
+      dd
+        height BMH
+        padding 0 PW
+        padding-left PW + .1rem + .24rem
+        border-bottom 1px solid rgba(255, 255, 255, .2)
+        &:hover
+          border-bottom 1px solid rgba(255, 255, 255, .5)
+        &.ds-icon-edit
+          position relative
+          input
+            padding-right CW + PW
+          .ds-icon-code
+            
+            position absolute
+            bottom .05rem
+            right PW
+            display inline-block
+            width CW
+            height CH
+            cursor pointer
+        &.next
+          height .36rem
+          line-height .36rem
+          padding-left 0
+          padding-right 0
+          margin-top PW
+          border 0
+        &.table
+          display table
+          padding 0 PW
+          width 100%
+          box-sizing border-box
+          label
+          input
+            display table-cell
+            vertical-align middle
+          label
+            color LIGHT
+        input
+          height 100%
+          border 0
+          background transparent
+          color WHITE
+          font-size .14rem
+          letter-spacing .02rem
+          width 100%
+          box-sizing border-box
+        &.actions
+          border 0
+          padding PW*.52 0
+        &.bind-phone
+          padding 0 0 0 PW
+          border 0
+          line-height .3rem
+        &.phone-code
+          padding 0 0 0 PW
+          label
+            width 1.15rem
+            text-align right
+        &.ds-icon-success
+          margin BMH 0
+          padding 0 .7rem
+          line-height .4rem
+          font-size .12rem
+          color LIGHT
+          border 0
+          .white
+            font-size .18rem
+  
+  
+  .step-tabs
+    margin-top BMH
+  .white
+  .time
+    color WHITE
+  .phone
+  .email
+    color RED 
+  .login
+    text-decoration underline
+    color WHITE     
+  .back
+    float left
+  .try
+    float right
+  
+</style>
+
+
+

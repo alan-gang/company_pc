@@ -1,0 +1,641 @@
+@import './var.stylus'
+
+/*
+ *common css define
+ */
+a
+  text-decoration none
+  color #666
+dl, dd, dt
+  margin 0
+input
+  outline none
+
+/*
+ *user select
+ */
+&::selection
+  // color WHITE
+  // background-color BLUE
+/*
+ *scroll-bar
+ */
+*:not(:hover)
+  &::-webkit-scrollbar-thumb
+    // background-color transparent
+    
+::-webkit-scrollbar
+  width .1rem
+  height .1rem
+  radius()
+  background-color transparent
+  &:hover
+    background-color rgba(0,0,0,.2)
+
+::-webkit-scrollbar-track::hover
+  -webkit-box-shadow inset 0 0 6px transparent
+ 
+::-webkit-scrollbar-thumb
+  radius()
+  background-color rgba(0,0,0,.3)
+  &:hover
+    background-color rgba(0,0,0,.5)
+
+
+/*
+ *rewrite el-dialog
+ */
+ DHH = .36rem
+.el-dialog
+  radius()
+  overflow hidden
+  .el-dialog__header
+    padding 0 0 0 .2rem
+    line-height DHH
+    font-size .12rem
+    background-color #d8d8d8
+    // radius()
+    // border-bottom-left-radius 0
+    // border-bottom-right-radius 0
+    .el-dialog__title
+      font-size .12rem
+      color #333
+      font-weight bold
+      // font-shadow()
+    .el-dialog__headerbtn
+      .el-icon
+        text-align center
+        width DHH
+        height DHH
+        line-height DHH
+        color GREY
+        &:last-child
+          radius()
+          // border-top-left-radius 0
+          // border-bottom-left-radius 0
+          // border-bottom-right-radius 0
+        &:hover
+          color WHITE
+          // background-color DANGER-HOVER
+        &:active
+          // background-color DANGER-ACTIVE 
+        
+  .el-dialog__body
+    padding 0
+
+/*
+ *rewrite el-popover
+ */
+.el-popover .popper__arrow
+    display none
+.el-popover
+  font-size .14rem
+  padding PW .3rem
+  background rgba(0, 0, 0, .6)
+  radius()
+  border 0
+  &.false
+    display none
+  &.popover-blue
+    padding 0
+    min-width auto
+    text-align center
+    font-size .12rem
+    color #b0cfe3
+    background-color rgba(22, 113, 188, .9)
+    
+   
+    
+.el-icon-star-on
+  &:before
+    color YELLOW
+/*
+ *rewrite el-select
+ */
+.el-select
+  display inline-block
+  line-height .3rem
+  width 1.2rem
+  color #666
+  border 1px solid #ccc
+  radius()
+  shadow(0 0 2px rgba(0,0,0,.2))
+  &:hover
+    border-color BLUE
+  &:active
+    border-color transparent
+    box-shadow 0 0 5px BLUE
+  .el-input__inner
+    height auto
+    line-height .3rem
+    padding-top 0
+    padding-bottom 0
+    border none
+  .el-input .el-input__icon
+    color #666
+    
+.el-select-dropdown
+  font-size .12rem
+  padding 0
+  min-width auto
+  text-align left
+  font-size .12rem
+  color #b0cfe3
+  background-color rgba(22, 113, 188, .9)
+  radius()
+  .el-select-dropdown__item
+    height .3rem
+    line-height .3rem
+    padding 0 PW
+    color inherit
+    &.selected
+    &.hover
+      color WHITE
+      background-color BLUE
+  
+/*
+ *rewrite el-slider
+ */
+  .el-slider
+    display inline-block
+    width 1.8rem
+    vertical-align middle
+    .el-slider__bar
+      background-color #bbb
+    .el-slider__runway
+      background-color #ddd
+    .el-slider__button
+      background-color #fff
+      border 2px solid BLUE
+      shadow()
+      &.hover
+        border-color #108fdf
+/*
+ *rewrite el-table
+ */
+  table-bg(x = transparent)
+    background-color x
+    tr 
+      background-color x
+  table-header-bg(x = transparent)
+    th 
+      background-color x
+      .cell
+        background-color x
+        
+  table-header-color(x = #333)
+    th
+      .cell
+        color x
+  table-border(x = none)
+    th
+    th.is-leaf
+    td
+      border x
+  table-header-font-weight(x = normal)
+    th 
+      font-weight x 
+       
+  table-row-hover(x = #d8e6ef)
+    tr.hover-row td
+      background-color x
+  
+  table-row-selected(x = #f1e0e1)
+    tr.selected-row td
+      background-color x
+  table-row-height(x = .3rem)
+    td
+      height auto
+      .cell
+        line-height .3rem
+   table-header-height(x = .3rem)
+    th
+      height auto
+      .cell
+        line-height .3rem
+
+  // .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
+  //   color #333
+    
+  .el-table::before
+  .el-table::after
+  .el-table__fixed::before
+  .el-table__fixed::after
+    display none
+    
+  .el-table
+    margin .05rem .02rem
+    font-size .12rem
+    color #666
+    border none
+    // 头部文字按钮
+    th.actions .cell
+      color BLUE 
+      cursor pointer
+    table-bg()
+    table-header-bg()
+    table-header-color()
+    table-border()
+    table-header-font-weight()
+    table-row-hover()
+    table-row-selected()
+    table-row-height()
+    table-header-height()
+
+/*
+ *rewrite el-input-number
+ */
+.el-input-number
+  box-shadow 0 0 2px rgba(0,0,0,.2)
+  radius()
+  .el-icon-minus
+  .el-icon-plus 
+    display none
+
+.el-input .el-input__inner 
+  height .3rem
+  line-height .3rem
+  padding 0 .05rem
+  color #333
+
+  
+[class*=el-input].center input
+  text-align center
+[class*=el-input].blue input
+  color BLUE
+/*
+ *rewrite el-pagination
+ */
+
+
+.el-pagination
+  text-align center
+  color #666
+  background-color transparent
+  margin-bottom PW
+  .el-pager li.active
+    background-color BLUE
+  button
+  button.btn-next
+  button.btn-prev
+  .el-pager li
+    radius()
+    background-color transparent
+    
+.el-pager li 
+  background-color transparent
+.el-pagination button.disabled
+  background-color transparent  
+.el-pagination span
+  height 22px
+  line-height 24px
+
+/*
+ *font class define
+ */
+.font-white
+  color WHITE
+  font-shadow()
+.font-light
+  color LIGHT
+  font-shadow()
+.font-grey
+  color GREY
+  font-shadow()
+.font-blue
+  color BLUE
+  font-shadow()
+.font-danger
+  color RED
+  font-shadow()
+ .font-gold
+   color GOLD
+   font-shadow() 
+
+    
+
+/*
+ *icons class define
+ */
+  .ds-icon-notice
+      background url(assets/notice.png) PW 0.6*PW no-repeat
+  .ds-icon-user
+    background url(assets/user.png) PW center no-repeat
+  .ds-icon-pwd
+    background url(assets/pwd.png) PW center no-repeat
+  .ds-icon-edit
+    background url(assets/edit.png) PW center no-repeat
+  .ds-icon-code
+    background url(assets/code.png) center no-repeat
+  .ds-icon-success
+    background url(assets/success.png) left top no-repeat
+  .ds-icon-logo-middle
+    background url(assets/logo-middle.png) center top no-repeat
+
+  .ds-icon-home
+    background url(assets/home.png) center center no-repeat
+  .ds-icon-home-middle
+    background url(assets/home-middle.png) center center no-repeat
+
+  .ds-icon-game
+    background url(assets/game.png) center center no-repeat
+  .ds-icon-game-middle
+    background url(assets/game-middle.png) center center no-repeat
+  .ds-icon-game-small
+    background url(assets/game-small.png) .3rem center no-repeat
+
+  .ds-icon-me
+    background url(assets/me.png) center center no-repeat
+  .ds-icon-me-middle
+    background url(assets/me-middle.png) center center no-repeat
+  .ds-icon-me-small
+    background url(assets/me-small.png) .3rem center no-repeat
+
+  .ds-icon-group
+    background url(assets/group.png) center center no-repeat
+  .ds-icon-group-middle
+    background url(assets/group-middle.png) center center no-repeat
+  .ds-icon-group-small
+    background url(assets/group-small.png) .3rem center no-repeat
+
+  .ds-icon-record
+    background url(assets/record.png) center center no-repeat
+  .ds-icon-record-middle
+    background url(assets/record-middle.png) center center no-repeat
+  .ds-icon-record-small
+    background url(assets/record-small.png) .3rem center no-repeat
+  
+
+  .ds-icon-gift
+    background url(assets/gift.png) center center no-repeat
+  .ds-icon-gift-middle
+    background url(assets/gift-middle.png) center center no-repeat
+    
+  .ds-icon-help
+    background url(assets/help.png) center center no-repeat
+  .ds-icon-help-middle
+    background url(assets/help-middle.png) center center no-repeat
+
+  .ds-icon-download
+    background url(assets/download.png) center center no-repeat
+  .ds-icon-download-middle
+    background url(assets/download-middle.png) center center no-repeat
+
+  .ds-icon-chat
+    background url(assets/chat.png) center center no-repeat
+  .ds-icon-chat-middle
+    background url(assets/chat-middle.png) center center no-repeat
+    
+  .ds-icon-item-middle
+    background url(assets/item-middle.png) left center no-repeat
+  .ds-icon-item
+    background url(assets/item.png) left center no-repeat
+
+  .ds-icon-m
+    background url(assets/m.png) left center no-repeat
+
+  .ds-icon-money
+    background url(assets/$.png) left center no-repeat
+
+  .ds-icon-free
+    background url(assets/$-red.png) left center no-repeat
+  
+  .ds-icon-add-item
+    background url(assets/add-item.png) left center no-repeat
+  
+  .ds-icon-clock
+    background url(assets/clock.png) left center no-repeat
+    
+  .ds-icon-polyline
+    background url(assets/polyline.png) .08rem center no-repeat
+
+/*
+ *buttons class define
+ */
+
+.ds-button
+  display inline-block
+  padding 0 .22rem
+  line-height .3rem
+  text-align center
+  color WHITE
+  font-size .14rem
+  radius()
+  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  font-shadow()
+  user-select none
+  cursor pointer
+  box-sizing border-box
+  &.bold
+    font-weight bold
+  &.large
+    padding 0 .3rem
+  &.full
+    padding-left 0
+    padding-right 0
+    width 100%
+  &.small
+    padding 0 .15rem
+  &.x-small
+    padding 0 .1rem
+  &.xx-small
+    line-height 1
+    padding .035rem
+  
+  &.primary
+    background-color BLUE
+    &:not(.disabled):hover
+      background-color BLUE-HOVER
+    &:not(.disabled):active
+      background-color BLUE-ACTIVE 
+  &.danger
+    background-color DANGER
+    &:not(.disabled):hover
+      background-color DANGER-HOVER
+    &:not(.disabled):active
+      background-color DANGER-ACTIVE 
+  &.positive
+    bg-gradient(left, BLUE, #12cdbe) 
+    &:not(.disabled):hover
+      bg-gradient(left, #33b0ff, #24ddce) 
+    &:not(.disabled):active
+      background #0d8ddd
+  &.secondary
+    color #606ba3
+    bg-gradient(top, #f1f1f1, #e6e6e6)
+    &:not(.disabled):hover
+      bg-gradient(top, #fff, #f2f2f2)
+    &:not(.disabled):active
+      background #dedede
+  &.outline
+    font-size .12rem
+    color #666
+    background-color #fff
+    border .01rem solid #ccc
+    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
+    text-shadow none
+    &:not(.disabled):hover
+      border-color BLUE
+    &:not(.disabled):active
+      color #333
+      background-color #f3f3f3
+      border-color #aaa
+      
+  &.success
+    background-color #65c014
+    &:not(.disabled):hover
+      background-color #72ca23
+    &:not(.disabled):active
+      background-color #65c014
+  &.text-button
+    border 0
+    background-color transparent
+    box-shadow none
+    font-shadow()
+  &.light
+    color LIGHT
+    &:not(.disabled):hover
+      color LIGHT-HOVER
+  &.input
+    padding 0 .04rem
+    width .4rem
+    text-align center
+    pointer text
+    input
+      border none
+      width .3rem
+      padding 0
+      line-height .3rem
+      height auto
+      text-align center
+    &:not(.disabled):active
+      border none
+      background-color #fff
+      box-shadow 0 0 .05rem BLUE
+  &.disabled
+    cursor not-allowed
+    background-image none
+    box-shadow none
+    text-shadow none
+    &.primary
+      color BLUE
+      background-color transparent
+      border .01rem solid BLUE
+
+
+      
+.ds-radio-label
+  display inline-block
+  padding 0 PW
+  color LIGHT
+  cursor pointer
+  &:hover
+    .ds-radio
+      border-color rgba(255, 255, 255, .4)
+   &.active
+     color WHITE
+     .ds-radio
+        border-color BLUE
+        &:after
+          width .07rem
+          height .07rem 
+          background-color BLUE 
+          
+  
+.ds-radio
+  position relative
+  top -.01rem
+  display inline-block
+  box-sizing border-box
+  width .2rem
+  height .2rem
+  border .01rem solid rgba(255, 255, 255, .2)
+  radius(50%)
+  box-shadow()
+  margin .05rem
+  vertical-align middle
+  &:hover
+    border-color rgba(255, 255, 255, .4)
+  &.active
+    border-color BLUE
+    &:after
+      width .07rem
+      height .07rem 
+      background-color BLUE 
+  &:after
+    content ''
+    position absolute
+    left 50%
+    top 50%
+    width 100%
+    height 100%
+    radius(50%)
+    transform translate(-50%, -50%)
+    transition all .15s linear
+    
+.ds-checkbox-label
+  display inline-block
+  margin-right .1rem
+  color #666
+  cursor pointer
+  &:hover
+    .ds-checkbox
+      border-color BLUE
+      &.transparent
+        border-color rgba(255, 255, 255, .4)
+   &.active
+    .ds-checkbox:after
+        transform rotate(45deg) scaleY(1)
+          
+  
+.ds-checkbox
+  position relative
+  top -.01rem
+  display inline-block
+  box-sizing border-box
+  width .2rem
+  height .2rem
+  radius()
+  box-shadow()
+  margin-right .05rem
+  vertical-align middle
+  background-color WHITE
+  border .01rem solid #ccc
+  &.transparent
+    background-color transparent
+    border .01rem solid rgba(255, 255, 255, .2)
+  &:hover
+    border-color BLUE
+  &.transparent:hover
+    border-color rgba(255, 255, 255, .4)
+  &.active
+    border-color #ccc
+    &:after
+      transform rotate(45deg) scaleY(1)
+      
+  &.transparent.active
+    border-color rgba(255, 255, 255, .4)
+     
+
+  &:after
+    content ''
+    position absolute
+    width .05rem
+    height .12rem
+    box-sizing content-box
+    border 3px solid BLUE
+    border-bottom-right-radius .04rem
+    border-left 0
+    border-top 0
+    left .05rem
+    top .01rem
+    transform rotate(45deg) scaleY(0)
+    transition transform .15s cubic-bezier(.71,-.46,.88,.6) .05s
+    transform-origin center
+    
+    
+  
+    
+    
+  
+       

@@ -1,5 +1,7 @@
 <template lang="jade">
-    .page 
+
+  transition(appear=true name="zoom")
+    .dialog-page 
       slot(name="cover")
       slot(name="movebar")
       slot(name="resize-x")
@@ -11,30 +13,29 @@
         <!-- 开奖信息 -->
         GameLuckyNumber(v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER")
         <!-- 游戏信息 -->
-        GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:title="type.title")
+        GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class]")
         <!-- 游戏菜单 -->
         GameMenu(v-bind:type="type" v-on:type="setType")
         <!-- 选号区 -->
         GameSelection(v-bind:type="type" v-on:n-change="Nchange")
         <!-- 下单 -->
-        GameOrderBar(v-if="ns.length > 0" v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+        GameOrderBar.inner-bar(v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
         <!-- 投注单 -->
         GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
         <!-- 追号栏 -->
-        GameFollowbar(v-if="follow.show" v-bind:CNPER="CNPER" v-on:closeFollow="closeFollow")
+        GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
         <!-- 追号单 -->
-        GameFollowList(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:pay="pay" v-on:setFollow="setFollow")
+        GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow")
 
       <!-- 总计栏 -->
-      GameAmountBar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-on:showFollow="showFollow" v-if="ns.length > 0")
+      GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-on:showFollow="showFollow" v-if="ns.length > 0")
       <!-- 下单 -->
-      GameOrderBar.fixed( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
+      GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
       
 
 </template>
 
 <script>
-import base from 'components/base'
 import GameLuckyNumber from 'components/GameLuckyNumber'
 import GameInfo from 'components/GameInfo'
 import GameMenu from 'components/GameMenu'
@@ -46,7 +47,6 @@ import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 
 export default {
-  mixins: [base],
   props: ['page'],
   data () {
     return {
@@ -101,12 +101,18 @@ export default {
         // 追号期数
         NPER: 0,
         // 追号金额
-        pay: 0
+        pay: 0,
+        // 追号起始期
+        CNPER: 0,
+        // 中奖后停止追号
+        stop: true
       }
     }
   },
   created () {
-    this.updatePage(this.url, {rows: this.rows})
+    // this.updatePage(this.url, {rows: this.rows})
+    // 追号默认起始期为当前期
+    this.follow.CNPER = this.CNPER
   },
   computed: {
     pay () {
@@ -131,6 +137,11 @@ export default {
       }, 0)
     }
   },
+  watch: {
+    ns () {
+      if (this.ns.length === 0) this.follow.show = false
+    }
+  },
   methods: {
     setType (type) {
       this.type = type
@@ -146,9 +157,11 @@ export default {
       this.follow.show = false
       this.clearFollow()
     },
-    setFollow ({NPER, pay}) {
-      this.follow.NPER = NPER
-      this.follow.pay = pay
+    setFollow ({NPER, pay, CNPER, stop}) {
+      NPER !== undefined && (this.follow.NPER = NPER)
+      pay !== undefined && (this.follow.pay = pay)
+      CNPER !== undefined && (this.follow.CNPER = CNPER)
+      stop !== undefined && (this.follow.stop = stop)
     },
     clearFollow () {
       this.follow.NPER = 0
@@ -158,8 +171,8 @@ export default {
       this.n = n
     },
     setTimes (t) {
-      this.times += t
-      if (this.times <= 0) this.times = 1
+      this.times = t
+      // if (this.times <= 0) this.times = 1
     },
     setCurrency (c) {
       this.currency = c
@@ -168,12 +181,15 @@ export default {
       this.point = p
     },
     order () {
-      this.ns.push({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point})
+      this.ns.push({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point + '%', selected: false})
       // after push need initial the selected numbers
     },
     removeOrder (index) {
-      this.ns.splice(index, 1)
-      if (this.ns.length === 0) this.follow.show = false
+      if (index === undefined) this.ns = []
+      else {
+        this.ns.splice(index, 1)
+        if (this.ns.length === 0) this.follow.show = false
+      }
     }
   },
   components: {
@@ -192,13 +208,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
-  @import '../var.stylus'
+  @import '../../var.stylus'
   .game-content
-    bottom GAH + .1rem
-    background-color #ddd
-    // max-width 14rem
+    top TH
+    bottom GAH
+    max-width 9.3rem
     margin 0 auto
-    overflow auto
+    overflow-x hidden
+    overflow-y auto
+  
+  .inner-bar
+    padding 0 PWX
+    line-height .5rem
+    bg-gradient(top, #fff, #efefef)
+    box-shadow 0 0 .05rem rgba(0,0,0,.1)
 
 </style>
 

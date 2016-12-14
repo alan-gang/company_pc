@@ -1,10 +1,13 @@
 <template lang="jade">
   el-row.follow-bar
     el-col(:span="4")
-      el-button(@click="closeFollow") 追号
+      .ds-button.primary.bold(@click="closeFollow") 追号
 
     el-col.right(:span="20")
-      el-checkbox(v-model="checked" checked) 中奖后停止追号
+      // el-checkbox(v-model="checked" checked) 中奖后停止追号
+      .ds-checkbox-label(v-bind:class="{active: checked}" @click="checked = !checked")
+        .ds-checkbox
+        | 中奖后停止追号
       |  起始期：
       el-select(v-model="nper")
         el-option(v-for="(i, index) in NPERS" v-bind:label="i + (index === 0? '（当前期）' : '期') " v-bind:value="i")
@@ -29,22 +32,32 @@
         })
       }
     },
+    watch: {
+      checked (stop) {
+        this.$emit('set-follow', {stop})
+      },
+      nper (CNPER) {
+        this.$emit('set-follow', {CNPER})
+      }
+    },
+    created () {
+      this.nper = this.NPERS[0]
+    },
     methods: {
       closeFollow () {
-        this.$emit('closeFollow')
+        this.$emit('close-follow')
       }
     }
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   @import '../var.stylus'
   .follow-bar
     padding 0 PW
     width 100%
     color #666
     background-color #fff
-    padding-top .1rem
     .el-col
       min-height GFH
     .right

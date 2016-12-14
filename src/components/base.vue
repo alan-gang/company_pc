@@ -1,47 +1,34 @@
 <script>
   import store from '../store'
-  
   export default {
     data () {
       return {
-        // header: {
-        //   location: '',
-        //   view: '',
-        //   left: '',
-        //   right: '',
-        //   float: false
-        // }
-        // pages: store.state.pages
+        // show header and footer by default
+        hasHeader: true,
+        hasFooter: true
       }
     },
-    // route: {
-    //   activate ({to, from, next, redirect, abort}) {
-    //     if (this.login && !this.login.state) {
-    //       redirect('/login/' + encodeURIComponent(to.path))
-    //     } else {
-    //       next()
-    //     }
-    //   },
-    //   // keep-alive 更新
-    //   // data first then ready
-    //   // use setTimeout instead of update in ready, it will not call ready() when it was cached
-    //   data () {
-    //     setTimeout(() => {
-    //       this.updateHeader()
-    //       this.updateFooter()
-    //       this.updateLefter()
-    //     }, 0)
-    //   }
-    // },
-    // 2次更新header
-    // ready () {
-    //   this.updateHeader()
-    //   this.updateFooter()
-    // },
+    created () {
+      store.actions.setHeader(this.hasHeader)
+      store.actions.setFooter(this.hasFooter)
+    },
+    activated () {
+      store.actions.setHeader(this.hasHeader)
+      store.actions.setFooter(this.hasFooter)
+    },
     methods: {
-      // updateHeader (header) {
-      //   store.actions.updateHeader(header || this.header)
-      // }
+      /*
+       *for login
+       */
+      setUser (user) {
+        store.actions.setUser(user)
+      },
+      getUser () {
+        return store.state.user
+      },
+      /*
+       *for page
+       */
       openPage (url) {
         store.actions.updateAllPages({active: false})
         let page = this.updatePage(url, {active: true, opened: true})
@@ -54,6 +41,9 @@
       setPages (pages) {
         store.actions.setPages(pages)
       }
+      // getPages (o) {
+      //   return store.actions.getPages(o)
+      // }
     },
     events: {
     }

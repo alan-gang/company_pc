@@ -1,35 +1,101 @@
+/*
+ * heights widths define
+ */
 // header heights
-HH = .44rem
+HH = .3rem
 // footer heights
-FH = .44rem
+FH = .68rem
 // toolbar heights
-TH = .44rem
+TH = .36rem
 // luckynumber heights
-LH = .44rem
+LH = .6rem
 // gameinfo heights
-GH = .66rem
+GH = 1rem
 // gameMenu heights
-GMH = .44rem
+GMH = .3rem
 // gamecenter heights
 GCH = .52rem
 // gameorderbar heights
-GOH = .44rem
+GOH = .5rem
 // game amoutbar heights
-GAH = .44rem
+GAH = .5rem
 // game follow bar heights
-GFH = .44rem
+GFH = .5rem
 // common padding w
 PW = .15rem
+//
+PWX = .2rem
+// all rights heights
+ARH = .44rem
+// download heights
+DLH = 1rem
+// logo heights
+LGH = 1.23rem
+// code pic
+CW = .83rem
+CH = .29rem
+// big margin bottom
+BMH = .5rem
+// mid margin bottom
+MMH = .5rem
 
 
-// common colors
-BLUE = #06c
-RED = red
 
 
-// common.css
-a
-  text-decoration none
-  color #666
-dl, dd, dt
-  margin 0
+/*
+ *colors define
+ */
+WHITE = #fff
+
+LIGHT = #cac6db
+LIGHT-HOVER = #e3e0ee
+
+GREY = #9897b2
+
+BLUE = #1a9ff3
+BLUE-HOVER = #42b6ff
+BLUE-ACTIVE = #038adf
+
+RED = #ff3350
+PINK = #ff566e
+
+DANGER = #ff3344
+DANGER-HOVER = #ff4f5e
+DANGER-ACTIVE = #e51324
+
+
+
+GOLD = #fc0
+YELLOW = #ffea00
+
+
+
+/*
+ *mixin define
+ */
+// font color gradient
+font-gradient(p = left, c1 = #ff3350, c2 = #1a9ff3)
+  font-family Roboto Arial
+  background -webkit-linear-gradient(p, c1, c2)
+  -webkit-background-clip text
+  -webkit-text-fill-color transparent
+  
+bg-gradient(p = left, c1 = #ff3350, c2 = #1a9ff3)
+  background -webkit-linear-gradient(p, c1, c2)
+
+// border-radius
+radius(x = .05rem)
+  border-radius x
+// font-shadow
+font-shadow(x = 1px 1px 1px rgba(0, 0, 0, .3))
+  text-shadow x
+shadow(x = 2px 2px 2px rgba(0,0,0,.2))
+  box-shadow x
+  
+// center
+center()
+  position absolute
+  left 50%
+  top 50%
+  transform translateX(-50%) translateY(-50%)
+

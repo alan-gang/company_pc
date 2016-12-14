@@ -1,25 +1,35 @@
 <template lang="jade">
   .game-selection
-    h5.description {{ type.description}}
-    el-row(v-if="show")
-      el-col(:offset="4" v-bind:span="10")
-        el-checkbox(v-for="p in positions" v-model="p.selected") {{ p.title }}
-      el-col.notice(:span="10")
+
+    GameNumberRow(v-for="row in rows" v-bind:row="row" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan")
+    
+    el-row(v-if="rows.length === 0")
+      el-col(:span="20")
+        el-input(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一个号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+      el-col.btn-groups(:span="4")
+        .ds-button.outline(@click="removeRepeat") 删除重复号
+        br
+        .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
+          input(type="file" @change="selectFiles" multiple v-if="upload")
+        br
+        .ds-button.outline(@click="value = ''") 清空
+    el-row.pos(v-if="show")
+      el-col(v-bind:span="13")
+        label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
+          span.ds-checkbox 
+          | {{ p.title }}
+      el-col.notice(:span="11")
         | 温馨提示：你选择了 
-        span.count {{ count }}
-        |  个位置， 系统自动根据位置组合成
+        span.count {{ psl }}
+        |  个位置， 系统自动根据位置组合成 
         span.comb {{ comb }}
         |  个方案
-
-    GameNumberRow(v-for="row in rows" v-bind:row="row" v-on:numbers-change="numbersChange")
-
-    el-input(v-model="value" v-if="rows.length === 0" type="textarea" autofocus  v-bind:autosize="{ minRows: 4, maxRows: 6 }" placeholder="每一个号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
-
 </template>
 
 <script>
   import GameNumberRow from './GameNumberRow'
-  import { N } from '../util/index'
+  import N from '../util/N'
+  import { C, removeDuplicate } from '../util/base'
   export default {
     props: ['type'],
     data () {
@@ -167,30 +177,41 @@
           {
             title: '百位',
             value: 3,
-            selected: false
+            selected: true
           },
           {
             title: '十位',
             value: 2,
-            selected: false
+            selected: true
           },
           {
             title: '个位',
             value: 1,
-            selected: false
+            selected: true
           }
         ],
         // 要显示pos的玩法集
-        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2,  -1-3-5, -1-3-6',
+        allChecks: [
+          // 最少2个位置
+          {ids: '-1-1-2, -1-1-3, -1-1-4', min: 2},
+          // 最少3个位置
+          {ids: '-1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7', min: 3},
+          // 最少4个位置
+          {ids: '-1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6', min: 4}
+        ],
+        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6',
         // 号码集
-        ns: []
+        ns: [],
+        // 导入文件
+        upload: true,
+        titleSpan: 0
       }
     },
     computed: {
       // 根据玩法确定要显示的号码工作区
       rows () {
-        return this.allRows.filter(row => row.ids.match(
-          new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g')
+        return this.allRows.filter(row => (' ' + row.ids).match(
+          new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : '[^+-]+' + this.type.id, 'g')
         ))
       },
       // 显示位置选择
@@ -231,6 +252,13 @@
           value: this.value,
           r: this.r
         }) : 0
+      },
+      // 位置组合
+      comb () {
+        let min = this.allChecks.filter(check => check.ids.match(
+          new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g')
+        ))[0]
+        return min ? C(this.positions.filter(p => p.selected).length, min.min) : 0
       }
     },
     watch: {
@@ -239,7 +267,16 @@
       },
       value () {
         this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      },
+      rows () {
+        this.titleSpan = this.rows.reduce((p, r) => {
+          p = Math.max(p, r.title.length > 2 ? 3 : 2)
+          return p
+        }, 0)
       }
+    },
+    created () {
+      if (!(window.File && window.FileReader && window.FileList && window.Blob)) this.upload = false
     },
     methods: {
       // 选择号码发生变化
@@ -247,6 +284,29 @@
         this.ns = this.rows.map(r => {
           return (r = r.ns || [])
         })
+      },
+      selectFiles (evt) {
+        let allowedFiles = 'text/plain'
+        let files = evt.target.files
+        Array.from(files).forEach(f => {
+          if (f.type.indexOf(allowedFiles) !== -1) {
+            let reader = new window.FileReader()
+            // reader.onerror = this.error
+            // reader.onprogress = this.progress
+            // reader.onabort = this.abort
+            // reader.onloadstart = this.loadstart
+            reader.onload = this.load
+            reader.readAsText(f, 'utf-8')
+          }
+        })
+      },
+      load (evt) {
+        // console.log(evt.target.result)
+        this.value += evt.target.result
+        // .replace(/\s+/g, ' ')
+      },
+      removeRepeat () {
+        this.value = removeDuplicate(this.value, ' ')
       }
     },
     components: {
@@ -254,27 +314,47 @@
     }
   }
 </script>
-
+<style lang="stylus">
+  .el-textarea 
+    textarea
+      resize none
+      // min-height 1.06rem
+</style>
 <style lang="stylus" scoped>
   @import '../var.stylus'
-  .description
-    color #666
-    font-weight normal
-    padding PW
-    margin 0
+  .game-selection
+    padding PW 0
+    .pos
+      padding-left .3rem
   .el-textarea
-    padding 0 PW
+    padding 0 .1rem 0 PWX
+    
   .el-col
     min-height GCH
     line-height GCH
+    &.btn-groups
+      line-height 0
+      .ds-button
+        margin-bottom .085rem
+        position relative
+        &:last-child
+          margin-bottom 0
+        input
+          position absolute
+          top 0 
+          left 0 
+          right 0 
+          bottom 0
+          opacity 0
+          width 100%
+          
     &.notice
+      font-size .12rem
+      color #999
       line-height .2rem
-      padding PW
-      
+      padding PW PWX
+  .count
+  .comb
+    color DANGER
   
-</style>
-<style>
-  .el-textarea textarea {
-    resize: none;
-  }
 </style>
