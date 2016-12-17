@@ -1,5 +1,10 @@
 import Vue from 'vue'
 
+// 饿了么
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+Vue.use(ElementUI)
+
 // Http
 import VueResource from 'vue-resource'
 import httpConfig from './http/index'
@@ -15,12 +20,6 @@ let router = routerConfig(VueRoter)
 // Touch
 // import VueTouch from 'vue-touch'
 // Vue.use(VueTouch)
-
-// 饿了么
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-Vue.use(ElementUI)
-
 import App from './App'
 
 /* eslint-disable no-new */
@@ -30,7 +29,6 @@ import App from './App'
 //   router: router
 //   // render: h => h(App)
 // }).$mount('#app', h => h(App))
-
 export default new Vue({
   el: '#app',
   router: router,

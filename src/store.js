@@ -5,7 +5,9 @@ let store = {
     hasFooter: false,
     user: {
       login: false,
-      name: '游客'
+      name: '游客',
+      money: undefined,
+      free: undefined
     },
     pages: []
   },
@@ -22,9 +24,16 @@ let store = {
     /*
      *for login
      */
-    setUser ({login, name}) {
-      login !== undefined && (store.state.user.login = login)
-      name !== undefined && (store.state.user.name = name)
+    setUser (user) {
+      // login !== undefined && (store.state.user.login = login)
+      // name !== undefined && (store.state.user.name = name)
+      user = user || {
+        login: true,
+        name: '游客',
+        money: 0,
+        free: 0
+      }
+      Object.assign(store.state.user, user)
     },
     /*
      *for pages

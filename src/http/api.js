@@ -1,4 +1,4 @@
-let api = 'http://192.168.169.225:8080/cagamesclient/'
+let api = 'http://app.game.com:8080/cagamesclient/'
 export default {
   // 约定
   // 成功默认返回：{"success":true}
@@ -10,21 +10,22 @@ export default {
 
   // 2、获取验证码 返回base64数据  ALL
   getVerifyImage: api + 'login/login.do?method=getVerifyImage',
+  // getCode: api + 'sys/permission.do?method=tokenRegist',
 
   // 3、问候语
-  getGreetingMsg: api + 'login/login.do?method=getGreetingMsg&userName=',
+  getGreetingMsg: api + 'login/login.do?method=getGreetingMsg',
   // {"greetingMsg":"xxxx"}
 
   // 4、用户登录
-  validate: api + 'login/login.do?method=validate&userName=bbbbbb&userPwd=123456&verifyCode=1234',
+  validate: api + 'login/login.do?method=validate',
   // {"username":"xxx","userid":"xxxx"}
 
   // 5、查询菜单、桌面、收藏夹 PC接口
-  getUserPrefence: api + 'home/userMenus.do?method=getUserPrefence&userId=1',
+  getUserPrefence: api + 'home/userMenus.do?method=getUserPrefence',
   // {"menuList":"[]","deskList":"[]","favoriteList":"[]"}
 
   // 6、用户资金信息  ALL
-  getUserFund: api + 'home/userInfo.do?method=getUserFund&userId=1',
+  getUserFund: api + 'home/userInfo.do?method=getUserFund',
   // {"userId":"","channelBalance":"","availableBalance":"","holdBalance":"","freeAvaiable":"","freeBalance":"","freeHold":"","rewardPoint":"","isLocked":""}
 
   // 7、获取用户菜单 ios和andriod
@@ -46,7 +47,7 @@ export default {
   // {"sysNotices":"[]"}
 
   // 12、校验验证码   ALL
-  checkVerifyCode: api + 'login/login.do?method=checkVerifyCode&verifyCode=232',
+  checkVerifyCode: api + 'login/login.do?method=checkVerifyCode',
 
   // 12、修改密码页面，校验用户名   ALL
   checkUserName: api + 'login/forgetPwd.do?method=checkUserName&userName=1&verifyCode=xxx',

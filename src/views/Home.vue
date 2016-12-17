@@ -43,6 +43,7 @@
 
 <script>
 import base from 'components/base'
+import api from '../http/api'
 
 export default {
   mixins: [base],
@@ -431,6 +432,8 @@ export default {
       {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
       {}
     ]
+    this.getUserPrefence()
+    this.getUserFund()
   },
   computed: {
     canCollectMenus () {
@@ -450,6 +453,23 @@ export default {
       for (let p in c) {
         c[p] = undefined
       }
+    },
+    getUserPrefence () {
+      this.$http.get(api.getUserPrefence).then(({data}) => {
+        // success
+      }, (rep) => {
+        // error
+      })
+    },
+    getUserFund () {
+      this.$http.get(api.getUserFund).then(({data}) => {
+        // success
+        if (data.success) {
+          this.setUser({money: data.availableBalance, free: data.freeAvaiable})
+        }
+      }, (rep) => {
+        // error
+      })
     }
   }
 }

@@ -38,6 +38,9 @@
       },
       nper (CNPER) {
         this.$emit('set-follow', {CNPER})
+      },
+      CNPER () {
+        if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER
       }
     },
     created () {

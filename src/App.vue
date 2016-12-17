@@ -12,7 +12,7 @@
 
     // footer
     transition(name="slide-down")
-      dsFooter(:menus="menus" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.money" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
 
 </template>
 
@@ -114,7 +114,7 @@ export default {
       this.menus = menus
     },
     logout () {
-      this.setUser({login: false})
+      this.setUser({login: false, name: ''})
       this.$router.push('/login')
     }
   },
@@ -124,7 +124,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="stylus">
   @import './var.stylus'

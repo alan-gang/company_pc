@@ -17,9 +17,9 @@
 
       el-col.info(:span="12")
         span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
-        span.money.ds-icon-money.font-gold(v-show="!hide") {{ money }}
-        span.free.ds-icon-free.font-light(v-show="!hide") {{ free }}
-        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide") 
+        span.money.ds-icon-money.font-gold(v-show="!hide && money != undefined") {{ money }}
+        span.free.ds-icon-free.font-light(v-show="!hide && free != undefined") {{ free }}
+        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-show=" money != undefined && free != undefined ") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
         span.ds-button.danger 充值
@@ -32,13 +32,11 @@
 
 <script>
 export default {
-  props: ['menus'],
+  props: ['menus', 'name', 'money', 'free'],
   data () {
     return {
       shows: {},
-      name: '一介草民',
-      money: 1500.00,
-      free: 1800,
+      // name: '一介草民',
       hide: false
     }
   },
@@ -171,9 +169,9 @@ export default {
         box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         radius(50%)
   
-  NW = .2rem
-  MW = .2rem
-  FW = .2rem
+  NW = .26rem
+  MW = .26rem
+  FW = .26rem
   PW = .05rem
   .info
     text-align right

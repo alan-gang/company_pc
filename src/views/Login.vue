@@ -23,6 +23,8 @@ export default {
   },
   computed: {
   },
+  methods: {
+  },
   components: {
     Logo,
     DownLoad,

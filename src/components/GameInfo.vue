@@ -86,14 +86,15 @@ export default {
     font-size F
     color DANGER
     font-family Roboto
+    font-weight bold
       
-  
   .left
     min-width 6rem
     .title
       padding-left .8rem
       font-size F
       font-family Roboto
+      font-weight bold
       color #666
     .outline
       vertical-align super

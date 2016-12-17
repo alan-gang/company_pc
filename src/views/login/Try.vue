@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     login () {
-      this.$emit('update-user', {login: true})
+      this.$emit('update-user')
       this.$router.push('/')
     }
   },

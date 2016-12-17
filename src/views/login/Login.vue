@@ -5,7 +5,7 @@
       | 问候语：
       span.regard {{ regard }}
 
-    dt.ds-icon-notice(v-if="notice") {{ notice }}
+    // dt.ds-icon-notice(v-if="notice") {{ notice }}
       
 
     dd.ds-icon-user
@@ -15,7 +15,7 @@
         input(placeholder="密码" v-model="pwd" v-bind:disabled="disablePwd" type="password" )
 
     dd.ds-icon-edit
-      input(placeholder="验证码" v-model="code" @change="checkVerifyCode")
+      input(placeholder="验证码" v-model="code" @input="(code.length > 3) && checkVerifyCode()" @keyup.enter="login")
       i.ds-icon-code(v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}" @click="getVerifyImage")
 
     dd.ds-button.positive.full.bold.login(@click="login") 登录
@@ -56,28 +56,60 @@
     methods: {
       login () {
         if (this.hasEmpty()) this.notice = '输入值不能为空'
-        else this.$router.push('/')
+        else {
+          this.$http.post(api.validate, {userName: this.userName, userPwd: this.pwd, verifyCode: this.code}).then(({data}) => {
+            // success
+            if (data.success) {
+              this.$emit('update-user', {login: true, name: data.nickName})
+              this.$router.push('/')
+            } else {
+              this.$message({
+                type: 'error',
+                showClose: true,
+                message: '用户名或密码错误！'
+              })
+            }
+          }, (rep) => {
+            // error
+          })
+        }
       },
       hasEmpty () {
         return !this.userName || !this.pwd || !this.code
       },
       getGreetingMsg () {
-        this.$http.get(api.getGreetingMsg + this.userName).then(({data}) => {
+        this.$http.post(api.getGreetingMsg, {userName: this.userName}).then(({data}) => {
           // success
           if (data.success) {
             this.regard = data.greetingMsg || ''
             if (!this.regard) {
-              this.notice = '常用语空空如也！'
+              // this.regard = '常用语空空如也！'
+              this.$message({
+                type: 'info',
+                // showClose: true,
+                message: '常用语空空如也。'
+              })
             }
+            if (!this.code) setTimeout(() => this.$el.querySelector('.ds-icon-pwd input').focus(), 0)
           } else {
-            this.notice = '常用语获取失败！'
+            // this.notice = '常用语获取失败！'
+            this.$message({
+              type: 'error',
+              showClose: true,
+              message: '常用语获取失败！'
+            })
           }
         }, (rep) => {
-          this.notice = '常用语获取失败！'
+          // this.notice = '常用语获取失败！'
+          this.$message({
+            type: 'error',
+            showClose: true,
+            message: '常用语获取失败！'
+          })
         })
       },
       getVerifyImage () {
-        this.$http.get(api.getVerifyImage).then(({data, headers}) => {
+        this.$http.get(api.getVerifyImage).then(({data}) => {
           // success
           if (data.success) this.imgData = data.data
         }, (rep) => {
@@ -85,9 +117,22 @@
         })
       },
       checkVerifyCode () {
-        this.$http.get(api.checkVerifyCode + this.code).then(({data}) => {
+        this.$http.post(api.checkVerifyCode, {verifyCode: this.code}).then(({data}) => {
           // success
-          if (!data.success) this.notice = '验证码输入不正确！'
+          // if (!data.success) this.notice = '验证码输入不正确！'
+          if (!data.success) {
+            this.$message({
+              type: 'error',
+              showClose: true,
+              message: '验证码输入不正确！'
+            })
+          } else {
+            this.$message({
+              type: 'success',
+              showClose: true,
+              message: '验证码正确！'
+            })
+          }
         }, (rep) => {
           // error
         })
