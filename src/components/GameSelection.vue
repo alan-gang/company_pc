@@ -339,7 +339,7 @@
         }, 0)
       },
       ns () {
-        this.$emit('set-nsns', this.ns.join('|').replace(/,/g, ''))
+        this.$emit('set-nsns', this.ns.join('|'))
       },
       ps () {
         this.$emit('set-ps', this.ps.reduce((pre, p) => {
