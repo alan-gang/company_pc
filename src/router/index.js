@@ -2,7 +2,7 @@
 import store from '../store'
 export default function (VueRoter) {
   let router = new VueRoter({
-    mode: 'history',
+    // mode: 'history',
     routes: [
       {
         path: '/',
