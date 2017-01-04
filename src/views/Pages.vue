@@ -12,6 +12,10 @@
 <script>
 import base from 'components/base'
 import SSC from './games/SSC'
+import G115 from './games/G115'
+import PK10 from './games/PK10'
+import KL8 from './games/KL8'
+import K3 from './games/K3'
 import util from '../util'
 import ToolBar from 'components/ToolBar'
 
@@ -37,7 +41,7 @@ export default {
           top: '5%',
           left: '25%',
           width: '9.3rem',
-          height: '9rem'
+          height: '6.4rem'
         }
       },
       // 提供随机的位置
@@ -75,7 +79,7 @@ export default {
           top: '5%',
           left: '25%',
           width: '9.3rem',
-          height: '9rem'
+          height: '6.1rem'
         }
       ]
 
@@ -125,6 +129,10 @@ export default {
   },
   components: {
     SSC,
+    G115,
+    PK10,
+    KL8,
+    K3,
     ToolBar
   },
   directives: {

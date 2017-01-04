@@ -9,14 +9,14 @@
       
 
     dd.ds-icon-user
-      input(placeholder="用户名" v-model="userName" @change="getGreetingMsg")
+      input(placeholder="用户名" v-model="un_" @change="getGreetingMsg")
 
     dd.ds-icon-pwd(v-bind:class="{disabled: disablePwd}")
         input(placeholder="密码" v-model="pwd" v-bind:disabled="disablePwd" type="password" )
 
     dd.ds-icon-edit
-      input(placeholder="验证码" v-model="code" @input="(code.length > 3) && checkVerifyCode()" @keyup.enter="login")
-      i.ds-icon-code(v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}" @click="getVerifyImage")
+      input(placeholder="验证码" v-model="code_" @keyup.enter="login")
+      i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
     dd.ds-button.positive.full.bold.login(@click="login") 登录
 
@@ -30,112 +30,70 @@
 </template>
 <script>
   import api from '../../http/api'
+  import xhr from 'components/xhr'
+  // import { Message } from 'element-ui'
   export default {
+    mixins: [xhr],
     data () {
       return {
-        notice: '',
         regard: false,
-        codeUrl: '',
-        code: '',
-        userName: '',
-        pwd: '',
-        imgData: ''
+        pwd: ''
       }
     },
     computed: {
       disablePwd () {
-        return !this.userName || this.regard === false
-      },
-      codeUrl () {
-        return 'data:image/png;base64,' + this.imgData
+        return !this.un_ || this.regard === false
       }
     },
     created () {
-      this.getVerifyImage()
+      this._getVerifyImage()
     },
     methods: {
       login () {
-        if (this.hasEmpty()) this.notice = '输入值不能为空'
-        else {
-          this.$http.post(api.validate, {userName: this.userName, userPwd: this.pwd, verifyCode: this.code}).then(({data}) => {
-            // success
-            if (data.success) {
-              this.$emit('update-user', {login: true, name: data.nickName})
-              this.$router.push('/')
-            } else {
-              this.$message({
-                type: 'error',
-                showClose: true,
-                message: '用户名或密码错误！'
-              })
-            }
-          }, (rep) => {
-            // error
+        if (this.hasEmpty()) {
+          this.$message.warning('输入值不能为空')
+        } else {
+          this._checkVerifyCode(() => {
+            this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_}).then(({data}) => {
+              // success
+              if (data.success) {
+                this.$emit('update-user', {login: true, name: data.nickName})
+                this.$router.push('/')
+              } else {
+                this.$message.error('用户名或密码错误！')
+                this._getVerifyImage()
+              }
+            }, (rep) => {
+              // error
+            })
           })
         }
       },
       hasEmpty () {
-        return !this.userName || !this.pwd || !this.code
+        return !this.un_ || !this.pwd || !this.code_
       },
       getGreetingMsg () {
-        this.$http.post(api.getGreetingMsg, {userName: this.userName}).then(({data}) => {
+        this.$http.post(api.getGreetingMsg, {userName: this.un_}).then(({data}) => {
           // success
           if (data.success) {
             this.regard = data.greetingMsg || ''
             if (!this.regard) {
-              // this.regard = '常用语空空如也！'
-              this.$message({
-                type: 'info',
-                // showClose: true,
-                message: '常用语空空如也。'
-              })
+              this.$message('常用语空空如也。')
             }
-            if (!this.code) setTimeout(() => this.$el.querySelector('.ds-icon-pwd input').focus(), 0)
+            setTimeout(() => this.$el.querySelector('.ds-icon-pwd input').focus(), 0)
           } else {
-            // this.notice = '常用语获取失败！'
-            this.$message({
-              type: 'error',
-              showClose: true,
-              message: '常用语获取失败！'
-            })
+            this.$message.error('常用语获取失败！')
           }
         }, (rep) => {
-          // this.notice = '常用语获取失败！'
-          this.$message({
-            type: 'error',
-            showClose: true,
-            message: '常用语获取失败！'
-          })
+          this.$message.error('常用语获取失败！')
         })
-      },
-      getVerifyImage () {
-        this.$http.get(api.getVerifyImage).then(({data}) => {
-          // success
-          if (data.success) this.imgData = data.data
-        }, (rep) => {
-          // error
-        })
-      },
-      checkVerifyCode () {
-        this.$http.post(api.checkVerifyCode, {verifyCode: this.code}).then(({data}) => {
-          // success
-          // if (!data.success) this.notice = '验证码输入不正确！'
-          if (!data.success) {
-            this.$message({
-              type: 'error',
-              showClose: true,
-              message: '验证码输入不正确！'
-            })
-          } else {
-            this.$message({
-              type: 'success',
-              showClose: true,
-              message: '验证码正确！'
-            })
-          }
-        }, (rep) => {
-          // error
-        })
+        // window.$.ajax({
+        //   url: api.getGreetingMsg,
+        //   data: {userName: this.un_},
+        //   xhrFields: {
+        //     withCredentials: true
+        //   }
+        // })
       }
     }
   }

@@ -28,10 +28,10 @@ let store = {
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
       user = user || {
-        login: true,
+        login: false,
         name: '游客',
-        money: 0,
-        free: 0
+        money: undefined,
+        free: undefined
       }
       Object.assign(store.state.user, user)
     },

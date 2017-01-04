@@ -9,10 +9,10 @@
         .popover-instruction.font-white
           p
             span.label.font-gold 玩法说明：
-            {{ type.description }}
+            {{ type.description || '暂无' }}
           p
             span.label.font-gold 中奖举例：
-            {{ type.description }}
+            {{ type.example || '暂无' }}
       .ds-icon-polyline.ds-button.outline.small 走势图
 
     el-col.right(:span="6")
@@ -35,7 +35,8 @@ export default {
     return {
       // 默认倒计时
       defautTime: 1 * 5,
-      time: 0
+      time: 0,
+      lstTimeout: 0
     }
   },
   computed: {
@@ -46,13 +47,19 @@ export default {
   created () {
     this.time = this.timeout
     setInterval(() => {
-      if (this.time === 0 || !this.time) {
+      if (this.time <= 0 || !this.time) {
         this.$emit('set-NPER', this.CNPER)
-        this.time = this.defautTime
+        this.time = this.lstTimeout || this.defautTime
       } else {
         this.time--
       }
     }, 1000)
+  },
+  watch: {
+    timeout () {
+      this.time = this.timeout
+      if (this.time > 0) this.lstTimeout = this.time
+    }
   },
   methods: {
   },

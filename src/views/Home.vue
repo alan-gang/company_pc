@@ -78,11 +78,12 @@ export default {
             withIcon: true,
             class: 'ds-icon-item',
             url: 'SSC',
+            id: 2,
             items: [
               {id: '1-1', title: '30秒时时彩', showInHome: true, liked: true},
               {id: '1-2', title: '尊皇时时彩', showInHome: true, liked: true},
               {id: '1-3', title: '广东时时彩', showInHome: true, liked: true},
-              {id: '1-4', title: '重庆时时彩', showInHome: true, liked: true},
+              {id: '1', title: '重庆时时彩', showInHome: true, liked: true},
               {id: '1-5', title: '新疆时时彩', showInHome: true, liked: true},
               {id: '1-6', title: '江西时时彩', showInHome: true, liked: true}
             ]
@@ -91,7 +92,7 @@ export default {
             title: '时时乐',
             withIcon: true,
             class: 'ds-icon-item',
-            url: 'ZHSSC',
+            url: 'SSC',
             items: [
               {id: '2-1', title: '广东时时乐'}
             ]
@@ -100,6 +101,7 @@ export default {
             title: '11选5',
             withIcon: true,
             class: 'ds-icon-item',
+            url: 'G115',
             items: [
               {id: '3-1', title: '广东11选5'},
               {id: '3-2', title: '新疆11选5'}
@@ -109,6 +111,7 @@ export default {
             title: '北京快乐8',
             withIcon: true,
             class: 'ds-icon-item',
+            url: 'KL8',
             items: [
               {id: '4-1', title: '北京快乐8'}
             ]
@@ -117,6 +120,7 @@ export default {
             title: '北京PK10',
             withIcon: true,
             class: 'ds-icon-item',
+            url: 'PK10',
             items: [
               {id: '5-1', title: '北京PK10'}
             ]
@@ -125,8 +129,9 @@ export default {
             title: '快三',
             withIcon: true,
             class: 'ds-icon-item',
+            url: 'K3',
             items: [
-              {id: '6-1', title: '北京PK10'}
+              {id: '6-1', title: '快三'}
             ]
           }
         ]
@@ -434,6 +439,14 @@ export default {
     ]
     this.getUserPrefence()
     this.getUserFund()
+    this.rewardNotices()
+    this.sysNotices()
+  },
+  activated () {
+    this.getUserPrefence()
+    this.getUserFund()
+    this.rewardNotices()
+    this.sysNotices()
   },
   computed: {
     canCollectMenus () {
@@ -454,6 +467,7 @@ export default {
         c[p] = undefined
       }
     },
+    // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence () {
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
@@ -461,11 +475,32 @@ export default {
         // error
       })
     },
+    // 6、用户资金信息  ALL
     getUserFund () {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
           this.setUser({money: data.availableBalance, free: data.freeAvaiable})
+        }
+      }, (rep) => {
+        // error
+      })
+    },
+    // 10、中奖公告   ALL
+    rewardNotices () {
+      this.$http.get(api.rewardNotices).then(({data}) => {
+        // success
+        if (data.success) {
+        }
+      }, (rep) => {
+        // error
+      })
+    },
+    // 11、系统公告   ALL
+    sysNotices () {
+      this.$http.get(api.rewardNotices).then(({data}) => {
+        // success
+        if (data.success) {
         }
       }, (rep) => {
         // error
@@ -477,7 +512,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  WW = 8.3rem
+  WW = 9rem
   WH = 4.3rem
   IH = .36rem
   

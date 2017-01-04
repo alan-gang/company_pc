@@ -158,7 +158,7 @@ input
  */
   .el-slider
     display inline-block
-    width 1.8rem
+    width 1.5rem
     vertical-align middle
     .el-slider__bar
       background-color #bbb
@@ -408,7 +408,36 @@ input
     
   .ds-icon-polyline
     background url(assets/polyline.png) .08rem center no-repeat
+  
+  // 115
+  .ds-icon-115-1
+    background url(assets/qiu01.png) center no-repeat
+  .ds-icon-115-2
+    background url(assets/qiu02.png) center no-repeat
+  .ds-icon-115-3
+    background url(assets/qiu03.png) center no-repeat
+  .ds-icon-115-4
+    background url(assets/qiu04.png) center no-repeat
+  .ds-icon-115-5
+    background url(assets/qiu05.png) center no-repeat
 
+  // PK10
+  .ds-icon-PK10
+    background url(assets/car_gray.png) center no-repeat
+    &:hover
+      background url(assets/car_blue.png) center no-repeat
+    &.selected
+      background url(assets/car_red.png) center no-repeat
+  .ds-icon-PK10-1
+    background url(assets/car_colour01.png) center no-repeat
+  .ds-icon-PK10-2
+    background url(assets/car_colour02.png) center no-repeat
+  .ds-icon-PK10-3
+    background url(assets/car_colour03.png) center no-repeat
+  .ds-icon-PK10-4
+    background url(assets/car_colour02.png) center no-repeat
+  .ds-icon-PK10-5
+    background url(assets/car_colour01.png) center no-repeat
 /*
  *buttons class define
  */
@@ -462,6 +491,7 @@ input
       background #0d8ddd
   &.secondary
     color #606ba3
+    text-shadow none
     bg-gradient(top, #f1f1f1, #e6e6e6)
     &:not(.disabled):hover
       bg-gradient(top, #fff, #f2f2f2)
@@ -521,6 +551,9 @@ input
       color BLUE
       background-color transparent
       border .01rem solid BLUE
+    &.secondary
+      color LIGHT
+      bg-gradient(top, #f1f1f1, #e6e6e6)
 
 
       

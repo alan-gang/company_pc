@@ -7,8 +7,8 @@
       dsHeader(:tabs="tabs" v-bind:likedTabs="likedTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
     
     // pages
-    keep-alive
-      router-view.scroll-content.page(:pages="tabs" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:set-menus="setMenus" v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
+    // keep-alive
+    router-view.scroll-content.page(:pages="tabs" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:set-menus="setMenus" v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
 
     // footer
     transition(name="slide-down")
@@ -22,6 +22,7 @@ import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
 import base from './components/base'
 import store from './store'
+import cookie from 'js-cookie'
 export default {
   mixins: [base],
   data () {
@@ -70,7 +71,6 @@ export default {
   },
   methods: {
     _getPages () {
-      console.log(this.menus, '***')
       return this.menus.reduce((p, m) => {
         m.groups = m.groups || []
         return m.groups.reduce((p, g) => {
@@ -114,7 +114,8 @@ export default {
       this.menus = menus
     },
     logout () {
-      this.setUser({login: false, name: ''})
+      this.setUser()
+      cookie.remove('JSESSIONID')
       this.$router.push('/login')
     }
   },

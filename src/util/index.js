@@ -8,6 +8,7 @@ import { getOffset, addEvent } from './Dom'
 import { repeat } from './base'
 // 注数算法
 import N from './N'
+import M from './M'
 
 module.exports = {
   groupArray,
@@ -15,5 +16,6 @@ module.exports = {
   addEvent,
   timeFormat,
   repeat,
-  N
+  N,
+  M
 }

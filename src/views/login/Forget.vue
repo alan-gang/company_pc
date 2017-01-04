@@ -17,47 +17,46 @@
 
     dl.inner-form
       
-      dt.ds-icon-notice(v-if="notice") {{ notice }}
+      // dt.ds-icon-notice(v-if="notice") {{ notice }}
 
 
       dd.ds-icon-user(v-if="stepIndex === 0")
-        input(placeholder="用户名" v-model="userName")
+        input(placeholder="用户名" v-model="un_")
 
       dd.ds-icon-edit(v-if="stepIndex === 0")
-        input(placeholder="验证码" v-model="code")
-        i.ds-icon-code()
-        // v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}"
+        input(placeholder="验证码" v-model="code_" @keyup.enter="next")
+        i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 2")
-        label(for="schoolName")你中学的名称：
-        input(v-model="schoolName" id="schoolName")
+        label(for="schoolName")你中学的名称{{ q1_ }}：
+        input(v-model="a1_" id="schoolName")
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 2")
-        label(style="width: 1.3rem" for="friendName") 你最好朋友的姓名：
-        input(v-model="friendName" id="friendName")
+        label(style="width: 1.3rem" for="friendName") 你最好朋友的姓名{{ q2_ }}：
+        input(v-model="a2_" id="friendName" @keyup.enter="next")
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
         label 已绑定手机为: 
-          span.phone {{ '+006******5378' }}
+          span.phone {{ phone_ }}
           br
           | 系统已向此手机发送了验证短信，请注意查收！ 
       
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 1")
-        input(placeholder="请输入接收到的验证码" v-model="phoneCode")
+        input(placeholder="请输入接收到的验证码" v-model="pc_" @keyup.enter="next")
         label
-          .ds-button.secondary 重新发送
+          .ds-button.secondary(v-bind:class="{ disabled: pt_ }") 重新发送{{ pt_ ? '(' + pt_ + ')' : '' }}
 
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 0")
         label 已绑定邮箱为: 
-          span.email {{ 'wfjf******@163.com' }}
+          span.email {{ email_ }}
           br
           | 系统已向此邮箱发送了验证短信，请注意查收！ 
       
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 0")
-        input(placeholder="请输入接收到的验证码" v-model="emailCode")
+        input(placeholder="请输入接收到的验证码" v-model="ec_" @keyup.enter="next")
         label
-          .ds-button.secondary 重新发送
+          .ds-button.secondary(v-bind:class="{ disabled: et_ }") 重新发送{{ et_ ? '(' + et_ + ')' : '' }}
 
 
       dd.ds-icon-pwd(v-if="stepIndex === 2 && !finish")
@@ -90,24 +89,18 @@
 
 <script>
 import StepTabs from 'components/StepTabs'
+import xhr from 'components/xhr'
+// import api from '../../http/api'
 export default {
+  mixins: [xhr],
   data () {
     return {
-      // static props
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
       radios: ['通过邮箱找回', '通过手机找回', '通过安全问题找回'],
       finish: false,
       time: 5,
-      notice: '',
-      // unser input items
-      userName: '',
-      code: '',
-      emailCode: '',
-      phoneCode: '',
-      schoolName: '',
-      friendName: '',
       newpwd: '',
       newpwdrepeat: ''
     }
@@ -122,6 +115,9 @@ export default {
       if (this.finish) this.countTime()
     }
   },
+  created () {
+    this._getVerifyImage()
+  },
   methods: {
     countTime () {
       this.time = 5
@@ -131,32 +127,77 @@ export default {
       }, 1000)
     },
     next () {
-      if (this.canNext()) this.stepIndex++
+      this.noEmpty() && this._checkVerifyCode(() => {
+        switch (this.stepIndex) {
+          case 0:
+            this._checkUserName(() => {
+              switch (this.radioIndex) {
+                case 0:
+                  this._getEmail(() => {
+                    this.stepIndex++
+                    this._sendMail()
+                  })
+                  break
+                case 1:
+                  this._getMobile(() => {
+                    this.stepIndex++
+                    this._sendSms()
+                  })
+                  break
+                case 2:
+                  this._safeQuestion(() => {
+                    this.stepIndex++
+                  })
+                  break
+              }
+            })
+            break
+          case 1:
+            switch (this.radioIndex) {
+              case 0:
+                this._checkMailVerifyCode(() => {
+                  this.stepIndex++
+                })
+                break
+              case 1:
+                this._checkSmsVerifyCode(() => {
+                  this.stepIndex++
+                })
+                break
+              case 2:
+                this._safeAnswer(() => {
+                  this.stepIndex++
+                })
+                break
+            }
+            break
+          case 2:
+            this._safeQuestion()
+        }
+      })
     },
     done () {
-      if (this.hasEmpty(2)) this.finish = true
+      if (this.noEmpty(2)) this.finish = true
     },
-    canNext () {
-      return this.hasEmpty()
-    },
-    hasEmpty (step) {
-      let hasEmpty = false
+    noEmpty (step) {
+      let noEmpty = false
       let notice = '输入值不能为空！'
       switch (step || this.stepIndex) {
         case 0:
-          hasEmpty = this.userName && this.code
+          noEmpty = this.un_ && this.code_
           break
         case 1:
-          if (this.radioIndex === 0) hasEmpty = this.emailCode
-          if (this.radioIndex === 1) hasEmpty = this.phoneCode
-          if (this.radioIndex === 2) hasEmpty = this.schoolName && this.friendName
+          if (this.radioIndex === 0) noEmpty = this.ec_
+          if (this.radioIndex === 1) noEmpty = this.pc_
+          if (this.radioIndex === 2) noEmpty = this.a1_ && this.a2_
           break
         case 2:
-          hasEmpty = this.newpwd && (this.newpwdrepeat === this.newpwd || (notice = '两次输入的密码不一致！') && false)
-          console.log(hasEmpty, notice)
+          noEmpty = this.newpwd && (this.newpwdrepeat === this.newpwd || (notice = '两次输入的密码不一致！') && false)
       }
-
-      return hasEmpty ? !(this.notice = '') : !(this.notice = notice)
+      if (!noEmpty) {
+        this.$message.warning(notice)
+      }
+      return noEmpty
     }
   },
   components: {
@@ -249,7 +290,7 @@ export default {
         &.phone-code
           padding 0 0 0 PW
           label
-            width 1.15rem
+            width 1.3rem
             text-align right
         &.ds-icon-success
           margin BMH 0
@@ -260,7 +301,6 @@ export default {
           border 0
           .white
             font-size .18rem
-  
   
   .step-tabs
     margin-top BMH

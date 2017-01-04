@@ -1,7 +1,7 @@
 <template lang="jade">
   .follow-list
     .ds-button-group
-        .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 0}" @click="tabIndex = 0") 利润率追号
+        .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3") 利润率追号
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 同倍追号
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 翻倍追号
     .form
@@ -36,7 +36,11 @@
       FCNPER: Number,
       // 当前期数
       CNPER: Number,
-      pay: Number
+      pay: Number,
+      type: Number,
+      t: Number,
+      point: Number,
+      dates: Array
     },
     data () {
       return {
@@ -44,7 +48,7 @@
         npers: [5, 10, 15, 20, 25, 30],
         times: 1,
         get: '',
-        tabIndex: 0
+        tabIndex: 3
       }
     },
     computed: {
@@ -53,7 +57,7 @@
           return (d = {
             NPER: this.FCNPER + index,
             times: this.times,
-            date: (new Date()).toISOString()
+            date: (this.dates.find(d => d.issue === String((this.FCNPER + index))) || {}).saleend || '获取开奖时间失败'
           })
         })
       },
@@ -67,10 +71,24 @@
     },
     created () {
       this.$emit('set-follow', {NPER: this.nper, pay: this.PAY})
+      this.times = this.t
+      this.get = this.point
     },
     watch: {
       PAY () {
         this.$emit('set-follow', {NPER: this.nper, pay: this.PAY})
+      },
+      tabIndex () {
+        this.$emit('set-follow', {type: this.tabIndex})
+      },
+      times () {
+        this.$emit('set-follow', {t: this.times})
+      },
+      get () {
+        this.$emit('set-follow', {point: this.get})
+      },
+      data () {
+        this.$emit('set-follow', {items: this.data})
       }
     },
     methods: {

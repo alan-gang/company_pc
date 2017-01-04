@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection
 
-    GameNumberRow(v-for="row in rows" v-bind:row="row" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan")
+    GameNumberRow(v-for="(row, i) in rows" v-bind:row="row"  v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
     
     el-row(v-if="rows.length === 0")
       el-col(:span="20")
@@ -158,7 +158,60 @@
           {ids: '-2-2-2', title: '猜二', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-2-2-3', title: '猜三', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-2-2-4', title: '猜四', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-2-2-5', title: '猜五', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']}
+          {ids: '-2-2-5', title: '猜五', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+
+          // =========================================================115========================================================
+          /***
+          **
+          ***/
+          {ids: '1-1-1-115, 3-1-1-115, 3-2-1-115, 2-1-1-115', title: '第一位', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '1-1-1-115, 3-1-1-115, 3-2-1-115, 2-1-1-115', title: '第二位', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '1-1-1-115, 3-1-1-115, 3-2-1-115', title: '第三位', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '3-1-3-115, 2-1-3-115', title: '组选', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '3-1-5-115:2, 2-1-5-115:1, -1-3-1-115:1, -1-3-2-115:2, -1-3-3-115:3, -1-3-4-115:4, -1-3-5-115:5, -1-3-6-115:6, -1-3-7-115:7', title: '胆码', min: 1, max: 11, l: 2},
+          {ids: '3-1-5-115, 2-1-5-115, -1-3-1-115, -1-3-2-115, -1-3-3-115, -1-3-4-115, -1-3-5-115, -1-3-6-115, -1-3-7-115', title: '拖码', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '0-1-1-115', title: '前三位', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-1-115', title: '选1中1', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-2-115', title: '选2中2', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-3-115', title: '选3中3', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-4-115', title: '选4中4', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-5-115', title: '选5中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-6-115', title: '选6中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-115', title: '选7中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-2-1-1-115', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '5单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '4单1双', value: '5'}, {selected: false, title: '5单0双', value: '6'}]},
+          {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+
+          // =========================================================PK10========================================================
+          /***
+          **
+          ***/
+          {ids: '-1-1-1-PK10, -1-1-2-PK10, -1-1-3-PK10, -1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '冠军', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-2-PK10, -1-1-3-PK10, -1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '亚军', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-3-PK10, -1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '季军', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-5-PK10', class: 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+
+          // =========================================================KL8========================================================
+          /***
+          **
+          ***/
+          {ids: '-1-1-1-KL8, -1-1-2-KL8, -1-1-3-KL8, -1-1-4-KL8, -1-1-5-KL8, -1-1-6-KL8, -1-1-7-KL8', min: 1, max: 80, l: 2, buttons: ['全', '大', '小', '奇', '偶', '质', '合', '清'], btnClass: 'block'},
+
+          // =========================================================KL8========================================================
+          /***
+          **
+          ***/
+          {ids: '0-1-1-K3', title: '和值号', min: 3, max: 18, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '2-1-1-K3, 2-1-2-K3', class: 'dice double-width', title: '同号', values: [{selected: false, title: [1, 1], value: 1}, {selected: false, title: [2, 2], value: 2}, {selected: false, title: [3, 3], value: 3}, {selected: false, title: [4, 4], value: 4}, {selected: false, title: [5, 5], value: 5}, {selected: false, title: [6, 6], value: 6}]},
+          {ids: '2-1-2-K3', class: 'dice', title: '不同号', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
+          {ids: '-2-1-1-K3, -3-1-1-K3', class: 'dice', title: '标准', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
+          {ids: '-2-1-2-K3, -3-1-2-K3', class: 'dice', title: '胆码', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
+          {ids: '-2-1-2-K3, -3-1-2-K3', class: 'dice', title: '拖码', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
+          {ids: '3-1-1-K3', class: 'dice double-width', title: '三同号', values: [{selected: false, title: [1, 1, 1], value: 1}, {selected: false, title: [2, 2, 2], value: 2}, {selected: false, title: [3, 3, 3], value: 3}, {selected: false, title: [4, 4, 4], value: 4}, {selected: false, title: [5, 5, 5], value: 5}, {selected: false, title: [6, 6, 6], value: 6}]},
+          {ids: '3-1-2-K3, +3-1-2-K3', class: 'dice', title: '通选', values: [{selected: false, title: ['全'], value: 1}]},
+          {ids: '+3-1-1-K3', class: 'dice double-width', title: '三连号', values: [{selected: false, title: [1, 2, 3], value: 1}, {selected: false, title: [2, 3, 4], value: 2}, {selected: false, title: [3, 4, 5], value: 3}, {selected: false, title: [4, 5, 6], value: 4}]}
+
         ],
         // 输入的号码
         value: '',
@@ -208,11 +261,21 @@
       }
     },
     computed: {
+      // 根据玩法确定是与其它行不能重复
+      nr () {
+        return ['3-1-5-115', '2-1-5-115', '-1-3-1-115', '-1-3-2-115', '-1-3-3-115', '-1-3-4-115', '-1-3-5-115', '-1-3-6-115', '-1-3-7-115'].indexOf(this.type.id) !== -1
+      },
       // 根据玩法确定要显示的号码工作区
       rows () {
-        return this.allRows.filter(row => (' ' + row.ids).match(
-          new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : '[^+-]+' + this.type.id, 'g')
-        ))
+        return this.allRows.filter(row => {
+          let matchid = ((' ' + row.ids + ',').match(
+            new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g')
+          ) || [])[0]
+          if (matchid) {
+            this.$set(row, 'id', matchid)
+          }
+          return matchid
+        })
       },
       // 显示位置选择
       show () {
@@ -267,12 +330,22 @@
       },
       value () {
         this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+        this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       },
       rows () {
         this.titleSpan = this.rows.reduce((p, r) => {
-          p = Math.max(p, r.title.length > 2 ? 3 : 2)
+          if (r.title) p = Math.max(p, r.title.length - Math.ceil((r.title.match(/\d/g) || []).length / 2))
           return p
         }, 0)
+      },
+      ns () {
+        this.$emit('set-nsns', this.ns.join('|').replace(/,/g, ''))
+      },
+      ps () {
+        this.$emit('set-ps', this.ps.reduce((pre, p) => {
+          pre += p.join('')
+          return pre
+        }, ''))
       }
     },
     created () {
@@ -284,6 +357,15 @@
         this.ns = this.rows.map(r => {
           return (r = r.ns || [])
         })
+      },
+      // on number row selecting
+      select ({args}) {
+        if (this.nr) {
+          this.setCall({
+            fn: '__unselectSelectedNumber',
+            args: args
+          })
+        }
       },
       selectFiles (evt) {
         let allowedFiles = 'text/plain'
@@ -316,6 +398,7 @@
 </script>
 <style lang="stylus">
   .el-textarea 
+    box-sizing border-box
     textarea
       resize none
       // min-height 1.06rem

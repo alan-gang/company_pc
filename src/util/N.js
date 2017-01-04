@@ -7,11 +7,13 @@ let empty = value => value.match(/^[\s\t\r]*$/)
 value: 输入值
 N: 一注的长度
 r: 最大相同数字的长度
+l: 一个号码的长度 如12345有5个号码, 010203有3个号码, 号码长度为2
  */
-let N = (value, N, r) => empty(value) ? 0 : value.split(' ').filter(n => n.length === N).filter(n => {
-  return (typeof r !== 'number') || r === Object.values(n.split('').reduce((p, na) => {
+let N = (value, N, r, l, max, min) => empty(value) ? 0 : value.split(' ').filter(n => n.length === N).filter(n => {
+  return (typeof r !== 'number') || r === Object.values(n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).reduce((p, na) => {
     if (p[na] !== undefined) p[na] += 1
     else p[na] = 1
+    if ((max !== undefined && parseInt(na) > max) || (min !== undefined && parseInt(na) < min)) p[na] = r + 1
     return p
   }, {})).sort((a, b) => b - a)[0]
 }).length
@@ -24,8 +26,16 @@ let P = (nsl) => {
   })
   return n
 }
+// 数组内各长度相加
+let A = (nsl) => {
+  let n = 0
+  nsl.forEach(nl => {
+    n += nl
+  })
+  return n
+}
 
-export default {
+let SSC = {
   /*
   所有参数集：{
     // 号码集
@@ -135,12 +145,21 @@ export default {
   '5-3-1' ({nsl}) {
     return C(nsl[0], 1)
   },
+  /*
+  好事成双  C(n,1)  n选择的号码个数n>=1
+   */
   '5-3-2' ({nsl}) {
     return this['5-3-1']({nsl})
   },
+   /*
+  三星报喜  C(n,1)  n选择的号码个数n>=1
+   */
   '5-3-3' ({nsl}) {
     return this['5-3-1']({nsl})
   },
+  /*
+  四季发财  C(n,1)  n选择的号码个数n>=1
+   */
   '5-3-4' ({nsl}) {
     return this['5-3-1']({nsl})
   },
@@ -1038,3 +1057,197 @@ export default {
     return C(nsl[0], 5)
   }
 }
+let G115 = {
+  /*
+  所有参数集：{
+    // 号码集
+    ns,
+    // 号码集长度集
+    nsl, [4, 4]
+    // 位置集
+    ps,
+    // 位置集长度
+    psl
+    // 输入值
+    value
+    // 重号数量 [4,5,6]
+    r 3
+  }
+   */
+  /* ===========================================================================115============================================================================================== */
+
+  /* *************************************三星*********************************** */
+  /* ..............前三............... */
+  /*
+   *直选复式
+   **/
+  '3-1-1-115' ({ns}) {
+    let n = 0
+    ns[0] = ns[0] || []
+    ns[1] = ns[1] || []
+    ns[2] = ns[2] || []
+    ns[0].forEach((f) => {
+      ns[1].forEach((s) => {
+        ns[2].forEach((t) => {
+          if (f !== s && f !== t && s !== t) n++
+        })
+      })
+    })
+    return n
+  },
+  /*
+   *直选单式  N
+   **/
+  '3-1-2-115' ({value}) {
+    return N(value, 6, 1, 2, 11, 1)
+  },
+  /*
+   *组选复式  C(n,3)
+   **/
+  '3-1-3-115' ({nsl}) {
+    return C(nsl[0], 3)
+  },
+  /*
+   *组选单式  N
+   **/
+  '3-1-4-115' ({value}) {
+    return N(value, 6, 1, 2, 11, 1)
+  },
+  /*
+   *组选胆拖  C(n,(3-m))
+   **/
+  '3-1-5-115' ({nsl}) {
+    return C(nsl[1], (3 - nsl[0]))
+  },
+
+   // '直选复式',
+  '2-1-1-115' ({nsl, r}) {
+    return nsl[0] * nsl[1] - r
+  },
+   // '直选单式',
+  '2-1-2-115' ({value}) {
+    return N(value, 4, 1, 2, 11, 1)
+  },
+   // '组选复式',
+  '2-1-3-115' ({nsl}) {
+    return C(nsl[0], 2)
+  },
+   // '组选单式',
+  '2-1-4-115' ({value}) {
+    return N(value, 4, 1, 2, 11, 1)
+  },
+   // '组选胆拖',
+  '2-1-5-115' ({value}) {
+    return N(value, 4, 1, 2, 11, 1)
+  },
+   // '定位胆',
+  '1-1-1-115' ({nsl}) {
+    return A(nsl)
+  },
+   // '前三不定位'
+  '0-1-1-115' ({nsl}) {
+    return A(nsl)
+  },
+   // '一中一',
+  '-1-1-1-115' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+   // '二中二',
+  '-1-1-2-115' ({nsl}) {
+    return C(nsl[0], 2)
+  },
+   // '三中三',
+  '-1-1-3-115' ({nsl}) {
+    return C(nsl[0], 3)
+  },
+   // '四中四',
+  '-1-1-4-115' ({nsl}) {
+    return C(nsl[0], 4)
+  },
+   // '五中五',
+  '-1-1-5-115' ({nsl}) {
+    return C(nsl[0], 5)
+  },
+   // '六中五',
+  '-1-1-6-115' ({nsl}) {
+    return C(nsl[0], 6)
+  },
+   // '七中五',
+  '-1-1-7-115' ({nsl}) {
+    return C(nsl[0], 7)
+  },
+   // '八中五',
+  '-1-1-8-115' ({nsl}) {
+    return C(nsl[0], 8)
+  },
+   // '一中一',
+  '-1-2-1-115' ({value}) {
+    return N(value, 2, 1, 2, 11, 1)
+  },
+   // '二中二',
+  '-1-2-2-115' ({value}) {
+    return N(value, 4, 1, 2, 11, 1)
+  },
+   // '三中三',
+  '-1-2-3-115' ({value}) {
+    return N(value, 6, 1, 2, 11, 1)
+  },
+   // '四中四',
+  '-1-2-4-115' ({value}) {
+    return N(value, 8, 1, 2, 11, 1)
+  },
+   // '五中五',
+  '-1-2-5-115' ({value}) {
+    return N(value, 10, 1, 2, 11, 1)
+  },
+   // '六中五',
+  '-1-2-6-115' ({value}) {
+    return N(value, 12, 1, 2, 11, 1)
+  },
+   // '七中五',
+  '-1-2-7-115' ({value}) {
+    return N(value, 14, 1, 2, 11, 1)
+  },
+   // '八中五',
+  '-1-2-8-115' ({value}) {
+    return N(value, 16, 1, 2, 11, 1)
+  },
+   // '二中二',
+  '-1-3-1-115' ({nsl}) {
+    return C(nsl[1], 1)
+  },
+   // '三中三',
+  '-1-3-2-115' ({nsl}) {
+    return C(nsl[1], (3 - nsl[0]))
+  },
+   // '四中四',
+  '-1-3-3-115' ({nsl}) {
+    return C(nsl[1] - (4 - nsl[0]))
+  },
+   // '五中五',
+  '-1-3-4-115' ({nsl}) {
+    return C(nsl[1] - (5 - nsl[0]))
+  },
+   // '六中五',
+  '-1-3-5-115' ({nsl}) {
+    return C(nsl[1] - (6 - nsl[0]))
+  },
+   // '七中五',
+  '-1-3-6-115' ({nsl}) {
+    return C(nsl[1] - (7 - nsl[0]))
+  },
+   // '八中五',
+  '-1-3-7-115' ({nsl}) {
+    return C(nsl[1] - (8 - nsl[0]))
+  },
+   // '定单双',
+  '-2-1-1-115' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+   // '猜中位',
+  '-2-1-2-115' ({nsl}) {
+    return C(nsl[0], 1)
+  }
+
+}
+module.exports = Object.assign(SSC, G115)

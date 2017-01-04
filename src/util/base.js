@@ -1,19 +1,4 @@
-// repeat a string s t times
-let repeat = (s, t) => {
-  if (typeof s.repeat === 'function') return s.repeat(t)
-  let r = ''
-  while (t > 0) {
-    r += s
-    t--
-  }
-  return r
-}
-// remove duplicate in a string by split by i
-let removeDuplicate = (s, i) => {
-  return s.split(i).filter((n, i, arr) => {
-    return i === arr.findIndex(nn => nn === n)
-  }).join(' ')
-}
+
 /**
  * 排列
  * @param n
@@ -40,8 +25,35 @@ function factorial (n) {
   return n * factorial(n - 1)
 }
 
+// repeat a string s t times
+let repeat = (s, t) => {
+  if (typeof s.repeat === 'function') return s.repeat(t)
+  let r = ''
+  while (t > 0) {
+    r += s
+    t--
+  }
+  return r
+}
+// remove duplicate in a string by split by i
+let removeDuplicate = (s, i) => {
+  return s.split(i).filter((n, i, arr) => {
+    return i === arr.findIndex(nn => nn === n)
+  }).join(' ')
+}
+
+let padStart = (s, l, w) => {
+  s += ''
+  while (s.length < l) {
+    s = w + s
+  }
+  if (s.length > l) s = s.slice(s.length - l)
+  return s
+}
+
 module.exports = {
   repeat,
   C,
-  removeDuplicate
+  removeDuplicate,
+  padStart
 }

@@ -18,10 +18,10 @@
       |  元&nbsp;&nbsp;
       // el-checkbox(v-model="checked" checked) 使用优惠券
       
-      .ds-checkbox-label(v-bind:class="{active: checked}" @click="checked = !checked")
+      .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
         .ds-checkbox
         | 使用优惠券
-      .ds-button.danger.bold 投注
+      .ds-button.danger.bold(@click="book") 投注
 
 
 
@@ -35,12 +35,12 @@ export default {
     NPER: Number,
     PAY: Number,
     n: Number,
-    pay: Number
+    pay: Number,
+    // 优惠券
+    checked: Boolean
   },
   data () {
     return {
-      // 优惠券
-      checked: true
     }
   },
   computed: {
@@ -50,6 +50,12 @@ export default {
   methods: {
     showFollow () {
       this.$emit('showFollow')
+    },
+    toggle () {
+      this.$emit('toggle-checked')
+    },
+    book () {
+      this.$emit('book')
     }
   },
   components: {

@@ -5,7 +5,7 @@
       dl.submenu
         dd(v-for="i in tss" @click="(show = false) || (t = i)") {{ i }}
 
-    el-col.left(:span="15")
+    el-col.left(:span="16")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
       el-input-number.ds-button.small.input.outline.times(v-model="t" v-bind:min="1" v-popover:times="times") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
@@ -13,10 +13,10 @@
       .ds-button-group
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}") {{c.title}}
       
-      el-slider(v-model="p" v-bind:max="max" v-bind:min="min")
-      span.p {{ p }}%
+      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P")
+      span.p(v-if="P") {{ ps}} - {{ prize }}
 
-    el-col.right(:span="9")
+    el-col.right(:span="8")
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
@@ -31,20 +31,17 @@
 
 <script>
 export default {
-  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder'],
+  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
   data () {
     return {
       cIndex: 0,
       currencies: [
-        {title: '元', value: 1},
-        {title: '角', value: 0.1},
-        {title: '分', value: 0.01},
-        {title: '厘', value: 0.001}
+        {title: '元', value: 1, model: 1},
+        {title: '角', value: 0.1, model: 2},
+        {title: '分', value: 0.01, model: 3},
+        {title: '厘', value: 0.001, model: 4}
       ],
-      points: ['1700-10%', '1600-10%', '300-10%', '3700-10%'],
-      max: 1700,
-      min: 40,
-      p: 1700,
+      p: 0,
       ts: [1, 3, 5, 10, 20, 50],
       show: false,
       t: 1
@@ -53,6 +50,22 @@ export default {
   computed: {
     tss () {
       return this.ts.reverse()
+    },
+    max () {
+      return Math.floor(this.P.maxpoint * 10000)
+    },
+    min () {
+      return Math.floor(this.P.minpoint * 10000)
+    },
+    // step () {
+    //   return (this.P.maxpoint - this.P.minpoint) / 10
+    // },
+    // point string
+    ps () {
+      return (this.p / 100).toFixed(2) + '%'
+    },
+    prize () {
+      return (this.P.maxprize - (this.max - this.p) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)).toFixed(3)
     }
   },
   watch: {
@@ -60,14 +73,14 @@ export default {
       this.$emit('set-currency', this.currencies[this.cIndex])
     },
     p () {
-      this.$emit('set-point', this.p)
+      if (this.p < this.P.minpoint) this.p = this.P.minpoint
+      this.$emit('set-point', this.p / 10000, this.prize)
     },
     t () {
       this.setTimes(this.t)
     }
   },
   created () {
-    this.p = Math.floor(0.4 * this.max)
     this.t = this.times
   },
   methods: {
