@@ -9,7 +9,7 @@
       
 
     dd.ds-icon-user
-      input(placeholder="用户名" v-model="un_" @change="getGreetingMsg")
+      input(placeholder="用户名" v-model="un_" @change="getGreetingMsg" autofocus)
 
     dd.ds-icon-pwd(v-bind:class="{disabled: disablePwd}")
         input(placeholder="密码" v-model="pwd" v-bind:disabled="disablePwd" type="password" )
@@ -31,7 +31,8 @@
 <script>
   import api from '../../http/api'
   import xhr from 'components/xhr'
-  // import { Message } from 'element-ui'
+  import { launchFullScreen } from '../../util/Dom'
+
   export default {
     mixins: [xhr],
     data () {
@@ -53,6 +54,8 @@
         if (this.hasEmpty()) {
           this.$message.warning('输入值不能为空')
         } else {
+          launchFullScreen(document.body)
+          // let loading = this.$loading('登录中...')
           this._checkVerifyCode(() => {
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_}).then(({data}) => {
               // success
@@ -65,6 +68,8 @@
               }
             }, (rep) => {
               // error
+            }).finally(() => {
+              // loading.close()
             })
           })
         }

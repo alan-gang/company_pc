@@ -18,7 +18,7 @@
 
 </template>
 <script>
-  import { padStart } from '../util/base'
+  import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
   export default {
     props: ['row', 'titleSpan'],
@@ -104,10 +104,10 @@
             this.even()
             break
           case '质':
-            this.even()
+            this.prime()
             break
           case '合':
-            this.even()
+            this.composite()
             break
           case '清':
             this.clear()
@@ -157,13 +157,22 @@
       clear () {
         this.numbers.forEach(n => (n.selected = false))
       },
+      prime () {
+        this.numbers.forEach(n => isPrime(n.value) ? this.select(n) : (n.selected = false))
+      },
+      composite () {
+        this.numbers.forEach(n => (n.value > 1) && !isPrime(n.value) ? this.select(n) : (n.selected = false))
+      },
       getBtnIndex () {
-        if (this.ns.length === 0) return 7
+        if (!this.row.buttons) return -1
+        if (this.ns.length === 0) return this.row.buttons.length - 1
         if (this.ns.length === this.numbers.length) return 0
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n >= this.numbers.length)) return 1
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n < this.numbers.length)) return 2
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
+        if (this.ns.length === this.numbers.filter(n => isPrime(n.value)).length && this.ns.every(n => isPrime(n))) return 5
+        if (this.ns.length === this.numbers.filter(n => (n.value > 1) && !isPrime(n.value)).length && this.ns.every(n => (n > 1) && !isPrime(n))) return 6
         return -1
       }
     },

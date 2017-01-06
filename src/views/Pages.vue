@@ -148,6 +148,7 @@ export default {
         let dx = 0
         let dy = 0
         util.addEvent('mousedown', target, (evt) => {
+          target.setAttribute('expand', 'expand')
           let offset = util.getOffset(el, 0)
           top = offset.top
           left = offset.left
@@ -176,10 +177,12 @@ export default {
           sy = evt.clientY
         })
         util.addEvent('mouseup', target, (evt) => {
+          target.removeAttribute('expand')
           canMove = false
           el.style.transition = ''
         })
         util.addEvent('mouseleave', target, (evt) => {
+          target.removeAttribute('expand')
           canMove = false
           el.style.transition = ''
         })
@@ -201,6 +204,8 @@ export default {
         let dy = 0
         // X
         util.addEvent('mousedown', targetX, (evt) => {
+          targetX.setAttribute('expand', 'expand')
+
           evt.preventDefault()
           evt.stopPropagation()
           let offset = util.getOffset(el, 0)
@@ -224,17 +229,20 @@ export default {
           sx = evt.clientX
         })
         util.addEvent('mouseup', targetX, (evt) => {
+          targetX.removeAttribute('expand')
           evt.preventDefault()
           evt.stopPropagation()
           canResizeX = false
           el.style.transition = ''
         })
         util.addEvent('mouseleave', targetX, (evt) => {
+          targetX.removeAttribute('expand')
           canResizeX = false
           el.style.transition = ''
         })
         // Y
         util.addEvent('mousedown', targetY, (evt) => {
+          targetY.setAttribute('expand', 'expand')
           evt.preventDefault()
           evt.stopPropagation()
           let offset = util.getOffset(el)
@@ -258,12 +266,14 @@ export default {
           sy = evt.clientY
         })
         util.addEvent('mouseup', targetY, (evt) => {
+          targetY.removeAttribute('expand')
           evt.preventDefault()
           evt.stopPropagation()
           canResizeY = false
           el.style.transition = ''
         })
         util.addEvent('mouseleave', targetY, (evt) => {
+          targetY.removeAttribute('expand')
           canResizeY = false
           el.style.transition = ''
         })
@@ -340,9 +350,9 @@ export default {
     right 4 * TH
     height TH
     cursor move
-    &:hover
-      height 2 * TH
-      top -1 * TH
+    &[expand]
+      height 4 * TH
+      top -2 * TH
       
       z-index 1
       
@@ -354,9 +364,9 @@ export default {
     width TH
     z-index 1
     cursor e-resize
-    &:hover
-      width 2 * TH
-      right -1 * TH
+    &[expand]
+      width 4 * TH
+      right -2 * TH
       
   
   .resize-y
@@ -367,9 +377,9 @@ export default {
     height TH
     z-index 1
     cursor n-resize
-    &:hover
-      height 2 * TH
-      bottom -1 * TH
+    &[expand]
+      height 4 * TH
+      bottom -2 * TH
   .page
     overflow hidden
   .dialog-page

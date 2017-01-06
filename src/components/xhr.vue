@@ -30,6 +30,8 @@
         phone_: ''
       }
     },
+    created () {
+    },
     computed: {
     },
     watch: {
@@ -127,10 +129,10 @@
           // success
           if (data.success > 0) {
             fn && fn()
-            // this.$message.success(message: '手机短信验证码已经发送，请查收！')
+            // this.$message.success('手机短信验证码已经发送，请查收！')
             this.pt_ = this.time_
           } else {
-            // this.$message.error(message: data.msg || '您还没有绑定手机！')
+            // this.$message.error(data.msg || '您还没有绑定手机！')
           }
         }, (rep) => {
           // error
@@ -142,10 +144,10 @@
           // success
           if (data.success > 0) {
             fn && fn()
-            // this.$message.success(message: '邮箱验证码已经发送，请查收！')
+            // this.$message.success('邮箱验证码已经发送，请查收！')
             this.et_ = this.time_
           } else {
-            // this.$message.error(message: data.msg || '您还没有绑定邮箱！')
+            // this.$message.error(data.msg || '您还没有绑定邮箱！')
           }
         }, (rep) => {
           // error
@@ -159,7 +161,7 @@
             this.q2_ = data.question2
             fn && fn()
           } else {
-            // this.$message.warning(message: data.msg || '您还没有设置安全问答！')
+            this.$message.warning(data.msg || '您还没有设置安全问答！')
           }
         }, (rep) => {
           // error

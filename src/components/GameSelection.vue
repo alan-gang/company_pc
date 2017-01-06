@@ -342,10 +342,7 @@
         this.$emit('set-nsns', this.ns.join('|'))
       },
       ps () {
-        this.$emit('set-ps', this.ps.reduce((pre, p) => {
-          pre += p.join('')
-          return pre
-        }, ''))
+        this.$emit('set-ps', this.ps)
       }
     },
     created () {
@@ -361,7 +358,7 @@
       // on number row selecting
       select ({args}) {
         if (this.nr) {
-          this.setCall({
+          this.__setCall({
             fn: '__unselectSelectedNumber',
             args: args
           })

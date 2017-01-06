@@ -216,6 +216,10 @@ export default {
     },
     // 投注
     booking () {
+      let loading = this.$loading({
+        text: '投注中...',
+        target: this.$el
+      }, 10000, '投注超时...')
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.id), // 游戏代码
         issue: String(this.CNPER), // 起始期号
@@ -228,20 +232,34 @@ export default {
       }).then(({data}) => {
         // success
         if (data.success > 0) {
-          this.$message.success('投注成功')
-          this.setCall({fn: '__getOrderList'})
-          this.setCall({fn: '__getFollowList'})
+          // this.$message.success('投注成功')
+          this.__loading({
+            text: '投注成功.',
+            target: this.$el
+          }, 300)
+          this.__setCall({fn: '__getOrderList'})
+          this.__setCall({fn: '__getFollowList'})
           this.ns = []
         } else {
-          this.$message.warning('投注失败！')
+          // this.$message.warning('投注失败！')
+          this.__loading({
+            text: '投注失败！',
+            target: this.$el
+          }, 300)
         }
       }, (rep) => {
+        this.__loading({
+          text: '投注失败！',
+          target: this.$el
+        }, 300)
         // error
+      }).finally(() => {
+        loading.close()
       })
     },
     setType (type) {
       this.type = type
-      this.setCall({fn: 'clear', args: this.call.args + ' '})
+      this.__setCall({fn: 'clear', args: this.call.args + ' '})
     },
     toggleChecked () {
       this.checked = !this.checked
@@ -305,7 +323,7 @@ export default {
         mode: this.currency.model, // 1-元，2-角，3-分，4-厘
         userpoint: this.point // 用户选择的返点
       }))
-      this.setCall({fn: '__clearSelectedNumbers'})
+      this.__setCall({fn: '__clearSelectedNumbers'})
       // after push need initial the selected numbers
     },
     _getOrderItems () {

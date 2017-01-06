@@ -145,6 +145,16 @@ export default {
     margin 0
     background url(./assets/bg.jpg) center center no-repeat
     background-size cover
+  
+  body:fullscreen #app > * {
+    background url(./assets/bg.jpg) center center no-repeat
+  }
+  body:-webkit-full-screen #app > * {
+    background url(./assets/bg.jpg) center center no-repeat
+  }
+  body:-moz-full-screen #app > * {
+    background url(./assets/bg.jpg) center center no-repeat
+  }
     
   header
     position absolute

@@ -855,8 +855,8 @@ let SSC = {
   直选单式
   N录入的号码个数，p位置选择的个数 C(p, 2) * N
   */
-  '-1-1-2' ({value}) {
-    return N(value, 2)
+  '-1-1-2' ({value, psl}) {
+    return C(psl, 2) * N(value, 2)
   },
 
   /*
@@ -1248,6 +1248,157 @@ let G115 = {
   '-2-1-2-115' ({nsl}) {
     return C(nsl[0], 1)
   }
-
 }
-module.exports = Object.assign(SSC, G115)
+let KL8 = {
+  // title: '任选一'
+  '-1-1-1-KL8' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '任选二'
+  '-1-1-2-KL8' ({nsl}) {
+    return C(nsl[0], 2)
+  },
+  // title: '任选三'
+  '-1-1-3-KL8' ({nsl}) {
+    return C(nsl[0], 3)
+  },
+  // title: '任选四'
+  '-1-1-4-KL8' ({nsl}) {
+    return C(nsl[0], 4)
+  },
+  // title: '任选五'
+  '-1-1-5-KL8' ({nsl}) {
+    return C(nsl[0], 5)
+  },
+  // title: '任选六'
+  '-1-1-6-KL8' ({nsl}) {
+    return C(nsl[0], 6)
+  },
+  // title: '任选七'
+  '-1-1-7-KL8' ({nsl}) {
+    return C(nsl[0], 7)
+  },
+  // title: '上下盘'
+  '0-1-1-KL8' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '奇偶盘'
+  '0-1-2-KL8' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '和值大小单双'
+  '0-1-3-KL8' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '五行'
+  '0-1-4-KL8' ({nsl}) {
+    return C(nsl[0], 1)
+  }
+}
+let PK10 = {
+  // title: '猜冠军
+  '-1-1-1-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '猜冠亚军
+  '-1-1-2-PK10' ({nsl, r}) {
+    return nsl[0] * nsl[2] - r
+  },
+  // title: '猜前三名
+  '-1-1-3-PK10' ({ns}) {
+    let n = 0
+    ns[0].forEach(n0 => {
+      ns[1].forEach(n1 => {
+        ns[2].forEach(n2 => {
+          if (n0 !== n1 && n1 !== n2 && n2 !== n0) n++
+        })
+      })
+    })
+    return n
+  },
+  // title: '猜前四名
+  '-1-1-4-PK10' ({ns}) {
+    let n = 0
+    ns[0].forEach(n0 => {
+      ns[1].forEach(n1 => {
+        ns[2].forEach(n2 => {
+          ns[3].forEach(n3 => {
+            if (n0 !== n1 && n1 !== n2 && n2 !== n3 && n0 !== n2 && n0 !== n3 && n1 !== n3) n++
+          })
+        })
+      })
+    })
+    return n
+  },
+  // title: '猜前五名
+  '-1-1-5-PK10' ({ns}) {
+    let n = 0
+    ns[0].forEach(n0 => {
+      ns[1].forEach(n1 => {
+        ns[2].forEach(n2 => {
+          ns[3].forEach(n3 => {
+            ns[4].forEach(n4 => {
+              if (n0 !== n1 && n1 !== n2 && n2 !== n3 && n3 !== n4 && n0 !== n2 && n0 !== n3 && n0 !== n4 && n1 !== n3 && n1 !== n4 && n2 !== n4) n++
+            })
+          })
+        })
+      })
+    })
+    return n
+  },
+  // title: '龙虎
+  '-1-1-6-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  }
+}
+let K3 = {
+  // title: '二同复选'
+  '2-1-1-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '二同单选'
+  '2-1-2-K3' ({nsl, r}) {
+    return C(nsl[0], 1) * C(nsl[1], 1) - r
+  },
+  // title: '二不同标准'
+  '-2-1-1-K3' ({nsl}) {
+    return C(nsl[0], 2)
+  },
+  // title: '二不同胆拖'
+  '-2-1-2-K3' ({nsl, r}) {
+    return C(nsl[0], 1) * C(nsl[1], 1) - r
+  },
+  // title: '三同单选'
+  '3-1-1-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '三同通选'
+  '3-1-2-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '三不同标准'
+  '-3-1-1-K3' ({nsl}) {
+    return C(nsl[0], 3)
+  },
+  // title: '三不同胆拖'
+  '-3-1-2-K3' ({nsl, r}) {
+    return C(nsl[0], 1) * C(nsl[1], 3) - C(r, 1) * C(nsl[1] - 1, 2)
+  },
+  // title: '三连单选'
+  '+3-1-1-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '三连通选'
+  '+3-1-2-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '和值'
+  '0-1-1-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // title: '猜1个号就中奖'
+  '0-1-2-K3' ({nsl}) {
+    return C(nsl[0], 1)
+  }
+}
+module.exports = Object.assign(SSC, G115, KL8, PK10, K3)

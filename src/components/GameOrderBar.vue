@@ -52,10 +52,10 @@ export default {
       return this.ts.reverse()
     },
     max () {
-      return Math.floor(this.P.maxpoint * 10000)
+      return Math.floor(this.P.maxpoint * 10000) || 800
     },
     min () {
-      return Math.floor(this.P.minpoint * 10000)
+      return Math.floor(this.P.minpoint * 10000) || 0
     },
     // step () {
     //   return (this.P.maxpoint - this.P.minpoint) / 10
@@ -65,7 +65,7 @@ export default {
       return (this.p / 100).toFixed(2) + '%'
     },
     prize () {
-      return (this.P.maxprize - (this.max - this.p) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)).toFixed(3)
+      return (this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)).toFixed(3)
     }
   },
   watch: {

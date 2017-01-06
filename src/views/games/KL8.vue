@@ -28,6 +28,20 @@ export default {
               ]
             }
           ]
+        },
+        {
+          title: '趣味',
+          groups: [
+            {
+              // title: ''
+              items: [
+                {id: '0-1-1-KL8', title: '上下盘', description: '选择20个开奖号码中包含“上盘(01-40)”与“下盘(41-80)”号码个数多少关系。', example: ''},
+                {id: '0-1-2-KL8', title: '奇偶盘', description: '选择20个开奖号码中包含“奇·偶”号码个数多少关系。', example: ''},
+                {id: '0-1-3-KL8', title: '和值大小单双', description: '选择20个开奖号码总和值的“大小单双”属性组合。', example: ''},
+                {id: '0-1-4-KL8', title: '五行', description: '', example: ''}
+              ]
+            }
+          ]
         }
       ],
       // 玩法信息
@@ -43,6 +57,8 @@ export default {
         switch (this.type.id.slice(0, 2)) {
           case '-1':
             return '任选'
+          case '0-':
+            return '趣味'
         }
       }
     }

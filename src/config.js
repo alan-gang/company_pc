@@ -21,11 +21,25 @@ export default (Vue) => {
       }
     },
     methods: {
-      setCall (call) {
+      __setCall (call) {
         setTimeout(() => {
           this.call = Object.assign(this.call, call)
           this.call._count++
         }, 0)
+      },
+      __loading (options, timeout, timeoutmsg) {
+        if (typeof options === 'string') options = {text: options}
+        let loading = this.$loading(options)
+        if (timeout !== undefined) {
+          setTimeout(() => {
+            if (loading) {
+              if (timeoutmsg) {
+                this.__loading(Object.assign(options, {text: timeoutmsg}), 0)
+              }
+              loading.close()
+            }
+          }, timeout)
+        }
       }
     }
   })

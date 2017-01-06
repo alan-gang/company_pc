@@ -2,7 +2,7 @@
   dl.try-form
     dt 试玩
     dd.ds-icon-edit
-      input(placeholder="验证码")
+      input(placeholder="验证码" autofocus @keyup.enter="login")
       i.ds-icon-code()
       // v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}"
 
@@ -15,6 +15,7 @@
 
 <script>
 // import base from 'components/base'
+import { launchFullScreen } from '../../util/Dom'
 export default {
   // mixins: [base],
   data () {
@@ -27,6 +28,7 @@ export default {
     login () {
       this.$emit('update-user', {login: true})
       this.$router.push('/')
+      launchFullScreen(document.body)
     }
   },
   components: {
