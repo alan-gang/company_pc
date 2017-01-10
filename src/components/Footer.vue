@@ -17,9 +17,9 @@
 
       el-col.info(:span="12")
         span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
-        span.money.ds-icon-money.font-gold(v-show="!hide && money != undefined") {{ money }}
-        span.free.ds-icon-free.font-light(v-show="!hide && free != undefined") {{ free }}
-        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-show=" money != undefined && free != undefined ") 
+        span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
+        span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
+        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
         span.ds-button.danger 充值

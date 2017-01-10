@@ -117,6 +117,7 @@ export default {
   },
   created () {
     this._getVerifyImage()
+    this.focus()
   },
   methods: {
     countTime () {
@@ -135,18 +136,21 @@ export default {
                 case 0:
                   this._getEmail(() => {
                     this.stepIndex++
+                    this.focus()
                     this._sendMail()
                   })
                   break
                 case 1:
                   this._getMobile(() => {
                     this.stepIndex++
+                    this.focus()
                     this._sendSms()
                   })
                   break
                 case 2:
                   this._safeQuestion(() => {
                     this.stepIndex++
+                    this.focus()
                   })
                   break
               }
@@ -157,16 +161,19 @@ export default {
               case 0:
                 this._checkMailVerifyCode(() => {
                   this.stepIndex++
+                  this.focus()
                 })
                 break
               case 1:
                 this._checkSmsVerifyCode(() => {
                   this.stepIndex++
+                  this.focus()
                 })
                 break
               case 2:
                 this._safeAnswer(() => {
                   this.stepIndex++
+                  this.focus()
                 })
                 break
             }
@@ -198,6 +205,11 @@ export default {
         this.$message.warning(notice)
       }
       return noEmpty
+    },
+    focus () {
+      setTimeout(() => {
+        this.$el.querySelector('input').focus()
+      }, 0)
     }
   },
   components: {

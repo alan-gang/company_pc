@@ -22,6 +22,12 @@ let Login = {
   validate: api + 'login/login.do?method=validate',
   // {"username":"xxx","userid":"xxxx"}
 
+  // 匿名登录
+  tryLogin: api + 'login/login.do?method=tryLogin',
+
+  // 登出
+  logout: api + 'login/login.do?method=logout',
+
   // 5、查询菜单、桌面、收藏夹 PC接口
   getUserPrefence: api + 'home/userMenus.do?method=getUserPrefence',
   // {"menuList":"[]","deskList":"[]","favoriteList":"[]"}

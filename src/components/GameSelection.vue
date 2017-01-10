@@ -115,7 +115,7 @@
           /***
           ** 前三[直选和值] | 中三[直选和值] | 后三[直选和值]
           ***/
-          {ids: '+3-3-1, 3-3-1, -3-3-1', title: '和值', min: 0, max: 26},
+          {ids: '+3-3-1, 3-3-1, -3-3-1', title: '和值', min: 1, max: 26},
           /***
           ** 前三[包胆] | 中三[包胆] | 后三[包胆] | 前二[包胆] | 后二[包胆]
           ***/
@@ -347,8 +347,12 @@
     },
     created () {
       if (!(window.File && window.FileReader && window.FileList && window.Blob)) this.upload = false
+      this.$emit('set-ps', this.ps)
     },
     methods: {
+      __clearValue () {
+        this.value = ''
+      },
       // 选择号码发生变化
       numbersChange () {
         this.ns = this.rows.map(r => {

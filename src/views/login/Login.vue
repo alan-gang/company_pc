@@ -48,6 +48,11 @@
     },
     created () {
       this._getVerifyImage()
+      setTimeout(() => {
+        this.$el.querySelector('.ds-icon-user input').focus()
+      }, 0)
+    },
+    activated () {
     },
     methods: {
       login () {
@@ -57,7 +62,7 @@
           launchFullScreen(document.body)
           // let loading = this.$loading('登录中...')
           this._checkVerifyCode(() => {
-            this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_}).then(({data}) => {
+            this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
               // success
               if (data.success) {
                 this.$emit('update-user', {login: true, name: data.nickName})

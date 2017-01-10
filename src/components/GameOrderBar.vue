@@ -73,7 +73,8 @@ export default {
       this.$emit('set-currency', this.currencies[this.cIndex])
     },
     p () {
-      if (this.p < this.P.minpoint) this.p = this.P.minpoint
+      if (this.p < this.min) this.p = this.min
+      else if (this.p > this.max) this.p = this.max
       this.$emit('set-point', this.p / 10000, this.prize)
     },
     t () {
@@ -81,7 +82,9 @@ export default {
     }
   },
   created () {
+    // console.log('new orderbar, point:', this.point)
     this.t = this.times
+    this.p = this.point * 10000
   },
   methods: {
     setTimes (t) {

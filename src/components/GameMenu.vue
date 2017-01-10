@@ -84,7 +84,7 @@
         radius()
         border-top-left-radius 0
         cursor default
-        z-index 2
+        z-index 10000
         .submenu
           float left
           display inline-block

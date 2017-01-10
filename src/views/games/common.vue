@@ -19,7 +19,7 @@
         <!-- 选号区 -->
         GameSelection(v-bind:type="type" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
         <!-- 下单 -->
-        GameOrderBar.inner-bar(v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+        GameOrderBar.inner-bar( v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
         <!-- 投注单 -->
         GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
         <!-- 追号栏 -->
@@ -125,7 +125,7 @@ export default {
         items: []
       },
       // 使用优惠卷
-      checked: true,
+      checked: false,
       // 位置集合
       ps: [],
       // 游戏所有玩法的返点信息
@@ -239,6 +239,7 @@ export default {
           }, 300)
           this.__setCall({fn: '__getOrderList'})
           this.__setCall({fn: '__getFollowList'})
+          this.__setCall({fn: '__getUserFund'})
           this.ns = []
         } else {
           // this.$message.warning('投注失败！')
@@ -324,6 +325,7 @@ export default {
         userpoint: this.point // 用户选择的返点
       }))
       this.__setCall({fn: '__clearSelectedNumbers'})
+      this.__setCall({fn: '__clearValue'})
       // after push need initial the selected numbers
     },
     _getOrderItems () {
@@ -368,16 +370,16 @@ export default {
       let psstring = ''
       this.ps.forEach(ps => {
         switch (ps) {
-          case 0:
+          case 1:
             psstring += 'g,'
             break
-          case 1:
+          case 2:
             psstring += 's,'
             break
-          case 2:
+          case 3:
             psstring += 'b,'
             break
-          case 3:
+          case 4:
             psstring += 'q,'
             break
           case 5:
@@ -426,7 +428,9 @@ export default {
   .game-content
     top TH
     bottom GAH
+    padding-bottom GAH
     max-width 9.3rem
+    // max-height "calc(100% - %s)" % (TH + GAH)
     margin 0 auto
     overflow-x hidden
     overflow-y auto

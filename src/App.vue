@@ -23,11 +23,12 @@ import dsFooter from './components/Footer'
 import base from './components/base'
 import store from './store'
 import cookie from 'js-cookie'
+import api from './http/api'
 export default {
   mixins: [base],
   data () {
     return {
-      maxPages: 5,
+      maxPages: 10,
       state: store.state,
       tabs: [],
       menus: []
@@ -114,6 +115,7 @@ export default {
       this.menus = menus
     },
     logout () {
+      this.$http.post(api.logout)
       this.setUser()
       cookie.remove('JSESSIONID')
       this.$router.push('/login')

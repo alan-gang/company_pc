@@ -438,13 +438,7 @@ export default {
       {}
     ]
     this.getUserPrefence()
-    this.getUserFund()
-    this.rewardNotices()
-    this.sysNotices()
-  },
-  activated () {
-    this.getUserPrefence()
-    this.getUserFund()
+    this.__getUserFund()
     this.rewardNotices()
     this.sysNotices()
   },
@@ -476,7 +470,7 @@ export default {
       })
     },
     // 6、用户资金信息  ALL
-    getUserFund () {
+    __getUserFund () {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {

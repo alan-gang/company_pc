@@ -4,7 +4,7 @@
 
     .banner(style="padding: 15px; color: black; font-weight: bold") 追号记录
 
-    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
+    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName")
 
       el-table-column(prop="cnname" label="彩种")
 
@@ -54,9 +54,6 @@
     created () {
       this.__getFollowList()
     },
-    activated () {
-      this.__getFollowList()
-    },
     methods: {
       __getFollowList () {
         this.$http.post(api.getFollowList, {size: 5}).then(({data}) => {
@@ -65,12 +62,6 @@
         }, (rep) => {
           // error
         })
-      },
-      tableRowClassName (row, index) {
-        if (row.selected) return 'selected-row'
-      },
-      setSelected (row) {
-        !row._empty && (row.selected = !row.selected)
       }
     }
   }

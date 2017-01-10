@@ -369,7 +369,7 @@ let SSC = {
   '+3-3-1' ({ns}) {
     let NS = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1]
     return ns[0].reduce((p, n) => {
-      return (p += NS[n])
+      return (p += NS[n - 1])
     }, 0)
   },
 
@@ -905,7 +905,7 @@ let SSC = {
   C(p, 3) * C(n, 2) * 2"
   */
   '-1-2-3' ({nsl, psl}) {
-    return C(psl, 3) * C(nsl[0], 2)
+    return 2 * C(psl, 3) * C(nsl[0], 2)
   },
 
   /*

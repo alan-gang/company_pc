@@ -4,7 +4,7 @@
 
     .banner(style="padding: 15px; color: black; font-weight: bold") 投注记录
 
-    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
+    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName")
 
       el-table-column(prop="issue" label="期号")
 
@@ -51,9 +51,6 @@
     created () {
       this.__getOrderList()
     },
-    activated () {
-      this.__getOrderList()
-    },
     methods: {
       __getOrderList () {
         this.$http.post(api.getOrderList, {size: 5}).then(({data}) => {
@@ -62,12 +59,6 @@
         }, (rep) => {
           // error
         })
-      },
-      tableRowClassName (row, index) {
-        if (row.selected) return 'selected-row'
-      },
-      setSelected (row) {
-        !row._empty && (row.selected = !row.selected)
       }
     }
   }

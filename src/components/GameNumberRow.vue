@@ -217,6 +217,8 @@
           padding-left .85rem
       &.span-4
         min-width 1.05rem
+        & + .el-col
+          padding-left 1.05rem
       // margin-right PW
       span
         position relative

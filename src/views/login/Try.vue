@@ -2,9 +2,8 @@
   dl.try-form
     dt 试玩
     dd.ds-icon-edit
-      input(placeholder="验证码" autofocus @keyup.enter="login")
-      i.ds-icon-code()
-      // v-bind:style="{background: 'url(' + codeUrl + ') right center no-repeat'}"
+      input(placeholder="验证码" v-model="code_"  @keyup.enter="login" autofocus)
+      i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
     dd.ds-button.positive.full.bold.login(@click="login") 登录
 
@@ -16,18 +15,34 @@
 <script>
 // import base from 'components/base'
 import { launchFullScreen } from '../../util/Dom'
+import xhr from 'components/xhr'
+import api from '../../http/api'
 export default {
-  // mixins: [base],
+  mixins: [xhr],
   data () {
     return {
     }
   },
   computed: {
   },
+  created () {
+    this._getVerifyImage()
+    setTimeout(() => {
+      this.$el.querySelector('.ds-icon-edit input').focus()
+    }, 0)
+  },
   methods: {
     login () {
-      this.$emit('update-user', {login: true})
-      this.$router.push('/')
+      if (this.code_.length !== 4) return this.$message.warning('请输入4位数验证码!')
+      this.$http.post(api.tryLogin, {verifyCode: this.code_}).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          this.$emit('update-user', {login: true, name: data.nickName})
+          this.$router.push('/')
+        } else this.$message.warning('验证码获取失败')
+      }, (rep) => {
+        // error
+      })
       launchFullScreen(document.body)
     }
   },
