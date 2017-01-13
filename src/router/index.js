@@ -30,7 +30,14 @@ export default function (VueRoter) {
         ]
       },
       {
-        path: '/games/:url',
+        path: '/game/:url',
+        meta: {
+          login: true
+        },
+        component: require('../views/Pages')
+      },
+      {
+        path: '/group/:url',
         meta: {
           login: true
         },

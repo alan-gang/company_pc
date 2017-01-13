@@ -7,7 +7,7 @@
       el-table-column(prop="n" label="注数" width="100" align="right")
       el-table-column(prop="times" label="倍投" width="80" align="right")
       el-table-column(prop="pay" label="金额" width="120" align="right" inline-template)
-        span {{ row.pay ? row.pay.toFixed(2) : row.pay }}
+        span {{ row.pay ? row.pay.toFixed(3) : row.pay }}
       el-table-column(prop="bonus" label="奖金" width="120" align="right")
       el-table-column(prop="point" label="返点" width="100" align="right")
       el-table-column(inline-template label="清除全部" min-width="60" class-name="actions" align="center")

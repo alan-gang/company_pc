@@ -13,6 +13,7 @@ import AllRights from 'components/AllRights'
 import DownLoad from 'components/DownLoad'
 import Logo from 'components/Logo'
 export default {
+  name: 'Login',
   mixins: [base],
   data () {
     return {

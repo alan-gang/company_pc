@@ -92,6 +92,7 @@ import StepTabs from 'components/StepTabs'
 import xhr from 'components/xhr'
 // import api from '../../http/api'
 export default {
+  name: 'Forget',
   mixins: [xhr],
   data () {
     return {

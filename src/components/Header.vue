@@ -4,7 +4,7 @@
       | {{ tab.title }}
       i.el-icon-close( @click.stop="closeTab(tab.id)")
     
-    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="click" v-model="show" v-bind:popper-class="'collect ' + (likedTabs.length > 0 ? true : false)")
+    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (likedTabs.length > 0 ? true : false)")
       dl.submenu.font-white
         dd(v-for="i in likedTabs" v-bind:class="['ds-icon-game-small']") {{ i.title }}
           i.el-icon-delete2

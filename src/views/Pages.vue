@@ -1,6 +1,7 @@
 <template lang="jade">
-  section
-      component(v-for="(page, index) in pages" v-bind:key="page.id" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
+
+  transition-group(appear=true name="zoom" tag="section")
+    component.dialog-page(v-for="(page, index) in pages" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
         .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.id)")
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
@@ -11,15 +12,19 @@
 
 <script>
 import base from 'components/base'
-import SSC from './games/SSC'
-import G115 from './games/G115'
-import PK10 from './games/PK10'
-import KL8 from './games/KL8'
-import K3 from './games/K3'
-import util from '../util'
 import ToolBar from 'components/ToolBar'
+// game
+import SSC from './game/SSC'
+import G115 from './game/G115'
+import PK10 from './game/PK10'
+import KL8 from './game/KL8'
+import K3 from './game/K3'
+import util from '../util'
+// group
+import UserList from './group/UserList'
 
 export default {
+  name: 'Pages',
   mixins: [base],
   props: ['pages'],
   data () {
@@ -65,7 +70,8 @@ export default {
         {
           left: '.15rem',
           bottom: '.15rem',
-          top: 'auto'
+          top: 'auto',
+          right: 'auto'
         },
         // right bottom
         {
@@ -121,6 +127,8 @@ export default {
       let position = {
         top: el.style.top,
         left: el.style.left,
+        right: el.style.right,
+        bottom: el.style.bottom,
         width: el.style.width,
         height: el.style.height
       }
@@ -128,12 +136,15 @@ export default {
     }
   },
   components: {
+    ToolBar,
+    // game
     SSC,
     G115,
     PK10,
     KL8,
     K3,
-    ToolBar
+    // group
+    UserList
   },
   directives: {
     moveable: {
@@ -400,9 +411,6 @@ export default {
           height TH
           top 0
           z-index 0
-    
-    
-  
       
 </style>
 

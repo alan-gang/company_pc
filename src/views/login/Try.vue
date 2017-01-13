@@ -18,6 +18,7 @@ import { launchFullScreen } from '../../util/Dom'
 import xhr from 'components/xhr'
 import api from '../../http/api'
 export default {
+  name: 'Try',
   mixins: [xhr],
   data () {
     return {

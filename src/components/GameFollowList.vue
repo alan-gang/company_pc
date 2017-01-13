@@ -22,7 +22,7 @@
         el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="100")
       el-table-column(prop="pay" label="金额" width="200" align="right"  inline-template)
         span 
-          span.pay {{ ( row.times * pay ).toFixed(2) }}
+          span.pay {{ ( row.times * pay ).toFixed(3) }}
           | &nbsp;元
       el-table-column(prop="date" label="开奖时间" align="center" width="200")
 

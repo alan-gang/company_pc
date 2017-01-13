@@ -1,40 +1,37 @@
 <template lang="jade">
-
-  transition(appear=true name="zoom")
-    .dialog-page
-      slot(name="cover")
-      slot(name="movebar")
-      slot(name="resize-x")
-      slot(name="resize-y")
-      slot(name="toolbar")
-      slot(name="game-content")
-
-      .game-content.scroll-content
-        <!-- 开奖信息 -->
-        GameLuckyNumber(v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" V-bind:gameType="gameType")
-        <!-- 游戏信息 -->
-        GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class]" v-on:set-NPER = "setNPER")
-        <!-- 游戏菜单 -->
-        GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
-        <!-- 选号区 -->
-        GameSelection(v-bind:type="type" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
-        <!-- 下单 -->
-        GameOrderBar.inner-bar( v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
-        <!-- 投注单 -->
-        GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
-        <!-- 追号栏 -->
-        GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
-        <!-- 追号单 -->
-        GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow" v-bind:dates="issues")
-        <!-- 下单记录 -->
-        GameOrderHistory
-        <!-- 追号记录 -->
-        GameFollowHistory
-
-      <!-- 总计栏 -->
-      GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-on:toggle-checked="toggleChecked" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+  // transition(appear=true name="zoom")
+  .game-page
+    slot(name="cover")
+    slot(name="movebar")
+    slot(name="resize-x")
+    slot(name="resize-y")
+    slot(name="toolbar")
+    .game-content.scroll-content
+      <!-- 开奖信息 -->
+      GameLuckyNumber(v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" V-bind:gameType="gameType")
+      <!-- 游戏信息 -->
+      GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class]" v-on:set-NPER = "setNPER")
+      <!-- 游戏菜单 -->
+      GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
+      <!-- 选号区 -->
+      GameSelection(v-bind:type="type" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
-      GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
+      GameOrderBar.inner-bar( v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+      <!-- 投注单 -->
+      GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
+      <!-- 追号栏 -->
+      GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
+      <!-- 追号单 -->
+      GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow" v-bind:dates="issues")
+      <!-- 下单记录 -->
+      GameOrderHistory
+      <!-- 追号记录 -->
+      GameFollowHistory
+
+    <!-- 总计栏 -->
+    GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-on:toggle-checked="toggleChecked" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+    <!-- 下单 -->
+    GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
       
 
 </template>
@@ -169,7 +166,7 @@ export default {
     P () {
       return this.PS.find(p => {
         return (p.methodid + '') === M[this.type.id].split(':')[0]
-      })
+      }) || {maxprize: 1800, minprize: 1400, scale: 50, maxpoint: 0.08, minpoint: 0}
     }
   },
   watch: {
@@ -239,6 +236,7 @@ export default {
           }, 300)
           this.__setCall({fn: '__getOrderList'})
           this.__setCall({fn: '__getFollowList'})
+          this.__setCall({fn: '__getUserFund'})
           this.__setCall({fn: '__getUserFund'})
           this.ns = []
         } else {

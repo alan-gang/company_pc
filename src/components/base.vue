@@ -41,9 +41,6 @@
       setPages (pages) {
         store.actions.setPages(pages)
       }
-      // getPages (o) {
-      //   return store.actions.getPages(o)
-      // }
     },
     events: {
     }

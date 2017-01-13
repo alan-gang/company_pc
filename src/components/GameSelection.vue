@@ -2,10 +2,10 @@
   .game-selection
 
     GameNumberRow(v-for="(row, i) in rows" v-bind:row="row"  v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
-    
+
     el-row(v-if="rows.length === 0")
       el-col(:span="20")
-        el-input(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一个号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+        el-input(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
       el-col.btn-groups(:span="4")
         .ds-button.outline(@click="removeRepeat") 删除重复号
         br

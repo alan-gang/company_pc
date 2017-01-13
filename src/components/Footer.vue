@@ -2,9 +2,9 @@
   footer
     el-row
       el-col.menu(:span="12")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="click" v-bind:popper-class="'footer-popover font-white ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.url")
-          router-link.icon-button(:to="menu.url"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.url")
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" v-bind:popper-class="'footer-popover font-white ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]") 
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href")
+          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="{'with-icon': group.withIcon}")
               dt {{ group.title }}

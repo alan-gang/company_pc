@@ -59,11 +59,6 @@ let store = {
     setPages (pages) {
       store.state.pages = pages || store.state.pages
     }
-    // getPages ({opened, prev}) {
-    //   return store.state.pages.filter(p => {
-    //     return opened !== undefined ? (p.opened === opened) : prev !== undefined ? p.prev : true
-    //   })
-    // }
   }
 }
 export default store

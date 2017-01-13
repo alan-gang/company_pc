@@ -34,6 +34,7 @@
   import { launchFullScreen } from '../../util/Dom'
 
   export default {
+    name: 'Login',
     mixins: [xhr],
     data () {
       return {
