@@ -1,9 +1,9 @@
 <template lang="jade">
   .follow-list
     .ds-button-group
-        .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3") 利润率追号
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 同倍追号
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 翻倍追号
+        .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3") 利润率追号
     .form
       | 追号期数：
       el-select(v-model="nper")
@@ -19,7 +19,7 @@
       el-table-column(prop="NPER" label="投注编号" width="200" inline-template)
         span {{ row.NPER + (row.NPER === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
-        el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="100")
+        el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="1000")
       el-table-column(prop="pay" label="金额" width="200" align="right"  inline-template)
         span 
           span.pay {{ ( row.times * pay ).toFixed(3) }}
@@ -56,7 +56,7 @@
         return Array(this.nper).fill(0).map((d, index) => {
           return (d = {
             NPER: this.FCNPER + index,
-            times: this.times,
+            times: this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times,
             date: (this.dates.find(d => d.issue === String((this.FCNPER + index))) || {}).saleend || '获取开奖时间失败'
           })
         })

@@ -1,6 +1,8 @@
 let api = 'http://192.168.169.44:9901/cagamesclient/'
 // steven
 // let api = 'http://192.168.169.119:8080/cagamesclient/'
+// johson
+// let api = 'http://192.168.169.161:8080/cagamesclient/'
 let Login = {
   // 约定
   // 成功默认返回：{"success":true}

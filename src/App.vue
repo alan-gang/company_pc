@@ -8,7 +8,7 @@
     
     // pages
     // keep-alive
-    transition(name="zoom" appear=true)
+    transition(name="fade" appear=true)
       router-view.scroll-content.page(:pages="tabs" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
 
     // footer
@@ -599,7 +599,7 @@ export default {
   transition all linear .2s // @static 2
 
 .zoom-enter-active, .zoom-leave-active
-    opacity 0
+    // opacity 0
     transform perspective(500px) translateZ(-5000px)
 .slide-enter, .slide-leave-active
   transform translateX(100%)
@@ -610,7 +610,7 @@ export default {
 .slide-left-enter, .slide-left-leave-active
   transform translateX(-100%)
 .fade-enter, .fade-leave-active
-  transform opacity .5s
+  opacity 0
 
 // define for main page
 .page

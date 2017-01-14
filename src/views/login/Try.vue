@@ -35,12 +35,12 @@ export default {
   methods: {
     login () {
       if (this.code_.length !== 4) return this.$message.warning('请输入4位数验证码!')
-      this.$http.post(api.tryLogin, {verifyCode: this.code_}).then(({data}) => {
+      this.$http.post(api.tryLogin, {verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
         // success
         if (data.success > 0) {
           this.$emit('update-user', {login: true, name: data.nickName})
           this.$router.push('/')
-        } else this.$message.warning('验证码获取失败')
+        } else this.$message.error('试玩登陆失败!')
       }, (rep) => {
         // error
       })
