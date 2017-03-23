@@ -1,3 +1,4 @@
+import { dateTimeFormat } from './util/Date'
 let prevIndex = 0
 let store = {
   state: {
@@ -5,9 +6,24 @@ let store = {
     hasFooter: false,
     user: {
       login: false,
+      // Home & Me
       name: '游客',
-      money: undefined,
-      free: undefined
+      account: '',
+      type: '',
+      money: '',
+      free: '',
+      // safeCenter
+      email: '',
+      phone: '',
+      greeting: '',
+      pwd: '',
+      cashPwd: '',
+      safe: '',
+      safeCheck: '',
+      safeScore: '',
+      location: '',
+      lastLoginTime: '',
+      role: ''
     },
     pages: []
   },
@@ -29,9 +45,24 @@ let store = {
       // name !== undefined && (store.state.user.name = name)
       user = user || {
         login: false,
+        // Home & Me
         name: '游客',
-        money: undefined,
-        free: undefined
+        account: '',
+        type: '',
+        money: '',
+        free: '',
+        // safeCenter
+        email: '',
+        phone: '',
+        greeting: '',
+        pwd: '',
+        cashPwd: '',
+        safe: '',
+        safeCheck: '',
+        safeScore: '',
+        location: '',
+        lastLoginTime: '',
+        role: ''
       }
       Object.assign(store.state.user, user)
     },
@@ -44,13 +75,14 @@ let store = {
         p.active = active
       })
     },
-    updatePage (id, {opened, active, size, star, position}, page) {
+    updatePage (id, {opened, active, size, star, position, desk}, page) {
       // console.log('updatePage:', id, 'opened:', opened, 'active:', active, 'size:', size, 'star:', star, 'position:', position)
-      page = page || store.state.pages.filter(p => p.id === id)[0]
+      page = page || store.state.pages.filter(p => p.id === id || p.menuid === id)[0]
       if (page) {
         opened !== undefined && (page.opened = opened)
         active !== undefined && (page.active = active)
         star !== undefined && (page.star = star)
+        desk !== undefined && (page.desk = desk)
         size !== undefined && (page.size = size)
         position !== undefined && (page.position = position)
       }
@@ -61,4 +93,37 @@ let store = {
     }
   }
 }
+Object.defineProperty(store.state.user, 'type', {
+  get: function () {
+    return this._type === 0 ? '普通' : this._type === 1 ? 'VIP' : this._type === -1 ? '黑名单' : '限制型'
+  },
+  set: function (v) {
+    this._type = v
+  }
+})
+Object.defineProperty(store.state.user, 'lastLoginTime', {
+  get: function () {
+    return dateTimeFormat(this._lastLoginTime)
+  },
+  set: function (v) {
+    this._lastLoginTime = v
+  }
+})
+Object.defineProperty(store.state.user, 'phone', {
+  get: function () {
+    return this._phone ? '86 ' + this._phone.slice(0, 3) + '*****' + this._phone.slice(-3) : ''
+  },
+  set: function (v) {
+    this._phone = v
+  }
+})
+Object.defineProperty(store.state.user, 'email', {
+  get: function () {
+    return this._email ? this._email.slice(0, 1) + '*****' + this._email.match(/@.*$/)[0] : ''
+  },
+  set: function (v) {
+    this._email = v
+  }
+})
+
 export default store

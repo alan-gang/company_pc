@@ -127,7 +127,7 @@
     width W
     height W
     radius(PW)
-    bg-gradient(top, #f9f9f9, #e6e6e6)
+    bg-gradient(180deg, #f9f9f9, #e6e6e6)
     transition background-color .1s linear
       
     // 1
@@ -215,7 +215,7 @@
   
   .dice.has-side-all .cover, .dice.has-side-all .inner  
       radius(PW)
-      // bg-gradient(top, #f9f9f9, #e6e6e6)
+      // bg-gradient(180deg, #f9f9f9, #e6e6e6)
   .dice.has-side-all .cover  
       border-radius  0 
       transform  translateZ(0px) 

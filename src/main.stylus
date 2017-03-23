@@ -6,10 +6,45 @@
 a
   text-decoration none
   color #666
-dl, dd, dt
+h1, h2, h3, h4, h5, p, dl, dd, dt
   margin 0
 input
   outline none
+.pl1
+  padding-left .1rem
+.pl2
+  padding-left .2rem
+
+.pr1
+  padding-right .1rem
+.pr2
+  padding-right .2rem
+.pointer
+  cursor pointer
+  
+.el-table
+  .bg-white
+    background-color #fff
+    color #333
+  .bg-light-blue
+    background-color #f2faff
+  .bg-light-danger
+    background-color #fff2f3
+  tr.bg-white
+    td
+      background-color #fff
+  tr.border-top
+    td
+      border-top 2px solid #bbb
+  .cell
+    .ball
+      display inline-block
+      width .24rem
+      height .24rem
+      background-color BLUE
+      color #fff
+      line-height .24rem
+      radius(50%)
 
 /*
  *user select
@@ -21,10 +56,10 @@ input
  *scroll-bar
  */
 *:not(:hover)
-  &::-webkit-scrollbar-thumb
+  &::scrollbar-thumb
     // background-color transparent
     
-::-webkit-scrollbar
+::scrollbar
   width .1rem
   height .1rem
   radius()
@@ -32,14 +67,36 @@ input
   &:hover
     background-color rgba(0,0,0,.2)
 
-::-webkit-scrollbar-track::hover
-  -webkit-box-shadow inset 0 0 6px transparent
+::scrollbar-track::hover
+  box-shadow inset 0 0 6px transparent
  
-::-webkit-scrollbar-thumb
+::scrollbar-thumb
   radius()
   background-color rgba(0,0,0,.3)
   &:hover
     background-color rgba(0,0,0,.5)
+
+
+/*
+ *el-breadcrumb
+ */
+ .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a
+   color BLUE
+
+.el-breadcrumb__item__inner a:hover 
+.el-breadcrumb__item__inner:hover
+  color BLUE-HOVER
+
+.el-breadcrumb__item:last-child .el-breadcrumb__item__inner, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner:hover
+  color #666
+.el-breadcrumb__separator
+  color #999
+  
+/*
+ *el-message
+ */
+ .el-message
+   position absolute
 
 
 /*
@@ -89,6 +146,7 @@ input
 .el-popover .popper__arrow
     display none
 .el-popover
+  min-width auto
   font-size .14rem
   padding PW .3rem
   background rgba(0, 0, 0, .6)
@@ -112,27 +170,29 @@ input
 /*
  *rewrite el-select
  */
-.el-select
-  display inline-block
-  line-height .3rem
-  width 1.2rem
-  color #666
-  border 1px solid #ccc
-  radius()
-  shadow(0 0 2px rgba(0,0,0,.2))
-  &:hover
-    border-color BLUE
-  &:active
-    border-color transparent
-    box-shadow 0 0 5px BLUE
-  .el-input__inner
-    height auto
-    line-height .3rem
-    padding-top 0
-    padding-bottom 0
-    border none
-  .el-input .el-input__icon
-    color #666
+// .el-select
+//   display inline-block
+//   line-height .3rem
+//   width 1.2rem
+//   color #666
+//   border 1px solid #ccc
+//   radius()
+//   shadow(0 0 2px rgba(0,0,0,.2))
+//   &:hover
+//     border-color BLUE
+//   &:active
+//     border-color transparent
+//     box-shadow 0 0 5px BLUE
+//   .el-input__inner
+//     height auto
+//     line-height .3rem
+//     padding-top 0
+//     padding-bottom 0
+//     border none
+//   .el-input .el-input__icon
+//     color #666
+//   &.width1-5rem
+//     width 1.5rem
     
 .el-select-dropdown
   font-size .12rem
@@ -156,6 +216,8 @@ input
 /*
  *rewrite el-slider
  */
+  .el-slider__button-wrapper .el-tooltip
+    vertical-align super 
   .el-slider
     display inline-block
     width 1.5rem
@@ -188,10 +250,38 @@ input
       .cell
         color x
   table-border(x = none)
+    border x
+    // .el-table--border td, .el-table--border th
+    // .el-table--border th, .el-table__fixed-right-patch
+    //   border x
+      
     th
     th.is-leaf
     td
       border x
+  
+  has-border(x = 1px solid #d4d4d4)
+    border x
+    .el-table__header td
+      border-bottom x
+      border-right 1px  solid #e6e6e6
+    .el-table__header th
+      border-bottom x
+      
+    .el-table__body td
+      border-right 1px  solid #e6e6e6
+
+    .el-table__header
+      border-bottom 1px solid #bbb
+      
+      
+
+    // .el-table__body th
+    //   border-bottom 1px solid #666
+    // .el-table__fixed-right-patch
+    //   border-bottom x
+      
+
   table-header-font-weight(x = normal)
     th 
       font-weight x 
@@ -207,12 +297,12 @@ input
     td
       height auto
       .cell
-        line-height .3rem
+        line-height x
    table-header-height(x = .3rem)
     th
       height auto
       .cell
-        line-height .3rem
+        line-height x
 
   // .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
   //   color #333
@@ -227,7 +317,6 @@ input
     margin .05rem .02rem
     font-size .12rem
     color #666
-    border none
     // 头部文字按钮
     th.actions .cell
       color BLUE 
@@ -235,34 +324,91 @@ input
     table-bg()
     table-header-bg()
     table-header-color()
-    table-border()
+    &.has-border
+      has-border()
+    &:not(.has-border)
+      table-border()
+    
+        
     table-header-font-weight()
     table-row-hover()
     table-row-selected()
     table-row-height()
     table-header-height()
-
+    &.header-bold
+      th
+        .cell
+          font-weight bold
+    
+    &.margin
+      td
+      height auto
+        .cell
+          margin .05rem 0
+    
+    &.nopadding
+      .cell
+      th > div
+        padding 0 .02rem
+  
+  TABLEH = 6rem
+  .el-table
+    // width "calc(100% - %s)" % s
+    .el-table__body-wrapper
+      // padding-right .3rem
+      // max-height TABLEH
 /*
  *rewrite el-input-number
  */
 .el-input-number
-  box-shadow 0 0 2px rgba(0,0,0,.2)
+  // box-shadow 0 0 2px rgba(0,0,0,.2)
+  vertical-align middle
+  overflow visible
   radius()
   .el-icon-minus
   .el-icon-plus 
     display none
+  
+  &.text-danger
+    .el-input .el-input__inner 
+      color DANGER
+  
+  &.text-right
+    .el-input .el-input__inner 
+      text-align right
 
 .el-input .el-input__inner 
+  
   height .3rem
   line-height .3rem
-  padding 0 .05rem
   color #333
+  padding 0 .1rem
+  font-size .14rem
+  background-color #fff
+  border .01rem solid #ccc
+  radius()
+  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  box-sizing border-box
+  &:hover
+    border-color BLUE
+  &:focus
+    border-color BLUE
+    box-shadow 0 0 .05rem BLUE
+
+  
+
 
   
 [class*=el-input].center input
   text-align center
 [class*=el-input].blue input
   color BLUE
+  
+
+.el-textarea
+  &.font-12
+    textarea
+      font-size .12rem
 /*
  *rewrite el-pagination
  */
@@ -308,17 +454,119 @@ input
 .font-danger
   color RED
   font-shadow()
- .font-gold
-   color GOLD
-   font-shadow() 
-
+.font-gold
+  color GOLD
+  font-shadow()
+  
+.text-white
+  color WHITE
+.text-light
+  color LIGHT
+.text-grey
+  color GREY
+.text-blue
+  color BLUE
+.text-danger
+  color RED
+.text-gold
+  color GOLD
+.text-green
+  color GREEN
+.text-black
+  color #333
+.text-bbb
+  color #bbb
+.text-orange
+  color ORANGE
     
 
 /*
  *icons class define
  */
+  // game icons
+  .ds-icon-game-chq
+      background url(assets/game/02_big.png) center no-repeat
+  .ds-icon-game-chq-middle
+      background url(assets/game/01.png) center no-repeat
+  
+  .ds-icon-game-xj
+      background url(assets/game/02_big.png) center no-repeat
+  .ds-icon-game-xj-middle
+      background url(assets/game/02.png) center no-repeat
+  
+  .ds-icon-game-tj
+      background url(assets/game/03_big.png) center no-repeat
+  .ds-icon-game-tj-middle
+      background url(assets/game/03.png) center no-repeat
+      
+  .ds-icon-game-hl
+      background url(assets/game/04_big.png) center no-repeat
+  .ds-icon-game-hl-middle
+      background url(assets/game/04.png) center no-repeat
+  
+  .ds-icon-game-xf
+      background url(assets/game/05_big.png) center no-repeat
+  .ds-icon-game-xf-middle
+      background url(assets/game/05.png) center no-repeat  
+
+  .ds-icon-game-shh
+      background url(assets/game/06_big.png) center no-repeat
+  .ds-icon-game-shh-middle
+      background url(assets/game/06.png) center no-repeat  
+
+  .ds-icon-game-dl
+      background url(assets/game/07_big.png) center no-repeat
+  .ds-icon-game-dl-middle
+      background url(assets/game/07.png) center no-repeat    
+  
+  .ds-icon-game-gd
+      background url(assets/game/08_big.png) center no-repeat
+  .ds-icon-game-gd-middle
+      background url(assets/game/08.png) center no-repeat     
+  
+  .ds-icon-game-dj
+      background url(assets/game/09_big.png) center no-repeat
+  .ds-icon-game-dj-middle
+      background url(assets/game/09.png) center no-repeat     
+      
+  .ds-icon-game-bj
+      background url(assets/game/10_big.png) center no-repeat
+  .ds-icon-game-bj-middle
+      background url(assets/game/10.png) center no-repeat   
+      
+  .ds-icon-game-bjpk10
+      background url(assets/game/11_big.png) center no-repeat
+  .ds-icon-game-bjpk10-middle
+      background url(assets/game/11.png) center no-repeat         
+
+  .ds-icon-game-fc
+      background url(assets/game/12_big.png) center no-repeat
+  .ds-icon-game-fc-middle
+      background url(assets/game/12.png) center no-repeat   
+  
+  .ds-icon-game-pl
+      background url(assets/game/13_big.png) center no-repeat
+  .ds-icon-game-pl-middle
+      background url(assets/game/13.png) center no-repeat   
+  
+  .ds-icon-game-11ydj
+      background url(assets/game/14_big.png) center no-repeat
+  .ds-icon-game-11ydj-middle
+      background url(assets/game/14.png) center no-repeat  
+
+  .ds-icon-game-ks
+      background url(assets/game/15_big.png) center no-repeat
+  .ds-icon-game-ks-middle
+      background url(assets/game/15.png) center no-repeat  
+      
   .ds-icon-notice
       background url(assets/notice.png) PW 0.6*PW no-repeat
+  .ds-icon-notice-large
+      background url(assets/notice-large.png) center top no-repeat
+      
+   .ds-icon-question-large
+      background url(assets/question-large.png) center top no-repeat 
+
   .ds-icon-user
     background url(assets/user.png) PW center no-repeat
   .ds-icon-pwd
@@ -329,6 +577,8 @@ input
     background url(assets/code.png) center no-repeat
   .ds-icon-success
     background url(assets/success.png) left top no-repeat
+  .ds-icon-success-large
+    background url(assets/success-large.png) center top no-repeat
   .ds-icon-logo-middle
     background url(assets/logo-middle.png) center top no-repeat
 
@@ -370,12 +620,16 @@ input
     background url(assets/gift.png) center center no-repeat
   .ds-icon-gift-middle
     background url(assets/gift-middle.png) center center no-repeat
+  .ds-icon-gift-small
+    background url(assets/gift-small.png) .3rem center no-repeat
     
   .ds-icon-help
     background url(assets/help.png) center center no-repeat
   .ds-icon-help-middle
     background url(assets/help-middle.png) center center no-repeat
-
+  .ds-icon-help-small
+    background url(assets/help-small.png) .3rem center no-repeat
+    
   .ds-icon-download
     background url(assets/download.png) center center no-repeat
   .ds-icon-download-middle
@@ -410,15 +664,15 @@ input
     background url(assets/polyline.png) .08rem center no-repeat
   
   // 115
-  .ds-icon-115-1
+  .ds-icon-G115-1
     background url(assets/qiu01.png) center no-repeat
-  .ds-icon-115-2
+  .ds-icon-G115-2
     background url(assets/qiu02.png) center no-repeat
-  .ds-icon-115-3
+  .ds-icon-G115-3
     background url(assets/qiu03.png) center no-repeat
-  .ds-icon-115-4
+  .ds-icon-G115-4
     background url(assets/qiu04.png) center no-repeat
-  .ds-icon-115-5
+  .ds-icon-G115-5
     background url(assets/qiu05.png) center no-repeat
 
   // PK10
@@ -438,23 +692,198 @@ input
     background url(assets/car_colour02.png) center no-repeat
   .ds-icon-PK10-5
     background url(assets/car_colour01.png) center no-repeat
+  
+  // Me
+  .ds-icon-me-avatar
+    background url(assets/me-avatar.png) center no-repeat
+  .ds-icon-luckchance
+    background url(assets/luck-chance.png) left no-repeat
+  
+  // Safe
+  .ds-icon-greeting
+    background url(assets/greeting.png) left center no-repeat
+    &.on
+      background url(assets/greeting-active.png) left center no-repeat
+  .ds-icon-phone
+    background url(assets/phone.png) left center no-repeat
+    &.on
+      background url(assets/phone-active.png) left center no-repeat
+  .ds-icon-email
+    background url(assets/email.png) left center no-repeat
+    &.on
+      background url(assets/email-active.png) left center no-repeat
+  .ds-icon-safe
+    background url(assets/safe.png) left center no-repeat
+    &.on
+      background url(assets/safe-active.png) left center no-repeat
+  
+  .ds-icon-lock
+    background url(assets/lock.png) left center no-repeat
+  .ds-icon-nickname
+    background url(assets/nickname.png) left center no-repeat
+  .ds-icon-safecheck
+    background url(assets/safe-check.png) left center no-repeat
+  
+  .ds-icon-set
+    padding-right PWX
+    color GREEN
+    background url(assets/set.png) right center no-repeat
+  .ds-icon-unset
+    padding-right PWX
+    color DANGER
+    background url(assets/unset.png) right center no-repeat
+  
+  // bankCard
+  .ds-icon-bank-card
+    width 167px
+    height 40px
+    margin .05rem 
+    display inline-block
+    radius()
+    vertical-align middle
+    
+    &:not(.static)
+      shadow(.02rem .02rem .02rem rgba(0, 0, 0, .1))
+      border 1px solid #ccc
+      
+    
+    &:not(.static):hover
+      border 1px solid BLUE
+
+    &:not(.static).selected
+      border 1px solid BLUE
+      &:before
+        content ''
+        // position absolute
+        // left 0
+        // top 0 
+        // right 0
+        // bottom 0
+        width 100%
+        height 100%
+        display inline-block
+        background-color rgba(26, 159, 243, .2)
+    
+    &.alipay
+      background url(assets/bankcard/alipay.png) #fff .1rem center no-repeat
+    
+    &.wepay
+      background url(assets/bankcard/wepay.png) #fff .1rem center no-repeat
+
+    &.zggsh
+      background url(assets/bankcard/zggsh.png) right center no-repeat
+    
+    &.zhshyh
+      background url(assets/bankcard/zhshyh.png) right center no-repeat
+    
+    &.zgnyyh
+      background url(assets/bankcard/zgnyyh.png) right center no-repeat
+    
+    &.zgjshyh
+      background url(assets/bankcard/zgjshyh.png) right center no-repeat
+    
+    &.jtyh
+      background url(assets/bankcard/jtyh.png) right center no-repeat
+    
+    &.xyyh
+      background url(assets/bankcard/xyyh.png) right center no-repeat
+    
+    &.zgmshyh
+      background url(assets/bankcard/zgmshyh.png) right center no-repeat
+    
+    &.zgyh
+      background url(assets/bankcard/zgyh.png) right center no-repeat
+    
+    &.payh
+      background url(assets/bankcard/payh.png) right center no-repeat
+    
+    &.zhxyh
+      background url(assets/bankcard/zhxyh.png) right center no-repeat
+    
+    &.gfyh
+      background url(assets/bankcard/gfyh.png) right center no-repeat
+    
+    &.pfyh
+      background url(assets/bankcard/pfyh.png) right center no-repeat
+    
+    &.zgyzhchxyh
+      background url(assets/bankcard/zgyzhchxyh.png) right center no-repeat
+    
+    &.shzhfzhyh
+      background url(assets/bankcard/shzhfzhyh.png) right center no-repeat
+    
+    &.bjyh
+      background url(assets/bankcard/bjyh.png) right center no-repeat
+    
+    &.zggdyh
+      background url(assets/bankcard/zggdyh.png) right center no-repeat
+    
+    &.shhyh
+      background url(assets/bankcard/shhyh.png) right center no-repeat
+    
+    &.hxyh
+      background url(assets/bankcard/hxyh.png) right center no-repeat
+      
+
+  // me/Bank.vue
+  .ds-icon-right-arrow
+    background url(assets/right-arrow.png) right center no-repeat
+    
+  // QR
+  .ds-icon-QR
+    background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
+    background-size 140px
+  
+  // Stock
+  .ds-icon-stock-wait
+    background url(assets/stock-wait.png) right top no-repeat   
+  .ds-icon-stock-modified
+    background url(assets/stock-modified.png) right top no-repeat   
+  .ds-icon-stock-done
+    background url(assets/stock-done.png) right top no-repeat   
+  .ds-icon-stock-paid
+    background url(assets/stock-paid.png) right top no-repeat   
+  .ds-icon-stock-paid-out
+    background url(assets/stock-paid-out.png) right top no-repeat
+  
+  .ds-icon-redpocket
+    background url(assets/redpocket.jpg) center top no-repeat
+    
+    .title
+      font-size 18px
+      font-weight normal
+    .content
+      margin .2rem .3rem
+    .amount
+      font-family Roboto
+      font-size 0.48rem
+      color #fc0
+      vertical-align sub
+    
+    
 /*
  *buttons class define
  */
+.buttons
+  .ds-button:first-child
+    margin-right .1rem
 
 .ds-button
   display inline-block
   padding 0 .22rem
+  // height .3rem
   line-height .3rem
   text-align center
   color WHITE
   font-size .14rem
+  border 0
   radius()
   box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
   font-shadow()
   user-select none
   cursor pointer
   box-sizing border-box
+  vertical-align middle
   &.bold
     font-weight bold
   &.large
@@ -470,6 +899,17 @@ input
   &.xx-small
     line-height 1
     padding .035rem
+  &._3rem
+    width 3rem
+  &.tall
+    height .6rem
+    line-height .6rem
+    font-size .24rem
+  &.oval
+    border-top-left-radius 10% 50%
+    border-top-right-radius 10% 50%
+    border-bottom-left-radius 10% 50%
+    border-bottom-right-radius 10% 50%
   
   &.primary
     background-color BLUE
@@ -484,19 +924,44 @@ input
     &:not(.disabled):active
       background-color DANGER-ACTIVE 
   &.positive
-    bg-gradient(left, BLUE, #12cdbe) 
+    bg-gradient(90deg, BLUE, #12cdbe) 
     &:not(.disabled):hover
-      bg-gradient(left, #33b0ff, #24ddce) 
+      bg-gradient(90deg, #33b0ff, #24ddce) 
     &:not(.disabled):active
       background #0d8ddd
+  &.high-positive
+    bg-gradient(180deg, #ffbf00, #e98800) 
+    &:not(.disabled):hover
+      bg-gradient(180deg, #ffcb2e, #ff9500) 
+    &:not(.disabled):active
+      background #df960a
+  
+  &.gold
+    color #911f1c
+    text-shadow none
+    background-color GOLD
+    &:not(.disabled):hover
+      background-color GOLD-HOVER
+    &:not(.disabled):active
+      background-color GOLD-ACTIVE 
+
   &.secondary
     color #606ba3
     text-shadow none
-    bg-gradient(top, #f1f1f1, #e6e6e6)
+    bg-gradient(180deg, #f1f1f1, #e6e6e6)
     &:not(.disabled):hover
-      bg-gradient(top, #fff, #f2f2f2)
+      bg-gradient(180deg, #fff, #f2f2f2)
     &:not(.disabled):active
       background #dedede
+  
+  &.cancel
+    background-color #889095
+    &:not(.disabled):hover
+      background-color #98a0a5
+    &:not(.disabled):active
+      background-color #798287 
+    
+
   &.outline
     font-size .12rem
     color #666
@@ -517,26 +982,35 @@ input
       background-color #72ca23
     &:not(.disabled):active
       background-color #65c014
+  
   &.text-button
     border 0
     background-color transparent
     box-shadow none
-    font-shadow()
+    text-shadow none
   &.light
     color LIGHT
     &:not(.disabled):hover
       color LIGHT-HOVER
+  &.blue
+    color BLUE
+    &:not(.disabled):hover
+      color BLUE-HOVER
+      
+
+
   &.input
     padding 0 .04rem
     width .4rem
     text-align center
     pointer text
     input
+      box-shadow none
       border none
       width .3rem
       padding 0
       line-height .3rem
-      height auto
+      height .3rem
       text-align center
     &:not(.disabled):active
       border none
@@ -553,9 +1027,36 @@ input
       border .01rem solid BLUE
     &.secondary
       color LIGHT
-      bg-gradient(top, #f1f1f1, #e6e6e6)
+      bg-gradient(180deg, #f1f1f1, #e6e6e6)
 
-
+.ds-button-group
+    height .3rem
+    line-height .3rem
+    display inline-block
+    vertical-align middle
+    margin PWX
+    radius()
+    overflow hidden
+    background-color #fff
+    border .01rem solid #ccc
+    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
+    box-sizing border-box
+    overflow visible
+    .ds-button
+      position relative
+      top -.01rem
+      color #666
+      text-shadow none
+      radius(0)
+      &:last-child
+        border-top-right-radius .05rem
+        border-bottom-right-radius .05rem
+      &:first-child
+        border-top-left-radius .05rem
+        border-bottom-left-radius .05rem
+      &.selected
+        background-color BLUE
+        color #fff
       
 .ds-radio-label
   display inline-block
@@ -565,14 +1066,18 @@ input
   &:hover
     .ds-radio
       border-color rgba(255, 255, 255, .4)
-   &.active
+      &.white
+        border-color BLUE
+ 
+  &.active
      color WHITE
      .ds-radio
         border-color BLUE
         &:after
           width .07rem
           height .07rem 
-          background-color BLUE 
+          background-color BLUE
+  
           
   
 .ds-radio
@@ -584,7 +1089,7 @@ input
   height .2rem
   border .01rem solid rgba(255, 255, 255, .2)
   radius(50%)
-  box-shadow()
+  shadow()
   margin .05rem
   vertical-align middle
   &:hover
@@ -605,20 +1110,30 @@ input
     radius(50%)
     transform translate(-50%, -50%)
     transition all .15s linear
+  
+  &.white
+    border 1px solid #ccc
+    background-color #fff
+    &:hover
+      border-color BLUE 
+    
     
 .ds-checkbox-label
   display inline-block
   margin-right .1rem
   color #666
   cursor pointer
-  &:hover
+  &:not(.disabled):hover
     .ds-checkbox
       border-color BLUE
       &.transparent
         border-color rgba(255, 255, 255, .4)
-   &.active
+  &.active
     .ds-checkbox:after
         transform rotate(45deg) scaleY(1)
+  
+  &.disabled
+    opacity .7
           
   
 .ds-checkbox
@@ -629,7 +1144,7 @@ input
   width .2rem
   height .2rem
   radius()
-  box-shadow()
+  shadow()
   margin-right .05rem
   vertical-align middle
   background-color WHITE
@@ -637,7 +1152,7 @@ input
   &.transparent
     background-color transparent
     border .01rem solid rgba(255, 255, 255, .2)
-  &:hover
+  &:not(.disabled):hover
     border-color BLUE
   &.transparent:hover
     border-color rgba(255, 255, 255, .4)
@@ -648,6 +1163,10 @@ input
       
   &.transparent.active
     border-color rgba(255, 255, 255, .4)
+  
+  
+  
+
      
 
   &:after
@@ -667,8 +1186,46 @@ input
     transform-origin center
     
     
+/*
+ * input class define
+ */
+
+.ds-input
+  display inline-block
+  height .3rem
+  width 1.7rem
+  padding 0 .1rem
+  line-height .3rem
+  font-size .14rem
+  color #333
+  background-color #fff
+  border .01rem solid #ccc
+  radius()
+  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  box-sizing border-box
+  &.block
+    width 100%
+  &.large
+    width 2.2rem
+  &.small
+    width 1.2rem
+  &:hover
+    border-color BLUE
+  &:focus
+    border-color BLUE
+    box-shadow 0 0 .05rem BLUE
+  
+  &:disabled
+    color #999
+    background-color #efefef
+    opacity .7
   
     
-    
+.text-ellipsis
+  display inline-block
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+  vertical-align middle
   
        

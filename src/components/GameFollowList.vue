@@ -13,7 +13,7 @@
       |  倍
 
       | &nbsp;&nbsp;最低收益：
-      el-input-number.center.get(v-model="get")
+      el-input-number.center.get(v-model="this.idType ")
       |  %
     el-table.ghost(:data="data")
       el-table-column(prop="NPER" label="投注编号" width="200" inline-template)
@@ -47,7 +47,7 @@
         nper: 5,
         npers: [5, 10, 15, 20, 25, 30],
         times: 1,
-        get: '',
+        get: 0,
         tabIndex: 3
       }
     },
@@ -69,7 +69,7 @@
         return pay
       }
     },
-    created () {
+    mounted () {
       this.$emit('set-follow', {NPER: this.nper, pay: this.PAY})
       this.times = this.t
       this.get = this.point
@@ -85,6 +85,7 @@
         this.$emit('set-follow', {t: this.times})
       },
       get () {
+        if (this.tabIndex === 3 && this.get > 0) this.adjustList()
         this.$emit('set-follow', {point: this.get})
       },
       data () {
@@ -101,7 +102,9 @@
           pay += d.times * this.pay
         })
         return pay
-      }
+      },
+      // 根据利润率调整各期倍数
+      adjustList () {}
     }
   }
 </script>
@@ -150,34 +153,7 @@
   .pay
     color BLUE
     
-  .ds-button-group
-    height .3rem
-    line-height .3rem
-    display inline-block
-    vertical-align middle
-    margin PWX
-    radius()
-    overflow hidden
-    background-color #fff
-    border .01rem solid #ccc
-    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
-    box-sizing border-box
-    overflow visible
-    .ds-button
-      position relative
-      top -.01rem
-      color #666
-      text-shadow none
-      radius(0)
-      &:last-child
-        border-top-right-radius .05rem
-        border-bottom-right-radius .05rem
-      &:first-child
-        border-top-left-radius .05rem
-        border-bottom-left-radius .05rem
-      &.selected
-        background-color BLUE
-        color #fff
+  
   
   .el-table
     text-align left

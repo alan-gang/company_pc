@@ -43,7 +43,7 @@
         if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER
       }
     },
-    created () {
+    mounted () {
       this.nper = this.NPERS[0]
     },
     methods: {

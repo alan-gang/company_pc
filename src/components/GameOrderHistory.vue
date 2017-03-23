@@ -48,7 +48,7 @@
     },
     computed: {
     },
-    created () {
+    mounted () {
       this.__getOrderList()
     },
     methods: {

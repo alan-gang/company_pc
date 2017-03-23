@@ -66,22 +66,27 @@ DANGER-ACTIVE = #e51324
 
 
 GOLD = #fc0
+GOLD-HOVER = #ffd428
+GOLD-ACTIVE = #e7b900
 YELLOW = #ffea00
 
+GREEN = #59ae0c
+ORANGE = #f2790e
 
 
 /*
  *mixin define
  */
 // font color gradient
-font-gradient(p = left, c1 = #ff3350, c2 = #1a9ff3)
-  font-family Roboto Arial
-  background -webkit-linear-gradient(p, c1, c2)
+font-gradient(p = 90deg, c1 = #ff3350, c2 = #1a9ff3)
+  font-family Roboto, Arial
+  background linear-gradient(p, c1, c2)
   -webkit-background-clip text
   -webkit-text-fill-color transparent
   
-bg-gradient(p = left, c1 = #ff3350, c2 = #1a9ff3)
-  background -webkit-linear-gradient(p, c1, c2)
+bg-gradient(p = 90deg, c1 = #ff3350, c2 = #1a9ff3)
+  background linear-gradient(p, c1, c2)
+  
 
 // border-radius
 radius(x = .05rem)

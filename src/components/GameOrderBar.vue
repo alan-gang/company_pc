@@ -81,10 +81,11 @@ export default {
       this.setTimes(this.t)
     }
   },
-  created () {
+  mounted () {
     // console.log('new orderbar, point:', this.point)
     this.t = this.times
     this.p = this.point * 10000
+    this.cIndex = this.currency.model - 1
   },
   methods: {
     setTimes (t) {

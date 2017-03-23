@@ -4,7 +4,6 @@ export default {
   mixins: [common],
   data () {
     return {
-      gameType: 'G115',
       menus: [
         {
           title: '三星',
@@ -130,6 +129,7 @@ export default {
             return '趣味'
         }
       },
+      gameType: 'G115',
       // 玩法信息
       type: {
         id: '3-1-1-115',

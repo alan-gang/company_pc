@@ -14,10 +14,7 @@
 
 <script>
 export default {
-  props: {
-    title: String,
-    star: Boolean
-  },
+  props: ['title', 'star'],
   data () {
     return {
     }

@@ -1,11 +1,12 @@
 <template lang="jade">
-  dl.step-tabs
-    dd.tab(v-for="(t, index) in steps" v-bind:class="{ active:  index === stepIndex}") {{ t }}
+  dl.step-tabs(:class="type")
+    dd.tab(v-for="(t, index) in steps" v-bind:class="{ active:  index === stepIndex, 'ds-icon-right-arrow': type }") {{ t }}
+
 </template>
 
 <script>
   export default {
-    props: ['steps', 'stepIndex'],
+    props: ['steps', 'stepIndex', 'type'],
     data () {
       return {
       }
@@ -16,13 +17,13 @@
 <style lang="stylus">
   @import '../var.stylus'
   
-  .step-tabs
+  .step-tabs:not(.text)
     text-align center
     transform translateX(-.18rem)
     .tab
       position relative
       display inline-block
-      padding 0.667*PW .5rem
+      padding 0.55*PW .5rem
       color WHITE
       background-color rgba(255, 255, 255, .2)
       border-color rgba(255, 255, 255, .2)
@@ -59,5 +60,20 @@
       &.active
         background-color BLUE
         border-color BLUE
+  
+  .step-tabs.text
+    text-align center
+    transform translateX(-.15rem)
+    .tab
+      position relative
+      display inline-block
+      padding 0 .7rem 0 .5rem
+      color #999
+      font-size .24rem
+      &.active
+        color BLUE
+      &:last-child
+        background none
       
+
 </style>

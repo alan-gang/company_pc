@@ -26,7 +26,7 @@ export default {
   },
   computed: {
   },
-  created () {
+  mounted () {
     this._getVerifyImage()
     setTimeout(() => {
       this.$el.querySelector('.ds-icon-edit input').focus()

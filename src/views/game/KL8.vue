@@ -4,6 +4,7 @@ export default {
   mixins: [common],
   data () {
     return {
+      gameType: 'KL8',
       menus: [
         // {id: '-1-1-1-KL8', title: '任选一', description: '从01-80中任选1个以上号码。', example: ''},
         // {id: '-1-1-2-KL8', title: '任选二', description: '从01-80中任选2至8个号码。', example: ''},

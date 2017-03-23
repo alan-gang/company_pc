@@ -1,29 +1,112 @@
 <template lang="jade">
 
   transition-group(appear=true name="zoom" tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
         .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.id)")
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
-        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="['ds-icon-game-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)")
+        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)")
 
 </template>
 
 <script>
+import api from '../http/api'
 import base from 'components/base'
 import ToolBar from 'components/ToolBar'
 // game
 import SSC from './game/SSC'
+import SSL from './game/SSL'
 import G115 from './game/G115'
 import PK10 from './game/PK10'
 import KL8 from './game/KL8'
 import K3 from './game/K3'
 import util from '../util'
+
+// me
+import Me from './me/Me'
+import SafeCenter from './me/SafeCenter'
+import Bonus from './me/Bonus'
+import TopUp from './me/TopUp'
+import WithDraw from './me/WithDraw'
+import Bank from './me/Bank'
+
 // group
 import UserList from './group/UserList'
+import AddUser from './group/AddUser'
+import Ad from './group/Ad'
+import Contract from './group/Contract'
+import ContractDetail from './group/ContractDetail'
+import Stock from './group/Stock'
+import StockDetail from './group/StockDetail'
+import DataAnalysis from './group/DataAnalysis'
+import ChartAnalysis from './group/ChartAnalysis'
+
+// Form
+import Account from './form/Account'
+import Follow from './form/Follow'
+import FollowDetail from './form/FollowDetail'
+import FollowOrder from './form/FollowOrder'
+import Order from './form/Order'
+import ProfitLoss from './form/ProfitLoss'
+import ProfitLossDetail from './form/ProfitLossDetail'
+import Today from './form/Today'
+// 趋势图
+import TrendChart from './form/TrendChart'
+
+// Help
+import PlayHelp from './help/PlayHelp'
+import FunctionHelp from './help/FunctionHelp'
+import QuestionHelp from './help/QuestionHelp'
+
+// 帮助中心
+import Activity from './Activity'
 
 export default {
+  components: {
+    ToolBar,
+    // game
+    SSC,
+    SSL,
+    G115,
+    PK10,
+    KL8,
+    K3,
+    // me
+    Me,
+    SafeCenter,
+    Bonus,
+    WithDraw,
+    TopUp,
+    Bank,
+    // group
+    UserList,
+    AddUser,
+    Ad,
+    Contract,
+    ContractDetail,
+    Stock,
+    StockDetail,
+    DataAnalysis,
+    ChartAnalysis,
+    // form
+    Account,
+    Follow,
+    FollowDetail,
+    FollowOrder,
+    Order,
+    ProfitLoss,
+    ProfitLossDetail,
+    Today,
+    // 走势图
+    TrendChart,
+    // Help
+    PlayHelp,
+    FunctionHelp,
+    QuestionHelp,
+    // 活动
+    Activity
+  },
   name: 'Pages',
   mixins: [base],
   props: ['pages'],
@@ -43,7 +126,7 @@ export default {
           opacity: 0
         },
         default: {
-          top: '5%',
+          top: '15%',
           left: '25%',
           width: '9.3rem',
           height: '6.4rem'
@@ -52,6 +135,13 @@ export default {
       // 提供随机的位置
       // 没有记录过位置的窗口将自动分配位置
       P: [
+        // center
+        {
+          top: '15%',
+          left: '25%',
+          width: '9.3rem',
+          height: '6.4rem'
+        },
         // left top
         {
           left: '.15rem',
@@ -80,12 +170,33 @@ export default {
           top: 'auto',
           left: 'auto'
         },
-        // center
+        // center left top
         {
           top: '5%',
-          left: '25%',
-          width: '9.3rem',
-          height: '6.1rem'
+          left: '10%',
+          right: 'auto',
+          bottom: 'auto'
+        },
+        // center right top
+        {
+          top: '5%',
+          right: '10%',
+          left: 'auto',
+          bottom: 'auto'
+        },
+        // center left bottom
+        {
+          bottom: '5%',
+          left: '10%',
+          right: 'auto',
+          top: 'auto'
+        },
+        // center right bottom
+        {
+          bottom: '5%',
+          right: '10%',
+          left: 'auto',
+          top: 'auto'
         }
       ]
 
@@ -119,7 +230,38 @@ export default {
       this.$emit('close-tab', url)
     },
     star (page) {
-      this.updatePage(page.id, {star: !page.star}, page)
+      if (!page.star) this.addPrefence(page)
+      else this.delPrefence(page)
+    },
+    addPrefence (page) {
+      this.$http.get(api.addPrefence, {
+        menuId: page.menuid,
+        isDesk: 0,
+        sort: 1
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.updatePage(page.id, {star: !page.star}, page)
+        } else this.$message.warning('收藏失败!')
+      }, (rep) => {
+        // error
+        this.$message.warning('收藏失败!')
+      })
+    },
+    delPrefence (page) {
+      this.$http.get(api.delPrefence, {
+        menuId: page.menuid,
+        isDesk: 0,
+        sort: 1
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.updatePage(page.id, {star: !page.star}, page)
+        } else this.$message.warning(data.msg || '收藏删除失败!')
+      }, (rep) => {
+        // error
+        this.$message.warning('收藏删除失败!')
+      })
     },
     setDefaultPosition (page) {
       let el = this.$el.querySelector('.page-' + page.id)
@@ -135,21 +277,9 @@ export default {
       this.updatePage(page.id, {position: position}, page)
     }
   },
-  components: {
-    ToolBar,
-    // game
-    SSC,
-    G115,
-    PK10,
-    KL8,
-    K3,
-    // group
-    UserList
-  },
   directives: {
     moveable: {
       inserted (el, binding, vnode) {
-        // console.log(el, binding, vnode)
         let canMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
         let boxOffset = util.getOffset(el.parentNode)
@@ -237,6 +367,9 @@ export default {
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
           width += dx
           el.style.width = width + 'px'
+          if (width > 800) el.removeAttribute('w')
+          if (width < 800) el.setAttribute('w', '800')
+          if (width < 700) el.setAttribute('w', '700')
           sx = evt.clientX
         })
         util.addEvent('mouseup', targetX, (evt) => {
@@ -395,7 +528,7 @@ export default {
     overflow hidden
   .dialog-page
     position absolute
-    min-width 7rem
+    min-width 5.4rem
     min-height 4rem
     overflow visible
     z-index 0

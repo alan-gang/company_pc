@@ -13,12 +13,12 @@
           p
             span.label.font-gold 中奖举例：
             {{ type.example || '暂无' }}
-      .ds-icon-polyline.ds-button.outline.small 走势图
+      router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  ") 走势图
 
     el-col.right(:span="6")
       el-button-group.right
-        .ds-button.text-button 投注记录
-        .ds-button.text-button 追号记录
+        router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} ") 投注记录
+        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} ") 追号记录
 </template>
 
 <script>
@@ -28,7 +28,8 @@ export default {
     // NPER: Number,
     CNPER: Number,
     timeout: Number,
-    type: Object
+    type: Object,
+    gameid: Number
     // title: String
   },
   data () {
@@ -44,7 +45,7 @@ export default {
       return util.timeFormat(this.time)
     }
   },
-  created () {
+  mounted () {
     this.time = this.timeout
     setInterval(() => {
       if (this.time <= 0 || !this.time) {

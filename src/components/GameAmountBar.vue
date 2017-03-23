@@ -6,7 +6,7 @@
         | 追号总期数 
         span.NPER {{ NPER }} 
         |  期&nbsp;&nbsp;&nbsp;追号总金额 
-        span.PAY {{ ( PAY || 0).toFixed(2) }}
+        span.PAY {{ ( PAY || 0).toFixed(3) }}
 
 
 
@@ -14,7 +14,7 @@
       | 总计 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;&nbsp;总计&nbsp;&nbsp;
-      span.pay {{ pay.toFixed(2) }}
+      span.pay {{ pay.toFixed(3) }}
       |  元&nbsp;&nbsp;
       // el-checkbox(v-model="checked" checked) 使用优惠券
       
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
   },
-  created () {
+  mounted () {
   },
   methods: {
     showFollow () {

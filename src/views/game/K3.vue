@@ -68,7 +68,7 @@ export default {
             {
               items: [
                 {id: '0-1-1-K3', title: '和值', description: '从3-18中任意选择1个或1个以上号码，所选号码与开奖号和值相同即中奖. ', example: ''},
-                {id: '0-1-2-K3', title: '猜1个号就中奖', description: '', example: ''}
+                {id: '0-1-2-K3', title: '猜1个号就中奖', description: '选择1个您认为一定会开出的号码，系统将智能为您筛选出包含该号码的单选号码组合。', example: ''}
               ]
             }
           ]

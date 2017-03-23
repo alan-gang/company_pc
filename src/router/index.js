@@ -15,7 +15,9 @@ export default function (VueRoter) {
         path: '/login',
         component: require('../views/Login'),
         children: [
-          { path: '',
+          { path: 'register', component: require('../views/login/Register') },
+          { path: '', component: require('../views/login/LoginTest') },
+          { path: 'login',
             meta: {
               login: false
             },
@@ -38,6 +40,34 @@ export default function (VueRoter) {
       },
       {
         path: '/group/:url',
+        meta: {
+          login: true
+        },
+        component: require('../views/Pages')
+      },
+      {
+        path: '/me/:url',
+        meta: {
+          login: true
+        },
+        component: require('../views/Pages')
+      },
+      {
+        path: '/form/:url',
+        meta: {
+          login: true
+        },
+        component: require('../views/Pages')
+      },
+      {
+        path: '/help/:url',
+        meta: {
+          login: true
+        },
+        component: require('../views/Pages')
+      },
+      {
+        path: '/activity/:url',
         meta: {
           login: true
         },

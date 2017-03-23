@@ -6,7 +6,6 @@
  * @returns {Number}
  */
 function permutationChoice (n, m) {
-  if (n < m) return 0
   return factorial(n) / factorial(n - m)
 }
 /**
@@ -17,11 +16,15 @@ function permutationChoice (n, m) {
  * combineChoice
  */
 function C (n, m) {
-  return permutationChoice(n, m) / factorial(m)
+  // console.log(n, m, '||||||||||||||||||||||||')
+  if (!n || !m || n < m || n < 0 || m < 0) return 0
+  else if (n === m) return 1
+  else if (m === 1) return n
+  else return parseInt(permutationChoice(n, m) / factorial(m))
 }
 
 function factorial (n) {
-  if (!n) return 1
+  if (n === 0) return 1
   return n * factorial(n - 1)
 }
 

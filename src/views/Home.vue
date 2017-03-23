@@ -4,19 +4,20 @@
       el-row.font-light.public(:gutter="0")
         el-col(:span="12")
           .ds-button.small.stick 中奖公告
-          | 重庆时时彩203984期 
-          span.userName.font-blue {{ userName }}
-          |  喜中 
-          span.money.font-danger {{ money }}
-          |  元
+          span(v-for=" (msg, ii) in msgs " v-show="ii === j")
+            | {{ msg.cnName }}{{ msg.issue }}期 
+            span.userName.font-blue {{ msg.nickName }}
+            |  喜中 
+            span.money.font-danger {{ msg.amount }}
+            |  元
         el-col(:span="12")
           .ds-button.small.stick 系统公告
-          | {{ public }}
+          span(v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
           
       el-row.collects.font-white(:gutter="0")
-        el-col(:span="5" v-for=" (c, index) in collects " v-if="c" v-bind:class="[c.title?c.class:'empty ds-icon-add-item']" @click.native="!c.title && (adding = true) && (addIndex = index)") {{ c.title }}
+        el-col(:span="5" v-for=" (c, index) in collects " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native="!c.title ? (adding = true) && (addIndex = index) : openTab(c.id) ") {{ c.title }}
           .delete-bar
-            .el-icon-close.font-light.ds-button.text-button.light(@click.stop="remove(c)")
+            .el-icon-close.font-light.ds-button.text-button.light(@click.stop="delPrefence(index)")
 
 
 
@@ -25,18 +26,18 @@
         el-row.content
           el-col.left(:span="5")
             .item(v-for=" (m, index) in  canCollectMenus" v-bind:class="[m.class + '-small', {active: index === activeIndex}]" @click="activeIndex = index") {{ m.title }}
-          el-col.right(:span="19")
+          el-col.right(:span="19"  v-if="canCollectMenus[0]")
 
             // v-bind:class="{'with-icon': group.withIcon}"          
-            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups" )
+            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups")
               dt {{ group.title }}
               // v-bind:class="[item.class || group.class]"
-              dd(v-for="item in group.items"  @click="add(item)" v-if="item.title" v-bind:class="[{disabled: item.showInHome}]") 
+              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
-                  dd( v-for="i in item"  @click="add(i)" v-bind:class="[{disabled: item.showInHome}]") {{ i.title }}
+                  dd( v-for="i in item"  @click="addPrefence(i)" v-bind:class="[{disabled: item.desk}]") {{ i.title }}
 
 
 </template>
@@ -44,72 +45,139 @@
 <script>
 import base from 'components/base'
 import api from '../http/api'
+import store from '../store'
 export default {
   name: 'Home',
   mixins: [base],
   props: ['menus'],
   data () {
     return {
+      pages: store.state.pages,
       userName: 'ls123',
       money: '50万',
       public: '系统预计12月21日02：30会有版本迭代，请各玩家知悉。',
+      j: 0,
+      msgs: [],
+      i: 0,
+      notices: [],
       adding: false,
       addIndex: 0,
       activeIndex: 0,
-      collects: Array(8).fill({})
+      collects: [{class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}, {class: '', id: '', title: ''}]
     }
-  },
-  created () {
-    this.collects = [
-      {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
-      {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-      {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-      {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-      {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
-      {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-      {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-      {}
-    ]
-    this.$emit('get-menus')
-    this.$emit('get-userfund')
-    this.rewardNotices()
-    this.sysNotices()
   },
   computed: {
     canCollectMenus () {
-      return this.menus.filter(m => m.groups.length > 0)
+      return this.menus.filter(m => m.id > -1 && m.groups && m.groups.length > 0)
+    },
+    collectsIds () {
+      return this.collects.reduce((p, c) => {
+        if (c.id) p.push(c.id)
+        return p
+      }, [])
     }
   },
   watch: {
   },
+  mounted () {
+    // this.collects = [
+    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
+    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
+    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
+    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
+    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
+    //   {}
+    // ]
+    this.$emit('get-menus')
+    this.$emit('get-userfund')
+    this.rewardNotices()
+    this.sysNotices()
+    this.getUserPrefence()
+    this.switchI()
+  },
   methods: {
+    switchI () {
+      setInterval(() => {
+        this.i++
+        if (this.i === this.notices.length) this.i = 0
+      }, 5000)
+    },
+    switchJ () {
+      setInterval(() => {
+        this.j++
+        if (this.j === this.msgs.length) this.j = 0
+      }, 5000)
+    },
+    openTab (id) {
+      this.$emit('open-tab', id)
+    },
+    // addPrefence: api + 'home/userMenus.do?method=addPrefence&menuId=1&userId=1&isDesk=1&sort=1',
+    // delPrefence: api + 'home/userMenus.do?method=delPrefence&userId=1&menuId=1&isDesk=0',
+    addPrefence (i) {
+      this.$http.get(api.addPrefence, {
+        menuId: i.menuid,
+        isDesk: 1,
+        sort: this.addIndex + 1
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.add(i)
+        } else this.$message.warning('桌面添加失败!')
+      }, (rep) => {
+        // error
+        this.$message.warning('桌面添加失败!')
+      })
+    },
+    delPrefence (i) {
+      this.$http.get(api.delPrefence, {
+        menuId: this.collects[i].menuid,
+        isDesk: 1,
+        sort: i + 1
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.remove(i)
+        } else this.$message.warning(data.msg || '桌面删除失败!')
+      }, (rep) => {
+        // error
+        this.$message.warning('桌面删除失败!')
+      })
+    },
     add (i) {
       this.collects[this.addIndex].title = i.title
       this.collects[this.addIndex].id = i.id
-      this.collects[this.addIndex].class = i.class
+      this.collects[this.addIndex].menuid = i.menuid
+      this.collects[this.addIndex].class = i.class || i.menuClass
       this.adding = false
     },
-    remove (c) {
-      for (let p in c) {
-        c[p] = undefined
-      }
+    remove (i) {
+      this.collects[i].title = ''
+      this.collects[i].id = ''
+      this.collects[i].class = ''
     },
-    // // 6、用户资金信息  ALL
-    // __getUserFund () {
-    //   this.$http.get(api.getUserFund).then(({data}) => {
-    //     // success
-    //     if (data.success) {
-    //       this.setUser({money: data.availableBalance, free: data.freeAvaiable})
-    //     }
-    //   }, (rep) => {
-    //     // error
-    //   })
-    // },
+    // 5、查询菜单、桌面、收藏夹 PC接口
+    getUserPrefence () {
+      this.$http.get(api.getUserPrefence).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          data.deskList.forEach((d, i) => {
+            if (i > 7) return
+            this.addIndex = d.sort - 1
+            this.add(this.pages.find(p => p.menuid === d.menuId + '') || {})
+          })
+        }
+      }, (rep) => {
+        // error
+      })
+    },
     // 10、中奖公告   ALL
     rewardNotices () {
       this.$http.get(api.rewardNotices).then(({data}) => {
         // success
         if (data.success) {
+          this.msgs = data.rewardNotices || []
         }
       }, (rep) => {
         // error
@@ -117,9 +185,10 @@ export default {
     },
     // 11、系统公告   ALL
     sysNotices () {
-      this.$http.get(api.rewardNotices).then(({data}) => {
+      this.$http.get(api.sysNotices).then(({data}) => {
         // success
         if (data.success) {
+          this.notices = data.sysNotices || []
         }
       }, (rep) => {
         // error
@@ -131,7 +200,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  WW = 9rem
+  WW = 10rem
   WH = 4.3rem
   IH = .36rem
   

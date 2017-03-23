@@ -20,7 +20,7 @@
       el-table-column(prop="taskprice" label="金额" width="120" align="right")
 
       el-table-column(label="状态" width="100" align="right")
-        template(scope="scope") {{ scope.row.status === 0 ? '进行中': scope.row.modes === 1 ? '取消': '已完成' }}
+        template(scope="scope") {{ scope.row.status === 0 ? '进行中': scope.row.status === 1 ? '取消': '已完成' }}
 
 
 </template>
@@ -51,7 +51,7 @@
     },
     computed: {
     },
-    created () {
+    mounted () {
       this.__getFollowList()
     },
     methods: {

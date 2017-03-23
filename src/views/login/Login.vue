@@ -14,8 +14,8 @@
     dd.ds-icon-pwd(v-bind:class="{disabled: disablePwd}")
         input(placeholder="密码" v-model="pwd" v-bind:disabled="disablePwd" type="password" )
 
-    dd.ds-icon-edit
-      input(placeholder="验证码" v-model="code_" @keyup.enter="login")
+    dd.ds-icon-edit(v-bind:class="{disabled: !pwd}")
+      input(placeholder="验证码" v-model="code_" @keyup.enter="login" v-bind:disabled="!pwd")
       i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
     dd.ds-button.positive.full.bold.login(@click="login") 登录
@@ -47,7 +47,7 @@
         return !this.un_ || this.regard === false
       }
     },
-    created () {
+    mounted () {
       this._getVerifyImage()
       setTimeout(() => {
         this.$el.querySelector('.ds-icon-user input').focus()
@@ -66,7 +66,7 @@
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
               // success
               if (data.success) {
-                this.$emit('update-user', {login: true, name: data.nickName})
+                this.$emit('update-user', {login: true, name: data.nickName, type: data.identity, account: data.userName, role: data.groupId})
                 this.$router.push('/')
               } else {
                 this.$message.error('用户名或密码错误！')
@@ -84,7 +84,9 @@
         return !this.un_ || !this.pwd || !this.code_
       },
       getGreetingMsg () {
-        this.$http.post(api.getGreetingMsg, {userName: this.un_}).then(({data}) => {
+        this.$http.get(api.getGreetingMsg, {
+          userName: this.un_
+        }).then(({data}) => {
           // success
           if (data.success) {
             this.regard = data.greetingMsg || ''

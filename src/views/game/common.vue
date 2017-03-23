@@ -8,9 +8,9 @@
     slot(name="toolbar")
     .game-content.scroll-content
       <!-- 开奖信息 -->
-      GameLuckyNumber(v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" V-bind:gameType="gameType")
+      GameLuckyNumber(v-bind:game-type="gameType" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" )
       <!-- 游戏信息 -->
-      GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class]" v-on:set-NPER = "setNPER")
+      GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -24,9 +24,9 @@
       <!-- 追号单 -->
       GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow" v-bind:dates="issues")
       <!-- 下单记录 -->
-      GameOrderHistory
+      // GameOrderHistory
       <!-- 追号记录 -->
-      GameFollowHistory
+      // GameFollowHistory
 
     <!-- 总计栏 -->
     GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-on:toggle-checked="toggleChecked" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
@@ -47,8 +47,8 @@ import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 import api from '../../http/api'
 import M from '../../util/M'
-import GameOrderHistory from 'components/GameOrderHistory'
-import GameFollowHistory from 'components/GameFollowHistory'
+// import GameOrderHistory from 'components/GameOrderHistory'
+// import GameFollowHistory from 'components/GameFollowHistory'
 
 export default {
   props: ['page'],
@@ -118,7 +118,7 @@ export default {
         // 翻倍追号倍数
         t: 2,
         // 低收益率
-        point: 6,
+        point: 0,
         items: []
       },
       // 使用优惠卷
@@ -132,9 +132,9 @@ export default {
 
     }
   },
-  created () {
+  mounted () {
     // 获得当前奖期
-    this.getIssue()
+    this.__getIssue()
     // 获得游戏所有玩法对应的返点信息
     this.getUserpoint()
     // 获得游戏所有奖期的开奖时间
@@ -165,8 +165,17 @@ export default {
     },
     P () {
       return this.PS.find(p => {
-        return (p.methodid + '') === M[this.type.id].split(':')[0]
+        return (p.methodid + '') === this.methodid
       }) || {maxprize: 1800, minprize: 1400, scale: 50, maxpoint: 0.08, minpoint: 0}
+    },
+    methodid () {
+      return M[this.type.id + this.idType].split(':')[0]
+    },
+    methodidtype () {
+      return M[this.type.id + this.idType].split(':')[1]
+    },
+    idType () {
+      return this.gameType === 'SSL' ? '-' + this.gameType : ''
     }
   },
   watch: {
@@ -180,8 +189,8 @@ export default {
   },
   methods: {
     // 获得奖期信息
-    getIssue () {
-      this.$http.post(api.getIssue, {gameid: this.page.id}).then(({data}) => {
+    __getIssue () {
+      this.$http.post(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) {
           this.NPER = (parseInt(data.issue) || 1) - 1
@@ -193,7 +202,7 @@ export default {
     },
     // 获得该游戏所有返点信息
     getUserpoint () {
-      this.$http.post(api.getUserpoint, {gameid: this.page.id}).then(({data}) => {
+      this.$http.post(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) this.PS = data.items
       }, (rep) => {
@@ -201,7 +210,7 @@ export default {
       })
     },
     getTraceIssueList () {
-      this.$http.post(api.getTraceIssueList, {gameid: this.page.id}).then(({data}) => {
+      this.$http.post(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) this.issues = data.items
       }, (rep) => {
@@ -218,7 +227,7 @@ export default {
         target: this.$el
       }, 10000, '投注超时...')
       this.$http.post(api.booking, {
-        gameid: parseInt(this.page.id), // 游戏代码
+        gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
         totalnums: this.N, // 总注数
         totalmoney: this.NPAY, // 总投注金额
@@ -230,30 +239,35 @@ export default {
         // success
         if (data.success > 0) {
           // this.$message.success('投注成功')
-          this.__loading({
-            text: '投注成功.',
-            target: this.$el
-          }, 300)
-          this.__setCall({fn: '__getOrderList'})
-          this.__setCall({fn: '__getFollowList'})
-          this.__setCall({fn: '__getUserFund'})
-          this.__setCall({fn: '__getUserFund'})
+          loading.text = '投注成功'
+          // this.__loading({
+          //   text: '投注成功.',
+          //   target: this.$el
+          // }, 1000)
+          // this.__setCall({fn: '__getOrderList'})
+          // this.__setCall({fn: '__getFollowList'})
+          // this.__setCall({fn: '__getUserFund'})
+          // this.__setCall({fn: '__getUserFund'})
           this.ns = []
         } else {
           // this.$message.warning('投注失败！')
-          this.__loading({
-            text: '投注失败！',
-            target: this.$el
-          }, 300)
+          loading.text = '投注失败！'
+          // this.__loading({
+          //   text: '投注失败！',
+          //   target: this.$el
+          // }, 1000)
         }
       }, (rep) => {
-        this.__loading({
-          text: '投注失败！',
-          target: this.$el
-        }, 300)
+        loading.text = '投注失败！'
+        // this.__loading({
+        //   text: '投注失败！',
+        //   target: this.$el
+        // }, 1000)
         // error
       }).finally(() => {
-        loading.close()
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
       })
     },
     setType (type) {
@@ -312,8 +326,8 @@ export default {
     },
     order () {
       this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point + '%', selected: false}, {
-        methodid: parseInt(M[this.type.id].split(':')[0]), // 玩法编号
-        type: parseInt(M[this.type.id].split(':')[1]),
+        methodid: parseInt(this.methodid), // 玩法编号
+        type: parseInt(this.methodidtype),
         pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
         codes: this._getCodes(), // 投注内容,不同位的用竖线“|”连接，相同位选多个号码用“,”连接.
         count: this.n, // 注数
@@ -323,7 +337,9 @@ export default {
         userpoint: this.point // 用户选择的返点
       }))
       this.__setCall({fn: '__clearSelectedNumbers'})
-      this.__setCall({fn: '__clearValue'})
+      setTimeout(() => {
+        this.__setCall({fn: '__clearValue'})
+      }, 0)
       // after push need initial the selected numbers
     },
     _getOrderItems () {
@@ -413,9 +429,9 @@ export default {
     GameOrderList,
     GameAmountBar,
     GameFollowbar,
-    GameFollowList,
-    GameOrderHistory,
-    GameFollowHistory
+    GameFollowList
+    // GameOrderHistory,
+    // GameFollowHistory
   }
 }
 </script>
@@ -426,7 +442,7 @@ export default {
   .game-content
     top TH
     bottom GAH
-    padding-bottom GAH
+    // padding-bottom GAH
     max-width 9.3rem
     // max-height "calc(100% - %s)" % (TH + GAH)
     margin 0 auto
@@ -436,7 +452,7 @@ export default {
   .inner-bar
     padding 0 PWX
     line-height .5rem
-    bg-gradient(top, #fff, #efefef)
+    bg-gradient(180deg, #fff, #efefef)
     box-shadow 0 0 .05rem rgba(0,0,0,.1)
 
 </style>

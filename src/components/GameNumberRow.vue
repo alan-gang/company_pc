@@ -7,14 +7,14 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col.has-after(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected }, row.class || 'default', ]" @click.native=" toggle(n) ") 
+              el-col(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
                 span.the-number(v-if="showTitle") {{ n.title }}
-                Dices(v-if="isDice" v-bind:value="n.title" v-bind:class=" { selected: n.selected } ")
+                Dices(v-if="isDice" v-bind:value="n.title" v-bind:class=" { selected: n.selected} ")
 
-                span.after 18
+                span.after(v-if="after") 18
 
-          el-col.buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click="click(btn)" v-bind:class="{selected: btnIndex === index}") {{ btn }}
+          el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
+            .ds-button(v-for="(btn, index) in row.buttons" @click="click(btn)" v-bind:class="{selected: btnIndex === index}") {{ btn.split(':')[0] }}
 
 </template>
 <script>
@@ -24,6 +24,8 @@
     props: ['row', 'titleSpan'],
     data () {
       return {
+        // 显示遗漏号码
+        after: false,
         numbers: [],
         btnIndex: -1,
         // max number length can be selected
@@ -73,7 +75,7 @@
       //   }
       // }
     },
-    created () {
+    mounted () {
       this.updateNumbers()
     },
     methods: {
@@ -81,36 +83,37 @@
         this.numbers = this.row.values || Array(this.row.max - this.row.min + 1).fill(0).map((n, index) => {
           return (n = {
             selected: false,
+            signal: false,
             value: this.row.min + index,
             title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0')
           })
         })
       },
       click (btn) {
-        switch (btn) {
+        switch (btn.split(':')[0]) {
           case '全':
-            this.all()
+            this.all(btn.split(':')[1])
             break
           case '大':
-            this.big()
+            this.big(btn.split(':')[1])
             break
           case '小':
-            this.small()
+            this.small(btn.split(':')[1])
             break
           case '奇':
-            this.odd()
+            this.odd(btn.split(':')[1])
             break
           case '偶':
-            this.even()
+            this.even(btn.split(':')[1])
             break
           case '质':
-            this.prime()
+            this.prime(btn.split(':')[1])
             break
           case '合':
-            this.composite()
+            this.composite(btn.split(':')[1])
             break
           case '清':
-            this.clear()
+            this.clear(btn.split(':')[1])
             break
         }
       },
@@ -123,12 +126,20 @@
         this.__unselectFromSelf = true
         this.$emit('select', {args: n.value})
       },
-      select (n) {
-        if (!n.selected) {
+      // if i just addCLass signal
+      select (n, i) {
+        if (i) {
+          n.signal = true
+        } else if (!n.selected) {
           this.toggle(n)
         }
       },
+      unSelect (n, i) {
+        if (i) n.signal = false
+        else n.selected = false
+      },
       __unselectSelectedNumber (value) {
+        console.log('i get recieve unSelect a ball', value)
         if (!this.__unselectFromSelf) {
           this.numbers.find(n => n.value === value && n.selected) && (this.numbers.find(n => n.value === value && n.selected).selected = false)
         }
@@ -139,36 +150,36 @@
       __clearSelectedNumbers () {
         this.clear()
       },
-      all () {
-        this.numbers.forEach(n => this.select(n))
+      all (signal) {
+        this.numbers.forEach(n => this.select(n, signal))
       },
-      small () {
-        this.numbers.forEach((n, i) => ((2 * i) < this.numbers.length ? this.select(n) : (n.selected = false)))
+      small (signal) {
+        this.numbers.forEach((n, i) => ((2 * i) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
-      big () {
-        this.numbers.forEach((n, i) => ((2 * i) >= this.numbers.length ? this.select(n) : (n.selected = false)))
+      big (signal) {
+        this.numbers.forEach((n, i) => ((2 * i) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
-      even () {
-        this.numbers.forEach((n, i) => ((n.value % 2) === 0 ? this.select(n) : (n.selected = false)))
+      even (signal) {
+        this.numbers.forEach((n, i) => ((n.value % 2) === 0 ? this.select(n, signal) : this.unSelect(n, signal)))
       },
-      odd () {
-        this.numbers.forEach((n, i) => ((n.value % 2) !== 0 ? this.select(n) : (n.selected = false)))
+      odd (signal) {
+        this.numbers.forEach((n, i) => ((n.value % 2) !== 0 ? this.select(n, signal) : this.unSelect(n, signal)))
       },
-      clear () {
-        this.numbers.forEach(n => (n.selected = false))
+      clear (signal) {
+        this.numbers.forEach(n => this.unSelect(n, signal))
       },
-      prime () {
-        this.numbers.forEach(n => isPrime(n.value) ? this.select(n) : (n.selected = false))
+      prime (signal) {
+        this.numbers.forEach(n => isPrime(n.value) ? this.select(n, signal) : this.unSelect(n, signal))
       },
-      composite () {
-        this.numbers.forEach(n => (n.value > 1) && !isPrime(n.value) ? this.select(n) : (n.selected = false))
+      composite (signal) {
+        this.numbers.forEach(n => (n.value > 1) && !isPrime(n.value) ? this.select(n, signal) : this.unSelect(n, signal))
       },
       getBtnIndex () {
         if (!this.row.buttons) return -1
         if (this.ns.length === 0) return this.row.buttons.length - 1
         if (this.ns.length === this.numbers.length) return 0
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n >= this.numbers.length)) return 1
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n < this.numbers.length)) return 2
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n <= this.numbers.length)) return 2
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
         if (this.ns.length === this.numbers.filter(n => isPrime(n.value)).length && this.ns.every(n => isPrime(n))) return 5
@@ -247,6 +258,8 @@
         &.default
           width GCH
           border-radius 50%
+        &.signal
+          background-color LIGHT
         &.default:hover
         &.default.selected
           box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
@@ -276,6 +289,7 @@
           .after
             line-height .25rem
             
+            
          
         // PK10
         &.ds-icon-PK10
@@ -283,6 +297,7 @@
           font-size .18rem
           background-position center (.36rem - .27rem)
           margin-bottom PW
+          line-height .37rem
           .after
             line-height .05rem
           .the-number
@@ -323,7 +338,7 @@
         color #666
 
     // 按钮区
-    .buttons
+    .action-buttons
       &:not(.block)
         right 0
         position absolute

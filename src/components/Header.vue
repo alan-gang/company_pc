@@ -1,13 +1,13 @@
 <template lang="jade">
   header.font-light
-    .tab(v-for=" tab in tabs" v-bind:class="[{active: tab.active}, 'ds-icon-game-small']" @click.self="openTab(tab.id)") 
+    .tab(v-for=" tab in tabs" v-bind:class="[{active: tab.active}, tab.menuClass + '-small']" @click.self="openTab(tab.id)") 
       | {{ tab.title }}
       i.el-icon-close( @click.stop="closeTab(tab.id)")
     
-    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (likedTabs.length > 0 ? true : false)")
+    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (starTabs.length > 0 ? true : false)")
       dl.submenu.font-white
-        dd(v-for="i in likedTabs" v-bind:class="['ds-icon-game-small']") {{ i.title }}
-          i.el-icon-delete2
+        dd(v-for="i in starTabs" v-bind:class="['ds-icon-game-small']" @click="openTab(i.id)") {{ i.title }}
+          i.el-icon-delete2(@click.stop="unStar(i)")
     .tab.my-collect.el-icon-star-on(v-popover:collect="collect") 
       | 我的收藏
       
@@ -17,11 +17,12 @@
 </template>
 
 <script>
+import api from '../http/api'
+import store from '../store'
 export default {
-
   props: {
     tabs: Array,
-    likedTabs: Array
+    starTabs: Array
   },
   data () {
     return {
@@ -36,6 +37,21 @@ export default {
     },
     closeTab (url) {
       this.$emit('close-tab', url)
+    },
+    unStar (page) {
+      this.$http.get(api.delPrefence, {
+        menuId: page.menuid,
+        isDesk: 0,
+        sort: 1
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          store.actions.updatePage(page.id, {star: false}, page)
+        } else this.$message.warning(data.msg || '收藏删除失败!')
+      }, (rep) => {
+        // error
+        this.$message.warning('收藏删除失败!')
+      })
     }
   },
   components: {

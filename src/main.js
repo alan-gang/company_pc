@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import './polyline'
+
 import config from './config'
 config(Vue)
 
@@ -26,6 +28,9 @@ let router = routerConfig(VueRoter)
 // Touch
 // import VueTouch from 'vue-touch'
 // Vue.use(VueTouch)
+import Modal from './service/Modal'
+Vue.use(Modal)
+
 import App from './App'
 /* eslint-disable no-new */
 // new Vue({

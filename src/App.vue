@@ -4,7 +4,7 @@
 
     // header
     transition(name="slide-up" appear=true)
-      dsHeader(:tabs="tabs" v-bind:likedTabs="likedTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
+      dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
     
     // pages
     // keep-alive
@@ -35,190 +35,158 @@ export default {
       tabs: [],
       menus: [
         {
+          id: -1,
+          class: 'ds-icon-gift',
+          groups: [
+            {
+              items: [
+                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity', showInHome: false, liked: false}
+              ]
+            }
+          ]
+        },
+        {
           id: 0,
           class: 'ds-icon-home',
           href: '/home',
-          titl: '首页'
+          titl: '首页',
+          menuid: '1'
         },
         {
           id: 1,
+          menuid: '2',
           class: 'ds-icon-game',
           title: '游戏',
           url: 'game',
           groups: [
             {
               title: '时时彩',
-              withIcon: true,
-              class: 'ds-icon-item',
+              // withIcon: true,
+              // class: 'ds-icon-item',
               url: 'SSC',
               id: 2,
               items: [
-                {id: '1-1', title: '30秒时时彩', showInHome: true, liked: true},
-                {id: '1-2', title: '尊皇时时彩', showInHome: true, liked: true},
-                {id: '1-3', title: '广东时时彩', showInHome: true, liked: true},
-                {id: '1', title: '重庆时时彩', showInHome: true, liked: true},
-                {id: '1-5', title: '新疆时时彩', showInHome: true, liked: true},
-                {id: '1-6', title: '江西时时彩', showInHome: true, liked: true}
+                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
+                // {class: 'ds-icon-game-chq', menuid: '2', title: '黑龙江时时彩', showInHome: false, liked: false},
+                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4}
+                // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
+                // {class: 'ds-icon-game-chq', menuid: '12', title: '欢乐分分彩', showInHome: true, liked: true}
               ]
             },
             {
               title: '时时乐',
-              withIcon: true,
-              class: 'ds-icon-item',
-              url: 'SSC',
+              // withIcon: true,
+              // class: 'ds-icon-item',
+              url: 'SSL',
               items: [
-                {id: '2-1', title: '广东时时乐'}
+                {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5},
+                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩'},
+                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '17', title: '欢乐分分彩', gameid: 12}
+                // {class: 'ds-icon-game-hl', menuid: '9', title: '福彩3D'}
               ]
             },
             {
               title: '11选5',
-              withIcon: true,
-              class: 'ds-icon-item',
+              // withIcon: true,
+              // class: 'ds-icon-item',
               url: 'G115',
+              // width: '1.8rem',
               items: [
-                {id: '3-1', title: '广东11选5'},
-                {id: '3-2', title: '新疆11选5'}
-              ]
-            },
-            {
-              title: '北京快乐8',
-              withIcon: true,
-              class: 'ds-icon-item',
-              url: 'KL8',
-              items: [
-                {id: '4-1', title: '北京快乐8'}
+                // {class: '', menuid: '6', title: '十一运夺金'},
+                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '18', title: '广东十一选五', gameid: 8},
+                {class: 'ds-icon-game-dj', id: '1-3-2', menuid: '19', title: '夺金120秒'},
+                {class: 'ds-icon-game-dl', id: '1-3-3', menuid: '15', title: '多乐彩', gameid: 7}
+                // {class: '', menuid: '11', title: '重庆十一选五'}
               ]
             },
             {
               title: '北京PK10',
-              withIcon: true,
-              class: 'ds-icon-item',
+              // withIcon: true,
+              // class: 'ds-icon-item',
               url: 'PK10',
               items: [
-                {id: '5-1', title: '北京PK10'}
+                {class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13}
+              ]
+            },
+            {
+              title: '北京快乐8',
+              // withIcon: true,
+              // class: 'ds-icon-item',
+              url: 'KL8',
+              items: [
+                {class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14}
               ]
             },
             {
               title: '快三',
-              withIcon: true,
-              class: 'ds-icon-item',
+              // withIcon: true,
+              // class: 'ds-icon-item',
+              url: 'K3',
+              width: '1.8rem',
+              items: [
+                {class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
+              ]
+            },
+            {
+              title: '其它游戏',
+              // withIcon: true,
+              // class: 'ds-icon-item',
               url: 'K3',
               items: [
-                {id: '6-1', title: '快三'}
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-7-1', menuid: '23', title: '十一运夺金', gameid: 6},
+                {url: 'SSL', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
+                {url: 'SSC', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10}
               ]
             }
           ]
         },
         {
           id: 2,
+          menuid: '3',
           class: 'ds-icon-me',
-          title: '个人中心',
+          title: '',
+          url: 'me',
           groups: [
             {
               id: '2-1',
-              title: '个人信息',
+              title: '个人中心',
               items: [
                 {
                   id: '2-1-1',
-                  title: '个人信息'
-                }
-              ]
-            },
-            {
-              id: '2-2',
-              title: '安全中心',
-              items: [
+                  menuid: '20',
+                  title: '个人信息',
+                  url: 'Me'
+                },
                 {
                   id: '2-2-1',
-                  title: '显示信息'
+                  menuid: '21',
+                  title: '安全中心',
+                  url: 'SafeCenter'
                 },
-                {
-                  id: '2-2-2',
-                  title: '修改登录密码'
-                },
-                {
-                  id: '2-2-3',
-                  title: '修改资金密码'
-                },
-                {
-                  id: '2-2-4',
-                  title: '修改昵称'
-                },
-                {
-                  id: '2-2-5',
-                  title: '绑定/解绑邮箱'
-                },
-                {
-                  id: '2-2-6',
-                  title: '绑定/解绑手机'
-                },
-                {
-                  id: '2-2-7',
-                  title: '设置身份验证'
-                },
-                {
-                  id: '2-2-8',
-                  title: '设置安全问题'
-                }
-              ]
-            },
-            {
-              id: '2-3',
-              title: '充值',
-              items: [
                 {
                   id: '2-3-1',
-                  title: '显示信息'
-                }
-              ]
-            },
-            {
-              id: '2-4',
-              title: '充值',
-              items: [
+                  menuid: '29',
+                  title: '奖金详情',
+                  url: 'Bonus'
+                },
                 {
                   id: '2-4-1',
-                  title: '充值申请'
+                  menuid: '30',
+                  title: '充值申请',
+                  url: 'TopUp'
                 },
-                {
-                  id: '2-4-2',
-                  title: '充值记录'
-                }
-              ]
-            },
-            {
-              id: '2-5',
-              title: '提现',
-              items: [
                 {
                   id: '2-5-1',
-                  title: '提现申请'
-                },
-                {
-                  id: '2-5-2',
-                  title: '提现记录'
-                }
-              ]
-            },
-            {
-              id: '2-6',
-              title: '银行卡',
-              items: [
-                {
-                  id: '2-6-1',
-                  title: '银行卡列表'
-                },
-                {
-                  id: '2-6-2',
-                  title: '绑定银行卡'
+                  menuid: '32',
+                  title: '提现申请',
+                  url: 'WithDraw'
                 },
                 {
                   id: '2-6-1',
-                  title: '解绑银行卡'
-                },
-                {
-                  id: '2-6-2',
-                  title: '锁定银行卡'
+                  menuid: '34',
+                  title: '我的银行卡',
+                  url: 'Bank'
                 }
               ]
             }
@@ -228,30 +196,21 @@ export default {
           id: 3,
           class: 'ds-icon-group',
           title: '团队管理',
+          menuid: '4',
           url: 'group',
           groups: [
             {
               id: '3-1',
-              title: '用户列表',
+              title: '用户中心',
               items: [
                 {
                   id: '3-1-1',
+                  menuid: '38',
                   title: '用户列表',
-                  url: 'UserList'
-                },
-                {
-                  id: '3-1-2',
-                  title: '充值',
-                  url: 'Recharge'
-                },
-                {
-                  id: '3-1-3',
-                  title: '调点',
-                  url: 'AdjustPoint'
-                },
-                {
-                  id: '3-1-4',
-                  title: '开户额'
+                  url: 'UserList',
+                  position: {
+                    width: '11rem'
+                  }
                 }
               ]
             },
@@ -261,11 +220,15 @@ export default {
               items: [
                 {
                   id: '3-2-1',
-                  title: '增加用户'
+                  menuid: '42',
+                  title: '增加用户',
+                  url: 'AddUser'
                 },
                 {
                   id: '3-2-2',
-                  title: '推广设置'
+                  menuid: '43',
+                  title: '推广设置',
+                  url: 'Ad'
                 }
               ]
             },
@@ -275,15 +238,34 @@ export default {
               items: [
                 {
                   id: '3-3-1',
-                  title: '我的契约'
+                  menuid: '45',
+                  title: '分红列表',
+                  url: 'Stock'
                 },
                 {
                   id: '3-3-2',
-                  title: '我的分红'
+                  // menuid: '29',
+                  title: '分红详情',
+                  url: 'StockDetail',
+                  position: {
+                    width: '5.4rem',
+                    height: '6.8rem'
+                  }
                 },
                 {
                   id: '3-3-3',
-                  title: '下级契约列表'
+                  menuid: '44',
+                  title: '契约列表',
+                  url: 'Contract'
+                },
+                {
+                  id: '3-3-4',
+                  title: '契约详情',
+                  position: {
+                    width: '5.4rem',
+                    height: '6.8rem'
+                  },
+                  url: 'ContractDetail'
                 }
               ]
             },
@@ -293,11 +275,15 @@ export default {
               items: [
                 {
                   id: '3-4-1',
-                  title: '团队数据统计'
+                  menuid: '47',
+                  title: '团队数据统计',
+                  url: 'DataAnalysis'
                 },
                 {
                   id: '3-4-2',
-                  title: '团队图表分析'
+                  menuid: '48',
+                  title: '团队图表分析',
+                  url: 'ChartAnalysis'
                 }
               ]
             }
@@ -307,6 +293,8 @@ export default {
           id: 4,
           class: 'ds-icon-record',
           title: '报表统计',
+          menuid: '5',
+          url: 'form',
           groups: [
             {
               id: '4-1',
@@ -314,19 +302,12 @@ export default {
               items: [
                 {
                   id: '4-1-1',
-                  title: '投注记录列表'
-                },
-                {
-                  id: '4-1-2',
-                  title: '投注记录详情'
-                },
-                {
-                  id: '4-1-3',
-                  title: '发起跟单'
-                },
-                {
-                  id: '4-1-4',
-                  title: '投注撤单'
+                  menuid: '50',
+                  title: '投注记录列表',
+                  url: 'Order',
+                  position: {
+                    width: '13rem'
+                  }
                 }
               ]
             },
@@ -336,15 +317,20 @@ export default {
               items: [
                 {
                   id: '4-2-1',
-                  title: '追号记录列表'
+                  menuid: '53',
+                  title: '追号记录列表',
+                  url: 'Follow',
+                  position: {
+                    width: '12rem'
+                  }
                 },
                 {
                   id: '4-2-2',
-                  title: '追号记录详情'
-                },
-                {
-                  id: '4-2-3',
-                  title: '追号撤单'
+                  title: '追号记录详情',
+                  url: 'FollowDetail',
+                  position: {
+                    width: '10rem'
+                  }
                 }
               ]
             },
@@ -354,7 +340,9 @@ export default {
               items: [
                 {
                   id: '4-3-1',
-                  title: '跟单记录'
+                  menuid: '56',
+                  title: '跟单记录',
+                  url: 'FollowOrder'
                 }
               ]
             },
@@ -364,7 +352,9 @@ export default {
               items: [
                 {
                   id: '4-4-1',
-                  title: '今日报表列表'
+                  menuid: '57',
+                  title: '今日报表列表',
+                  url: 'Today'
                 }
               ]
             },
@@ -374,11 +364,32 @@ export default {
               items: [
                 {
                   id: '4-5-1',
-                  title: '盈亏报表列表'
+                  menuid: '58',
+                  title: '盈亏报表列表',
+                  url: 'ProfitLoss'
+                },
+                {
+                  id: '4-5-4',
+                  title: '个人盈亏明细',
+                  url: 'ProfitLossDetail'
                 },
                 {
                   id: '4-5-2',
-                  title: '明细'
+                  menuid: '59',
+                  title: '帐变列表',
+                  position: {
+                    width: '12rem'
+                  },
+                  url: 'Account'
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '60',
+                  title: '走势图',
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
               ]
             }
@@ -387,12 +398,40 @@ export default {
         {
           id: 5,
           class: 'ds-icon-gift',
-          title: '优惠活动'
+          title: '活动中心',
+          href: '/activity/5-1-1',
+          url: 'Activity',
+          menuid: '6'
         },
         {
           id: 6,
           class: 'ds-icon-help',
-          title: '帮助中心'
+          title: '帮助中心',
+          url: 'help',
+          menuid: '7',
+          groups: [
+            {
+              id: '6-1',
+              title: '帮助中心',
+              items: [
+                {
+                  id: '6-1-1',
+                  title: '玩法介绍',
+                  url: 'PlayHelp'
+                },
+                {
+                  id: '6-1-2',
+                  title: '功能介绍',
+                  url: 'FunctionHelp'
+                },
+                {
+                  id: '6-1-3',
+                  title: '常见问题',
+                  url: 'QuestionHelp'
+                }
+              ]
+            }
+          ]
         },
         {
           id: 7,
@@ -402,12 +441,13 @@ export default {
           id: 8,
           class: 'ds-icon-chat'
         }
-      ]
+      ],
+      menuids: ''
     }
   },
   computed: {
-    likedTabs () {
-      return this.state.pages.filter(t => t.liked)
+    starTabs () {
+      return this.state.pages.filter(t => t.star)
     },
     ctabs () {
       return this.state.pages.filter(t => {
@@ -443,18 +483,34 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.setPages(this._getPages())
   },
   methods: {
     _getPages () {
-      console.log('menus changed!!!')
-      return this.menus.reduce((p, m) => {
+      console.log('menus changed!!! or Menu need reauthority')
+      return this.menus.reduce((p, m, mi) => {
+        // delete un authority
+        if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {
+          this.menus.splice(mi, 1)
+          return p
+        }
         m.groups = m.groups || []
-        return m.groups.reduce((p, g) => {
+        return m.groups.reduce((p, g, gi) => {
+          // delete un authority
+          if (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1) {
+            m.groups.splice(gi, 1)
+            return p
+          }
           g.items = g.items || []
           if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
-          return g.items.reduce((p, i) => {
+          return g.items.reduce((p, i, ii) => {
+            // delete un authority
+            if (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1) {
+              g.items.splice(ii, 1)
+              return p
+            }
+            i.menuClass = g.class || m.class
             i = Object.assign({}, {
               opened: false,
               active: false,
@@ -464,8 +520,10 @@ export default {
               size: '',
               url: g.url || '',
               href: '/' + m.url + '/' + i.id,
-              class: g.class || ''
+              // class: g.class || '',
+              menuClass: g.class || m.class
             }, i)
+            if (g.position) i.position = g.position
             p.push(i)
             return p
           }, p)
@@ -496,16 +554,30 @@ export default {
     //   this.menus = menus
     // },
     logout () {
-      this.$http.post(api.logout)
+      this.$http.get(api.logout)
       this.setUser()
       cookie.remove('JSESSIONID')
       this.$router.push('/login')
+    },
+    __logout () {
+      this.logout()
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence () {
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
-        // if (data.success > 0) this.menus = data.items
+        if (data.success === 1) {
+          this.menuids = data.menuList
+          this._getPages()
+          this.$nextTick(() => {
+            data.favoriteList.forEach((d, i) => {
+              store.actions.updatePage(d.menuId + '', {star: true})
+            })
+            // data.deskList.forEach((d, i) => {
+            //   store.actions.updatePage(d.menuId + '', {desk: true})
+            // })
+          })
+        }
       }, (rep) => {
         // error
       })
@@ -540,11 +612,12 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, "微软雅黑"
-    user-select none
+    // user-select none
   
   body
     height 100%
     font-size .14rem
+    color #666
     margin 0
     background url(./assets/bg.jpg) center center no-repeat
     background-size cover
@@ -552,7 +625,7 @@ export default {
   body:fullscreen #app > * {
     background url(./assets/bg.jpg) center center no-repeat
   }
-  body:-webkit-full-screen #app > * {
+  body:full-screen #app > * {
     background url(./assets/bg.jpg) center center no-repeat
   }
   body:-moz-full-screen #app > * {
@@ -583,7 +656,8 @@ export default {
     bottom 0
     overflow-x hidden
     overflow-y auto
-    -webkit-overflow-scrolling touch
+    overflow-scrolling touch
+    radius(x = .05rem)
     // &.has-header
     //   top HH
     &.has-footer

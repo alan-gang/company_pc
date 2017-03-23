@@ -1,2 +1,6 @@
 build/*.js
 config/*.js
+src/components/Message.vue
+src/util/*.js
+src/polyline.js
+src/main.all.out.min.js

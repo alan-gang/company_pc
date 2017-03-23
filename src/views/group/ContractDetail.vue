@@ -1,0 +1,157 @@
+<template lang="jade">
+  .group-page(style="width: 5.4rem; height: 6.8rem")
+    slot(name="cover")
+    slot(name="movebar")
+    slot(name="resize-x")
+    slot(name="resize-y")
+    slot(name="toolbar")
+    .contract.scroll-content(:class="{ center: type === 0 }")
+
+      div(v-if="contracts.length === 0" style="height: 100%;") 当前无可用契约
+        div(style="width: 0; height: 100%; vertical-align: middle; display: inline-block")
+      
+      div.c(v-for=" (c, ci) in contracts "  v-bind:class=" ['ds-icon-stock-' + STATUS[c.stat].class ] ")
+        
+        h2(style="color: #333; margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
+        p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.nickName }}
+        p.item 契约状态：{{ STATUS[c.stat].title }}
+        p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
+        p.item 时间类型：按{{ TIME[c.shareCycle] }}
+
+        p.item(v-for="(l, i) in  c.bonusRules ") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[l.ruletype].title }}
+          span.text-danger {{ l.sales / 10000 }}万
+          | ，分红比例
+          span.text-danger {{ l.bounsRate }}%
+
+        .item.buttons(style="margin: .3rem 0" v-if=" self && STATUS[c.stat].title === '待确认' ")
+          .ds-button.primary.large.bold(@click="checkContract(c.id, 1)") 接受
+          .ds-button.cancel.large.bold(@click="checkContract(c.id, 0)") 拒绝
+      
+</template>
+
+<script>
+  import api from '../../http/api'
+  export default {
+    data () {
+      return {
+        // 我的契约
+        self: true,
+        STATUS: [
+          {id: 0, title: '待确认', class: 'wait'},
+          {id: 1, title: '已签订', class: 'done'},
+          {id: 2, title: '未签订', reason: '已作废'},
+          {id: 3, title: '未签订', reason: '已拒绝'},
+          {id: 4, title: '待确认', reason: '重新发起'}
+        ],
+        contracts: [],
+        // 契约时间类型
+        TIME: ['月', '周', '日'],
+        // 销售盈亏类型
+        TYPE: [
+          {id: 1, title: '销售'},
+          {id: 2, title: '盈亏'}
+        ],
+        RULES: ['规则一', '规则二', '规则三', '规则四', '规则五', '规则六', '规则七', '规则八', '规则九', '规则十']
+      }
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route': 'openRoute'
+    },
+    mounted () {
+      this.self = this.$route.query.self
+      this.qryContractById(this.$route.query.id || '')
+    },
+    methods: {
+      openRoute ({query: {id, self}}) {
+        this.self = self
+        if (id) this.qryContractById(id)
+      },
+      contract () {
+        let loading = this.$loading({
+          text: '我的契约加载中...',
+          target: this.$el
+        }, 10000, '加载超时...')
+        this.$http.get(api.queryMyContract).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.contracts = data.contractList.sort(c => {
+              return c.stat < 4 && c.stat > 1
+            })
+            setTimeout(() => {
+              loading.text = '加载成功!'
+            }, 100)
+          } else loading.text = '加载失败!'
+        }, (rep) => {
+          // error
+          this.$message.error('加载失败！')
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 1000)
+        })
+      },
+      // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=qryContractById&contractId=12
+      qryContractById (id) {
+        // 如果没有ID， 查询我的契约
+        if (!id || this.self) {
+          this.self = true
+          return this.contract()
+        }
+        this.$http.get(api.qryContractById, {
+          contractId: id
+        }).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.contracts = data.contractList ? data.contractList : [data]
+          } else this.$message(data.msg || '契约详情查询失败!')
+        }, (rep) => {
+          // error
+          this.$message.error('契约详情查询失败！')
+        })
+      },
+      // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=checkContract&contractId=11&status=1
+      checkContract (id, i) {
+        this.$http.get(api.checkContract, {
+          contractId: id,
+          status: i
+        }).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.qryContractById()
+          } else this.$message(data.msg || '契约接收/拒绝失败!')
+        }, (rep) => {
+          // error
+          this.$message.error('契约接收/拒绝失败！')
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
+  .contract
+    top TH
+    background #fff
+    text-align center
+    &.center:after
+      content ''
+      height 100%
+      width 0
+      vertical-align middle
+      display inline-block
+    .form
+      padding PWX
+    .c
+      margin: .3rem
+      &:not(:first-child)
+        margin-top .6rem
+        opacity .5
+
+  .item
+    margin .24rem 0
+    text-align left
+    padding-left 20%
+ 
+</style>

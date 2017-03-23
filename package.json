@@ -13,10 +13,12 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "vue": "^2.0.1"
+    "element-ui": "^1.1.6",
+    "vue": "^2.0.1",
+    "vue-echarts-v3": "^1.0.3"
   },
   "devDependencies": {
-    "autoprefixer": "^6.4.0",
+    "autoprefixer": "^6.7.7",
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.0.0",
@@ -75,8 +77,9 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.3.1",
     "url-loader": "^0.5.7",
+    "vue-chartjs": "^2.5.0",
     "vue-loader": "^9.9.5",
-    "vue-resource": "^1.0.3",
+    "vue-resource": "^0.7.4",
     "vue-router": "^2.0.1",
     "vue-style-loader": "^1.0.0",
     "vue-touch": "^1.1.0",
@@ -88,5 +91,10 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

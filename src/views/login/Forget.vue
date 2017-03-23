@@ -28,42 +28,48 @@
         i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 2")
-        label(for="schoolName")你中学的名称{{ q1_ }}：
+        label(for="schoolName") {{ q1_ }}：
         input(v-model="a1_" id="schoolName")
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 2")
-        label(style="width: 1.3rem" for="friendName") 你最好朋友的姓名{{ q2_ }}：
+        label(for="friendName") {{ q2_ }}：
         input(v-model="a2_" id="friendName" @keyup.enter="next")
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
         label 已绑定手机为: 
-          span.phone {{ phone_ }}
+          span.phone {{ me.phone }}
           br
           | 系统已向此手机发送了验证短信，请注意查收！ 
       
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 1")
         input(placeholder="请输入接收到的验证码" v-model="pc_" @keyup.enter="next")
         label
-          .ds-button.secondary(v-bind:class="{ disabled: pt_ }") 重新发送{{ pt_ ? '(' + pt_ + ')' : '' }}
+          .ds-button.secondary(v-bind:class="{ disabled: pt_ }")
+            span(v-if="!pt_") 发送验证码
+            span(v-if="pt_" style="color: #333") {{ pt_ }} 
+                span(style="color: #999") 秒后可重新发送
 
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 0")
         label 已绑定邮箱为: 
-          span.email {{ email_ }}
+          span.email {{ me.email }}
           br
           | 系统已向此邮箱发送了验证短信，请注意查收！ 
       
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 0")
         input(placeholder="请输入接收到的验证码" v-model="ec_" @keyup.enter="next")
         label
-          .ds-button.secondary(v-bind:class="{ disabled: et_ }") 重新发送{{ et_ ? '(' + et_ + ')' : '' }}
+          .ds-button.secondary(v-bind:class="{ disabled: et_ }")
+            span(v-if="!et_") 发送验证码
+            span(v-if="et_" style="color: #333") {{ et_ }} 
+                span(style="color: #999") 秒后可重新发送
 
 
       dd.ds-icon-pwd(v-if="stepIndex === 2 && !finish")
-        input(placeholder="新密码" v-model="newpwd")
+        input(placeholder="新密码" v-model="newpwd" type="password")
 
       dd.ds-icon-pwd(v-if="stepIndex === 2 && !finish")
-        input(placeholder="确认新密码" v-model="newpwdrepeat")
+        input(placeholder="确认新密码" v-model="newpwdrepeat" type="password" @keyup.enter="done")
 
 
       dd.ds-icon-success.table(v-if="stepIndex === lastStepIndex && finish")
@@ -90,12 +96,15 @@
 <script>
 import StepTabs from 'components/StepTabs'
 import xhr from 'components/xhr'
-// import api from '../../http/api'
+import store from '../../store'
+import Validate from '../../util/Validate'
+import api from '../../http/api'
 export default {
   name: 'Forget',
   mixins: [xhr],
   data () {
     return {
+      me: store.state.user,
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
@@ -116,7 +125,7 @@ export default {
       if (this.finish) this.countTime()
     }
   },
-  created () {
+  mounted () {
     this._getVerifyImage()
     this.focus()
   },
@@ -185,7 +194,18 @@ export default {
       })
     },
     done () {
-      if (this.noEmpty(2)) this.finish = true
+      if (this.noEmpty(2)) {
+        this.$http.post(api.resetPwd, {newPwd: this.newpwd}).then(({data}) => {
+          // success
+          if (data.success !== 1) {
+            this.$message.warning('密码修改失败！')
+          } else {
+            this.finish = true
+          }
+        }, (rep) => {
+          // error
+        })
+      }
     },
     noEmpty (step) {
       let noEmpty = false
@@ -200,7 +220,9 @@ export default {
           if (this.radioIndex === 2) noEmpty = this.a1_ && this.a2_
           break
         case 2:
-          noEmpty = this.newpwd && (this.newpwdrepeat === this.newpwd || (notice = '两次输入的密码不一致！') && false)
+          noEmpty = this.newpwd
+          if (!Validate.pwd(this.newpwd)) (notice = '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三们相同！') && (noEmpty = false)
+          else if (this.newpwdrepeat !== this.newpwd) (notice = '两次输入的密码不一致！') && (noEmpty = false)
       }
       if (!noEmpty) {
         this.$message.warning(notice)
@@ -303,7 +325,7 @@ export default {
         &.phone-code
           padding 0 0 0 PW
           label
-            width 1.3rem
+            // width 1.3rem
             text-align right
         &.ds-icon-success
           margin BMH 0

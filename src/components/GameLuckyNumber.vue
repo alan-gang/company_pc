@@ -1,12 +1,12 @@
 <template lang="jade">
-  el-row.lucky-numbers(v-bind:class="['game-' + game]")
+  el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
     el-col.left(:span="20")
       span.NPER {{ NPER }} 
       | 期 &nbsp;
-      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + game + '-' +  (i + 1) ") 
+      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
         span.the-number {{ n }}
       span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
-        span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + game + '-' +  (i + 1) ") 
+        span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
           span.the-number {{ n | padStart(2, 0) }}
       
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")

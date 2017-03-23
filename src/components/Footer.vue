@@ -2,14 +2,14 @@
   footer
     el-row
       el-col.menu(:span="12")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" v-bind:popper-class="'footer-popover font-white ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]") 
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="menu.id > -1") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
           slot
-            dl.submenu(v-for="group in menu.groups" v-bind:class="{'with-icon': group.withIcon}")
-              dt {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class || group.class + '-middle']" @click="open(item, index)" v-if="item.title") 
-                | {{ item.title }}
+            dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+              dt(v-if="group.title") {{ group.title }}
+              dd(v-for="item in group.items" v-bind:class="[item.class + '-middle']" @click="open(item, index)" v-if="item.title") 
+                | {{ menu.url === 'game' ? '' : item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
@@ -22,8 +22,8 @@
         span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
-        span.ds-button.danger 充值
-        span.ds-button.primary 提现
+        span.ds-button.danger(@click="doRecharge") 充值
+        span.ds-button.primary(@click="withDraw") 提现
         span.ds-button.text-button.light.logout(@click="logout") 退出
 
     .logo.ds-icon-logo-middle
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import api from '../http/api'
 export default {
   props: ['menus', 'name', 'money', 'free'],
   data () {
@@ -40,7 +41,7 @@ export default {
       hide: false
     }
   },
-  created () {
+  mounted () {
     this.initShows()
   },
   computed: {
@@ -61,6 +62,28 @@ export default {
     },
     logout () {
       this.$emit('logout')
+    },
+    doRecharge () {
+      this.$http.get(api.doRecharge).then(({data}) => {
+        if (data.success === 1) {
+          this.$modal.warn({
+            content: '充值验证码为：' + data.securityCode,
+            btn: ['去充值'],
+            href: [data.path],
+            // target: this.$el.parentNode,
+            ok () {
+              return false
+            }
+          })
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '充值请求失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '充值请求失败！'})
+      })
+    },
+    withDraw () {
+      this.$router.push('/me/2-5-1')
     }
   },
   components: {
@@ -74,11 +97,15 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    &.game
+      max-width 9rem
+      .submenu
+        width 2.4rem
+      
     .submenu
       float left
       display inline-block
-      &:not(:first-child)
-        margin-left .3rem
+      margin 0 .3rem
       dt
         font-size .18rem
         color BLUE
@@ -103,6 +130,18 @@ export default {
           line-height H
           // &[class*=ds-icon]
           //   padding-left W + .05rem
+      &.game
+        dd
+          display inline-block
+          margin-right PWX
+          width .6rem
+          height .6rem
+          float left
+          transition all linear .2s // @static 2
+          transform perspective(100px)
+          &:hover
+            transform perspective(100px) translateZ(30px)
+          
       .inner-submenu
         float left
         &:not(:last-child)
@@ -113,7 +152,7 @@ export default {
   
   footer
     // height FH
-    bg-gradient(top, rgba(255, 255, 255, .1), rgba(0, 0, 0, .1))
+    bg-gradient(180deg, rgba(255, 255, 255, .1), rgba(0, 0, 0, .1))
     // @media screen and (max-width: 1100px)
       // height 2 * FH
     .logo
@@ -136,6 +175,7 @@ export default {
       
       
   .menu
+    min-height 1px
     .icon-button
       position relative
       display inline-block
@@ -152,7 +192,7 @@ export default {
         bottom 0
         left 0
         right 0
-        background -webkit-linear-gradient(top left, rgba(255, 255, 255, .4), rgba(255, 255, 255, .1), rgba(255, 255, 255, .4))
+        background linear-gradient(top left, rgba(255, 255, 255, .4), rgba(255, 255, 255, .1), rgba(255, 255, 255, .4))
         radius()
         
       &:before

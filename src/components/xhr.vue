@@ -1,5 +1,6 @@
 <script>
   import api from '../http/api'
+  import store from '../store'
   export default {
     data () {
       return {
@@ -30,18 +31,21 @@
         phone_: ''
       }
     },
-    created () {
+    mounted () {
     },
     computed: {
+      ppp () {
+        return this.pt_
+      }
     },
     watch: {
-      code_ () {
-        if (this.code_.length === 4) this._checkVerifyCode()
-      },
+      // code_ () {
+      //   if (this.code_.length === 4) this._checkVerifyCode()
+      // },
       pt_ () {
         if (this.pt_ === this.time_) {
           let t = setInterval(() => {
-            if (this.pt_ > 0) this.pt_--
+            if (this.pt_ > 1) this.pt_--
             else clearInterval(t)
           }, 1000)
         }
@@ -49,7 +53,7 @@
       et_ () {
         if (this.et_ === this.time_) {
           let t = setInterval(() => {
-            if (this.et_ > 0) this.et_--
+            if (this.et_ > 1) this.et_--
             else clearInterval(t)
           }, 1000)
         }
@@ -60,7 +64,7 @@
       _getVerifyImage () {
         this.$http.get(api.getVerifyImage).then(({data}) => {
           // success
-          if (data.success > 0) this.img_ = 'data:image/png;base64,' + data.data
+          if (data.success === 1) this.img_ = 'data:image/png;base64,' + data.data
           else this.$message.warning('验证码获取失败')
         }, (rep) => {
           // error
@@ -70,13 +74,14 @@
       _checkVerifyCode (fn) {
         this.$http.post(api.checkVerifyCode, {verifyCode: this.code_}).then(({data}) => {
           // success
-          // if (data.success < 1) this.notice = '验证码输入不正确！'
-          if (data.success < 1) {
+          // if (data.success !== 1) this.notice = '验证码输入不正确！'
+          if (data.success !== 1) {
             this.$message.warning('验证码输入不正确！')
+            this._getVerifyImage()
           } else {
             if (fn) fn()
             else {
-              this.$message.success('验证码正确！')
+              // this.$message.success('验证码正确！')
             }
           }
         }, (rep) => {
@@ -87,7 +92,7 @@
       _checkUserName (fn) {
         this.$http.post(api.checkUserName, {userName: this.un_, verifyCode: this.code_}).then(({data}) => {
           // success
-          if (data.success > 0) {
+          if (data.success === 1) {
             fn && fn()
           } else {
             this.$message.error('用户名不存在！')
@@ -99,8 +104,9 @@
       _getEmail (fn) {
         this.$http.get(api.getEmail).then(({data}) => {
           // success
-          if (data.success > 0) {
-            this.email_ = data.emai
+          if (data.success === 1) {
+            this.email_ = data.email
+            store.actions.setUser({email: data.email})
             fn && fn()
           } else {
             this.$message.warning(data.msg || '您还没有绑定邮箱！')
@@ -112,9 +118,10 @@
       _getMobile (fn) {
         this.$http.get(api.getMobile).then(({data}) => {
           // success
-          if (data.success > 0) {
+          if (data.success === 1) {
             fn && fn()
             this.phone_ = data.mobile
+            store.actions.setUser({phone: data.mobile})
           } else {
             this.$message.warning(data.msg || '您还没有绑定手机！')
           }
@@ -127,7 +134,7 @@
         this.$http.get(api.sendSms).then(({data}) => {
           this.pt_ = this.time_
           // success
-          if (data.success > 0) {
+          if (data.success === 1) {
             fn && fn()
             // this.$message.success('手机短信验证码已经发送，请查收！')
             this.pt_ = this.time_
@@ -142,7 +149,7 @@
       _sendMail (fn) {
         this.$http.get(api.sendMail).then(({data}) => {
           // success
-          if (data.success > 0) {
+          if (data.success === 1) {
             fn && fn()
             // this.$message.success('邮箱验证码已经发送，请查收！')
             this.et_ = this.time_
@@ -156,7 +163,7 @@
       _safeQuestion (fn) {
         this.$http.get(api.safeQuestion).then(({data}) => {
           // success
-          if (data.success > 0) {
+          if (data.success === 1) {
             this.q1_ = data.question1
             this.q2_ = data.question2
             fn && fn()
@@ -170,12 +177,12 @@
       _checkSmsVerifyCode (fn) {
         this.$http.post(api.checkSmsVerifyCode, {verifyCode: this.pc_}).then(({data}) => {
           // success
-          if (data.success > 0) {
+          if (data.success !== 1) {
             this.$message.warning(data.msg || '验证码输入不正确！')
           } else {
             if (fn) fn()
             else {
-              this.$message.success('验证成功，请修改密码！')
+              // this.$message.success('验证成功，请修改密码！')
             }
           }
         }, (rep) => {
@@ -185,12 +192,12 @@
       _checkMailVerifyCode (fn) {
         this.$http.post(api.checkMailVerifyCode, {verifyCode: this.ec_}).then(({data}) => {
           // success
-          if (data.success < 1) {
+          if (data.success !== 1) {
             this.$message.warning('验证码输入不正确！')
           } else {
             if (fn) fn()
             else {
-              this.$message.success('验证码正确！')
+              // this.$message.success('验证码正确！')
             }
           }
         }, (rep) => {
@@ -200,13 +207,13 @@
       _safeAnswer (fn) {
         this.$http.post(api.safeAnswer, {answer1: this.a1_, answer2: this.a2_}).then(({data}) => {
           // success
-          // if (data.success < 1) this.notice = '验证码输入不正确！'
-          if (data.success < 1) {
+          // if (data.success !== 1) this.notice = '验证码输入不正确！'
+          if (data.success !== 1) {
             this.$message.warning('安全问答不正确！')
           } else {
             if (fn) fn()
             else {
-              this.$message.success('安全问答正确！')
+              // this.$message.success('安全问答正确！')
             }
           }
         }, (rep) => {

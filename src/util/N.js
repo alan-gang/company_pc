@@ -9,14 +9,14 @@ N: 一注的长度
 r: 最大相同数字的长度
 l: 一个号码的长度 如12345有5个号码, 010203有3个号码, 号码长度为2
  */
-let N = (value, N, r, l, max, min) => empty(value) ? 0 : value.split(' ').filter(n => n.length === N).filter(n => {
+let N = (value, N, r, l, max, min) => empty(value) ? [] : value.split(' ').filter(n => n.length === N).filter(n => {
   return (typeof r !== 'number') || r === Object.values(n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).reduce((p, na) => {
     if (p[na] !== undefined) p[na] += 1
     else p[na] = 1
     if ((max !== undefined && parseInt(na) > max) || (min !== undefined && parseInt(na) < min)) p[na] = r + 1
     return p
   }, {})).sort((a, b) => b - a)[0]
-}).length
+})
 
 // 数组内各长度相乘
 let P = (nsl) => {
@@ -69,7 +69,7 @@ let SSC = {
   N
    */
   '5-1-2' ({value}) {
-    return N(value, 5)
+    return [N(value, 5).length, N(value, 5)]
   },
 
   /*
@@ -179,7 +179,7 @@ let SSC = {
   N N=输入的号码个数
    */
   '4-1-2' ({value}) {
-    return N(value, 4)
+    return [N(value, 4).length, N(value, 4)]
   },
 
   /*
@@ -296,7 +296,7 @@ let SSC = {
   N
   */
   '+3-1-2' ({value}) {
-    return N(value, 3)
+    return [N(value, 3).length, N(value, 3)]
   },
 
   /*
@@ -335,7 +335,7 @@ let SSC = {
   N=输入的号码个数 N
   */
   '+3-2-2' ({value}) {
-    return N(value, 3, 2)
+    return [N(value, 3, 2).length, N(value, 3, 2)]
   },
 
   /*
@@ -351,7 +351,7 @@ let SSC = {
   N=输入的号码个数 N
   */
   '+3-2-4' ({value}) {
-    return N(value, 3, 1)
+    return [N(value, 3, 1).length, N(value, 3, 1)]
   },
 
   /*
@@ -359,7 +359,7 @@ let SSC = {
   N=输入的号码个数 N
   */
   '+3-2-5' ({value}) {
-    return N(value, 3)
+    return [N(value, 3, 2).length, N(value, 3, 2)]
   },
 
   /* ..............前三其他............... */
@@ -621,7 +621,7 @@ let SSC = {
   N
   */
   '2-1-2' ({value}) {
-    return N(value, 2)
+    return [N(value, 2).length, N(value, 2)]
   },
 
   /*
@@ -651,7 +651,7 @@ let SSC = {
   N
   */
   '2-2-2' ({value}) {
-    return N(value, 2)
+    return [N(value, 2, 1).length, N(value, 2, 1)]
   },
 
   /*
@@ -678,7 +678,7 @@ let SSC = {
   N
   */
   '2-3-2' ({value}) {
-    return N(value, 2)
+    return [N(value, 2).length, N(value, 2)]
   },
 
   /*
@@ -706,7 +706,7 @@ let SSC = {
   同前二
   */
   '2-4-2' ({value}) {
-    return N(value, 2)
+    return [N(value, 2, 1).length, N(value, 2, 1)]
   },
 
   /*
@@ -856,7 +856,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 2) * N
   */
   '-1-1-2' ({value, psl}) {
-    return C(psl, 2) * N(value, 2)
+    return [C(psl, 2) * N(value, 2).length, N(value, 2)]
   },
 
   /*
@@ -872,7 +872,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 2) * N
   */
   '-1-1-4' ({psl, value}) {
-    return C(psl, 2) * N(value, 2)
+    return [C(psl, 2) * N(value, 2).length, N(value, 2)]
   },
 
   /* ..............任三............... */
@@ -896,7 +896,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-2' ({psl, value}) {
-    return C(psl, 3) * N(value, 3)
+    return [C(psl, 3) * N(value, 3).length, N(value, 3)]
   },
 
   /*
@@ -913,7 +913,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-4' ({psl, value}) {
-    return C(psl, 3) * N(value, 3)
+    return [C(psl, 3) * N(value, 3, 2).length, N(value, 3, 2)]
   },
 
   /*
@@ -928,14 +928,14 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-6' ({psl, value}) {
-    return C(psl, 3) * N(value, 3)
+    return [C(psl, 3) * N(value, 3, 1).length, N(value, 3, 1)]
   },
   /*
   混合组选
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-7' ({psl, value}) {
-    return C(psl, 3) * N(value, 3)
+    return [C(psl, 3) * N(value, 3).length, N(value, 3)]
   },
 
   /* ..............任四............... */
@@ -959,7 +959,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 4) * N
   */
   '-1-3-2' ({psl, value}) {
-    return C(psl, 4) * N(value, 4)
+    return [C(psl, 4) * N(value, 4).length, N(value, 4)]
   },
 
   /*
@@ -1099,7 +1099,7 @@ let G115 = {
    *直选单式  N
    **/
   '3-1-2-115' ({value}) {
-    return N(value, 6, 1, 2, 11, 1)
+    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
   },
   /*
    *组选复式  C(n,3)
@@ -1111,7 +1111,7 @@ let G115 = {
    *组选单式  N
    **/
   '3-1-4-115' ({value}) {
-    return N(value, 6, 1, 2, 11, 1)
+    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
   },
   /*
    *组选胆拖  C(n,(3-m))
@@ -1126,7 +1126,7 @@ let G115 = {
   },
    // '直选单式',
   '2-1-2-115' ({value}) {
-    return N(value, 4, 1, 2, 11, 1)
+    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
   },
    // '组选复式',
   '2-1-3-115' ({nsl}) {
@@ -1134,11 +1134,11 @@ let G115 = {
   },
    // '组选单式',
   '2-1-4-115' ({value}) {
-    return N(value, 4, 1, 2, 11, 1)
+    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
   },
    // '组选胆拖',
-  '2-1-5-115' ({value}) {
-    return N(value, 4, 1, 2, 11, 1)
+  '2-1-5-115' ({nsl}) {
+    return C(nsl[1], 1) * nsl[0]
   },
    // '定位胆',
   '1-1-1-115' ({nsl}) {
@@ -1182,63 +1182,63 @@ let G115 = {
   },
    // '一中一',
   '-1-2-1-115' ({value}) {
-    return N(value, 2, 1, 2, 11, 1)
+    return [N(value, 2, 1, 2, 11, 1).length, N(value, 2, 1, 2, 11, 1)]
   },
    // '二中二',
   '-1-2-2-115' ({value}) {
-    return N(value, 4, 1, 2, 11, 1)
+    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
   },
    // '三中三',
   '-1-2-3-115' ({value}) {
-    return N(value, 6, 1, 2, 11, 1)
+    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
   },
    // '四中四',
   '-1-2-4-115' ({value}) {
-    return N(value, 8, 1, 2, 11, 1)
+    return [N(value, 8, 1, 2, 11, 1).length, N(value, 8, 1, 2, 11, 1)]
   },
    // '五中五',
   '-1-2-5-115' ({value}) {
-    return N(value, 10, 1, 2, 11, 1)
+    return [N(value, 10, 1, 2, 11, 1).length, N(value, 10, 1, 2, 11, 1)]
   },
    // '六中五',
   '-1-2-6-115' ({value}) {
-    return N(value, 12, 1, 2, 11, 1)
+    return [N(value, 12, 1, 2, 11, 1).length, N(value, 12, 1, 2, 11, 1)]
   },
    // '七中五',
   '-1-2-7-115' ({value}) {
-    return N(value, 14, 1, 2, 11, 1)
+    return [N(value, 14, 1, 2, 11, 1).length, N(value, 14, 1, 2, 11, 1)]
   },
    // '八中五',
   '-1-2-8-115' ({value}) {
-    return N(value, 16, 1, 2, 11, 1)
+    return [N(value, 16, 1, 2, 11, 1).length, N(value, 16, 1, 2, 11, 1)]
   },
    // '二中二',
   '-1-3-1-115' ({nsl}) {
-    return C(nsl[1], 1)
+    return C(nsl[0], 1) * C(nsl[1], 1)
   },
    // '三中三',
   '-1-3-2-115' ({nsl}) {
-    return C(nsl[1], (3 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (3 - nsl[0]))
   },
    // '四中四',
   '-1-3-3-115' ({nsl}) {
-    return C(nsl[1] - (4 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (4 - nsl[0]))
   },
    // '五中五',
   '-1-3-4-115' ({nsl}) {
-    return C(nsl[1] - (5 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (5 - nsl[0]))
   },
    // '六中五',
   '-1-3-5-115' ({nsl}) {
-    return C(nsl[1] - (6 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (6 - nsl[0]))
   },
    // '七中五',
   '-1-3-6-115' ({nsl}) {
-    return C(nsl[1] - (7 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (7 - nsl[0]))
   },
    // '八中五',
   '-1-3-7-115' ({nsl}) {
-    return C(nsl[1] - (8 - nsl[0]))
+    return C(nsl[0], nsl[0]) * C(nsl[1], (8 - nsl[0]))
   },
    // '定单双',
   '-2-1-1-115' ({nsl}) {
@@ -1302,7 +1302,7 @@ let PK10 = {
   },
   // title: '猜冠亚军
   '-1-1-2-PK10' ({nsl, r}) {
-    return nsl[0] * nsl[2] - r
+    return nsl[0] * nsl[1] - r
   },
   // title: '猜前三名
   '-1-1-3-PK10' ({ns}) {
@@ -1381,8 +1381,8 @@ let K3 = {
     return C(nsl[0], 3)
   },
   // title: '三不同胆拖'
-  '-3-1-2-K3' ({nsl, r}) {
-    return C(nsl[0], 1) * C(nsl[1], 3) - C(r, 1) * C(nsl[1] - 1, 2)
+  '-3-1-2-K3' ({nsl}) {
+    return nsl[0] === 2 ? nsl[1] : nsl[0] * C(nsl[1], 2)
   },
   // title: '三连单选'
   '+3-1-1-K3' ({nsl}) {

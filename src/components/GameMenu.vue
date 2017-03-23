@@ -14,7 +14,7 @@
 <script>
   export default {
     props: ['type', 'menus', 'getTitle'],
-    created () {
+    mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
     },
     computed: {
