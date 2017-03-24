@@ -89,7 +89,9 @@ export default function (VueRoter) {
 
   // 匹配前
   router.beforeEach((to, from, next) => {
-    if (to.meta.login && !store.state.user.login) next({path: 'login'})
+    // 如果需要登录，而当前没有登录， 先测试有没有登录
+    if (to.meta.login && !store.state.user.login) next({path: '/login'})
+    // 如果不要便当， 而当前登录了, 跳到大厅
     else if (to.meta.login === false && store.state.user.login) {
       next(false)
     } else next()

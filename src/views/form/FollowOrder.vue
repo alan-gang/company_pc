@@ -21,11 +21,11 @@
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i" v-if=" type === 1")
 
       // 跟单中心
-      el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem" v-if=" type === 0 ")
+      el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem" v-show=" type === 0 ")
 
           el-table-column(prop="nickName" label="用户" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(@click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.nickName }}
+              .ds-button.text-button.blue(style="padding: 0" @click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.nickName }}
 
           el-table-column(prop="projectId" label="注单编号" width="80")
           
@@ -54,16 +54,15 @@
               div(v-if="scope.row.stat === 0 ")
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click="(row = scope.row) && (show = true) && (type = 1) ") 跟单
 
-      el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")  
       
       // 跟单记录
-      el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0" v-if=" type === 1 ")
+      el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0" v-show=" type === 1 ")
 
          el-table-column(prop="projectId" label="注单编号" width="100" )
             template(scope="scope")
               .ds-button.text-button.blue(@click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
 
-          el-table-column(prop="nickName" label="用户" width="80")
+          el-table-column(prop="nickName" label="用户" width="180")
           
           el-table-column(prop="writeTime" label="发起时间" width="120" align="right")
 
@@ -90,6 +89,9 @@
           el-table-column(label="状态" width="60" align="right")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
+
+      el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")  
+
   
     .modal(v-show="show" )
       .mask
@@ -176,7 +178,7 @@
       .box-wrapper
         .box
           .tool-bar
-            span.title {{ title }} 投注详情
+            span.title 跟单详情
             el-button-group
               el-button(icon="close" @click="show = false")
           .content
@@ -355,7 +357,7 @@
       },
       Orderlist (page, fn) {
         let loading = this.$loading({
-          text: '投注记录加载中...',
+          text: '跟单记录加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         if (!fn) {
@@ -426,7 +428,7 @@
       }
     }
   }
-  // 投注列表
+  // 跟单列表
   // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&beginDate=20170101000000&endDate=20170303000000&stat=1&isFree=1&userName=test&scope=1&lotteryId=1&methodId=16&issue=170104071&modes=1
   // Orderlist: api + 'report/buyReport.do?method=list',
   // 根据投注号Id查询投注详情
@@ -485,7 +487,7 @@
   .title
     color #333
     font-weight bold
-    padding-left .41rem
+    padding-left .2rem
 
   .el-button-group
     float right
