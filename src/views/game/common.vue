@@ -272,7 +272,7 @@ export default {
     },
     setType (type) {
       this.type = type
-      this.__setCall({fn: 'clear', args: this.call.args + ' '})
+      this.__setCall({fn: '__clearSelectedNumbers', args: this.call.args + ' '})
     },
     toggleChecked () {
       this.checked = !this.checked
