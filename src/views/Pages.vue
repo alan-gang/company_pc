@@ -527,7 +527,7 @@ export default {
   .page
     overflow hidden
   .dialog-page
-    position absolute
+    position absolute !important
     min-width 5.4rem
     min-height 4rem
     overflow visible
