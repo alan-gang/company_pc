@@ -291,7 +291,7 @@
       },
       // 位置集合
       ps () {
-        return this.rows.length === 0 ? this.positions.filter(p => p.selected).map(p => {
+        return this.show ? this.positions.filter(p => p.selected).map(p => {
           return (p = p.value)
         }) : this.nsl.map((l, i) => {
           return l > 0 && (l = 5 - i)
