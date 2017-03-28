@@ -38,6 +38,7 @@
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="addPrefence(i)" v-bind:class="[{disabled: item.desk}]") {{ i.title }}
+    Guide(v-if="me.guide")
 
 
 </template>
@@ -46,6 +47,7 @@
 import base from 'components/base'
 import api from '../http/api'
 import store from '../store'
+import Guide from './Guide'
 export default {
   name: 'Home',
   mixins: [base],
@@ -53,6 +55,7 @@ export default {
   data () {
     return {
       pages: store.state.pages,
+      me: store.state.user,
       userName: 'ls123',
       money: '50万',
       public: '系统预计12月21日02：30会有版本迭代，请各玩家知悉。',
@@ -194,6 +197,9 @@ export default {
         // error
       })
     }
+  },
+  components: {
+    Guide
   }
 }
 </script>

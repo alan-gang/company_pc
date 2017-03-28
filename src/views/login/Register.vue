@@ -24,6 +24,7 @@
 
 <script>
   // import '../../main.all.out.min.js'
+  import browser from '../../util/browser'
   import xhr from 'components/xhr'
   export default {
     mixins: [xhr],
@@ -38,6 +39,7 @@
     },
     mounted () {
       this._getVerifyImage()
+      if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go'
     },
     methods: {
     }

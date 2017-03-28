@@ -48,10 +48,32 @@
       }
     },
     mounted () {
-      this._getVerifyImage()
       setTimeout(() => {
         this.$el.querySelector('.ds-icon-user input').focus()
       }, 0)
+      // try login
+      this.$http.get(api.validate).then(({data}) => {
+        // success
+        if (data.success) {
+          this.$emit('update-user', {login: true,
+            name: data.nickName,
+            pwd: data.hasLogPwd === '1',
+            cashPwd: data.hasSecurityPwd === '1',
+            type: data.identity,
+            account: data.userName,
+            role: data.groupId,
+            guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
+          })
+          this.$router.push('/')
+        } else {
+          this._getVerifyImage()
+        }
+      }, (rep) => {
+        this._getVerifyImage()
+        // error
+      }).finally(() => {
+        // loading.close()
+      })
     },
     activated () {
     },
@@ -66,7 +88,15 @@
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
               // success
               if (data.success) {
-                this.$emit('update-user', {login: true, name: data.nickName, type: data.identity, account: data.userName, role: data.groupId})
+                this.$emit('update-user', {login: true,
+                  name: data.nickName,
+                  pwd: data.hasLogPwd === '1',
+                  cashPwd: data.hasSecurityPwd === '1',
+                  type: data.identity,
+                  account: data.userName,
+                  role: data.groupId,
+                  guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
+                })
                 this.$router.push('/')
               } else {
                 this.$message.error('用户名或密码错误！')

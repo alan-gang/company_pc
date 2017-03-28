@@ -433,6 +433,7 @@ export default {
       this.newCashPwdAgain = ''
     },
     changNickName () {
+      if (!Validate.nickName(this.nickname)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
       this.$http.post(api.changNickName, {nickName: this.nickname}).then(({data}) => {
         if (data.success === 1) {
           let message = '恭喜您， 昵称修改成功。'

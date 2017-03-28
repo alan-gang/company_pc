@@ -20,7 +20,7 @@ let account = account => {
   return account.length >= 6 && account.length <= 16 && account.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)
 }
 let nickName = nickName => {
-  return nickName.length >= 2 && nickName.length <= 8 && nickName.match(/\d/g).length <= 4 && nickName.match(/(\d+[\u4e00-\u9fa5]+)|([\u4e00-\u9fa5]+\d+)/g)
+  return nickName.length >= 2 && nickName.length <= 8 && !(nickName.match(/\d/g) || [])[4] && !nickName.match(/q{2,}/gi) && nickName.match(/(\d*[\u4e00-\u9fa5]+)|([\u4e00-\u9fa5]+\d*)/g)
 }
 module.exports = {
   pwd,
@@ -29,5 +29,6 @@ module.exports = {
   bankcard,
   chinese,
   chineseName,
-  account
+  account,
+  nickName
 }

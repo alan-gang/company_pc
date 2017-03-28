@@ -74,6 +74,13 @@
         color BLUE
       &:last-child
         background none
+        
+  .step-tabs.text-small
+    .tab
+      padding 0 .34rem 0 .2rem
+      font-size .2rem
       
-
+    .ds-icon-right-arrow
+      background url(../assets/guide/right-arrow-small.png) right center no-repeat
+      
 </style>

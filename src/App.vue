@@ -65,9 +65,11 @@ export default {
               // class: 'ds-icon-item',
               url: 'SSC',
               id: 2,
+              // width: '8rem',
               items: [
                 {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
-                // {class: 'ds-icon-game-chq', menuid: '2', title: '黑龙江时时彩', showInHome: false, liked: false},
+                {class: 'ds-icon-game-hljssc', menuid: '8', title: '黑龙江时时彩', gameid: 2},
+                {class: 'ds-icon-game-jxssc', menuid: '13', title: '江西时时彩', gameid: 16},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4}
                 // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
@@ -82,7 +84,7 @@ export default {
               items: [
                 {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5},
                 {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩'},
-                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '17', title: '欢乐分分彩', gameid: 12}
+                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 12}
                 // {class: 'ds-icon-game-hl', menuid: '9', title: '福彩3D'}
               ]
             },
@@ -123,7 +125,7 @@ export default {
               // withIcon: true,
               // class: 'ds-icon-item',
               url: 'K3',
-              width: '1.8rem',
+              // width: '1.8rem',
               items: [
                 {class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
               ]
@@ -611,7 +613,7 @@ export default {
     overflow hidden
     min-height 600px
     min-width 800px
-    font-family Arial, Helvetica, sans-serif, "微软雅黑"
+    font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
     // user-select none
   
   body

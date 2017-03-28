@@ -563,6 +563,16 @@ input
       background url(assets/game/15_big.png) center no-repeat
   .ds-icon-game-ks-middle
       background url(assets/game/15.png) center no-repeat  
+  
+  .ds-icon-game-hljssc
+      background url(assets/game/16_big.png) center no-repeat
+  .ds-icon-game-hljssc-middle
+      background url(assets/game/16.png) center no-repeat  
+  
+  .ds-icon-game-jxssc
+      background url(assets/game/17_big.png) center no-repeat
+  .ds-icon-game-jxssc-middle
+      background url(assets/game/17.png) center no-repeat  
       
   .ds-icon-notice
       background url(assets/notice.png) PW 0.6*PW no-repeat

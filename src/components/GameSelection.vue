@@ -323,7 +323,7 @@
           nsl: this.nsl,
           ps: this.ps,
           psl: this.psl,
-          value: this.value,
+          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' '),
           r: this.r
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败

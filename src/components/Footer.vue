@@ -3,7 +3,7 @@
     el-row
       el-col.menu(:span="12")
         el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="menu.id > -1") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href")
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href" v-on:mouseover="mouseover(menu)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
@@ -47,6 +47,13 @@ export default {
   computed: {
   },
   methods: {
+    mouseover (menu) {
+      if (menu.url === 'game') {
+        this.__setCall({
+          fn: '__guideStep'
+        })
+      }
+    },
     initShows () {
       this.shows = this.menus.reduce((p, m, i) => {
         p[i] = false
@@ -57,8 +64,17 @@ export default {
       this.$emit('open-page', url)
     },
     open (item, index) {
-      this.shows[index] = false
-      this.openPage(item.id)
+      this.__setCall({
+        fn: '__closeGuide'
+      })
+      // this.$nextTick(() => {
+      //   this.shows[index] = false
+      //   this.openPage(item.id)
+      // })
+      setTimeout(() => {
+        this.shows[index] = false
+        this.openPage(item.id)
+      }, 0)
     },
     logout () {
       this.$emit('logout')
@@ -136,6 +152,7 @@ export default {
           margin-right PWX
           width .6rem
           height .6rem
+          margin-top PW
           float left
           transition all linear .2s // @static 2
           transform perspective(100px)

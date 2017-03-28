@@ -23,7 +23,8 @@ let store = {
       safeScore: '',
       location: '',
       lastLoginTime: '',
-      role: ''
+      role: '',
+      guide: true
     },
     pages: []
   },
@@ -41,6 +42,7 @@ let store = {
      *for login
      */
     setUser (user) {
+      console.log('user: ', user)
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
       user = user || {
@@ -62,7 +64,8 @@ let store = {
         safeScore: '',
         location: '',
         lastLoginTime: '',
-        role: ''
+        role: '',
+        guide: true
       }
       Object.assign(store.state.user, user)
     },
