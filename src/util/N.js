@@ -17,6 +17,15 @@ let N = (value, N, r, l, max, min) => empty(value) ? [] : value.split(' ').filte
     return p
   }, {})).sort((a, b) => b - a)[0]
 })
+// 最大重复号码为r 或小于 r
+let ON = (value, N, r, l, max, min) => empty(value) ? [] : value.split(' ').filter(n => n.length === N).filter(n => {
+  return (typeof r !== 'number') || r >= Object.values(n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).reduce((p, na) => {
+    if (p[na] !== undefined) p[na] += 1
+    else p[na] = 1
+    if ((max !== undefined && parseInt(na) > max) || (min !== undefined && parseInt(na) < min)) p[na] = r + 1
+    return p
+  }, {})).sort((a, b) => b - a)[0]
+})
 
 // 数组内各长度相乘
 let P = (nsl) => {
@@ -359,7 +368,7 @@ let SSC = {
   N=输入的号码个数 N
   */
   '+3-2-5' ({value}) {
-    return [N(value, 3, 2).length, N(value, 3, 2)]
+    return [ON(value, 3, 2).length, ON(value, 3, 2)]
   },
 
   /* ..............前三其他............... */
@@ -935,7 +944,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-7' ({psl, value}) {
-    return [C(psl, 3) * N(value, 3).length, N(value, 3)]
+    return [C(psl, 3) * ON(value, 3, 2).length, ON(value, 3, 2)]
   },
 
   /* ..............任四............... */
@@ -1117,7 +1126,7 @@ let G115 = {
    *组选胆拖  C(n,(3-m))
    **/
   '3-1-5-115' ({nsl}) {
-    return C(nsl[1], (3 - nsl[0]))
+    return nsl[0] ? C(nsl[1], (3 - nsl[0])) : 0
   },
 
    // '直选复式',
@@ -1398,7 +1407,7 @@ let K3 = {
   },
   // title: '猜1个号就中奖'
   '0-1-2-K3' ({nsl}) {
-    return C(nsl[0], 1)
+    return C(nsl[0], 1) * 21
   }
 }
 module.exports = Object.assign(SSC, G115, KL8, PK10, K3)

@@ -23,6 +23,7 @@ let store = {
       safeScore: '',
       location: '',
       lastLoginTime: '',
+      // 1. 招商总代 2： 直属总代 3.一般总代 4： 普通代理 5： 试玩用户
       role: '',
       guide: true
     },

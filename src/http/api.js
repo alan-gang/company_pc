@@ -313,6 +313,12 @@ let Group = {
   // 查询我的奖金
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=myBonus&startDate=20170101200000&endDate=20170115200000
   myBonus: '/team/contractBonus.do?method=myBonus',
+  // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonus&startDate=20170310&endDate=20170316&issue=20170315
+  topBonus: '/team/topBonus.do?method=topBonus',
+  // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonuDetail&issue=20170315
+  topBonuDetail: '/team/topBonus.do?method=topBonuDetail',
+  // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topContract&contractId=1
+  topContract: '/team/topBonus.do?method=topContract',
   // 查询我和下级签订的契约
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=mySubContract&startDate=20170101200000&endDate=20170115200000
   mySubContract: '/team/contractBonus.do?method=mySubContract',

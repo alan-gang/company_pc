@@ -13,12 +13,12 @@
 
       div
         label.item 游戏名称 
-          el-select(v-model="game" style="width: 1.5rem" placeholder="所有游戏")
+          el-select(clearable v-model="game" style="width: 1.5rem" placeholder="所有游戏" v-bind:disabled="!gameList[0]")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U")
         | &nbsp;&nbsp;&nbsp;&nbsp;
-        label.item 状态 
-          el-select(v-model="status" style="width: .8rem")
-            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i" v-if=" type === 1")
+        label.item(v-if=" type === 1") 状态 
+          el-select(clearable v-model="status" style="width: .8rem" v-bind:disabled=" !STATUS[0]" placeholder="全")
+            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i" )
 
       // 跟单中心
       el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem" v-show=" type === 0 ")
@@ -29,27 +29,27 @@
 
           el-table-column(prop="projectId" label="注单编号" width="80")
           
-          el-table-column(prop="writeTime" label="发起时间" width="120" align="right")
+          el-table-column(prop="writeTime" label="发起时间" width="140")
 
-          el-table-column(prop="lotteryName" label="游戏" width="100" align="right")
+          el-table-column(prop="lotteryName" label="游戏" width="100" )
 
-          el-table-column(prop="methodName" label="玩法" width="100" align="right")
+          el-table-column(prop="methodName" label="玩法" width="100" )
 
-          el-table-column(prop="issue" label="期号" width="100" align="right")
+          el-table-column(prop="issue" label="期号" width="100" )
 
-          el-table-column(prop="code" label="投注内容" align="center" width="120")
+          el-table-column(prop="code" label="投注内容" width="140")
 
           el-table-column(prop="multiple" label="倍数" width="50" align="right")
 
-          el-table-column(prop="modes" label="模式" width="50" align="right")
+          el-table-column(class-name="pl1" prop="modes" label="模式" width="50")
             template(scope="scope")
                 span {{ MODES[scope.row.modes] }}     
 
-          el-table-column(prop="totalPrice" label="总金额" width="80" align="right")
+          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
 
-          el-table-column(prop="bonus" label="奖金" width="80" align="right")
+          el-table-column(prop="bonus" label="奖金" width="100" align="right")
 
-          el-table-column(label="操作" align="center")
+          el-table-column(class-name="pl2" label="操作")
             template(scope="scope")
               div(v-if="scope.row.stat === 0 ")
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click="(row = scope.row) && (show = true) && (type = 1) ") 跟单
@@ -58,25 +58,25 @@
       // 跟单记录
       el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0" v-show=" type === 1 ")
 
-         el-table-column(prop="projectId" label="注单编号" width="100" )
+          el-table-column(prop="projectId" label="注单编号" width="100" )
             template(scope="scope")
               .ds-button.text-button.blue(@click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
 
-          el-table-column(prop="nickName" label="用户" width="180")
+          el-table-column(prop="userName" label="用户" width="80")
           
-          el-table-column(prop="writeTime" label="发起时间" width="120" align="right")
+          el-table-column(prop="writeTime" label="发起时间" width="140")
 
-          el-table-column(prop="lotteryName" label="游戏" width="100" align="right")
+          el-table-column(prop="lotteryName" label="游戏" width="100")
 
-          el-table-column(prop="methodName" label="玩法" width="100" align="right")
+          el-table-column(prop="methodName" label="玩法" width="100")
 
-          el-table-column(prop="issue" label="期号" width="100" align="right")
+          el-table-column(prop="issue" label="期号" width="100")
 
-          el-table-column(prop="code" label="投注内容" align="center" width="120")
+          el-table-column(prop="code" label="投注内容"  width="140")
 
           el-table-column(prop="multiple" label="倍数" width="50" align="right")
 
-          el-table-column(prop="modes" label="模式" width="50" align="right")
+          el-table-column(class-name="pl1" prop="modes" label="模式" width="50")
             template(scope="scope")
                 span {{ MODES[scope.row.modes] }}     
 
@@ -84,9 +84,9 @@
 
           el-table-column(prop="bonus" label="奖金" width="80" align="right")
 
-          el-table-column(prop="prizeCode" label="开奖号码" width="80" align="right")
+          el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" width="80" align="right")
 
-          el-table-column(label="状态" width="60" align="right")
+          el-table-column(class-name="pl2" label="状态" width="60" align="right")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
 
@@ -308,8 +308,7 @@
     },
     watch: {
       game () {
-        this.getMethods()
-        this.getRecentIssueList()
+        this.Orderlist()
       }
     },
     mounted () {
@@ -401,26 +400,6 @@
           // success
           if (data.success === 1) {
             this.gameList = data.lotteryList
-          }
-        }, (rep) => {
-          // error
-        })
-      },
-      getMethods () {
-        this.$http.get(api.getMethods, {lotteryId: this.game.lotteryId}).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.methodList = data.methodList
-          }
-        }, (rep) => {
-          // error
-        })
-      },
-      getRecentIssueList () {
-        this.$http.get(api.getRecentIssueList, {lotteryId: this.game.lotteryId, issCount: 30}).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.issueList = data.issueList
           }
         }, (rep) => {
           // error

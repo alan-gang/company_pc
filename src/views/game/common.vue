@@ -6,11 +6,13 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .game-content.scroll-content
+    <!-- 游戏信息 -->
+    GameInfo.fixed(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-if="scrollAtBottom")
+    .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
       GameLuckyNumber(v-bind:game-type="gameType" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" )
       <!-- 游戏信息 -->
-      GameInfo(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid")
+      GameInfo(ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -32,7 +34,6 @@
     GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-on:toggle-checked="toggleChecked" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
-      
 
 </template>
 <script>
@@ -54,6 +55,7 @@ export default {
   props: ['page'],
   data () {
     return {
+      scrollAtBottom: false,
       // 页面的url
       // url: 'one',
       // 最近的已开奖期数
@@ -132,15 +134,6 @@ export default {
 
     }
   },
-  mounted () {
-    // 获得当前奖期
-    this.__getIssue()
-    // 获得游戏所有玩法对应的返点信息
-    this.getUserpoint()
-    // 获得游戏所有奖期的开奖时间
-    this.getTraceIssueList()
-    this.follow.CNPER = this.CNPER
-  },
   computed: {
     pay () {
       return Number((this.n * this.times * this.currency.value * 2).toFixed(3))
@@ -187,7 +180,22 @@ export default {
       this.p && (this.bonus = this.P.maxprize)
     }
   },
+  created () {
+  },
+  mounted () {
+    // 获得当前奖期
+    this.__getIssue()
+    // 获得游戏所有玩法对应的返点信息
+    this.getUserpoint()
+    // 获得游戏所有奖期的开奖时间
+    this.getTraceIssueList()
+    this.follow.CNPER = this.CNPER
+  },
   methods: {
+    scrollHander (evt) {
+      if (this.$refs.GC.scrollTop > 96) this.scrollAtBottom = true
+      else this.scrollAtBottom = false
+    },
     // 获得奖期信息
     __getIssue () {
       this.$http.post(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
@@ -438,6 +446,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .game-info + .game-content
+    top TH + GH
   .game-content
     top TH
     bottom GAH

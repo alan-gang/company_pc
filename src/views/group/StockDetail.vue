@@ -30,10 +30,12 @@
 </template>
 
 <script>
+  import store from '../../store'
   import api from '../../http/api'
   export default {
     data () {
       return {
+        me: store.state.user,
         // 我的分红
         self: true,
         // 分红状态
@@ -52,6 +54,11 @@
         ],
         stock: null
       }
+    },
+    computed: {
+      // apiBonusDetail () {
+      //   return this.me.role < 4 ? api.topBonuDetail + '&issue=' : api.qryBonusById + '&bonusId='
+      // }
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
@@ -98,7 +105,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.stock = data
+            this.stock = (this.self && this.me.role < 4) ? data.topDetailList : data
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

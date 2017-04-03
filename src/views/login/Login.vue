@@ -1,7 +1,7 @@
 <template lang="jade">
   dl.login-form
-
-    dt.ds-icon-notice(v-if="this.regard")
+    
+    dt.ds-icon-notice(:class="{ h0: !this.regard }")
       | 问候语：
       span.regard {{ regard }}
 
@@ -18,7 +18,7 @@
       input(placeholder="验证码" v-model="code_" @keyup.enter="login" v-bind:disabled="!pwd")
       i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
-    dd.ds-button.positive.full.bold.login(@click="login") 登录
+    dd.ds-button.positive.full.bold.login(@click="login" style="border: none") 登录
 
     dd.actions
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'") 试玩登录
@@ -61,7 +61,7 @@
             cashPwd: data.hasSecurityPwd === '1',
             type: data.identity,
             account: data.userName,
-            role: data.groupId,
+            role: data.roleId,
             guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
           })
           this.$router.push('/')
@@ -94,7 +94,7 @@
                   cashPwd: data.hasSecurityPwd === '1',
                   type: data.identity,
                   account: data.userName,
-                  role: data.groupId,
+                  role: data.roleId,
                   guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
                 })
                 this.$router.push('/')
@@ -143,6 +143,7 @@
 </script>
 <style lang="stylus">
   @import '../../var.stylus'
+  
   .login-form
     .ds-icon-notice
       padding .08rem PW
@@ -154,7 +155,15 @@
       radius()
       & + .ds-icon-notice
         margin-top .05rem
+      &.h0 + .ds-icon-user
+        margin-top .38rem
+      &.h0
+        height 0
+        padding 0
+        border none
+        overflow hidden
     dd
+      line-height BMH + .1rem
       height BMH
       padding 0 PW
       padding-left PW + .1rem + .24rem
@@ -182,7 +191,7 @@
         margin-top PW
       input
         height 100%
-        line-height 100%
+        line-height 50px
         border 0
         background transparent
         color WHITE
@@ -204,5 +213,8 @@
   .forget
     float right
   
-  
+  .ds-icon-user
+  .ds-icon-pwd
+  .ds-icon-edit
+    background-position PW .18rem
 </style>

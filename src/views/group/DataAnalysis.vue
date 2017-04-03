@@ -22,13 +22,13 @@
           span(style="color: #333") {{ me.name }}
 
         .item.block
-          | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount.gradient {{ data.totalBalance || 0}}
           span(style="color: #333")  元 
           span.text-money  &nbsp;{{ textMoney }}
 
         .item.block
-          | 团队总人数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | 团队总人数：&nbsp;&nbsp;&nbsp;
           span.amount {{ data.userCount || 0 }}
           span(style="color: #333") 人 
         

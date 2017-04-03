@@ -1,21 +1,21 @@
 <template lang="jade">
   footer
     el-row
-      el-col.menu(:span="12")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="menu.id > -1") 
+      el-col.menu(:span="10" v-bind:offset="0")
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="menu.id > -1") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href" v-on:mouseover="mouseover(menu)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt(v-if="group.title") {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class + '-middle']" @click="open(item, index)" v-if="item.title") 
-                | {{ menu.url === 'game' ? '' : item.title }}
+              dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title") 
+                .ds-button(style="position: relative; left: -.2rem") {{ menu.url === 'game' ? '' : item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
 
-      el-col.info(:span="12")
+      el-col.info(:span="10" v-bind:offset="4")
         span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
         span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
         span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
@@ -26,12 +26,12 @@
         span.ds-button.primary(@click="withDraw") 提现
         span.ds-button.text-button.light.logout(@click="logout") 退出
 
-    .logo.ds-icon-logo-middle
+    router-link.logo.ds-icon-logo-middle(:to="' /home '")
 
 </template>
 
 <script>
-import api from '../http/api'
+// import api from '../http/api'
 export default {
   props: ['menus', 'name', 'money', 'free'],
   data () {
@@ -80,23 +80,24 @@ export default {
       this.$emit('logout')
     },
     doRecharge () {
-      this.$http.get(api.doRecharge).then(({data}) => {
-        if (data.success === 1) {
-          this.$modal.warn({
-            content: '充值验证码为：' + data.securityCode,
-            btn: ['去充值'],
-            href: [data.path],
-            // target: this.$el.parentNode,
-            ok () {
-              return false
-            }
-          })
-        } else {
-          this.$message.error({target: this.$el, message: data.msg || '充值请求失败！'})
-        }
-      }).catch(rep => {
-        this.$message.error({target: this.$el, message: '充值请求失败！'})
-      })
+      // this.$http.get(api.doRecharge).then(({data}) => {
+      //   if (data.success === 1) {
+      //     this.$modal.warn({
+      //       content: '充值验证码为：' + data.securityCode,
+      //       btn: ['去充值'],
+      //       href: [data.path],
+      //       // target: this.$el.parentNode,
+      //       ok () {
+      //         return false
+      //       }
+      //     })
+      //   } else {
+      //     this.$message.error({target: this.$el, message: data.msg || '充值请求失败！'})
+      //   }
+      // }).catch(rep => {
+      //   this.$message.error({target: this.$el, message: '充值请求失败！'})
+      // })
+      this.$router.push('/me/2-4-1')
     },
     withDraw () {
       this.$router.push('/me/2-5-1')
@@ -113,10 +114,11 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    transform translateY(.05rem)
     &.game
       max-width 9rem
       .submenu
-        width 2.4rem
+        width 3rem
       
     .submenu
       float left
@@ -133,8 +135,16 @@ export default {
         // &[class*=ds-icon]
         //   padding-left W + .05rem
         cursor pointer
-        &:hover
-          color BLUE-HOVER
+        // &:hover
+        //   color BLUE-HOVER
+        .ds-button
+          border none
+          background none
+          box-shadow none
+          text-shadow none
+          &:hover
+            background-color BLUE
+          
       &.with-icon
         dt
           padding PW 0
@@ -150,14 +160,17 @@ export default {
         dd
           display inline-block
           margin-right PWX
-          width .6rem
-          height .6rem
-          margin-top PW
+          width .6rem + .4rem
+          height .6rem + .4rem
+          // margin-top PW
+          margin -.1rem 0 0 -.1rem
           float left
           transition all linear .2s // @static 2
-          transform perspective(100px)
+          transform perspective(100px) translateZ(-30px)
+          
           &:hover
-            transform perspective(100px) translateZ(30px)
+            // transform perspective(100px) translateZ(30px)
+            transform perspective(100px) translateZ(0)
           
       .inner-submenu
         float left
@@ -169,25 +182,31 @@ export default {
   
   footer
     // height FH
+    text-align center
     bg-gradient(180deg, rgba(255, 255, 255, .1), rgba(0, 0, 0, .1))
     // @media screen and (max-width: 1100px)
       // height 2 * FH
     .logo
       position absolute
       top -.2rem
-      bottom 0
-      left 0
-      right 0
+      left 50%
+      transform translateX(-50%)
+      display inline-block
+      width 1rem
+      height .88rem
+      z-index 1
+      
       
   .el-row
+    text-align left
     z-index 1
     padding 0 .3rem 0 .1rem
     overflow hidden
     .el-col
       &:first-child
-        padding-right .5rem
+        // margin-right .5rem
       &:last-child
-        padding-left .5rem
+        // margin-left .5rem
       // height FH
       
       

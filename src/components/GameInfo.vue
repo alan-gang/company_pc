@@ -7,10 +7,10 @@
       span.ds-icon-clock {{ showTime }}
       .ds-button.outline.small.instruction ? {{ type.title }}
         .popover-instruction.font-white
-          p
+          p(style="line-height: .25rem")
             span.label.font-gold 玩法说明：
             {{ type.description || '暂无' }}
-          p
+          p(style="line-height: .25rem")
             span.label.font-gold 中奖举例：
             {{ type.example || '暂无' }}
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  ") 走势图
@@ -79,6 +79,7 @@ export default {
   @import '../var.stylus'
   F = .3rem
   .game-info
+    background-color: #ededed;
     // height GH
     line-height GH
     margin 0
@@ -145,7 +146,7 @@ export default {
     left 0rem
     padding PW .2rem 0 .2rem
     text-align left
-    background-color rgba(22, 113, 188, .9)
+    background-color rgba(22, 113, 188, .95)
     box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
     radius()
     border-top-left-radius 0

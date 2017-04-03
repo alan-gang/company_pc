@@ -7,7 +7,7 @@
         .el-icon-minus
       .el-button(@click="full")
         .full
-      el-button(icon="close" @click="close")
+      el-button.close(icon="close" @click="close")
 
 
 </template>
@@ -76,6 +76,7 @@ export default {
       height 100%
       width TH
       padding 0
+      radius(0)
       background-color transparent
       &:hover
         background-color bg-hover
@@ -83,6 +84,13 @@ export default {
         background-color bg-active
       &:first-child
         font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
 
   
   .el-icon-minus

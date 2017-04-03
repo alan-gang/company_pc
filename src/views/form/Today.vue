@@ -10,13 +10,13 @@
       .form
 
         p.item.block(style="margin: .3rem 0 .15rem 0")
-          | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;
+          | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-blue {{ me.account }}
-          span(style="padding-left: 2rem") 我的昵称：&nbsp;&nbsp;&nbsp;&nbsp;
+          span(style="padding-left: 2rem") 我的昵称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span(style="color: #333") {{ me.name }}
 
         .item.block
-          | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount.gradient {{ data.totalAmount }}
           span(style="color: #333")  元 
           span.text-money  &nbsp;{{ textMoney }}
@@ -27,7 +27,7 @@
           span(style="color: #333") 元 
 
         .item.block
-          | 今日中奖：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          | 今日中奖：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount {{ data.prizeAmount }}
           span(style="color: #333") 元 
         

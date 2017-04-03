@@ -15,27 +15,27 @@
           el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
 
         label.item 状态 
-          el-select(v-model="status" style="width: .8rem")
+          el-select(clearable v-bind:disabled=" !STATUS[0] " placeholder="全" v-model="status" style="width: .8rem")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
         label.item 奖金 
-          el-select(v-model="isFree" style="width: .8rem")
+          el-select(clearable v-bind:disabled=" !ISFREE[0] " placeholder="全" v-model="isFree" style="width: .8rem")
             el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
         label.item 游戏名称 
-          el-select(v-model="gameid" style="width: 1.5rem")
+          el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.5rem")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
         label.item 游戏玩法 
-          el-select(v-model="method" style="width: 1.5rem")
+          el-select(clearable v-bind:disabled=" !methodList[0] " placeholder="全" v-model="method" style="width: 1.5rem")
             el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
 
         label.item 游戏奖期 
-          el-select(v-model="issue" style="width: 1.5rem" filterable)
+          el-select(clearable v-bind:disabled=" !issueList[0] " placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
             el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U")
 
         label.item 游戏模式 
-          el-select(v-model="mode" style="width: .5rem" placeholder="全")
+          el-select(clearable v-bind:disabled=" !MODES[0] " placeholder="全" v-model="mode" style="width: .5rem")
             el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
 
         label.item 追号编号 
@@ -45,7 +45,7 @@
           input.ds-input.small(v-model="name" style="width: 1rem")
 
         label.item 范围 
-          el-select(v-model="zone" style="width: 1rem")
+          el-select(clearable v-bind:disabled=" !ZONES[0] " placeholder="全" v-model="zone" style="width: 1rem")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="U")
 
 
@@ -57,33 +57,33 @@
 
           el-table-column(label="追号编号" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(@click="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
+              .ds-button.text-button.blue(style="padding: 0" @click="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
 
           el-table-column(prop="nickName" label="用户" width="80")
           
-          el-table-column(prop="beginTime" label="追号时间" width="120" align="right")
+          el-table-column(prop="beginTime" label="追号时间" width="140" )
 
-          el-table-column(prop="lotteryName" label="游戏" width="100" align="right")
+          el-table-column(prop="lotteryName" label="游戏" width="100" )
 
-          el-table-column(prop="methodName" label="玩法" width="100" align="right")
+          el-table-column(prop="methodName" label="玩法" width="100" )
 
-          el-table-column(prop="beginIssue" label="开始期数" width="100" align="right")
+          el-table-column(prop="beginIssue" label="开始期数" width="100" )
 
-          el-table-column(prop="issuecount" label="追号期数" align="center" width="60")
+          el-table-column(class-name="pl2" prop="issuecount" label="追号期数" align="right" width="80")
 
-          el-table-column(prop="finishedcount" label="完成期数" width="60" align="center")
+          el-table-column(prop="finishedcount" label="完成期数" width="80" align="right")
 
-          el-table-column(prop="codes" label="追号内容" align="center" width="120" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2"  prop="codes" label="追号内容"  width="140" show-overflow-tooltip=true)
 
-          el-table-column(prop="modes" label="模式" width="50" align="right")
+          el-table-column(class-name="pl1" prop="modes" label="模式" width="50" )
             template(scope="scope")
               span {{ MODES[scope.row.modes] }}            
 
-          el-table-column(prop="taskprice" label="总金额" width="80" align="right")
+          el-table-column(prop="taskprice" label="总金额" width="100" align="right")
 
-          el-table-column(prop="finishprice" label="完成金额" width="60" align="right")
+          el-table-column(prop="finishprice" label="完成金额" width="100" align="right")
 
-          el-table-column(label="状态" width="60" align="right")
+          el-table-column(class-name="pl2"   label="状态" width="60")
             template(scope="scope")
               span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
          
@@ -149,7 +149,7 @@
       }
     },
     watch: {
-      game () {
+      gameid () {
         this.getMethods()
         this.getRecentIssueList()
       }

@@ -58,7 +58,7 @@
         background-color BLUE
        
       &:hover
-        background-color rgba(22, 113, 188, .9)
+        background-color rgba(22, 113, 188, .95)
         color WHITE
         font-shadow()
         box-shadow none
@@ -80,7 +80,7 @@
         position absolute
         // left 0
         color WHITE
-        background-color rgba(22, 113, 188, .9)
+        background-color rgba(22, 113, 188, .95)
         radius()
         border-top-left-radius 0
         cursor default

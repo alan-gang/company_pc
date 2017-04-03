@@ -80,13 +80,15 @@ export default {
       font-size .2rem
       text-align center
       color WHITE
-      background-color RED
+      background-color DANGER
       radius(50%)
       box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
     .number-array 
       & + .number-array 
         margin-left PWX - .03rem
       .number
+        position relative
+        top -.01rem
         width w
         height w
         line-height w

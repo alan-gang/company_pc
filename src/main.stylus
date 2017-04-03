@@ -23,6 +23,7 @@ input
 .pointer
   cursor pointer
   
+  
 .el-table
   .bg-white
     background-color #fff
@@ -58,20 +59,21 @@ input
  */
 *:not(:hover)
   &::scrollbar-thumb
-    // background-color transparent
+    background-color transparent
     
-::scrollbar
+::-webkit-scrollbar
   width .1rem
   height .1rem
   radius()
   background-color transparent
+  
   &:hover
     background-color rgba(0,0,0,.2)
 
-::scrollbar-track::hover
+::-webkit-scrollbar-track::hover
   box-shadow inset 0 0 6px transparent
  
-::scrollbar-thumb
+::-webkit-scrollbar-thumb
   radius()
   background-color rgba(0,0,0,.3)
   &:hover
@@ -81,7 +83,10 @@ input
 // el-loading 
 .el-loading-mask
   radius()
-
+.dialog-page .el-loading-mask
+  top TH
+  border-top-left-radius 0
+  border-top-right-radius 0
 /*
  *el-breadcrumb
  */
@@ -132,15 +137,23 @@ input
         line-height DHH
         color GREY
         &:last-child
-          radius()
           // border-top-left-radius 0
           // border-bottom-left-radius 0
           // border-bottom-right-radius 0
         &:hover
-          color WHITE
-          // background-color DANGER-HOVER
+          background-color #f34
+          color #fff
         &:active
-          // background-color DANGER-ACTIVE 
+          color #fff
+          background-color #d40c1d
+          
+        // &:hover
+        //   // color WHITE
+        //   background #ccc
+        //   // background-color DANGER-HOVER
+        // &:active
+        //   background #bbb
+        //   // background-color DANGER-ACTIVE 
         
   .el-dialog__body
     padding 0
@@ -165,7 +178,9 @@ input
     text-align center
     font-size .12rem
     color #b0cfe3
-    background-color rgba(22, 113, 188, .9)
+    background-color rgba(22, 113, 188, .95)
+    shadow()
+    font-shadow()
     
    
     
@@ -206,7 +221,10 @@ input
   text-align left
   font-size .12rem
   color #b0cfe3
-  background-color rgba(22, 113, 188, .9)
+  background-color rgba(22, 113, 188, .95)
+  border none
+  shadow()
+  font-shadow()
   radius()
   .el-select-dropdown__item
     height .3rem
@@ -292,8 +310,11 @@ input
       font-weight x 
        
   table-row-hover(x = #d8e6ef)
-    tr.hover-row td
+    .el-table--enable-row-hover tr:hover>td
       background-color x
+
+    // tr.hover-row td
+    //   background-color x
   
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
@@ -317,7 +338,8 @@ input
   .el-table__fixed::before
   .el-table__fixed::after
     display none
-    
+  table-row-hover()
+  
   .el-table
     margin .05rem .02rem
     font-size .12rem
@@ -336,7 +358,6 @@ input
     
         
     table-header-font-weight()
-    table-row-hover()
     table-row-selected()
     table-row-height()
     table-header-height()
@@ -398,7 +419,7 @@ input
     border-color BLUE
   &:focus
     border-color BLUE
-    box-shadow 0 0 .05rem BLUE
+    // box-shadow 0 0 .05rem BLUE
 
   
 
@@ -490,7 +511,7 @@ input
  */
   // game icons
   .ds-icon-game-chq
-      background url(assets/game/02_big.png) center no-repeat
+      background url(assets/game/01_big.png) center no-repeat
   .ds-icon-game-chq-middle
       background url(assets/game/01.png) center no-repeat
   
@@ -670,7 +691,7 @@ input
     background url(assets/$-red.png) left center no-repeat
   
   .ds-icon-add-item
-    background url(assets/add-item.png) left center no-repeat
+    background url(assets/add-item.png) center no-repeat
   
   .ds-icon-clock
     background url(assets/clock.png) left center no-repeat
@@ -994,7 +1015,7 @@ input
   &.success
     background-color #65c014
     &:not(.disabled):hover
-      background-color #72ca23
+      background-color #6bcb16
     &:not(.disabled):active
       background-color #65c014
   
@@ -1019,6 +1040,10 @@ input
     width .4rem
     text-align center
     pointer text
+    .el-input
+      box-shadow none
+      border none
+      
     input
       box-shadow none
       border none
@@ -1031,6 +1056,8 @@ input
       border none
       background-color #fff
       box-shadow 0 0 .05rem BLUE
+      
+
   &.disabled
     cursor not-allowed
     background-image none
@@ -1045,8 +1072,9 @@ input
       bg-gradient(180deg, #f1f1f1, #e6e6e6)
 
 .ds-button-group
-    height .3rem
-    line-height .3rem
+    // height .3rem
+    line-height .28rem
+    text-align left
     display inline-block
     vertical-align middle
     margin PWX
@@ -1059,10 +1087,11 @@ input
     overflow visible
     .ds-button
       position relative
-      top -.01rem
       color #666
       text-shadow none
       radius(0)
+      &:hover
+        color BLUE
       &:last-child
         border-top-right-radius .05rem
         border-bottom-right-radius .05rem

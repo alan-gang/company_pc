@@ -38,6 +38,15 @@ export default (Vue) => {
               O: this
             })
           }
+        } else if (rep.data && rep.data.success === -3) {
+          this.$modal.warn({
+            content: '您所在的区域禁止登录本站， 抱歉请谅解！',
+            btn: ['确定'],
+            close () {
+              window.location.href = 'www.baidu.com'
+            },
+            O: this
+          })
         }
         console.log(rep.data)
         // if (data && data.success === -2) console.log('no Authorization')

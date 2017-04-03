@@ -659,7 +659,7 @@ export default {
     overflow-x hidden
     overflow-y auto
     overflow-scrolling touch
-    radius(x = .05rem)
+    // radius(x = .05rem)
     // &.has-header
     //   top HH
     &.has-footer

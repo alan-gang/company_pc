@@ -26,7 +26,7 @@
 
 <script>
   import store from '../store'
-  import api from '../http/api'
+  // import api from '../http/api'
   export default {
     props: ['account', 'type'],
     data () {
@@ -45,23 +45,24 @@
         this.$router.push('/me/2-5-1')
       },
       doRecharge () {
-        this.$http.get(api.doRecharge).then(({data}) => {
-          if (data.success === 1) {
-            this.$modal.warn({
-              content: '充值验证码为：' + data.securityCode,
-              btn: ['去充值'],
-              href: [data.path],
-              target: this.$el.parentNode,
-              ok () {
-                return false
-              }
-            })
-          } else {
-            this.$message.error({target: this.$el, message: data.msg || '充值请求失败！'})
-          }
-        }).catch(rep => {
-          this.$message.error({target: this.$el, message: '充值请求失败！'})
-        })
+        // this.$http.get(api.doRecharge).then(({data}) => {
+        //   if (data.success === 1) {
+        //     this.$modal.warn({
+        //       content: '充值验证码为：' + data.securityCode,
+        //       btn: ['去充值'],
+        //       href: [data.path],
+        //       target: this.$el.parentNode,
+        //       ok () {
+        //         return false
+        //       }
+        //     })
+        //   } else {
+        //     this.$message.error({target: this.$el, message: data.msg || '充值请求失败！'})
+        //   }
+        // }).catch(rep => {
+        //   this.$message.error({target: this.$el, message: '充值请求失败！'})
+        // })
+        this.$router.push('/me/2-4-1')
       }
     }
   }
@@ -77,7 +78,8 @@
     bottom 0
     left 0
     width W
-    background url(../assets/bg.jpg) no-repeat
+    bg-gradient(45deg,  #719ee2, #a174b6)
+    border-bottom-left-radius .05rem
     background-size 100% 100%
     text-align center
     .ds-icon-me-avatar

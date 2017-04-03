@@ -179,7 +179,7 @@
           {ids: '-1-1-6-115', title: '选6中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-115', title: '选7中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-2-1-1-115', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '5单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '4单1双', value: '5'}, {selected: false, title: '5单0双', value: '6'}]},
+          {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '5单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '4单1双', value: '5'}, {selected: false, title: '5单0双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           // =========================================================PK10========================================================
@@ -216,7 +216,7 @@
           {ids: '3-1-1-K3', class: 'dice double-width', title: '三同号', values: [{selected: false, title: [1, 1, 1], value: 1}, {selected: false, title: [2, 2, 2], value: 2}, {selected: false, title: [3, 3, 3], value: 3}, {selected: false, title: [4, 4, 4], value: 4}, {selected: false, title: [5, 5, 5], value: 5}, {selected: false, title: [6, 6, 6], value: 6}]},
           {ids: '3-1-2-K3', class: 'dice', title: '通选', values: [{selected: false, title: ['全'], value: '1,1,1|2,2,2|3,3,3|4,4,4|5,5,5|6,6,6'}]},
           {ids: '+3-1-2-K3', class: 'dice', title: '通选', values: [{selected: false, title: ['全'], value: '1,2,3|2,3,4|3,4,5|4,5,6'}]},
-          {ids: '+3-1-1-K3', class: 'dice double-width', title: '三连号', values: [{selected: false, title: [1, 2, 3], value: '1,2,3'}, {selected: false, title: [2, 3, 4], value: '2,3,4'}, {selected: false, title: [3, 4, 5], value: '3,4,5'}, {selected: false, title: [4, 5, 6], value: '4,5,6'}]},
+          {ids: '+3-1-1-K3', class: 'dice double-width', title: '三连号', join: '|', values: [{selected: false, title: [1, 2, 3], value: '1,2,3'}, {selected: false, title: [2, 3, 4], value: '2,3,4'}, {selected: false, title: [3, 4, 5], value: '3,4,5'}, {selected: false, title: [4, 5, 6], value: '4,5,6'}]},
           {ids: '0-1-2-K3:1', class: 'dice', title: '1个号中奖', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]}
 
         ],
@@ -271,7 +271,7 @@
     computed: {
       // 根据玩法确定是与其它行不能重复
       nr () {
-        return ['3-1-5-115', '2-1-5-115', '-1-3-1-115', '-1-3-2-115', '-1-3-3-115', '-1-3-4-115', '-1-3-5-115', '-1-3-6-115', '-1-3-7-115', '-2-1-2-K3', '-3-1-2-K3'].indexOf(this.type.id) !== -1
+        return ['3-1-5-115', '2-1-5-115', '-1-3-1-115', '-1-3-2-115', '-1-3-3-115', '-1-3-4-115', '-1-3-5-115', '-1-3-6-115', '-1-3-7-115', '-2-1-2-K3', '-3-1-2-K3', '2-1-2-K3'].indexOf(this.type.id) !== -1
       },
       // 根据玩法确定要显示的号码工作区
       rows () {
@@ -362,6 +362,9 @@
         }, 0)
       },
       ns () {
+        this.ns.forEach((ns, i) => {
+          this.ns[i] = this.ns[i].join(this.rows[i].join || ',')
+        })
         this.$emit('set-nsns', this.ns.join('|'))
       },
       ps () {

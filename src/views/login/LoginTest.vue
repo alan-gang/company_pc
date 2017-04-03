@@ -166,7 +166,7 @@
         text-align center
         padding .05rem 0
         font-shadow()
-        transform rotateZ(40deg) translateY(-100%)  translateX(30%) 
+        transform rotateZ(42deg) translateY(-160%)  translateX(30%) 
       &.fast:after
         content '最快'
         bg-gradient(180deg, #ff7200, #ff5e00)

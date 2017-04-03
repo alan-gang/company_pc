@@ -41,6 +41,7 @@ export default {
     top 0
     bottom 0
     z-index 1
+    font-shadow()
     .logo
       margin-top .85rem
     .part

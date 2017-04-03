@@ -7,30 +7,35 @@
     slot(name="toolbar")
     .me-detail-info.scroll-content
       .base-info
-        el-row(style="padding: 0 .8rem")
-          el-col(:span="4") 帐号：
+        el-row(style="padding: 0 .8rem; text-align: center")
+          el-col(:span="4" style="display: inline-block; float: none;width: 1rem") 帐号：
             span.account {{ account }}
-          el-col(:span="4") 昵称：
+          el-col(:span="4" style="display: inline-block; float: none;width: 2rem") 昵称：
             span.account {{ name }}
-          el-col(:span="8") 
+          el-col(:span="8" style="display: inline-block; float: none;width: 2rem") 
             span.text-blue 高频彩资金
             | 限额：
             span.account.text-danger {{ limitbonus }}
             | 元
-          el-col(:span="8") 
+          el-col(:span="8" style="display: inline-block; float: none;width: 2rem") 
             span.text-blue 低频彩资金
             | 限额：
             span.account.text-danger {{ dplimitbonus }} 
             | 元
 
-        .ds-button-group(v-if="games[0]")
+        .ds-button-group
           .ds-button.x-small.text-button(v-for="(game, key, i) in games" v-bind:class="{selected: skey === key}" @click="skey = key") {{ key }}
 
       el-table.header-bold(:data="data" v-bind:row-class-name="tableRowClassName")
         el-table-column(prop="methodName" label="玩法" width="200" )
         el-table-column(label="奖级" width="200")
-          template(scope="scope") {{ scope.row.level + '等奖' }}
-        el-table-column(prop="prize" label="奖金" width="100" align="right")
+          template(scope="scope") 
+            .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l + '等奖' }}
+
+        el-table-column(label="奖金" width="100" align="right")
+          template(scope="scope") 
+            .level(v-for=" p in ((scope.row.prize + '').split(',')) ") {{ p  }}
+
         el-table-column(prop="userPoint" label="返点" width="150" align="right")
         el-table-column(prop="status" label="状态" align="center")
           template(scope="scope") {{ scope.row.isclose === 0 ? '使用中' : '已关闭' }}
@@ -85,6 +90,7 @@ export default {
           this.name = data.nickName
           this.dplimitbonus = data.dplimitbonus
           this.limitbonus = data.limitbonus
+          // this.games = data.lotteryPrizeInfo
           this.games = data.lotteryPrizeInfo
           this.skey = Object.keys(this.games)[0]
         }

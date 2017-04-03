@@ -9,8 +9,12 @@
       .ds-button-group
         .ds-button.text-button(:class="{ selected: index === i }" @click=" index = i " v-for=" (g, i) in games ") {{ g.tagname }}
       
-      .content(v-if=" gcontent ")
-        p.title {{ gcontent.content }}
+      .content(v-for="gcontent in gcontents")
+
+        span.step(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.title}}
+        .value {{ gcontent.content }}
+        
+        // p.title {{ gcontent.content }}
 
         .item(v-for="g in gcontent.subList") 
           span.step {{ g.title }}
@@ -34,8 +38,8 @@
       gid () {
         return this.games[this.index].id
       },
-      gcontent () {
-        return (this.content.filter(c => c.key === this.gid)[0] || {value: [{}]}).value[0]
+      gcontents () {
+        return (this.content.filter(c => c.key === this.gid)[0] || {value: [{}]}).value
       }
     },
     mounted () {
@@ -79,8 +83,11 @@
       color #999
     .content
       text-align left
+      margin PW 0
       .item
-        margin PW 0
+        margin PW
+       .step
+          font-size .16rem
       .step
         position relative
         top -.02rem
@@ -89,4 +96,5 @@
         font-weight bold
       .value
         line-height .22rem
+        text-indent PWX
 </style>

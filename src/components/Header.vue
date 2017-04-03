@@ -4,7 +4,7 @@
       | {{ tab.title }}
       i.el-icon-close( @click.stop="closeTab(tab.id)")
     
-    el-popover(ref="collect" placement="bottom-end" offset="0" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (starTabs.length > 0 ? true : false)")
+    el-popover(ref="collect" placement="bottom-end" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (starTabs.length > 0 ? true : false)")
       dl.submenu.font-white
         dd(v-for="i in starTabs" v-bind:class="['ds-icon-game-small']" @click="openTab(i.id)") {{ i.title }}
           i.el-icon-delete2(@click.stop="unStar(i)")
@@ -112,12 +112,21 @@ export default {
       color LIGHT
       float right
       transform perspective(500px) translateZ(-150px)
+      radius(50%)
+      display inline-block
+      // width .2342rem
+      // height .2342rem
+      padding .0571rem .0571rem
       &:hover
         color WHITE
-      line-height: HH
+        background-color rgba(0,0,0, .6)
+        
+      position relative
+      top .02rem
+      left .05rem
       font-size .1rem
       text-shadow none
-      margin: 0 .1rem
+      margin 0 .1rem
   
   &.my-collect
     position absolute

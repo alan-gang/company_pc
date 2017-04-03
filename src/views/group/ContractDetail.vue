@@ -18,10 +18,10 @@
         p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
         p.item 时间类型：按{{ TIME[c.shareCycle] }}
 
-        p.item(v-for="(l, i) in  c.bonusRules ") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[l.ruletype].title }}
-          span.text-danger {{ l.sales / 10000 }}万
+        p.item(v-for="(l, i) in  (c.bonusRules || c.topRuleList)") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[ l.ruletype || l.ruleType || 0 ].title }}
+          span.text-danger  {{ l.sales / 10000 }}万
           | ，分红比例
-          span.text-danger {{ l.bounsRate }}%
+          span.text-danger  {{ l.bounsRate }}%
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && STATUS[c.stat].title === '待确认' ")
           .ds-button.primary.large.bold(@click="checkContract(c.id, 1)") 接受
@@ -30,10 +30,12 @@
 </template>
 
 <script>
+  import store from '../../store'
   import api from '../../http/api'
   export default {
     data () {
       return {
+        me: store.state.user,
         // 我的契约
         self: true,
         STATUS: [
@@ -49,9 +51,15 @@
         // 销售盈亏类型
         TYPE: [
           {id: 1, title: '销售'},
+          {id: 2, title: '盈亏'},
           {id: 2, title: '盈亏'}
         ],
         RULES: ['规则一', '规则二', '规则三', '规则四', '规则五', '规则六', '规则七', '规则八', '规则九', '规则十']
+      }
+    },
+    computed: {
+      apiContractDetail () {
+        return this.me.role < 4 ? api.topContract : api.qryContractById
       }
     },
     watch: {
@@ -98,7 +106,7 @@
           this.self = true
           return this.contract()
         }
-        this.$http.get(api.qryContractById, {
+        this.$http.get(this.apiContractDetail, {
           contractId: id
         }).then(({data}) => {
           // success

@@ -24,7 +24,7 @@
         span 
           span.pay {{ ( row.times * pay ).toFixed(3) }}
           | &nbsp;元
-      el-table-column(prop="date" label="开奖时间" align="center" width="200")
+      el-table-column(prop="date" label="开奖时间" align="center")
 
 
 </template>

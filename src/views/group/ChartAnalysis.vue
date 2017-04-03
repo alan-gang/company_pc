@@ -13,7 +13,7 @@
         .ds-button.text-button(:class="{ selected: type === 2 } " @click="type = 2" ) 团队盈亏图表
       
       // LineChart.line-chart(style="width: 10rem height: 6rem")
-      .filters(style="width: 2rem; position: absolute; right: 2%; top: 1.2rem; line-height: .4rem; z-index: 1")
+      .filters(style="width: 2rem; position: absolute; right: 0; top: 1.2rem; line-height: .4rem; z-index: 1; text-align: left")
         .ds-radio-label(:class="{active: timeType === 0 }" @click=" timeType = 0 ")
           .ds-radio.white
           | 最近一周
@@ -26,7 +26,7 @@
         .ds-radio-label(:class="{active: timeType === 3 }" @click=" timeType = 3 ")
           .ds-radio.white
           | 最近6月
-        .ds-radio-label(:class="{active: timeType === 4 }" @click=" timeType = 4 " style="margin-left: .1rem")
+        .ds-radio-label(:class="{active: timeType === 4 }" @click=" timeType = 4 ")
           .ds-radio.white
           | 最近一年
       IEcharts(:option="line" @ready="onReady" @click="onClick" resizable=true style="height: 80%; width: 80%; margin: 0 auto")

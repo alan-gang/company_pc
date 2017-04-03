@@ -7,7 +7,7 @@
 
     el-col.left(:span="16")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
-      el-input-number.ds-button.small.input.outline.times(v-model="t" v-bind:min="1" v-popover:times="times") 
+      el-input-number.ds-button.small.input.outline.times(v-model="t" v-bind:min="1" v-popover:times="times" v-bind:max="MAXTIMES") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
       span.bei &nbsp;倍
       .ds-button-group
@@ -34,6 +34,7 @@ export default {
   props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
   data () {
     return {
+      MAXTIMES: 100,
       cIndex: 0,
       currencies: [
         {title: '元', value: 1, model: 1},
@@ -137,7 +138,7 @@ export default {
   .plus
     vertical-align bottom
     position relative
-    top -.1rem
+    top -.09rem
   .times
     margin 0 .05rem
       
@@ -162,7 +163,7 @@ export default {
     .ds-button
       position relative
       top -.01rem
-      color #666
+      // color #666
       text-shadow none
       radius(0)
       &:last-child

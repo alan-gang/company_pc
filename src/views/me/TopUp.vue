@@ -53,7 +53,7 @@
       .mask
       .box-wrapper
         .box
-          .tool-bar(style="padding: 0 .15rem; line-height: .5rem")
+          .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
             span.title(style="font-size: .18rem; color #666;") 支付 {{ amount }} 元
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="show = false" )
@@ -241,7 +241,7 @@ export default {
       text-align left
       display inline-block
       vertical-align middle
-      background-color #ededed
+      background-color #fff
       font-size .12rem
       width 4.5rem
       radius()

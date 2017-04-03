@@ -1,8 +1,8 @@
 <template lang="jade">
 
   transition-group(appear=true name="zoom" tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="")
-        .cover(slot="cover" v-bind:class="{show: !page.active}" @mousedown="openAPage(page.id)")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @mousedown.native="openAPage(page.id)")
+        .cover(slot="cover" v-bind:class="{show: !page.active}")
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
@@ -483,10 +483,10 @@ export default {
     &.show{
       display: block
     }
-    &.show ~ .move-bar
-    &.show ~ .resize-x
-    &.show ~ .resize-y
-      display none
+    // &.show ~ .move-bar
+    // &.show ~ .resize-x
+    // &.show ~ .resize-y
+    //   display none
   .move-bar
     position absolute
     top 0
@@ -494,6 +494,10 @@ export default {
     right 4 * TH
     height TH
     cursor move
+    z-index 1
+    &:hover
+      height 2 * TH
+      top -1 * TH
     &[expand]
       height 4 * TH
       top -2 * TH
@@ -508,6 +512,9 @@ export default {
     width TH
     z-index 1
     cursor e-resize
+    &:hover
+      width 2 * TH
+      right -1 * TH
     &[expand]
       width 4 * TH
       right -2 * TH
@@ -521,6 +528,9 @@ export default {
     height TH
     z-index 1
     cursor n-resize
+    &:hover
+      height 2 * TH
+      bottom -1.5 * TH
     &[expand]
       height 4 * TH
       bottom -2 * TH

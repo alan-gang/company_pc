@@ -46,6 +46,11 @@
           return (n = n.value)
         })
       },
+      // nsValue () {
+      //   if (this.row.join) {
+      //     return [this.ns.join(this.row.join)]
+      //   }
+      // },
       isDice () {
         return this.row.class ? this.row.class.indexOf('dice') !== -1 : false
       },

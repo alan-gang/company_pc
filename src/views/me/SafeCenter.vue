@@ -75,24 +75,24 @@
 
       // 修改昵称
       el-row.nickname(v-bind:class="{expand: index === 2 }")
-        el-col
-          el-row.static
-            el-col(:span="6").title.ds-icon-nickname 修改昵称
+          el-col
+            el-row.static
+              el-col(:span="6").title.ds-icon-nickname 修改昵称
 
-            el-col(:span="14")
-              span.text-green.ds-icon-set(v-if="me.name") 已设置
-              span.text-ellipsis(v-if="me.name" style="max-width: 70%"  v-bind:title="me.name") &nbsp;&nbsp;{{ me.name }}
-              span.text-danger.ds-icon-unset(v-if="!me.name") 未设置
+              el-col(:span="14")
+                span.text-green.ds-icon-set(v-if="me.name") 已设置
+                span.text-ellipsis( v-if="me.name" style="max-width: 70%; color: #000"  v-bind:title="me.name") &nbsp;&nbsp;{{ me.name }}
+                span.text-danger.ds-icon-unset(v-if="!me.name") 未设置
 
-            el-col(:span="4").toggle
-              .ds-button.text-button.blue(@click="index === 2 ? index = 0 : index = 2") {{ index === 2 ? '收起' : !me.name ? '立即设置' : '立即修改' }}
+              el-col(:span="4").toggle
+                .ds-button.text-button.blue(@click="index === 2 ? index = 0 : index = 2") {{ index === 2 ? '收起' : !me.name ? '立即设置' : '立即修改' }}
 
-          el-row.action(v-if="index === 2" style="padding-left: 0")
-            
-            .nickname-form.form
-              div(style="text-align: center; ")
-                input.ds-input.large(:placeholder="nicknamePlaceholder" v-model="nickname" maxlength="20")
-                .ds-button.primary.large(style="margin-left: .15rem" @click="changNickName") 提交
+            el-row.action(v-if="index === 2" style="padding-left: 0")
+              
+              .nickname-form.form
+                div(style="text-align: center; ")
+                  input.ds-input.large(:placeholder="nicknamePlaceholder" v-model="nickname" maxlength="20")
+                  .ds-button.primary.large(style="margin-left: .15rem" @click="changNickName") 提交
             
 
       // 登录问候语
@@ -103,7 +103,7 @@
 
             el-col(:span="14")
               span.text-green.ds-icon-set(v-if="me.greeting") 已设置
-              span.text-ellipsis(v-if="me.greeting" style="max-width: 70%" v-bind:title="me.greeting")  &nbsp;&nbsp;{{ me.greeting }}
+              span.text-ellipsis( v-if="me.greeting" style="max-width: 70%; color: #000" v-bind:title="me.greeting")  &nbsp;&nbsp;{{ me.greeting }}
               span.text-danger.ds-icon-unset(v-if="!me.greeting") 未设置
 
             el-col(:span="4").toggle
@@ -124,13 +124,13 @@
 
             el-col(:span="14").phone
               span.text-green.ds-icon-set(v-if="me.phone") 已设置
-              span(v-if="me.phone")  {{ me.phone }}
+              span(style="color: #000" v-if="me.phone")  {{ me.phone }}
               span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
 
             el-col(:span="4").toggle
               .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
 
-          el-row.action(v-if="index === 4")
+          el-row.action(v-if="index === 4" )
             
             .phone-form.form
               p 资金密码：
@@ -164,7 +164,7 @@
 
             el-col(:span="14").email
               span.text-green.ds-icon-set(v-if="me.email") 已设置
-              span(v-if="me.email")  {{ me.email }}
+              span(style="color: #000" v-if="me.email")  {{ me.email }}
               span.text-danger.ds-icon-unset(v-if="!me.email") 未设置
 
             el-col(:span="4").toggle
@@ -235,7 +235,7 @@
             el-col(:span="14").safeCheck
               span.text-green.ds-icon-set(v-if="me.safeCheck") 已设置
               span.text-danger.ds-icon-unset(v-if="!me.safeCheck") 未设置
-              span(style="font-size: .12rem") （设置提款、转账等资金操作的安全验证方式）
+              span(style="font-size: .12rem") （设置提款、转账等操作的安全验证方式）
 
             el-col(:span="4").toggle
               .ds-button.text-button.blue(@click="index === 7 ? index = 0 : index = 7") {{ index === 7 ? '收起' : !pwd ? '立即设置' : '立即修改' }}
@@ -660,9 +660,14 @@ export default {
   .safe-detail-info
     &>.el-row
       padding 0 PWX
+      &:hover
+        background-color #fff
+      &:last-child
+        .static
+          border-bottom none
       
     .el-row.expand
-      background-color #fff
+      background-color #f8f8f8
       .static
         border-bottom none
       .action
@@ -672,6 +677,7 @@ export default {
       line-height H
       border-bottom 1px solid #ccc
       .title
+        color #333
         padding-left .5rem
         font-weight bold
       .toggle

@@ -207,7 +207,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   WW = 10rem
-  WH = 4.3rem
+  WH = 5rem
   IH = .36rem
   
   H = .44rem
@@ -225,6 +225,7 @@ export default {
         height .16rem
         margin-right .05rem
         background url('../assets/+.png') center center no-repeat
+        
     .content
       .el-col
         min-height WH - IH
@@ -244,6 +245,7 @@ export default {
             color WHITE
             background-color BLUE
       .right
+        background-color  #ededed
         padding 0 .05rem
         .submenu
           float left
@@ -256,16 +258,19 @@ export default {
             color BLUE
             // font-shadow()
             padding .23rem 0 .18rem 0
-          .disabled
-            color #bbb !important
+          dd
+            cursor pointer
+          
           dd:not(.inner-submenu)
             height H - .06rem
             line-height H - .06rem
             // &[class*=ds-icon]
             //   padding-left W + .05rem
-            cursor pointer
-            &:hover
+            &:not(.disabled):hover
               color BLUE-HOVER
+          dd.disabled
+            color #bbb
+            cursor not-allowed 
           &.with-icon
             dt
               padding PW 0
@@ -357,11 +362,38 @@ export default {
     left 0 
     bottom 0 
     height 2*PW
-    background-color rgba(0,0,0,.4)
+    // background-color rgba(0,0,0,.4)
     line-height 2*PW
     text-align right
     .ds-button
-      padding 0 .1rem
+      font-size .1rem
+      padding 0 .09rem
+      color #fff
+      radius(50%)
+      transform perspective(500px) translateZ(-77px)
+      &:hover
+        background-color rgba(0,0,0, .6)
+        color #fff
+      
+
+      // color LIGHT
+      // float right
+      // transform perspective(500px) translateZ(-150px)
+      // radius(50%)
+      // display inline-block
+      // // width .2342rem
+      // // height .2342rem
+      // padding .0571rem .0571rem
+      // &:hover
+      //   color WHITE
+      //   background-color rgba(0,0,0, .6)
+        
+      // position relative
+      // top .02rem
+      // left .05rem
+      // font-size .1rem
+      // text-shadow none
+      // margin 0 .1rem
     
 </style>
 
