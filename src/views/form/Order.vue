@@ -32,7 +32,7 @@
 
         label.item 游戏奖期 
           el-select(clearable v-bind:disabled=" !issueList[0] "  v-model="issue" style="width: 1.5rem" filterable placeholder="全")
-            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U")
+            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
         label.item 游戏模式 
           el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .5rem" placeholder="全")
@@ -53,7 +53,7 @@
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
           .ds-button.cancel.large(@click="clear") 清空
 
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
           el-table-column(prop="projectId" label="注单编号" width="80" )
             template(scope="scope")
@@ -102,7 +102,7 @@
           .tool-bar
             span.title {{ modalTitles[type] }}
             el-button-group
-              el-button(icon="close" @click="show = false")
+              el-button.close(icon="close" @click="show = false")
           .content
             el-row
               el-col(:span="9")
@@ -242,6 +242,13 @@
       this.Orderlist()
     },
     methods: {
+      tableRowClassName (row, index) {
+        if (row.selected) return 'selected-row'
+      },
+      setSelected (row) {
+        this.$set(row, 'selected', !row.selected)
+        // row.selected = !row.selected
+      },
       pageChanged (cp) {
         this.Orderlist(cp, () => {
           this.currentPage = cp
@@ -269,15 +276,19 @@
           // success
           if (data.success === 1) {
             this.show = false
-            this.Orderlist()
-            loading.text = '撤单成功!'
+            setTimeout(() => {
+              loading.text = '撤单成功!'
+              setTimeout(() => {
+                this.Orderlist()
+              }, 500)
+            }, 500)
           } else loading.text = '撤单失败!'
         }, (rep) => {
           // error
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 500)
+          }, 1000)
         })
       },
       Orderlist (page, fn) {
@@ -308,7 +319,7 @@
           if (data.success === 1) {
             setTimeout(() => {
               loading.text = '加载成功!'
-            }, 100)
+            }, 500)
             typeof fn === 'function' && fn()
             this.data = data.recordList
             this.total = data.totalSize || this.data.length
@@ -433,6 +444,13 @@
         background-color bg-active
       &:first-child
         font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
 
   .modal 
     position absolute

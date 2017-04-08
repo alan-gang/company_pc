@@ -2,7 +2,7 @@
   footer
     el-row
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="menu.id > -1") 
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href" v-on:mouseover="mouseover(menu)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
           slot

@@ -2,17 +2,17 @@
   .login-register
     div.form-item
       label.item.ds-input 帐号:
-        input
+        input(v-model="account" placeholder="请输入帐号")
     div.form-item
       label.item.ds-input 昵称:
-        input
+        input(v-model="name" placeholder="请输入昵称")
     div.form-item
       label.item.ds-input 验证码:
-        input(style="width: 1rem" v-model="code_" @keyup.enter="login")
+        input(style="width: 1rem" v-model="code_" @keyup.enter="autoRegist" placeholder="请输入验证码")
         i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
     div.form-item
-      .ds-button.bold.tall.high-positive._3rem.oval 立即注册
+      .ds-button.bold.tall.high-positive._3rem.oval(@click="autoRegist") 立即注册
       br
       router-link.ds-button.text-button.light(:to=" '/login' " style="margin-top: .1rem") 我要登录
 
@@ -24,8 +24,10 @@
 
 <script>
   // import '../../main.all.out.min.js'
+  import api from '../../http/api'
   import browser from '../../util/browser'
   import xhr from 'components/xhr'
+  import Validate from '../../util/Validate'
   export default {
     mixins: [xhr],
     components: {
@@ -33,15 +35,61 @@
     },
     data () {
       return {
+        account: '',
+        name: '',
+        tag: ''
       }
     },
     computed: {
     },
     mounted () {
       this._getVerifyImage()
-      if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go'
+      this.tag = this.$route.query.tag
+      if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go?tag=' + this.tag
     },
     methods: {
+      // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
+      autoRegist () {
+        if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
+        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符！'})
+        if (!this.name) return this.$message.warning({target: this.$el, message: '请输入昵称！'})
+        if (!Validate.nickName(this.name)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
+        if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码！'})
+        this.$http.post(api.autoRegist, {
+          tag: this.tag,
+          userName: this.account,
+          nickName: this.name,
+          verifyCode: this.code_
+        }).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.$modal.success({
+              // target: this.$el,
+              content: '恭喜你注册成功，你的密码为：123qwe',
+              btn: ['马上登录'],
+              ok () {
+                this.__setCall({
+                  fn: '__logout',
+                  args: {
+                    stay: true
+                  }
+                })
+                this.$router.push({
+                  path: '/login/login',
+                  query: {
+                    un_: this.account,
+                    pwd: '123qwe'
+                  }
+                })
+              },
+              O: this
+            })
+          } else this.$message.warning(data.msg || '注册失败!')
+        }, (rep) => {
+          // error
+          this.$message.warning('注册失败!')
+        })
+      }
     }
   }
 </script>
@@ -56,7 +104,7 @@
     position relative
     top -1.5rem
     text-align center
-    
+    text-shadow none
 
   .form-item
     margin PW 0

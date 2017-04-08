@@ -207,7 +207,8 @@
       else this.$emit('close', '4-2-2')
     },
     methods: {
-      openRoute ({query: {id}}) {
+      openRoute ({path, query: {id}}) {
+        if (path !== '/form/4-2-2') return false
         if (id) this.followDetail(id)
       },
       handleSelectionChange (val) {
@@ -313,8 +314,8 @@
       left 0
       right 0
       padding PWX
-      background-color #ededed
-      z-index 1000
+      // background-color #ededed
+      z-index 0
     .info
       top TH
       font-size .12rem

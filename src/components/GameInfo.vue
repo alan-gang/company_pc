@@ -79,6 +79,9 @@ export default {
   @import '../var.stylus'
   F = .3rem
   .game-info
+    &.fixed
+      z-index 1
+      overflow-x hidden
     background-color: #ededed;
     // height GH
     line-height GH
@@ -88,6 +91,7 @@ export default {
     font-weight normal
     color #666
     background-position .2rem .2rem
+    
 
   .ds-icon-clock
     margin-left .2rem

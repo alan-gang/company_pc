@@ -31,7 +31,7 @@
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
           el-table-column(prop="settleAmount" label="盈亏结算" width="100" )
         
-        el-table.header-bold.nopadding(:data="total" row-class-name="text-danger" style="" v-if="total[0]")
+        el-table.header-bold.nopadding(:data="total" row-class-name="text-danger" v-on:row-click="setSelected" style="" v-if="total[0]")
 
           el-table-column(prop="nickName" label="" width="100")
           el-table-column(prop="day" label="" width="100")
@@ -101,6 +101,13 @@
       this.profitDetail()
     },
     methods: {
+      tableRowClassName (row, index) {
+        if (row.selected) return 'selected-row'
+      },
+      setSelected (row) {
+        this.$set(row, 'selected', !row.selected)
+        // row.selected = !row.selected
+      },
       // 盈亏详情列表（按用户和时间范围查询）
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=detail&destUserId=2&startDay=20170101&endDay=20170301
       // profitDetail: api + 'report/profit.do?method=detail',
@@ -131,9 +138,6 @@
             loading.close()
           }, 1000)
         })
-      },
-      tableRowClassName (row) {
-        // if (this.me.account === row.userName) return 'text-danger'
       }
     }
   }

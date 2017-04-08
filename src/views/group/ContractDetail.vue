@@ -1,11 +1,11 @@
 <template lang="jade">
-  .group-page(style="width: 5.4rem; height: 6.8rem")
+  .group-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .contract.scroll-content(:class="{ center: type === 0 }")
+    .contract.scroll-content(:class="{ center: contracts.length === 0 }")
 
       div(v-if="contracts.length === 0" style="height: 100%;") 当前无可用契约
         div(style="width: 0; height: 100%; vertical-align: middle; display: inline-block")
@@ -71,7 +71,8 @@
       this.qryContractById(this.$route.query.id || '')
     },
     methods: {
-      openRoute ({query: {id, self}}) {
+      openRoute ({path, query: {id, self}}) {
+        if (path !== '/group/3-3-4') return false
         this.self = self
         if (id) this.qryContractById(id)
       },
@@ -143,19 +144,20 @@
     top TH
     background #fff
     text-align center
-    &.center:after
-      content ''
-      height 100%
-      width 0
-      vertical-align middle
-      display inline-block
-    .form
-      padding PWX
-    .c
-      margin: .3rem
-      &:not(:first-child)
-        margin-top .6rem
-        opacity .5
+    radius()
+    // &.center:after
+    //   content ''
+    //   height 100%
+    //   width 0
+    //   vertical-align middle
+    //   display inline-block
+    // .form
+    //   padding PWX
+    // .c
+    //   margin: .3rem
+    //   &:not(:first-child)
+    //     margin-top .6rem
+    //     opacity .5
 
   .item
     margin .24rem 0

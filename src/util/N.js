@@ -1092,12 +1092,9 @@ let G115 = {
    **/
   '3-1-1-115' ({ns}) {
     let n = 0
-    ns[0] = ns[0] || []
-    ns[1] = ns[1] || []
-    ns[2] = ns[2] || []
-    ns[0].forEach((f) => {
-      ns[1].forEach((s) => {
-        ns[2].forEach((t) => {
+    ns[0] && ns[0][0] && ns[0].forEach((f) => {
+      ns[1] && ns[1][0] && ns[1].forEach((s) => {
+        ns[2] && ns[2][0] && ns[2].forEach((t) => {
           if (f !== s && f !== t && s !== t) n++
         })
       })
@@ -1316,9 +1313,10 @@ let PK10 = {
   // title: '猜前三名
   '-1-1-3-PK10' ({ns}) {
     let n = 0
-    ns[0] && ns[0].forEach(n0 => {
-      ns[1] && ns[1].forEach(n1 => {
-        ns[2] && ns[2].forEach(n2 => {
+    console.log('??????', ns[0])
+    ns[0] && ns[0][0] && ns[0].forEach(n0 => {
+      ns[1] && ns[1][0] && ns[1].forEach(n1 => {
+        ns[2] && ns[2][0] && ns[2].forEach(n2 => {
           if (n0 !== n1 && n1 !== n2 && n2 !== n0) n++
         })
       })
@@ -1328,10 +1326,10 @@ let PK10 = {
   // title: '猜前四名
   '-1-1-4-PK10' ({ns}) {
     let n = 0
-    ns[0] && ns[0].forEach(n0 => {
-      ns[1] && ns[1].forEach(n1 => {
-        ns[2] && ns[2].forEach(n2 => {
-          ns[3] && ns[3].forEach(n3 => {
+    ns[0] && ns[0][0] && ns[0].forEach(n0 => {
+      ns[1] && ns[1][0] && ns[1].forEach(n1 => {
+        ns[2] && ns[2][0] && ns[2].forEach(n2 => {
+          ns[3] && ns[3][0] && ns[3].forEach(n3 => {
             if (n0 !== n1 && n1 !== n2 && n2 !== n3 && n0 !== n2 && n0 !== n3 && n1 !== n3) n++
           })
         })
@@ -1342,11 +1340,11 @@ let PK10 = {
   // title: '猜前五名
   '-1-1-5-PK10' ({ns}) {
     let n = 0
-    ns[0] && ns[0].forEach(n0 => {
-      ns[1] && ns[1].forEach(n1 => {
-        ns[2] && ns[2].forEach(n2 => {
-          ns[3] && ns[3].forEach(n3 => {
-            ns[4] && ns[4].forEach(n4 => {
+    ns[0] && ns[0][0] && ns[0].forEach(n0 => {
+      ns[1] && ns[1][0] && ns[1].forEach(n1 => {
+        ns[2] && ns[2][0] && ns[2].forEach(n2 => {
+          ns[3] && ns[3][0] && ns[3].forEach(n3 => {
+            ns[4] && ns[4][0] && ns[4].forEach(n4 => {
               if (n0 !== n1 && n1 !== n2 && n2 !== n3 && n3 !== n4 && n0 !== n2 && n0 !== n3 && n0 !== n4 && n1 !== n3 && n1 !== n4 && n2 !== n4) n++
             })
           })

@@ -77,7 +77,8 @@ export default {
     this.getLotteryPrinzeInfo(this.$route.query.userId || '')
   },
   methods: {
-    openRoute ({query: {userId}}) {
+    openRoute ({path, query: {userId}}) {
+      if (path !== '/me/2-3-1') return false
       if (userId) this.getLotteryPrinzeInfo(userId)
     },
     tableRowClassName (row, index) {

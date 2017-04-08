@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection
 
-    GameNumberRow(v-for="(row, i) in rows" v-bind:row="row"  v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
+    GameNumberRow(v-for="(row, i) in rows" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
 
     el-row(v-if="rows.length === 0")
       el-col(:span="20")
@@ -31,7 +31,7 @@
   import N from '../util/N'
   import { C, removeDuplicate } from '../util/base'
   export default {
-    props: ['type'],
+    props: ['type', 'gameid'],
     data () {
       return {
         // 所有玩法号码工作区
@@ -179,7 +179,7 @@
           {ids: '-1-1-6-115', title: '选6中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-115', title: '选7中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '5单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '4单1双', value: '5'}, {selected: false, title: '5单0双', value: '6'}]},
+          {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '4单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '1单4双', value: '5'}, {selected: false, title: '0单5双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           // =========================================================PK10========================================================
@@ -269,6 +269,9 @@
       }
     },
     computed: {
+      callId () {
+        return this.gameid + '|' + this.type.id
+      },
       // 根据玩法确定是与其它行不能重复
       nr () {
         return ['3-1-5-115', '2-1-5-115', '-1-3-1-115', '-1-3-2-115', '-1-3-3-115', '-1-3-4-115', '-1-3-5-115', '-1-3-6-115', '-1-3-7-115', '-2-1-2-K3', '-3-1-2-K3', '2-1-2-K3'].indexOf(this.type.id) !== -1
@@ -362,9 +365,12 @@
         }, 0)
       },
       ns () {
+        // fixed 当只有有join的时候才需要forEach *****
         this.ns.forEach((ns, i) => {
-          this.ns[i] = this.ns[i].join(this.rows[i].join || ',')
+          // fixed 当只有有join的时候才这样做
+          if (this.rows[i].join) this.ns[i] = ns.join(this.rows[i].join || ',')
         })
+        // fixed 当只有有join的时候才需要forEach *****
         this.$emit('set-nsns', this.ns.join('|'))
       },
       ps () {

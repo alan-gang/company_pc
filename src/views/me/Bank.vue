@@ -133,7 +133,7 @@
       .bank-form(v-if="stepIndex === 1 && type === 'unbind' ")
         p.title(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0; color: #333") 您正在解绑 
           span.text-blue {{ me.name }} 
-          | 银行卡
+          | 的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
         StepTabs(type="text" v-bind:steps = "s" v-bind:stepIndex="i")
         

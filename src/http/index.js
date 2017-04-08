@@ -13,6 +13,7 @@ export default (Vue) => {
   //     if (data && data.success === -2) console.log('no Authorization')
   //   })
   // })
+  let M = null
   Vue.http.interceptors.push(() => {
     return {
       request (req) {
@@ -26,20 +27,20 @@ export default (Vue) => {
       },
       response (rep) {
         // 用户过期
-        if (rep.data && rep.data.success === -1) {
-          if (store.state.user.login) {
-            store.state.user.login = false
-            this.$modal.warn({
-              content: '您长时间没有操作，请重新登录！',
-              btn: ['确定'],
-              close () {
-                this.__setCall({fn: '__logout'})
-              },
-              O: this
-            })
-          }
-        } else if (rep.data && rep.data.success === -3) {
-          this.$modal.warn({
+        if (rep.data && rep.data.success === -1 && !M) {
+          // if (store.state.user.login) {
+          store.state.user.login = false
+          M = this.$modal.warn({
+            content: '您长时间没有操作，请重新登录！',
+            btn: ['确定'],
+            close () {
+              this.__setCall({fn: '__logout'})
+            },
+            O: this
+          })
+          // }
+        } else if (rep.data && rep.data.success === -3 && !M) {
+          M = this.$modal.warn({
             content: '您所在的区域禁止登录本站， 抱歉请谅解！',
             btn: ['确定'],
             close () {

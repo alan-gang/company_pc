@@ -1,11 +1,12 @@
 <template lang="jade">
-  .group-page(style="width: 5.4rem; height: 6.8rem")
+  .group-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .contract.scroll-content(:class="{ center: type === 0 }")
+    
+    .contract.scroll-content(:class="{ center: !stock }")
 
       div(v-if="stock" style="margin: .3rem" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
         h2(style="color: #333; margin: .3rem 0; text-align: center") 分红详情
@@ -91,7 +92,8 @@
           btn: ['是的', '还没']
         })
       },
-      openRoute ({query: {id, self}}) {
+      openRoute ({path, query: {id, self}}) {
+        if (path !== '/group/3-3-2') return false
         this.self = self
         if (id) this.qryBonusById(id)
       },
@@ -197,11 +199,14 @@
 </script>
 
 <style lang="stylus" scoped>
+
   @import '../../var.stylus'
+  
   .contract
     top TH
+    radius()
     background #fff
-    text-align left
+    // text-align left
     &.center:after
       content ''
       height 100%

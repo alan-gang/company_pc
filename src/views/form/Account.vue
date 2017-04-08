@@ -64,7 +64,7 @@
           .ds-button.primary.large.bold(@click="list") 搜索
           .ds-button.cancel.large(@click="clear") 清空
 
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected"  style="margin-top: .1rem")
 
           el-table-column(prop="entry" label="帐变编号" width="80" )
             template(scope="scope")
@@ -225,6 +225,13 @@
       this.list()
     },
     methods: {
+      tableRowClassName (row, index) {
+        if (row.selected) return 'selected-row'
+      },
+      setSelected (row) {
+        this.$set(row, 'selected', !row.selected)
+        // row.selected = !row.selected
+      },
       pageChanged (cp) {
         this.list(cp, () => {
           this.currentPage = cp

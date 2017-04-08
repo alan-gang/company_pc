@@ -9,13 +9,13 @@
       
 
     dd.ds-icon-user
-      input(placeholder="用户名" v-model="un_" @change="getGreetingMsg" autofocus)
+      input( v-model="un_" @change="getGreetingMsg" autofocus)
 
     dd.ds-icon-pwd(v-bind:class="{disabled: disablePwd}")
-        input(placeholder="密码" v-model="pwd" v-bind:disabled="disablePwd" type="password" )
+        input(v-model="pwd" v-bind:disabled="disablePwd" type="password" )
 
     dd.ds-icon-edit(v-bind:class="{disabled: !pwd}")
-      input(placeholder="验证码" v-model="code_" @keyup.enter="login" v-bind:disabled="!pwd")
+      input( v-model="code_" @keyup.enter="login" v-bind:disabled="!pwd")
       i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
     dd.ds-button.positive.full.bold.login(@click="login" style="border: none") 登录
@@ -48,32 +48,20 @@
       }
     },
     mounted () {
-      setTimeout(() => {
-        this.$el.querySelector('.ds-icon-user input').focus()
-      }, 0)
-      // try login
-      this.$http.get(api.validate).then(({data}) => {
-        // success
-        if (data.success) {
-          this.$emit('update-user', {login: true,
-            name: data.nickName,
-            pwd: data.hasLogPwd === '1',
-            cashPwd: data.hasSecurityPwd === '1',
-            type: data.identity,
-            account: data.userName,
-            role: data.roleId,
-            guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
-          })
-          this.$router.push('/')
-        } else {
-          this._getVerifyImage()
-        }
-      }, (rep) => {
+      let {un_, pwd} = this.$route.query
+      if (un_) this.un_ = un_
+      if (pwd) this.pwd = pwd
+      if (un_ && pwd) {
+        setTimeout(() => {
+          this.$el.querySelector('.ds-icon-edit input').focus()
+        }, 0)
         this._getVerifyImage()
-        // error
-      }).finally(() => {
-        // loading.close()
-      })
+      } else {
+        setTimeout(() => {
+          this.$el.querySelector('.ds-icon-user input').focus()
+        }, 0)
+        this.tryLogin()
+      }
     },
     activated () {
     },
@@ -95,7 +83,7 @@
                   type: data.identity,
                   account: data.userName,
                   role: data.roleId,
-                  guide: data.isTry ? false : !data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'
+                  guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
                 })
                 this.$router.push('/')
               } else {
@@ -137,6 +125,31 @@
         //     withCredentials: true
         //   }
         // })
+      },
+      tryLogin () {
+        // try login
+        this.$http.get(api.validate).then(({data}) => {
+          // success
+          if (data.success) {
+            this.$emit('update-user', {login: true,
+              name: data.nickName,
+              pwd: data.hasLogPwd === '1',
+              cashPwd: data.hasSecurityPwd === '1',
+              type: data.identity,
+              account: data.userName,
+              role: data.roleId,
+              guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+            })
+            this.$router.push('/')
+          } else {
+            this._getVerifyImage()
+          }
+        }, (rep) => {
+          this._getVerifyImage()
+          // error
+        }).finally(() => {
+          // loading.close()
+        })
       }
     }
   }

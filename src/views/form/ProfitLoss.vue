@@ -25,6 +25,13 @@
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
           el-table-column(prop="settleAmount" label="盈亏结算" width="100" )
+
+          // el-table-column(prop="nickName" label="用户名" width="100" sortable)
+          // el-table-column(prop="buy" label="投注总额" width="100" )
+          // el-table-column(prop="point" label="返点总额" width="100" )
+          // el-table-column(prop="prize" label="中奖总额" width="100" )
+          // el-table-column(prop="profit" label="盈亏结算" width="100" )
+          // el-table-column(prop="rate" label="中奖率" width="100" )
           
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
@@ -83,6 +90,7 @@
       // 盈亏报表列表
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
       // profitList: api + 'report/profit.do?method=list',
+      // api.getTeamProfit
       profitList () {
         let loading = this.$loading({
           text: '盈亏报表加载中...',
@@ -95,6 +103,7 @@
           // success
           if (data.success === 1) {
             this.data = data.allDate
+            // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

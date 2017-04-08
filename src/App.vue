@@ -9,11 +9,13 @@
     // pages
     // keep-alive
     transition(name="fade" appear=true)
-      router-view.scroll-content.page(:pages="tabs" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
+      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
 
     // footer
     transition(name="slide-down" appear=true)
       dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.money" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+    
+    // Chat
 
 </template>
 
@@ -21,6 +23,7 @@
 import util from './util'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
+// import Chat from './components/Chat'
 import base from './components/base'
 import store from './store'
 import cookie from 'js-cookie'
@@ -35,12 +38,53 @@ export default {
       tabs: [],
       menus: [
         {
-          id: -1,
           class: 'ds-icon-gift',
+          hide: true,
+          url: 'activity',
           groups: [
             {
               items: [
-                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity', showInHome: false, liked: false}
+                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'}
+              ]
+            }
+          ]
+        },
+        {
+          class: 'ds-icon-form',
+          hide: true,
+          url: 'form',
+          groups: [
+            {
+              items: [
+                {
+                  id: '4-2-2',
+                  title: '追号记录详情',
+                  url: 'FollowDetail',
+                  position: {
+                    width: '10rem'
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          class: 'ds-icon-group',
+          hide: true,
+          url: 'group',
+          groups: [
+            {
+              items: [
+                {
+                  id: '3-3-2',
+                  menuid: '29',
+                  title: '分红详情',
+                  url: 'StockDetail',
+                  position: {
+                    width: '5.4rem',
+                    height: '6.8rem'
+                  }
+                }
               ]
             }
           ]
@@ -68,26 +112,26 @@ export default {
               // width: '8rem',
               items: [
                 {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
-                {class: 'ds-icon-game-hljssc', menuid: '8', title: '黑龙江时时彩', gameid: 2},
-                {class: 'ds-icon-game-jxssc', menuid: '13', title: '江西时时彩', gameid: 16},
+                // {class: 'ds-icon-game-hljssc', menuid: '8', title: '黑龙江时时彩', gameid: 2},
+                // {class: 'ds-icon-game-jxssc', menuid: '13', title: '江西时时彩', gameid: 16},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
+                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gmaeid: 16},
+                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 2},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4}
                 // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
                 // {class: 'ds-icon-game-chq', menuid: '12', title: '欢乐分分彩', showInHome: true, liked: true}
               ]
             },
-            {
-              title: '时时乐',
-              // withIcon: true,
-              // class: 'ds-icon-item',
-              url: 'SSL',
-              items: [
-                {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5},
-                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩'},
-                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 12}
-                // {class: 'ds-icon-game-hl', menuid: '9', title: '福彩3D'}
-              ]
-            },
+            // {
+            //   title: '时时乐',
+            //   // withIcon: true,
+            //   // class: 'ds-icon-item',
+            //   url: 'SSL',
+            //   items: [
+            //     {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5}
+            //     // {class: 'ds-icon-game-hl', menuid: '9', title: '福彩3D'}
+            //   ]
+            // },
             {
               title: '11选5',
               // withIcon: true,
@@ -97,7 +141,8 @@ export default {
               items: [
                 // {class: '', menuid: '6', title: '十一运夺金'},
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '18', title: '广东十一选五', gameid: 8},
-                {class: 'ds-icon-game-dj', id: '1-3-2', menuid: '19', title: '夺金120秒'},
+                {class: 'ds-icon-game-dj', id: '1-3-2', menuid: '19', title: '夺金120秒', gameid: 11},
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-7-1', menuid: '23', title: '十一运夺金', gameid: 6},
                 {class: 'ds-icon-game-dl', id: '1-3-3', menuid: '15', title: '多乐彩', gameid: 7}
                 // {class: '', menuid: '11', title: '重庆十一选五'}
               ]
@@ -136,9 +181,9 @@ export default {
               // class: 'ds-icon-item',
               url: 'K3',
               items: [
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-7-1', menuid: '23', title: '十一运夺金', gameid: 6},
                 {url: 'SSL', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
-                {url: 'SSC', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10}
+                {url: 'SSC', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10},
+                {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5}
               ]
             }
           ]
@@ -244,16 +289,16 @@ export default {
                   title: '分红列表',
                   url: 'Stock'
                 },
-                {
-                  id: '3-3-2',
-                  // menuid: '29',
-                  title: '分红详情',
-                  url: 'StockDetail',
-                  position: {
-                    width: '5.4rem',
-                    height: '6.8rem'
-                  }
-                },
+                // {
+                //   id: '3-3-2',
+                //   menuid: '29',
+                //   title: '分红详情',
+                //   url: 'StockDetail'
+                //   // position: {
+                //   //   width: '5.4rem',
+                //   //   height: '6.8rem'
+                //   // }
+                // },
                 {
                   id: '3-3-3',
                   menuid: '44',
@@ -263,11 +308,11 @@ export default {
                 {
                   id: '3-3-4',
                   title: '契约详情',
+                  url: 'ContractDetail',
                   position: {
                     width: '5.4rem',
                     height: '6.8rem'
-                  },
-                  url: 'ContractDetail'
+                  }
                 }
               ]
             },
@@ -325,15 +370,15 @@ export default {
                   position: {
                     width: '12rem'
                   }
-                },
-                {
-                  id: '4-2-2',
-                  title: '追号记录详情',
-                  url: 'FollowDetail',
-                  position: {
-                    width: '10rem'
-                  }
                 }
+                // {
+                //   id: '4-2-2',
+                //   title: '追号记录详情',
+                //   url: 'FollowDetail',
+                //   position: {
+                //     width: '10rem'
+                //   }
+                // }
               ]
             },
             {
@@ -456,10 +501,16 @@ export default {
         return t.opened
       })
     },
+    currentab () {
+      return this.ctabs.filter(t => {
+        return t.active
+      })
+    },
+    // 1: pre !== current 2: pre.size !== 'minus'
     prev () {
       let prev = {prev: 0, href: '/'}
       this.tabs.find(t => {
-        if (t.prev > prev.prev) prev = t
+        if (t.prev > prev.prev && t.id !== (this.currentab[0] || {}).id && t.size !== 'minus') prev = t
       })
       return prev
     }
@@ -521,7 +572,7 @@ export default {
               star: false,
               size: '',
               url: g.url || '',
-              href: '/' + m.url + '/' + i.id,
+              href: i.href || ('/' + m.url + '/' + i.id),
               // class: g.class || '',
               menuClass: g.class || m.class
             }, i)
@@ -548,21 +599,20 @@ export default {
           setTimeout(() => {
             this.$router.push('/')
           }, 100)
-        }
-        // else this.$router.push(this.prev.href)
+        } else this.$router.push(this.prev.href)
       })
     },
     // setMenus (menus) {
     //   this.menus = menus
     // },
-    logout () {
+    logout (args) {
       this.$http.get(api.logout)
       this.setUser()
       cookie.remove('JSESSIONID')
-      this.$router.push('/login')
+      if (!args) this.$router.push('/login')
     },
-    __logout () {
-      this.logout()
+    __logout (args) {
+      this.logout(args)
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence () {
@@ -599,6 +649,7 @@ export default {
   components: {
     dsHeader,
     dsFooter
+    // Chat
   }
 }
 </script>
@@ -614,7 +665,7 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
-    // user-select none
+    user-select none
   
   body
     height 100%
@@ -672,6 +723,7 @@ export default {
 // define transition common timming function and time
 [class*=-enter]
 [class*=-leave]
+// [class*=-move]
   transition all linear .2s // @static 2
 
 .zoom-enter-active, .zoom-leave-active

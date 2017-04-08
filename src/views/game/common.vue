@@ -6,6 +6,8 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
+    slot(name="info")
+
     <!-- 游戏信息 -->
     GameInfo.fixed(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-if="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
@@ -16,7 +18,7 @@
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
-      GameSelection(v-bind:type="type" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+      GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
       GameOrderBar.inner-bar( v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
       <!-- 投注单 -->

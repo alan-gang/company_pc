@@ -133,7 +133,7 @@ export default {
       // blanks: Array(1000),
       step: 0,
       titles: ['第一步：设置昵称', '第二步：设置登录密码', '第三步：设置资金密码', '第四步：绑定银行卡'],
-      bstepIndex: 0,
+      // bstepIndex: 0,
       bs: ['01 添加新银行卡信息', '02 核对信息', '03 完成'],
       bi: 0,
       nickname: '',
@@ -220,15 +220,16 @@ export default {
       if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三们相同！'})
       if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
       // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-      this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd}).then(({data}) => {
+      this.$http.post(api.changLoginPwd, {password: '123qwe', newPwd: this.newPwd}).then(({data}) => {
         if (data.success === 1) {
-          this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
-          setTimeout(() => {
-            this.__setCall({fn: '__logout'})
-          }, 3000)
+          this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功'})
+          // this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
+          // setTimeout(() => {
+          //   this.__setCall({fn: '__logout'})
+          // }, 3000)
           this.step++
         } else {
-          // this.$message.error({target: this.$el, message: '旧密码错误！'})
+          this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
           this.clearPwd()
         }
       }, (rep) => {
@@ -248,7 +249,7 @@ export default {
       if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三们相同！'})
       if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
       // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
-      this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd}).then(({data}) => {
+      this.$http.post(api.changSecurePwd, {newPwd: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
           let message = '恭喜您， 资金密码修改成功。'
           if (!this.me.cashPwd) message = '恭喜您， 资金密码设置成功。'
@@ -307,8 +308,12 @@ export default {
           this.$modal.success({
             content: '恭喜您，绑定成功！',
             target: this.$el,
-            close () {
-              this.stepIndex++
+            btn: ['继续绑定', '下一步'],
+            ok () {
+              this.bi = 0
+            },
+            cancel () {
+              this.step++
               this.bi = 0
             },
             O: this

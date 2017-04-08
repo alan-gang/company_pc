@@ -101,7 +101,8 @@ export default {
       })
     },
     myBanks () {
-      return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
+      // return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
+      return BANKS
     },
     banksO () {
       return this.showAllBank ? this.myBanks : this.myBanks.slice(0, 3)

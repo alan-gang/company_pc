@@ -21,7 +21,7 @@
   import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
   export default {
-    props: ['row', 'titleSpan'],
+    props: ['row', 'titleSpan', 'gameid'],
     data () {
       return {
         // 显示遗漏号码
@@ -36,6 +36,9 @@
       }
     },
     computed: {
+      callId () {
+        return this.gameid + '|' + this.row.id.replace(/[\s,]+/g, '').split(':')[0]
+      },
       // 选中号码的长度
       // length () {
       //   return this.numbers.filter(n => n.selected).length

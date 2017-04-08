@@ -32,7 +32,7 @@
 
         label.item 游戏奖期 
           el-select(clearable v-bind:disabled=" !issueList[0] " placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
-            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U")
+            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
         label.item 游戏模式 
           el-select(clearable v-bind:disabled=" !MODES[0] " placeholder="全" v-model="mode" style="width: .5rem")
@@ -53,7 +53,7 @@
           .ds-button.primary.large.bold(@click="followList()") 搜索
           .ds-button.cancel.large(@click="clear") 清空
 
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
           el-table-column(label="追号编号" width="100" )
             template(scope="scope")
@@ -83,7 +83,7 @@
 
           el-table-column(prop="finishprice" label="完成金额" width="100" align="right")
 
-          el-table-column(class-name="pl2"   label="状态" width="60")
+          el-table-column(class-name="pl2"   label="状态")
             template(scope="scope")
               span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
          
@@ -160,6 +160,13 @@
       this.followList()
     },
     methods: {
+      tableRowClassName (row, index) {
+        if (row.selected) return 'selected-row'
+      },
+      setSelected (row) {
+        this.$set(row, 'selected', !row.selected)
+        // row.selected = !row.selected
+      },
       goFollowDetail (id) {
         this.$router.push({
           path: '/form/4-2-2',

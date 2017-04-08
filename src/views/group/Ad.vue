@@ -39,8 +39,8 @@
           el-select(v-model="p")
             el-option(v-for="P in PS" v-bind:label="P" v-bind:value="P")
        
-        p(style="padding: .05rem 1.9rem") 自动注册地址： &nbsp;
-          a.text-blue(href="www.baidu.com" style="display: inline-block") {{ url }} 
+        p(style="padding: .05rem 0.15rem 0.05rem 1.9rem") 自动注册地址： &nbsp;
+          a.text-blue(:href="url" style="display: inline-block") {{ url }} 
            
         div.buttons(style="padding: .1rem 2.93rem")
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交

@@ -108,6 +108,10 @@ export default {
       lines: []
     }
   },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route': 'openRoute'
+  },
   computed: {
   },
   created () {
@@ -152,6 +156,13 @@ export default {
     this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
   },
   methods: {
+    openRoute ({path, query: {gameid}}) {
+      if (path !== '/form/4-5-3') return false
+      if (gameid) {
+        this.gameid = gameid
+        // TODO update data
+      }
+    },
     tableRowClassName (row, i) {
       return row.myClass
     },

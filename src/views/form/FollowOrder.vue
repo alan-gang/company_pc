@@ -21,7 +21,7 @@
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i" )
 
       // 跟单中心
-      el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" style="margin-top: .1rem" v-show=" type === 0 ")
+      el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem" v-show=" type === 0 ")
 
           el-table-column(prop="nickName" label="用户" width="100" )
             template(scope="scope")
@@ -56,11 +56,11 @@
 
       
       // 跟单记录
-      el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0" v-show=" type === 1 ")
+      el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .2rem 0" v-show=" type === 1 ")
 
           el-table-column(prop="projectId" label="注单编号" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(@click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
+              .ds-button.text-button.blue(style="padding: 0" @click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
 
           el-table-column(prop="userName" label="用户" width="80")
           
@@ -86,7 +86,7 @@
 
           el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" width="80" align="right")
 
-          el-table-column(class-name="pl2" label="状态" width="60" align="right")
+          el-table-column(class-name="pl2" label="状态")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
 
@@ -100,7 +100,7 @@
           .tool-bar
             span.title {{ modalTitles[type] }}
             el-button-group
-              el-button(icon="close" @click="show = false")
+              el-button.close(icon="close" @click="show = false")
           .content
             el-row
               el-col(:span="9")
@@ -316,6 +316,13 @@
       this.Orderlist()
     },
     methods: {
+      tableRowClassName (row, index) {
+        if (row.selected) return 'selected-row'
+      },
+      setSelected (row) {
+        this.$set(row, 'selected', !row.selected)
+        // row.selected = !row.selected
+      },
       pageChanged (cp) {
         this.Orderlist(cp, () => {
           this.currentPage = cp
@@ -485,6 +492,13 @@
         background-color bg-active
       &:first-child
         font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
 
   .modal 
     position absolute

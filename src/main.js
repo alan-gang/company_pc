@@ -1,4 +1,6 @@
 import Vue from 'vue'
+// Vue.config.devtools = false
+// Vue.config.silent = true
 import './polyline'
 
 import config from './config'
@@ -44,3 +46,4 @@ export default new Vue({
   router: router,
   render: h => h(App)
 })
+

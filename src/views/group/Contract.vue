@@ -21,8 +21,8 @@
           el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
           
         label.item  &nbsp;状态 
-          el-select(v-model="s")
-            el-option(v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
+          el-select(clearable v-model="s"  placeholder="全")
+            el-option( v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
         | &nbsp;&nbsp;
         .ds-button.primary.large.bold(@click="contract") 搜索
 
@@ -86,7 +86,7 @@
             span.text-danger {{ i===0? '*': '&nbsp;'}}
             | {{ TYPE[CR.ruletype].title }} ：&nbsp;&nbsp;&nbsp;
             span(style="color: #333") 累计 
-            el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="选择")
+            el-select(clearable v-model="CR.ruletype" style="width: .7rem" placeholder="全")
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .5rem;" v-model="CR.sales")
@@ -123,8 +123,8 @@
           {id: 0, title: '待确认'},
           {id: 1, title: '已签订'},
           {id: 2, title: '未签订', reason: '已作废'},
-          {id: 3, title: '未签订', reason: '已拒绝'},
-          {id: 4, title: '未签订', reason: '重新发起'}
+          {id: 3, title: '已拒绝', reason: '已拒绝'},
+          {id: 4, title: '待确认', reason: '重新发起'}
         ],
         s: {},
         data: [],

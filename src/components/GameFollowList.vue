@@ -15,7 +15,7 @@
       | &nbsp;&nbsp;最低收益：
       el-input-number.center.get(v-model="this.idType ")
       |  %
-    el-table.ghost(:data="data")
+    el-table.ghost(:data="data" max-height="500")
       el-table-column(prop="NPER" label="投注编号" width="200" inline-template)
         span {{ row.NPER + (row.NPER === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
@@ -24,7 +24,7 @@
         span 
           span.pay {{ ( row.times * pay ).toFixed(3) }}
           | &nbsp;元
-      el-table-column(prop="date" label="开奖时间" align="center")
+      el-table-column(prop="date" label="开奖时间" align="center" )
 
 
 </template>
@@ -112,15 +112,7 @@
 <style lang="stylus">
   H = 3.5rem
   s = .3rem
-  .follow-list
-    .el-table
-      width "calc(100% - %s)" % s
-      margin-bottom .15rem
-      .el-table__body-wrapper
-        // padding-right .3rem
-        max-height H
-    td
-      padding .025rem 0
+  
       
 </style>
 

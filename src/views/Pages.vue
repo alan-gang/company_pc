@@ -1,8 +1,9 @@
 <template lang="jade">
 
   transition-group(appear=true name="zoom" tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page" v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default, page.position || (page.position = (pages.length > 1 ? P[index] : null)), pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @mousedown.native="openAPage(page.id)")
-        .cover(slot="cover" v-bind:class="{show: !page.active}")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @mousedown.native="openAPage(page.id)")
+
+        .cover(slot="cover" v-bind:class="{show: !page.active}" )
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
@@ -109,7 +110,7 @@ export default {
   },
   name: 'Pages',
   mixins: [base],
-  props: ['pages'],
+  props: ['pages', 'prehref'],
   data () {
     return {
       // 可打开的最大的页数
@@ -121,9 +122,9 @@ export default {
           height: '100%'
         },
         minus: {
-          top: '70%',
-          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)',
-          opacity: 0
+          top: '80%',
+          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)'
+          // opacity: 0
         },
         default: {
           top: '15%',
@@ -134,7 +135,7 @@ export default {
       },
       // 提供随机的位置
       // 没有记录过位置的窗口将自动分配位置
-      P: [
+      PPP: [
         // center
         {
           top: '15%',
@@ -159,15 +160,15 @@ export default {
         // left bottom
         {
           left: '.15rem',
-          bottom: '.15rem',
-          top: 'auto',
+          bottom: 'auto',
+          top: '50%',
           right: 'auto'
         },
         // right bottom
         {
           right: '.15rem',
-          bottom: '.15rem',
-          top: 'auto',
+          bottom: 'auto',
+          top: '50%',
           left: 'auto'
         },
         // center left top
@@ -186,17 +187,17 @@ export default {
         },
         // center left bottom
         {
-          bottom: '5%',
+          bottom: 'auto',
           left: '10%',
           right: 'auto',
-          top: 'auto'
+          top: '30%'
         },
         // center right bottom
         {
-          bottom: '5%',
+          bottom: 'auto%',
           right: '10%',
           left: 'auto',
-          top: 'auto'
+          top: '30%'
         }
       ]
 
@@ -212,7 +213,7 @@ export default {
     })
   },
   methods: {
-    openRoute ({params: {url}}) {
+    openRoute ({path, params: {url}}) {
       if (url) this.openAPage(url)
     },
     openAPage (url) {
@@ -225,6 +226,7 @@ export default {
     minus (page) {
       if (page.size !== 'full') this.setDefaultPosition(page)
       this.updatePage(page.id, {size: 'minus'}, page)
+      this.prehref && this.$router.push(this.prehref)
     },
     close (url) {
       this.$emit('close-tab', url)
@@ -480,9 +482,8 @@ export default {
     display none
     background-color rgba(0,0,0,.2)
     opacity 0
-    &.show{
+    &.show
       display: block
-    }
     // &.show ~ .move-bar
     // &.show ~ .resize-x
     // &.show ~ .resize-y
@@ -502,7 +503,6 @@ export default {
       height 4 * TH
       top -2 * TH
       
-      z-index 1
       
   .resize-x
     position absolute
@@ -543,10 +543,16 @@ export default {
     overflow visible
     z-index 0
     radius()
+    // background-color #fff
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
+    transition all linear 0.2s
+    
     &.active
       z-index 1
+    // &.minus
+    //   transition all linear 0.2s
+      
     &.full
       .move-bar
         cursor default
