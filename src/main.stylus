@@ -684,7 +684,7 @@ input
   .ds-icon-chat
     background url(assets/chat.png) center center no-repeat
   .ds-icon-chat-middle
-    background url(assets/chat-middle.png) center center no-repeat
+    // background url(assets/chat-middle.png) center center no-repeat
     
   .ds-icon-item-middle
     background url(assets/item-middle.png) left center no-repeat

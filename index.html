@@ -179,7 +179,7 @@
                        </li>
                        <li class="get-spread-url" clip-copy="mySelf.spreadURL" clip-click="copyEventHandler()" data-ng-show="mySelf.spreadURL">
                          <i class="icon copy-url"></i>
-                         <!-- 复制推广码 -->
+                         复制推广码
                          <span data-ng-show="copyRight" class="copy-right">复制成功</span>
                          <span data-ng-bind="copy" class="copy-text" data-ng-show="false"></span>
                        </li>
@@ -582,9 +582,9 @@
        </div>
 
        <!-- 提示音 -->
-       <audio preload="auto" id="newMessageAlert" >
+       <!-- <audio preload="auto" id="newMessageAlert" >
          <source  data-ng-src="{{sounds()}}" type="audio/mpeg">
-       </audio>
+       </audio> -->
      </div>
     </div>
 
@@ -597,7 +597,9 @@
         pltCd: '102'
       }
     </script>
-    <script type="text/javascript" src="/static/chat/js/main.all.min.js"></script>
+     <script type="text/javascript">
+         document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
+    </script>
 
 
     <!-- 主要逻辑代码 或切换到main.all.min.js-->

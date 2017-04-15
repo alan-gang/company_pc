@@ -48,14 +48,14 @@ export default {
   mounted () {
     this.initShows()
     this.setFarChat()
-    setTimeout(this.getPos, 1000)
+    setTimeout(this.getPos, 0)
     util.addEvent('resize', window, () => {
       this.getPos()
     })
   },
   activated () {
     this.setFarChat()
-    setTimeout(this.getPos, 1000)
+    setTimeout(this.getPos, 0)
   },
   computed: {
   },

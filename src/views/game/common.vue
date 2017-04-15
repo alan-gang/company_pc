@@ -257,7 +257,7 @@ export default {
           // }, 1000)
           // this.__setCall({fn: '__getOrderList'})
           // this.__setCall({fn: '__getFollowList'})
-          this.__setCall({fn: '__getUserFund'})
+          this.__setCall({fn: '__getUserFund', callId: undefined})
           this.ns = []
         } else {
           // this.$message.warning('投注失败！')
