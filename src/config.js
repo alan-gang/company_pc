@@ -15,7 +15,7 @@ export default (Vue) => {
         deep: true,
         handler () {
           if (this.call.fn && typeof this[this.call.fn] === 'function') {
-            this.call.callId === this.callId && this.$nextTick(this[this.call.fn](this.call.args))
+            (!this.call.callId || this.call.callId === this.callId) && this.$nextTick(this[this.call.fn](this.call.args))
           }
         }
       }
@@ -23,7 +23,7 @@ export default (Vue) => {
     methods: {
       __setCall (call) {
         setTimeout(() => {
-          this.call = Object.assign(this.call, call, {callId: this.callId})
+          this.call = Object.assign(this.call, {callId: this.callId}, call)
           this.call._count++
         }, 0)
       },

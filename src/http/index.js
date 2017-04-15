@@ -17,12 +17,6 @@ export default (Vue) => {
   Vue.http.interceptors.push(() => {
     return {
       request (req) {
-        // if (req.url === preUrl) return null
-        // if (req.url !== preUrl) preUrl = req.url
-        // if (req.url === 'http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=createContract') {
-        //   req.emulateJSON = false
-        //   // req.headers['Content-Type'] = 'application/json'
-        // }
         return req
       },
       response (rep) {
@@ -34,20 +28,23 @@ export default (Vue) => {
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
             close () {
-              this.__setCall({fn: '__logout'})
+              M = null
+              this.__setCall({fn: '__logout', args: undefined, callId: undefined})
             },
             O: this
           })
           // }
-        } else if (rep.data && rep.data.success === -3 && !M) {
-          M = this.$modal.warn({
-            content: '您所在的区域禁止登录本站， 抱歉请谅解！',
-            btn: ['确定'],
-            close () {
-              window.location.href = 'www.baidu.com'
-            },
-            O: this
-          })
+        } else if (rep.data && rep.data.success === -3) {
+          // M = this.$modal.warn({
+          //   content: '您所在的区域禁止登录本站， 抱歉请谅解！',
+          //   btn: ['确定'],
+          //   close () {
+          //     M = null
+          //     window.location.href = 'www.baidu.com'
+          //   },
+          //   O: this
+          // })
+          this.$router.push('/login/forbidden')
         }
         console.log(rep.data)
         // if (data && data.success === -2) console.log('no Authorization')

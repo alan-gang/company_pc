@@ -36,13 +36,13 @@
 
           el-table-column(prop="status" label="状态" align="center" width="150")
             template(scope="scope")
-              span(:class=" { 'text-danger': scope.row.stat > 1,  'text-blue': scope.row.stat === 0, 'text-green': scope.row.stat === 1} ") {{ STATUS[scope.row.stat].title }}
+              span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-blue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
 
           el-table-column(label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" goContractDetail(scope.row.id) ") 查看详情
-              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat > 2" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
-              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat < 2" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
+              .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click=" goContractDetail(scope.row.id) ") 查看详情
+              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
+              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '待确认'" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
       
 
       div(v-if="stepIndex === 1 ")
@@ -184,18 +184,21 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            data.mySubContract && data.mySubContract.forEach(c => {
-              if (c.id <= 0) {
-                c.stat = 2
-                c.beginTm = '--'
-                c.expireTm = '--'
-              }
-            })
+            // data.mySubContract && data.mySubContract.forEach(c => {
+            //   if (c.id <= 0) {
+            //     c.stat = 2
+            //     c.beginTm = '--'
+            //     c.expireTm = '--'
+            //   }
+            // })
             this.data = data.contractList || data.mySubContract
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-          } else loading.text = '加载失败!'
+          } else {
+            this.data = []
+            loading.text = '加载失败!'
+          }
         }, (rep) => {
           // error
           this.$message.error('加载失败！')

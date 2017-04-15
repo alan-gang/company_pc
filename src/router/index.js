@@ -15,6 +15,8 @@ export default function (VueRoter) {
         path: '/login',
         component: require('../views/Login'),
         children: [
+          { path: '404', component: require('../views/login/404') },
+          { path: 'forbidden', component: require('../views/login/Forbidden') },
           { path: 'register', component: require('../views/login/Register') },
           { path: '', component: require('../views/login/LoginTest') },
           { path: 'login',

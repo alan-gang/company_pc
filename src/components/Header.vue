@@ -6,7 +6,7 @@
     
     el-popover(ref="collect" placement="bottom-end" trigger="hover" v-model="show" v-bind:popper-class="'collect ' + (starTabs.length > 0 ? true : false)")
       dl.submenu.font-white
-        dd(v-for="i in starTabs" v-bind:class="['ds-icon-game-small']" @click="openTab(i.id)") {{ i.title }}
+        dd(v-for="i in starTabs" v-bind:class="[ i.menuClass + '-small']" @click="openTab(i.id)") {{ i.title }}
           i.el-icon-delete2(@click.stop="unStar(i)")
     .tab.my-collect.el-icon-star-on(v-popover:collect="collect") 
       | 我的收藏

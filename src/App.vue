@@ -14,7 +14,7 @@
     // footer
     transition(name="slide-down" appear=true)
       dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.money" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
-    
+      
     // Chat
 
 </template>
@@ -44,7 +44,13 @@ export default {
           groups: [
             {
               items: [
-                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'}
+                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'},
+                {id: '5-2-1', menuid: '6', title: '亿元豪送', url: 'ForRegister'},
+                {id: '5-2-2', menuid: '6', title: '新用户有礼', url: 'ForNewUser'},
+                {id: '5-2-3', menuid: '6', title: '全民签到', url: 'ForAll'},
+                {id: '5-2-4', menuid: '6', title: '充值送', url: 'ForTopup'},
+                {id: '5-2-5', menuid: '6', title: '首提大返利', url: 'ForWithdraw'},
+                {id: '5-2-6', menuid: '6', title: '充值送', url: 'ForTopupA'}
               ]
             }
           ]
@@ -448,7 +454,16 @@ export default {
           title: '活动中心',
           href: '/activity/5-1-1',
           url: 'Activity',
-          menuid: '6'
+          menuid: '6',
+          groups: [
+            {
+              title: '活动中心',
+              items: [
+                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'}
+                // {id: '5-1-2', menuid: '6', title: '礼品箱', url: 'Gift'}
+              ]
+            }
+          ]
         },
         {
           id: 6,
@@ -486,7 +501,8 @@ export default {
         },
         {
           id: 8,
-          class: 'ds-icon-chat'
+          class: 'ds-icon-chat',
+          url: 'chat'
         }
       ],
       menuids: ''
@@ -545,23 +561,32 @@ export default {
       return this.menus.reduce((p, m, mi) => {
         // delete un authority
         if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {
-          this.menus.splice(mi, 1)
+          // this.menus.splice(mi, 1)
+          this.$set(m, 'removed', true)
           return p
+        } else {
+          this.$set(m, 'removed', false)
         }
         m.groups = m.groups || []
         return m.groups.reduce((p, g, gi) => {
           // delete un authority
           if (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1) {
-            m.groups.splice(gi, 1)
+            // m.groups.splice(gi, 1)
+            this.$set(g, 'removed', true)
             return p
+          } else {
+            this.$set(g, 'removed', false)
           }
           g.items = g.items || []
           if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
             if (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1) {
-              g.items.splice(ii, 1)
+              // g.items.splice(ii, 1)
+              this.$set(i, 'removed', true)
               return p
+            } else {
+              this.$set(i, 'removed', false)
             }
             i.menuClass = g.class || m.class
             i = Object.assign({}, {
@@ -610,9 +635,13 @@ export default {
       this.setUser()
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
+      this.__logoutChat()
     },
     __logout (args) {
       this.logout(args)
+    },
+    __logoutChat () {
+      window.accessAngular.close('您已退出聊天系统！')
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence () {

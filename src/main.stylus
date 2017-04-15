@@ -23,6 +23,16 @@ input
 .pointer
   cursor pointer
   
+// el-table__empty-text
+.el-table__empty-block
+  position relative
+  margin-top .2rem
+  height 1.5rem
+  background url(./assets/404/empty-table.png) center top no-repeat
+  .el-table__empty-text
+    vertical-align bottom
+    transform: translate(-50%, 250%)
+    
   
 .el-table
   .bg-white
@@ -895,6 +905,47 @@ input
       font-size 0.48rem
       color #fc0
       vertical-align sub
+  
+  .ds-icon-activity-1
+    background url('assets/activity/activity1.jpg') center top no-repeat
+    &.banner
+      background url('assets/activity/banner1.jpg') center top no-repeat
+      
+  .ds-icon-activity-2
+    background url('assets/activity/activity2.jpg') center top no-repeat
+    &.banner
+      background url('assets/activity/banner2.jpg') center top no-repeat
+      
+  .ds-icon-activity-3
+    background url('assets/activity/activity3.jpg') center top no-repeat
+    &.banner
+      background url('assets/activity/banner3.jpg') center top no-repeat
+      
+  .ds-icon-activity-4
+    background url('assets/activity/activity4.jpg') center top no-repeat
+    &.banner
+      background url('assets/activity/banner4.jpg') center top no-repeat
+      
+  .ds-icon-activity-5
+    background url('assets/activity/activity5.jpg') center top no-repeat
+    &.banner
+      background url('assets/activity/banner5.jpg') center top no-repeat
+  
+  .ds-icon-activity-ticket
+    background url('assets/activity/youhui.jpg') left center no-repeat
+    &.small
+      height .58rem
+      padding-left .7rem
+      background url('assets/activity/youhui_small.jpg') left center no-repeat
+  
+  .ds-icon-activity-coin
+    background url('assets/activity/jinbi.jpg') left center no-repeat
+    &.small
+      height .58rem
+      padding-left .7rem
+      background url('assets/activity/jinbi_small.jpg') left center no-repeat
+    
+      
     
     
 /*

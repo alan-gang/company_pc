@@ -513,7 +513,7 @@ export default {
       this.$http.post(api.person_sendMail, bind ? {email: this.email} : {}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 邮箱验证码发送成功，请注意查收。'})
-          this.pt_ = this.time_
+          this.et_ = this.time_
         } else {
           this.$message.error({target: this.$el, message: data.msg || '邮箱验证码发送失败！'})
         }

@@ -1,5 +1,5 @@
 let getOffset = (e, depth) => {
-  if (depth === 'undefined') depth = Infinity
+  if (depth === undefined) depth = Infinity
   let top = e.offsetTop
   let left = e.offsetLeft
   let width = e.offsetWidth

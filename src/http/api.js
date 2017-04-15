@@ -407,7 +407,37 @@ let Help = {
   getHelpTag: '/help.do?method=getHelpTag'
 }
 
-let API = Object.assign(Login, Game, Me, Group, Form, Help)
+let Activity = {
+  // 活动首页展示页
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=getAllActivityList
+  getAllActivityList: '/activity.do?method=getAllActivityList',
+  // 根据活动id查询活动详情
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=getActivityDetail&entry=1
+  getActivityDetail: '/activity.do?method=getActivityDetail',
+  // 注册
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doRegist&entry=1
+  doRegist: '/activity.do?method=doRegist&entry=1',
+  // 完善资料
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doProfile&entry=2
+  doProfile: '/activity.do?method=doProfile&entry=2',
+  // 每日签到
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doCheckIn&entry=3
+  doCheckIn: '/activity.do?method=doCheckIn&entry=3',
+  // 连续签到奖励
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=getCheckInReward&entry=3
+  getCheckInReward: '/activity.do?method=getCheckInReward&entry=3',
+  // 首充
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstSave&entry=4
+  doFirstSave: '/activity.do?method=doFirstSave&entry=4',
+  // 首提
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstWithdraw&entry=5
+  doFirstWithdraw: '/activity.do?method=doFirstWithdraw&entry=5',
+  // 充值活动
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave&entry=6
+  doSave: '/activity.do?method=doSave&entry=6'
+}
+
+let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity)
 Object.keys(API).forEach((key) => {
   const value = API[key]
   Object.defineProperty(API, key, {

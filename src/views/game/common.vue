@@ -6,7 +6,6 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    slot(name="info")
 
     <!-- 游戏信息 -->
     GameInfo.fixed(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-if="scrollAtBottom")
@@ -133,10 +132,12 @@ export default {
       PS: [],
       // 游戏所有奖期的开奖时间
       issues: []
-
     }
   },
   computed: {
+    callId () {
+      return this.page.gameid + '|' + this.type.id
+    },
     pay () {
       return Number((this.n * this.times * this.currency.value * 2).toFixed(3))
     },
@@ -260,7 +261,7 @@ export default {
           this.ns = []
         } else {
           // this.$message.warning('投注失败！')
-          loading.text = '投注失败！'
+          loading.text = data.msg || '投注失败！'
           // this.__loading({
           //   text: '投注失败！',
           //   target: this.$el

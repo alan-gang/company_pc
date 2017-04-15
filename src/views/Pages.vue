@@ -61,7 +61,16 @@ import FunctionHelp from './help/FunctionHelp'
 import QuestionHelp from './help/QuestionHelp'
 
 // 帮助中心
-import Activity from './Activity'
+import Activity from './activity/Activity'
+import Gift from './activity/Gift'
+
+// 活动详情
+import ForRegister from './activity/ForRegister'
+import ForNewUser from './activity/ForNewUser'
+import ForAll from './activity/ForAll'
+import ForTopup from './activity/ForTopup'
+import ForTopupA from './activity/ForTopupA'
+import ForWithdraw from './activity/ForWithdraw'
 
 export default {
   components: {
@@ -106,7 +115,15 @@ export default {
     FunctionHelp,
     QuestionHelp,
     // 活动
-    Activity
+    Activity,
+    Gift,
+    // 活动详情
+    ForRegister,
+    ForNewUser,
+    ForAll,
+    ForTopup,
+    ForTopupA,
+    ForWithdraw
   },
   name: 'Pages',
   mixins: [base],
@@ -522,9 +539,9 @@ export default {
   
   .resize-y
     position absolute
-    right 0
+    right .5rem
     bottom - TH
-    left 0
+    left .5rem
     height TH
     z-index 1
     cursor n-resize

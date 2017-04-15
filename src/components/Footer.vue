@@ -3,12 +3,12 @@
     el-row
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="!menu.hide") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href" v-on:mouseover="mouseover(menu)")
-          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href")
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
+          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt(v-if="group.title") {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title") 
+              dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
                 .ds-button(style="position: relative; left: -.2rem") {{ menu.url === 'game' ? '' : item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
@@ -24,6 +24,8 @@
           span(v-show="hide") 展开
         span.ds-button.danger(@click="doRecharge") 充值
         span.ds-button.primary(@click="withDraw") 提现
+        // el-switch(v-model="night" on-text="夜间" off-text="白天" on-color="#13ce66" off-color="#13ce66")
+
         span.ds-button.text-button.light.logout(@click="logout") 退出
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '")
@@ -32,26 +34,58 @@
 
 <script>
 // import api from '../http/api'
+import util from '../util'
 export default {
   props: ['menus', 'name', 'money', 'free'],
   data () {
     return {
       shows: {},
       // name: '一介草民',
-      hide: false
+      hide: false,
+      night: false
     }
   },
   mounted () {
     this.initShows()
+    this.setFarChat()
+    setTimeout(this.getPos, 1000)
+    util.addEvent('resize', window, () => {
+      this.getPos()
+    })
+  },
+  activated () {
+    this.setFarChat()
+    setTimeout(this.getPos, 1000)
   },
   computed: {
   },
   methods: {
+    setFarChat () {
+      let chat = document.querySelector('.custom-service-box')
+      chat.style.top = '200000px'
+      chat.style.left = '-200000px'
+    },
+    getPos () {
+      if (this.$el.querySelector('.icon-button.ds-icon-chat-middle')) {
+        let pos = util.getOffset(this.$el.querySelector('.icon-button.ds-icon-chat-middle'))
+        let chat = document.querySelector('.custom-service-box')
+        if (chat && pos.top !== 0) {
+          chat.style.top = pos.top + 'px'
+          chat.style.left = pos.left + 'px'
+        }
+      }
+    },
     mouseover (menu) {
+      console.log(menu)
       if (menu.url === 'game') {
         this.__setCall({
           fn: '__guideStep'
         })
+      }
+    },
+    openChat (url) {
+      if (url === 'chat') {
+        window.accessAngular.open()
       }
     },
     initShows () {

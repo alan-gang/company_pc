@@ -145,19 +145,19 @@
     background #fff
     text-align center
     radius()
-    // &.center:after
-    //   content ''
-    //   height 100%
-    //   width 0
-    //   vertical-align middle
-    //   display inline-block
-    // .form
-    //   padding PWX
-    // .c
-    //   margin: .3rem
-    //   &:not(:first-child)
-    //     margin-top .6rem
-    //     opacity .5
+    &.center:after
+      content ''
+      height 100%
+      width 0
+      vertical-align middle
+      display inline-block
+    .form
+      padding PWX
+    .c
+      margin: .3rem
+      &:not(:first-child)
+        margin-top .6rem
+        opacity .5
 
   .item
     margin .24rem 0

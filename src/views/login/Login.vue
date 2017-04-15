@@ -86,6 +86,13 @@
                   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
                 })
                 this.$router.push('/')
+                window.accessAngular.setUser({
+                  id: data.userId,
+                  key: data.token,
+                  pltCd: data.platId,
+                  socketUrl: data.platUrl
+                })
+                window.accessAngular.connect()
               } else {
                 this.$message.error('用户名或密码错误！')
                 this._getVerifyImage()
@@ -141,6 +148,13 @@
               guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
             })
             this.$router.push('/')
+            window.accessAngular.setUser({
+              id: data.userId,
+              key: data.token,
+              pltCd: data.platId,
+              socketUrl: data.platUrl
+            })
+            window.accessAngular.connect()
           } else {
             this._getVerifyImage()
           }
