@@ -944,10 +944,48 @@ input
       height .58rem
       padding-left .7rem
       background url('assets/activity/jinbi_small.jpg') left center no-repeat
-    
       
+  .ds-icon-full-screen
+    width .24rem
+    height .24rem
+    vertical-align middle
+    display inline-block
+    cursor pointer
+    opacity .7
+    &:hover
+      opacity 1
+    background url('assets/quanping.png') left center no-repeat
+    &.no
+      background url('assets/noquanping.png') left center no-repeat  
     
+  .ds-icon-unfull-screen
+    background url('assets/noquanping.png') left center no-repeat  
     
+  .ds-icon-day-model
+    width 1.1rem
+    display inline-block
+    cursor pointer
+    text-align center
+    background url('assets/baitian.png') .08rem .22rem no-repeat
+    &.no
+      background url('assets/yewan.png') .08rem .22rem no-repeat 
+      
+  .ds-icon-night-model
+    background url('assets/yewan.png') .03rem .22rem no-repeat 
+  .switch-box
+    margin 0 .15rem 0 .05rem
+    .el-switch
+    .el-switch__core
+      height .28rem
+      line-height .28rem
+    .el-switch__label *
+        top .07rem
+    .el-switch__core .el-switch__button
+      width .2rem
+      height .2rem
+      margin-right .1rem
+      left -.02rem
+      
 /*
  *buttons class define
  */

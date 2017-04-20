@@ -33,12 +33,12 @@
 
 
       .actions(v-if="showBtns")
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 1 && showbtn1") 立即注册
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 2 && showbtn1") 立即绑定
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 3 && showbtn1") 立即参与
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 4 || id === 6 && showbtn1") 立即充值
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 5 && showbtn1") 立即提现
-        router-link.ds-button.tall.high-positive._3rem.oval(:to=" '/profit' " v-if="id === 5 && showbtn2" ) 领取奖励
+        // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 1 && showbtn1") 立即注册
+        // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 2 && showbtn1") 立即绑定
+        // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 3 && showbtn1") 立即参与
+        // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 4 || id === 6 && showbtn1") 立即充值
+        // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 5 && showbtn1") 立即提现
+        router-link.ds-button.tall.high-positive._3rem.oval(:to=" '/activity/5-1-2' " v-if="showbtn2" ) 去领奖
 
 </template>
 <script>

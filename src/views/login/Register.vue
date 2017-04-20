@@ -46,8 +46,33 @@
       this._getVerifyImage()
       this.tag = this.$route.query.tag
       if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go?tag=' + this.tag
+      this.getStrangerInfo()
+    },
+    beforeDestroy () {
+      window.accessAngular.close()
     },
     methods: {
+      getStrangerInfo () {
+        this.$http.post(api.getStrangerInfo, {
+          tag: this.tag
+        }).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            window.accessAngular.setUser({
+              id: data.strangerId,
+              key: data.token,
+              pltCd: data.platId,
+              socketUrl: data.platUrl,
+              toId: data.userId
+            })
+            window.accessAngular.isStranger(true)
+            window.accessAngular.connect()
+          } else this.$message.warning(data.msg || '暂时无法与上级聊天， 请重新刷新!')
+        }, (rep) => {
+          // error
+          this.$message.warning('暂时无法与上级聊天， 请重新刷新!')
+        })
+      },
       // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
       autoRegist () {
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})

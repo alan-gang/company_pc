@@ -2,13 +2,13 @@
   .login-test
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="width: 9.0003rem; padding-left: 0; padding-right: 0")
-      el-col(:span="8" v-for=" (r, index) in frontList "  @click.native="goLogin")
-        .col-content(v-bind:class="{ fast:  fast === frontTimeList[index], usual: r.usual}")
+      el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
+        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
           span.route-index {{ index + 1 }}
           |  线 
-          SignalBar(:value=" frontTimeListValue[index] || 0 ")
+          SignalBar(:value=" timeListValue[index] || 0 ")
           .timer 
-            span.time {{ frontTimeList[index] }}
+            span.time {{ timeList[index] }}
             |  毫秒
     
 </template>
@@ -17,6 +17,8 @@
   import SignalBar from 'components/SignalBar'
   import api from '../../http/api'
   export default {
+    // if show server
+    props: ['server'],
     components: {
       SignalBar
     },
@@ -32,9 +34,18 @@
       }
     },
     computed: {
+      list () {
+        return this.server ? this.serverList : this.frontList
+      },
+      timeList () {
+        return this.server ? this.serverTimeList : this.frontTimeList
+      },
+      timeListValue () {
+        return this.server ? this.serverTimeListValue : this.frontTimeListValue
+      },
       fast () {
         let v = 10000
-        this.frontTimeList.forEach(t => {
+        this.timeList.forEach(t => {
           t < v && (v = t)
         })
         return v
@@ -46,11 +57,14 @@
           t < v && (index = 0)
         })
         return this.serverList[index]
+      },
+      currentServer () {
+        return this.server ? api.api : window.location.origin
       }
     },
     watch: {
       fastServer () {
-        // api.api = this.fastServer
+        api.api = this.fastServer
       }
     },
     mounted () {
@@ -104,8 +118,14 @@
         else if (t < 900) return 2
         else return 1
       },
-      goLogin () {
-        this.$router.push('/login/login')
+      goLogin (r) {
+        if (this.server) {
+          api.api = r
+          this.$message.success('线路切换成功！')
+          this.$emit('close')
+        } else {
+          this.$router.push('/login/login')
+        }
       }
     }
   }
@@ -133,6 +153,9 @@
   .login-test
     text-align center
     color #fff
+    &.no-title
+      h2 
+        display none
     h2
       font-size .18rem
       font-weight normal
@@ -172,6 +195,9 @@
         bg-gradient(180deg, #ff7200, #ff5e00)
       &.usual:after
         content '常用'
+        bg-gradient(180deg, #1ab8f3, #1a9ff3)
+      &.current:after
+        content '当前'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
         
         

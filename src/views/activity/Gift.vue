@@ -14,11 +14,20 @@
         .ticket(:class=" [ ticketType[0] ] " v-for=" t in tickets ")
           h1
             span ￥
-            | 20
-          p 20元优惠券
-          p.describe 可以用与投注, 不提现 可以用与投注
-          .ds-button.primary 立即领取
-          .ds-button.cancel.disabled 已领取
+            | {{ t.prizeAmount }}
+          p {{ t.prizeAmount }}元{{ t.isFree ? '优惠券' : '礼金' }}
+          p.describe {{ t.activityName }}
+
+          div(v-if="t.activityType !== 3")
+            .ds-button.primary(v-if="!t.get" @click="getNow(t)") 立即领取
+            .ds-button.cancel.disabled(v-if="t.get") 已领取
+          div(v-if="t.activityType === 3")
+            .ds-button(v-if="!t.get" v-bind:class="{ primary: t.enable === '1', 'cancel disabled': t.enable !== '1' }") 签到
+              p.error.text-ellipsis(v-if="t.msg") ({{ t.msg }})
+              p.days(v-if="t.isContinue === '1' ") 已连续签到 
+                span {{ t.day }} 天
+            .ds-button.cancel.disabled(v-if="t.get") 已签到
+
       
       el-table.header-bold.margin(:data="data" v-bind:row-class-name="tableRowClassName" v-if="tabIndex === 2")
 
@@ -48,29 +57,95 @@ export default {
     return {
       tabIndex: 1,
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
-      tickets: [1, 2, 3],
-      data: [{}, {}]
+      tickets: [],
+      data: [],
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave]
+    }
+  },
+  watch: {
+    tabIndex () {
+      if (this.tabIndex === 1) {
+        this.getAllEnablePrize()
+      } else {
+        this.myGetPrize()
+      }
     }
   },
   mounted () {
+    this.getAllEnablePrize()
   },
   methods: {
-    getAllActivityList () {
-      let loading = this.$loading({
-        text: '活动列表加载中...',
-        target: this.$el
-      }, 10000, '加载超时...')
-      this.$http.get(api.getAllActivityList).then(({data}) => {
+    // // 注册
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doRegist&entry=1
+    // doRegist: '/activity.do?method=doRegist',
+    // // 完善资料
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doProfile
+    // doProfile: '/activity.do?method=doProfile',
+    // // 每日签到
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doCheckIn
+    // doCheckIn: '/activity.do?method=doCheckIn',
+    // // 连续签到奖励
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=getCheckInReward
+    // getCheckInReward: '/activity.do?method=getCheckInReward',
+    // // 首充
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstSave
+    // doFirstSave: '/activity.do?method=doFirstSave',
+    // // 首提
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstWithdraw
+    // doFirstWithdraw: '/activity.do?method=doFirstWithdraw',
+    // // 充值活动
+    // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
+    // doSave: '/activity.do?method=doSave',
+    getNow (t) {
+      this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
         // success
         if (data.success === 1) {
-          this.activities = data.activityList || []
+          this.$message.success(data.msg || '礼品领取成功！')
+          this.$set(t, 'get', true)
+        } else this.$message.error(data.msg || '礼品领取失败！')
+      }, (data) => {
+        // error
+        this.$message.error(data.msg || '礼品领取失败！')
+      })
+    },
+    myGetPrize () {
+      let loading = this.$loading({
+        text: '已领取礼品加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      this.$http.get(api.myGetPrize).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          // this.tickets = data.enablePrize || []
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
-        } else this.$message.error('活动列表加载失败！')
+        } else this.$message.error('已领取礼品加载失败！')
       }, (rep) => {
         // error
-        this.$message.error('活动列表加载失败！')
+        this.$message.error('已领取礼品加载失败！')
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
+    },
+    getAllEnablePrize () {
+      let loading = this.$loading({
+        text: '礼品加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      this.$http.get(api.getAllEnablePrize).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.tickets = data.enablePrize || []
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else this.$message.error('礼品加载失败！')
+      }, (rep) => {
+        // error
+        this.$message.error('礼品加载失败！')
       }).finally(() => {
         setTimeout(() => {
           loading.close()
@@ -83,19 +158,20 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  
   .gift-center
     top TH
     padding PWX .1rem
     text-align center
     .gift-list
       display inline-block
-      max-width 10rem
+      max-width 11rem
     .ticket
       position relative
       radius()
       float left
       min-height 1.06rem
-      width 2.46rem
+      width 2rem
       padding .05rem 0
       padding-left 1.16rem
       padding-right 1.16rem
@@ -115,7 +191,22 @@ export default {
         color #333
         &.describe
           color #999
-      
+        &.error
+          position absolute
+          right 0
+          bottom .1rem
+          left 0
+          color #fff
+          padding 0 .05rem
+        &.days
+          position absolute
+          right 0
+          top .1rem
+          left 0
+          color #fff
+          padding 0 .05rem
+          span
+            color YELLOW
       .ds-button
         position absolute
         right 0

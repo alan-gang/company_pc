@@ -16,33 +16,69 @@
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
 
       el-col.info(:span="10" v-bind:offset="4")
-        span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
-        span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
-        span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
+        el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
+          span(slot="reference")
+            span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
+            span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
+            // span.free.ds-icon-free.font-light(v-show="!hide" ) {{ free || '0.000' }}
+          slot
+            dl
+              dd(style="padding-bottom: .1rem")
+                el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
+                  button.ds-button.primary(v-bind:disabled="checkin" slot="reference" @click="checkinNow") 签到
+                  slot 
+                    p 已连续签到1天，今日+20金币
+                .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
+              dd
+                span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
+              dd 
+                span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
+              dd
+                span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
+              dd(style="padding-top: .1rem")
+                .ds-button.cancel.full(@click="logout") 安全退出
+
+
         span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
         span.ds-button.danger(@click="doRecharge") 充值
         span.ds-button.primary(@click="withDraw") 提现
-        // el-switch(v-model="night" on-text="夜间" off-text="白天" on-color="#13ce66" off-color="#13ce66")
 
-        span.ds-button.text-button.light.logout(@click="logout") 退出
+        .switch-box.ds-icon-day-model(:class=" { no: !day} ")
+          el-switch(v-model="day" on-text="日" off-text="夜" on-color="#ccc" off-color="#13ce66" v-bind:width="W")
+
+        span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '")
 
+    
+    el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
+      LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
 </template>
 
 <script>
 // import api from '../http/api'
+import LoginTest from '../views/login/LoginTest'
+import { toggleFullScreen } from '../util/Dom'
 import util from '../util'
 export default {
   props: ['menus', 'name', 'money', 'free'],
+  components: {
+    LoginTest
+  },
   data () {
     return {
+      modal: false,
       shows: {},
+      more: false,
+      checkin: false,
+      router: false,
       // name: '一介草民',
       hide: false,
-      night: false
+      day: true,
+      W: 48,
+      full: false
     }
   },
   mounted () {
@@ -60,6 +96,16 @@ export default {
   computed: {
   },
   methods: {
+    fullScreen () {
+      toggleFullScreen()
+      this.full = !this.full
+    },
+    checkinNow () {
+      this.checkin = true
+      setTimeout(() => {
+        this.checkin = false
+      }, 2000)
+    },
     setFarChat () {
       let chat = document.querySelector('.custom-service-box')
       chat.style.top = '200000px'
@@ -136,8 +182,6 @@ export default {
     withDraw () {
       this.$router.push('/me/2-5-1')
     }
-  },
-  components: {
   }
 }
 </script>
@@ -210,6 +254,46 @@ export default {
         float left
         &:not(:last-child)
           margin-right .2rem
+  
+  NW = .26rem
+  MW = .26rem
+  FW = .26rem
+  PW = .05rem
+  .footer-popover.more
+    padding PWX
+    transform translateY(-.2rem)
+    dd
+      padding .05rem 0
+      line-height .24rem
+      .name
+        padding 2*PW 0
+        padding-left NW + .03rem
+        margin-right 2*PW
+      .money
+        padding 2*PW 0
+        padding-left FW + .03rem
+        margin-right 2*PW
+      .free
+        padding 2*PW 0
+        padding-left FW + .03rem
+        margin-right 2*PW
+  .footer-popover.message
+    transform translateY(-.2rem) translateX(-.2rem)
+    
+  .dialog-router
+    width auto
+    text-align left
+    background-color #222330
+    shadow()
+    .el-dialog__header
+      background-color #30313f
+      .el-dialog__title
+        color #fff    
+    .el-dialog__body
+      padding .5rem
+    .login-test .routers
+      padding 0
+    
 </style>
 <style lang="stylus" scoped>
   @import '../var.stylus'

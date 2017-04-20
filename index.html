@@ -15,17 +15,16 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     
-    <link rel="stylesheet" href="/static/chat/css/stranger.css?v=20170412543">
 
     <!-- <script type="text/javascript" src="/static/chat/js/stranger.all.min.js"></script> -->
     
 
-    <link rel="stylesheet" href="/static/chat/css/index.css?v=20170412543">
+    <link rel="stylesheet" href="/static/chat/css/index.css?v=20170dsa412543">
     <!-- chat  -->
-    <div data-ng-app="custom-service" id="custom-service" class="">
+    <div data-ng-app="custom-service" id="custom-service" >
      <div data-ng-controller="MainCtrl">
        <!-- <link rel="stylesheet" data-ng-href="{{ css }}"> -->
-       <div class="dialog-container heart animation opacity-0"  data-ng-class="{'opacity-0': !open}">
+       <div class="dialog-container  animation opacity-0"  data-ng-hide="close" data-ng-class="{'opacity-0': !open,  heart: !stranger, stranger: !!stranger}">
 
            <!-- 侧栏 -->
            <div class="toolbar vertical">
@@ -182,6 +181,7 @@
                          复制推广码
                          <span data-ng-show="copyRight" class="copy-right">复制成功</span>
                          <span data-ng-bind="copy" class="copy-text" data-ng-show="false"></span>
+                         <p style="word-wrap: break-word; user-select: text;line-height: 1.5; color: #888"> {{ mySelf.spreadURL }} </p>
                        </li>
                      </ul>
                    </div>    
@@ -281,7 +281,7 @@
 
                                       <span class="toggleDownload whenSelf">{{ file.progress=='发送失败'?file.progress:(file.progress + '% ') }}</span>
 
-                                      <a class="toggleDownload"  data-ng-click="downloadnow(file.downloadurl)"> 下载 </a>
+                                     <a class="toggleDownload" download = "{{ file.name }}"  href=" {{ file.downloadurl }} "> 下载 </a>
 
 
 
@@ -308,10 +308,10 @@
                    </div>
 
                    <!-- 输入区 -->
-                   <div class=" input-area">
+                   <div class=" input-area" data-ng-show=" !currentContact.ready || currentContact.ready == '2' ">
 
 
-                       <span class="add-appendix-box" data-ng-mouseenter=" showUploadOptions = true " data-ng-mouseleave = " delayHideUploadOptions() " >
+                       <span  class="add-appendix-box" data-ng-mouseenter=" showUploadOptions = true " data-ng-mouseleave = " delayHideUploadOptions() " >
                          <span class="icon add-appendix"></span>
                        </span>
 
@@ -561,7 +561,7 @@
        
        <!-- 启动按钮 -->
        <div class="custom-service-box opacity-0"  data-ng-class="{'opacity-0': !showChat, showSlideBox: newMessages.length > 0 && newMessages.length != (newMessages|filter:{dontShowNew: true}).length}">
-           <b class="icon loading" data-ng-show="close == true" title="加载中..." style="position: absolute; top: 17px; left: 17px;"></b>
+           <b class="icon loading" data-ng-show="close == true" title="加载中..." style="position: absolute; top: 25px; left: 23px;"></b>
            <div class="icon custom-service load" data-ng-class="{load: close, disabled: close == 'close' }" data-ng-click="( (close == 'close') && (manualReconnect() || true ) ) || ((open = !open) && openChat())"></div>
            <label for="" class="badge fall-up" data-ng-class="{'fall-up': close }" data-ng-show="newMessages.length > 0" data-ng-bind="newMessages.length"></label>
            <div class="message-cut fall-up" data-ng-class="{'fall-up': close }" data-ng-show="newMessages.length > 0 && newMessages.length != (newMessages|filter:{dontShowNew: true}).length">

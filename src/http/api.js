@@ -348,7 +348,10 @@ let Group = {
   // 10.团队总销量（投注+返奖数据）  http://192.168.169.44:9901/cagamesclient/team/teamStatistic.do?method=getTeamSale&startDay=170226&endDay=170303
   getTeamSale: '/team/teamStatistic.do?method=getTeamSale',
   // 12 团队用户图表（用户数图表：总用户数，活跃用户数，投注用户数）  http://192.168.169.44:9901/cagamesclient/team/teamStatistic.do?method=getTeamUserChart&startDay=170226&endDay=170303
-  teamStatistic: '/team/teamStatistic.do?method=getTeamUserChart'
+  teamStatistic: '/team/teamStatistic.do?method=getTeamUserChart',
+  // 陌生人信息
+  // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=chatStrange&tag=xxxxx
+  getStrangerInfo: '/team/createAccount.do?method=chatStrange'
 }
 
 let Form = {
@@ -416,25 +419,31 @@ let Activity = {
   getActivityDetail: '/activity.do?method=getActivityDetail',
   // 注册
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=doRegist&entry=1
-  doRegist: '/activity.do?method=doRegist&entry=1',
+  doRegist: '/activity.do?method=doRegist',
   // 完善资料
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doProfile&entry=2
-  doProfile: '/activity.do?method=doProfile&entry=2',
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doProfile
+  doProfile: '/activity.do?method=doProfile',
   // 每日签到
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doCheckIn&entry=3
-  doCheckIn: '/activity.do?method=doCheckIn&entry=3',
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doCheckIn
+  doCheckIn: '/activity.do?method=doCheckIn',
   // 连续签到奖励
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=getCheckInReward&entry=3
-  getCheckInReward: '/activity.do?method=getCheckInReward&entry=3',
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=getCheckInReward
+  getCheckInReward: '/activity.do?method=getCheckInReward',
   // 首充
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstSave&entry=4
-  doFirstSave: '/activity.do?method=doFirstSave&entry=4',
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstSave
+  doFirstSave: '/activity.do?method=doFirstSave',
   // 首提
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstWithdraw&entry=5
-  doFirstWithdraw: '/activity.do?method=doFirstWithdraw&entry=5',
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doFirstWithdraw
+  doFirstWithdraw: '/activity.do?method=doFirstWithdraw',
   // 充值活动
-  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave&entry=6
-  doSave: '/activity.do?method=doSave&entry=6'
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
+  doSave: '/activity.do?method=doSave',
+  // 礼品中心
+  getAllEnablePrize: '/activity.do?method=getAllEnablePrize',
+  // http://192.168.169.161:8080/cagamesclient/activity.do?method=getAllEnablePrize
+  // 已领取的礼品
+  myGetPrize: '/activity.do?method=myGetPrize'
+  // http://192.168.169.161:8080/cagamesclient/activity.do?method=myGetPrize
 }
 
 let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity)

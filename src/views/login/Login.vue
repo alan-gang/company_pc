@@ -31,7 +31,7 @@
 <script>
   import api from '../../http/api'
   import xhr from 'components/xhr'
-  import { launchFullScreen } from '../../util/Dom'
+  // import { launchFullScreen } from '../../util/Dom'
 
   export default {
     name: 'Login',
@@ -70,7 +70,7 @@
         if (this.hasEmpty()) {
           this.$message.warning('输入值不能为空')
         } else {
-          launchFullScreen(document.body)
+          // launchFullScreen(document.body)
           // let loading = this.$loading('登录中...')
           this._checkVerifyCode(() => {
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
@@ -92,6 +92,7 @@
                   pltCd: data.platId,
                   socketUrl: data.platUrl
                 })
+                window.accessAngular.isStranger(false)
                 window.accessAngular.connect()
               } else {
                 this.$message.error('用户名或密码错误！')
@@ -135,6 +136,10 @@
       },
       tryLogin () {
         // try login
+        // let loading = this.$loading({
+        //   text: '自动登录中...',
+        //   target: this.$el.querySelector('.login')
+        // })
         this.$http.get(api.validate).then(({data}) => {
           // success
           if (data.success) {
@@ -154,12 +159,15 @@
               pltCd: data.platId,
               socketUrl: data.platUrl
             })
+            window.accessAngular.isStranger(false)
             window.accessAngular.connect()
           } else {
             this._getVerifyImage()
+            // loading.text = '自动登录失败'
           }
         }, (rep) => {
           this._getVerifyImage()
+          // loading.text = '自动登录失败'
           // error
         }).finally(() => {
           // loading.close()
