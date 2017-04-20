@@ -1121,7 +1121,10 @@ input
     color BLUE
     &:not(.disabled):hover
       color BLUE-HOVER
-      
+  &.green
+    color GREEN
+    &:not(.disabled):hover
+      opacity .8    
 
 
   &.input

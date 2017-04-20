@@ -32,20 +32,21 @@
             br
             | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
         
-        p(style="padding: 0rem 1.9rem") 您的返点级别：
+        p(style="padding: 0rem 1rem") 您的返点级别：
           span.amount {{ userPoint.toFixed(1) }}
 
-        p(style="padding: .05rem 1.9rem") 保留返点： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        p(style="padding: .05rem 1rem") 保留返点： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           el-select(v-model="p")
             el-option(v-for="P in PS" v-bind:label="P" v-bind:value="P")
        
-        p(style="padding: .05rem 0.15rem 0.05rem 1.9rem") 自动注册地址： &nbsp;
-          a.text-blue(:href="url" style="display: inline-block") {{ url }} 
+        p(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 自动注册地址： &nbsp;
+          span.text-blue(style="display: inline-block") {{ url }} 
+            span.ds-button.text-button.green(v-clipboard=" url " @success="copySuccess" @error="copyError") 复制注册地址
            
-        div.buttons(style="padding: .1rem 2.93rem")
+        div.buttons(style="padding: .1rem 2.03rem")
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
 
-        div(style="padding: .4rem 2.93rem")
+        div(style="padding: .4rem 2.03rem")
           .QR.ds-icon-QR(style="height: 1.96rem; width: 1.4rem; text-align: center")
             p(style="color: #333; font-weight: bold; padding-top: 1.5rem;") 扫码注册
         
@@ -77,6 +78,16 @@
       this.showSpreadLinks()
     },
     methods: {
+      copySuccess () {
+        this.$message({
+          message: '复制成功'
+        })
+      },
+      copyError () {
+        this.$message({
+          message: '复制失败!'
+        })
+      },
       showSpreadLinks () {
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
@@ -97,12 +108,12 @@
         this.$http.get(api.setKeepPoint, {keepPoint: this.p}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.$message.success(data.msg || '推广链接生成成功，请重新复制！')
+            this.$message.success(data.msg || '保留返点设置成功！')
             this.showSpreadLinks()
-          } else this.$message.error(data.msg || '推广链接生成失败！')
+          } else this.$message.error(data.msg || '保留返点设置失败！')
         }, (rep) => {
           // error
-          this.$message.error('推广链接生成失败！')
+          this.$message.error('保留返点设置失败！')
         })
       }
       // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=setKeepPoint&keepPoint=0.1

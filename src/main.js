@@ -11,6 +11,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
+import clipboard from 'vue-clipboards'
+Vue.use(clipboard)
+
 // Http
 import VueResource from 'vue-resource'
 import httpConfig from './http'
