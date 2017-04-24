@@ -11,8 +11,8 @@
       
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-      span.timeout(v-if="!longNumbers") &nbsp;开奖超时，请刷新
-    el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }")
+      span.timeout(v-if="!longNumbers && !onlyNumber") &nbsp;开奖超时，请刷新
+    el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
       span.timeout(v-if="longNumbers") &nbsp;开奖超时，请刷新
         br
       | 已开
@@ -26,11 +26,15 @@
 import Dice from './Dice'
 export default {
   props: {
-    NPER: Number,
+    NPER: String,
     FNPER: Number,
     PNPER: Number,
     lucknumbers: Array,
-    gameType: String
+    gameType: String,
+    onlyNumber: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -41,7 +45,7 @@ export default {
       return this.gameType === 'K3'
     },
     isNumber () {
-      return !this.isDice && typeof this.lucknumbers[0] === 'number'
+      return !this.isDice && typeof this.lucknumbers[0] !== 'object'
     },
     isArray () {
       return !this.isDice && typeof this.lucknumbers[0] === 'object'

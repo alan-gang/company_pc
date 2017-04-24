@@ -25,9 +25,9 @@
             dl
               dd(style="padding-bottom: .1rem")
                 el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
-                  button.ds-button.primary(v-bind:disabled="checkin" slot="reference" @click="checkinNow") 签到
+                  button.ds-button.primary(slot="reference" @click="checkinNow") 签到
                   slot 
-                    p 已连续签到1天，今日+20金币
+                    p 已连续签到{{ checkDays }}天，今日+{{ prizeAmount }}金币
                 .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-// import api from '../http/api'
+import api from '../http/api'
 import LoginTest from '../views/login/LoginTest'
 import { toggleFullScreen } from '../util/Dom'
 import util from '../util'
@@ -78,7 +78,9 @@ export default {
       hide: false,
       day: true,
       W: 48,
-      full: false
+      full: false,
+      checkDays: 0,
+      prizeAmount: 0.00
     }
   },
   mounted () {
@@ -100,11 +102,24 @@ export default {
       toggleFullScreen()
       this.full = !this.full
     },
+    // 今日签到
     checkinNow () {
-      this.checkin = true
-      setTimeout(() => {
-        this.checkin = false
-      }, 2000)
+      this.$http.get(api.getCheckToday).then(({data}) => {
+        if (data.success === 1) {
+          if (data.enable === '1') {
+            this.checkDays = data.checkDays
+            this.prizeAmount = data.prizeAmount
+            this.checkin = true
+            setTimeout(() => {
+              this.checkin = false
+            }, 2000)
+          }
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '签到失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '签到失败！'})
+      })
     },
     setFarChat () {
       let chat = document.querySelector('.custom-service-box')

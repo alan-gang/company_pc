@@ -26,7 +26,7 @@ import util from '../util'
 export default {
   props: {
     // NPER: Number,
-    CNPER: Number,
+    CNPER: String,
     timeout: Number,
     type: Object,
     gameid: Number
@@ -49,7 +49,13 @@ export default {
     this.time = this.timeout
     setInterval(() => {
       if (this.time <= 0 || !this.time) {
-        this.$emit('set-NPER', this.CNPER)
+        // this.$emit('set-NPER', this.CNPER)
+        this.__setCall({
+          fn: '__getIssue'
+        })
+        this.__setCall({
+          fn: '__recentlyCode'
+        })
         this.time = this.lstTimeout || this.defautTime
       } else {
         this.time--

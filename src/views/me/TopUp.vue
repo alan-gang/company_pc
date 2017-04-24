@@ -16,12 +16,12 @@
         .item(style="line-height: .5rem") 支付方式：
             .banks
                 label.ds-radio-label(v-for="bank in otherPay" @click="selectBank = bank")
-                  span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
+                  span.ds-radio.white(v-bind:class="{ active: selectBank.apiName === bank.apiName }")
                   span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.apiName === bank.apiName } ] ")
 
                 div
                   label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank")
-                    span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
+                    span.ds-radio.white(v-bind:class="{ active: selectBank.apiName === bank.apiName }")
                     span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.apiName === bank.apiName } ] ")
 
                   label.ds-radio-label
@@ -30,23 +30,43 @@
         
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number")
-
+          span(style="padding: 0 .2rem") 充值限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔充值限额：最低：
+              span.min.text-danger  {{ min }} 
+              | 元，
+              | 最高：
+              span.min.text-danger  {{ max }} 
+              | 元)
         .buttons(style="margin-left: .85rem; padding-top: .05rem")
             .ds-button.primary.large(@click="topUpNow") 确认
 
       
       .form(v-if="type === 2")
 
-        el-table.header-bold.margin(:data="data" style="margin: .2rem")
-          el-table-column(prop="" label="充值时间" width="200")
+        // label.item 充值时间 
+        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+        //   |  至 
+        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
 
-          el-table-column(prop="amount" label="金额" align="right")
+        // label.item(style="margin-left: .2rem") 状态 
+        //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
+        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-          el-table-column(label="" align="right" width="200")
+        el-table.header-bold.margin(:data="Cdata" style="margin: .2rem")
+          el-table-column(prop="doneTime" label="充值时间" width="180")
+
+          el-table-column(prop="bankName" label="银行" width="150")
+
+          el-table-column(prop="payerRealAmount" label="金额" width="150" align="right")
+
+          el-table-column(prop="payerTransferFee" label="手续费" width="150" align="right")
+
+          el-table-column(label="" align="right" width="50")
 
           el-table-column(label="状态")
             template(scope="scope")
-              span.text-orange {{ '正在充值' }}
+              span.text-green {{ '充值成功' }}
+
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
     
 
     .modal(v-show="show" )
@@ -78,7 +98,7 @@
 <script>
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
-// import store from '../../store'
+import util from '../../util'
 export default {
   data () {
     return {
@@ -87,22 +107,36 @@ export default {
       selectBank: {},
       showAllBank: false,
       amount: '',
+      min: 0,
+      max: 0,
       data: [{}],
       show: false,
       time_: 60,
-      pt_: 0
-
+      pt_: 0,
+      st: '',
+      et: '',
+      STATUS: ['正在充值', '充值成功', '充值失败'],
+      status: '',
+      pageSize: 20,
+      total: 0,
+      currentPage: 1
     }
   },
   computed: {
+    Cdata () {
+      if (this.data.length <= this.pageSize) return this.data
+      else {
+        return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+      }
+    },
     BANKS () {
       return BANKS.filter(b => {
-        return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
+        return this.avaibleBanks.find(ab => ab.bankCode === b.apiName)
       })
     },
     myBanks () {
-      // return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
-      return BANKS
+      return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
+      // return BANKS
     },
     banksO () {
       return this.showAllBank ? this.myBanks : this.myBanks.slice(0, 3)
@@ -119,33 +153,110 @@ export default {
           else clearInterval(t)
         }, 1000)
       }
+    },
+    selectBank () {
+      this.saveAmountRange()
+    },
+    type () {
+      if (this.type === 2) this.qryRecharge()
     }
   },
   mounted () {
-    this.getBankList()
+    // this.getBankList()
+    // this.showRecharge()
+    this.TopUpGetBankList()
+    this.qryRecharge()
   },
   methods: {
-    getBankList (fn) {
-      this.$http.get(api.getBankList).then(({data}) => {
+    // 充值记录查询
+    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1
+    // qryRecharge: '/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1 ',
+    // // 进入充值页
+    // // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=showRecharge
+    // showRecharge: '/person/recharge.do?method=showRecharge',
+    // // 获取银行列表
+    // // http://192.168.169.43:19012/finance/merSave.do?method=getBankList
+    // httpGetBankList: 'http://192.168.169.43:19012/finance/merSave.do?method=getBankList',
+    // // &userId=1&userName=jock&platId=101
+    // // 校验充值金额范围
+    // // http://192.168.169.43:19012/finance/merSave.do?method=saveAmountRange
+    // httpSaveAmountRange: 'http://192.168.169.43:19012/finance/merSave.do?method=saveAmountRange',
+    // // &userId=1&userName=jock&platId=101&bankCode=icbc
+    // // 提交充值请求道第三方
+    // // http://192.168.169.43:19012/finance/merSave.do?method=commit
+    // httpCommit: 'http://192.168.169.43:19012/finance/merSave.do?method=commit'
+    // // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
+    qryRecharge (fn) {
+      this.$http.get(api.qryRecharge, {
+        page: 1,
+        pageSize: this.pageSize
+      }).then(({data}) => {
         if (data.success === 1) {
-          this.avaibleBanks = data.allBankData
-          fn()
+          this.data = data.payRecordData || []
+        }
+      }).catch(rpe => {
+      })
+    },
+    TopUpGetBankList (fn) {
+      this.$http.get(api.TopUpGetBankList).then(({data}) => {
+        if (data.success === 1) {
+          this.avaibleBanks = data.bankList
+        }
+      }).catch(rpe => {
+      })
+    },
+    saveAmountRange (fn) {
+      this.$http.get(api.saveAmountRange, {
+        bankCode: this.selectBank.apiName
+      }).then(({data}) => {
+        if (data.success === 1) {
+          this.max = data.max
+          this.min = data.min
+        }
+      }).catch(rpe => {
+      })
+    },
+    commit (fn) {
+      this.$http.get(api.commit, {
+        bankCode: this.selectBank.apiName,
+        amount: this.amount
+      }).then(({data}) => {
+        if (data.success === 1) {
+          // 二维码支付
+          if (data.isQr === 1) {
+            this.show = true
+            this.pt_ = this.time_
+          // 链接跳转
+          } else {
+            this.$modal.warn({
+              content: '您正在安全跳转到第三方支付',
+              btn: ['去充值'],
+              href: [data.msg],
+              target: this.$el,
+              ok () {
+                this.$modal.question({
+                  content: '是否已经充值成功？',
+                  target: this.$el,
+                  btn: ['充值成功', '遇到问题'],
+                  ok () {
+                    this.type = 2
+                  },
+                  O: this
+                })
+              },
+              O: this
+            })
+          }
+        } else {
+          this.$message.error({message: data.msg || '充值请求提交失败， 请重试！'})
         }
       }).catch(rpe => {
       })
     },
     topUpNow () {
-      if (!this.amount) this.$el.querySelector('input').focus()
-      this.show = true
-      this.pt_ = this.time_
-      this.$modal.question({
-        content: '是否已经充值成功？',
-        target: this.$el,
-        btn: ['充值成功', '遇到问题'],
-        ok () {
-        },
-        O: this
-      })
+      if (!this.amount) return this.$el.querySelector('input').focus()
+      if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
+      this.commit()
     }
   },
   components: {

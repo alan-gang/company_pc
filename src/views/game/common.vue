@@ -11,7 +11,7 @@
     GameInfo.fixed(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-if="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
-      GameLuckyNumber(v-bind:game-type="gameType" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" )
+      GameLuckyNumber(v-bind:game-type="gameType" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory")
       <!-- 游戏信息 -->
       GameInfo(ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
       <!-- 游戏菜单 -->
@@ -36,9 +36,13 @@
     <!-- 下单 -->
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
 
+    <!-- 历史开奖信息 -->
+    GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:class=" {show: showLuckyNumberHistory} ")
+
 </template>
 <script>
 import GameLuckyNumber from 'components/GameLuckyNumber'
+import GameLuckyNumberHistory from 'components/GameLuckyNumberHistory'
 import GameInfo from 'components/GameInfo'
 import GameMenu from 'components/GameMenu'
 import GameSelection from 'components/GameSelection'
@@ -60,7 +64,7 @@ export default {
       // 页面的url
       // url: 'one',
       // 最近的已开奖期数
-      NPER: 150730053,
+      NPER: '150730053',
       // 最近的已开奖期号码
       lucknumbers: [5, 8, 5, 6, 8],
       // 即将开奖的期数
@@ -131,7 +135,8 @@ export default {
       // 游戏所有玩法的返点信息
       PS: [],
       // 游戏所有奖期的开奖时间
-      issues: []
+      issues: [],
+      showLuckyNumberHistory: false
     }
   },
   computed: {
@@ -141,9 +146,9 @@ export default {
     pay () {
       return Number((this.n * this.times * this.currency.value * 2).toFixed(3))
     },
-    CNPER () {
-      return this.NPER + 1
-    },
+    // CNPER () {
+    //   return this.NPER + 1
+    // },
     canOrder () {
       return this.n
     },
@@ -188,6 +193,7 @@ export default {
   mounted () {
     // 获得当前奖期
     this.__getIssue()
+    this.__recentlyCode()
     // 获得游戏所有玩法对应的返点信息
     this.getUserpoint()
     // 获得游戏所有奖期的开奖时间
@@ -200,11 +206,26 @@ export default {
       else this.scrollAtBottom = false
     },
     // 获得奖期信息
+    __recentlyCode () {
+      this.$http.post(api.recentlyCode, {gameid: this.page.gameid}).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          data = data.items[0] || {}
+          this.NPER = data.issue + ''
+          this.lucknumbers = data.code ? data.code.split(',') : this.lucknumbers
+        }
+      }, (rep) => {
+        // error
+      })
+    },
+    // 获得奖期信息
     __getIssue () {
       this.$http.post(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) {
-          this.NPER = (parseInt(data.issue) || 1) - 1
+          // 当前期
+          // this.NPER = (parseInt(data.issue) || 1) - 1
+          this.CNPER = data.issue
           this.timeout = Math.floor((data.saleend - data.current) / 1000)
         }
       }, (rep) => {
@@ -439,7 +460,8 @@ export default {
     GameOrderList,
     GameAmountBar,
     GameFollowbar,
-    GameFollowList
+    GameFollowList,
+    GameLuckyNumberHistory
     // GameOrderHistory,
     // GameFollowHistory
   }

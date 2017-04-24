@@ -1,5 +1,21 @@
 // import direction from './direction'
 import store from '../store'
+// function view(url) {
+//   return function(resolve) {
+//     require([url], resolve)
+//   }
+// }
+const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
+const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
+const Forbidden = r => require.ensure([], () => r(require('../views/login/Forbidden')), 'login-part')
+const Register = r => require.ensure([], () => r(require('../views/login/Register')), 'login-part')
+const LoginTest = r => require.ensure([], () => r(require('../views/login/LoginTest')), 'login-part')
+const LoginNow = r => require.ensure([], () => r(require('../views/login/Login')), 'login-part')
+const Try = r => require.ensure([], () => r(require('../views/login/Try')), 'login-part')
+const Forget = r => require.ensure([], () => r(require('../views/login/Forget')), 'login-part')
+
+const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
+
 export default function (VueRoter) {
   let router = new VueRoter({
     // mode: 'history',
@@ -13,24 +29,30 @@ export default function (VueRoter) {
       },
       {
         path: '/login',
-        component: require('../views/Login'),
+        // component: require('../views/Login'),
+        component: Login,
         children: [
-          { path: '404', component: require('../views/login/404') },
-          { path: 'forbidden', component: require('../views/login/Forbidden') },
-          { path: 'register', component: require('../views/login/Register') },
-          { path: '', component: require('../views/login/LoginTest') },
+          // { path: '404', component: require('../views/login/404') },
+          { path: '404', component: C404 },
+          { path: 'forbidden', component: Forbidden },
+          // { path: 'forbidden', component: require('../views/login/Forbidden') },
+          { path: 'register', component: Register },
+          // { path: 'register', component: require('../views/login/Register') },
+          { path: '', component: LoginTest },
+          // { path: '', component: require('../views/login/LoginTest') },
           { path: 'login',
             meta: {
               login: false
             },
-            component: require('../views/login/Login')
+            // component: require('../views/login/Login')
+            component: LoginNow
           },
           { path: 'try',
             meta: {
               login: false
             },
-            component: require('../views/login/Try') },
-          { path: 'forget', component: require('../views/login/Forget') }
+            component: Try },
+          { path: 'forget', component: Forget }
         ]
       },
       {
@@ -38,42 +60,42 @@ export default function (VueRoter) {
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '/group/:url',
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '/me/:url',
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '/form/:url',
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '/help/:url',
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '/activity/:url',
         meta: {
           login: true
         },
-        component: require('../views/Pages')
+        component: Pages
       },
       {
         path: '*',

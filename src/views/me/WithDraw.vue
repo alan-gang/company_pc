@@ -47,10 +47,10 @@
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
 
           p.item(style="padding: .1rem 0") 提现限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔提现限额：最低：
-            span.min  {{ min }} 
+            span.min.text-danger  {{ min }} 
             | 元，
             | 最高：
-            span.min  {{ max }} 
+            span.min.text-danger  {{ max }} 
             | 元)
 
           p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -7,9 +7,11 @@ import config from './config'
 config(Vue)
 
 // 饿了么
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-Vue.use(ElementUI)
+import elementConfig from './elementConfig'
+elementConfig(Vue)
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-default/index.css'
+// Vue.use(ElementUI)
 
 import clipboard from 'vue-clipboards'
 Vue.use(clipboard)

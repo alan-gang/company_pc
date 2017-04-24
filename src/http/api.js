@@ -106,6 +106,9 @@ let Game = {
   getTraceIssueList: '/issue.do?method=traceIssueList',
   // 3.当前奖期信息
   getIssue: '/issue.do?method=current',
+  // Steven, [21.04.17 19:25]
+  // method=recentlyCode pageNum size gameid
+  recentlyCode: '/issue.do?method=recentlyCode',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
   // 4.返点信息
@@ -226,7 +229,7 @@ let Me = {
   doRecharge: '/person/recharge.do?method=doRecharge',
   // 充值记录查询
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1
-  qryRecharge: '/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1 ',
+  qryRecharge: '/person/recharge.do?method=qryRecharge',
   // 校验资金密码
   // http://192.168.169.44:9901/cagamesclient/person/withDraw.do?method=checkSecurityPwd&password=000000
   checkSecurityPwd: '/person/withDraw.do?method=checkSecurityPwd',
@@ -248,8 +251,22 @@ let Me = {
   unbindBankCardCheck: '/person/bankcard.do?method=unbindCheck',
   // 获取各银行限制提款额度
   // http://192.168.169.161:8080/cagamesclient/person/bankcard.do?method=getWithdrawByApi&rootName=icbc
-  getWithdrawByApi: '/person/bankcard.do?method=getWithdrawByApi'
-
+  getWithdrawByApi: '/person/bankcard.do?method=getWithdrawByApi',
+  // 进入充值页
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=showRecharge
+  // showRecharge: '/person/recharge.do?method=showRecharge',
+  // 获取银行列表
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList
+  TopUpGetBankList: '/person/recharge.do?method=getBankList',
+  // &userId=1&userName=jock&platId=101
+  // 校验充值金额范围
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc
+  saveAmountRange: '/person/recharge.do?method=saveAmountRange',
+  // &userId=1&userName=jock&platId=101&bankCode=icbc
+  // 提交充值请求道第三方
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01
+  commit: '/person/recharge.do?method=commit'
+  // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
 }
 
 let Group = {
@@ -442,12 +459,16 @@ let Activity = {
   getAllEnablePrize: '/activity.do?method=getAllEnablePrize',
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=getAllEnablePrize
   // 已领取的礼品
-  myGetPrize: '/activity.do?method=myGetPrize'
+  myGetPrize: '/activity.do?method=myGetPrize',
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=myGetPrize
+  // 今日签到
+  // http://192.168.169.161:8080/cagamesclient/activity.do?method=getCheckToday
+  getCheckToday: '/activity.do?method=getCheckToday'
 }
 
 let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity)
 Object.keys(API).forEach((key) => {
+  // if (key.startsWith('http')) return
   const value = API[key]
   Object.defineProperty(API, key, {
     get: function () {

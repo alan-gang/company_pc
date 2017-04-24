@@ -810,6 +810,14 @@ input
         display inline-block
         background-color rgba(26, 159, 243, .2)
     
+    &.dy
+      background url(assets/bankcard/dy.png) #fff .1rem center no-repeat
+    &.bjnshyh
+      background url(assets/bankcard/bjnshyh.png) #fff .1rem center no-repeat
+    &.shhnshyh
+      background url(assets/bankcard/shhnshyh.png) #fff .1rem center no-repeat
+    
+
     &.alipay
       background url(assets/bankcard/alipay.png) #fff .1rem center no-repeat
     
