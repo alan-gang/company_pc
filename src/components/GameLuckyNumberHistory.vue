@@ -29,7 +29,7 @@ export default {
       this.$http.post(api.recentlyCode, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0) {
-          this.data = data.items || []
+          this.data = (data.items || []).slice(1)
         }
       }, (rep) => {
         // error

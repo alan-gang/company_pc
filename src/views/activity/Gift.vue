@@ -25,7 +25,7 @@
             .ds-button(v-if="!t.get" v-bind:class="{ primary: t.enable === '1', 'cancel disabled': t.enable !== '1' }") 签到
               p.error.text-ellipsis(v-if="t.msg") ({{ t.msg }})
               p.days(v-if="t.isContinue === '1' ") 已连续签到 
-                span {{ t.day }} 天
+                span {{ t.days }} 天
             .ds-button.cancel.disabled(v-if="t.get") 已签到
 
       
@@ -33,17 +33,19 @@
 
         el-table-column(prop="cnname" label="礼品" align="left")
           template(scope="scope") 
-            div.ds-icon-activity-ticket.small {{ '20元优惠券' }}
+            div.ds-icon-activity-ticket.small {{ scope.row.amount + (!scope.row.isFree ? '元优惠券' : '元礼金') }}
+              br
+              | {{ scope.row.activityName }}
 
-        el-table-column(prop="beginissue" label="领取时间" width="150")
+        el-table-column(prop="prizeDate" label="领取时间" width="150")
 
-        el-table-column(prop="taskprice" label="数量" width="100" align="right")
+        // el-table-column(prop="taskprice" label="数量" width="100" align="right")
 
         el-table-column(width="20")
 
         el-table-column(label="状态" width="80" align="left")
           template(scope="scope") 
-            span(:class="{ 'text-green': scope.row.status === 0}") {{ '未使用' }}
+            span.text-green {{ '已领取' }}
 
     
 </template>
@@ -116,7 +118,7 @@ export default {
       this.$http.get(api.myGetPrize).then(({data}) => {
         // success
         if (data.success === 1) {
-          // this.tickets = data.enablePrize || []
+          this.data = data.myGetPrize || []
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)

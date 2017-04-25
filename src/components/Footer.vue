@@ -27,7 +27,10 @@
                 el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
                   button.ds-button.primary(slot="reference" @click="checkinNow") 签到
                   slot 
-                    p 已连续签到{{ checkDays }}天，今日+{{ prizeAmount }}金币
+                    p 已连续签到
+                      span.font-blue {{ checkDays }}天
+                      |，今日
+                      span.font-gold +{{ prizeAmount }}金币
                 .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
@@ -106,14 +109,14 @@ export default {
     checkinNow () {
       this.$http.get(api.getCheckToday).then(({data}) => {
         if (data.success === 1) {
-          if (data.enable === '1') {
-            this.checkDays = data.checkDays
-            this.prizeAmount = data.prizeAmount
-            this.checkin = true
-            setTimeout(() => {
-              this.checkin = false
-            }, 2000)
-          }
+          // if (data.enable === '1') {
+          this.checkDays = data.checkDays
+          this.prizeAmount = data.prizeAmount
+          this.checkin = true
+          setTimeout(() => {
+            this.checkin = false
+          }, 2000)
+          // }
         } else {
           this.$message.error({target: this.$el, message: data.msg || '签到失败！'})
         }
@@ -137,7 +140,6 @@ export default {
       }
     },
     mouseover (menu) {
-      console.log(menu)
       if (menu.url === 'game') {
         this.__setCall({
           fn: '__guideStep'

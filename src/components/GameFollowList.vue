@@ -16,15 +16,15 @@
       el-input-number.center.get(v-model="this.idType ")
       |  %
     el-table.ghost(:data="data" max-height="500")
-      el-table-column(prop="NPER" label="投注编号" width="200" inline-template)
-        span {{ row.NPER + (row.NPER === CNPER? '(当前期)' : '期' ) }}
+      el-table-column(prop="issue" label="投注编号" width="200" inline-template)
+        span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
-        el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="1000")
+        el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="100")
       el-table-column(prop="pay" label="金额" width="200" align="right"  inline-template)
         span 
           span.pay {{ ( row.times * pay ).toFixed(3) }}
           | &nbsp;元
-      el-table-column(prop="date" label="开奖时间" align="center" )
+      el-table-column(prop="saleend" label="开奖时间" align="center" )
 
 
 </template>
@@ -33,14 +33,15 @@
   export default {
     props: {
       // 当前起始期数
-      FCNPER: Number,
+      FCNPER: String,
       // 当前期数
-      CNPER: Number,
+      CNPER: String,
       pay: Number,
       type: Number,
       t: Number,
       point: Number,
-      dates: Array
+      // dates: Array,
+      issues: Array
     },
     data () {
       return {
@@ -52,13 +53,20 @@
       }
     },
     computed: {
+      // data () {
+      //   return Array(this.nper).fill(0).map((d, index) => {
+      //     return (d = {
+      //       NPER: this.FCNPER + index,
+      //       times: this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times,
+      //       date: (this.dates.find(d => d.issue === String((this.FCNPER + index))) || {}).saleend || '获取开奖时间失败'
+      //     })
+      //   })
+      // },
       data () {
-        return Array(this.nper).fill(0).map((d, index) => {
-          return (d = {
-            NPER: this.FCNPER + index,
-            times: this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times,
-            date: (this.dates.find(d => d.issue === String((this.FCNPER + index))) || {}).saleend || '获取开奖时间失败'
-          })
+        let ii = this.issues.findIndex(i => i.issue === this.FCNPER)
+        return this.issues.slice(ii, ii + this.nper).map((iii, index) => {
+          iii.times = this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times
+          return iii
         })
       },
       PAY () {
@@ -135,7 +143,7 @@
       width .5rem
 
   .el-input-number
-    width .4rem
+    width .5rem
     vertical-align middle
     text-align center
     &.get

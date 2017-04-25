@@ -10,13 +10,14 @@
         | 中奖后停止追号
       |  起始期：
       el-select(v-model="nper")
-        el-option(v-for="(i, index) in NPERS" v-bind:label="i + (index === 0? '（当前期）' : '期') " v-bind:value="i")
+        el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (index === 0? '（当前期）' : '期') " v-bind:value="i.issue")
 </template>
 
 <script>
-  import util from '../util'
+  // import util from '../util'
   export default {
-    props: ['CNPER'],
+    // props: ['CNPER'],
+    props: ['issues'],
     data () {
       return {
         // 产生10期
@@ -26,11 +27,11 @@
       }
     },
     computed: {
-      NPERS () {
-        return util.repeat(this.CNPER + ' ', this.length).split(' ').map((nper, index) => {
-          return (nper = this.CNPER + index)
-        })
-      }
+      // NPERS () {
+      //   return util.repeat(this.CNPER + ' ', this.length).split(' ').map((nper, index) => {
+      //     return (nper = this.CNPER + index)
+      //   })
+      // }
     },
     watch: {
       checked (stop) {
@@ -38,13 +39,14 @@
       },
       nper (CNPER) {
         this.$emit('set-follow', {CNPER})
-      },
-      CNPER () {
-        if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER
       }
+      // CNPER () {
+      //   if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER
+      // }
     },
     mounted () {
-      this.nper = this.NPERS[0]
+      // this.nper = this.NPERS[0]
+      this.nper = this.issues[0].issue
     },
     methods: {
       closeFollow () {

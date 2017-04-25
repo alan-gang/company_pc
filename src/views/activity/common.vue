@@ -22,14 +22,14 @@
         .list(v-if="list && list[0]" )
 
           el-row.list-title
-            el-col(:span="4") 首存金额
-            el-col(:span="8" style="text-align: right") 现金礼包
-            el-col(:span="10" style="text-align: right") 累计投注额标准
+            el-col(:span="8") 首存金额
+            el-col(:span="5" style="text-align: right") 现金礼包
+            el-col(:span="8" style="text-align: right") 累计投注额标准
 
           el-row.list-item(v-for=" l in list " )
-            el-col(:span="4") {{ l.minSaveAmount }}-- {{ l.maxSaveAmount }}
-            el-col(:span="8" style="text-align: right") {{ l.prizeAmount }}
-            el-col(:span="10" style="text-align: right") {{ l.buyAmount }}
+            el-col(:span="8") {{ l.minSaveAmount }}-- {{ l.maxSaveAmount }}
+            el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
+            el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
 
 
       .actions(v-if="showBtns")
@@ -148,7 +148,7 @@ export default {
       .content
         margin PW
       .list
-        min-width 4rem
+        min-width 5rem
         .list-title 
           height .36rem
           background-color rgba(0,0,0,.5)

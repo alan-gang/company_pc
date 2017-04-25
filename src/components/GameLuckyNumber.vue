@@ -11,7 +11,7 @@
       
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-      span.timeout(v-if="!longNumbers && !onlyNumber") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="!longNumbers && !onlyNumber && overtime") &nbsp;开奖超时，请刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
       span.timeout(v-if="longNumbers") &nbsp;开奖超时，请刷新
         br
@@ -31,6 +31,7 @@ export default {
     PNPER: Number,
     lucknumbers: Array,
     gameType: String,
+    overtime: Boolean,
     onlyNumber: {
       type: Boolean,
       default: false
