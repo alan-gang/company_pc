@@ -13,7 +13,8 @@ elementConfig(Vue)
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(ElementUI)
 
-import clipboard from 'vue-clipboards'
+// import clipboard from 'vue-clipboards'
+import clipboard from 'vue-clipboard2'
 Vue.use(clipboard)
 
 // Http

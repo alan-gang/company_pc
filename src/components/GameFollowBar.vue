@@ -10,14 +10,14 @@
         | 中奖后停止追号
       |  起始期：
       el-select(v-model="nper")
-        el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (index === 0? '（当前期）' : '期') " v-bind:value="i.issue")
+        el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
 </template>
 
 <script>
   // import util from '../util'
   export default {
     // props: ['CNPER'],
-    props: ['issues'],
+    props: ['issues', 'CNPER'],
     data () {
       return {
         // 产生10期
@@ -39,6 +39,9 @@
       },
       nper (CNPER) {
         this.$emit('set-follow', {CNPER})
+      },
+      issues () {
+        this.nper = this.issues[0].issue
       }
       // CNPER () {
       //   if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER

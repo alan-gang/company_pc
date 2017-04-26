@@ -37,7 +37,8 @@ export default {
       // 默认倒计时
       defautTime: 1 * 5,
       time: 0,
-      lstTimeout: 0
+      lstTimeout: 0,
+      interval: 0
     }
   },
   computed: {
@@ -47,11 +48,14 @@ export default {
   },
   mounted () {
     this.time = this.timeout
-    setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.time <= 0 || !this.time) {
         // this.$emit('set-NPER', this.CNPER)
         this.__setCall({
           fn: '__getIssue'
+        })
+        this.__setCall({
+          fn: '__getTraceIssueList'
         })
         this.__setCall({
           fn: '__recentlyCode'
@@ -67,6 +71,9 @@ export default {
       this.time = this.timeout
       if (this.time > 0) this.lstTimeout = this.time
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.interval)
   },
   methods: {
   },

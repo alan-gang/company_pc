@@ -35,7 +35,7 @@
             span.text-danger 6
             |  小时才能正常提款
         .form
-          p.item 可提现金额：
+          p.item 可提现金额：&nbsp;&nbsp;
             span.amount {{ me.money }}
 
           .item(style="line-height: .5rem") 收款银行卡：
@@ -43,6 +43,8 @@
               label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank")
                 span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
                 span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
+                span(style="color: #666") {{ bank.cardNo}}
+
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
 
@@ -185,6 +187,8 @@ export default {
             target: this.$el,
             close () {
               this.stepIndex--
+              this.stepIndex--
+              this.cpwd = ''
             },
             O: this
           })

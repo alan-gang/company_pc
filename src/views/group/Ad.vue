@@ -41,7 +41,7 @@
        
         p(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 自动注册地址： &nbsp;
           span.text-blue(style="display: inline-block") {{ url }} 
-            span.ds-button.text-button.green(v-clipboard=" url " @success="copySuccess" @error="copyError") 复制注册地址
+            span.ds-button.text-button.green(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError") 复制注册地址
            
         div.buttons(style="padding: .1rem 2.03rem")
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
@@ -49,6 +49,7 @@
         div(style="padding: .4rem 2.03rem")
           .QR.ds-icon-QR(style="height: 1.96rem; width: 1.4rem; text-align: center")
             p(style="color: #333; font-weight: bold; padding-top: 1.5rem;") 扫码注册
+
         
 
       

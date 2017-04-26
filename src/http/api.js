@@ -1,9 +1,11 @@
-let api = 'http://192.168.169.44:9901/cagamesclient'
+// let api = 'http://192.168.169.44:9901/cagamesclient'
 // steven
 // let api = 'http://192.168.169.119:8080/cagamesclient/'
 // johson
 // let api = 'http://192.168.169.161:8080/cagamesclient/'
 // let api = 'http://192.168.169.111:8080/cagamesclient/'
+// online
+let api = 'http://119.9.117.58:8080/cagamesclient/'
 let Login = {
   // 约定
   // 成功默认返回：{"success":true}
@@ -255,6 +257,7 @@ let Me = {
   // 进入充值页
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=showRecharge
   // showRecharge: '/person/recharge.do?method=showRecharge',
+  // 第三方充值saveType=1*************
   // 获取银行列表
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList
   TopUpGetBankList: '/person/recharge.do?method=getBankList',
@@ -265,8 +268,24 @@ let Me = {
   // &userId=1&userName=jock&platId=101&bankCode=icbc
   // 提交充值请求道第三方
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01
-  commit: '/person/recharge.do?method=commit'
+  commit: '/person/recharge.do?method=commit',
   // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
+  // 在线充值saveType=0*************
+  // 获取银行列表
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList&saveType=1
+  // getBankList: '/person/recharge.do?method=getBankList',
+
+  // 校验充值金额范围
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc&saveType=1
+  // saveAmountRange: '/person/recharge.do?method=saveAmountRange',
+
+  // 提交充值请求道第三方
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01&saveType=1
+  // commit: '/person/recharge.do?method=commit',
+
+  // 系统支持充值方式
+  // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getEnableSaveType
+  getEnableSaveType: '/person/recharge.do?method=getEnableSaveType'
 }
 
 let Group = {

@@ -18,8 +18,11 @@
               i.el-icon-close.ds-button.text-button(@click="_close" )
 
 
-          .content 
-            div(:class="[typeIcon[type]]" v-html="content")
+          .content
+
+            div(:class="[typeIcon[type]]" )
+              slot(:class="[typeIcon[type]]" name="my-content")
+                div(v-html="content")
 
           .footer-bar(:class="[ 'btn' + btn.length ]")
             a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click="btnClick(i)" v-bind:class="[ btnClass[type][i] ]") {{ b }}
@@ -32,6 +35,7 @@
 <script>
   export default {
     name: 'Modal',
+    props: ['Ptype', 'Pbtn', 'Pok', 'Pcancel', 'Pclose'],
     data () {
       return {
         type: 'confirm',
@@ -89,6 +93,14 @@
         if (i === 0) this._ok()
         if (i === 1) this._cancel()
       }
+    },
+    created () {
+      // props:['Ptype', 'Pbtn', 'Pok', 'Pcancel', 'Pclose'],
+      if (this.Ptype) this.type = this.Ptype
+      if (this.Pbtn) this.btn = this.Pbtn
+      if (this.Pok) this.ok = this.Pok
+      if (this.Pcancel) this.cancel = this.Pcancel
+      if (this.Pclose) this.close = this.Pclose
     },
     mounted () {
     }

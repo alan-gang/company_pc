@@ -8,7 +8,7 @@
     slot(name="toolbar")
 
     <!-- 游戏信息 -->
-    GameInfo.fixed(v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-if="scrollAtBottom")
+    GameInfo.fixed(v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
       GameLuckyNumber(v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory")
@@ -23,7 +23,7 @@
       <!-- 投注单 -->
       GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
       <!-- 追号栏 -->
-      GameFollowbar.inner-bar(v-if="follow.show" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
+      GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
       <!-- 追号单 -->
       GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow" v-bind:issues="issues")
       <!-- 下单记录 -->
@@ -66,7 +66,7 @@ export default {
       // 最近的已开奖期数
       NPER: '150730053',
       // 最近的已开奖期号码
-      lucknumbers: [5, 8, 5, 6, 8],
+      lucknumbers: [0, 0, 0, 0, 0],
       // 即将开奖的期数
       // CNPER: 150730053 + 1,
       // 即将开奖倒计时
@@ -137,7 +137,8 @@ export default {
       // 游戏所有奖期的开奖时间
       issues: [],
       showLuckyNumberHistory: false,
-      overtime: false
+      overtime: false,
+      lucknumbersTimeout: 0
     }
   },
   computed: {
@@ -193,13 +194,13 @@ export default {
   },
   mounted () {
     // 获得当前奖期
-    this.__getIssue()
-    // 获得游戏所有奖期的开奖时间
-    this.getTraceIssueList()
-    // 获得游戏所有玩法对应的返点信息
+    // this.__getIssue()
+    // // 获得游戏所有奖期的开奖时间
+    // this.__getTraceIssueList()
+    // // 获得游戏所有玩法对应的返点信息
     this.getUserpoint()
-    // 获得历史开奖号码
-    this.__recentlyCode()
+    // // 获得历史开奖号码
+    // this.__recentlyCode()
     this.follow.CNPER = this.CNPER
   },
   methods: {
@@ -215,7 +216,11 @@ export default {
           data = data.items[0] || {}
           if (this.NPER === data.issue + '') {
             this.overtime = true
-            setTimeout(this.__recentlyCode, 1000)
+            this.lucknumbersTimeout = setTimeout(() => {
+              console.log('common timeout:')
+              clearTimeout(this.lucknumbersTimeout)
+              this.__recentlyCode()
+            }, 10000)
           } else {
             this.overtime = false
             this.NPER = data.issue + ''
@@ -249,7 +254,7 @@ export default {
         // error
       })
     },
-    getTraceIssueList () {
+    __getTraceIssueList () {
       this.$http.post(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) this.issues = data.items
@@ -479,7 +484,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  .game-info + .game-content
+  .game-info.show + .game-content
     top TH + GH
   .game-content
     top TH

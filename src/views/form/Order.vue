@@ -57,7 +57,7 @@
 
           el-table-column(prop="projectId" label="注单编号" width="80" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
+              .ds-button.text-button.blue(style="padding: 0" @click=" OrderDetail(scope.row, 0) ") {{ scope.row.projectId }}
 
           el-table-column(prop="nickName" label="用户" width="80")
           
@@ -89,8 +89,8 @@
           el-table-column(label="操作")
             template(scope="scope")
               div(v-if="scope.row.stat === 0 ")
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click="(row = scope.row) && (show = true) && (type = 1) ") 发起跟单
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click="(row = scope.row) && (show = true) && (type = 2) ") 撤消
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -156,20 +156,22 @@
 
             p 可能中奖的情况：
 
-            el-table.header-bold.nopadding(:data="[]" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
+            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
 
               el-table-column(prop="methodName" label="编号" width="160" )
                 template(scope="scope")
-                  .ds-button.text-button.blue(@click="") xxxx
+                  .ds-button.text-button.blue(@click="") {{ scope.row.projectid }}
 
-              el-table-column(label="号码" width="160")
+              el-table-column(prop="expandcode" label="号码" width="160")
               
 
-              el-table-column(prop="prize" label="倍数" width="80" align="right")
+              el-table-column(prop="codetimes" label="倍数" width="80" align="right")
 
-              el-table-column(prop="prize" label="奖级" width="80" align="right")
+              el-table-column(label="奖级" width="80" align="right")
+                template(scope="scope")
+                  span {{ scope.row.level }} 等奖
 
-              el-table-column(prop="userpoint" label="奖金"  align="right")
+              el-table-column(prop="prize" label="奖金"  align="right")
 
             .buttons(style="margin: .3rem; text-align: center")
               .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
@@ -216,7 +218,8 @@
         show: false,
         type: 0,
         row: {},
-        modalTitles: ['投注详情', '发起跟单', '撤销']
+        modalTitles: ['投注详情', '发起跟单', '撤销'],
+        expandList: []
       }
     },
     computed: {
@@ -324,6 +327,33 @@
             this.data = data.recordList
             this.total = data.totalSize || this.data.length
           } else loading.text = '加载失败!'
+        }, (rep) => {
+          // error
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 1000)
+        })
+      },
+      // 根据投注号Id查询投注详情
+      // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&projectId=2290
+      OrderDetail (row, type) {
+        this.show = true
+        this.type = type
+        this.row = row
+        let loading = this.$loading({
+          text: '详情加载中...',
+          target: this.$el
+        }, 10000, '详情加载超时...')
+        this.$http.get(api.OrderDetail, {projectId: this.row.projectId}).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            // this.show = false
+            this.expandList = data.expandList
+            setTimeout(() => {
+              loading.text = '详情加载成功!'
+            }, 500)
+          } else loading.text = '详情加载失败!'
         }, (rep) => {
           // error
         }).finally(() => {
@@ -454,7 +484,7 @@
 
   .modal 
     position absolute
-    top 0
+    top TH
     bottom 0
     left 0
     right 0

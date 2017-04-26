@@ -1,5 +1,5 @@
 <template lang="jade">
-  .game-luck-number-history.scroll-content
+  .game-luck-number-history.scroll-content(:class=" {empty: data.length === 0} ")
     <!-- 开奖信息 -->
     GameLuckyNumber(v-for="l in data" v-bind:game-type="gameType" v-bind:lucknumbers="l.code.split(',')" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
@@ -56,6 +56,8 @@ export default {
     &.show
       height "calc(100% - %s)" % s
       overflow auto
+    &.empty
+      display none
     
   
 </style>

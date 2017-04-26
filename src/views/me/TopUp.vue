@@ -9,10 +9,11 @@
 
       .tab(style="text-align: center")
         .ds-button-group
-          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 ") 充值
+          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if="enableSaveType === '2' || enableSaveType === '0' ") 银行卡充值
+          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if="enableSaveType === '2' || enableSaveType === '1' ") 在线充值
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
-      .form(v-if="type === 1")
+      .form(v-if="(type === 0 || type === 1) && (otherPay[0] || banksO[0]) ")
         .item(style="line-height: .5rem") 支付方式：
             .banks
                 label.ds-radio-label(v-for="bank in otherPay" @click="selectBank = bank")
@@ -29,7 +30,7 @@
                     span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && myBanks.length > 10" @click="showAllBank = true")  更多银行
         
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
-          el-input-number(v-model="amount" type="number")
+          el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
           span(style="padding: 0 .2rem") 充值限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔充值限额：最低：
               span.min.text-danger  {{ min }} 
               | 元，
@@ -89,7 +90,21 @@
                 span.loading(v-show="pt_ === 0")
                   span.text-danger 二维码已过期，请重新获取
 
-
+    
+    Modal(title="" v-bind:Ptype="'question'" v-show="dataXnow" v-bind:Pbtn=" ['充值成功', '遇到问题'] " v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
+      .my-content(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;")
+        p 充值总额： {{ dataXamount }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXamount " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+        p 银行信息： {{ dataXbankName }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXbankName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+        p 户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXcardName }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXcardName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+        p 卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXcardNum }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXcardNum " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+        p 订单号：&nbsp;&nbsp;&nbsp; {{ dataXorderId }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXorderId " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+        p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXappendix }}
+          span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
 
       
       
@@ -99,10 +114,20 @@
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
 import util from '../../util'
+import Modal from 'components/Modal'
 export default {
   data () {
     return {
-      type: 1,
+      dataXamount: '',
+      dataXbankName: '',
+      dataXcardName: '',
+      dataXcardNum: '',
+      dataXorderId: '',
+      dataXappendix: '',
+      dataXnow: false,
+      O: '',
+      enableSaveType: '2',
+      type: 0,
       avaibleBanks: [],
       selectBank: {},
       showAllBank: false,
@@ -158,16 +183,37 @@ export default {
       this.saveAmountRange()
     },
     type () {
+      if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
     }
   },
   mounted () {
     // this.getBankList()
     // this.showRecharge()
+    this.O = this
     this.TopUpGetBankList()
     this.qryRecharge()
+    this.getEnableSaveType()
   },
   methods: {
+    copySuccess () {
+      this.$message({
+        message: '复制成功'
+      })
+    },
+    copyError () {
+      this.$message({
+        message: '复制失败!'
+      })
+    },
+    Pclose () {
+      this.dataXnow = false
+      return false
+    },
+    Pok () {
+      console.log('....222')
+      this.type = 2
+    },
     // 充值记录查询
     // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1
     // qryRecharge: '/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1 ',
@@ -198,15 +244,18 @@ export default {
       })
     },
     TopUpGetBankList (fn) {
-      this.$http.get(api.TopUpGetBankList).then(({data}) => {
+      this.$http.get(api.TopUpGetBankList, {saveType: this.type}).then(({data}) => {
         if (data.success === 1) {
-          this.avaibleBanks = data.bankList
-        }
+          this.avaibleBanks = data.bankList || []
+          if (!this.avaibleBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
+        } else this.$message.info({message: data.msg || '无可用支付方式！'})
       }).catch(rpe => {
+        this.$message.error({message: '获取支付方式失败！'})
       })
     },
     saveAmountRange (fn) {
       this.$http.get(api.saveAmountRange, {
+        saveType: this.type,
         bankCode: this.selectBank.apiName
       }).then(({data}) => {
         if (data.success === 1) {
@@ -218,34 +267,63 @@ export default {
     },
     commit (fn) {
       this.$http.get(api.commit, {
+        saveType: this.type,
         bankCode: this.selectBank.apiName,
         amount: this.amount
       }).then(({data}) => {
         if (data.success === 1) {
-          // 二维码支付
-          if (data.isQr === 1) {
-            this.show = true
-            this.pt_ = this.time_
-          // 链接跳转
-          } else {
-            this.$modal.warn({
-              content: '您正在安全跳转到第三方支付',
-              btn: ['去充值'],
-              href: [data.msg],
-              target: this.$el,
-              ok () {
-                this.$modal.question({
-                  content: '是否已经充值成功？',
-                  target: this.$el,
-                  btn: ['充值成功', '遇到问题'],
-                  ok () {
-                    this.type = 2
-                  },
-                  O: this
-                })
-              },
-              O: this
-            })
+          if (this.type === 0) {
+            data = data.msg
+            this.dataXamount = data.amount
+            this.dataXbankName = data.bankName
+            this.dataXcardName = data.cardName
+            this.dataXcardNum = data.cardNum
+            this.dataXorderId = data.orderId
+            this.dataXappendix = data.appendix
+            this.dataXnow = true
+            // 在线充值 附言
+            // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
+            //  '<p>银行信息：' + data.bankName + '' + '</p>' +
+            //  '<p>户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.cardName + '' + '</p>' +
+            //  '<p>卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.cardNum + '' + '</p>' +
+            //  '<p>订单号：&nbsp;&nbsp;&nbsp;' + data.orderId + '' + '</p>' +
+            //  '<p>附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.appendix + '<span class=" ds-button text-button green" v-clipboard="\'hello\'" @success="copySuccess" @error="copyError">复制</span>' + '</p></div>'
+            // this.$modal.success({
+            //   content: contentString,
+            //   btn: ['充值成功', '遇到问题'],
+            //   target: this.$el,
+            //   ok () {
+            //     this.type = 2
+            //   },
+            //   O: this
+            // })
+          } else if (this.type === 1) {
+            // 第三方充值
+            // 第三方充值 二维码支付
+            if (data.isQr === 1) {
+              this.show = true
+              this.pt_ = this.time_
+            // 第三方充值 链接跳转
+            } else {
+              this.$modal.warn({
+                content: '立即跳转到第三方去充值？',
+                btn: ['去充值'],
+                href: [data.msg],
+                target: this.$el,
+                ok () {
+                  this.$modal.question({
+                    content: '是否已经充值成功？',
+                    target: this.$el,
+                    btn: ['充值成功', '遇到问题'],
+                    ok () {
+                      this.type = 2
+                    },
+                    O: this
+                  })
+                },
+                O: this
+              })
+            }
           }
         } else {
           this.$message.error({message: data.msg || '充值请求提交失败， 请重试！'})
@@ -257,9 +335,35 @@ export default {
       if (!this.amount) return this.$el.querySelector('input').focus()
       if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
       this.commit()
+    },
+    // 在线充值*************
+    // 获取银行列表
+    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList&saveType=1
+    // getBankList: '/person/recharge.do?method=getBankList',
+    // 校验充值金额范围
+    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc&saveType=1
+    // saveAmountRange: '/person/recharge.do?method=saveAmountRange',
+
+    // 提交充值请求道第三方
+    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01&saveType=1
+    // commit: '/person/recharge.do?method=commit',
+    // 系统支持充值方式
+    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getEnableSaveType
+    // getEnableSaveType: '/person/recharge.do?method=getEnableSaveType'
+    getEnableSaveType (fn) {
+      this.$http.get(api.getEnableSaveType).then(({data}) => {
+        if (data.success === 1) {
+          this.enableSaveType = data.enableSaveType
+        } else {
+          this.$message.error({message: data.msg || '获取充值方式失败！'})
+        }
+      }).catch(rpe => {
+        this.$message.error({message: '获取充值方式失败！'})
+      })
     }
   },
   components: {
+    Modal
   }
 }
 </script>
