@@ -37,7 +37,7 @@
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
 
     <!-- 历史开奖信息 -->
-    GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:class=" {show: showLuckyNumberHistory} ")
+    GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
 
 </template>
 <script>
@@ -71,7 +71,7 @@ export default {
       // CNPER: 150730053 + 1,
       // 即将开奖倒计时
       // 秒
-      timeout: 0,
+      timeout: 10,
       // 剩余的奖期数
       FNPER: 502,
       // 开过的奖期数
@@ -138,7 +138,8 @@ export default {
       issues: [],
       showLuckyNumberHistory: false,
       overtime: false,
-      lucknumbersTimeout: 0
+      lucknumbersTimeout: 0,
+      allLuckyNumbers: []
     }
   },
   computed: {
@@ -194,14 +195,17 @@ export default {
   },
   mounted () {
     // 获得当前奖期
-    // this.__getIssue()
+    this.__getIssue()
     // // 获得游戏所有奖期的开奖时间
-    // this.__getTraceIssueList()
+    this.__getTraceIssueList()
     // // 获得游戏所有玩法对应的返点信息
     this.getUserpoint()
     // // 获得历史开奖号码
-    // this.__recentlyCode()
+    this.__recentlyCode()
     this.follow.CNPER = this.CNPER
+  },
+  beforeDestroy () {
+    clearInterval(this.lucknumbersTimeout)
   },
   methods: {
     scrollHander (evt) {
@@ -210,22 +214,22 @@ export default {
     },
     // 获得当前已开奖信息
     __recentlyCode () {
-      this.$http.post(api.recentlyCode, {gameid: this.page.gameid}).then(({data}) => {
+      if (this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
+      this.$http.post(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0) {
-          data = data.items[0] || {}
-          if (this.NPER === data.issue + '') {
+          let lst = data.items[0] || {}
+          if (this.NPER === lst.issue + '') {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
-              console.log('common timeout:')
-              clearTimeout(this.lucknumbersTimeout)
               this.__recentlyCode()
             }, 10000)
           } else {
             this.overtime = false
-            this.NPER = data.issue + ''
-            this.lucknumbers = data.code ? data.code.split(',') : this.lucknumbers
+            this.NPER = lst.issue + ''
+            this.lucknumbers = lst.code ? lst.code.split(',') : this.lucknumbers
           }
+          this.allLuckyNumbers = data.items || []
         }
       }, (rep) => {
         // error

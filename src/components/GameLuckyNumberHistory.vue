@@ -1,40 +1,41 @@
 <template lang="jade">
-  .game-luck-number-history.scroll-content(:class=" {empty: data.length === 0} ")
+  .game-luck-number-history.scroll-content(:class=" {empty: allLuckyNumbers.length === 0} ")
     <!-- 开奖信息 -->
-    GameLuckyNumber(v-for="l in data" v-bind:game-type="gameType" v-bind:lucknumbers="l.code.split(',')" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
+    GameLuckyNumber(v-for="l in allLuckyNumbers" v-bind:game-type="gameType" v-bind:lucknumbers="l.code.split(',')" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
 </template>
 
 <script>
 import GameLuckyNumber from './GameLuckyNumber'
-import api from '../http/api'
+// import api from '../http/api'
 export default {
   props: {
     gameid: Number,
-    gameType: String
+    gameType: String,
+    allLuckyNumbers: Array
   },
   data () {
     return {
-      data: []
+      // data: []
     }
   },
   computed: {
   },
   mounted () {
-    this.__recentlyCode()
+    // this.__recentlyCode()
   },
   methods: {
     // 获得所有分页奖期信息
-    __recentlyCode () {
-      this.$http.post(api.recentlyCode, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
-        // success
-        if (data.success > 0) {
-          this.data = (data.items || []).slice(1)
-        }
-      }, (rep) => {
-        // error
-      })
-    }
+    // __recentlyCode () {
+    //   this.$http.post(api.recentlyCode, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
+    //     // success
+    //     if (data.success > 0) {
+    //       this.data = (data.items || []).slice(1)
+    //     }
+    //   }, (rep) => {
+    //     // error
+    //   })
+    // }
   },
   components: {
     GameLuckyNumber

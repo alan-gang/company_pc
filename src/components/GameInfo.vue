@@ -50,6 +50,7 @@ export default {
     this.time = this.timeout
     this.interval = setInterval(() => {
       if (this.time <= 0 || !this.time) {
+        console.log('it is', this.$el.parentNode)
         // this.$emit('set-NPER', this.CNPER)
         this.__setCall({
           fn: '__getIssue'
