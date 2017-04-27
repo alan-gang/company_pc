@@ -11,9 +11,9 @@
       
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-      span.timeout(v-if="!longNumbers && !onlyNumber && overtime") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖超时，请刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖超时，请刷新
         br
       | 已开
       span.PNPER {{ PNPER }}
@@ -35,7 +35,8 @@ export default {
     onlyNumber: {
       type: Boolean,
       default: false
-    }
+    },
+    gameid: Number
   },
   data () {
     return {
@@ -53,6 +54,11 @@ export default {
     },
     longNumbers () {
       return !this.isDice && this.isArray
+    }
+  },
+  methods: {
+    fresh () {
+      this.__setCall({fn: '__recentlyCode'})
     }
   },
   components: {
@@ -101,6 +107,11 @@ export default {
         font-size .15rem
     .timeout
       color GOLD
+      cursor pointer
+      &:hover
+        color GOLD-HOVER
+      &:active
+        color GOLD-ACTIVE
     // 115
     &.game-G115
       .number

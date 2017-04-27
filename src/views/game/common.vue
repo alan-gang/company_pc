@@ -8,12 +8,12 @@
     slot(name="toolbar")
 
     <!-- 游戏信息 -->
-    GameInfo.fixed(v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
+    GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
-      GameLuckyNumber(v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory")
+      GameLuckyNumber(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory")
       <!-- 游戏信息 -->
-      GameInfo(ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
+      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -64,14 +64,14 @@ export default {
       // 页面的url
       // url: 'one',
       // 最近的已开奖期数
-      NPER: '150730053',
+      NPER: '100000000',
       // 最近的已开奖期号码
       lucknumbers: [0, 0, 0, 0, 0],
       // 即将开奖的期数
       // CNPER: 150730053 + 1,
       // 即将开奖倒计时
       // 秒
-      timeout: 10,
+      timeout: (100 * 3600) - 1,
       // 剩余的奖期数
       FNPER: 502,
       // 开过的奖期数
@@ -117,7 +117,7 @@ export default {
         // 追号金额
         pay: 0,
         // 追号起始期
-        CNPER: 0,
+        CNPER: '100000000',
         // 中奖后停止追号
         stop: true,
         // 追号类型，1-同步，2-翻倍，3-利润率
@@ -189,6 +189,15 @@ export default {
     P () {
       this.p && (this.point = this.P.minpoint)
       this.p && (this.bonus = this.P.maxprize)
+    },
+    timeout () {
+      if (this.timeout === 0) {
+        this.__getIssue()
+        this.__recentlyCode()
+        this.__getTraceIssueList()
+      } else if (this.timeout < 1) {
+        setTimeout(this.__getIssue, 1000)
+      }
     }
   },
   created () {
@@ -196,11 +205,11 @@ export default {
   mounted () {
     // 获得当前奖期
     this.__getIssue()
-    // // 获得游戏所有奖期的开奖时间
+    // 获得游戏所有奖期的开奖时间
     this.__getTraceIssueList()
-    // // 获得游戏所有玩法对应的返点信息
+    // 获得游戏所有玩法对应的返点信息
     this.getUserpoint()
-    // // 获得历史开奖号码
+    // 获得历史开奖号码
     this.__recentlyCode()
     this.follow.CNPER = this.CNPER
   },
@@ -223,7 +232,7 @@ export default {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
               this.__recentlyCode()
-            }, 10000)
+            }, 3000)
           } else {
             this.overtime = false
             this.NPER = lst.issue + ''
@@ -243,10 +252,15 @@ export default {
           // 当前期
           // this.NPER = (parseInt(data.issue) || 1) - 1
           this.CNPER = data.issue
-          this.timeout = Math.floor((data.saleend - data.current) / 1000)
+          this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
+        } else {
+          this.$message.error({message: '当前奖期获取失败！'})
+          this.timeout += 0.05
         }
       }, (rep) => {
         // error
+        this.$message.error({message: '当前奖期获取失败！'})
+        this.timeout += 0.05
       })
     },
     // 获得该游戏所有返点信息
@@ -463,6 +477,9 @@ export default {
     },
     setNPER (n) {
       this.NPER = n
+    },
+    fetchTimeout () {
+      this.timeout = 0
     }
     // setCall (call) {
     //   this.call = Object.assign(this.call, call)

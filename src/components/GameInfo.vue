@@ -35,9 +35,7 @@ export default {
   data () {
     return {
       // 默认倒计时
-      defautTime: 1 * 5,
       time: 0,
-      lstTimeout: 0,
       interval: 0
     }
   },
@@ -49,28 +47,28 @@ export default {
   mounted () {
     this.time = this.timeout
     this.interval = setInterval(() => {
-      if (this.time <= 0 || !this.time) {
-        console.log('it is', this.$el.parentNode)
-        // this.$emit('set-NPER', this.CNPER)
-        this.__setCall({
-          fn: '__getIssue'
-        })
-        this.__setCall({
-          fn: '__getTraceIssueList'
-        })
-        this.__setCall({
-          fn: '__recentlyCode'
-        })
-        this.time = this.lstTimeout || this.defautTime
-      } else {
+      if (this.time > 0) {
         this.time--
       }
     }, 1000)
   },
   watch: {
     timeout () {
-      this.time = this.timeout
-      if (this.time > 0) this.lstTimeout = this.time
+      this.time = Math.floor(this.timeout)
+    },
+    time () {
+      if (this.time <= 0) {
+        //  this.__setCall({
+        //   fn: '__getIssue'
+        // })
+        // this.__setCall({
+        //   fn: '__getTraceIssueList'
+        // })
+        // this.__setCall({
+        //   fn: '__recentlyCode'
+        // })
+        this.$emit('set-timeout', 0)
+      }
     }
   },
   beforeDestroy () {
