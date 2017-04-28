@@ -140,8 +140,8 @@ export default {
         },
         minus: {
           top: '80%',
-          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)'
-          // opacity: 0
+          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)',
+          opacity: 0
         },
         default: {
           top: '15%',

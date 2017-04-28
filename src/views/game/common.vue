@@ -65,6 +65,7 @@ export default {
       // url: 'one',
       // 最近的已开奖期数
       NPER: '100000000',
+      CNPER: '100000000',
       // 最近的已开奖期号码
       lucknumbers: [0, 0, 0, 0, 0],
       // 即将开奖的期数
@@ -139,7 +140,8 @@ export default {
       showLuckyNumberHistory: false,
       overtime: false,
       lucknumbersTimeout: 0,
-      allLuckyNumbers: []
+      allLuckyNumbers: [],
+      notify: null
     }
   },
   computed: {
@@ -205,17 +207,21 @@ export default {
       }
     },
     // 如果当前奖期改变，那么提示已投注的期数直接过渡到下期
-    NPER (n, o) {
+    CNPER (n, o) {
       if (this.ns.length > 0) {
-        this.$modal.question({
-          content: '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
-          btn: ['转到当前期', '清空投注'],
-          target: this.$el,
-          cancel () {
-            this.ns = []
-          },
-          O: this
-        })
+        if (!this.notify) {
+          this.notify = this.$modal.question({
+            content: '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+            btn: ['转到当前期', '清空投注'],
+            target: this.$el,
+            cancel () {
+              this.ns = []
+            },
+            O: this
+          })
+        } else {
+          this.notify.content = '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
+        }
       }
     }
   },
@@ -231,6 +237,9 @@ export default {
     // 获得历史开奖号码
     this.__recentlyCode()
     this.follow.CNPER = this.CNPER
+    // setInterval(() => {
+    //   this.CNPER = parseInt(this.CNPER) + 1 + ''
+    // }, 3000)
   },
   beforeDestroy () {
     clearInterval(this.lucknumbersTimeout)
