@@ -127,6 +127,7 @@
       opacity .5
       background #000
       z-index 9998
+      radius()
     .box-wrapper
       position absolute
       top 0

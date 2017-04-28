@@ -25,7 +25,7 @@
 
           el-table-column(prop="nickName" label="用户" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.nickName }}
+              .ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row, 0)") {{ scope.row.nickName }}
 
           el-table-column(prop="projectId" label="注单编号" width="80")
           
@@ -52,7 +52,7 @@
           el-table-column(class-name="pl2" label="操作")
             template(scope="scope")
               div(v-if="scope.row.stat === 0 ")
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click="(row = scope.row) && (show = true) && (type = 1) ") 跟单
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click="OrderDetail(scope.row, 0) ") 跟单
 
       
       // 跟单记录
@@ -60,7 +60,7 @@
 
           el-table-column(prop="projectId" label="注单编号" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="(row = scope.row) && (show = true) && (type = 0) ") {{ scope.row.projectId }}
+              .ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row, 1)") {{ scope.row.projectId }}
 
           el-table-column(prop="userName" label="用户" width="80")
           
@@ -96,7 +96,7 @@
     .modal(v-show="show" )
       .mask
       .box-wrapper
-        .box
+        .box(ref="box")
           .tool-bar
             span.title {{ modalTitles[type] }}
             el-button-group
@@ -154,106 +154,24 @@
 
             p 可能中奖的情况：
 
-            el-table.header-bold.nopadding(:data="[]" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
+            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
 
-              el-table-column(prop="methodName" label="编号" width="160" )
-                template(scope="scope")
-                  .ds-button.text-button.blue(@click="") xxxx
+              el-table-column(prop="projectid" label="编号" width="160" )
 
-              el-table-column(label="号码" width="160")
+              el-table-column(prop="expandcode" label="号码" width="160")
               
 
-              el-table-column(prop="prize" label="倍数" width="80" align="right")
+              el-table-column(prop="codetimes" label="倍数" width="80" align="right")
 
-              el-table-column(prop="prize" label="奖级" width="80" align="right")
-
-              el-table-column(prop="userpoint" label="奖金"  align="right")
-
-            .buttons(style="margin: .3rem; text-align: center")
-              .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
-    
-    // .modal(v-show="show" )
-      .mask
-      .box-wrapper
-        .box
-          .tool-bar
-            span.title 跟单详情
-            el-button-group
-              el-button(icon="close" @click="show = false")
-          .content
-            el-row
-              el-col(:span="6")
-                游戏用户：
-                span(style="color: #333") {{ user.name }}
-              el-col(:span="6")
-                游戏：
-                span(style="color: #333") {{ user.game }}
-              el-col(:span="6")
-                开奖号码：
-                span(style="color: #333") {{ user.game }}
-
-              el-col(:span="6")
-                总金额：
-                span(style="color: #333") {{ user.pay }}
-
-            el-row
-              el-col(:span="6")
-                注单编号：
-                span(style="color: #333") {{ user.name }}
-              el-col(:span="6")
-                玩法：
-                span(style="color: #333") {{ user.game }}
-              el-col(:span="6")
-                注单状态：
-                span(style="color: #333") {{ user.game }}
-
-              el-col(:span="6")
-                倍数模式：
-                span(style="color: #333") {{ user.pay }}
-
-            
-            el-row
-              el-col(:span="6")
-                投单时间：
-                span(style="color: #333") {{ user.name }}
-              el-col(:span="6")
-                奖期：
-                span(style="color: #333") {{ user.game }}
-              el-col(:span="6")
-                注单奖金：
-                span(style="color: #333") {{ user.game }}
-
-              el-col(:span="6")
-                动态奖金返点：
-                span(style="color: #333") {{ user.pay }}
-
-            p.textarea-label
-              span.label 投注内容：
-              el-input.font-12(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
-
-            p 可能中奖的情况：
-
-            el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
-
-              el-table-column(prop="methodName" label="编号" width="160" )
+              el-table-column(label="奖级" width="80" align="right")
                 template(scope="scope")
-                  .ds-button.text-button.blue(@click="") xxxx
+                  span {{ scope.row.level }} 等奖
 
-              el-table-column(label="号码" width="160")
-              
-
-              el-table-column(prop="prize" label="倍数" width="80" align="right")
-
-              el-table-column(prop="prize" label="奖级" width="80" align="right")
-
-              el-table-column(prop="userpoint" label="奖金"  align="right")
+              el-table-column(prop="prize" label="奖金"  align="right")
 
             .buttons(style="margin: .3rem; text-align: center")
-              .ds-button.primary.large.bold 确认跟单
+              .ds-button.primary.large.bold(v-if="type === 0" @click="") 确认跟单
 
-    
-      
       
 </template>
 
@@ -292,7 +210,8 @@
         show: false,
         type: 0,
         row: {},
-        modalTitles: ['投注详情', '发起跟单', '撤销']
+        modalTitles: ['跟单详情', '跟单详情'],
+        expandList: []
       }
     },
     computed: {
@@ -316,6 +235,33 @@
       this.Orderlist()
     },
     methods: {
+      // 根据投注号Id查询投注详情
+      // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&projectId=2290
+      OrderDetail (row, type) {
+        this.show = true
+        this.type = type
+        this.row = row
+        let loading = this.$loading({
+          text: '详情加载中...',
+          target: this.$refs.box
+        }, 10000, '详情加载超时...')
+        this.$http.get(api.OrderDetail, {projectId: this.row.projectId}).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            // this.show = false
+            this.expandList = data.expandList
+            setTimeout(() => {
+              loading.text = '详情加载成功!'
+            }, 500)
+          } else loading.text = '详情加载失败!'
+        }, (rep) => {
+          // error
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 1000)
+        })
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },

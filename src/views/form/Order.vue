@@ -98,7 +98,7 @@
     .modal(v-show="show" )
       .mask
       .box-wrapper
-        .box
+        .box(ref="box")
           .tool-bar
             span.title {{ modalTitles[type] }}
             el-button-group
@@ -158,9 +158,7 @@
 
             el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
 
-              el-table-column(prop="methodName" label="编号" width="160" )
-                template(scope="scope")
-                  .ds-button.text-button.blue(@click="") {{ scope.row.projectid }}
+              el-table-column(prop="projectid" label="编号" width="160" )
 
               el-table-column(prop="expandcode" label="号码" width="160")
               
@@ -193,7 +191,7 @@
       return {
         st: '',
         et: '',
-        STATUS: ['未开奖', '未中奖', '已中奖', '已撤单'],
+        STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         status: '',
         ISFREE: ['现金', '优惠券'],
         isFree: '',
@@ -343,7 +341,7 @@
         this.row = row
         let loading = this.$loading({
           text: '详情加载中...',
-          target: this.$el
+          target: this.$refs.box
         }, 10000, '详情加载超时...')
         this.$http.get(api.OrderDetail, {projectId: this.row.projectId}).then(({data}) => {
           // success

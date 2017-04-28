@@ -203,6 +203,20 @@ export default {
       if (this.showLuckyNumberHistory) {
         this.__recentlyCode(true)
       }
+    },
+    // 如果当前奖期改变，那么提示已投注的期数直接过渡到下期
+    NPER (n, o) {
+      if (this.ns.length > 0) {
+        this.$modal.question({
+          content: '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+          btn: ['转到当前期', '清空投注'],
+          target: this.$el,
+          cancel () {
+            this.ns = []
+          },
+          O: this
+        })
+      }
     }
   },
   created () {

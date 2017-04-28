@@ -506,6 +506,7 @@ export default {
     // &.show ~ .resize-y
     //   display none
   .move-bar
+    user-select none
     position absolute
     top 0
     left 4 * TH
@@ -522,6 +523,7 @@ export default {
       
       
   .resize-x
+    user-select none
     position absolute
     right - TH
     top TH
@@ -538,6 +540,7 @@ export default {
       
   
   .resize-y
+    user-select none
     position absolute
     right .5rem
     bottom - TH

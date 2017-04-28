@@ -694,7 +694,6 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
-    user-select none
   
   body
     height 100%
