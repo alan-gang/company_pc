@@ -124,7 +124,8 @@
           this.$message.success('线路切换成功！')
           this.$emit('close')
         } else {
-          this.$router.push('/login/login')
+          window.location.href = r + '/#/login/login'
+          // this.$router.push('/login/login')
         }
       }
     }

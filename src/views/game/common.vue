@@ -198,6 +198,11 @@ export default {
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
       }
+    },
+    showLuckyNumberHistory () {
+      if (this.showLuckyNumberHistory) {
+        this.__recentlyCode(true)
+      }
     }
   },
   created () {
@@ -222,13 +227,13 @@ export default {
       else this.scrollAtBottom = false
     },
     // 获得当前已开奖信息
-    __recentlyCode () {
-      if (this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
+    __recentlyCode (noloop) {
+      if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
       this.$http.post(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0) {
           let lst = data.items[0] || {}
-          if (this.NPER === lst.issue + '') {
+          if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
               this.__recentlyCode()
