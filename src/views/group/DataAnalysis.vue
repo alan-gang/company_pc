@@ -19,18 +19,18 @@
           | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-blue {{ me.account }}
           span(style="padding-left: 2rem") 我的昵称：&nbsp;&nbsp;&nbsp;&nbsp;
-          span(style="color: #333") {{ me.name }}
+          span.text-black {{ me.name }}
 
         .item.block
           | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount.gradient {{ data.totalBalance || 0}}
-          span(style="color: #333")  元 
+          span.text-black  元 
           span.text-money  &nbsp;{{ textMoney }}
 
         .item.block
           | 团队总人数：&nbsp;&nbsp;&nbsp;
           span.amount {{ data.userCount || 0 }}
-          span(style="color: #333") 人 
+          span.text-black 人 
         
         .item.block
           span(style="position: relative; top: -.25rem") 团队活跃用户：
@@ -38,14 +38,14 @@
 
             label
               span.amount {{ data.userActivity || 0}}
-              span(style="color: #333") 人 
+              span.text-black 人 
               span.text-money (有活动的)
 
             br
 
             label
               span.amount {{ data.buyUserCount || 0 }}
-              span(style="color: #333") 人 
+              span.text-black 人 
               span.text-money (有投注的)
 
         

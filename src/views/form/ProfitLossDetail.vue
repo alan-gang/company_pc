@@ -20,7 +20,7 @@
           el-table-column(prop="nickName" label="用户名" width="100")
             template(scope="scope")
                 span {{ nickName }}
-          el-table-column(prop="day" label="日期" width="100" sortable)
+          el-table-column(prop="day" label="日期" width="100" sortable="true")
           el-table-column(prop="userPoint" label="返点级别" width="80" )
             template(scope="scope")
               span {{ userPoint }}

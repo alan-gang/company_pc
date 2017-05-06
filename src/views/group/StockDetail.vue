@@ -9,7 +9,7 @@
     .contract.scroll-content(:class="{ center: !stock }")
 
       div(v-if="stock" style="margin: .3rem" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
-        h2(style="color: #333; margin: .3rem 0; text-align: center") 分红详情
+        h2.text-black(style="margin: .3rem 0; text-align: center") 分红详情
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.nickName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
         p.item 本期时间：{{ stock.times }}
@@ -205,7 +205,7 @@
   .contract
     top TH
     radius()
-    background #fff
+    // background #fff
     // text-align left
     &.center:after
       content ''

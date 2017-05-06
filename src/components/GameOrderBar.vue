@@ -121,7 +121,7 @@ export default {
   @import '../var.stylus'
   .el-row
     width 100%
-    color #666
+    // color #666
     background-color #fff
     &.fixed
       position absolute

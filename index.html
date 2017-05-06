@@ -212,8 +212,8 @@
                        <i class="icon avatar" data-ng-class="[currentContact.img, currentContact.stat == 1 ? 'online': 'offline' ]" ></i>
                        <div>
                            <p class="ellipsis">{{ currentContact.nickname || currentContact.text || '陌生人' }}</p>
-                           <span class="status-describe" data-ng-show="currentContact.id != 'def_top_group' " >{{ currentContact.stat== 1  ? '在线': '离线' }} </span>
-                           <i class="icon" data-ng-show=" currentContact.id != 'def_top_group' && currentContact.id != 'def_str_group'  && currentContact.stat == 1 " data-ng-class="[ currentContact.stat == 1 ? 'online': 'offline' ]"></i>
+                           <span class="status-describe" data-ng-show=" currentContact.gid" >{{ currentContact.stat== 1  ? '在线': '离线' }} </span>
+                           <i class="icon" data-ng-show=" currentContact.gid " data-ng-class="[ currentContact.stat == 1 ? 'online': 'offline' ]"></i>
                        </div>
                    </div>
                    
@@ -227,8 +227,14 @@
 
                        <ul id="message-box"  data-pull-fresh="up" data-client-Height="msgClientHeight" data-trigger = "getChatMessageList" data-progress="chatListProgress" data-in-progress=" requestSend " data-is-disabled = " !currentContact.gid " >
                            <li class="item message" data-ng-repeat="message in (currentContact.messages|| []) track by $index" data-ng-class="{self: (message.receiverId &&  message.receiverId != $parent.id) || (!message.receiverId && message.isAdminSend == '0')  }" data-ng-switch="message.type">
+                               
+                               <div  class="time-division-line " data-ng-show="$index == 0" > {{ currentContact.messages[$index].sendTime| getDateByString | date: 'yyyy-MM-dd' }} </div>
+                              
                                <i class="icon chat" data-ng-class="[message.senderId != $parent.id && currentContact.state, message.senderId != $parent.id && currentContact.img, ( (message.receiverId &&  message.receiverId != $parent.id) || (!message.receiverId && message.isAdminSend == '0') )&& $parent.mySelf.img ]" ></i>
                                
+                              
+
+
                                <div class="message-content" data-ng-class="[message.styleClass]" data-ng-switch-when="text">
 
                                    <pre style="text-align: left" ng-bind-html="parseEmoticon(message.content) | stopwords | trust | addSpace:10 " data-ng-if="message.receiverId != $parent.id"></pre>
@@ -315,7 +321,7 @@
                          <span class="icon add-appendix"></span>
                        </span>
 
-                       <div class="upload-options" data-ng-show = "showUploadOptions" >
+                       <div class="upload-options" data-ng-show = "showUploadOptions" style="height: auto">
                          <div  class="upload-image"
                                class="upload-file"
                                ngf-select ng-model="files" 
@@ -327,7 +333,7 @@
                            图片
                            <span class="icon upload-image"></span>
                          </div>
-                          <div class="upload-file"
+                          <div data-ng-if=" !(currentContact.id === 'ICHAT_ASST_001' || currentContact.id === 'ICHAT_STAFF_747' || currentContact.id === 'ICHAT_STAFF_380') " class="upload-file"
                              ngf-select ng-model="files" 
                              accept=""
                              ngf-multiple="true"
@@ -591,14 +597,15 @@
     <script>
       // <!-- 用户配置 -->
       window.chatConfig ={
-        rootPath: '192.168.169.41:9012', 
-        // rootPath: '192.168.169.119:8080', 
-        path: 'ichatClient', 
-        pltCd: '102'
+        // rootPath: '192.168.169.41:9012', 
+        // // rootPath: '192.168.169.119:8080', 
+        // path: 'ichatClient', 
+        // pltCd: '102'
       }
     </script>
      <script type="text/javascript">
-         document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
+         // document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
+         document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")
     </script>
 
 

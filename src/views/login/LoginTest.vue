@@ -84,21 +84,23 @@
       },
       test () {
         // this.frontList = ['http://www.baidu.com']
-        this.frontList.forEach((url, i) => {
+        !this.server && this.frontList.forEach((url, i) => {
           this.testAline(url, i, 'frontTimeList')
         })
         this.serverList.forEach((url, i) => {
-          this.testAline(url, i, 'serverTimeList')
+          // this.testAline(url, i, 'serverTimeList')
           this.testAline(url + '/login/login.do?method=getVerifyImage', i, 'serverTimeList')
         })
       },
       testAline (url, i, timeList) {
         const st = new Date().getTime()
-        this.$http.jsonp(url).then(() => {
-          // const et = new Date().getTime()
-          // this[timeList][i] = (et - st) / 1000
+        this.$http.jsonp(url).then((rep) => {
         }, (rep) => {
-          this[timeList][i] = '> 1000'
+          // if (rep.status !== 0) {
+          //   setTimeout(() => {
+          //     this.$set(this[timeList], i, '> 1000')
+          //   }, 0)
+          // }
         }).finally((rep) => {
           const et = new Date().getTime()
           const v = this.getValue(et - st)

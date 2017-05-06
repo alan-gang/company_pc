@@ -46,7 +46,7 @@
         label
           .ds-button.secondary(v-bind:class="{ disabled: pt_ }")
             span(v-if="!pt_") 发送验证码
-            span(v-if="pt_" style="color: #333") {{ pt_ }} 
+            span.text-black(v-if="pt_" ) {{ pt_ }} 
                 span(style="color: #999") 秒后可重新发送
 
 
@@ -61,7 +61,7 @@
         label
           .ds-button.secondary(v-bind:class="{ disabled: et_ }")
             span(v-if="!et_") 发送验证码
-            span(v-if="et_" style="color: #333") {{ et_ }} 
+            span.text-black(v-if="et_" ) {{ et_ }} 
                 span(style="color: #999") 秒后可重新发送
 
 

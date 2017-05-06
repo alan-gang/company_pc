@@ -81,7 +81,7 @@
 
               el-col(:span="14")
                 span.text-green.ds-icon-set(v-if="me.name") 已设置
-                span.text-ellipsis( v-if="me.name" style="max-width: 70%; color: #000"  v-bind:title="me.name") &nbsp;&nbsp;{{ me.name }}
+                span.text-ellipsis( v-if="me.name" style="max-width: 70%; "  v-bind:title="me.name") &nbsp;&nbsp;{{ me.name }}
                 span.text-danger.ds-icon-unset(v-if="!me.name") 未设置
 
               el-col(:span="4").toggle
@@ -103,7 +103,7 @@
 
             el-col(:span="14")
               span.text-green.ds-icon-set(v-if="me.greeting") 已设置
-              span.text-ellipsis( v-if="me.greeting" style="max-width: 70%; color: #000" v-bind:title="me.greeting")  &nbsp;&nbsp;{{ me.greeting }}
+              span.text-ellipsis( v-if="me.greeting" style="max-width: 70%; " v-bind:title="me.greeting")  &nbsp;&nbsp;{{ me.greeting }}
               span.text-danger.ds-icon-unset(v-if="!me.greeting") 未设置
 
             el-col(:span="4").toggle
@@ -113,7 +113,7 @@
             
             .nickname-form.form
               div(style="text-align: center; ")
-                input.ds-input(:placeholder="greeting" style="width: 82%" v-model="greeting" maxlength="50")
+                input.ds-input(:placeholder="greetingPlaceholder" style="width: 82%" v-model="greeting" maxlength="50")
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       // 手机绑定
@@ -124,7 +124,7 @@
 
             el-col(:span="14").phone
               span.text-green.ds-icon-set(v-if="me.phone") 已设置
-              span(style="color: #000" v-if="me.phone")  {{ me.phone }}
+              span.text-black(v-if="me.phone")  {{ me.phone }}
               span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
 
             el-col(:span="4").toggle
@@ -139,15 +139,15 @@
                 input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
-                  span(v-if="pt_" style="color: #333") {{ pt_ }} 
-                    span(style="color: #999") 秒后可重新发送
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
               
               p(v-if="me.phone") 解绑手机：
                 span {{ me.phone }}
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
-                  span(v-if="pt_" style="color: #333") {{ pt_ }} 
-                    span(style="color: #999") 秒后可重新发送
+                  span.text-black(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
 
               p 验证码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="pc_")
@@ -164,7 +164,7 @@
 
             el-col(:span="14").email
               span.text-green.ds-icon-set(v-if="me.email") 已设置
-              span(style="color: #000" v-if="me.email")  {{ me.email }}
+              span.text-black(v-if="me.email")  {{ me.email }}
               span.text-danger.ds-icon-unset(v-if="!me.email") 未设置
 
             el-col(:span="4").toggle
@@ -179,15 +179,15 @@
                 input.ds-input.large(v-model="email")
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendMail"  v-bind:class="{ disabled: et_ }" v-bind:disabled="et_ > 0") 
                   span(v-if="!et_") 发送验证码
-                  span(v-if="et_" style="color: #333") {{ et_ }} 
-                    span(style="color: #999") 秒后可重新发送
+                  span.text-black(v-if="et_") {{ et_ }} 
+                    span.text-999 秒后可重新发送
               
               p(v-if="me.email") 解绑邮箱：
                 span {{ me.email }}
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendMail"  v-bind:class="{ disabled: et_ }" v-bind:disabled="et_ > 0") 
                   span(v-if="!et_") 发送验证码
-                  span(v-if="et_" style="color: #333") {{ et_ }} 
-                    span(style="color: #999") 秒后可重新发送
+                  span.text-black(v-if="et_") {{ et_ }} 
+                    span.text-999 秒后可重新发送
 
               p 验证码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="ec_")
@@ -260,8 +260,8 @@
                 input.ds-input.large(v-model="safeCheckCode")
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) > 0") 
                   span(v-if="!((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
-                  span(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)" style="color: #333") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
-                    span(style="color: #999") 秒后可重新发送
+                  span.text-black(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
+                    span.text-999 秒后可重新发送
 
 
             .buttons(style="margin: .2rem 0; padding-top: 0")
@@ -647,6 +647,8 @@ export default {
   @import '../../var.stylus'
   H = .7rem
   W = .5rem
+  .text-ellipsis
+    color #000
   .me-page[w='800']
   .me-page[w='700']
     .me-sideview

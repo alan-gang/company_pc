@@ -1,0 +1,194 @@
+@import './var.stylus'
+border = 1px solid #5a5a5a
+body.night
+  outline 10rem solid rgba(0,0,0, .5)
+  outline-offset -10rem
+.app.night
+  // common
+  .dialog-page
+    .text-black
+    .amount
+      color #ccc
+    .text-666
+      color #aaa
+    a
+      color #aaa
+  // 1. change background of dialog-page
+  .dialog-page
+    background-color #333
+    &.active .tool-bar
+      background-color #444
+    .tool-bar
+      position relative
+      background-color rgba(0,0,0,0)
+      &:before
+        content ''
+        position absolute
+        top 0
+        right 0
+        bottom 0
+        left 0
+        background linear-gradient(180deg, #333, #222)
+        z-index -1
+      
+    .game-info
+      background-color #333
+    .inner-bar
+      bg-gradient(180deg, #555, #444)
+    .game-selection
+      .signal
+        background-color #444
+      .ds-icon-PK10 .the-number
+        background-color #333
+        // border border
+        shadow(0 0 0 .02rem #5a5a5a)
+      .dice .side
+        bg-gradient(180deg, #000, #000)
+    .activity-center .section:hover
+      background-color #444
+    .gift-center .ticket
+      border border
+      background-color #444
+      
+    
+  // 2. change color of dialog-page
+  .dialog-page
+    color #aaa
+    .tool-bar .title
+      color #ccc
+    .game-info .title
+      color #aaa
+    .menu
+      color #aaa
+    .game-selection .numbers
+      color #ccc
+    .game-selection .action-buttons .ds-button
+      color #aaa
+      &:hover
+      &.selected
+        color #fff
+    .inner-bar
+      color #aaa
+      &.amout-bar
+        color #ccc
+    .follow-list .form
+      color #aaa
+    // me
+    .me-detail-info .base-info
+      color #ccc
+      .free
+      .luck-chance
+        color #aaa
+    .safe-detail-info 
+      .text-ellipsis
+        color #ccc
+      .el-row.static .title
+        color #ccc
+       & > .el-row:hover
+        background-color #666
+      .el-row.expand
+        background-color #222
+    // .el-pagination button.disabled
+    .el-pagination button.disabled
+      color #666
+     
+  
+  // 3. change button of dialog-page
+  .dialog-page
+    .ds-button
+      &.secondary
+        background #444
+      &.outline
+        color #aaa
+        background-color #444
+        border border
+        &:hover
+          border-color BLUE
+      &.text-button
+        color #aaa
+        &:hover
+          color BLUE
+      &.disabled
+        background #666
+      
+        
+        
+  
+  // 4. change input of dialog-page
+  .dialog-page
+    input
+      color #aaa
+      background-color #444
+      border border
+      &:hover
+        border-color BLUE
+  
+  // 5. change ds-group of dialog-page
+  .dialog-page
+    .ds-button-group
+      background-color #444
+      border border 
+      height .32rem
+      .ds-button
+        background-color #444
+        &.selected
+          color #fff
+          background-color BLUE
+  
+  // 6. change el-slider of dialog-page
+  .dialog-page
+    .el-slider .el-slider__button
+      background-color #444
+    .el-slider .el-slider__bar
+      background-color #6e6e6e
+    .el-slider .el-slider__runway
+      background-color #959595
+  
+  // 7. change ds-checkbox of dialog-page
+  .dialog-page
+    .ds-checkbox-label
+      color #aaa
+      &:not(.disabled):hover .ds-checkbox
+        border-color BLUE
+    .ds-checkbox
+      background-color #444
+      border border
+      &:hover
+        border-color BLUE
+  
+  // 8. change el-table of dialog-page
+  .dialog-page
+    .el-table
+      color #aaa
+      tr.selected-row td
+        background-color #45393a
+    .el-table--enable-row-hover tr:hover>td
+      background-color #343d43
+    
+      
+    
+  // 9. change ds-radio of dialog-page
+  .dialog-page
+    .ds-radio-label
+      color #aaa
+      &:not(.disabled):hover .ds-radio
+        border-color BLUE
+    .ds-radio
+      background-color #444
+      border border
+      &:hover
+        border-color BLUE
+  // 10. change el-table
+  .dialog-page
+    .el-table th .cell
+      color #ccc
+    
+  
+
+      
+      
+     
+  
+      
+      
+  

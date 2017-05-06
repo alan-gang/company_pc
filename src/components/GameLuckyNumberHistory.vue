@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-luck-number-history.scroll-content(:class=" {empty: allLuckyNumbers.length === 0} ")
     <!-- 开奖信息 -->
-    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.code.split(',')" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
+    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
 </template>
 

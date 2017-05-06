@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  div#app
+  div#app(:class=" [state.user.model, 'app'] ")
 
     // header
     transition(name="slide-up" appear=true)
@@ -33,6 +33,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      // skin: 'day',
       maxPages: 10,
       state: store.state,
       tabs: [],
@@ -336,7 +337,10 @@ export default {
                   id: '3-4-2',
                   menuid: '48',
                   title: '团队图表分析',
-                  url: 'ChartAnalysis'
+                  url: 'ChartAnalysis',
+                  position: {
+                    'min-width': '9.5rem'
+                  }
                 }
               ]
             }
@@ -387,18 +391,19 @@ export default {
                 // }
               ]
             },
-            {
-              id: '4-3',
-              title: '跟单记录',
-              items: [
-                {
-                  id: '4-3-1',
-                  menuid: '56',
-                  title: '跟单记录',
-                  url: 'FollowOrder'
-                }
-              ]
-            },
+            // @TODO @next
+            // {
+            //   id: '4-3',
+            //   title: '跟单中心',
+            //   items: [
+            //     {
+            //       id: '4-3-1',
+            //       menuid: '56',
+            //       title: '跟单中心',
+            //       url: 'FollowOrder'
+            //     }
+            //   ]
+            // },
             {
               id: '4-4',
               title: '今日报表',
@@ -434,16 +439,16 @@ export default {
                     width: '12rem'
                   },
                   url: 'Account'
-                },
-                {
-                  id: '4-5-3',
-                  menuid: '60',
-                  title: '走势图',
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
                 }
+                // {
+                //   id: '4-5-3',
+                //   menuid: '60',
+                //   title: '走势图',
+                //   position: {
+                //     width: '16.3rem'
+                //   },
+                //   url: 'TrendChart'
+                // }
               ]
             }
           ]
@@ -686,6 +691,8 @@ export default {
 <style lang="stylus">
   @import './var.stylus'
   @import './main.stylus'
+  @import './night.stylus'
+  // @import './chat.night.stylus'
   
   html
     height 100%
@@ -780,5 +787,6 @@ export default {
       z-index 1
     &[class*=-enter]
       transform none
+
 
 </style>

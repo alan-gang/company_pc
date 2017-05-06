@@ -45,7 +45,7 @@
       pt_ () {
         if (this.pt_ === this.time_) {
           let t = setInterval(() => {
-            if (this.pt_ > 1) this.pt_--
+            if (this.pt_ > 0) this.pt_--
             else clearInterval(t)
           }, 1000)
         }
@@ -53,7 +53,7 @@
       et_ () {
         if (this.et_ === this.time_) {
           let t = setInterval(() => {
-            if (this.et_ > 1) this.et_--
+            if (this.et_ > 0) this.et_--
             else clearInterval(t)
           }, 1000)
         }

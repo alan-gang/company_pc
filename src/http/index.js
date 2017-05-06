@@ -20,6 +20,7 @@ export default (Vue) => {
         return req
       },
       response (rep) {
+        // console.log(rep, '?????')
         // 用户过期
         if (rep.data && rep.data.success === -1 && !M) {
           // if (store.state.user.login) {

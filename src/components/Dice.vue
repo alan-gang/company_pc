@@ -1,56 +1,56 @@
 <template lang="jade">
-  .dice(v-bind:class=" 'has-side-' + value ")
+  .dice(v-bind:class=" 'has-side-' + v_ ")
     // special with text
-    .side.front(v-if="text") {{ value }}
+    .side.front(v-if="text") {{ v_ }}
 
     // 1
-    .side.front(v-if="value === 1 || value === 'all' ")
+    .side.front(v-if="v_ === 1 || v_ === 'all' ")
       span.dot.center
-    .side.front.inner(v-if="value === 'all' ")
+    .side.front.inner(v-if="v_ === 'all' ")
     
     // 2
-    .side.top(v-if="value === 2 || value === 'all' ")
+    .side.top(v-if="v_ === 2 || v_ === 'all' ")
       span.dot.dtop.dleft
       span.dot.dbottom.dright
-    .side.top.inner(v-if="value === 'all' ")
+    .side.top.inner(v-if="v_ === 'all' ")
     
     // 3
-    .side.right(v-if="value === 3 || value === 'all' ")
+    .side.right(v-if="v_ === 3 || v_ === 'all' ")
       span.dot.dtop.dright
       span.dot.center
       span.dot.dbottom.dleft
-    .side.right.inner(v-if="value === 'all' ")
+    .side.right.inner(v-if="v_ === 'all' ")
     
     // 4
-    .side.left(v-if="value === 4 || value === 'all' ")
+    .side.left(v-if="v_ === 4 || v_ === 'all' ")
       span.dot.dtop.dleft
       span.dot.dtop.dright
       span.dot.dbottom.dleft
       span.dot.dbottom.dright
-    .side.left.inner(v-if="value === 'all' ")
+    .side.left.inner(v-if="v_ === 'all' ")
     
     // 5
-    .side.bottom(v-if="value === 5 || value === 'all' ")
+    .side.bottom(v-if="v_ === 5 || v_ === 'all' ")
       span.dot.center
       span.dot.dtop.dleft
       span.dot.dtop.dright
       span.dot.dbottom.dleft
       span.dot.dbottom.dright
-    .side.bottom.inner(v-if="value === 'all' ")
+    .side.bottom.inner(v-if="v_ === 'all' ")
     
     // 6
-    .side.back(v-if="value === 6 || value === 'all' ")
+    .side.back(v-if="v_ === 6 || v_ === 'all' ")
       span.dot.dtop.dleft
       span.dot.dtop.dright
       span.dot.dbottom.dleft
       span.dot.dbottom.dright
       span.dot.center.dleft
       span.dot.center.dright
-    .side.back.inner(v-if="value === 'all' ")
+    .side.back.inner(v-if="v_ === 'all' ")
 
-    .side.cover.x(v-if="value === 'all'")
-    .side.cover.y(v-if="value === 'all'")
-    .side.cover.z(v-if="value === 'all'")
+    .side.cover.x(v-if="v_ === 'all'")
+    .side.cover.y(v-if="v_ === 'all'")
+    .side.cover.z(v-if="v_ === 'all'")
     
 </template>
 
@@ -63,8 +63,11 @@
       }
     },
     computed: {
+      v_ () {
+        return parseInt(this.value || 0)
+      },
       text () {
-        return this.vs.indexOf(this.value) === -1
+        return this.vs.indexOf(this.v_) === -1
       }
     }
   }

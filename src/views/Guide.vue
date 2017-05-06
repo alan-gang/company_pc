@@ -98,7 +98,7 @@
             .form(v-if="step === 3 && bi === 1")
 
               .item(style="line-height: .5rem") 开户银行：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                p.banks(style="color: #333")
+                p.banks.text-black
                   span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
 
               p.item 开户银行省份：{{ province.title }}
@@ -106,7 +106,7 @@
               p.item 支行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ branchName }}
               p.item 开户人姓名：&nbsp;&nbsp;&nbsp;{{ name }}
               p.item 银行帐号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                span(style="color: #333") {{ cardNo }}
+                span.text-black {{ cardNo }}
              
               .buttons(style="margin-left: .95rem; padding-top: .05rem")
                 .ds-button.primary.large(@click="bindBankCard") 立即绑定

@@ -48,7 +48,7 @@
 
         div(style="padding: .4rem 2.03rem")
           .QR.ds-icon-QR(style="height: 1.96rem; width: 1.4rem; text-align: center")
-            p(style="color: #333; font-weight: bold; padding-top: 1.5rem;") 扫码注册
+            p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
 
         
 

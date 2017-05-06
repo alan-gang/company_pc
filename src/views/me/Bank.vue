@@ -37,7 +37,7 @@
 
           el-table-column(label="绑定时间")
             template(scope="scope")
-              span {{ scope.row.addtime }}
+              span {{ scope.row.addTime }}
 
           el-table-column(label="操作" min-width="60"  align="center")
             template(scope="scope")
@@ -70,7 +70,7 @@
             | 4. 一个游戏帐户只能绑定同一个开户人姓名的银行卡。
 
 
-        p.title(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0; color: #333") 您正在增加 
+        p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 您正在增加 
           span.text-blue {{ me.name }}
           |  帐号的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="bi > 0 ? bi-- : stepIndex--") {{ '<返回上一页' }}
@@ -115,7 +115,7 @@
         .form(style="margin: .2rem .4rem" v-if="bi === 1")
 
           .item(style="line-height: .5rem") 开户银行：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            p.banks(style="color: #333")
+            p.banks.text-black
               span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
 
             p.item 开户银行省份：{{ province.title }}
@@ -123,7 +123,7 @@
             p.item 支行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ branchName }}
             p.item 开户人姓名：&nbsp;&nbsp;&nbsp;{{ name }}
             p.item 银行帐号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              span(style="color: #333") {{ cardNo }}
+              span.text-black {{ cardNo }}
          
           .buttons(style="margin-left: .95rem; padding-top: .05rem")
             .ds-button.primary.large(@click="bindBankCard") 立即绑定
@@ -131,7 +131,7 @@
 
 
       .bank-form(v-if="stepIndex === 1 && type === 'unbind' ")
-        p.title(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0; color: #333") 您正在解绑 
+        p.title.text-black(style="margin: .2rem  .2rem .2rem .4rem") 您正在解绑 
           span.text-blue {{ me.name }} 
           | 的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
@@ -141,7 +141,7 @@
 
         .form(style="margin: .2rem .4rem" v-if="i === 0")
           .item(style="line-height: .5rem") 已绑定的银行卡：
-            p.banks(style="color: #333")
+            p.banks.text-black
               span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
               | {{ bank.cardNo }}
           
@@ -158,11 +158,11 @@
 
         .form(style="margin: .2rem" v-if="i === 1")
           .item(style="line-height: .5rem") 开户银行：
-            p.banks(style="color: #333")
+            p.banks.text-black
               span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
           
           p.item 银行帐号：&nbsp;{{ bank.cardNo }}
-          p.item(style="margin: .2rem 0") 绑定时间：&nbsp;{{ bank.addtime }}
+          p.item(style="margin: .2rem 0") 绑定时间：&nbsp;{{ bank.addTime }}
           p.item 资金密码：&nbsp;
             input.ds-input.large(v-model="cpwd" type="password")
         
@@ -186,7 +186,7 @@
 
 
 
-        p.title(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0; color: #333") 您正在锁定 
+        p.title.text-black(style="margin: .2rem  .2rem .2rem .4rem") 您正在锁定 
           span.text-blue {{ me.name }}
           |   帐号的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
@@ -199,7 +199,7 @@
             div.banks(style="color: #333; display: inline-block")
               div(v-for=" bank in myBanks ")
                 .ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ") 
-                span(style="color: #333")  {{ bank.cardNo}}
+                span.text-black  {{ bank.cardNo}}
           
           
           p.item 资金密码： 
@@ -217,7 +217,7 @@ import { BANKS } from '../../util/static'
 import api from '../../http/api'
 import store from '../../store'
 import Validate from '../../util/Validate'
-import { dateTimeFormat } from '../../util/Date'
+// import { dateTimeFormat } from '../../util/Date'
 export default {
   data () {
     return {
@@ -328,7 +328,7 @@ export default {
         if (data.success === 1) {
           this.myBanks = data.userBankCards
           this.myBanks.forEach(c => {
-            c.addtime = dateTimeFormat(c.addTime.time)
+            c.addTime = c.addTime
             c.cardNo = '*****' + c.cardNo.slice(-4)
             c.class = BANKS.find(b => b.apiName === c.apiName)['class']
           })
@@ -368,6 +368,7 @@ export default {
           this.$modal.success({
             content: '恭喜您，绑定成功！',
             target: this.$el,
+            btn: ['确定'],
             close () {
               this.stepIndex = 0
               this.bi = 0
@@ -430,10 +431,10 @@ export default {
           this.clearBankCard()
           this.cpwd = ''
         } else {
-          this.$message.error({target: this.$el, message: data.msg || '银行绑定失败！'})
+          this.$message.error({target: this.$el, message: data.msg || '银行解绑失败！'})
         }
       }).catch(({data}) => {
-        this.$message.error({target: this.$el, message: data.msg || '银行绑定失败！'})
+        this.$message.error({target: this.$el, message: data.msg || '银行解绑失败！'})
       }).finally(rep => {
         setTimeout(() => {
           loading && loading.close()

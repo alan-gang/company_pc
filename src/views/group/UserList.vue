@@ -46,11 +46,11 @@
           el-table-column(class-name="pointer text-blue" prop="userId" label="下级" width="50" align="left")
 
 
-          el-table-column(prop="nickName" sortable label="用户名" width="100")
+          el-table-column(prop="nickName"  label="用户名" width="100")
 
-          el-table-column(prop="teamBalance" sortable label="余额" width="120" align="right")
+          el-table-column(prop="teamBalance"  label="余额" width="120" align="right")
 
-          el-table-column(prop="userPoint" sortable label="返点级别" align="right" width="100")
+          el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
 
           el-table-column.pl1(class-name=" pl2 pr1" prop="registerTime" label="注册时间" width="160" align="left")
 
@@ -74,7 +74,7 @@
 
       // 充值
       div(v-if="stepIndex === 1 && stepType === 'topUp' ")
-        p.title(style="margin: .2rem 0 .2rem .2rem; color: #333") 您正在给下级用户 
+        p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
           span.text-blue {{ user.name }}
           |  进行充值
           span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
@@ -100,7 +100,7 @@
       // 升点、降点
       div(v-if="stepIndex === 1 && stepType === 'point' ")
 
-        p.title(style="margin: .2rem 0 .2rem .2rem; color: #333") 您正在给下级用户 
+        p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
           span.text-blue {{ user.nickName }}
           |  进行调点
           span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
@@ -108,7 +108,7 @@
         p(style="text-align: center; margin-top: .2rem") 帐号: 
           span.text-blue {{ user.userName }} 
           | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-          span(style="color: #333") {{ user.nickName }} 
+          span.text-black {{ user.nickName }} 
           | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
           span.text-danger {{ user.userPoint }}
         div(style="text-align: center; margin-top: .1rem")
@@ -181,7 +181,7 @@
       
       // 开户额
       div(v-if="stepIndex === 1 && stepType === 'open' ")
-        p.title(style="margin: .2rem 0 .2rem .2rem; color: #333") 您正在给下级用户 
+        p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.nickName }}
             |  调整开户额
             span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
@@ -189,13 +189,13 @@
           p(style="text-align: center; margin-top: .2rem") 帐号: 
             span.text-blue {{ user.name }} 
             | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-            span(style="color: #333") {{ user.nickName }} 
+            span.text-black {{ user.nickName }} 
             | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
             span.text-danger {{ user.userPoint }}
 
         div(style="padding: 0 1rem")
 
-          el-table.header-bold.margin(:data="openUserData" v-bind:row-class-name="tableRowClassName" style="margin: .2rem")
+          el-table.header-bold.margin(:data="openUserData" v-bind:row-class-name="tableRowClassName" style="margin: .2rem auto; width: 6rem")
 
             el-table-column(prop="point" label="开户级别" align="center" width="120")
 
@@ -290,6 +290,10 @@
       this.getUserList()
     },
     methods: {
+      // sortByteamBalance (a, b) {
+      //   console.log(a, b)
+      //   return a > b
+      // },
       cellClick (row, column, cell, event) {
         if (column.property === 'userId') {
           this.BL.push({

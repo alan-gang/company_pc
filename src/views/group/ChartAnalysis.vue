@@ -13,7 +13,7 @@
         .ds-button.text-button(:class="{ selected: type === 2 } " @click="type = 2" ) 团队盈亏图表
       
       // LineChart.line-chart(style="width: 10rem height: 6rem")
-      .filters(style="width: 2rem; position: absolute; right: 0; top: 1.2rem; line-height: .4rem; z-index: 1; text-align: left")
+      .filters(style="width: 1.6rem; position: absolute; right: .2rem; top: 1.2rem; line-height: .4rem; z-index: 1; text-align: left")
         .ds-radio-label(:class="{active: timeType === 0 }" @click=" timeType = 0 ")
           .ds-radio.white
           | 最近一周
@@ -81,6 +81,7 @@
 
   import api from '../../http/api'
   import { dateFormat } from '../../util/Date'
+  import store from '../../store'
 
   export default {
     components: {
@@ -89,6 +90,7 @@
     },
     data () {
       return {
+        me: store.state.user,
         type: 0,
         url: [api.teamStatistic, api.getTeamSale, api.getTeamProfit],
         timeType: 1,
@@ -174,15 +176,102 @@
       }
     },
     computed: {
+      defaultLegend () {
+        return this.me.model === 'night' ? {
+          borderWidth: 0,
+          borderColor: '#ccc',
+          textStyle: {
+            color: '#ccc'
+          }
+        } : {
+          borderWidth: 0,
+          borderColor: '#333',
+          textStyle: {
+            color: '#333'
+          }
+        }
+      },
+      defaultXAxis () {
+        return this.me.model === 'night' ? {
+          axisLabel: {
+            textStyle: {
+              color: '#ccc'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#ccc'
+            }
+          }
+        } : {
+          axisLabel: {
+            textStyle: {
+              color: '#333'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#333'
+            }
+          }
+        }
+      },
+      defaultYAxis () {
+        return this.me.model === 'night' ? {
+          axisLabel: {
+            textStyle: {
+              color: '#ccc'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#ccc'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: ['#666']
+            }
+          }
+        } : {
+          axisLabel: {
+            textStyle: {
+              color: '#333'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#333'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: ['#ccc']
+            }
+          }
+        }
+      }
     },
     watch: {
       type () {
         this.loading = true
-        this.CHART.clear()
+        // this.CHART.clear()
         this.getData()
+        // setTimeout(() => {
+        //   this.CHART.setOption(this.line)
+        // }, 1000)
       },
       timeType () {
         this.getData()
+      },
+      defaultLegend: {
+        deep: true,
+        handler () {
+          this.line.legend = Object.assign(this.line.legend, this.defaultLegend)
+          this.line.xAxis = Object.assign(this.line.xAxis, this.defaultXAxis)
+          this.line.yAxis = Object.assign(this.line.yAxis, this.defaultYAxis)
+          this.CHART.setOption(this.line)
+        }
       }
     },
     mounted () {
@@ -206,16 +295,16 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.line.xAxis = {
+            this.line.xAxis = Object.assign({
               data: data.chartData.map(function (item) {
                 item.days += ''
                 return item.days.slice(0, 2) + '/' + item.days.slice(2, 4) + '/' + item.days.slice(4, 6)
               })
-            }
+            }, this.defaultXAxis)
             if (this.type === 0) {
-              this.line.legend = {
+              this.line.legend = Object.assign({
                 data: ['总人数', '活跃人数', '参与游戏人数']
-              }
+              }, this.defaultLegend)
               this.line.series = [{
                 name: '总人数',
                 type: 'line',
@@ -273,9 +362,9 @@
               }]
             }
             if (this.type === 1) {
-              this.line.legend = {
+              this.line.legend = Object.assign({
                 data: ['投注额', '中奖额']
-              }
+              }, this.defaultLegend)
               this.line.series = [{
                 name: '投注额',
                 type: 'line',
@@ -315,9 +404,9 @@
               }]
             }
             if (this.type === 2) {
-              this.line.legend = {
+              this.line.legend = Object.assign({
                 data: ['投注额', '中奖额', '中奖率', '返点额', '结算额']
-              }
+              }, this.defaultLegend)
               this.line.series = [{
                 name: '投注额',
                 type: 'line',
@@ -410,6 +499,7 @@
                 }
               }]
             }
+            this.CHART.setOption(this.line)
           } else loading.text = '数据获取失败'
         }, (rep) => {
           // error

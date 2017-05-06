@@ -35,7 +35,7 @@
             el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
         label.item 游戏模式 
-          el-select(clearable v-bind:disabled=" !MODES[0] " placeholder="全" v-model="mode" style="width: .5rem")
+          el-select(clearable v-bind:disabled=" !MODES[0] " placeholder="全" v-model="mode" style="width: .6rem")
             el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
 
         label.item 追号编号 

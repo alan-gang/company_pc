@@ -245,6 +245,14 @@ input
     &.hover
       color WHITE
       background-color BLUE
+      
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected
+  background-color BLUE
+  color #fff
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover
+  background-color BLUE-ACTIVE
+  
+
   
 /*
  *rewrite el-slider
@@ -393,43 +401,6 @@ input
     .el-table__body-wrapper
       // padding-right .3rem
       // max-height TABLEH
-/*
- *rewrite el-input-number
- */
-.el-input-number
-  // box-shadow 0 0 2px rgba(0,0,0,.2)
-  vertical-align middle
-  overflow visible
-  radius()
-  .el-icon-minus
-  .el-icon-plus 
-    display none
-  
-  &.text-danger
-    .el-input .el-input__inner 
-      color DANGER
-  
-  &.text-right
-    .el-input .el-input__inner 
-      text-align right
-
-.el-input .el-input__inner 
-  
-  height .3rem
-  line-height .3rem
-  color #333
-  padding 0 .1rem
-  font-size .14rem
-  background-color #fff
-  border .01rem solid #ccc
-  radius()
-  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
-  box-sizing border-box
-  &:hover
-    border-color BLUE
-  &:focus
-    border-color BLUE
-    // box-shadow 0 0 .05rem BLUE
 
   
 
@@ -512,6 +483,10 @@ input
   color #333
 .text-bbb
   color #bbb
+.text-666
+  color #666
+.text-999
+  color #999
 .text-orange
   color ORANGE
     
@@ -1140,10 +1115,13 @@ input
     width .4rem
     text-align center
     pointer text
-    .el-input
+    .el-input__inner
+    .el-input__inner:focus
+    .el-input__inner:hover
       box-shadow none
       border none
       
+    .el-input input.el-input__inner
     input
       box-shadow none
       border none
@@ -1335,6 +1313,7 @@ input
  */
 
 .ds-input
+  // vertical-align middle
   display inline-block
   height .3rem
   width 1.7rem
@@ -1347,12 +1326,26 @@ input
   radius()
   box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
   box-sizing border-box
+  // input
+  //   height .3rem
+  //   line-height .3rem
+  //   padding 0
+  //   border none
   &.block
     width 100%
   &.large
     width 2.2rem
   &.small
     width 1.2rem
+  // &.text-danger
+  //   input
+  //     color DANGER
+  // &.text-right
+  //   input
+  //     text-align right
+  // &.text-center
+  //   input
+  //     text-align center
   &:hover
     border-color BLUE
   &:focus
@@ -1363,6 +1356,47 @@ input
     color #999
     background-color #efefef
     opacity .7
+    
+/*
+ *rewrite el-input-number
+ */
+.el-input-number
+  box-shadow 0 0 2px rgba(0,0,0,.2)
+  vertical-align middle
+  overflow visible
+  radius()
+  .el-icon-minus
+  .el-icon-plus 
+    display none
+  
+  &.text-danger
+    .el-input .el-input__inner 
+      color DANGER
+  
+  &.text-right
+    .el-input .el-input__inner 
+      text-align right
+
+.el-input 
+  .el-input__inner 
+    height .3rem !important
+    line-height .3rem
+    color #333
+    padding 0 .12rem
+    font-size .14rem
+    background-color #fff
+    border .01rem solid #ccc
+    radius()
+    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+    box-sizing border-box
+    &:hover
+      border-color BLUE
+    &:focus
+      border-color BLUE
+      box-shadow 0 0 .05rem BLUE
+  
+  
+
   
     
 .text-ellipsis

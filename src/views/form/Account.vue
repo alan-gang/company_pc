@@ -10,15 +10,15 @@
       .form
         
         label.item 类型 
-          el-select(v-model="type" style="width: 1.2rem")
+          el-select(multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
             el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
         label.item 帐变时间范围 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围")
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
         
         label.item 资金 
-          el-select(v-model="isFree" style="width: .8rem")
+          el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
             el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
         label.item 用户名 
@@ -26,38 +26,38 @@
 
 
         label.item 范围 
-          el-select(v-model="zone" style="width: .8rem")
+          el-select(clearable placeholder="全" v-model="zone" style="width: .8rem")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
         
         .item
-          el-select(v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
+          el-select(clearable  v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
             el-option(v-for="(U, i) in QUERYS" v-bind:label="U" v-bind:value="i")
           el-input(v-model="id" style="width: 1.5rem")
         
         label.item 游戏名称 
-          el-select(v-model="game" style="width: 1.5rem; ")
+          el-select(clearable placeholder="全" v-model="game" style="width: 1.5rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U")
 
         label.item 玩法 
-          el-select(v-model="method" style="width: 1.5rem")
+          el-select(clearable placeholder="全" v-model="method" style="width: 1.5rem")
             el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
 
         label.item 奖期 
-          el-select(v-model="issue" style="width: 1.5rem" filterable)
+          el-select(clearable placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
             el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U")
 
         label.item 模式 
-          el-select(v-model="mode" style="width: .5rem" placeholder="..")
+          el-select(clearable placeholder="全" v-model="mode" style="width: .6rem" )
             el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
 
 
         label.item.block(style="margin-left: .32rem") 快速查询：
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我充值的..
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我提现的..
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我投注的..
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我追号的..
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我的奖金..
-          span.ds-button.text-button.blue(style="padding: 0 .05rem") 我的返点..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 我充值的..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 我提现的..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 我投注的..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 我追号的..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 我的奖金..
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 我的返点..
         
 
         .buttons(style="margin-left: .3rem")
@@ -131,6 +131,7 @@
   export default {
     data () {
       return {
+        clearableOnTime: false,
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
@@ -161,6 +162,7 @@
             return time.getTime() > Date.now()
           }
         },
+        defaultStEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
         stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
         ISFREE: ['现金', '优惠券'],
         isFree: '',
@@ -173,7 +175,10 @@
         MODES: ['元', '角', '分', '厘'],
         mode: '',
         TYPES: '',
-        type: '',
+        multipleSelectStyle: {minWidth: '1.5rem'},
+        typeMax: 5,
+        type: [],
+        preTypeLength: 0,
         id: '',
         name: '',
         ZONES: ['自己', '直接下级', '所有下级'],
@@ -200,6 +205,27 @@
       }
     },
     watch: {
+      stEt: {
+        deep: true,
+        handler () {
+          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+        }
+      },
+      type (o, n) {
+        // this.preTypeLength = o.length
+        this.preTypeLength > n.length ? setTimeout(() => {
+          this.multipleSelectStyle = {
+            minWidth: '1.5rem',
+            height: '.3rem',
+            width: this.type.length + 0.5 + 'rem'
+          }
+        }, 300) : this.multipleSelectStyle = {
+          minWidth: '1.5rem',
+          height: '.3rem',
+          width: this.type.length + 0.5 + 'rem'
+        }
+        this.preTypeLength = n.length
+      },
       game () {
         this.getMethods()
         this.getRecentIssueList()
@@ -225,6 +251,36 @@
       this.list()
     },
     methods: {
+      myTopup () {
+        this.clear()
+        this.type = [1]
+        this.list()
+      },
+      myWithdraw () {
+        this.clear()
+        this.type = [2, 3, 4]
+        this.list()
+      },
+      myOrder () {
+        this.clear()
+        this.type = [7]
+        this.list()
+      },
+      myFollow () {
+        this.clear()
+        this.type = [9]
+        this.list()
+      },
+      myBonus () {
+        this.clear()
+        this.type = [12, 16]
+        this.list()
+      },
+      myPoint () {
+        this.clear()
+        this.type = [11, 15]
+        this.list()
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -238,8 +294,8 @@
         })
       },
       clear () {
-        this.st = ''
-        this.et = ''
+        // this.st = ''
+        // this.et = ''
         this.isFree = ''
         this.game = {}
         this.method = {}
@@ -248,7 +304,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
-        this.type = ''
+        this.type = []
         this.query = ''
       },
       cancel () {
@@ -279,9 +335,9 @@
         // OrderReport.do?method=list&orderId=7&beginDate=20170201000000&endDate=20170303000000&isFree=1&userName=test&scope=1&serialType=2&serialValue=3397&lotteryId=1&methodId=37&issueId=1111&modes=11&page=1&pageSize=20
         if (!fn) {
           this.preOptions = {
-            orderId: this.type,
+            orderId: this.type.join(','),
             beginDate: dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[-:\s]/g, ''),
-            endDate: dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[-:\s]/g, ''),
+            endDate: dateTimeFormat(new Date(this.stEt[1]).getTime() + 24 * 3600 * 1000).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
             scope: this.zone,

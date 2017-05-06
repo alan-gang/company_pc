@@ -46,7 +46,7 @@
       
 
       div(v-if="stepIndex === 1 ")
-        p.title(style="padding: .1rem 0 .1rem .2rem; color: #333")
+        p.title.text-black
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
 
 
@@ -55,7 +55,7 @@
           p.item.block
             span.text-danger *
             | 用户名：&nbsp;&nbsp;&nbsp;&nbsp;
-            span(style="color: #333") {{ user.nickName }}
+            span.text-black {{ user.nickName }}
 
           .item.block
             span.text-danger *
@@ -70,36 +70,36 @@
           //   span.text-danger *
           //   | 按时间：
  
-          //   label(style="color: #333; padding: 0 .1rem").ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
+          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
           //     span.ds-radio.white
           //     | 月
  
-          //   label(style="color: #333; padding: 0 .1rem").ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
+          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
           //     span.ds-radio.white
           //     | 周
  
-          //   label(style="color: #333; padding: 0 .1rem").ds-radio-label(@click=" AT = 2 " v-bind:class=" { active: AT === 2} ")
+          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 2 " v-bind:class=" { active: AT === 2} ")
           //     span.ds-radio.white
           //     | 日
 
           p.item.block(v-for=" (CR, i) in CRULES ")
             span.text-danger {{ i===0? '*': '&nbsp;'}}
             | {{ TYPE[CR.ruletype].title }} ：&nbsp;&nbsp;&nbsp;
-            span(style="color: #333") 累计 
+            span.text-black 累计 
             el-select(clearable v-model="CR.ruletype" style="width: .7rem" placeholder="全")
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .5rem;" v-model="CR.sales")
-            span(style="color: #333")  万，分红比例 
+            span.text-black  万，分红比例 
             el-input-number.text-danger.text-right(style="width: .5rem;" v-model="CR.bounsRate")
             |  %
 
           .buttons.item.block(style="padding-left: .55rem" v-if="ruleLength < 11")
             .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ ")
-              span(style="color: #333") &nbsp;再加一行
+              span.text-black &nbsp;再加一行
 
             .ds-button.x-small.text-button.el-icon-minus.blue(@click=" ruleLength-- " v-if="ruleLength > 3 ")
-              span(style="color: #333") &nbsp;减最后一行
+              span.text-black &nbsp;减最后一行
 
           .buttons.item.block(style="padding-left: .6rem")
             .ds-button.primary.bold(@click="createContract") 确认发送

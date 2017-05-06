@@ -65,6 +65,7 @@ import api from '../http/api'
 import LoginTest from '../views/login/LoginTest'
 import { toggleFullScreen } from '../util/Dom'
 import util from '../util'
+import store from '../store'
 export default {
   props: ['menus', 'name', 'money', 'free'],
   components: {
@@ -72,6 +73,7 @@ export default {
   },
   data () {
     return {
+      model: store.state.user.model,
       modal: false,
       shows: {},
       more: false,
@@ -90,15 +92,34 @@ export default {
     this.initShows()
     this.setFarChat()
     setTimeout(this.getPos, 0)
+    setTimeout(this.getPos, 50)
+    setTimeout(this.getPos, 100)
+    setTimeout(this.getPos, 500)
     util.addEvent('resize', window, () => {
       this.getPos()
     })
+    if (this.model === 'day') this.day = true
+    if (this.model === 'night') this.day = false
+    document.body.className = this.day ? 'day' : 'night'
+    // this.$emit('set-Model', this.day ? 'day' : 'night')
   },
   activated () {
     this.setFarChat()
     setTimeout(this.getPos, 0)
+    setTimeout(this.getPos, 50)
+    setTimeout(this.getPos, 100)
+    setTimeout(this.getPos, 500)
   },
   computed: {
+    ML () {
+      return this.menus.length
+    }
+  },
+  watch: {
+    day () {
+      store.actions.setUser({model: this.day ? 'day' : 'night'})
+      document.body.className = this.day ? 'day' : 'night'
+    }
   },
   methods: {
     fullScreen () {

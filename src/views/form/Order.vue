@@ -35,7 +35,7 @@
             el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
         label.item 游戏模式 
-          el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .5rem" placeholder="全")
+          el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .6rem" placeholder="全")
             el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
 
         label.item 注单编号 
@@ -89,7 +89,7 @@
           el-table-column(label="操作")
             template(scope="scope")
               div(v-if="scope.row.stat === 0 ")
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
+                // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -107,48 +107,48 @@
             el-row
               el-col(:span="9")
                 游戏用户：
-                span(style="color: #333") {{ row.nickName }}
+                span.text-black {{ row.nickName }}
               el-col(:span="5")
                 游戏：
-                span(style="color: #333") {{ row.lotteryName }}
+                span.text-black {{ row.lotteryName }}
               el-col(:span="5")
                 开奖号码：
-                span(style="color: #333") {{ row.prizeCode }}
+                span.text-black {{ row.prizeCode }}
 
               el-col(:span="5")
                 总金额：
-                span(style="color: #333") {{ row.totalPrice }}
+                span.text-black {{ row.totalPrice }}
 
             el-row
               el-col(:span="9")
                 注单编号：
-                span(style="color: #333") {{ row.projectId }}
+                span.text-black {{ row.projectId }}
               el-col(:span="5")
                 玩法：
-                span(style="color: #333") {{ row.methodName }}
+                span.text-black {{ row.methodName }}
               el-col(:span="5")
                 注单状态：
-                span(style="color: #333") {{ STATUS[row.stat] }}
+                span.text-black {{ STATUS[row.stat] }}
 
               el-col(:span="5")
                 倍数模式：
-                span(style="color: #333") {{ row.multiple }}
+                span.text-black {{ row.multiple }}
 
             
             el-row
               el-col(:span="9")
                 投单时间：
-                span(style="color: #333") {{ row.writeTime }}
+                span.text-black {{ row.writeTime }}
               el-col(:span="5")
                 奖期：
-                span(style="color: #333") {{ row.issue }}
+                span.text-black {{ row.issue }}
               el-col(:span="5")
                 注单奖金：
-                span(style="color: #333") {{ row.bonus }}
+                span.text-black {{ row.bonus }}
 
               el-col(:span="5")
                 动态奖金返点：
-                span(style="color: #333") {{ row.userPoint }}
+                span.text-black {{ row.userPoint }}
 
             p.textarea-label
               span.label 投注内容：

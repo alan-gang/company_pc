@@ -9,70 +9,70 @@
       el-row
         el-col(:span="6")
           注单编号：
-          span(style="color: #333") {{ detail.taskId }}
+          span.text-black {{ detail.taskId }}
         el-col(:span="6")
           游戏用户：
-          span(style="color: #333") {{ detail.nickName }}
+          span.text-black {{ detail.nickName }}
         el-col(:span="6")
           追号时间：
-          span(style="color: #333") {{ detail.begintime }}
+          span.text-black {{ detail.begintime }}
 
         el-col(:span="6")
           游戏：
-          span(style="color: #333") {{ detail.lotteryName }}
+          span.text-black {{ detail.lotteryName }}
 
       el-row
         el-col(:span="6")
           玩法：
-          span(style="color: #333") {{ detail.methodName }}
+          span.text-black {{ detail.methodName }}
         el-col(:span="6")
           模式：
-          span(style="color: #333") {{ MODES[detail.modes] }}
+          span.text-black {{ MODES[detail.modes] }}
         el-col(:span="6")
           开始期号：
-          span(style="color: #333") {{ detail.beginissue }}
+          span.text-black {{ detail.beginissue }}
 
         el-col(:span="6")
           追号期数:
-          span(style="color: #333") {{ detail.issuecount }}
+          span.text-black {{ detail.issuecount }}
       
       el-row
         el-col(:span="6")
           完成期数：
-          span(style="color: #333") {{ detail.finishedcount }}
+          span.text-black {{ detail.finishedcount }}
         el-col(:span="6")
           取消期数：
-          span(style="color: #333") {{ detail.cancelcount }}
+          span.text-black {{ detail.cancelcount }}
         el-col(:span="6")
           追号总金额：
-          span(style="color: #333") {{ detail.taskprice }}
+          span.text-black {{ detail.taskprice }}
 
         el-col(:span="6")
           完成金额：
-          span(style="color: #333") {{ detail.finishprice }}
+          span.text-black {{ detail.finishprice }}
 
       el-row
         el-col(:span="6")
           中奖期数：
-          span(style="color: #333") {{ detail.wincount }}
+          span.text-black {{ detail.wincount }}
         el-col(:span="6")
           派奖总金额：
-          span(style="color: #333") {{ detail.winprize }}
+          span.text-black {{ detail.winprize }}
         el-col(:span="6")
           取消金额：
-          span(style="color: #333") {{ detail.cancelPrice }}
+          span.text-black {{ detail.cancelPrice }}
 
         el-col(:span="6")
           中奖后终止任务：
-          span(style="color: #333") {{ detail.stoponwin === 1 ? '是' : '否' }}
+          span.text-black {{ detail.stoponwin === 1 ? '是' : '否' }}
 
       el-row
         el-col(:span="6")
           追号内容：
-          span(style="color: #333") {{ detail.codes }}
+          span.text-black {{ detail.codes }}
         el-col(:span="6")
           追号状态：
-          span(style="color: #333") {{ STATUS[detail.status] }}
+          span.text-black {{ STATUS[detail.status] }}
         el-col(:span="6")
         el-col(:span="6")
 
@@ -112,48 +112,48 @@
             el-row
               el-col(:span="6")
                 游戏用户：
-                span(style="color: #333") {{ detail.name }}
+                span.text-black {{ detail.name }}
               el-col(:span="6")
                 游戏：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
               el-col(:span="6")
                 开奖号码：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
 
               el-col(:span="6")
                 总金额：
-                span(style="color: #333") {{ detail.pay }}
+                span.text-black {{ detail.pay }}
 
             el-row
               el-col(:span="6")
                 注单编号：
-                span(style="color: #333") {{ detail.name }}
+                span.text-black {{ detail.name }}
               el-col(:span="6")
                 玩法：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
               el-col(:span="6")
                 注单状态：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
 
               el-col(:span="6")
                 倍数模式：
-                span(style="color: #333") {{ detail.pay }}
+                span.text-black {{ detail.pay }}
 
             
             el-row
               el-col(:span="6")
                 投单时间：
-                span(style="color: #333") {{ detail.name }}
+                span.text-black {{ detail.name }}
               el-col(:span="6")
                 奖期：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
               el-col(:span="6")
                 注单奖金：
-                span(style="color: #333") {{ detail.game }}
+                span.text-black {{ detail.game }}
 
               el-col(:span="6")
                 动态奖金返点：
-                span(style="color: #333") {{ detail.pay }}
+                span.text-black {{ detail.pay }}
 
             p.textarea-label
               span.label 投注内容：

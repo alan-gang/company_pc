@@ -566,7 +566,7 @@ export default {
     // background-color #fff
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
-    transition all linear 0.2s
+    transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s
     
     &.active
       z-index 1
@@ -580,8 +580,6 @@ export default {
           height TH
           top 0
           z-index 0
-      
 </style>
-
 
 

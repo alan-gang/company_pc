@@ -80,7 +80,7 @@
               i.el-icon-close.ds-button.text-button(@click="show = false" )
               
           .content
-            p(style="margin: .3rem .15rem .15rem .15rem; font-size: .24rem; color: #333") {{ selectBank.text }}扫码支付
+            p.text-black {{ selectBank.text }}扫码支付
             .QR.ds-icon-QR(style="margin: 0 auto; margin-bottom: .5rem; width: 1.4rem; text-align: center")
               p(style="padding-top: 1.5rem; position: relative")
                 span.refresh.ds-button.small(v-show="pt_ === 0") 重新获取二维码

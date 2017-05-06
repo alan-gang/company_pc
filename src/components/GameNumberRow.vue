@@ -267,7 +267,7 @@
           width GCH
           border-radius 50%
         &.signal
-          background-color LIGHT
+          background-color #ddd
         &.default:hover
         &.default.selected
           box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)

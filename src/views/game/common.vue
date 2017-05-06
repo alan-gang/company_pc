@@ -53,6 +53,7 @@ import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 import api from '../../http/api'
 import M from '../../util/M'
+import util from '../../util'
 // import GameOrderHistory from 'components/GameOrderHistory'
 // import GameFollowHistory from 'components/GameFollowHistory'
 
@@ -255,6 +256,12 @@ export default {
       this.$http.post(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0) {
+          data.items.forEach(d => {
+            d.lucknumbers = d.code.split(',')
+            if (this.gameType === 'KL8') {
+              d.lucknumbers = util.groupArray(d.lucknumbers, 5)
+            }
+          })
           let lst = data.items[0] || {}
           if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
@@ -264,7 +271,7 @@ export default {
           } else {
             this.overtime = false
             this.NPER = lst.issue + ''
-            this.lucknumbers = lst.code ? lst.code.split(',') : this.lucknumbers
+            this.lucknumbers = lst.lucknumbers
           }
           this.allLuckyNumbers = data.items || []
         }

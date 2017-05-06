@@ -12,7 +12,7 @@
       
       div.c(v-for=" (c, ci) in contracts "  v-bind:class=" ['ds-icon-stock-' + STATUS[c.stat].class ] ")
         
-        h2(style="color: #333; margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
+        h2.text-black(style="margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.nickName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}
         p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
@@ -38,13 +38,13 @@
         me: store.state.user,
         // 我的契约
         self: true,
-        STATUS: [
-          {id: 0, title: '待确认', class: 'wait'},
-          {id: 1, title: '已签订', class: 'done'},
-          {id: 2, title: '未签订', reason: '已作废'},
-          {id: 3, title: '未签订', reason: '已拒绝'},
-          {id: 4, title: '待确认', reason: '重新发起'}
-        ],
+        STATUS: {
+          '待确认': {id: 0, title: '待确认', class: 'wait'},
+          '已签订': {id: 1, title: '已签订', class: 'done'},
+          '未签订': {id: 2, title: '未签订', reason: '已作废/已拒绝'}
+          // '未签订': {id: 3, title: '未签订', reason: '已拒绝'},
+          // '待确认': {id: 4, title: '待确认', reason: '重新发起'}
+        },
         contracts: [],
         // 契约时间类型
         TIME: ['月', '周', '日'],
@@ -84,9 +84,7 @@
         this.$http.get(api.queryMyContract).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.contracts = data.contractList.sort(c => {
-              return c.stat < 4 && c.stat > 1
-            })
+            this.contracts = data.contractList
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -142,7 +140,7 @@
   @import '../../var.stylus'
   .contract
     top TH
-    background #fff
+    // background #fff
     text-align center
     radius()
     &.center:after

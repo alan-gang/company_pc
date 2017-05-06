@@ -8,7 +8,7 @@
     .scroll-content.activity-center
       router-link.banner.section(v-for=" (a, i) in activities " v-bind:to=" sources[a.activityType - 1].href ")
         img(:src=" sources[a.activityType - 1].src ")
-        h4 {{ a.title }}
+        h4.text-black {{ a.title }}
         h5 {{ a.subTitle }}
 
       .empty(v-if=" activities.length === 0 ") 活动列表空空如也
@@ -91,7 +91,6 @@
         margin-bottom 0
       h4
         font-size .14rem
-        color #000
         font-weight bold
       h5 
         font-size .12rem

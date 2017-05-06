@@ -105,48 +105,48 @@
             el-row
               el-col(:span="9")
                 游戏用户：
-                span(style="color: #333") {{ row.nickName }}
+                span.text-black {{ row.nickName }}
               el-col(:span="5")
                 游戏：
-                span(style="color: #333") {{ row.lotteryName }}
+                span.text-black {{ row.lotteryName }}
               el-col(:span="5")
                 开奖号码：
-                span(style="color: #333") {{ row.prizeCode }}
+                span.text-black {{ row.prizeCode }}
 
               el-col(:span="5")
                 总金额：
-                span(style="color: #333") {{ row.totalPrice }}
+                span.text-black {{ row.totalPrice }}
 
             el-row
               el-col(:span="9")
                 注单编号：
-                span(style="color: #333") {{ row.projectId }}
+                span.text-black {{ row.projectId }}
               el-col(:span="5")
                 玩法：
-                span(style="color: #333") {{ row.methodName }}
+                span.text-black {{ row.methodName }}
               el-col(:span="5")
                 注单状态：
-                span(style="color: #333") {{ STATUS[row.stat] }}
+                span.text-black {{ STATUS[row.stat] }}
 
               el-col(:span="5")
                 倍数模式：
-                span(style="color: #333") {{ row.multiple }}
+                span.text-black {{ row.multiple }}
 
             
             el-row
               el-col(:span="9")
                 投单时间：
-                span(style="color: #333") {{ row.writeTime }}
+                span.text-black {{ row.writeTime }}
               el-col(:span="5")
                 奖期：
-                span(style="color: #333") {{ row.issue }}
+                span.text-black {{ row.issue }}
               el-col(:span="5")
                 注单奖金：
-                span(style="color: #333") {{ row.bonus }}
+                span.text-black {{ row.bonus }}
 
               el-col(:span="5")
                 动态奖金返点：
-                span(style="color: #333") {{ row.userPoint }}
+                span.text-black {{ row.userPoint }}
 
             p.textarea-label
               span.label 投注内容：

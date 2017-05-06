@@ -5,20 +5,27 @@
       span.title {{ CNPER }}
       | &nbsp;&nbsp;期
       span.ds-icon-clock {{ showTime }}
-      .ds-button.outline.small.instruction ? {{ type.title }}
-        .popover-instruction.font-white
-          p(style="line-height: .25rem")
-            span.label.font-gold 玩法说明：
-            {{ type.description || '暂无' }}
-          p(style="line-height: .25rem")
-            span.label.font-gold 中奖举例：
-            {{ type.example || '暂无' }}
+
+      el-popover(placement="bottom-start" trigger="hover" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
+        span(slot="reference")
+          .ds-button.outline.small.instruction ? {{ type.title }}
+        slot
+            p(style="line-height: .25rem")
+              span.label.font-gold 玩法说明：
+              {{ type.description || '暂无' }}
+            p(style="line-height: .25rem")
+              span.label.font-gold 中奖举例：
+              {{ type.example || '暂无' }}
+
+      
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  ") 走势图
 
     el-col.right(:span="6")
       el-button-group.right
         router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} ") 投注记录
         router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} ") 追号记录
+
+        
 </template>
 
 <script>
@@ -83,7 +90,33 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  
+  .popover-instruction
+    // display none
+    // top 100%
+    transition none
+    max-width 4.5rem
+    transform translateX(.2rem) translateY(-.09rem)
+    padding PW .2rem 0 .2rem
+    text-align left
+    background-color rgba(22, 113, 188, .95)
+    box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+    radius()
+    border-top-left-radius 0
+    z-index 1
+    cursor text
+    user-select text
+    
+    p
+      
+      min-width 3.6rem
+      padding-left .75rem
+      margin 0 0 PW 0
+      .label
+        &::selection
+          background-color GOLD
+        position absolute
+        left .2rem
+
 
 </style>
 
@@ -131,13 +164,13 @@ export default {
       margin-left .1rem
     .instruction
       position relative
+      border 1px solid #ccc
       &:hover
         color WHITE
         background-color rgba(22, 113, 188, .9)
         border-bottom-left-radius 0
         border-bottom-right-radius 0
-        border none
-        padding 0 .11rem 0 .09rem
+        border-color BLUE
         .popover-instruction
           display block
     
@@ -154,31 +187,5 @@ export default {
       &:active
         color #087ad8
   
-  .popover-instruction
-    display none
-    position absolute
-    top 100%
-    min-width 100%
-    left 0rem
-    padding PW .2rem 0 .2rem
-    text-align left
-    background-color rgba(22, 113, 188, .95)
-    box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
-    radius()
-    border-top-left-radius 0
-    z-index 1
-    cursor text
-    user-select text
-    
-    p
-      
-      min-width 3.6rem
-      padding-left .6rem
-      margin 0 0 PW 0
-      .label
-        &::selection
-          background-color GOLD
-        position absolute
-        left .2rem
-
+  
 </style>

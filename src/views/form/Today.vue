@@ -13,23 +13,23 @@
           | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-blue {{ me.account }}
           span(style="padding-left: 2rem") 我的昵称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          span(style="color: #333") {{ me.name }}
+          span.text-black {{ me.name }}
 
         .item.block
           | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount.gradient {{ data.totalAmount }}
-          span(style="color: #333")  元 
+          span.text-black  元 
           span.text-money  &nbsp;{{ textMoney }}
 
         .item.block
           | 今日参与游戏： 
           span.amount {{ data.buyAmount }}
-          span(style="color: #333") 元 
+          span.text-black 元 
 
         .item.block
           | 今日中奖：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.amount {{ data.prizeAmount }}
-          span(style="color: #333") 元 
+          span.text-black 元 
         
 
         
