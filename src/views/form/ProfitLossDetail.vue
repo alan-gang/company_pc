@@ -96,7 +96,7 @@
     },
     mounted () {
       let {stEt, userId} = this.$route.query
-      if (stEt) this.stEt = stEt
+      if (stEt) this.stEt = decodeURIComponent(stEt).split('|')
       if (userId) this.userId = userId
       this.profitDetail()
     },

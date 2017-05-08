@@ -97,6 +97,22 @@ export default {
           ]
         },
         {
+          class: 'ds-icon-form',
+          hide: true,
+          url: 'form',
+          groups: [
+            {
+              items: [
+                {
+                  id: '4-5-4',
+                  title: '个人盈亏明细',
+                  url: 'ProfitLossDetail'
+                }
+              ]
+            }
+          ]
+        },
+        {
           id: 0,
           class: 'ds-icon-home',
           href: '/home',
@@ -426,11 +442,11 @@ export default {
                   title: '盈亏报表列表',
                   url: 'ProfitLoss'
                 },
-                {
-                  id: '4-5-4',
-                  title: '个人盈亏明细',
-                  url: 'ProfitLossDetail'
-                },
+                // {
+                //   id: '4-5-4',
+                //   title: '个人盈亏明细',
+                //   url: 'ProfitLossDetail'
+                // },
                 {
                   id: '4-5-2',
                   menuid: '59',

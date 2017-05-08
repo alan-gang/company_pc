@@ -329,7 +329,7 @@
       },
       list (page, fn) {
         let loading = this.$loading({
-          text: '投注记录加载中...',
+          text: '帐变记录加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         // OrderReport.do?method=list&orderId=7&beginDate=20170201000000&endDate=20170303000000&isFree=1&userName=test&scope=1&serialType=2&serialValue=3397&lotteryId=1&methodId=37&issueId=1111&modes=11&page=1&pageSize=20

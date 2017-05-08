@@ -106,10 +106,13 @@ body.night
           border-color BLUE
       &.text-button
         color #aaa
+        
         &:hover
           color BLUE
       &.disabled
         background #666
+      &.blue
+        color BLUE
       
         
         
