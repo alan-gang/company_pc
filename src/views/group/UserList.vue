@@ -168,11 +168,11 @@
           span.text-money (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 
         p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' ")
-          label(style="color: #666").ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
+          label.text-666.ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
             span.ds-radio.white
             | 用量升
 
-          label(style="color: #666").ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
+          label.text-666.ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
             span.ds-radio.white
             | 用配额升
         div.buttons(style="padding: .1rem .4rem")

@@ -92,18 +92,24 @@
 
     
     Modal(title="" v-bind:Ptype="'question'" v-show="dataXnow" v-bind:Pbtn=" ['充值成功', '遇到问题'] " v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
-      .my-content(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;")
-        p 充值总额： {{ dataXamount }}
+      .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
+        p 充值总额： 
+          span.text-black {{ dataXamount }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXamount " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 银行信息： {{ dataXbankName }}
+        p 银行信息： 
+          span.text-black {{ dataXbankName }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXbankName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXcardName }}
+        p 户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          span.text-black {{ dataXcardName }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXcardName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXcardNum }}
+        p 卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          span.text-black {{ dataXcardNum }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXcardNum " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 订单号：&nbsp;&nbsp;&nbsp; {{ dataXorderId }}
+        p 订单号：&nbsp;&nbsp;&nbsp; 
+          span.text-black {{ dataXorderId }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXorderId " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ dataXappendix }}
+        p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
 
       
@@ -393,7 +399,8 @@ export default {
         border 1px solid BLUE
       &:active
         background-color #d2e8f6
-        border none
+        border 1px solid BLUE
+        // border none
   
   .el-button-group
     float right

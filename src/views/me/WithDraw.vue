@@ -48,6 +48,8 @@
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
 
+              // span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
+
           p.item(style="padding: .1rem 0") 提现限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔提现限额：最低：
             span.min.text-danger  {{ min }} 
             | 元，
@@ -245,4 +247,18 @@ export default {
     display inline-block
 
     vertical-align middle
+    // &.more
+    //   text-align center
+    //   font-weight bold
+    //   color BLUE
+    //   line-height .4rem
+    //   border none
+    //   background-color #ebf7ff
+    //   border 1px solid rgba(0,0,0,0)
+    //   &:hover
+    //     border 1px solid BLUE
+    //   &:active
+    //     background-color #d2e8f6
+    //     border 1px solid BLUE
+        // border none
 </style>

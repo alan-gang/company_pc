@@ -217,10 +217,14 @@ export default {
         // padding 0 .3rem
         text-align center
         width 1.2rem
-        background-image url(../../assets/activity/line.png)
-        background-position left center 
-        background-repeat no-repeat
+        // background-image url(../../assets/activity/line.png)
+        // background-position left center 
+        // background-repeat no-repeat
         box-shadow none
+        background-size 10px 10px
+        background-repeat repeat-y
+        background-position 0 0
+        background-image linear-gradient(-45deg, transparent 75%, #fff 75%), linear-gradient(-135deg, transparent 75%, #fff 75%)
         &:before
           content ''
           position relative

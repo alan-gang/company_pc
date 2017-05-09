@@ -212,7 +212,7 @@ export default {
       if (this.ns.length > 0) {
         if (!this.notify) {
           this.notify = this.$modal.question({
-            content: '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+            content: '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
             btn: ['转到当前期', '清空投注'],
             target: this.$el,
             cancel () {
@@ -221,7 +221,7 @@ export default {
             O: this
           })
         } else {
-          this.notify.content = '<div style="line-height: .3rem; color #666;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
+          this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
         }
       }
     }
@@ -255,7 +255,7 @@ export default {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
       this.$http.post(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
-        if (data.success > 0) {
+        if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
             if (this.gameType === 'KL8') {
@@ -274,6 +274,11 @@ export default {
             this.lucknumbers = lst.lucknumbers
           }
           this.allLuckyNumbers = data.items || []
+        } else {
+          this.overtime = true
+          this.lucknumbersTimeout = setTimeout(() => {
+            this.__recentlyCode()
+          }, 3000)
         }
       }, (rep) => {
         // error

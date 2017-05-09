@@ -1,6 +1,6 @@
 <template lang="jade">
   section.guide(:class="[ 'step-' + step ]")
-    .modal
+    .modal(ref="modal")
 
       .mask
       .mask-extra
@@ -9,7 +9,7 @@
         .menu(style="left: 0; top: 0; width: 100rem; position: absolute")
         
       .box-wrapper
-        .action1
+        .action1(ref="gameNow" v-if="showGameNow")
         .box
           .teacher
             .voice
@@ -120,6 +120,7 @@ import api from '../http/api'
 import store from '../store'
 import Validate from '../util/Validate'
 import { dateTimeFormat } from '../util/Date'
+import util from '../util'
 // import base from 'components/base'
 // import store from '../store'
 export default {
@@ -157,7 +158,8 @@ export default {
       // 卡号
       cardNo: '',
       // 分行
-      branchName: ''
+      branchName: '',
+      showGameNow: true
     }
   },
   computed: {
@@ -181,15 +183,28 @@ export default {
       this.branchName = this.branchName.trim()
     },
     step () {
-      if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd)) this.step++
+      // if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd)) this.step++
+      if (this.step === 4) this.getPos()
     }
   },
   mounted () {
     if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd)) this.step++
     this.getBankList()
     this.getProvices()
+    util.addEvent('resize', window, () => {
+      this.getPos()
+    })
   },
   methods: {
+    getPos () {
+      if (document.querySelector('footer .icon-button.ds-icon-game-middle')) {
+        this.showGameNow = true
+        let H = document.querySelector('footer ').offsetHeight
+        this.$refs.modal.style.bottom = H / 100 + 'rem'
+      } else {
+        this.showGameNow = false
+      }
+    },
     __guideStep () {
       this.step = 5
     },
@@ -433,7 +448,7 @@ export default {
     .action1
       position absolute
       left 2%
-      bottom 4.38rem
+      bottom 5.68rem
       width 5rem
       height 5rem
       background url(../assets/guide/i2.png) .7rem 2.5rem no-repeat
