@@ -83,7 +83,8 @@
                   type: data.identity,
                   account: data.userName,
                   role: data.roleId,
-                  guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+                  hasBankCard: data.hasBankCard === '1',
+                  guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1' || data.hasBankCard !== '1')
                 })
                 this.$router.push('/')
                 window.accessAngular.setUser({
@@ -147,10 +148,11 @@
               name: data.nickName,
               pwd: data.hasLogPwd === '1',
               cashPwd: data.hasSecurityPwd === '1',
+              hasBankCard: data.hasBankCard === '1',
               type: data.identity,
               account: data.userName,
               role: data.roleId,
-              guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+              guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1' || data.hasBankCard !== '1')
             })
             this.$router.push('/')
             window.accessAngular.setUser({

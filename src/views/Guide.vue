@@ -144,6 +144,7 @@ export default {
       newCashPwdAgain: '',
       // xxx
       me: store.state.user,
+      avaibleBanks: [],
       // BANKS: BANKS,
       myBanks: [],
       PROVINCES: [],
@@ -183,7 +184,8 @@ export default {
       this.branchName = this.branchName.trim()
     },
     step () {
-      // if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd)) this.step++
+      console.log(this.step, this.me.hasBankCard, '00000000000000000000000000000000000000000000000')
+      if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd) || (this.step === 3 && this.me.hasBankCard)) this.step++
       if (this.step === 4) this.getPos()
     }
   },

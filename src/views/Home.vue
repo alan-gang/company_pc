@@ -38,8 +38,8 @@
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="addPrefence(i)" v-bind:class="[{disabled: item.desk}]") {{ i.title }}
-    // Guide(v-if="me.guide")
-    Guide
+    Guide(v-if="me.guide")
+    // Guide
 
 </template>
 
