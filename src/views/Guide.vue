@@ -9,7 +9,7 @@
         .menu(style="left: 0; top: 0; width: 100rem; position: absolute")
         
       .box-wrapper
-        .action1(ref="gameNow" v-if="showGameNow")
+        .action1(ref="gameNow")
         .box
           .teacher
             .voice
@@ -159,8 +159,7 @@ export default {
       // 卡号
       cardNo: '',
       // 分行
-      branchName: '',
-      showGameNow: true
+      branchName: ''
     }
   },
   computed: {
@@ -184,7 +183,6 @@ export default {
       this.branchName = this.branchName.trim()
     },
     step () {
-      console.log(this.step, this.me.hasBankCard, '00000000000000000000000000000000000000000000000')
       if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd) || (this.step === 3 && this.me.hasBankCard)) this.step++
       if (this.step === 4) this.getPos()
     }
@@ -200,11 +198,11 @@ export default {
   methods: {
     getPos () {
       if (document.querySelector('footer .icon-button.ds-icon-game-middle')) {
-        this.showGameNow = true
         let H = document.querySelector('footer ').offsetHeight
         this.$refs.modal.style.bottom = H / 100 + 'rem'
       } else {
-        this.showGameNow = false
+        // this.showGameNow = false
+        this.__closeGuide()
       }
     },
     __guideStep () {
