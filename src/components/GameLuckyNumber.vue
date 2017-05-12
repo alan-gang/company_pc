@@ -1,6 +1,6 @@
 <template lang="jade">
   el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
-    el-col.left(:span="20")
+    el-col.left(:span="onlyNumber ? 24: 20")
       span.NPER {{ NPER }} 
       | 期 &nbsp;
       span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
@@ -8,7 +8,7 @@
       span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
         span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
           span.the-number {{ n | padStart(2, 0) }}
-      
+        
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
       span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖超时，请刷新
@@ -72,6 +72,8 @@ export default {
   W = .42rem
   w = .26rem
   .lucky-numbers
+    
+      
     line-height LH
     margin 0
     padding 0 .1rem 0 .2rem

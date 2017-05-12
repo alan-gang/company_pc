@@ -46,7 +46,7 @@
       this._getVerifyImage()
       this.tag = this.$route.query.tag
       if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go?tag=' + this.tag
-      this.getStrangerInfo()
+      setTimeout(this.getStrangerInfo, 1000)
     },
     beforeDestroy () {
       window.accessAngular.close()

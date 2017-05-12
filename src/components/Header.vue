@@ -31,7 +31,16 @@ export default {
   },
   computed: {
   },
+  // watch: {
+    // 如果路由有变化，会再次执行该方法
+    // '$route': 'openRoute'
+  // },
   methods: {
+    // openRoute ({path}) {
+    //   if (path === '/') {
+    //     this.tabs.forEach(t => store.actions.updatePage('', {size: 'minus'}, t))
+    //   }
+    // },
     openTab (url) {
       this.$emit('open-tab', url)
     },

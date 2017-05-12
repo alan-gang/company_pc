@@ -65,7 +65,7 @@
 
           el-table-column(prop="lotteryName" label="游戏" width="100" )
 
-          el-table-column(prop="methodName" label="玩法" width="100" )
+          el-table-column(prop="methodName" label="玩法" min-width="100" )
 
           el-table-column(prop="beginIssue" label="开始期数" width="100" )
 
@@ -73,7 +73,7 @@
 
           el-table-column(prop="finishedcount" label="完成期数" width="80" align="right")
 
-          el-table-column(class-name="pl2"  prop="codes" label="追号内容"  width="140" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2"  prop="codes" label="追号内容"  min-width="140" show-overflow-tooltip=true)
 
           el-table-column(class-name="pl1" prop="modes" label="模式" width="50" )
             template(scope="scope")
@@ -83,7 +83,7 @@
 
           el-table-column(prop="finishprice" label="完成金额" width="100" align="right")
 
-          el-table-column(class-name="pl2"   label="状态")
+          el-table-column(class-name="pl2"   label="状态" width="100")
             template(scope="scope")
               span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
          

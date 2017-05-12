@@ -7,6 +7,10 @@ body.night
     background-color #16161d
 .app.night
   // common
+  .el-loading-mask
+    background-color #555
+  .el-input.is-disabled .el-input__inner
+    background-color #666
   .me-sideview
     outline 1.25rem solid rgba(0,0,0, .2)
     outline-offset -1.25rem

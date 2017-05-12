@@ -20,7 +20,7 @@
 
           .content
 
-            div(:class="[typeIcon[type]]" )
+            .text-black(:class="[typeIcon[type]]" )
               slot(:class="[typeIcon[type]]" name="my-content")
                 div(v-html="content")
 
@@ -204,7 +204,6 @@
     padding-top 90px
     font-size .18rem
     text-align center
-    color #333
   
   .ds-icon-redpocket
     color #fff

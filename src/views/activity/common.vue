@@ -31,6 +31,19 @@
             el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
             el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
 
+        // 签到
+        .list(v-if="expand && expand[0]" )
+
+          el-row.list-title
+            el-col(:span="8") 签到类型
+            el-col(:span="5" style="text-align: right") 天数
+            el-col(:span="8" style="text-align: right") 礼金
+
+          el-row.list-item(v-for=" l in expand " )
+            el-col(:span="8") {{ l.expandName }}
+            el-col(:span="5" style="text-align: right") {{ l.expandValue + l.expandUnit }}
+            el-col(:span="8" style="text-align: right") {{ l.expandPrize }}
+
 
       .actions(v-if="showBtns")
         // router-link.ds-button.tall.high-positive._3rem.oval(:to=" to " v-if="id === 1 && showbtn1") 立即注册
@@ -101,6 +114,7 @@ export default {
           this.content = data.content
           this.rule = data.ruleDesc
           this.list = data.saveDetail || []
+          this.expand = data.expand || []
           data.msg && this.$message.info(data.msg || this.message)
         } else this.$message.error('活动详情加载失败！')
       }, (rep) => {

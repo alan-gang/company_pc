@@ -229,6 +229,9 @@ export default {
       return vm.openAPage(to.params.url)
     })
   },
+  beforeDestroy () {
+    this.pages.forEach(t => this.updatePage('', {size: 'minus'}, t))
+  },
   methods: {
     openRoute ({path, params: {url}}) {
       if (url) this.openAPage(url)

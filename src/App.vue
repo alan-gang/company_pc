@@ -57,7 +57,7 @@ export default {
           ]
         },
         {
-          class: 'ds-icon-form',
+          class: 'ds-icon-record',
           hide: true,
           url: 'form',
           groups: [
@@ -97,7 +97,7 @@ export default {
           ]
         },
         {
-          class: 'ds-icon-form',
+          class: 'ds-icon-record',
           hide: true,
           url: 'form',
           groups: [
@@ -572,11 +572,19 @@ export default {
         this.tabs = this.tabs.filter(t => t.opened)
       }
     }
+    // // 如果路由有变化，会再次执行该方法
+    // '$route': 'openRoute'
   },
   mounted () {
     this.setPages(this._getPages())
   },
   methods: {
+    // openRoute ({path}) {
+    //   // 如果出现在登录页面并且用户是登录状态
+    //   if (path.startsWith('/login') && store.state.user.login) {
+    //     this.logout(true)
+    //   }
+    // },
     _getPages () {
       console.log('menus changed!!! or Menu need reauthority')
       return this.menus.reduce((p, m, mi) => {
@@ -652,6 +660,7 @@ export default {
     //   this.menus = menus
     // },
     logout (args) {
+      console.log('loldo.doldd')
       this.$http.get(api.logout)
       this.setUser()
       cookie.remove('JSESSIONID')

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>DSGAMING</title>
     <!-- <link href="favicon.ico" type="image/x-icon"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"
@@ -181,6 +182,8 @@
                          复制推广码
                          <span data-ng-show="copyRight" class="copy-right">复制成功</span>
                          <span data-ng-bind="copy" class="copy-text" data-ng-show="false"></span>
+                       </li>
+                       <li style="padding: 15px 15px 15px 40px; height: auto">
                          <p style="word-wrap: break-word; user-select: text;line-height: 1.5; color: #888"> {{ mySelf.spreadURL }} </p>
                        </li>
                      </ul>
@@ -333,7 +336,7 @@
                            图片
                            <span class="icon upload-image"></span>
                          </div>
-                          <div data-ng-if=" !(currentContact.id === 'ICHAT_ASST_001' || currentContact.id === 'ICHAT_STAFF_747' || currentContact.id === 'ICHAT_STAFF_380') " class="upload-file"
+                          <div data-ng-show=" !(currentContact.id === 'ICHAT_ASST_001' || currentContact.id === 'ICHAT_STAFF_747' || currentContact.id === 'ICHAT_STAFF_380') " class="upload-file"
                              ngf-select ng-model="files" 
                              accept=""
                              ngf-multiple="true"

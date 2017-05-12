@@ -95,12 +95,12 @@
 
         el-table-column(prop="userpoint" label="注单详情")
           template(scope="scope")
-            .ds-button.text-button.blue(style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            // .ds-button.text-button.blue(style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
 
     .buttons()
       .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel") 终止追号 
     
-    .modal(v-show="show" )
+    // .modal(v-show="show" )
       .mask
       .box-wrapper
         .box

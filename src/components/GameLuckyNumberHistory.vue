@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import '../var.stylus'
   s = TH + LH
   .game-luck-number-history
@@ -54,11 +54,27 @@ export default {
     margin 0 auto
     overflow hidden
     z-index 1999
+    background-color #666
+    border-bottom-left-radius .05rem
+    border-bottom-right-radius .05rem
     &.show
       height "calc(100% - %s)" % s
       overflow auto
     &.empty
       display none
-    
+    .lucky-numbers
+      & > left
+        height .7rem
+        line-height .7rem
+      .NPER
+        color GOLD-ACTIVE
+        font-family Roboto
+        font-size .3rem
+        vertical-align middle
+    .lucky-numbers:nth-of-type(odd)
+      bg-gradient(180deg, #111, #333)
+    .lucky-numbers:nth-of-type(even)
+      bg-gradient(180deg, #444, #222)
+      
   
 </style>

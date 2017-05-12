@@ -196,7 +196,7 @@
         .form(style="margin: .2rem .4rem" v-if="i === 0")
 
           .item(style="line-height: .5rem") 银行卡：&nbsp;&nbsp;&nbsp;
-            div.banks(style="color: #333; display: inline-block")
+            div.banks.text-black(style="display: inline-block")
               div(v-for=" bank in myBanks ")
                 .ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ") 
                 span.text-black  {{ bank.cardNo}}

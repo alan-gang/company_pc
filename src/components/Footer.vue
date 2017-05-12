@@ -121,6 +121,9 @@ export default {
       document.body.className = this.day ? 'day' : 'night'
     }
   },
+  beforeDestroy () {
+    if (store.state.user.login) this.$emit('logout', true)
+  },
   methods: {
     fullScreen () {
       toggleFullScreen()

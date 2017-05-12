@@ -69,7 +69,7 @@
 
           el-table-column(prop="issue" label="期号" width="100")
 
-          el-table-column(prop="code" label="投注内容" width="120")
+          el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
 
           el-table-column(prop="multiple" label="倍数" width="40" align="right")
 
@@ -81,12 +81,12 @@
 
           el-table-column(prop="bonus" label="奖金" width="80" align="right")
 
-          el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" width="80")
+          el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
 
           el-table-column(label="状态" width="60")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
-          el-table-column(label="操作")
+          el-table-column(label="操作" wdith="100")
             template(scope="scope")
               div(v-if="scope.row.stat === 0 ")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单

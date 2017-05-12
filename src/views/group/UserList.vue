@@ -75,7 +75,7 @@
       // 充值
       div(v-if="stepIndex === 1 && stepType === 'topUp' ")
         p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
-          span.text-blue {{ user.name }}
+          span.text-blue {{ user.nickName }}
           |  进行充值
           span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
 
@@ -85,7 +85,7 @@
           span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click="checkSecurityPwd") 下一步
 
         p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 充值金额：
-          input.ds-input.large(v-model="money") 
+          el-input-number.large(style="width: 2.2rem" v-model="money") 
           span.text-money  {{ textMoney }}
           <br>
           span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click="topUpIndex++") 下一步
