@@ -330,10 +330,10 @@ export default {
       this.q2 && (this.q2.disabled = true)
     },
     a1_ () {
-      this.a1 = this.a1_.trim()
+      this.a1_ = this.a1_.trim()
     },
     a2_ () {
-      this.a2 = this.a2_.trim()
+      this.a2_ = this.a2_.trim()
     },
     safeCheck () {
       if (!this.me.email && this.safeCheck === 1) {
@@ -570,7 +570,7 @@ export default {
     setSafeQuestion () {
       if (!this.q1 || !this.q2 || !this.a1_ || !this.a2_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
-      this.$http.post(api.setSafeQuestion, {question1: this.q1.title, question2: this.q2.title, answer1: this.a1, answer2: this.a2}).then(({data}) => {
+      this.$http.post(api.setSafeQuestion, {question1: this.q1.title, question2: this.q2.title, answer1: this.a1_, answer2: this.a2_}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 安全问答设置成功。'})
           store.actions.setUser({safe: true})
@@ -584,8 +584,8 @@ export default {
     clearSafeQuestion () {
       this.q1 = null
       this.q2 = null
-      this.a1 = ''
-      this.a2 = ''
+      this.a1_ = ''
+      this.a2_ = ''
     },
     getVerifyCode () {
       switch (this.safeCheck || this.me.safeCheck) {
