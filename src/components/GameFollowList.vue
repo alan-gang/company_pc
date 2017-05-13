@@ -15,7 +15,15 @@
       | &nbsp;&nbsp;最低收益：
       el-input-number.center.get(v-model="this.idType ")
       |  %
-    el-table.ghost(:data="data" max-height="500")
+    el-table.ghost(:data="data" max-height="500" @selection-change="getSelection")
+
+      el-table-column(width="80"  type="selection")
+
+      // el-table-column(width="80" label="选择")
+      //  template(scope="scope")
+      //    .ds-checkbox-label(:class="{ active: scope.row.selected}" @click=" scope.row.selected = !scope.row.selected ")
+      //      .ds-checkbox(:class="{ active: scope.row.selected}"  )
+
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
@@ -49,7 +57,8 @@
         npers: [5, 10, 15, 20, 25, 30],
         times: 1,
         get: 0,
-        tabIndex: 3
+        tabIndex: 3,
+        selection: []
       }
     },
     computed: {
@@ -66,25 +75,26 @@
         let ii = this.issues.findIndex(i => i.issue === this.FCNPER)
         return this.issues.slice(ii, ii + this.nper).map((iii, index) => {
           iii.times = this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times
+          iii.selected = false
           return iii
         })
       },
       PAY () {
         let pay = 0
-        this.data.forEach(d => {
+        this.selection.forEach(d => {
           pay += d.times * this.pay
         })
         return pay
       }
     },
     mounted () {
-      this.$emit('set-follow', {NPER: this.nper, pay: this.PAY})
+      this.$emit('set-follow', {NPER: this.selection.length, pay: this.PAY})
       this.times = this.t
       this.get = this.point
     },
     watch: {
       PAY () {
-        this.$emit('set-follow', {NPER: this.nper, pay: this.PAY})
+        this.$emit('set-follow', {NPER: this.selection.length, pay: this.PAY})
       },
       tabIndex () {
         this.$emit('set-follow', {type: this.tabIndex})
@@ -96,17 +106,20 @@
         if (this.tabIndex === 3 && this.get > 0) this.adjustList()
         this.$emit('set-follow', {point: this.get})
       },
-      data () {
-        this.$emit('set-follow', {items: this.data})
+      selection () {
+        this.$emit('set-follow', {items: this.selection})
       }
     },
     methods: {
+      getSelection (selection) {
+        this.selection = selection.slice()
+      },
       change () {
-        this.$emit('set-follow', {NPER: this.nper, pay: this.getPay()})
+        this.$emit('set-follow', {NPER: this.selection.length, pay: this.getPay()})
       },
       getPay () {
         let pay = 0
-        this.data.forEach(d => {
+        this.selection.forEach(d => {
           pay += d.times * this.pay
         })
         return pay

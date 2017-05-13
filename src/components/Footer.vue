@@ -101,6 +101,8 @@ export default {
     if (this.model === 'day') this.day = true
     if (this.model === 'night') this.day = false
     document.body.className = this.day ? 'day' : 'night'
+    if (!window.screenTop && !window.screenY) this.full = false
+    else this.full = true
     // this.$emit('set-Model', this.day ? 'day' : 'night')
   },
   activated () {

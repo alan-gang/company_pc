@@ -36,7 +36,7 @@
                 input.ds-input.large(v-model="newPwd" type="password")
                 span.notice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三们相同
+                  必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
                 input.ds-input.large(v-model="newPwdAgain" type="password")
 
@@ -48,7 +48,7 @@
                 input.ds-input.large(v-model="newCashPwd" type="password")
                 span.notice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三们相同
+                  必须包含数字和字母，不允许连续三位相同
               p 确认密码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="newCashPwdAgain" type="password")
 
@@ -62,7 +62,7 @@
                 input.ds-input.large(type="password"  v-model="newCashPwd")
                 span.notice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三们相同
+                  必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
                 input.ds-input.large(type="password"  v-model="newCashPwdAgain")
 
@@ -215,12 +215,12 @@
                 el-select(placeholder="请选择" style="width: 2.2rem" v-model="q1")
                   el-option(v-for="q1 in Q" v-bind:label="q1.title" v-bind:value="q1" v-bind:disabled="q1.disabled")
               p 您的答案：
-                input.ds-input.large(v-model="a1")
+                input.ds-input.large(v-model="a1_")
               p 选择问题：
                 el-select(placeholder="请选择" style="width: 2.2rem" v-model="q2")
                   el-option(v-for="q2 in Q" v-bind:label="q2.title" v-bind:value="q2" v-bind:disabled="q2.disabled")
               p 您的答案：
-                input.ds-input.large(v-model="a2")
+                input.ds-input.large(v-model="a2_")
 
 
             .buttons(style="margin-left: .65rem")
@@ -324,16 +324,16 @@ export default {
       this.newPwdAgain = this.newPwdAgain.trim()
     },
     q1 () {
-      this.q1.disabled = true
+      this.q1 && (this.q1.disabled = true)
     },
     q2 () {
-      this.q2.disabled = true
+      this.q2 && (this.q2.disabled = true)
     },
-    a1 () {
-      this.a1 = this.a1.trim()
+    a1_ () {
+      this.a1 = this.a1_.trim()
     },
-    a2 () {
-      this.a2 = this.a2.trim()
+    a2_ () {
+      this.a2 = this.a2_.trim()
     },
     safeCheck () {
       if (!this.me.email && this.safeCheck === 1) {
@@ -364,7 +364,7 @@ export default {
             safeCheck: data.isSetVerifytype,
             safeScore: data.accountPoint,
             location: data.location,
-            lastLoginTime: data.lastLoginTime.time
+            lastLoginTime: data.lastLoginTime
           })
           this.safeCheck = data.isSetVerifytype
         }
@@ -382,7 +382,7 @@ export default {
       if (this.tabIndex === 1) {
         if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
-        if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三们相同！'})
+        if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
         this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd}).then(({data}) => {
@@ -405,7 +405,7 @@ export default {
         } else {}
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
-        if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三们相同！'})
+        if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
         this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd}).then(({data}) => {
@@ -568,7 +568,7 @@ export default {
       })
     },
     setSafeQuestion () {
-      if (!this.q1 || !this.q2 || !this.a1 || this.a2) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      if (!this.q1 || !this.q2 || !this.a1_ || !this.a2_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
       this.$http.post(api.setSafeQuestion, {question1: this.q1.title, question2: this.q2.title, answer1: this.a1, answer2: this.a2}).then(({data}) => {
         if (data.success === 1) {

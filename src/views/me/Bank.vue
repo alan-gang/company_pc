@@ -134,7 +134,7 @@
         p.title.text-black(style="margin: .2rem  .2rem .2rem .4rem") 您正在解绑 
           span.text-blue {{ me.name }} 
           | 的银行卡
-          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
+          span.ds-button.text-button.blue(style="float: right" @click="(i = 0) || stepIndex-- ") {{ '<返回上一页' }}
         StepTabs(type="text" v-bind:steps = "s" v-bind:stepIndex="i")
         
         hr(style="height: 0; border: 0; border-top: 1px solid #ccc; margin: .2rem .4rem 0 .4rem")
@@ -356,8 +356,8 @@ export default {
     checkbindBankCard () {
       if (!this.bank.apiName || !this.province.id || !this.city.id) return this.$message.error({target: this.$el, message: '请选择相应的银行、省份及城市！'})
       if (this.branchName.length < 3 || !Validate.chinese(this.branchName)) return this.$message.error({target: this.$el, message: '请输入您的开户银行支行名！'})
-      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入您的开户银行姓名！'})
-      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入您的银行卡号！'})
+      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户银行姓名！'})
+      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
       if (this.cardNo !== this.cardNoAgain) return this.$message.error({target: this.$el, message: '两次输入卡号不一致！'})
       this.bi++
     },
@@ -380,10 +380,10 @@ export default {
           this.getUserBankCards()
           this.clearBankCard()
         } else {
-          this.$message.error({target: this.$el, message: data.msg || '银行绑定失败！'})
+          this.$message.error({target: this.$el, message: data.msg || '银行卡绑定失败！'})
         }
       }).catch(({data}) => {
-        this.$message.error({target: this.$el, message: data.msg || '银行绑定失败！'})
+        this.$message.error({target: this.$el, message: data.msg || '银行卡绑定失败！'})
       })
     },
     clearBankCard () {
@@ -396,8 +396,9 @@ export default {
       this.cardNoAgain = ''
     },
     unbindBankCardCheck () {
-      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入您的银行卡号！'})
-      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入您的开户银行姓名！'})
+      console.log(this.cardNo)
+      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
+      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户银行姓名！'})
       this.$http.post(api.unbindBankCardCheck, {realName: this.name, cardNo: this.cardNo, entry: this.bank.entry}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '基本信息校验成功！'})
@@ -414,7 +415,7 @@ export default {
         text: '解绑中...',
         target: this.$el
       }, 10000)
-      this.$http.post(api.unbindBankCard, {entry: this.bank.entry}).then(({data}) => {
+      this.$http.post(api.unbindBankCard, {cardId: this.bank.entry, secuityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           loading && loading.close()
           this.$modal.success({
@@ -431,10 +432,10 @@ export default {
           this.clearBankCard()
           this.cpwd = ''
         } else {
-          this.$message.error({target: this.$el, message: data.msg || '银行解绑失败！'})
+          this.$message.error({target: this.$el, message: data.msg || '银行卡解绑失败！'})
         }
       }).catch(({data}) => {
-        this.$message.error({target: this.$el, message: data.msg || '银行解绑失败！'})
+        this.$message.error({target: this.$el, message: data.msg || '银行卡解绑失败！'})
       }).finally(rep => {
         setTimeout(() => {
           loading && loading.close()

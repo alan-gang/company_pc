@@ -532,7 +532,7 @@ export default {
     top TH
     bottom TH
     width TH
-    z-index 1
+    z-index 9999
     cursor e-resize
     &:hover
       width 2 * TH
@@ -549,7 +549,7 @@ export default {
     bottom - TH
     left .5rem
     height TH
-    z-index 1
+    z-index 9999
     cursor n-resize
     &:hover
       height 2 * TH

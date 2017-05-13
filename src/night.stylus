@@ -216,11 +216,13 @@ body.night
   
   // 7. change ds-checkbox of dialog-page
   .dialog-page
+    .el-checkbox
     .ds-checkbox-label
       color #aaa
       &:not(.disabled):hover .ds-checkbox
         border-color BLUE
     .ds-checkbox
+    .el-checkbox__inner
       background-color #444
       border border
       &:hover

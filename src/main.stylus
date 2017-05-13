@@ -257,7 +257,8 @@ input
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover
   background-color BLUE-ACTIVE
   
-
+.el-select-dropdown__item.is-disabled:hover
+  background-color #777
   
 /*
  *rewrite el-slider
@@ -1268,12 +1269,14 @@ input
     
     
 .ds-checkbox-label
+.el-checkbox
   display inline-block
   margin-right .1rem
   color #666
   cursor pointer
   &:not(.disabled):hover
     .ds-checkbox
+    .el-checkbox__inner
       border-color BLUE
       &.transparent
         border-color rgba(255, 255, 255, .4)
@@ -1283,9 +1286,14 @@ input
   
   &.disabled
     opacity .7
+
           
+.el-checkbox__input.is-checked .el-checkbox__inner
+  background-color #fff
+  border-color #ccc
   
 .ds-checkbox
+.el-checkbox__inner
   position relative
   top -.01rem
   display inline-block

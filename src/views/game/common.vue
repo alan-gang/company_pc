@@ -315,7 +315,10 @@ export default {
     __getTraceIssueList () {
       this.$http.post(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
-        if (data.success > 0) this.issues = data.items
+        if (data.success > 0) {
+          // data.items.forEach(d => (d.selected = false))
+          this.issues = data.items
+        }
       }, (rep) => {
         // error
       })
