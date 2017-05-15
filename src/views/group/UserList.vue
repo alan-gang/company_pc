@@ -160,6 +160,9 @@
               span.text-blue [{{ P.point }}]:
               span.text-danger {{ P.n }}个
 
+            span.text-danger(v-if="PS.length === 0") 0
+
+
         p(style="padding: 0rem .4rem") 您的返点级别：
           span.amount {{ myPoint }}
           | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
@@ -167,7 +170,7 @@
           |  % 
           span.text-money (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 
-        p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' ")
+        p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' && myPoint >= 7.3 ")
           label.text-666.ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
             span.ds-radio.white
             | 用量升

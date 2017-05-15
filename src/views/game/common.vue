@@ -274,7 +274,7 @@ export default {
             this.lucknumbers = lst.lucknumbers
           }
           this.allLuckyNumbers = data.items || []
-        } else {
+        } else if (data.success >= 0) {
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
             this.__recentlyCode()
@@ -430,7 +430,7 @@ export default {
       this.bonus = b
     },
     order () {
-      this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point + '%', selected: false}, {
+      this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point * 100 + '%', selected: false}, {
         methodid: parseInt(this.methodid), // 玩法编号
         type: parseInt(this.methodidtype),
         pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g

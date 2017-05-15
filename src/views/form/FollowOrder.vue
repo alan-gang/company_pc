@@ -109,9 +109,14 @@
               el-col(:span="5")
                 游戏：
                 span.text-black {{ row.lotteryName }}
+
               el-col(:span="5")
-                开奖号码：
-                span.text-black {{ row.prizeCode }}
+                span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
+                    span.text-black {{ row.prizeCode  }}
+                el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
+                  div(slot="content") {{ row.prizeCode }}
+                  span 开奖号码：
+                    span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
               el-col(:span="5")
                 总金额：
@@ -314,6 +319,7 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
+            projectId: this.id,
             beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             stat: this.status,
@@ -491,6 +497,7 @@
       margin 0 .2rem
       .el-row
         margin PW 0
+        word-wrap break-word
       .textarea-label
         position relative
         margin .3rem .3rem .3rem 0

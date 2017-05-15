@@ -220,6 +220,7 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
+            projectId: this.id,
             beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             stat: this.status,

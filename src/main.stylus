@@ -1222,7 +1222,8 @@ input
           width .07rem
           height .07rem 
           background-color BLUE
-.login-form .ds-radio-label
+          
+.forget-form .ds-radio-label
   color LIGHT
   &.active
     color WHITE
