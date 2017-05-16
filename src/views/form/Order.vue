@@ -224,7 +224,7 @@
         // modal
         show: false,
         type: 0,
-        row: {},
+        row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
         expandList: []
       }

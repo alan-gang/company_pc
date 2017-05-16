@@ -214,7 +214,7 @@
         // modal
         show: false,
         type: 0,
-        row: {},
+        row: {prizeCode: ''},
         modalTitles: ['跟单详情', '跟单详情'],
         expandList: []
       }

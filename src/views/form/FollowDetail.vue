@@ -201,7 +201,7 @@
         show: false,
         detail: {},
         taskId: '',
-        row: {}
+        row: {prizeCode: ''}
         // multipleSelection: null
       }
     },
