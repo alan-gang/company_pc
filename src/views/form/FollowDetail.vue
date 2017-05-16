@@ -241,6 +241,7 @@
               btn: ['确定']
             })
             this.followDetail(this.taskId)
+            this.__setCall({fn: '__getUserFund', callId: undefined})
           } else {
             this.$modal.warn({
               target: this.$el,

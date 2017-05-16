@@ -70,10 +70,15 @@
           el-table-column(prop="issue" label="期号" width="100")
 
           el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
-            template(scope="scope")
-              p 
-                span(v-if="scope.row.position") [{{ scope.row.position }}]  
-                | {{ scope.row.code }}
+          
+          el-table-column(prop="position" label="投注位置" min-width="80")
+
+
+          // el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
+          //   template(scope="scope")
+          //     p 
+          //       span(v-if="scope.row.position") [{{ scope.row.position }}]  
+          //       | {{ scope.row.code }}
 
 
           el-table-column(prop="multiple" label="倍数" width="40" align="right")
@@ -96,6 +101,7 @@
               div(v-if="scope.row.stat === 0 ")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" goFollowDetail(scope.row.taskId) ") 追号详情
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -252,6 +258,14 @@
       this.Orderlist()
     },
     methods: {
+      goFollowDetail (id) {
+        this.$router.push({
+          path: '/form/4-2-2',
+          query: {
+            id: id
+          }
+        })
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -290,6 +304,7 @@
               loading.text = '撤单成功!'
               setTimeout(() => {
                 this.Orderlist()
+                this.__setCall({fn: '__getUserFund', callId: undefined})
               }, 500)
             }, 500)
           } else loading.text = '撤单失败!'

@@ -38,7 +38,11 @@ export default {
       this.$http.post(api.tryLogin, {verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
         // success
         if (data.success > 0) {
-          this.$emit('update-user', {login: true, name: data.nickName})
+          this.$emit('update-user', {
+            login: true,
+            name: data.nickName,
+            guide: data.isTry !== '1'
+          })
           this.$router.push('/')
         } else this.$message.error('试玩登陆失败!')
       }, (rep) => {

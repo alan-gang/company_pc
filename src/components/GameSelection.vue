@@ -5,14 +5,14 @@
 
     el-row(v-if="rows.length === 0")
       el-col(:span="20")
-        el-input(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+        el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 逗号[,] 或者 分号[;] 隔开，双位数用 空格[ ] 分隔")
       el-col.btn-groups(:span="4")
-        .ds-button.outline(@click="removeRepeat") 删除重复号
+        .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
         br
         .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
-          input(type="file" @change="selectFiles" multiple v-if="upload")
+          input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
         br
-        .ds-button.outline(@click="value = ''") 清空
+        .ds-button.outline(@click=" __clearValue ") 清空
     el-row.pos(v-if="show")
       el-col(v-bind:span="13")
         label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
@@ -220,8 +220,9 @@
           {ids: '0-1-2-K3:1', class: 'dice', title: '1个号中奖', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]}
 
         ],
+        V: '',
         // 输入的号码
-        value: '',
+        // value: '',
         // 位置选择
         positions: [
           {
@@ -347,6 +348,16 @@
           new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g')
         ))[0]
         return min ? C(this.positions.filter(p => p.selected).length, min.min) : 0
+      },
+      value () {
+        // .....
+        if (this.V.match(/[,;]/g)) {
+          return this.V.replace(/[\s]+/g, '').replace(/[,;\s]+/g, ' ')
+        } else if (this.V.match(/^(\s*[\d]{2,2}\s*)+$/)) {
+          return this.V.replace(/[,;\s]+/g, '') + ' '
+        } else {
+          return this.V.replace(/[,;\s]+/g, ' ')
+        }
       }
     },
     watch: {
@@ -354,9 +365,18 @@
         this.$emit('n-change', this.n)
       },
       // 传递value值到父
+      // value () {
+      //   this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      //   this.removeRepeat()
+      //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
+      // },
+      V () {
+        setTimeout(() => {
+          this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+        })
+      },
       value () {
-        this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
-        // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
+        this.removeRepeat()
       },
       rows () {
         this.titleSpan = this.rows.reduce((p, r) => {
@@ -383,7 +403,8 @@
     },
     methods: {
       __clearValue () {
-        this.value = ''
+        this.V = ''
+        this.$el.querySelector('textarea').value = ''
       },
       // 选择号码发生变化
       numbersChange () {
@@ -403,6 +424,7 @@
       selectFiles (evt) {
         let allowedFiles = 'text/plain'
         let files = evt.target.files
+        console.log(files)
         Array.from(files).forEach(f => {
           if (f.type.indexOf(allowedFiles) !== -1) {
             let reader = new window.FileReader()
@@ -414,10 +436,11 @@
             reader.readAsText(f, 'utf-8')
           }
         })
+        this.$refs.file.value = ''
       },
       load (evt) {
         // console.log(evt.target.result)
-        this.value += evt.target.result
+        this.value += evt.target.result + ' '
         // .replace(/\s+/g, ' ')
       },
       removeRepeat () {

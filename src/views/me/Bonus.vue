@@ -38,7 +38,7 @@
 
         el-table-column(prop="userPoint" label="返点" width="150" align="right")
         el-table-column(prop="status" label="状态" align="center" width="150")
-          template(scope="scope") {{ scope.row.isclose === 0 ? '使用中' : '已关闭' }}
+          template(scope="scope") {{ scope.row.isClose === 0 ? '使用中' : '已关闭' }}
 
 
 
