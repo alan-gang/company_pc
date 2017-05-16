@@ -98,10 +98,10 @@
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
           el-table-column(label="操作" wdith="100")
             template(scope="scope")
-              div(v-if="scope.row.stat === 0 ")
+              div
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" goFollowDetail(scope.row.taskId) ") 追号详情
+                .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                .ds-button.text-button.blue(v-if="scope.row.taskId === 0 " style="padding: 0 .05rem" @click=" goFollowDetail(scope.row.taskId) ") 追号详情
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 

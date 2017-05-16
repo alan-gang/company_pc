@@ -404,7 +404,7 @@
     methods: {
       __clearValue () {
         this.V = ''
-        this.$el.querySelector('textarea').value = ''
+        this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = '')
       },
       // 选择号码发生变化
       numbersChange () {
@@ -440,11 +440,11 @@
       },
       load (evt) {
         // console.log(evt.target.result)
-        this.value += evt.target.result + ' '
+        this.V += evt.target.result + ' '
         // .replace(/\s+/g, ' ')
       },
       removeRepeat () {
-        this.value = removeDuplicate(this.value, ' ')
+        this.V = removeDuplicate(this.V, ' ')
       }
     },
     components: {
