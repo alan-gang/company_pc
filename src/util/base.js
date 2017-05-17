@@ -39,10 +39,11 @@ let repeat = (s, t) => {
   return r
 }
 // remove duplicate in a string by split by i
-let removeDuplicate = (s, i) => {
-  return s.split(i).filter((n, i, arr) => {
-    return i === arr.findIndex(nn => nn === n)
-  }).join(' ')
+let removeDuplicate = (s, i, join) => {
+  let has = false
+  return { s: s.split(i).filter((n, i, arr) => {
+    return i === arr.findIndex(nn => nn === n) || !(has = true)
+  }).join(join || ' '), has: has }
 }
 
 let padStart = (s, l, w) => {

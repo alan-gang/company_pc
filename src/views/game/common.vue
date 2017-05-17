@@ -429,6 +429,12 @@ export default {
       this.point = p
       this.bonus = b
     },
+    // beforeOrder () {
+    //   this.__setCall({fn: '__removeRepeat'})
+    // },
+    // __order () {
+    //   this.order()
+    // },
     order () {
       this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point * 100 + '%', selected: false}, {
         methodid: parseInt(this.methodid), // 玩法编号

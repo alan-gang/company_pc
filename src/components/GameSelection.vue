@@ -5,7 +5,7 @@
 
     el-row(v-if="rows.length === 0")
       el-col(:span="20")
-        el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 逗号[,] 或者 分号[;] 隔开，双位数用 空格[ ] 分隔")
+        el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
       el-col.btn-groups(:span="4")
         .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
         br
@@ -349,12 +349,16 @@
         ))[0]
         return min ? C(this.positions.filter(p => p.selected).length, min.min) : 0
       },
+      // 当输入型时， 注数的分隔符
+      // has ,; ? ,; : ' '
+      // separator () {
+      //   return this.V.match(/[,;]/g) ? /[,;]+/g : /[\s]+/g
+      // },
       value () {
-        // .....
-        if (this.V.match(/[,;]/g)) {
-          return this.V.replace(/[\s]+/g, '').replace(/[,;\s]+/g, ' ')
-        } else if (this.V.match(/^(\s*[\d]{2,2}\s*)+$/)) {
-          return this.V.replace(/[,;\s]+/g, '') + ' '
+        // C2
+        // 如果是115
+        if (this.type.id.indexOf('-115') !== -1) {
+          return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
         }
@@ -370,6 +374,7 @@
       //   this.removeRepeat()
       //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       // },
+      // C2
       V () {
         setTimeout(() => {
           this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
@@ -424,7 +429,6 @@
       selectFiles (evt) {
         let allowedFiles = 'text/plain'
         let files = evt.target.files
-        console.log(files)
         Array.from(files).forEach(f => {
           if (f.type.indexOf(allowedFiles) !== -1) {
             let reader = new window.FileReader()
@@ -440,11 +444,27 @@
       },
       load (evt) {
         // console.log(evt.target.result)
-        this.V += evt.target.result + ' '
+        this.V += this.V ? ',' + evt.target.result : evt.target.result
         // .replace(/\s+/g, ' ')
       },
+      // __removeRepeat () {
+      //   if (this.removeRepeat()) {
+      //     this.$modal.warn({
+      //       content: '系统已经自动去除重复号！',
+      //       btn: ['确定']
+      //     })
+      //   }
+      //   this.__setCall({fn: '__order'})
+      // },
       removeRepeat () {
-        this.V = removeDuplicate(this.V, ' ')
+        let R = null
+        if (this.type.id.indexOf('-115') !== -1) {
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',')
+        } else {
+          R = removeDuplicate(this.V, /[,;\s]+/)
+        }
+        if (R.has) this.V = R.s
+        return R.has
       }
     },
     components: {
