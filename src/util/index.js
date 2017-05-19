@@ -3,7 +3,7 @@ import groupArray from './Array'
 // 日期
 import { timeFormat } from './Date'
 // dom
-import { getOffset, addEvent } from './Dom'
+import { getOffset, addEvent, removeEvent } from './Dom'
 // 基础
 import { repeat } from './base'
 // 注数算法
@@ -14,6 +14,7 @@ module.exports = {
   groupArray,
   getOffset,
   addEvent,
+  removeEvent,
   timeFormat,
   repeat,
   N,

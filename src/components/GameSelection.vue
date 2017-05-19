@@ -47,15 +47,15 @@
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 前三[直选复式] | 中三[直选复式] | 后三[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
-          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, +3-1-1, 3-1-1, -3-1-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1', title: '百位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, +3-1-1, 3-1-1, -3-1-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL, -2-1-1-SSL', title: '百位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 中三[直选复式] | 后三[直选复式] | 后二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
-          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, 3-1-1, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1', title: '十位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, 3-1-1, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL, -2-1-1-SSL', title: '十位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 后三[直选复式] | 后二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
-          {ids: '5-1-1, 5-1-3, 4-3-1, 4-3-3, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1', title: '个位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '5-1-1, 5-1-3, 4-3-1, 4-3-3, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL', title: '个位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           /***
           ** 五星[组选120]
           ***/
@@ -214,8 +214,10 @@
           {ids: '-2-1-2-K3:1, -3-1-2-K3:2', class: 'dice', title: '胆码', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
           {ids: '-2-1-2-K3, -3-1-2-K3', class: 'dice', title: '拖码', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]},
           {ids: '3-1-1-K3', class: 'dice double-width', title: '三同号', values: [{selected: false, title: [1, 1, 1], value: 1}, {selected: false, title: [2, 2, 2], value: 2}, {selected: false, title: [3, 3, 3], value: 3}, {selected: false, title: [4, 4, 4], value: 4}, {selected: false, title: [5, 5, 5], value: 5}, {selected: false, title: [6, 6, 6], value: 6}]},
-          {ids: '3-1-2-K3', class: 'dice', title: '通选', values: [{selected: false, title: ['全'], value: '1,1,1|2,2,2|3,3,3|4,4,4|5,5,5|6,6,6'}]},
-          {ids: '+3-1-2-K3', class: 'dice', title: '通选', values: [{selected: false, title: ['全'], value: '1,2,3|2,3,4|3,4,5|4,5,6'}]},
+          // {ids: '3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: '1,1,1|2,2,2|3,3,3|4,4,4|5,5,5|6,6,6'}]},
+          {ids: '3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: 1}]},
+          {ids: '+3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: 1}]},
+          // {ids: '+3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: '1,2,3|2,3,4|3,4,5|4,5,6'}]},
           {ids: '+3-1-1-K3', class: 'dice double-width', title: '三连号', join: '|', values: [{selected: false, title: [1, 2, 3], value: '1,2,3'}, {selected: false, title: [2, 3, 4], value: '2,3,4'}, {selected: false, title: [3, 4, 5], value: '3,4,5'}, {selected: false, title: [4, 5, 6], value: '4,5,6'}]},
           {ids: '0-1-2-K3:1', class: 'dice', title: '1个号中奖', values: [{selected: false, title: [1], value: 1}, {selected: false, title: [2], value: 2}, {selected: false, title: [3], value: 3}, {selected: false, title: [4], value: 4}, {selected: false, title: [5], value: 5}, {selected: false, title: [6], value: 6}]}
 
@@ -263,6 +265,8 @@
         ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6',
         // 号码集
         ns: [],
+        // 号码的文字表示集
+        nsTitle: [],
         // 导入文件
         upload: true,
         titleSpan: 0,
@@ -331,7 +335,7 @@
           r: this.r
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败
-        typeof x === 'object' && typeof x[1] === 'object' && this.$emit('set-nsns', x[1].join('|'))
+        typeof x === 'object' && typeof x[1] === 'object' && this.$emit('set-nsns', x[1].join('|'), this.nsTitle.join(','))
         return typeof x === 'object' ? x[0] : x
         // return N[this.type.id] ? N[this.type.id]({
         //   ns: this.ns,
@@ -396,7 +400,7 @@
           if (this.rows[i].join) this.ns[i] = ns.join(this.rows[i].join || ',')
         })
         // fixed 当只有有join的时候才需要forEach *****
-        this.$emit('set-nsns', this.ns.join('|'))
+        this.$emit('set-nsns', this.ns.join('|'), this.nsTitle.join(','))
       },
       ps () {
         this.$emit('set-ps', this.ps)
@@ -415,6 +419,9 @@
       numbersChange () {
         this.ns = this.rows.map(r => {
           return (r = r.ns || [])
+        })
+        this.nsTitle = this.rows.map(r => {
+          return (r = r.nsTitle || [])
         })
       },
       // on number row selecting

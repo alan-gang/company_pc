@@ -2,7 +2,8 @@
   .order-list
     el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
       el-table-column(label="玩法、投注号码" width="200" show-overflow-tooltip=true)
-        template(scope="scope") {{ scope.row.title ? scope.row.title  + '[' + scope.row.codes + '] ' : '' }}
+        template(scope="scope") {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
+
       el-table-column(prop="$" label="模式" width="80")
       el-table-column(prop="n" label="注数" width="100" align="right")
       el-table-column(prop="times" label="倍投" width="80" align="right")

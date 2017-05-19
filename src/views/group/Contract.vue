@@ -42,7 +42,7 @@
             template(scope="scope")
               .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click=" goContractDetail(scope.row.id) ") 查看详情
               .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
-              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '待确认'" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
+              .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
       
 
       div(v-if="stepIndex === 1 ")
@@ -66,36 +66,39 @@
               |  至 
               el-date-picker(v-model="et1" type="datetime" placeholder="请选择日期时间")
 
-          // p.item.block
+          p.item.block
+             span.text-danger *
+             | 按时间：
+             span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+          //p.item.block
           //   span.text-danger *
           //   | 按时间：
  
-          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
-          //     span.ds-radio.white
+          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
+          //     span.ds-radio.white.
           //     | 月
- 
-          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
-          //     span.ds-radio.white
+          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
+          //     span.ds-radio.white.
           //     | 周
  
-          //   label.text-black; padding: 0 .1rem").ds-radio-label(@click=" AT = 2 " v-bind:class=" { active: AT === 2} ")
-          //     span.ds-radio.white
+          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 2 " v-bind:class=" { active: AT === 2} ")
+          //     span.ds-radio.white.
           //     | 日
 
           p.item.block(v-for=" (CR, i) in CRULES ")
             span.text-danger {{ i===0? '*': '&nbsp;'}}
-            | {{ TYPE[CR.ruletype].title }} ：&nbsp;&nbsp;&nbsp;
+            | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
             span.text-black 累计 
-            el-select(clearable v-model="CR.ruletype" style="width: .7rem" placeholder="全")
+            el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
-            el-input-number.text-danger.text-right(style="width: .5rem;" v-model="CR.sales")
+            el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
             span.text-black  万，分红比例 
-            el-input-number.text-danger.text-right(style="width: .5rem;" v-model="CR.bounsRate")
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate")
             |  %
 
-          .buttons.item.block(style="padding-left: .55rem" v-if="ruleLength < 11")
-            .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ ")
+          .buttons.item.block(style="padding-left: .55rem")
+            .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 11")
               span.text-black &nbsp;再加一行
 
             .ds-button.x-small.text-button.el-icon-minus.blue(@click=" ruleLength-- " v-if="ruleLength > 3 ")
@@ -111,11 +114,14 @@
 <script>
   import api from '../../http/api'
   import { dateTimeFormat } from '../../util/Date'
+  import store from '../../store'
   export default {
     data () {
       return {
         // 0 我的契约
         // 1 下级契约
+        me: store.state.user,
+        time: ['月', '周', '日'],
         type: 0,
         st: '',
         et: '',
@@ -155,11 +161,37 @@
     computed: {
       CRULES () {
         return this.RULES.slice(0, this.ruleLength)
+      },
+      dataRules () {
+        return this.CRULES.filter(c => c.sales > 0 && c.bounsRate > 0).map(n => {
+          return {
+            ruletype: n.ruletype,
+            sales: n.sales,
+            bounsRate: n.bounsRate
+          }
+        })
+      },
+      hasRepeat () {
+        return this.dataRules.reduce((p, m, i) => {
+          if (p[JSON.stringify(m)]) {
+            p.flag = true
+          } else {
+            p[JSON.stringify(m)] = true
+          }
+          return p
+        }, {}).flag
       }
     },
     watch: {
       type () {
         this.contract()
+      },
+      hasRepeat () {
+        this.hasRepeat && this.$modal.warn({
+          target: this.$el,
+          content: '请不要输入完全相同的规则!',
+          btn: ['好的']
+        })
       }
     },
     mounted () {
@@ -209,17 +241,25 @@
         })
       },
       createContract () {
-        let data = this.CRULES.slice()
-        data.forEach(c => {
-          c.bounsRate /= 100
-          delete c.title
-        })
+        // let data = this.CRULES.slice()
+        // data.forEach(c => {
+        //   c.bounsRate /= 100
+        //   delete c.title
+        // })
+        if (this.hasRepeat) {
+          return this.$modal.warn({
+            target: this.$el,
+            content: '请不要输入完全相同的规则!',
+            btn: ['好的']
+          })
+        }
         this.$http.post(api.createContract, {
           beginTm: this.st1 ? dateTimeFormat(this.st1.getTime()).replace(/[\s:-]*/g, '') : '',
           expireTm: this.et1 ? dateTimeFormat(this.et1.getTime()).replace(/[\s:-]*/g, '') : '',
           userId: this.user.userId,
           // sharecycle: this.AT,
-          bonusRuleList: JSON.stringify(data)
+          // bonusRuleList: JSON.stringify(data)
+          bonusRuleList: JSON.stringify(this.dataRules)
         }).then(({data}) => {
           // success
           if (data.success === 1) {

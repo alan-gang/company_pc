@@ -27,7 +27,7 @@
             span.text-danger 6.0%    
             br
             | 2. 自动注册用户最大返点级别为 
-            span.text-danger 6.5
+            span.text-danger {{ autoRegistMinPoint }}
             ，自动注册不需要开户配额
             br
             | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
@@ -70,7 +70,8 @@
         PS: [],
         p: 0,
         url: '',
-        userPoint: 0
+        userPoint: 0,
+        autoRegistMinPoint: 6.5
       }
     },
     computed: {
@@ -94,6 +95,7 @@
           // success
           if (data.success === 1) {
             this.userPoint = data.userPoint
+            this.autoRegistMinPoint = data.autoRegistMinPoint
             this.url = data.url
             this.p = data.autoPoint.toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {

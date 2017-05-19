@@ -14,9 +14,9 @@
           |  至 
           el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
 
-        label.item 状态 
-          el-select(clearable v-bind:disabled=" !STATUS[0] " placeholder="全" v-model="status" style="width: .8rem")
-            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
+        // label.item 状态 
+        //   el-select(clearable v-bind:disabled=" !STATUS[0] " placeholder="全" v-model="status" style="width: .8rem")
+        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
         label.item 奖金 
           el-select(clearable v-bind:disabled=" !ISFREE[0] " placeholder="全" v-model="isFree" style="width: .8rem")
@@ -77,7 +77,7 @@
 
           el-table-column(class-name="pl1" prop="modes" label="模式" width="50" )
             template(scope="scope")
-              span {{ MODES[scope.row.modes] }}            
+              span {{ MODES[scope.row.modes - 1] }}            
 
           el-table-column(prop="taskprice" label="总金额" width="100" align="right")
 
@@ -223,7 +223,7 @@
             projectId: this.id,
             beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-            stat: this.status,
+            // stat: this.status,
             isFree: this.isFree,
             userName: this.name,
             scope: this.zone,

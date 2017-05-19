@@ -84,7 +84,7 @@
         this.$http.get(api.queryMyContract).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.contracts = data.contractList
+            this.contracts = data.contractList.reverse()
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -143,12 +143,12 @@
     // background #fff
     text-align center
     radius()
-    &.center:after
-      content ''
-      height 100%
-      width 0
-      vertical-align middle
-      display inline-block
+    // &.center:after
+    //   content ''
+    //   height 100%
+    //   width 0
+    //   vertical-align middle
+    //   display inline-block
     .form
       padding PWX
     .c

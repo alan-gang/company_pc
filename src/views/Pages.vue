@@ -7,7 +7,7 @@
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
-        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)")
+        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid")
 
 </template>
 
@@ -153,70 +153,152 @@ export default {
       // 提供随机的位置
       // 没有记录过位置的窗口将自动分配位置
       PPP: [
-        // center
         {
-          top: '15%',
-          left: '25%',
-          width: '9.3rem',
-          height: '6.4rem'
+          top: 'calc(10% + 0.15rem)',
+          left: 'calc(20% + 0.15rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // left top
         {
-          left: '.15rem',
-          top: '.15rem',
-          right: 'auto',
-          bottom: 'auto'
+          top: 'calc(10% + 0.5rem)',
+          left: 'calc(20% + 0.5rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // right top
         {
-          right: '.15rem',
-          top: '.15rem',
-          left: 'auto',
-          bottom: 'auto'
+          top: 'calc(10% + 0.85rem)',
+          left: 'calc(20% + 0.85rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // left bottom
         {
-          left: '.15rem',
-          bottom: 'auto',
-          top: '50%',
-          right: 'auto'
+          top: 'calc(10% + 1.2rem)',
+          left: 'calc(20% + 1.2rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // right bottom
         {
-          right: '.15rem',
-          bottom: 'auto',
-          top: '50%',
-          left: 'auto'
+          top: 'calc(10% + 1.55rem)',
+          left: 'calc(20% + 1.55rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // center left top
         {
-          top: '5%',
-          left: '10%',
-          right: 'auto',
-          bottom: 'auto'
+          top: 'calc(10% + 1.9rem)',
+          left: 'calc(20% + 1.9rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // center right top
         {
-          top: '5%',
-          right: '10%',
-          left: 'auto',
-          bottom: 'auto'
+          top: 'calc(10% + 2.25rem)',
+          left: 'calc(20% + 2.25rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // center left bottom
         {
-          bottom: 'auto',
-          left: '10%',
-          right: 'auto',
-          top: '30%'
+          top: 'calc(10% + 2.6rem)',
+          left: 'calc(20% + 2.6rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         },
-        // center right bottom
         {
-          bottom: 'auto%',
-          right: '10%',
-          left: 'auto',
-          top: '30%'
+          top: 'calc(10% + 2.95rem)',
+          left: 'calc(20% + 2.95rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
+        },
+        {
+          top: 'calc(10% + 3.3rem)',
+          left: 'calc(20% + 3.3rem)',
+          // width: '9.3rem',
+          width: '50%',
+          height: '50%'
+          // height: '6.4rem'
         }
       ]
+      // PPP: [
+      //   // center
+      //   {
+      //     top: '15%',
+      //     left: '25%',
+      //     width: '9.3rem',
+      //     height: '6.4rem'
+      //   },
+      //   // left top
+      //   {
+      //     left: '.15rem',
+      //     top: '.15rem',
+      //     right: 'auto',
+      //     bottom: 'auto'
+      //   },
+      //   // right top
+      //   {
+      //     right: '.15rem',
+      //     top: '.15rem',
+      //     left: 'auto',
+      //     bottom: 'auto'
+      //   },
+      //   // left bottom
+      //   {
+      //     left: '.15rem',
+      //     bottom: 'auto',
+      //     top: '50%',
+      //     right: 'auto'
+      //   },
+      //   // right bottom
+      //   {
+      //     right: '.15rem',
+      //     bottom: 'auto',
+      //     top: '50%',
+      //     left: 'auto'
+      //   },
+      //   // center left top
+      //   {
+      //     top: '5%',
+      //     left: '10%',
+      //     right: 'auto',
+      //     bottom: 'auto'
+      //   },
+      //   // center right top
+      //   {
+      //     top: '5%',
+      //     right: '10%',
+      //     left: 'auto',
+      //     bottom: 'auto'
+      //   },
+      //   // center left bottom
+      //   {
+      //     bottom: 'auto',
+      //     left: '10%',
+      //     right: 'auto',
+      //     top: '30%'
+      //   },
+      //   // center right bottom
+      //   {
+      //     bottom: 'auto%',
+      //     right: '10%',
+      //     left: 'auto',
+      //     top: '30%'
+      //   }
+      // ]
 
     }
   },

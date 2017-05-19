@@ -43,7 +43,7 @@
 
           el-table-column(class-name="pl1" prop="modes" label="模式" width="50")
             template(scope="scope")
-                span {{ MODES[scope.row.modes] }}     
+                span {{ MODES[scope.row.modes - 1] }}     
 
           el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
 
@@ -78,7 +78,7 @@
 
           el-table-column(class-name="pl1" prop="modes" label="模式" width="50")
             template(scope="scope")
-                span {{ MODES[scope.row.modes] }}     
+                span {{ MODES[scope.row.modes - 1] }}     
 
           el-table-column(prop="totalPrice" label="总金额" width="80" align="right")
 

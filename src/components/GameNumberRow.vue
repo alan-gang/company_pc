@@ -49,6 +49,12 @@
           return (n = n.value)
         })
       },
+      // 选号的号码title集
+      nsTitle () {
+        return this.numbers.filter(n => n.selected && typeof n.title === 'string').map(n => {
+          return (n = n.title)
+        })
+      },
       // nsValue () {
       //   if (this.row.join) {
       //     return [this.ns.join(this.row.join)]
@@ -68,6 +74,7 @@
     watch: {
       ns () {
         this.row.ns = this.ns
+        this.row.nsTitle = this.nsTitle
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },

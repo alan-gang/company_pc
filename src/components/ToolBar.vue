@@ -2,7 +2,7 @@
   .tool-bar
     span.title {{ title }}
     el-button-group
-      el-button(v-bind:icon="starClass" @click="like")
+      el-button(v-bind:icon="starClass" @click="like" v-if="menuid")
       .el-button(@click="minus")
         .el-icon-minus
       .el-button(@click="full")
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  props: ['title', 'star'],
+  props: ['title', 'star', 'menuid'],
   data () {
     return {
     }

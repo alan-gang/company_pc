@@ -205,6 +205,8 @@ input
 /*
  *rewrite el-select
  */
+.el-select
+  vertical-align middle
 // .el-select
 //   display inline-block
 //   line-height .3rem
@@ -238,8 +240,8 @@ input
   color #b0cfe3
   background-color rgba(22, 113, 188, .95)
   border none
+  vertical-align middle
   shadow()
-  font-shadow()
   radius()
   .el-select-dropdown__item
     height .3rem
@@ -1229,6 +1231,7 @@ input
   display inline-block
   padding 0 PW
   cursor pointer
+  
   &:hover
     .ds-radio
       border-color rgba(255, 255, 255, .4)
@@ -1242,7 +1245,9 @@ input
           width .07rem
           height .07rem 
           background-color BLUE
-          
+  &.disabled
+    opacity .3
+
 .forget-form .ds-radio-label
   color LIGHT
   &.active
@@ -1287,6 +1292,8 @@ input
     background-color #fff
     &:hover
       border-color BLUE 
+  &.disabled
+    opacity .7
     
     
 .ds-checkbox-label

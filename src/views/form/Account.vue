@@ -84,13 +84,13 @@
 
           el-table-column(prop="modes" label="模式" width="50" )
             template(scope="scope")
-                span {{ MODES[scope.row.modes] }}   
+                span {{ MODES[scope.row.modes - 1] }}   
 
           el-table-column(prop="income" label="收入" width="100" align="right")
 
           el-table-column(prop="expenditure" label="支出" width="100" align="right")
 
-          el-table-column(prop="expenditure" label="余额" width="100" align="right")
+          el-table-column(prop="balance" label="余额" width="100" align="right")
 
           el-table-column(label="备注" align="center")
 
@@ -190,7 +190,7 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        amount: [{}]
+        amount: [{income: 0, expenditure: 0, difMoney: 0}]
       }
     },
     computed: {
@@ -229,8 +229,15 @@
       game () {
         this.getMethods()
         this.getRecentIssueList()
-      },
-      data () {
+      }
+    },
+    mounted () {
+      this.getLotterys()
+      this.getOrderType()
+      this.list()
+    },
+    methods: {
+      summary () {
         this.amount[0].income = 0
         this.amount[0].expenditure = 0
         this.amount[0].difMoney = 0
@@ -243,14 +250,7 @@
         this.amount[0].income = this.amount[0].income.toFixed(3)
         this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
         this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
-      }
-    },
-    mounted () {
-      this.getLotterys()
-      this.getOrderType()
-      this.list()
-    },
-    methods: {
+      },
       myTopup () {
         this.clear()
         this.type = [1]
@@ -362,6 +362,7 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

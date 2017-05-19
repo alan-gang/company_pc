@@ -191,9 +191,10 @@ export default {
     if ((this.step === 0 && this.me.name) || (this.step === 1 && this.me.pwd) || (this.step === 2 && this.me.cashPwd)) this.step++
     this.getBankList()
     this.getProvices()
-    util.addEvent('resize', window, () => {
-      this.getPos()
-    })
+    util.addEvent('resize', window, this.getPos)
+  },
+  beforeDestroy () {
+    util.removeEvent('resize', window, this.getPos)
   },
   methods: {
     getPos () {

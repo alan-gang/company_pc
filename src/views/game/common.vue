@@ -92,6 +92,8 @@ export default {
       ns: [],
       // 投注号码
       nsns: [],
+      // 投注号码文字表示
+      nsnsTitle: '',
       // 倍数
       times: 1,
       // 金额单位
@@ -292,6 +294,8 @@ export default {
           // 当前期
           // this.NPER = (parseInt(data.issue) || 1) - 1
           this.CNPER = data.issue
+          this.PNPER = data.openedCount
+          this.FNPER = data.dailyCount
           this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
         } else {
           this.$message.error({message: '当前奖期获取失败！'})
@@ -411,8 +415,9 @@ export default {
       this.n = n
     },
     // 当前注的号码
-    setNsns (nsns) {
+    setNsns (nsns, nsnsTitle) {
       this.nsns = nsns
+      this.nsnsTitle = nsnsTitle
     },
     // 当前注的位置
     setPs (ps) {
@@ -441,6 +446,7 @@ export default {
         type: parseInt(this.methodidtype),
         pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
         codes: this._getCodes(), // 投注内容,不同位的用竖线“|”连接，相同位选多个号码用“,”连接.
+        nsnsTitle: this.nsnsTitle,
         count: this.n, // 注数
         times: this.times, // 倍数
         money: this.pay, // 金额

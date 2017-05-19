@@ -82,6 +82,7 @@
                   cashPwd: data.hasSecurityPwd === '1',
                   type: data.identity,
                   account: data.userName,
+                  shareCycle: data.shareCycle,
                   role: data.roleId,
                   hasBankCard: data.hasBankCard === '1',
                   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
@@ -149,6 +150,7 @@
               pwd: data.hasLogPwd === '1',
               cashPwd: data.hasSecurityPwd === '1',
               hasBankCard: data.hasBankCard === '1',
+              shareCycle: data.shareCycle,
               type: data.identity,
               account: data.userName,
               role: data.roleId,
