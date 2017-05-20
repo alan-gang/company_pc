@@ -47,11 +47,11 @@
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 前三[直选复式] | 中三[直选复式] | 后三[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
-          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, +3-1-1, 3-1-1, -3-1-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL, -2-1-1-SSL', title: '百位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, +3-1-1, 3-1-1, -3-1-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL', title: '百位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 中三[直选复式] | 后三[直选复式] | 后二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
-          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, 3-1-1, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL, -2-1-1-SSL', title: '十位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '5-1-1, 5-1-3, 4-1-1, 4-1-3, 4-3-1, 4-3-3, 3-1-1, -3-1-1, 2-3-1, 1-1-1, -1-1-1, -1-2-1, -1-3-1, 1-1-1-SSL, 2-1-1-SSL, 2-2-1-SSL', title: '十位', min: 0, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
           /***
           ** 五星[直选复式,五星组合] | 四星[后四[直选复式,四星组合]] | 后三[直选复式] | 后二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
@@ -146,7 +146,9 @@
            /***
           ** 趣味[后二大小单双]
           ***/
-          {ids: '-2-1-2', title: '十位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
+          {ids: '-2-1-1-SSL', title: '百位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
+
+          {ids: '-2-1-2, -2-1-1-SSL', title: '十位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           /***
           ** 趣味[后二大小单双]
           ***/
@@ -420,8 +422,8 @@
         this.ns = this.rows.map(r => {
           return (r = r.ns || [])
         })
-        this.nsTitle = this.rows.map(r => {
-          return (r = r.nsTitle || [])
+        this.nsTitle = this.rows.filter(x => x.nsTitle).map(r => {
+          return (r = r.nsTitle || '')
         })
       },
       // on number row selecting

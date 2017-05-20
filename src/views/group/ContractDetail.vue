@@ -19,7 +19,7 @@
         p.item 时间类型：按{{ TIME[c.shareCycle] }}
 
         p.item(v-for="(l, i) in  (c.bonusRules || c.topRuleList)") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[ l.ruletype || l.ruleType || 0 ].title }}
-          span.text-danger  {{ l.sales / 10000 }}万
+          span.text-danger  {{ l.sales }}万
           | ，分红比例
           span.text-danger  {{ l.bounsRate }}%
 
@@ -59,7 +59,7 @@
     },
     computed: {
       apiContractDetail () {
-        return this.me.role < 4 ? api.topContract : api.qryContractById
+        return (this.me.role < 4 && this.self) ? api.topContract : api.qryContractById
       }
     },
     watch: {

@@ -101,6 +101,30 @@
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== 0 " style="padding: 0 .05rem" @click=" goFollowDetail(scope.row.taskId) ") 追号详情
+        
+        el-table.header-bold.nopadding(:data="amount" v-bind:row-class-name="tableRowClassName" style="" v-if="amount[0]")
+
+          el-table-column(prop="entry" label="" width="600" )
+            template(scope="scope")
+              p 小结：本页变动金额 &nbsp;&nbsp;
+                span.text-blue {{ scope.row.difMoney }}
+
+          el-table-column(prop="code"  min-width="120")
+
+
+          el-table-column(prop="income" label="" width="80" align="right")
+            template(scope="scope")
+              span.text-green + {{ scope.row.income }}
+
+
+          el-table-column(prop="expenditure" label="" width="80" align="right")
+            template(scope="scope")
+              span.text-danger - {{ scope.row.expenditure }}
+
+          el-table-column(prop="code"  min-width="120")
+          
+          el-table-column( label="" width="160" align="right")
+
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -199,7 +223,7 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
-  import util from '../../util'
+  // import util from '../../util'
   export default {
     data () {
       return {
@@ -231,7 +255,8 @@
         type: 0,
         row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
-        expandList: []
+        expandList: [],
+        amount: [{income: 0, expenditure: 0, difMoney: 0}]
       }
     },
     computed: {
@@ -240,9 +265,9 @@
       },
       Cdata () {
         if (this.data.length <= this.pageSize) return this.data
-        else {
-          return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-        }
+        // else {
+        //   return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+        // }
       }
     },
     watch: {
@@ -257,6 +282,20 @@
       this.Orderlist()
     },
     methods: {
+      summary () {
+        this.amount[0].income = 0
+        this.amount[0].expenditure = 0
+        this.amount[0].difMoney = 0
+        this.Cdata.forEach(d => {
+          this.amount[0].income += d.bonus
+          this.amount[0].expenditure += d.totalPrice
+        })
+        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
+
+        this.amount[0].income = this.amount[0].income.toFixed(3)
+        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
+        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
+      },
       goFollowDetail (id) {
         this.$router.push({
           path: '/form/4-2-2',
@@ -348,6 +387,7 @@
             typeof fn === 'function' && fn()
             this.data = data.recordList
             this.total = data.totalSize || this.data.length
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

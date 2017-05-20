@@ -345,12 +345,12 @@ input
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
-  table-row-height(x = .3rem)
+  table-row-height(x = .33rem)
     td
       height auto
       .cell
         line-height x
-   table-header-height(x = .3rem)
+   table-header-height(x = .30rem)
     th
       height auto
       .cell

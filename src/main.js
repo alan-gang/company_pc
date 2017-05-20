@@ -1,6 +1,6 @@
 import Vue from 'vue'
-Vue.config.devtools = false
 Vue.config.silent = true
+Vue.config.devtools = false
 import './polyline'
 
 import config from './config'

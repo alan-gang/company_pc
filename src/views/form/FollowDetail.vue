@@ -106,6 +106,7 @@
         .box(ref="box")
           .tool-bar
             span.title 投注详情
+
             el-button-group
               el-button.close(icon="close" @click="show = false")
           .content
@@ -383,6 +384,13 @@
         background-color bg-active
       &:first-child
         font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
 
   .modal 
     position absolute

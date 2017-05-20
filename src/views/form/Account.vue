@@ -127,7 +127,7 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
-  import util from '../../util'
+  // import util from '../../util'
   export default {
     data () {
       return {
@@ -196,13 +196,13 @@
     computed: {
       textMoney () {
         return digitUppercase(this.money)
-      },
-      Cdata () {
-        if (this.data.length <= this.pageSize) return this.data
-        else {
-          return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-        }
       }
+      // Cdata () {
+      //   if (this.data.length <= this.pageSize) return this.data
+      //   else {
+      //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+      //   }
+      // }
     },
     watch: {
       stEt: {

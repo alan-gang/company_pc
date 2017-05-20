@@ -74,7 +74,7 @@
     watch: {
       ns () {
         this.row.ns = this.ns
-        this.row.nsTitle = this.nsTitle
+        this.row.nsTitle = this.nsTitle.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },
