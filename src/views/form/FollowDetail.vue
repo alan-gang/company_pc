@@ -27,7 +27,7 @@
           span.text-black {{ detail.methodName }}
         el-col(:span="6")
           模式：
-          span.text-black {{ MODES[detail.modes] }}
+          span.text-black {{ MODES[detail.modes - 1] }}
         el-col(:span="6")
           开始期号：
           span.text-black {{ detail.beginissue }}
@@ -91,90 +91,104 @@
             span {{ scope.row.multiple + '倍' }}
         el-table-column( label="追号状态" )
           template(scope="scope")
-            span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
+            span(:class="{ 'text-green': scope.row.status === 0, 'text-danger': scope.row.status === 2, 'text-grey': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
 
         el-table-column(prop="userpoint" label="注单详情")
           template(scope="scope")
-            // .ds-button.text-button.blue(style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
 
     .buttons()
       .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel") 终止追号 
     
-    // .modal(v-show="show" )
+    .modal(v-show="show" )
       .mask
       .box-wrapper
-        .box
+        .box(ref="box")
           .tool-bar
-            span.title {{ title }} 投注详情
+            span.title 投注详情
+
             el-button-group
-              el-button(icon="close" @click="show = false")
+              el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="6")
+              el-col(:span="9")
                 游戏用户：
-                span.text-black {{ detail.name }}
-              el-col(:span="6")
+                span.text-black {{ row.nickName }}
+              el-col(:span="5")
                 游戏：
-                span.text-black {{ detail.game }}
-              el-col(:span="6")
-                开奖号码：
-                span.text-black {{ detail.game }}
+                span.text-black {{ row.lotteryName }}
 
-              el-col(:span="6")
+              el-col(:span="5")
+                span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
+                    span.text-black {{ row.prizeCode  }}
+                el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
+                  div(slot="content") {{ row.prizeCode }}
+                  span 开奖号码：
+                    span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
+            
+
+              el-col(:span="5")
                 总金额：
-                span.text-black {{ detail.pay }}
+                span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="6")
+              el-col(:span="9")
                 注单编号：
-                span.text-black {{ detail.name }}
-              el-col(:span="6")
+                span.text-black {{ row.projectId }}
+              el-col(:span="5")
                 玩法：
-                span.text-black {{ detail.game }}
-              el-col(:span="6")
+                span.text-black {{ row.methodName }}
+              el-col(:span="5")
                 注单状态：
-                span.text-black {{ detail.game }}
+                span.text-black {{ STATUS[row.stat] }}
 
-              el-col(:span="6")
+              el-col(:span="5")
                 倍数模式：
-                span.text-black {{ detail.pay }}
+                span.text-black {{ row.multiple }}
 
             
             el-row
-              el-col(:span="6")
+              el-col(:span="9")
                 投单时间：
-                span.text-black {{ detail.name }}
-              el-col(:span="6")
+                span.text-black {{ row.writeTime }}
+              el-col(:span="5")
                 奖期：
-                span.text-black {{ detail.game }}
-              el-col(:span="6")
+                span.text-black {{ row.issue }}
+              el-col(:span="5")
                 注单奖金：
-                span.text-black {{ detail.game }}
+                span.text-black {{ row.bonus }}
 
-              el-col(:span="6")
+              el-col(:span="5")
                 动态奖金返点：
-                span.text-black {{ detail.pay }}
+                span.text-black {{ row.userPoint }}
 
             p.textarea-label
               span.label 投注内容：
-              el-input.font-12(v-model="value" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+              el-input.font-12(disabled v-model="row.code" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
 
             p 可能中奖的情况：
 
-            el-table.header-bold.nopadding(:data="[]" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
+            el-table.header-bold.nopadding(:data="row.expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
 
-              el-table-column(prop="methodName" label="编号" width="160" )
+              el-table-column(prop="projectid" label="编号" width="160" )
+
+              el-table-column(prop="expandcode" label="号码" width="160")
                 template(scope="scope")
-                  .ds-button.text-button.blue(@click="") xxxx
-
-              el-table-column(label="号码" width="160")
+                 p {{ scope.row.expandcode }}
+                   span(v-if="scope.row.position") [{{ scope.row.position }}]  
               
 
-              el-table-column(prop="prize" label="倍数" width="80" align="right")
+              el-table-column(prop="codetimes" label="倍数" width="80" align="right")
 
-              el-table-column(prop="prize" label="奖级" width="80" align="right")
+              el-table-column(label="奖级" width="80" align="right")
+                template(scope="scope")
+                  span {{ scope.row.level }} 等奖
 
-              el-table-column(prop="userpoint" label="奖金"  align="right")
+              el-table-column(prop="prize" label="奖金"  align="right")
+
+            .buttons(style="margin: .3rem; text-align: center")
+              .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
+              .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
 
 </template>
 
@@ -187,9 +201,12 @@
     data () {
       return {
         MODES: ['元', '角', '分', '厘'],
-        STATUS: ['进行中', '取消', '已完成'],
+        // STATUS: ['进行中', '已完成', '已取消'],
+        STATUS: ['未生成', '已生成', '已取消'],
         show: false,
-        detail: {}
+        detail: {},
+        taskId: '',
+        row: {prizeCode: ''}
         // multipleSelection: null
       }
     },
@@ -210,15 +227,16 @@
       openRoute ({path, query: {id}}) {
         if (path !== '/form/4-2-2') return false
         if (id) this.followDetail(id)
+        this.taskId = id
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       followCancel () {
         let loading = this.$loading({
-          text: '撤单中...',
+          text: '终止追号中...',
           target: this.$el
-        }, 10000, '撤单超时...')
+        }, 10000, '终止追号超时...')
         this.$http.get(api.followCancel, {id: this.detail.taskId}).then(({data}) => {
           // success
           if (data.success === 1) {
@@ -227,6 +245,10 @@
               content: '终止追号成功！',
               btn: ['确定']
             })
+            setTimeout(() => {
+              this.followDetail(this.detail.taskId)
+            }, 1000)
+            this.__setCall({fn: '__getUserFund', callId: undefined})
           } else {
             this.$modal.warn({
               target: this.$el,
@@ -273,8 +295,8 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-            this.order = data
-          } else loading.text = '加载失败!'
+            this.row = data || {}
+          } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error
         }).finally(() => {
@@ -349,7 +371,7 @@
   .title
     color #333
     font-weight bold
-    padding-left .41rem
+    padding-left .2rem
 
   .el-button-group
     float right
@@ -368,6 +390,13 @@
         background-color bg-active
       &:first-child
         font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
 
   .modal 
     position absolute
@@ -376,7 +405,7 @@
     left 0
     right 0
     text-align center
-    z-index 9999
+    z-index 99999
     
     .mask
       position absolute
@@ -414,6 +443,7 @@
       margin 0 .2rem
       .el-row
         margin PW 0
+        word-wrap break-word
       .textarea-label
         position relative
         margin .3rem .3rem .3rem 0

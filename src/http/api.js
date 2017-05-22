@@ -289,6 +289,9 @@ let Me = {
 }
 
 let Group = {
+  // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr
+  // 二维码
+  createQr: '/team/createAccount.do?method=createQr',
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
@@ -419,8 +422,8 @@ let Form = {
   // ttp://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=detail&projectId=120
   followDetail: '/report/taskBuy.do?method=detail',
   // 在追号详情页面，取消追号（没有）
-  // http://192.168.169.44:9901/cagamesclient/booking.do?method=cancel&id=1304
-  followCancel: '/booking.do?method=cancel',
+  // http://192.168.169.44:9901/cagamesclient/booking.do?method=cancelTask&id=1304
+  followCancel: '/booking.do?method=cancelTask',
   // 获取帐变类型列表
   // http://192.168.169.44:9901/cagamesclient/report/OrderReport.do?method=getOrderType
   getOrderType: '/report/OrderReport.do?method=getOrderType',

@@ -67,7 +67,7 @@ export default {
         height .7rem
         line-height .7rem
       .NPER
-        color GOLD-ACTIVE
+        color #999
         font-family Roboto
         font-size .3rem
         vertical-align middle

@@ -30,7 +30,8 @@
         serverList: [],
         serverTimeList: [],
         serverTimeListValue: [],
-        timeout: 2000
+        timeout: 2000,
+        auto: 0
       }
     },
     computed: {
@@ -54,7 +55,10 @@
         let v = 10000
         let index = 0
         this.serverTimeList.forEach((t, i) => {
-          t < v && (index = 0)
+          if (t && t < v) {
+            v = t
+            index = i
+          }
         })
         return this.serverList[index]
       },
@@ -68,6 +72,7 @@
       }
     },
     mounted () {
+      this.auto = this.$route.query.auto
       this.getEnableLines()
     },
     methods: {
@@ -101,11 +106,25 @@
           //     this.$set(this[timeList], i, '> 1000')
           //   }, 0)
           // }
-        }).finally((rep) => {
+          console.log('success testing')
           const et = new Date().getTime()
           const v = this.getValue(et - st)
           this.$set(this[timeList], i, et - st)
           this.$set(this[timeList + 'Value'], i, v)
+        }, (rep) => {
+          console.log('error testing', rep)
+          // const et = new Date().getTime()
+          // const v = this.getValue(et - st)
+          this.$set(this[timeList], i, '> 10000')
+          this.$set(this[timeList + 'Value'], i, 0)
+         // error
+        }).finally((rep) => {
+          // console.log('final', rep)
+          if (this.auto && timeList === 'serverTimeList' && i === this.serverList.length - 1) {
+            setTimeout(() => {
+              this.$router.push('/login/login')
+            }, 0)
+          }
         })
       },
       getValue (t) {
@@ -126,8 +145,8 @@
           this.$message.success('线路切换成功！')
           this.$emit('close')
         } else {
-          window.location.href = r + '/#/login/login'
-          // this.$router.push('/login/login')
+          if (r !== this.currentServer) window.location.href = r + '/#/login?auto=1'
+          else this.$router.push('/login/login')
         }
       }
     }

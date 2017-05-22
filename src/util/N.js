@@ -1066,6 +1066,53 @@ let SSC = {
     return C(nsl[0], 5)
   }
 }
+let SSL = {
+  '2-1-1-SSL' ({nsl}) {
+    return P(nsl)
+  },
+  /*
+  直选单式
+  输入注数
+  N
+  */
+  '2-1-2-SSL' ({value}) {
+    return [N(value, 2).length, N(value, 2)]
+  },
+   /* ..............前二组选............... */
+  /*
+  组选复式
+  n>=2
+  C(n, 2)
+  */
+  '2-2-1-SSL' ({nsl}) {
+    return C(nsl[0], 2)
+  },
+
+  /*
+  组选单式
+  N
+  */
+  '2-2-2-SSL' ({value}) {
+    return [N(value, 2, 1).length, N(value, 2, 1)]
+  },
+  /* *************************************一星*********************************** */
+  /* ..............定位胆............... */
+  /*
+  定位胆
+  C(n1, 1)+C(n2, 1)+C(n3, 1)+C(n4, 1)+C(n5, 1)
+  */
+  '1-1-1-SSL' ({nsl}) {
+    return C(nsl[1 - 1], 1) + C(nsl[2 - 1], 1) + C(nsl[3 - 1], 1)
+  },
+  /* ..............大小单双............... */
+  /*
+  前二大小单双
+  N1 * N2
+  */
+  '-2-1-1-SSL' ({nsl}) {
+    return P(nsl)
+  }
+}
 let G115 = {
   /*
   所有参数集：{
@@ -1408,4 +1455,4 @@ let K3 = {
     return C(nsl[0], 1) * 21
   }
 }
-module.exports = Object.assign(SSC, G115, KL8, PK10, K3)
+module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3)

@@ -17,7 +17,16 @@ let addEvent = (evnt, elem, func) => {
   else if (elem.attachEvent) { // IE DOM
     elem.attachEvent('on' + evnt, func)
   } else {
-    elem[evnt] = func
+    elem['on' + evnt] = func
+  }
+}
+
+let removeEvent = (evnt, elem, func) => {
+  if (elem.removeEventListener) elem.removeEventListener(evnt, func, false)
+  else if (elem.detachEvent) { // IE DOM
+    elem.detachEvent('on' + evnt, func)
+  } else {
+    elem['on' + evnt] = null
   }
 }
 
@@ -75,6 +84,7 @@ let toggleFullScreen = () => {
 module.exports = {
   getOffset,
   addEvent,
+  removeEvent,
   launchFullScreen,
   cancelFullScreen,
   toggleFullScreen

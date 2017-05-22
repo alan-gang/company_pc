@@ -1,0 +1,99 @@
+<template lang="jade">
+  .help-page
+    slot(name="cover")
+    slot(name="movebar")
+    slot(name="resize-x")
+    slot(name="resize-y")
+    slot(name="toolbar")
+    .scroll-content.function-help
+      .content
+        .item(v-for="(g, index) in notices" @click="openIndex = index") 
+          .step.text-black {{ g.subject }}
+            .time.text-666 {{ g.sendTime }}
+          pre.value(v-show=" openIndex === index ") {{ g.content }}
+         
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+    
+</template>
+
+<script>
+  import api from '../../http/api'
+  export default {
+    data () {
+      return {
+        notices: [],
+        openIndex: -1,
+        pageSize: 20,
+        total: 0,
+        currentPage: 1,
+        preOptions: {}
+      }
+    },
+    computed: {
+    },
+    mounted () {
+      this.sysNotices()
+    },
+    methods: {
+      pageChanged (cp) {
+        this.sysNotices(cp, () => {
+          this.currentPage = cp
+        })
+      },
+      // 11、系统公告   ALL
+      sysNotices (page, fn) {
+        let loading = this.$loading({
+          text: '公告加载中...',
+          target: this.$el
+        }, 10000, '加载超时...')
+        if (!fn) {
+          this.preOptions = {
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+        this.$http.get(api.sysNotices, this.preOptions).then(({data}) => {
+          // success
+          if (data.success) {
+            this.notices = data.sysNotices || []
+          }
+        }, (rep) => {
+          // error
+        }).finally((rep) => {
+          loading.close()
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
+  .function-help
+    top TH
+    text-align center
+    padding PWX
+    .ds-button-group
+      text-align left
+      // height auto
+    .time
+      text-align right
+      font-size .12rem
+    .title
+      font-size .14rem
+      color #999
+    .content
+      text-align left
+      .item
+        margin PW 0
+      .step
+        position relative
+        top -.02rem
+        font-size .18rem
+        font-weight bold
+        cursor pointer
+      .value
+        line-height .22rem
+</style>

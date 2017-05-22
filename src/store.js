@@ -26,7 +26,8 @@ let store = {
       // 1. 招商总代 2： 直属总代 3.一般总代 4： 普通代理 5： 试玩用户
       role: '',
       guide: true,
-      model: 'day'
+      model: 'day',
+      shareCycle: 0
     },
     pages: []
   },
@@ -68,7 +69,8 @@ let store = {
         lastLoginTime: '',
         role: '',
         guide: true,
-        user: 'day'
+        user: 'day',
+        shareCycle: 0
       }
       Object.assign(store.state.user, user)
     },

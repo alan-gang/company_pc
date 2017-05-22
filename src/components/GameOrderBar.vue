@@ -34,6 +34,10 @@ export default {
   props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
   data () {
     return {
+      XXX: 19,
+      XM: 100,
+      XMM: 0,
+      S: 100,
       MAXTIMES: 100,
       cIndex: 0,
       currencies: [

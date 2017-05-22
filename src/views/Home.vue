@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     canCollectMenus () {
-      return this.menus.filter(m => m.id > -1 && m.groups && m.groups.length > 0)
+      return this.menus.filter(m => m.id > -1 && !m.removed && m.groups && m.groups.length > 0)
     },
     collectsIds () {
       return this.collects.reduce((p, c) => {

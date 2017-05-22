@@ -27,7 +27,7 @@
             span.text-danger 6.0%    
             br
             | 2. 自动注册用户最大返点级别为 
-            span.text-danger 6.5
+            span.text-danger {{ autoRegistMinPoint }}
             ，自动注册不需要开户配额
             br
             | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
@@ -47,7 +47,7 @@
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
 
         div(style="padding: .4rem 2.03rem")
-          .QR.ds-icon-QR(style="height: 1.96rem; width: 1.4rem; text-align: center")
+          .QR.ds-icon-QR(:style="myQR")
             p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
 
         
@@ -70,13 +70,23 @@
         PS: [],
         p: 0,
         url: '',
-        userPoint: 0
+        userPoint: 0,
+        autoRegistMinPoint: 6.5
       }
     },
     computed: {
+      myQR () {
+        return {
+          background: 'url(' + api.createQr + ') left top no-repeat',
+          height: '1.96rem',
+          width: '1.4rem',
+          textAlign: 'center'
+        }
+      }
     },
     mounted () {
       this.showSpreadLinks()
+      // this.createQr()
     },
     methods: {
       copySuccess () {
@@ -89,11 +99,22 @@
           message: '复制失败!'
         })
       },
+      // createQr () {
+      //   this.$http.get(api.createQr).then(({data}) => {
+      //     // success
+      //     if (data.success === 1) {
+      //     } else this.$message.error(data.msg || '二维码获取失败！')
+      //   }, (rep) => {
+      //     // error
+      //     this.$message.error('二维码获取失败！')
+      //   })
+      // },
       showSpreadLinks () {
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
           if (data.success === 1) {
             this.userPoint = data.userPoint
+            this.autoRegistMinPoint = data.autoRegistMinPoint
             this.url = data.url
             this.p = data.autoPoint.toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {

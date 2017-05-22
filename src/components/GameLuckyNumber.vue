@@ -17,7 +17,7 @@
         br
       | 已开
       span.PNPER {{ PNPER }}
-      | 期，剩余
+      | 期，总共
       span.FNPER {{ FNPER }}
       | 期
 </template>

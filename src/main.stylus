@@ -205,6 +205,8 @@ input
 /*
  *rewrite el-select
  */
+.el-select
+  vertical-align middle
 // .el-select
 //   display inline-block
 //   line-height .3rem
@@ -238,8 +240,8 @@ input
   color #b0cfe3
   background-color rgba(22, 113, 188, .95)
   border none
+  vertical-align middle
   shadow()
-  font-shadow()
   radius()
   .el-select-dropdown__item
     height .3rem
@@ -343,12 +345,12 @@ input
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
-  table-row-height(x = .3rem)
+  table-row-height(x = .33rem)
     td
       height auto
       .cell
         line-height x
-   table-header-height(x = .3rem)
+   table-header-height(x = .30rem)
     th
       height auto
       .cell
@@ -866,7 +868,7 @@ input
     
   // QR
   .ds-icon-QR
-    background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
+    // background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
     background-size 140px
   
   // Stock
@@ -1174,6 +1176,26 @@ input
       color LIGHT
       bg-gradient(180deg, #f1f1f1, #e6e6e6)
 
+  &.isworking
+    // font-size .18rem
+    color GOLD !important
+    background linear-gradient(135deg, #666, #666 10%, #333 10%, #333 20%, #666 20%, #666 30%, #333 30%, #333 40%, #666 40%, #666 50%, #333 50%, #333 60%, #666 60%, #666 70%, #333 70%, #333 80%, #666 80%, #666 90%, #333 90%, #333 100%)
+    // background linear-gradient(135deg, BLUE, BLUE 10%, DANGER 10%, DANGER 20%, BLUE 20%, BLUE 30%, DANGER 30%, DANGER 40%, BLUE 40%, BLUE 50%, DANGER 50%, DANGER 60%, BLUE 60%, BLUE 70%, DANGER 70%, DANGER 80%, BLUE 80%, BLUE 90%, DANGER 90%, DANGER 100%)
+    background-repeat repeat
+    background-position 0 0
+    background-size auto 100%
+    animation animatedBackground 500s linear infinite
+
+@keyframes animatedBackground {
+  from {
+    background-position 0 0
+  }
+  /*use negative width if you want it to flow right to left else and positive for left to right*/
+  to {
+    background-position 10000px 0
+  }
+}    
+
 .ds-button-group
     // height .3rem
     line-height .28rem
@@ -1209,6 +1231,7 @@ input
   display inline-block
   padding 0 PW
   cursor pointer
+  
   &:hover
     .ds-radio
       border-color rgba(255, 255, 255, .4)
@@ -1222,7 +1245,10 @@ input
           width .07rem
           height .07rem 
           background-color BLUE
-.login-form .ds-radio-label
+  &.disabled
+    opacity .3
+
+.forget-form .ds-radio-label
   color LIGHT
   &.active
     color WHITE
@@ -1266,6 +1292,8 @@ input
     background-color #fff
     &:hover
       border-color BLUE 
+  &.disabled
+    opacity .7
     
     
 .ds-checkbox-label

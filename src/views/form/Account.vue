@@ -68,11 +68,18 @@
 
           el-table-column(prop="entry" label="帐变编号" width="80" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="") {{ scope.row.entry }}
+              div
+                .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.entry }}
+                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
+
 
           el-table-column(prop="nickName" label="用户名" width="80")
+           
           
           el-table-column(prop="times" label="时间" width="120" )
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.times }}
+              span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
 
           el-table-column(prop="title" label="类型" width="80" )
 
@@ -84,36 +91,35 @@
 
           el-table-column(prop="modes" label="模式" width="50" )
             template(scope="scope")
-                span {{ MODES[scope.row.modes] }}   
+                span {{ MODES[scope.row.modes - 1] }}   
 
           el-table-column(prop="income" label="收入" width="100" align="right")
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.income }}
+              span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
           el-table-column(prop="expenditure" label="支出" width="100" align="right")
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.expenditure }}
+              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(prop="expenditure" label="余额" width="100" align="right")
+          el-table-column(prop="balance" label="余额" width="100" align="right")
 
           el-table-column(label="备注" align="center")
-
-        el-table.header-bold.nopadding(:data="amount" v-bind:row-class-name="tableRowClassName" style="" v-if="amount[0]")
-
-          el-table-column(prop="entry" label="" width="750" )
-            template(scope="scope")
-              p 小结：本页变动金额 &nbsp;&nbsp;
-                span.text-blue {{ scope.row.difMoney }}
-
-          el-table-column(prop="income" label="" width="100" align="right")
-            template(scope="scope")
-              span.text-green + {{ scope.row.income }}
-
-
-          el-table-column(prop="expenditure" label="" width="100" align="right")
-            template(scope="scope")
-              span.text-danger - {{ scope.row.expenditure }}
-
-
-          el-table-column( label="" width="100" align="right")
-
-          el-table-column(label="" align="right")
+        
+        // el-table.header-bold.nopadding(:data="amount" v-bind:row-class-name="tableRowClassName" style="" v-if="amount[0]")
+        //   el-table-column(prop="entry" label="" width="750" )
+        //     template(scope="scope")
+        //       p 小结：本页变动金额 &nbsp;&nbsp;
+        //         span.text-blue {{ scope.row.difMoney }}
+        //   el-table-column(prop="income" label="" width="100" align="right")
+        //     template(scope="scope")
+        //       span.text-green + {{ scope.row.income }}
+        //   el-table-column(prop="expenditure" label="" width="100" align="right")
+        //     template(scope="scope")
+        //       span.text-danger - {{ scope.row.expenditure }}
+        //   el-table-column( label="" width="100" align="right")
+        //   el-table-column(label="" align="right")
 
           
 
@@ -127,7 +133,7 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
-  import util from '../../util'
+  // import util from '../../util'
   export default {
     data () {
       return {
@@ -190,19 +196,19 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        amount: [{}]
+        amount: [{income: 0, expenditure: 0, difMoney: 0}]
       }
     },
     computed: {
       textMoney () {
         return digitUppercase(this.money)
-      },
-      Cdata () {
-        if (this.data.length <= this.pageSize) return this.data
-        else {
-          return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-        }
       }
+      // Cdata () {
+      //   if (this.data.length <= this.pageSize) return this.data
+      //   else {
+      //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+      //   }
+      // }
     },
     watch: {
       stEt: {
@@ -229,20 +235,6 @@
       game () {
         this.getMethods()
         this.getRecentIssueList()
-      },
-      data () {
-        this.amount[0].income = 0
-        this.amount[0].expenditure = 0
-        this.amount[0].difMoney = 0
-        this.data.forEach(d => {
-          this.amount[0].income += d.income
-          this.amount[0].expenditure += d.expenditure
-        })
-        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
-
-        this.amount[0].income = this.amount[0].income.toFixed(3)
-        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
-        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
       }
     },
     mounted () {
@@ -251,6 +243,36 @@
       this.list()
     },
     methods: {
+      summary () {
+        this.amount[0].income = 0
+        this.amount[0].expenditure = 0
+        this.amount[0].difMoney = 0
+        this.data.forEach(d => {
+          this.amount[0].income += d.income
+          this.amount[0].expenditure += d.expenditure
+        })
+        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
+        if (this.amount[0].difMoney > 0) this.amount[0].difMoney = '+' + this.this.amount[0].difMoney
+        this.amount[0].income = this.amount[0].income.toFixed(3)
+        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
+        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
+
+        this.data[0] && this.data.push({
+          last: true,
+          difMoney: this.amount[0].difMoney,
+          entry: '小结：',
+          nickName: '本页变动金额',
+          times: '',
+          title: '',
+          lotteryName: '',
+          methodName: '',
+          issue: '',
+          modes: '',
+          income: '+' + this.amount[0].income,
+          expenditure: '-' + this.amount[0].expenditure,
+          balance: ''
+        })
+      },
       myTopup () {
         this.clear()
         this.type = [1]
@@ -362,6 +384,7 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

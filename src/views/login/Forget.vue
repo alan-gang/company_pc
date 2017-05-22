@@ -44,7 +44,7 @@
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 1")
         input(placeholder="请输入接收到的验证码" v-model="pc_" @keyup.enter="next")
         label
-          .ds-button.secondary(v-bind:class="{ disabled: pt_ }")
+          button.ds-button.secondary(:disabled="pt_ !== 0 " v-bind:class="{ disabled: pt_ }" @click="_sendSms(null)")
             span(v-if="!pt_") 发送验证码
             span.text-black(v-if="pt_" ) {{ pt_ }} 
                 span(style="color: #999") 秒后可重新发送
@@ -59,7 +59,7 @@
       dd.phone-code.table(v-if="stepIndex === 1 && radioIndex === 0")
         input(placeholder="请输入接收到的验证码" v-model="ec_" @keyup.enter="next")
         label
-          .ds-button.secondary(v-bind:class="{ disabled: et_ }")
+          button.ds-button.secondary(:disabled="et_ !== 0" v-bind:class="{ disabled: et_ }" @click="_sendMail(null)")
             span(v-if="!et_") 发送验证码
             span.text-black(v-if="et_" ) {{ et_ }} 
                 span(style="color: #999") 秒后可重新发送

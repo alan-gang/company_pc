@@ -45,13 +45,13 @@ export default {
           groups: [
             {
               items: [
-                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'},
-                {id: '5-2-1', menuid: '6', title: '亿元豪送', url: 'ForRegister'},
-                {id: '5-2-2', menuid: '6', title: '新用户有礼', url: 'ForNewUser'},
-                {id: '5-2-3', menuid: '6', title: '全民签到', url: 'ForAll'},
-                {id: '5-2-4', menuid: '6', title: '充值送', url: 'ForTopup'},
-                {id: '5-2-5', menuid: '6', title: '首提大返利', url: 'ForWithdraw'},
-                {id: '5-2-6', menuid: '6', title: '充值送', url: 'ForTopupA'}
+                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
+                {id: '5-2-1', title: '亿元豪送', url: 'ForRegister'},
+                {id: '5-2-2', title: '新用户有礼', url: 'ForNewUser'},
+                {id: '5-2-3', title: '全民签到', url: 'ForAll'},
+                {id: '5-2-4', title: '充值送', url: 'ForTopup'},
+                {id: '5-2-5', title: '首提大返利', url: 'ForWithdraw'},
+                {id: '5-2-6', title: '充值送', url: 'ForTopupA'}
               ]
             }
           ]
@@ -480,8 +480,8 @@ export default {
             {
               title: '活动中心',
               items: [
-                {id: '5-1-1', menuid: '6', title: '活动中心', url: 'Activity'},
-                {id: '5-1-2', menuid: '6', title: '礼品箱', url: 'Gift'}
+                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
+                {id: '5-1-2', menuid: '72', title: '礼品箱', url: 'Gift'}
               ]
             }
           ]
@@ -500,17 +500,32 @@ export default {
                 {
                   id: '6-1-1',
                   title: '玩法介绍',
-                  url: 'PlayHelp'
+                  url: 'PlayHelp',
+                  menuid: '68'
                 },
                 {
                   id: '6-1-2',
                   title: '功能介绍',
-                  url: 'FunctionHelp'
+                  url: 'FunctionHelp',
+                  menuid: '69'
                 },
                 {
                   id: '6-1-3',
                   title: '常见问题',
-                  url: 'QuestionHelp'
+                  url: 'QuestionHelp',
+                  menuid: '70'
+                }
+              ]
+            },
+            {
+              id: '6-2',
+              title: '系统公告',
+              items: [
+                {
+                  id: '6-2-1',
+                  title: '系统公告',
+                  url: 'System'
+                  // menuid: '68'
                 }
               ]
             }
@@ -629,6 +644,8 @@ export default {
               href: i.href || ('/' + m.url + '/' + i.id),
               // class: g.class || '',
               menuClass: g.class || m.class
+              // can't be star
+              // noStar: m.hide
             }, i)
             if (g.position) i.position = g.position
             p.push(i)
@@ -643,7 +660,12 @@ export default {
     },
     openAnotherPage (url) {
       if (this.tabs.length < this.maxPages || this.tabs.find(t => t.id === url)) this.$router.push(this.state.pages.find(p => p.id === url).href)
-      else console.log('max opened page size is: ', this.maxPages)
+      else {
+        this.$modal.warn({
+          content: '最大窗口打开数：' + this.maxPages,
+          btn: ['确定']
+        })
+      }
     },
     closeTab (url) {
       this.updatePage(url, {opened: false, position: null})

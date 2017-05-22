@@ -41,7 +41,7 @@
         this.$emit('set-follow', {CNPER})
       },
       issues () {
-        this.nper = this.issues[0].issue
+        this.nper = (this.issues[0] || {}).issue
       }
       // CNPER () {
       //   if ((this.nper || 0) < this.CNPER) this.nper = this.CNPER
