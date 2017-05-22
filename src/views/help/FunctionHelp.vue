@@ -17,7 +17,7 @@
         // p.title {{ gcontent.content }}
 
         .item(v-for="g in gcontent.subList") 
-          span.step {{ g.title }}
+          span.step.text-black {{ g.title }}
           .value {{ g.content }}
          
 
@@ -92,7 +92,6 @@
         position relative
         top -.02rem
         font-size .18rem
-        color #333
         font-weight bold
       .value
         line-height .22rem

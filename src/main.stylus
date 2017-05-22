@@ -868,7 +868,7 @@ input
     
   // QR
   .ds-icon-QR
-    background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
+    // background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
     background-size 140px
   
   // Stock

@@ -57,11 +57,16 @@
 
           el-table-column(label="追号编号" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
+              div
+                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
+                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
           el-table-column(prop="nickName" label="用户" width="80")
           
           el-table-column(prop="beginTime" label="追号时间" width="140" )
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.beginTime }}
+              span.text-blue(v-if="scope.row.last") {{ scope.row.expenditure }}
 
           el-table-column(prop="lotteryName" label="游戏" width="100" )
 
@@ -80,8 +85,14 @@
               span {{ MODES[scope.row.modes - 1] }}            
 
           el-table-column(prop="taskprice" label="总金额" width="100" align="right")
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.taskprice }}
+              span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
 
           el-table-column(prop="finishprice" label="完成金额" width="100" align="right")
+            template(scope="scope")
+              span(v-if="!scope.row.last") {{ scope.row.finishprice }}
+              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
           el-table-column(class-name="pl2"   label="状态" width="100")
             template(scope="scope")
@@ -96,7 +107,7 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
-  import util from '../../util'
+  // import util from '../../util'
   export default {
     data () {
       return {
@@ -134,19 +145,21 @@
           {id: 2, title: '会员用户'}
         ],
         u: {},
-        user: {name: 'it001', game: '美国时时彩'}
+        user: {name: 'it001', game: '美国时时彩'},
+        amount: [{}],
+        Cdata: []
       }
     },
     computed: {
       textMoney () {
         return digitUppercase(this.money)
-      },
-      Cdata () {
-        if (this.data.length <= this.pageSize) return this.data
-        else {
-          return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-        }
       }
+      // Cdata () {
+      //   if (this.data.length <= this.pageSize) return this.data
+      //   else {
+      //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+      //   }
+      // }
     },
     watch: {
       gameid () {
@@ -160,6 +173,38 @@
       this.followList()
     },
     methods: {
+      summary () {
+        this.amount[0].income = 0
+        this.amount[0].expectCost = 0
+        this.amount[0].expenditure = 0
+        this.amount[0].difMoney = 0
+        this.Cdata.forEach(d => {
+          this.amount[0].expectCost += d.taskprice
+          this.amount[0].expenditure += d.finishprice
+        })
+        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
+        if (this.amount[0].difMoney > 0) this.amount[0].difMoney = '+' + this.this.amount[0].difMoney
+        this.amount[0].income = this.amount[0].income.toFixed(3)
+        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
+        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
+
+        this.Cdata[0] && this.Cdata.push({
+          last: true,
+          difMoney: this.amount[0].difMoney,
+          entry: '小结：',
+          nickName: '本页变动金额',
+          times: '',
+          title: '',
+          lotteryName: '',
+          methodName: '',
+          issue: '',
+          modes: '',
+          income: '+' + this.amount[0].income,
+          expectCost: '-' + this.amount[0].expectCost,
+          expenditure: '-' + this.amount[0].expenditure,
+          balance: ''
+        })
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -215,7 +260,7 @@
       },
       followList (page, fn) {
         let loading = this.$loading({
-          text: '投注记录加载中...',
+          text: '追号记录加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         if (!fn) {
@@ -244,8 +289,9 @@
               loading.text = '加载成功!'
             }, 100)
             typeof fn === 'function' && fn()
-            this.data = data.taskList
+            this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

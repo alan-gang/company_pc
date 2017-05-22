@@ -289,6 +289,9 @@ let Me = {
 }
 
 let Group = {
+  // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr
+  // 二维码
+  createQr: '/team/createAccount.do?method=createQr',
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',

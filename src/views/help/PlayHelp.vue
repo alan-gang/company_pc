@@ -12,7 +12,7 @@
       .content(v-if=" gcontent ")
         p.title {{ gcontent.content }}
 
-        el-row.row-title
+        el-row.row-title.text-black
           el-col(style="width: 10%") 玩法组
           el-col(style="width: 15%; padding-left: .2rem") 玩法
           el-col( style="width: 75%; padding-left: .2rem") 玩法说明
@@ -93,7 +93,6 @@
         color #999
       .row-title
         font-weight bold
-        color #333
       .row-content
         border-bottom 1px solid #d4d4d4
         &:last-child

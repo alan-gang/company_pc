@@ -47,7 +47,7 @@
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
 
         div(style="padding: .4rem 2.03rem")
-          .QR.ds-icon-QR(style="height: 1.96rem; width: 1.4rem; text-align: center")
+          .QR.ds-icon-QR(:style="myQR")
             p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
 
         
@@ -75,9 +75,18 @@
       }
     },
     computed: {
+      myQR () {
+        return {
+          background: 'url(' + api.createQr + ') left top no-repeat',
+          height: '1.96rem',
+          width: '1.4rem',
+          textAlign: 'center'
+        }
+      }
     },
     mounted () {
       this.showSpreadLinks()
+      // this.createQr()
     },
     methods: {
       copySuccess () {
@@ -90,6 +99,16 @@
           message: '复制失败!'
         })
       },
+      // createQr () {
+      //   this.$http.get(api.createQr).then(({data}) => {
+      //     // success
+      //     if (data.success === 1) {
+      //     } else this.$message.error(data.msg || '二维码获取失败！')
+      //   }, (rep) => {
+      //     // error
+      //     this.$message.error('二维码获取失败！')
+      //   })
+      // },
       showSpreadLinks () {
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success

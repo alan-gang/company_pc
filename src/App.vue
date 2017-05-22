@@ -516,6 +516,18 @@ export default {
                   menuid: '70'
                 }
               ]
+            },
+            {
+              id: '6-2',
+              title: '系统公告',
+              items: [
+                {
+                  id: '6-2-1',
+                  title: '系统公告',
+                  url: 'System'
+                  // menuid: '68'
+                }
+              ]
             }
           ]
         },

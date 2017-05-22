@@ -27,7 +27,7 @@
           span.text-black {{ detail.methodName }}
         el-col(:span="6")
           模式：
-          span.text-black {{ MODES[detail.modes] }}
+          span.text-black {{ MODES[detail.modes - 1] }}
         el-col(:span="6")
           开始期号：
           span.text-black {{ detail.beginissue }}
@@ -91,11 +91,11 @@
             span {{ scope.row.multiple + '倍' }}
         el-table-column( label="追号状态" )
           template(scope="scope")
-            span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
+            span(:class="{ 'text-green': scope.row.status === 0, 'text-danger': scope.row.status === 2, 'text-grey': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
 
         el-table-column(prop="userpoint" label="注单详情")
           template(scope="scope")
-            .ds-button.text-button.blue(style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
 
     .buttons()
       .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel") 终止追号 
@@ -173,6 +173,9 @@
               el-table-column(prop="projectid" label="编号" width="160" )
 
               el-table-column(prop="expandcode" label="号码" width="160")
+                template(scope="scope")
+                 p {{ scope.row.expandcode }}
+                   span(v-if="scope.row.position") [{{ scope.row.position }}]  
               
 
               el-table-column(prop="codetimes" label="倍数" width="80" align="right")
@@ -198,7 +201,8 @@
     data () {
       return {
         MODES: ['元', '角', '分', '厘'],
-        STATUS: ['进行中', '取消', '已完成'],
+        // STATUS: ['进行中', '已完成', '已取消'],
+        STATUS: ['未生成', '已生成', '已取消'],
         show: false,
         detail: {},
         taskId: '',
@@ -230,9 +234,9 @@
       },
       followCancel () {
         let loading = this.$loading({
-          text: '撤单中...',
+          text: '终止追号中...',
           target: this.$el
-        }, 10000, '撤单超时...')
+        }, 10000, '终止追号超时...')
         this.$http.get(api.followCancel, {id: this.detail.taskId}).then(({data}) => {
           // success
           if (data.success === 1) {
@@ -241,7 +245,9 @@
               content: '终止追号成功！',
               btn: ['确定']
             })
-            this.followDetail(this.taskId)
+            setTimeout(() => {
+              this.followDetail(this.detail.taskId)
+            }, 1000)
             this.__setCall({fn: '__getUserFund', callId: undefined})
           } else {
             this.$modal.warn({
@@ -399,7 +405,7 @@
     left 0
     right 0
     text-align center
-    z-index 9999
+    z-index 99999
     
     .mask
       position absolute

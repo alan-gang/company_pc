@@ -59,6 +59,7 @@ import TrendChart from './form/TrendChart'
 import PlayHelp from './help/PlayHelp'
 import FunctionHelp from './help/FunctionHelp'
 import QuestionHelp from './help/QuestionHelp'
+import System from './help/System'
 
 // 帮助中心
 import Activity from './activity/Activity'
@@ -114,6 +115,7 @@ export default {
     PlayHelp,
     FunctionHelp,
     QuestionHelp,
+    System,
     // 活动
     Activity,
     Gift,
