@@ -243,7 +243,7 @@ let Me = {
   doWithDraw: '/person/withDraw.do?method=doWithDraw',
   // 查询提款请求
   // http://192.168.169.44:9901/cagamesclient/person/withDraw.do?method=queryWithdraw&startDate=20161220124327&endDate=20161227124327&status=1
-  queryWithdraw: '/person/withDraw.do?method=queryWithdraw&startDate=20161220124327&endDate=20161227124327&status=1',
+  queryWithdraw: '/person/withDraw.do?method=queryWithdraw',
   // 省份、城市
   // http://192.168.169.161:8080/cagamesclient/person/bankcard.do?method=getProvices
   getProvices: '/person/bankcard.do?method=getProvices',

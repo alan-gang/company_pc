@@ -10,7 +10,7 @@ const BANKS = [
   {apiName: 'bos', class: 'shhyh', text: '上海银行'},
   {apiName: 'sdb', class: 'shzhfzhyh', text: '深圳发展银行'},
   {apiName: 'cib', class: 'xyyh', text: '兴业银行'},
-  // {apiName: -1, class: 'zggdyh', text: '中国光大银行'},
+  {apiName: 'ceb', class: 'zggdyh', text: '中国光大银行'},
   {apiName: 'icbc', class: 'zggsh', text: '中国工商银行'},
   {apiName: 'ccb', class: 'zgjshyh', text: '中国建设银行'},
   {apiName: 'smyh', class: 'zgmshyh', text: '中国民生银行'},

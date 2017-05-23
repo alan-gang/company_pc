@@ -11,6 +11,7 @@ let store = {
       account: '',
       type: '',
       money: '',
+      amoney: '',
       free: '',
       // safeCenter
       email: '',
@@ -55,6 +56,7 @@ let store = {
         account: '',
         type: '',
         money: '',
+        amoney: '',
         free: '',
         // safeCenter
         email: '',

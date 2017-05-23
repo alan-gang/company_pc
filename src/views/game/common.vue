@@ -25,7 +25,7 @@
       <!-- 追号栏 -->
       GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
       <!-- 追号单 -->
-      GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="NPAY" v-on:set-follow="setFollow" v-bind:issues="issues")
+      GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues")
       <!-- 下单记录 -->
       // GameOrderHistory
       <!-- 追号记录 -->
@@ -170,6 +170,12 @@ export default {
     NPAY () {
       return this.ns.reduce((p, n) => {
         return (p += n.pay)
+      }, 0)
+    },
+    // 已投注注数金额不包含times
+    N1PAY () {
+      return this.ns.reduce((p, n) => {
+        return (p += n.pay / n.times)
       }, 0)
     },
     P () {
@@ -337,6 +343,13 @@ export default {
     },
     // 投注
     booking () {
+      if (this.follow.show && !this.follow.items[0]) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: '您还没有勾选任何追号奖期！',
+          btn: ['确定']
+        })
+      }
       let loading = this.$loading({
         text: '投注中...',
         target: this.$el

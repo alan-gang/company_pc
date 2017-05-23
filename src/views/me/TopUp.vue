@@ -13,6 +13,13 @@
           .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if="enableSaveType === '2' || enableSaveType === '1' ") 在线充值
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
+      // .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
+      //   p 资金密码：
+      //     input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
+      //     .buttons(style="margin-left: .70rem; padding: .2rem 0")
+      //       .ds-button.primary.large(@click="checkSecurityPwd") 确认
+      
+
       .form(v-if="(type === 0 || type === 1) && (otherPay[0] || banksO[0]) ")
         .item(style="line-height: .5rem") 支付方式：
             .banks
@@ -52,7 +59,7 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        el-table.header-bold.margin(:data="Cdata" style="margin: .2rem")
+        el-table.header-bold.margin(:data="data" style="margin: .2rem")
           el-table-column(prop="doneTime" label="充值时间" width="180")
 
           el-table-column(prop="bankName" label="银行" width="150")
@@ -119,11 +126,12 @@
 <script>
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
-import util from '../../util'
+// import util from '../../util'
 import Modal from 'components/Modal'
 export default {
   data () {
     return {
+      cpwd: '',
       dataXamount: '',
       dataXbankName: '',
       dataXcardName: '',
@@ -154,12 +162,12 @@ export default {
     }
   },
   computed: {
-    Cdata () {
-      if (this.data.length <= this.pageSize) return this.data
-      else {
-        return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-      }
-    },
+    // Cdata () {
+    //   if (this.data.length <= this.pageSize) return this.data
+    //   else {
+    //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+    //   }
+    // },
     BANKS () {
       return BANKS.filter(b => {
         return this.avaibleBanks.find(ab => ab.bankCode === b.apiName)
@@ -202,6 +210,46 @@ export default {
     this.getEnableSaveType()
   },
   methods: {
+    // checkSecurityPwd () {
+    //   this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
+    //     if (data.success === 1) {
+    //       this.stepIndex++
+    //       this.$message.success({target: this.$el, message: data.msg || '资金密码密码验证成功！'})
+    //       // this.__setCall({fn: '__getUserFund'})
+    //       // this.getUserBankCards()
+    //     } else {
+    //       this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
+    //     }
+    //   }).catch(rep => {
+    //     this.$message.error({target: this.$el, message: '资金密码密码验证失败！'})
+    //   })
+    // },
+    pageChanged (cp) {
+      this.qryRecharge(cp, () => {
+        this.currentPage = cp
+      })
+    },
+    qryRecharge (page, fn) {
+      let loading = this.$loading({
+        text: '充值记录获取中...',
+        target: this.$el
+      }, 10000, '充值记录获取超时...')
+      this.$http.get(api.qryRecharge, {
+        page: page || 1,
+        pageSize: this.pageSize
+      }).then(({data}) => {
+        if (data.success === 1) {
+          this.data = data.payRecordData || []
+          typeof fn === 'function' && fn()
+          this.total = data.totalSize || this.data.length
+        }
+      }).catch(rpe => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
+    },
     copySuccess () {
       this.$message({
         message: '复制成功'
@@ -238,18 +286,11 @@ export default {
     // // http://192.168.169.43:19012/finance/merSave.do?method=commit
     // httpCommit: 'http://192.168.169.43:19012/finance/merSave.do?method=commit'
     // // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
-    qryRecharge (fn) {
-      this.$http.get(api.qryRecharge, {
-        page: 1,
-        pageSize: this.pageSize
-      }).then(({data}) => {
-        if (data.success === 1) {
-          this.data = data.payRecordData || []
-        }
-      }).catch(rpe => {
-      })
-    },
     TopUpGetBankList (fn) {
+      let loading = this.$loading({
+        text: '银行列表获取中...',
+        target: this.$el
+      }, 10000, '银行列表获取超时...')
       this.$http.get(api.TopUpGetBankList, {saveType: this.type}).then(({data}) => {
         if (data.success === 1) {
           this.avaibleBanks = data.bankList || []
@@ -257,6 +298,10 @@ export default {
         } else this.$message.info({message: data.msg || '无可用支付方式！'})
       }).catch(rpe => {
         this.$message.error({message: '获取支付方式失败！'})
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
       })
     },
     saveAmountRange (fn) {

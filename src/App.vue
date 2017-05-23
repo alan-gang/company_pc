@@ -720,7 +720,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({money: data.channelBalance, free: data.freeBalance})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance})
         }
       }, (rep) => {
         // error

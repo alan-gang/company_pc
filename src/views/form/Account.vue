@@ -252,10 +252,10 @@
           this.amount[0].expenditure += d.expenditure
         })
         this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
-        if (this.amount[0].difMoney > 0) this.amount[0].difMoney = '+' + this.this.amount[0].difMoney
         this.amount[0].income = this.amount[0].income.toFixed(3)
         this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
         this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
+        if (!this.amount[0].difMoney.startsWith('-')) this.amount[0].difMoney = '+' + this.amount[0].difMoney
 
         this.data[0] && this.data.push({
           last: true,

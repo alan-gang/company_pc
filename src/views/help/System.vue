@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .scroll-content.function-help
       .content
-        .item(v-for="(g, index) in notices" @click="openIndex = index") 
+        .item(v-for="(g, index) in notices" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
           .step.text-black {{ g.subject }}
             .time.text-666 {{ g.sendTime }}
           pre.value(v-show=" openIndex === index ") {{ g.content }}
@@ -58,6 +58,8 @@
           // success
           if (data.success) {
             this.notices = data.sysNotices || []
+            typeof fn === 'function' && fn()
+            this.total = data.totalSize || this.data.length
           }
         }, (rep) => {
           // error

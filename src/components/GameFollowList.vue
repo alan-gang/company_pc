@@ -27,10 +27,10 @@
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
-        el-input-number.center.blue(v-model="row.times" @change="change" v-bind:min="1" v-bind:max="100")
-      el-table-column(prop="pay" label="金额" width="200" align="right"  inline-template)
+        el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="100")
+      el-table-column(prop="payV" label="金额" width="200" align="right"  inline-template)
         span 
-          span.pay {{ ( row.times * pay ).toFixed(3) }}
+          span.pay {{ (row.times * pay).toFixed(3) }}
           | &nbsp;元
       el-table-column(prop="saleend" label="开奖时间" align="center" )
 
@@ -74,9 +74,17 @@
       data () {
         let ii = this.issues.findIndex(i => i.issue === this.FCNPER)
         return this.issues.slice(ii, ii + this.nper).map((iii, index) => {
-          iii.times = this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times
-          iii.selected = false
-          return iii
+          // iii.times = this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times
+          // iii.selected = false
+          // iii.payV = (iii.times * this.pay).toFixed(3)
+          // this.$set(iii, 'times', this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times)
+          // this.$set(iii, 'selected', false)
+          // return iii
+          return (iii = {
+            issue: iii.issue,
+            times: this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times,
+            saleend: iii.saleend
+          })
         })
       },
       PAY () {

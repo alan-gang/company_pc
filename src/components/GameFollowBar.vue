@@ -49,7 +49,7 @@
     },
     mounted () {
       // this.nper = this.NPERS[0]
-      this.nper = this.issues[0].issue
+      this.nper = (this.issues[0] || {}).issue
     },
     methods: {
       closeFollow () {

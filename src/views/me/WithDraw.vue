@@ -5,13 +5,13 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .width-draw-info.scroll-content(style="padding-top: .2rem")
-      // .tabs(style="text-align: center")
-        // .ds-button-group
-          // .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 提现申请
-          // .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
+    .width-draw-info.scroll-content
+      .tabs(style="text-align: center" v-if="stepIndex !== 0")
+         .ds-button-group
+           .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 提现申请
+           .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
 
-      .cashpwd-form.form(v-if="tabIndex === 1 && stepIndex === 0")
+      .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
         p 资金密码：
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
           .buttons(style="margin-left: .70rem; padding: .2rem 0")
@@ -36,7 +36,7 @@
             |  小时才能正常提款
         .form
           p.item 可提现金额：&nbsp;&nbsp;
-            span.amount {{ me.money }}
+            span.amount {{ me.amoney }}
 
           .item(style="line-height: .5rem") 收款银行卡：
             p.banks
@@ -82,6 +82,37 @@
 
           .buttons(style="margin-left: .85rem; padding: .2rem 0")
             .ds-button.primary.large(@click="doWithDraw") 提交
+
+
+      form(v-if="tabIndex === 2 && stepIndex === 1")
+
+        // label.item 充值时间 
+        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+        //   |  至 
+        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
+
+        // label.item(style="margin-left: .2rem") 状态 
+        //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
+        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
+
+        el-table.header-bold.margin(:data="data" style="margin: .2rem")
+          el-table-column(prop="acceptTime" label="提现时间" width="180")
+
+          el-table-column(prop="bankName" label="银行" width="150")
+            template(scope="scope")
+              .ds-icon-bank-card.static(v-bind:class=" [ scope.row.class ] " style="margin: 0")
+
+          el-table-column(prop="realMoney" label="金额" width="150" align="right")
+
+          el-table-column(prop="transferFee" label="手续费" width="150" align="right")
+
+          el-table-column(label="" align="right" width="50")
+
+          el-table-column(label="状态")
+            template(scope="scope")
+              span(:class=" scope.row.statusV.indexOf('失败') !== -1 ? 'text-danger' : 'text-green' " v-if="scope.row.statusV") {{ scope.row.statusV }}
+
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 </template>
 
 <script>
@@ -89,6 +120,7 @@ import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
 import { digitUppercase } from '../../util/Number'
+// import util from '../../util'
 export default {
   data () {
     return {
@@ -103,10 +135,22 @@ export default {
       get: 0,
       // xxx
       stepIndex: 0,
-      tabIndex: 1
+      tabIndex: 1,
+      pageSize: 20,
+      total: 0,
+      currentPage: 1,
+      data: [{}],
+      S: ['未处理', '失败', '成功'],
+      V: ['未审核', '审核通过', '审核失败']
     }
   },
   computed: {
+    // Cdata () {
+    //   if (this.data.length <= this.pageSize) return this.data
+    //   else {
+    //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
+    //   }
+    // },
     banksO () {
       return this.showAllBank ? this.myBanks : this.myBanks.slice(0, 3)
     },
@@ -117,9 +161,39 @@ export default {
   watch: {
     selectBank () {
       this.selectBank.apiName && this.getWithdrawByApi()
+    },
+    tabIndex () {
+      if (this.tabIndex === 2) this.queryWithdraw()
+      else {
+        this.__setCall({fn: '__getUserFund'})
+        this.getUserBankCards()
+      }
     }
   },
   methods: {
+    pageChanged (cp) {
+      this.queryWithdraw(cp, () => {
+        this.currentPage = cp
+      })
+    },
+    queryWithdraw (page, fn) {
+      this.$http.get(api.queryWithdraw, {
+        page: page || 1,
+        pageSize: this.pageSize
+      }).then(({data}) => {
+        if (data.success === 1) {
+          this.data = data.withdrawData || []
+          this.data.forEach(c => {
+            c.cardNo = '*****' + c.cardNo.slice(-4)
+            c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
+            c.class = (BANKS.find(b => b.apiName === c.apiName) || {})['class']
+          })
+          typeof fn === 'function' && fn()
+          this.total = data.totalSize || this.data.length
+        }
+      }).catch(rpe => {
+      })
+    },
     checkSecurityPwd () {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
@@ -187,9 +261,10 @@ export default {
           this.$modal.success({
             content: '恭喜您，提交成功！',
             target: this.$el,
+            btn: ['确定'],
             close () {
               this.stepIndex--
-              this.stepIndex--
+              this.tabIndex++
               this.cpwd = ''
             },
             O: this
