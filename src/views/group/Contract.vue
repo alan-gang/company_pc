@@ -141,7 +141,7 @@
         et1: '',
         AT: 0,
         // 规则一：累计
-        TYPE: [{id: 0, title: '销售'}, {id: 1, title: '盈利'}],
+        TYPE: [{id: 0, title: '销售'}, {id: 1, title: '亏损'}],
         r: {id: 0, title: '销售'},
         RULES: [
           {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0},
@@ -173,10 +173,12 @@
       },
       hasRepeat () {
         return this.dataRules.reduce((p, m, i) => {
-          if (p[JSON.stringify(m)]) {
+          let M = Object.assign({}, m)
+          delete M.bounsRate
+          if (p[JSON.stringify(M)]) {
             p.flag = true
           } else {
-            p[JSON.stringify(m)] = true
+            p[JSON.stringify(M)] = true
           }
           return p
         }, {}).flag
@@ -189,7 +191,7 @@
       hasRepeat () {
         this.hasRepeat && this.$modal.warn({
           target: this.$el,
-          content: '请不要输入完全相同的规则!',
+          content: '请不要输入相同相似的规则!',
           btn: ['好的']
         })
       }
@@ -246,6 +248,12 @@
         //   c.bounsRate /= 100
         //   delete c.title
         // })
+        if (!this.st1 || !this.et1) {
+          return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
+        }
+        if (!this.dataRules[0]) {
+          return this.$message.warning({target: this.$el, message: '请至少设置一条契约规则！'})
+        }
         if (this.hasRepeat) {
           return this.$modal.warn({
             target: this.$el,

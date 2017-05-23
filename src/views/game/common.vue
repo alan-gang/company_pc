@@ -298,8 +298,13 @@ export default {
           this.FNPER = data.dailyCount
           this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
         } else {
-          this.$message.error({message: '当前奖期获取失败！'})
-          this.timeout += 0.05
+          // this.$message.error({message: '当前奖期获取失败！'})
+          this.$modal.warn({
+            target: this.$el,
+            content: '当前奖期已停止销售！',
+            btn: ['好的']
+          })
+          // this.timeout += 0.05
         }
       }, (rep) => {
         // error
@@ -382,6 +387,9 @@ export default {
     setType (type) {
       this.type = type
       this.__setCall({fn: '__clearSelectedNumbers', args: this.call.args + ' '})
+      setTimeout(() => {
+        this.__setCall({fn: '__clearValue'})
+      }, 0)
     },
     toggleChecked () {
       this.checked = !this.checked

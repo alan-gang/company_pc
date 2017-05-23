@@ -138,7 +138,7 @@ export default {
                 // {class: 'ds-icon-game-hljssc', menuid: '8', title: '黑龙江时时彩', gameid: 2},
                 // {class: 'ds-icon-game-jxssc', menuid: '13', title: '江西时时彩', gameid: 16},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
-                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gmaeid: 16},
+                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gameid: 16},
                 {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 2},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4}
                 // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
@@ -720,7 +720,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({money: data.availableBalance, free: data.freeAvaiable})
+          this.setUser({money: data.channelBalance, free: data.freeBalance})
         }
       }, (rep) => {
         // error

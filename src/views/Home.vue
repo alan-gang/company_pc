@@ -32,7 +32,7 @@
             dl.submenu(v-for="group in canCollectMenus[activeIndex].groups")
               dt {{ group.title }}
               // v-bind:class="[item.class || group.class]"
-              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
+              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )

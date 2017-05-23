@@ -68,7 +68,7 @@
     },
     watch: {
       fastServer () {
-        api.api = this.fastServer
+        if (!this.server) api.api = this.fastServer
       }
     },
     mounted () {
@@ -101,23 +101,15 @@
         const st = new Date().getTime()
         this.$http.jsonp(url).then((rep) => {
         }, (rep) => {
-          // if (rep.status !== 0) {
-          //   setTimeout(() => {
-          //     this.$set(this[timeList], i, '> 1000')
-          //   }, 0)
-          // }
-          console.log('success testing')
+          console.log('success testing', rep)
           const et = new Date().getTime()
           const v = this.getValue(et - st)
           this.$set(this[timeList], i, et - st)
           this.$set(this[timeList + 'Value'], i, v)
-        }, (rep) => {
-          console.log('error testing', rep)
-          // const et = new Date().getTime()
-          // const v = this.getValue(et - st)
-          this.$set(this[timeList], i, '> 10000')
-          this.$set(this[timeList + 'Value'], i, 0)
-         // error
+          if (rep.status !== 0) {
+            this.$set(this[timeList], i, '> 10000')
+            this.$set(this[timeList + 'Value'], i, 0)
+          }
         }).finally((rep) => {
           // console.log('final', rep)
           if (this.auto && timeList === 'serverTimeList' && i === this.serverList.length - 1) {

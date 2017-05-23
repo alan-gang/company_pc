@@ -158,82 +158,82 @@ export default {
         {
           top: 'calc(10% + 0.15rem)',
           left: 'calc(20% + 0.15rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 0.5rem)',
           left: 'calc(20% + 0.5rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 0.85rem)',
           left: 'calc(20% + 0.85rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 1.2rem)',
           left: 'calc(20% + 1.2rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 1.55rem)',
           left: 'calc(20% + 1.55rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 1.9rem)',
           left: 'calc(20% + 1.9rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 2.25rem)',
           left: 'calc(20% + 2.25rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 2.6rem)',
           left: 'calc(20% + 2.6rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 2.95rem)',
           left: 'calc(20% + 2.95rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         },
         {
           top: 'calc(10% + 3.3rem)',
           left: 'calc(20% + 3.3rem)',
-          // width: '9.3rem',
-          width: '50%',
-          height: '50%'
-          // height: '6.4rem'
+          width: '9.3rem',
+          // width: '50%',
+          // height: '50%'
+          height: '6.4rem'
         }
       ]
       // PPP: [
