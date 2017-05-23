@@ -1,6 +1,6 @@
-let api = 'http://192.168.169.44:9901/cagamesclient'
+// let api = 'http://192.168.169.44:9901/cagamesclient'
 // online
-// let api = 'http://119.9.117.58:9901/cagamesclient/'
+let api = 'http://119.9.117.58:9901/cagamesclient/'
 // steven
 // let api = 'http://192.168.169.119:8080/cagamesclient/'
 // johson
