@@ -106,6 +106,9 @@
           el-table-column(prop="balance" label="余额" width="100" align="right")
 
           el-table-column(label="备注" align="center")
+            template(scope="scope")
+              span {{ ISFREE[scope.row.isFree] }}
+
         
         // el-table.header-bold.nopadding(:data="amount" v-bind:row-class-name="tableRowClassName" style="" v-if="amount[0]")
         //   el-table-column(prop="entry" label="" width="750" )
@@ -170,7 +173,7 @@
         },
         defaultStEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
         stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        ISFREE: ['现金', '优惠券'],
+        ISFREE: ['现金', '优惠券', '积分'],
         isFree: '',
         gameList: [],
         game: '',

@@ -142,7 +142,9 @@ export default {
         },
         minus: {
           top: '80%',
-          transform: 'perspective(500px) translateZ(-50rem) translateX(50%)',
+          left: '50%',
+          transform: 'perspective(100px) translateZ(-100px) translateX(-100%)',
+          'transition-duration': '0.5s',
           opacity: 0
         },
         default: {
@@ -653,7 +655,7 @@ export default {
     // background-color #fff
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
-    transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s
+    transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
     
     &.active
       z-index 1

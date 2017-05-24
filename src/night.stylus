@@ -8,7 +8,7 @@ body.night
 .app.night
   // common
   .el-loading-mask
-    background-color #555
+    background-color rgba(85, 85, 85, .9)
   .el-input.is-disabled .el-input__inner
     background-color #666
   .me-sideview

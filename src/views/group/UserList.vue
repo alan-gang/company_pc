@@ -213,7 +213,7 @@
   
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
         div.buttons(style="padding: .1rem .4rem; text-align: center")
-          .ds-button.primary.large.bold(@click="distriAddCount") 分配开启额
+          .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开启额
 
 
 
@@ -445,7 +445,10 @@
                 i: 0
               })
             })
-          } else this.$message.error(data.msg || '开户额数据获取失败！')
+          } else {
+            this.openUserData = []
+            this.$message.error(data.msg || '开户额数据获取失败！')
+          }
         }, (rep) => {
           // error
           this.$message.error('开户额数据获取失败！')

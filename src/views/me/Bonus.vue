@@ -30,7 +30,7 @@
         el-table-column(prop="methodName" label="玩法" width="200" )
         el-table-column(label="奖级" width="200")
           template(scope="scope") 
-            .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l + '等奖' }}
+            .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l }}
 
         el-table-column(label="奖金" width="100" align="right")
           template(scope="scope") 

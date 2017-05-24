@@ -17,6 +17,8 @@
 <script>
   import SignalBar from 'components/SignalBar'
   import api from '../../http/api'
+  // import Url from '../../util/Url'
+  // import cookie from 'js-cookie'
   export default {
     // if show server
     props: ['server'],
@@ -32,7 +34,8 @@
         serverTimeList: [],
         serverTimeListValue: [],
         timeout: 2000,
-        auto: 0
+        auto: 0,
+        currentServer: ''
       }
     },
     computed: {
@@ -62,10 +65,10 @@
           }
         })
         return this.serverList[index]
-      },
-      currentServer () {
-        return this.server ? api.api : window.location.origin
       }
+      // currentServer () {
+      //   return this.server ? api.api : window.location.origin
+      // }
     },
     watch: {
       fastServer () {
@@ -75,6 +78,7 @@
     mounted () {
       this.auto = this.$route.query.auto
       this.getEnableLines()
+      this.currentServer = this.server ? api.api : window.location.origin
     },
     methods: {
       getEnableLines () {
@@ -93,9 +97,15 @@
         !this.server && this.frontList.forEach((url, i) => {
           this.testAline(url, i, 'frontTimeList')
         })
+        // let SESSION = cookie.get('SESSION', {domain: Url.extractHostname(api.api)})
+        // console.log(Url.extractHostname(api.api), SESSION)
         this.serverList.forEach((url, i) => {
           // this.testAline(url, i, 'serverTimeList')
           this.testAline(url + '/login/login.do?method=getVerifyImage', i, 'serverTimeList')
+          // this.server == change server router
+          // if (this.server) {
+          //   cookie.set('SESSION', SESSION, {domain: Url.extractHostname(url)})
+          // }
         })
       },
       testAline (url, i, timeList) {
@@ -135,8 +145,25 @@
       goLogin (r) {
         if (this.server) {
           api.api = r
+          this.currentServer = api.api
           this.$message.success('线路切换成功！')
           this.$emit('close')
+          // this.__setCall({
+          //   fn: '__logout',
+          //   args: {
+          //     stay: true,
+          //     fn () {
+          //       api.api = r
+          //     }
+          //   }
+          // })
+          // this.$router.push({
+          //   path: '/login/login'
+          //   // query: {
+          //   //   un_: this.account,
+          //   //   pwd: '123qwe'
+          //   // }
+          // })
         } else {
           if (r !== this.currentServer) window.location.href = r + '/#/login?auto=1'
           else this.$router.push('/login/login')

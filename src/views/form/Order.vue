@@ -420,6 +420,7 @@
           if (data.success === 1) {
             // this.show = false
             this.expandList = data.expandList
+            row.userPoint = data.userPoint
             setTimeout(() => {
               loading.text = '详情加载成功!'
             }, 500)

@@ -682,11 +682,11 @@ export default {
     //   this.menus = menus
     // },
     logout (args) {
-      console.log('loldo.doldd')
       this.$http.get(api.logout)
       this.setUser()
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
+      if (args && args.fn) args.fn()
       this.__logoutChat()
     },
     __logout (args) {
@@ -810,7 +810,9 @@ export default {
 
 .zoom-enter-active, .zoom-leave-active
     // opacity 0
-    transform perspective(500px) translateZ(-5000px)
+    // transform perspective(500px) translateZ(-5000px)
+    opacity .2
+    transform perspective(500px) translateZ(-1000px)
 .slide-enter, .slide-leave-active
   transform translateX(100%)
 .slide-up-enter, .slide-up-leave-active
