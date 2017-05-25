@@ -41,12 +41,14 @@
 <script>
   import store from '../../store'
   import { digitUppercase } from '../../util/Number'
+  // import { dateFormat, dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   export default {
     data () {
       return {
         me: store.state.user,
         data: {}
+        // st: dateTimeFormat(new Date().getTime())
       }
     },
     computed: {
@@ -64,8 +66,10 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.todayReport, {
-          startDay: '20170301',
-          endDay: '20170302'
+          // startDay: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : '',
+          // endDay: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''
+          // endDay: '20170525'
+          // startDay: '20170525',
         }).then(({data}) => {
           // success
           if (data.success === 1) {

@@ -20,7 +20,7 @@
           el-table-column(prop="nickName" label="用户名" width="100")
             template(scope="scope")
                 span {{ nickName }}
-          el-table-column(prop="date" label="日期" width="100" sortable="true")
+          el-table-column(prop="date" label="日期" width="100" v-bind:sortable="true")
           el-table-column(prop="userPoint" label="返点级别" width="80" )
             template(scope="scope")
               span {{ userPoint }}
@@ -29,7 +29,7 @@
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
-          el-table-column(prop="profitAmount" label="盈亏结算" width="100" )
+          el-table-column(prop="profitAmount" label="盈亏结算" width="100" v-bind:sortable="true")
         
         el-table.header-bold.nopadding(:data="total" row-class-name="text-danger" v-on:row-click="setSelected" style="" v-if="total[0]")
 

@@ -798,7 +798,9 @@ export default {
     &.has-footer
       bottom FH
       @media(max-width: 1362px)
-        bottom 2*FH 
+        bottom 2*FH
+      @media(max-width: 862px)
+        bottom 3*FH 
     
       
 

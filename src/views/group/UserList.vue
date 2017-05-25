@@ -154,7 +154,7 @@
         p(style="padding: .1rem .4rem" v-if="thirtyDaysAmount") 该帐户7天总量：
           span.text-danger {{ thirtyDaysAmount }}
 
-        p(style="padding: .1rem .4rem") 剩余开启额：&nbsp;&nbsp;
+        p(style="padding: .1rem .4rem") 剩余开户额：&nbsp;&nbsp;
           label(style="display: inline-block")
             span(style="margin: 0 .15rem " v-for="P in PS")
               span.text-blue [{{ P.point }}]:
@@ -213,7 +213,7 @@
   
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
         div.buttons(style="padding: .1rem .4rem; text-align: center")
-          .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开启额
+          .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开户额
 
 
 

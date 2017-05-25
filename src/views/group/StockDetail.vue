@@ -14,17 +14,19 @@
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
         p.item 本期时间：{{ stock.times }}
         p.item 时间类型：按{{ TIME[stock.shareCycle] }} 
+        p.item 发放方式：{{ STYPE[stock.sendType] }}
 
         .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元
           // p.text-green(style="text-align: right; margin: .05rem 0") 分红已发放 100000 元
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && stock.isDone === 0  ")
-          button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
-          button.ds-button.large.bold.cancel(@click="paidOut")平台外发放
+          // button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
+          // button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
+          button.ds-button.large.bold.primary(@click="paid") 发放分红
 
-        .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 1  ")
-          button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
+        // .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 1  ")
+        //   button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
 
 
       
@@ -48,6 +50,7 @@
         ],
         // 契约时间类型
         TIME: ['月', '周', '日'],
+        STYPE: ['手动发放', '自动发放'],
         // 销售盈亏类型
         TYPE: [
           {id: 1, title: '销售'},

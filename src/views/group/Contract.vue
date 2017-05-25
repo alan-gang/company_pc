@@ -46,11 +46,42 @@
       
 
       div(v-if="stepIndex === 1 ")
+
+        .notice(style="margin-top: .2rem")
+            span.title 温馨提示：
+            p.content
+              span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
+              br
+              | 1. 
+              span.text-danger 销量
+              | 和
+              span.text-danger 亏损
+              | 只要达到规则，都应按照规则的分红比例派发分红
+              br
+              | 2. 
+              span.text-danger [手动发放]
+              | 即每次发分红的时候需要您进入团队管理的
+              span.text-danger 分红列表-分红详情
+              | 中进行点击确认发放
+              br
+              | 3. 
+              span.text-danger [自动发放]
+              | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
+              span.text-danger 手动执行
+              br
+              | 4. 契约执行周期为：每月
+              span.text-danger 1号
+              | 和
+              span.text-danger 16号
+              
+
         p.title.text-black
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
 
 
         div(style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
+
+          
 
           p.item.block
             span.text-danger *
@@ -60,16 +91,24 @@
           .item.block
             span.text-danger *
             | 契约时间：
-            div(style="display: inline-block")
-              
-              el-date-picker(v-model="st1" type="datetime" placeholder="请选择日期时间")
-              |  至 
-              el-date-picker(v-model="et1" type="datetime" placeholder="请选择日期时间")
-
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+          
           p.item.block
              span.text-danger *
              | 按时间：
              span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+
+          p.item.block
+            span.text-danger *
+            | 发放方式：
+            label.text-black(style="padding: 0; margin-left: -.05rem ").ds-radio-label(@click=" sendType = 0 " v-bind:class=" { active: sendType === 0 } ")
+               span.ds-radio.white.
+               | 手动放发
+            label.text-black(style="padding: 0 .1rem").ds-radio-label(@click=" sendType = 1 " v-bind:class=" { active: sendType === 1 } ")
+              span.ds-radio.white.
+              | 自动发放
+              span.text-green  ( 推荐 )
+
           //p.item.block
           //   span.text-danger *
           //   | 按时间：
@@ -120,6 +159,45 @@
       return {
         // 0 我的契约
         // 1 下级契约
+        stEt: ['', ''],
+        pickerOptions: {
+          shortcuts: [{
+            text: '今起一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起六个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起一年',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+          // disabledDate (time) {
+          //   return time.getTime() > Date.now()
+          // }
+        },
         me: store.state.user,
         time: ['月', '周', '日'],
         type: 0,
@@ -137,8 +215,9 @@
 
         stepIndex: 0,
         user: {},
-        st1: '',
-        et1: '',
+        // st1: '',
+        // et1: '',
+        sendType: 1,
         AT: 0,
         // 规则一：累计
         TYPE: [{id: 0, title: '销售'}, {id: 1, title: '亏损'}],
@@ -248,7 +327,7 @@
         //   c.bounsRate /= 100
         //   delete c.title
         // })
-        if (!this.st1 || !this.et1) {
+        if (!this.stEt[0] || !this.stEt[1]) {
           return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
         }
         if (!this.dataRules[0]) {
@@ -262,9 +341,10 @@
           })
         }
         this.$http.post(api.createContract, {
-          beginTm: this.st1 ? dateTimeFormat(this.st1.getTime()).replace(/[\s:-]*/g, '') : '',
-          expireTm: this.et1 ? dateTimeFormat(this.et1.getTime()).replace(/[\s:-]*/g, '') : '',
+          beginTm: dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, ''),
+          expireTm: dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
+          sendType: this.sendType,
           // sharecycle: this.AT,
           // bonusRuleList: JSON.stringify(data)
           bonusRuleList: JSON.stringify(this.dataRules)
@@ -334,5 +414,18 @@
   .el-select
   .el-input-number 
     width 1rem
+  
+  .notice
+    font-size .12rem
+    margin 0 .2rem
+    padding PWX
+    background-color #fffde8
+    border 1px solid #d5d09b
+    radius()
+    .content
+      display inline-block
+      margin 0
+      line-height .25rem
+      vertical-align top
 
 </style>

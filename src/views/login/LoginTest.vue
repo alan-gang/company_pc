@@ -79,6 +79,7 @@
       this.auto = this.$route.query.auto
       this.getEnableLines()
       this.currentServer = this.server ? api.api : window.location.origin
+      // cookie.set('mySession', 'xxsffe-fe-s-f-esf-se-fe-s-f', {domain: ''})
     },
     methods: {
       getEnableLines () {

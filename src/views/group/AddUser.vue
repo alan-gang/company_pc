@@ -45,7 +45,7 @@
      
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
-        p(style="padding: .1rem .4rem") 剩余开启额：
+        p(style="padding: .1rem .4rem") 剩余开户额：
           label(style="display: inline-block")
             span(style="margin: 0 .15rem " v-for="P in PS")
               span.text-blue [{{ P.point }}]:

@@ -76,7 +76,7 @@
           el-table-column(prop="nickName" label="用户名" width="80")
            
           
-          el-table-column(prop="times" label="时间" width="120" )
+          el-table-column(prop="times" label="时间" width="120")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.times }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
@@ -362,7 +362,7 @@
           this.preOptions = {
             orderId: this.type.join(','),
             beginDate: dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[-:\s]/g, ''),
-            endDate: dateTimeFormat(new Date(this.stEt[1]).getTime() + 24 * 3600 * 1000).replace(/[-:\s]/g, ''),
+            endDate: dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
             scope: this.zone,

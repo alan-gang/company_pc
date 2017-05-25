@@ -363,7 +363,7 @@
       value () {
         // C2
         // 如果是115
-        if (this.type.id.indexOf('-115') !== -1) {
+        if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
           return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
@@ -467,7 +467,7 @@
       // },
       removeRepeat () {
         let R = null
-        if (this.type.id.indexOf('-115') !== -1) {
+        if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
           R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',')
         } else {
           R = removeDuplicate(this.V, /[,;\s]+/)
