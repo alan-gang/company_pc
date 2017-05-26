@@ -95,7 +95,7 @@
           
           p.item.block
              span.text-danger *
-             | 按时间：
+             | 发放周期：
              span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
 
           p.item.block
@@ -199,7 +199,7 @@
           // }
         },
         me: store.state.user,
-        time: ['月', '周', '日'],
+        time: ['', '月', '半月', '周'],
         type: 0,
         st: '',
         et: '',
@@ -352,10 +352,11 @@
           // success
           if (data.success === 1) {
             this.$modal.success({
-              content: '发送成功！',
+              content: '契约发送成功！',
               btn: ['确定'],
               target: this.$el,
               close () {
+                this.stepIndex--
                 this.contract()
               },
               O: this

@@ -7,8 +7,8 @@
     slot(name="toolbar")
     .scroll-content.function-help
       .content
-        .item(v-for="(g, index) in notices" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
-          .step.text-black {{ g.subject }}
+        .item(v-for="(g, index) in notices") 
+          .step.text-black(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
             .time.text-666 {{ g.sendTime }}
           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
@@ -88,6 +88,9 @@
       color #999
     .content
       text-align left
+      pre
+        white-space pre-wrap
+        word-break break-all
       .item
         margin PW 0
       .step

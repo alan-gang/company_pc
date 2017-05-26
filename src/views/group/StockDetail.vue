@@ -13,10 +13,11 @@
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.nickName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
         p.item 本期时间：{{ stock.times }}
-        p.item 时间类型：按{{ TIME[stock.shareCycle] }} 
+        p.item 发放周期：按{{ TIME[stock.shareCycle] }} 
         p.item 发放方式：{{ STYPE[stock.sendType] }}
 
-        .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元
+        // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元
+        .item.text-danger(style="display: inline-block; margin: 0") 累计盈亏 {{ stock.profitAmount }} 万，需发放 {{ stock.bouns }} 元
           // p.text-green(style="text-align: right; margin: .05rem 0") 分红已发放 100000 元
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
 
@@ -44,12 +45,14 @@
         // 分红状态
         STATUS: [
           {id: 0, title: '未发放', class: 'waiting-pay'},
-          {id: 1, title: '待确认', class: 'wait'},
-          {id: 2, title: '已发放', class: 'paid'},
-          {id: 3, title: '平台外已发放', class: 'paid-out'}
+          {id: 1, title: '已发放', class: 'paid'}
+          // {id: 2, title: '已发放', class: 'paid'},
+          // {id: 3, title: '平台外已发放', class: 'paid-out'}
         ],
         // 契约时间类型
-        TIME: ['月', '周', '日'],
+        // TIME: ['月', '周', '日'],
+        // TIME: ['月', '半月', '周'],
+        TIME: ['', '月', '半月', '周'],
         STYPE: ['手动发放', '自动发放'],
         // 销售盈亏类型
         TYPE: [
@@ -127,15 +130,21 @@
       paid () {
         let modal = this.$modal.redpocket({
           target: this.$el,
-          content: '<h2 class="title">为j' + this.stock.nickName + '发放红包</h2><p class="content"><span class="amount">2236.00</span> 元</p>',
+          content: '<h2 class="title">为 ' + this.stock.nickName + ' 发放红包 </h2><p class="content"><span class="amount">' + this.stock.bouns + '</span> 元</p>',
           btn: ['下一步'],
           O: this,
           ok () {
             if (modal.btn[0] === '下一步') {
               modal.btn = ['确认发放']
               return false
-            } else {
-              this.paraentCheckBonus(1)
+            } else if (modal.btn[0] === '确认发放') {
+              this.paraentCheckBonus(modal)
+              return false
+            }
+          },
+          close () {
+            if (modal.btn[0] === '已发放') {
+              this.qryBonusById(this.$route.query.id || '')
             }
           }
         })
@@ -159,20 +168,23 @@
       },
       // 上级确认奖金
       // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=paraentCheckBonus&bonusId=1&sendType=1
-      paraentCheckBonus (type) {
+      paraentCheckBonus (modal) {
         this.$http.get(api.paraentCheckBonus, {
-          bonusId: this.stock.id,
-          sendType: type
+          bonusId: this.stock.id
+          // sendType: type
         }).then(({data}) => {
           if (data.success === 1) {
-            if (type === 1) {
-              this.$modal.redpocket({
-                target: this.$el,
-                content: '<p class="ds-icon-success-large" style="min-height: 64px"></p><h2 class="title">发放成功！</h2> ',
-                btn: ['确定']
-              })
-            }
-            this.qryBonusById(this.$route.query.id || '')
+            // if (type === 1) {
+            modal.content = '<p class="ds-icon-success-large" style="min-height: 64px"></p><h2 class="title" style="margin-top: .1rem">发放成功！</h2> '
+            modal.btn = ['已发放']
+              // this.$modal.redpocket({
+              //   target: this.$el,
+              //   content: '<p class="ds-icon-success-large" style="min-height: 64px"></p><h2 class="title" style="margin-top: .1rem">发放成功！</h2> ',
+              //   btn: ['确定']
+              // })
+          } else {
+            modal.content = '<p class="ds-icon-notice-large" style="min-height: 64px"></p><h2 class="title" style="margin-top: .1rem">发放失败！</h2> '
+            modal.btn = ['确定']
           }
         }, (rep) => {
           // error

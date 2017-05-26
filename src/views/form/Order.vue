@@ -386,7 +386,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.get(api.Orderlist, this.preOptions).then(({data}) => {
+        this.$http.post(api.Orderlist, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {

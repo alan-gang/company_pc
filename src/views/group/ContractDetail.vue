@@ -16,7 +16,7 @@
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.nickName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}
         p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
-        p.item 时间类型：按{{ TIME[c.shareCycle] }}
+        p.item 发放周期：按{{ TIME[c.shareCycle] }}
         p.item 发放方式：{{ STYPE[c.sendType] }}
 
         p.item(v-for="(l, i) in  (c.bonusRules || c.topRuleList)") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[ l.ruletype || l.ruleType || 0 ].title }}
@@ -48,7 +48,9 @@
         },
         contracts: [],
         // 契约时间类型
-        TIME: ['月', '周', '日'],
+        // TIME: ['月', '周', '日'],
+        // TIME: ['月', '半月', '周'],
+        TIME: ['', '月', '半月', '周'],
         STYPE: ['手动发放', '自动发放'],
         // 销售盈亏类型
         TYPE: [
@@ -157,7 +159,7 @@
       margin: .3rem
       &:not(:first-child)
         margin-top .6rem
-        opacity .5
+        opacity .7
 
   .item
     margin .24rem 0

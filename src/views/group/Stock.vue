@@ -35,17 +35,20 @@
 
           el-table-column(label="累计销量" width="100" align="right")
             template(scope="scope")
-              span {{ scope.row.ruleType === 0 ? scope.row.sales : '--' }}
+              // span {{ scope.row.ruleType === 0 ? scope.row.sales : '--' }}
+              span {{ scope.row.saleAmount }}
+
 
           el-table-column(label="累计盈亏" width="100" align="right")
             template(scope="scope")
-              span {{ scope.row.ruleType === 1 ? scope.row.sales : '--' }}
+              // span {{ scope.row.ruleType === 1 ? scope.row.sales : '--' }}
+              span {{ scope.row.profitAmount }}
 
           el-table-column(prop="bouns" label="理论分红金额" width="120" align="right")
 
           el-table-column(prop="status" label="状态" align="center" width="80")
              template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isDone > 1, 'text-blue': scope.row.isDone < 2 }") {{ STATUS[scope.row.isDone].title }}
+              span(:class="{ 'text-green': scope.row.isDone === 1, 'text-blue': scope.row.isDone === 0 }") {{ STATUS[scope.row.isDone].title }}
 
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
@@ -119,9 +122,9 @@
         // 分红状态
         STATUS: [
           {id: 0, title: '未发放', class: 'waiting-pay'},
-          {id: 1, title: '待确认', class: 'wait'},
-          {id: 2, title: '已发放', class: 'paid'},
-          {id: 3, title: '平台外已发放', class: 'paid-out'}
+          {id: 1, title: '已发放', class: 'paid'}
+          // {id: 2, title: '已发放', class: 'paid'},
+          // {id: 3, title: '平台外已发放', class: 'paid-out'}
         ],
         s: {},
         bonusList: [],

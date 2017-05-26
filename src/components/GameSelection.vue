@@ -1,29 +1,29 @@
 <template lang="jade">
   .game-selection
-
-    GameNumberRow(v-for="(row, i) in rows" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
-
-    el-row(v-if="rows.length === 0")
-      el-col(:span="20")
-        el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
-      el-col.btn-groups(:span="4")
-        .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
-        br
-        .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
-          input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
-        br
-        .ds-button.outline(@click=" __clearValue ") 清空
-    el-row.pos(v-if="show")
-      el-col(v-bind:span="13")
-        label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
-          span.ds-checkbox 
-          | {{ p.title }}
-      el-col.notice(:span="11")
-        | 温馨提示：你选择了 
-        span.count {{ psl }}
-        |  个位置， 系统自动根据位置组合成 
-        span.comb {{ comb }}
-        |  个方案
+    transition-group(name="slide" appear=true tag="div")
+      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
+    transition(name="slide-down" appear=true)
+      el-row(v-if="rows.length === 0")
+        el-col(:span="20")
+          el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+        el-col.btn-groups(:span="4")
+          .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
+          br
+          .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
+            input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
+          br
+          .ds-button.outline(@click=" __clearValue ") 清空
+      el-row.pos(v-if="show")
+        el-col(v-bind:span="13")
+          label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
+            span.ds-checkbox 
+            | {{ p.title }}
+        el-col.notice(:span="11")
+          | 温馨提示：你选择了 
+          span.count {{ psl }}
+          |  个位置， 系统自动根据位置组合成 
+          span.comb {{ comb }}
+          |  个方案
 </template>
 
 <script>

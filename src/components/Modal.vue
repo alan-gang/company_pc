@@ -193,6 +193,7 @@
           width 60%
         
     .content
+      word-break break-all
       position relative
       padding 0 .3rem
       font-size 14px

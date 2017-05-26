@@ -91,6 +91,7 @@ export default {
     this.t = this.times
     this.p = this.point * 10000
     this.cIndex = this.currency.model - 1
+    this.$emit('set-point', this.p / 10000, this.prize)
   },
   methods: {
     setTimes (t) {

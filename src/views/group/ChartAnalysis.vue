@@ -10,7 +10,7 @@
       .ds-button-group
         .ds-button.text-button(:class="{ selected: type === 0 } " @click="type = 0" ) 团队用户图表
         .ds-button.text-button(:class="{ selected: type === 1 } " @click="type = 1" ) 团队销量图表
-        .ds-button.text-button(:class="{ selected: type === 2 } " @click="type = 2" ) 团队盈亏图表
+        // .ds-button.text-button(:class="{ selected: type === 2 } " @click="type = 2" ) 团队盈亏图表
       
       // LineChart.line-chart(style="width: 10rem height: 6rem")
       .filters(style="width: 1.6rem; position: absolute; right: .2rem; top: 1.2rem; line-height: .4rem; z-index: 1; text-align: left")

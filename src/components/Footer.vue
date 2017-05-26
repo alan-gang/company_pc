@@ -121,6 +121,9 @@ export default {
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
       document.body.className = this.day ? 'day' : 'night'
+    },
+    more () {
+      this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
     }
   },
   beforeDestroy () {

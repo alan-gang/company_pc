@@ -281,7 +281,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.get(api.followList, this.preOptions).then(({data}) => {
+        this.$http.post(api.followList, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {

@@ -15,7 +15,7 @@
       | &nbsp;&nbsp;最低收益：
       el-input-number.center.get(v-model="this.idType ")
       |  %
-    el-table.ghost(:data="data" max-height="500" @selection-change="getSelection")
+    el-table.ghost(:data="data" max-height="500" min-width="400" @selection-change="getSelection")
 
       el-table-column(width="80"  type="selection")
 

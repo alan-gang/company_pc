@@ -154,13 +154,13 @@
         p(style="padding: .1rem .4rem" v-if="thirtyDaysAmount") 该帐户7天总量：
           span.text-danger {{ thirtyDaysAmount }}
 
-        p(style="padding: .1rem .4rem") 剩余开户额：&nbsp;&nbsp;
+        p(style="padding: .1rem .4rem" v-if="PS.length !== 0") 剩余开户额：&nbsp;&nbsp;
           label(style="display: inline-block")
             span(style="margin: 0 .15rem " v-for="P in PS")
               span.text-blue [{{ P.point }}]:
               span.text-danger {{ P.n }}个
 
-            span.text-danger(v-if="PS.length === 0") 0
+            // span.text-danger(v-if="PS.length === 0") 0
 
 
         p(style="padding: 0rem .4rem") 您的返点级别：
@@ -325,7 +325,7 @@
           text: '用户列表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.get(api.getUserList, {
+        this.$http.post(api.getUserList, {
           userId: this.BL[this.BL.length - 1].id,
           userName: this.name,
           minPoint: this.minPoint,

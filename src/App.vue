@@ -816,12 +816,16 @@ export default {
     opacity .2
     transform perspective(500px) translateZ(-1000px)
 .slide-enter, .slide-leave-active
+  opacity 0
   transform translateX(100%)
 .slide-up-enter, .slide-up-leave-active
+  opacity 0
   transform translateY(-100%)
 .slide-down-enter, .slide-down-leave-active
+  opacity 0
   transform translateY(100%)
 .slide-left-enter, .slide-left-leave-active
+  opacity 0
   transform translateX(-100%)
 .fade-enter, .fade-leave-active
   opacity 0
