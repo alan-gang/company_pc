@@ -181,7 +181,7 @@
           {ids: '-1-1-6-115', title: '选6中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-115', title: '选7中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '5单0双', value: '1'}, {selected: false, title: '4单1双', value: '2'}, {selected: false, title: '3单2双', value: '3'}, {selected: false, title: '2单3双', value: '4'}, {selected: false, title: '1单4双', value: '5'}, {selected: false, title: '0单5双', value: '6'}]},
+          {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '0单5双', value: '1'}, {selected: false, title: '5单0双', value: '2'}, {selected: false, title: '1单4双', value: '3'}, {selected: false, title: '4单1双', value: '4'}, {selected: false, title: '2单3双', value: '5'}, {selected: false, title: '3单2双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           // =========================================================PK10========================================================

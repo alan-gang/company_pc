@@ -26,6 +26,7 @@ let store = {
       lastLoginTime: '',
       // 1. 招商总代 2： 直属总代 3.一般总代 4： 普通代理 5： 试玩用户
       role: '',
+      isTry: '',
       guide: true,
       model: 'day',
       shareCycle: 0
@@ -70,6 +71,7 @@ let store = {
         location: '',
         lastLoginTime: '',
         role: '',
+        isTry: '',
         guide: true,
         user: 'day',
         shareCycle: 0

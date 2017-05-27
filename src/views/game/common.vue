@@ -57,6 +57,7 @@ import GameFollowList from 'components/GameFollowList'
 import api from '../../http/api'
 import M from '../../util/M'
 import util from '../../util'
+import store from '../../store'
 // import GameOrderHistory from 'components/GameOrderHistory'
 // import GameFollowHistory from 'components/GameFollowHistory'
 
@@ -64,6 +65,7 @@ export default {
   props: ['page'],
   data () {
     return {
+      isTry: store.state.user.isTry,
       scrollAtBottom: false,
       // 页面的url
       // url: 'one',
@@ -252,6 +254,7 @@ export default {
     // setInterval(() => {
     //   this.CNPER = parseInt(this.CNPER) + 1 + ''
     // }, 3000)
+    if (this.isTry) this.checked = true
   },
   beforeDestroy () {
     clearInterval(this.lucknumbersTimeout)

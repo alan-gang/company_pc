@@ -11,7 +11,17 @@
           .timer 
             span.time {{ timeList[index] }}
             |  毫秒
-    
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      el-col(:span="8" v-for=" (r, index) in serverList "  @click.native="switchCS(r)" v-if="!server")
+        .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: r === cs}")
+          p {{ r }}
+          span.route-index {{ index + 1 }}
+          |  线 
+          SignalBar(:value=" serverTimeListValue[index] || 0 ")
+          .timer 
+            span.time {{ serverTimeList[index] }}
+            |  毫秒
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </template>
 
 <script>
@@ -35,7 +45,11 @@
         serverTimeListValue: [],
         timeout: 2000,
         auto: 0,
-        currentServer: ''
+        currentServer: '',
+
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        cs: ''
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       }
     },
     computed: {
@@ -73,6 +87,9 @@
     watch: {
       fastServer () {
         if (!this.server) api.api = this.fastServer
+        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        this.cs = this.fastServer
+        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       }
     },
     mounted () {
@@ -80,6 +97,9 @@
       this.getEnableLines()
       this.currentServer = this.server ? api.api : window.location.origin
       // cookie.set('mySession', 'xxsffe-fe-s-f-esf-se-fe-s-f', {domain: ''})
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      this.cs = api.api
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     },
     methods: {
       getEnableLines () {
@@ -143,6 +163,13 @@
         else if (t < 900) return 2
         else return 1
       },
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      switchCS (r) {
+        api.api = r
+        this.cs = api.api
+        this.$message.success('线路切换成功！')
+      },
+      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       goLogin (r) {
         if (this.server) {
           api.api = r

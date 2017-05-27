@@ -41,6 +41,7 @@ export default {
           this.$emit('update-user', {
             login: true,
             name: data.nickName,
+            isTry: true,
             guide: data.isTry !== '1'
           })
           this.$router.push('/')

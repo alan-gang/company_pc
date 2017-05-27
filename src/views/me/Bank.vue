@@ -349,6 +349,8 @@ export default {
       this.$http.get(api.getProvices).then(({data}) => {
         if (data.success === 1) {
           this.PROVINCES = data.allProvinces
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '省份及城市信息获取失败！'})
         }
       }).catch(rpe => {
       })

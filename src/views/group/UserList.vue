@@ -48,7 +48,7 @@
 
           el-table-column(prop="nickName"  label="用户名" width="100")
 
-          el-table-column(prop="teamBalance"  label="余额" width="120" align="right")
+          el-table-column(prop="teamBalance"  label="团队余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
 
