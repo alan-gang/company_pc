@@ -9,7 +9,7 @@
             el-row
               el-col(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
                 span.the-number(v-if="showTitle") {{ n.title }}
-                Dices(v-if="isDice" v-bind:value="n.title" v-bind:class=" { selected: n.selected} ")
+                Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
 
                 span.after(v-if="after") 18
 

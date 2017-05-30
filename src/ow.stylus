@@ -1,0 +1,69 @@
+@import './owvar.stylus'
+html
+  @media(max-width: PHONEW)
+    font-size 80px
+  
+section.ow
+  h1,h2,h3,h4,h5,h6
+    font-weight normal
+  // icons 
+  [class*=ow-icon]
+    background-size: contain
+  .ow-icon-logo
+    background url(./assets/ow/logo.png) .5rem center no-repeat
+  .ow-icon-safe
+    background url(./assets/ow/safe.png) center no-repeat
+  .ow-icon-fast
+    background url(./assets/ow/fast.png) center no-repeat
+  .ow-icon-nice
+    background url(./assets/ow/nice.png) center no-repeat
+  .ow-icon-pc
+    background url(./assets/ow/pc.png) center no-repeat
+  .ow-icon-mobile
+    background url(./assets/ow/mobile.png) center no-repeat
+    
+  // comon swiper
+  .swiper-container 
+    overflow hidden
+    .swiper-slide
+      // padding-top HH
+      text-align center
+      display flex
+      -ms-flex-pack center
+      justify-content center
+      -ms-flex-align center
+      align-items center
+    .swiper-button-prev
+    .swiper-button-next
+      width .6rem
+      height .6rem
+      radius(50%)
+      background url(./assets/ow/pre.png) #a98afb center no-repeat
+      &:hover
+        background-color #ff4857
+        
+    .swiper-button-next
+      background-color  #5b9df4 
+      transform rotateZ(180deg)
+    
+    .swiper-pagination-bullet
+      width .15rem
+      height .15rem
+      radius(50%)
+      background #c3c1fb
+      opacity .5
+      &:hover
+        background #fff
+      &.swiper-pagination-bullet-active
+        background #fff
+        opacity 1
+  // Home
+  // part1
+  .home-swiper 
+    .part1-swiper
+      bg-gradient(90deg, #a97afc, #4892eb)
+      text-align center
+      color #fff
+    // .part2-slide
+      
+  

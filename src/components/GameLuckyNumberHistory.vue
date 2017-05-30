@@ -63,7 +63,7 @@ export default {
     &.empty
       display none
     .lucky-numbers
-      & > left
+      & > .left
         height .7rem
         line-height .7rem
       .NPER

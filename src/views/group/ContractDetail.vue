@@ -42,8 +42,8 @@
         STATUS: {
           '待确认': {id: 0, title: '待确认', class: 'wait'},
           '已签订': {id: 1, title: '已签订', class: 'done'},
-          '未签订': {id: 2, title: '未签订', reason: '已作废/已拒绝'}
-          // '未签订': {id: 3, title: '未签订', reason: '已拒绝'},
+          '未签订': {id: 2, title: '未签订', reason: '已作废/已拒绝'},
+          '已拒绝': {id: 3, title: '已拒绝', class: 'refused', reason: '已拒绝'}
           // '待确认': {id: 4, title: '待确认', reason: '重新发起'}
         },
         contracts: [],

@@ -231,6 +231,9 @@ export default {
             cancel () {
               this.ns = []
             },
+            close () {
+              this.notify = null
+            },
             O: this
           })
         } else {

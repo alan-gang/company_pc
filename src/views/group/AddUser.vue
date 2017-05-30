@@ -116,7 +116,7 @@
             this.$message.success(data.msg || '注册成功！')
             this.account = ''
             this.pwd = '123qwe'
-            this.point = ''
+            // this.point = ''
             this.u = {}
           } else this.$message.error(data.msg || '注册失败！')
         }, (rep) => {

@@ -661,7 +661,7 @@ export default {
       z-index 1
     // &.minus
     //   transition all linear 0.2s
-      
+    
     &.full
       .move-bar
         cursor default

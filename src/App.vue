@@ -734,13 +734,7 @@ export default {
   }
 }
 </script>
-
 <style lang="stylus">
-  @import './var.stylus'
-  @import './main.stylus'
-  @import './night.stylus'
-  // @import './chat.night.stylus'
-  
   html
     height 100%
     font-size 100px
@@ -766,6 +760,16 @@ export default {
   body:-moz-full-screen #app > * {
     background url(./assets/bg.jpg) center center no-repeat
   }
+</style>
+
+<style lang="stylus">
+  @import './var.stylus'
+  @import './main.stylus'
+  @import './night.stylus'
+  @import './ow.stylus'
+  // @import './chat.night.stylus'
+  
+  
     
   header
     position absolute
@@ -815,9 +819,11 @@ export default {
     // transform perspective(500px) translateZ(-5000px)
     opacity .2
     transform perspective(500px) translateZ(-1000px)
+    
 .slide-enter, .slide-leave-active
   opacity 0
   transform translateX(100%)
+  
 .slide-up-enter, .slide-up-leave-active
   opacity 0
   transform translateY(-100%)
@@ -829,6 +835,9 @@ export default {
   transform translateX(-100%)
 .fade-enter, .fade-leave-active
   opacity 0
+
+  
+  
 
 // define for main page
 .page

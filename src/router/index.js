@@ -5,6 +5,9 @@ import store from '../store'
 //     require([url], resolve)
 //   }
 // }
+const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
+const OwHome = r => require.ensure([], () => r(require('../views/ow/Home')), 'ow')
+
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
 const Forbidden = r => require.ensure([], () => r(require('../views/login/Forbidden')), 'login-part')
@@ -26,6 +29,16 @@ export default function (VueRoter) {
           login: true
         },
         component: require('../views/Home')
+      },
+      {
+        path: '/ow',
+        component: Ow,
+        children: [
+          {
+            path: '',
+            component: OwHome
+          }
+        ]
       },
       {
         path: '/login',

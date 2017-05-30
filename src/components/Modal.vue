@@ -110,6 +110,8 @@
 
 <style lang="stylus" scoped>
   @import '../var.stylus' 
+  .dialog-page > .modal
+      top TH
   .modal 
     position absolute
     top 0

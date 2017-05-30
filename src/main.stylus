@@ -882,6 +882,8 @@ input
     background url(assets/stock-paid.png) right top no-repeat   
   .ds-icon-stock-paid-out
     background url(assets/stock-paid-out.png) right top no-repeat
+  .ds-icon-stock-refused
+    background url(assets/stock-refused.png) right top no-repeat
   
   .ds-icon-redpocket
     background url(assets/redpocket.jpg) center top no-repeat

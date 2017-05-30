@@ -105,7 +105,7 @@
             span(style="font-size: .12rem")  （银行帐号由16位、18位或19位数字组成）
 
           p.item 确认银行帐号：
-            input.ds-input.large(v-model="cardNoAgain")
+            input.ds-input.large(v-model="cardNoAgain" @paste="noPaste")
             span(style="font-size: .12rem")  （银行帐号只能手动输入，不能粘贴）
 
           .buttons(style="margin-left: 1rem; padding-top: .05rem")
@@ -281,6 +281,14 @@ export default {
     this.getProvices()
   },
   methods: {
+    noPaste (evt) {
+      evt.preventDefault()
+      this.$modal.warn({
+        content: '为了您的安全，请重新手动输入您的卡号以确保无误。',
+        target: this.$el,
+        btn: ['好的']
+      })
+    },
     unbindCard (row) {
       this.$modal.warn({
         content: '该银行卡解绑后，不能再绑定到其它帐号上！',

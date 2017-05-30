@@ -6,6 +6,9 @@ import './polyline'
 import config from './config'
 config(Vue)
 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
+
 // 饿了么
 import elementConfig from './elementConfig'
 elementConfig(Vue)
@@ -52,4 +55,3 @@ export default new Vue({
   router: router,
   render: h => h(App)
 })
-
