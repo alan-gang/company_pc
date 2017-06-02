@@ -405,15 +405,17 @@ export default {
           height = offset.height
           boxOffset = util.getOffset(el.parentNode)
           canMove = true
-          el.style.transition = 'none'
           sx = evt.clientX
           sy = evt.clientY
         })
         util.addEvent('mousemove', target, (evt) => {
           if (!canMove) return
+          el.style.transition = 'none'
           dx = evt.movementX || (evt.clientX - sx)
           dy = evt.movementY || (evt.clientY - sy)
-          if (dx > 0 && (boxOffset.width - 15 <= left + width)) dx = 0
+          if (left > boxOffset.width / 2) el.setAttribute('align', 'right')
+          else el.setAttribute('align', 'left')
+          if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
           if (dx < 0 && left <= 15) dx = 0
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
           if (dy < 0 && top <= 15) dy = 0
@@ -656,8 +658,29 @@ export default {
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
     transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
-    
+    &[align=left]
+      transform perspective(1rem) rotateY(1deg) translateZ(-.8rem)
+      
+    &[align=right]
+      transform perspective(1rem) rotateY(-1deg) translateZ(-.8rem)
+    &[align=left]
+    &[align=right]
+      .resize-x
+        &:hover
+          width 4 * TH
+          right -2 * TH
+        &[expand]
+          width 8 * TH
+          right -4 * TH
+      .resize-y
+        &:hover
+          height 4 * TH
+          bottom -2 * TH
+        &[expand]
+          height 8 * TH
+          bottom -4 * TH
     &.active
+      transform rotateY(0)
       z-index 1
     // &.minus
     //   transition all linear 0.2s

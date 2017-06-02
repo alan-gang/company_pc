@@ -2,6 +2,7 @@
   .game-selection
     transition-group(name="slide" appear=true tag="div")
       GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
+
     transition(name="slide-down" appear=true)
       el-row(v-if="rows.length === 0")
         el-col(:span="20")
@@ -13,6 +14,8 @@
             input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
           br
           .ds-button.outline(@click=" __clearValue ") 清空
+
+    transition(name="slide-down" appear=true)
       el-row.pos(v-if="show")
         el-col(v-bind:span="13")
           label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 

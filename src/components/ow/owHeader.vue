@@ -1,6 +1,6 @@
 <template lang="jade">
   .header
-    .ow-icon-logo(style="width: 20%; height: 100%; display: inline-block")
+    .ow-icon-logo(style="min-width: 200px; width: 20%; height: 100%; display: inline-block")
     nav(:class=" {open: open} ")
       router-link(v-for=" r in links " v-bind:to=" r.link " ) {{ r.title }}
       a.collapse(@click="open = !open")
@@ -16,13 +16,13 @@ export default {
     return {
       open: false,
       links: [
-        {title: '首页', link: '/'},
-        {title: '热门活动', link: '/'},
-        {title: '游戏介绍', link: '/'},
-        {title: '常见问题', link: '/'},
-        {title: '域名验证', link: '/'},
-        {title: '客户端下载', link: '/'},
-        {title: '畅博资讯', link: '/'}
+        {title: '首页', link: '/ow'},
+        {title: '热门活动', link: '/ow?url=event'},
+        {title: '游戏介绍', link: '/ow?url=intro'},
+        {title: '常见问题', link: '/ow?url=faq'},
+        {title: '域名验证', link: '/ow?url=domaincheck'},
+        {title: '客户端下载', link: '/ow?url=download'},
+        {title: '畅博资讯', link: '/ow?url=news'}
       ]
     }
   },
@@ -55,7 +55,7 @@ export default {
     right 0
     height HH
     line-height HH
-    bg-gradient(90deg, #a97afc, #4892eb)
+    // bg-gradient(90deg, #a97afc, #4892eb)
     nav
       position: relative;
       float right

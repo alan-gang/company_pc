@@ -1,17 +1,26 @@
 <template lang="jade">
-  swiper.home-swiper(:options="swiperOption" ref="mySwiper")
+  swiper.home-swiper.scroll-content(:options="swiperOption" ref="mySwiper")
     swiper-slide
       Part1
     swiper-slide.part2-slide
       Part2
     swiper-slide.part3-slide
       Part3
+    swiper-slide.part4-slide.ow-icon-wave
+      Part4
+    swiper-slide.part5-slide.ow-icon-safe-bg
+      Part5
+    swiper-slide.part6-slide
+      Part6
 </template>
 
 <script>
   import Part1 from './home/Part1'
   import Part2 from './home/Part2'
   import Part3 from './home/Part3'
+  import Part4 from './home/Part4'
+  import Part5 from './home/Part5'
+  import Part6 from './home/Part6'
  // swiper options example:
   export default {
     data () {
@@ -61,8 +70,11 @@
     },
     components: {
       Part1,
+      Part2,
       Part3,
-      Part2
+      Part4,
+      Part5,
+      Part6
     }
   }
 </script>

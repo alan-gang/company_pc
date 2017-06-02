@@ -766,7 +766,6 @@ export default {
   @import './var.stylus'
   @import './main.stylus'
   @import './night.stylus'
-  @import './ow.stylus'
   // @import './chat.night.stylus'
   
   
@@ -852,5 +851,5 @@ export default {
     &[class*=-enter]
       transform none
 
-
+  @import './ow.stylus'
 </style>

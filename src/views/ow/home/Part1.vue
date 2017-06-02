@@ -4,13 +4,6 @@
      .ow-content
         h1 全新畅博精彩呈现
         h6 Changbo Entertainments
-
-    swiper-slide I'm Slide 22
-    swiper-slide I'm Slide 33
-    swiper-slide I'm Slide 44
-    swiper-slide I'm Slide 55
-    swiper-slide I'm Slide 66
-    swiper-slide I'm Slide 77
     .swiper-pagination(slot="pagination")
     .swiper-button-prev(slot="button-prev")
     .swiper-button-next(slot="button-next")

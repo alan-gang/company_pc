@@ -42,6 +42,14 @@
     },
     computed: {
     },
+    watch: {
+      account () {
+        this.account = this.account.trim()
+      },
+      name () {
+        this.name = this.name.trim()
+      }
+    },
     mounted () {
       this._getVerifyImage()
       this.tag = this.$route.query.tag
@@ -76,7 +84,7 @@
       // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
       autoRegist () {
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
-        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符！'})
+        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符, 必须包含数字和字母!'})
         if (!this.name) return this.$message.warning({target: this.$el, message: '请输入昵称！'})
         if (!Validate.nickName(this.name)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
         if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码！'})

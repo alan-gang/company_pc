@@ -10,7 +10,7 @@
       div
 
         .notice(style="margin: .2rem")
-          span.title 温馨提示：
+          span.title 例如：
           p.content
             | 您当前的
             span.text-blue 直选返点
@@ -37,7 +37,7 @@
             el-option(v-for="U in UL[me.role]" v-bind:label="U.title" v-bind:value="U")
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
-          span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符）
+          span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符, 必须包含数字和字母）
         p(style="padding: .05rem .4rem") 登录密码： &nbsp;&nbsp;
           input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123qwe' } ")
           span(style="color: #999; font-size: .12rem")（登录密码默认为：123qwe）
@@ -101,13 +101,21 @@
     },
     computed: {
     },
+    watch: {
+      account () {
+        this.account = this.account.trim()
+      },
+      pwd () {
+        this.pwd = this.pwd.trim()
+      }
+    },
     mounted () {
       this.showRegistUser()
     },
     methods: {
       openAccount () {
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
-        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符！'})
+        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符, 必须包含数字和字母!'})
         if (!this.pwd) return this.$message.warning({target: this.$el, message: '请输入密码！'})
         // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=registUser&userName=abcdefg&password=123qwe&nickName=test1234&keepPoint=0.2
         this.$http.get(api.registUser, { userName: this.account, password: this.pwd, keepPoint: this.p, proxyType: this.u.id || '' }).then(({data}) => {
@@ -166,6 +174,7 @@
   
   .notice
     font-size .12rem
+    line-height .22rem
     margin 0 .2rem
     padding PWX
     background-color #fffde8

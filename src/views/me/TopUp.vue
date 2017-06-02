@@ -98,7 +98,7 @@
                   span.text-danger 二维码已过期，请重新获取
 
     
-    Modal(title="" v-bind:Ptype="'question'" v-show="dataXnow" v-bind:Pbtn=" ['充值成功', '遇到问题'] " v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
+    Modal(title="" v-bind:Ptype="Ptype" v-show="dataXnow" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
         p 充值总额： 
           span.text-black {{ dataXamount }}
@@ -131,6 +131,9 @@ import Modal from 'components/Modal'
 export default {
   data () {
     return {
+      Ptype: 'warn',
+      Pbtn: ['进入网上银行'],
+      Phref: [],
       cpwd: '',
       dataXamount: '',
       dataXbankName: '',
@@ -262,11 +265,22 @@ export default {
     },
     Pclose () {
       this.dataXnow = false
+      setTimeout(() => {
+        this.Ptype = 'warn'
+        this.Phref = []
+        this.Pbtn = ['进入网上银行']
+      }, 1000)
       return false
     },
     Pok () {
-      console.log('....222')
-      this.type = 2
+      if (this.Pbtn[0] === '进入网上银行') {
+        this.Ptype = 'question'
+        this.Phref = []
+        this.Pbtn = ['充值成功', '充值失败']
+        return false
+      } else {
+        this.type = 2
+      }
     },
     // 充值记录查询
     // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1
@@ -332,6 +346,7 @@ export default {
             this.dataXorderId = data.orderId
             this.dataXappendix = data.appendix
             this.dataXnow = true
+            this.Phref[0] = data.bankUrl
             // 在线充值 附言
             // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
             //  '<p>银行信息：' + data.bankName + '' + '</p>' +
@@ -358,7 +373,7 @@ export default {
             } else {
               this.$modal.warn({
                 content: '立即跳转到第三方去充值？',
-                btn: ['去充值'],
+                btn: ['进入网上银行'],
                 href: [data.msg],
                 target: this.$el,
                 ok () {
@@ -383,8 +398,10 @@ export default {
       })
     },
     topUpNow () {
-      if (!this.amount) return this.$el.querySelector('input').focus()
+      if (!this.amount) this.$el.querySelector('input').focus()
+      if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
       if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
+      if (!this.selectBank.apiName) return this.$message.warning({message: '请选择支付方式!'})
       this.commit()
     },
     // 在线充值*************

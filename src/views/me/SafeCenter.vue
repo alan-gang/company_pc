@@ -83,6 +83,7 @@
                 span.text-green.ds-icon-set(v-if="me.name") 已设置
                 span.text-ellipsis( v-if="me.name" style="max-width: 70%; "  v-bind:title="me.name") &nbsp;&nbsp;{{ me.name }}
                 span.text-danger.ds-icon-unset(v-if="!me.name") 未设置
+                span(style="font-size: .12rem") （昵称只能修改一次）
 
               el-col(:span="4").toggle
                 .ds-button.text-button.blue(@click="index === 2 ? index = 0 : index = 2") {{ index === 2 ? '收起' : !me.name ? '立即设置' : '立即修改' }}

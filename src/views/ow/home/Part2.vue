@@ -40,12 +40,11 @@ export default {
   .ow-content
     display inline-block
     color #5b6470
-    width 100%
-    height 100%
+    width 90%
     h2
-      margin 10% 0
       font-size .36rem
       color #5b6470
+      margin-bottom 1rem
     h4
       font-size .2rem
     h6
@@ -56,12 +55,17 @@ export default {
       display inline-block
       width 20%
       height 40%
+     
       min-width 3.5rem
       max-height 5rem
       
       padding PW
       margin PW
       shadow(0 0 .1rem #eee)
+
+      @media(max-width: PHONEW)
+        height 200px
+    
       .ow-icon-nice
       .ow-icon-safe
       .ow-icon-fast

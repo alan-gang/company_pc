@@ -41,12 +41,14 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ B.title }}
 
-        el-table.header-bold.nopadding(:data="data" v-bind:default-sort = "{prop: 'nickName'}" @cell-click="cellClick")
+        el-table.header-bold.nopadding(:data="data"  @cell-click="cellClick")
 
-          el-table-column(class-name="pointer text-blue" prop="userId" label="下级" width="50" align="left")
+          // el-table-column(class-name="pointer text-blue" prop="userId" label="下级" width="50" align="left")
+            
 
-
-          el-table-column(prop="nickName"  label="用户名" width="100")
+          el-table-column(prop="userName"  label="用户名" width="100")
+            template(scope="scope")
+              span(:class=" { 'pointer text-blue': !scope.row.self } ") {{ scope.row.userName }}
 
           el-table-column(prop="teamBalance"  label="团队余额" width="120" align="right")
 
@@ -64,9 +66,9 @@
 
           el-table-column(label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(v-if=" scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
+              .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
+              .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
+              .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" (user = scope.row) && goBonus()  ") 奖金详情
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
               div(v-if="scope.row.showTeanBalance") 团队余额：
@@ -298,16 +300,15 @@
       //   return a > b
       // },
       cellClick (row, column, cell, event) {
-        if (column.property === 'userId') {
+        if (column.property === 'userName' && !row.self) {
           this.BL.push({
             id: row.userId,
-            title: row.nickName
+            title: row.userName
           })
           this.getUserList()
         }
       },
       link (B, i) {
-        console.log(B, i)
         if (i !== B.length - 1) {
           this.BL = this.BL.slice(0, i + 1)
           this.getUserList()
@@ -338,6 +339,7 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            data.subUserInfo[0] && (data.subUserInfo[0].self = true)
             this.data = data.subUserInfo.map(o => {
               o.showTeanBalance = false
               return o
@@ -519,6 +521,7 @@
   
   .notice
     font-size .12rem
+    line-height .22rem
     margin 0 .2rem
     padding PWX
     background-color #fffde8

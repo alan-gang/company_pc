@@ -6,7 +6,9 @@ import store from '../store'
 //   }
 // }
 const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
-const OwHome = r => require.ensure([], () => r(require('../views/ow/Home')), 'ow')
+// const OwHome = r => require.ensure([], () => r(require('../views/ow/Home')), 'ow')
+// const OwNews = r => require.ensure([], () => r(require('../views/ow/News')), 'ow')
+// const OwFAQ = r => require.ensure([], () => r(require('../views/ow/FAQ')), 'ow')
 
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
@@ -32,13 +34,21 @@ export default function (VueRoter) {
       },
       {
         path: '/ow',
-        component: Ow,
-        children: [
-          {
-            path: '',
-            component: OwHome
-          }
-        ]
+        component: Ow
+        // children: [
+        //   {
+        //     path: '',
+        //     component: OwHome
+        //   },
+        //   {
+        //     path: 'news',
+        //     component: OwNews
+        //   },
+        //   {
+        //     path: 'faq',
+        //     component: OwFAQ
+        //   }
+        // ]
       },
       {
         path: '/login',

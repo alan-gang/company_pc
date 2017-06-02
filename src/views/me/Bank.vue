@@ -513,6 +513,7 @@ export default {
   
   .notice
     font-size .12rem
+    line-height .22rem
     margin 0 .2rem
     padding PWX
     background-color #fffde8

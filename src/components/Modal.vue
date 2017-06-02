@@ -35,7 +35,7 @@
 <script>
   export default {
     name: 'Modal',
-    props: ['Ptype', 'Pbtn', 'Pok', 'Pcancel', 'Pclose'],
+    props: ['Ptype', 'Pbtn', 'Phref', 'Pok', 'Pcancel', 'Pclose'],
     data () {
       return {
         type: 'confirm',
@@ -69,6 +69,17 @@
     computed: {
       Cclass () {
         return this.customClass + ' ' + this.type
+      }
+    },
+    watch: {
+      Pbtn () {
+        this.btn = this.Pbtn
+      },
+      Phref () {
+        this.href = this.Phref
+      },
+      Ptype () {
+        this.type = this.Ptype
       }
     },
     methods: {
