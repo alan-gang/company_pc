@@ -654,7 +654,7 @@ export default {
         }, p)
       }, [])
     },
-    openTab (url) {
+    openTab (url, same) {
       if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },

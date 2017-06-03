@@ -1,9 +1,9 @@
 <template lang="jade">
 
-  transition-group(appear=true name="zoom" tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @mousedown.native="openAPage(page.id)")
+  transition-group.dialog-container(adjusting="adjusting" appear=true name="zoom" tag="section")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)")
 
-        .cover(slot="cover" v-bind:class="{show: !page.active}" )
+        // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
@@ -303,7 +303,6 @@ export default {
       //     top: '30%'
       //   }
       // ]
-
     }
   },
   watch: {
@@ -327,10 +326,12 @@ export default {
     },
     full (page) {
       if (page.size !== 'full') this.setDefaultPosition(page)
-      this.updatePage(page.url, {size: page.size === 'full' ? '' : 'full'}, page)
+      // console.log('fullnow', page.size, page.url, page.id)
+      this.updatePage(page.id, {size: page.size === 'full' ? '' : 'full'}, page)
     },
     minus (page) {
       if (page.size !== 'full') this.setDefaultPosition(page)
+      // console.log('minusnow', page.size, page.url, page.id)
       this.updatePage(page.id, {size: 'minus'}, page)
       this.prehref && this.$router.push(this.prehref)
     },
@@ -389,6 +390,7 @@ export default {
     moveable: {
       inserted (el, binding, vnode) {
         let canMove = false
+        let wantMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
         let boxOffset = util.getOffset(el.parentNode)
         let target = el.querySelector('.move-bar')
@@ -396,8 +398,17 @@ export default {
         let sy = 0
         let dx = 0
         let dy = 0
+        util.addEvent('click', target, (evt) => {
+          if (wantMove) {
+            evt.preventDefault()
+            evt.stopPropagation()
+            wantMove = false
+          }
+        })
         util.addEvent('mousedown', target, (evt) => {
           target.setAttribute('expand', 'expand')
+          el.setAttribute('adjusting', 'adjusting')
+          el.parentNode.setAttribute('adjusting', 'adjusting')
           let offset = util.getOffset(el, 0)
           top = offset.top
           left = offset.left
@@ -410,11 +421,14 @@ export default {
         })
         util.addEvent('mousemove', target, (evt) => {
           if (!canMove) return
+          wantMove = true
           el.style.transition = 'none'
           dx = evt.movementX || (evt.clientX - sx)
           dy = evt.movementY || (evt.clientY - sy)
-          if (left > boxOffset.width / 2) el.setAttribute('align', 'right')
-          else el.setAttribute('align', 'left')
+          if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
+          else el.setAttribute('h-align', 'left')
+          if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
+          else el.setAttribute('v-align', 'top')
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
           if (dx < 0 && left <= 15) dx = 0
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
@@ -429,11 +443,15 @@ export default {
         })
         util.addEvent('mouseup', target, (evt) => {
           target.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           canMove = false
           el.style.transition = ''
         })
         util.addEvent('mouseleave', target, (evt) => {
           target.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           canMove = false
           el.style.transition = ''
         })
@@ -453,9 +471,19 @@ export default {
         let sy = 0
         let dx = 0
         let dy = 0
+        util.addEvent('click', targetX, (evt) => {
+          evt.preventDefault()
+          evt.stopPropagation()
+        })
+        util.addEvent('click', targetY, (evt) => {
+          evt.preventDefault()
+          evt.stopPropagation()
+        })
         // X
         util.addEvent('mousedown', targetX, (evt) => {
           targetX.setAttribute('expand', 'expand')
+          el.setAttribute('adjusting', 'adjusting')
+          el.parentNode.setAttribute('adjusting', 'adjusting')
 
           evt.preventDefault()
           evt.stopPropagation()
@@ -473,17 +501,23 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           if (!canResizeX) return
+          if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
+          else el.setAttribute('h-align', 'left')
+          if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
+          else el.setAttribute('v-align', 'top')
           dx = evt.movementX || (evt.clientX - sx)
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
           width += dx
           el.style.width = width + 'px'
           if (width > 800) el.removeAttribute('w')
-          if (width < 800) el.setAttribute('w', '800')
-          if (width < 700) el.setAttribute('w', '700')
+          if (width < 800) el.setAttribute('w', 'w', '800')
+          if (width < 700) el.setAttribute('w', 'w', '700')
           sx = evt.clientX
         })
         util.addEvent('mouseup', targetX, (evt) => {
           targetX.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           evt.preventDefault()
           evt.stopPropagation()
           canResizeX = false
@@ -491,12 +525,16 @@ export default {
         })
         util.addEvent('mouseleave', targetX, (evt) => {
           targetX.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           canResizeX = false
           el.style.transition = ''
         })
         // Y
         util.addEvent('mousedown', targetY, (evt) => {
           targetY.setAttribute('expand', 'expand')
+          el.setAttribute('adjusting', 'adjusting')
+          el.parentNode.setAttribute('adjusting', 'adjusting')
           evt.preventDefault()
           evt.stopPropagation()
           let offset = util.getOffset(el)
@@ -513,6 +551,10 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           if (!canResizeY) return
+          if (left > boxOffset.width / 2) el.setAttribute('h-align', 'right')
+          else el.setAttribute('h-align', 'left')
+          if (top > boxOffset.height / 2) el.setAttribute('v-align', 'bottom')
+          else el.setAttribute('v-align', 'top')
           dy = evt.movementY || (evt.clientY - sy)
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) return
           height += dy
@@ -521,6 +563,8 @@ export default {
         })
         util.addEvent('mouseup', targetY, (evt) => {
           targetY.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           evt.preventDefault()
           evt.stopPropagation()
           canResizeY = false
@@ -528,6 +572,8 @@ export default {
         })
         util.addEvent('mouseleave', targetY, (evt) => {
           targetY.removeAttribute('expand')
+          el.removeAttribute('adjusting')
+          el.parentNode.removeAttribute('adjusting')
           canResizeY = false
           el.style.transition = ''
         })
@@ -604,13 +650,15 @@ export default {
     right 4 * TH
     height TH
     cursor move
-    z-index 1
+    z-index 10000
     &:hover
       height 2 * TH
       top -1 * TH
     &[expand]
-      height 4 * TH
-      top -2 * TH
+      width 200rem
+      height 200rem
+      top -100rem
+      left -100rem
       
       
   .resize-x
@@ -620,14 +668,16 @@ export default {
     top TH
     bottom TH
     width TH
-    z-index 9999
+    z-index 10000
     cursor e-resize
     &:hover
       width 2 * TH
       right -1 * TH
     &[expand]
-      width 4 * TH
-      right -2 * TH
+      width 200rem
+      height 200rem
+      left -100rem
+      top -100rem
       
   
   .resize-y
@@ -637,14 +687,17 @@ export default {
     bottom - TH
     left .5rem
     height TH
-    z-index 9999
+    z-index 10000
     cursor n-resize
     &:hover
       height 2 * TH
       bottom -1.5 * TH
     &[expand]
-      height 4 * TH
-      bottom -2 * TH
+      width 200rem
+      height 200rem
+      top -100rem
+      left -100rem
+      
   .page
     overflow hidden
   .dialog-page
@@ -658,27 +711,18 @@ export default {
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
     transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
-    &[align=left]
-      transform perspective(1rem) rotateY(1deg) translateZ(-.8rem)
+    &[h-align=left]
+      transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 0, -.8rem)
+      // &[v-align=bottom]
+      //   transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 2rem, -.8rem)
+    &[h-align=right]
+      transform perspective(1rem) rotateY(1deg) translate3D(3rem, 0, -.8rem)
+      // &[v-align=bottom]
+      //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
+ 
+    &[adjusting]
+      z-index 2
       
-    &[align=right]
-      transform perspective(1rem) rotateY(-1deg) translateZ(-.8rem)
-    &[align=left]
-    &[align=right]
-      .resize-x
-        &:hover
-          width 4 * TH
-          right -2 * TH
-        &[expand]
-          width 8 * TH
-          right -4 * TH
-      .resize-y
-        &:hover
-          height 4 * TH
-          bottom -2 * TH
-        &[expand]
-          height 8 * TH
-          bottom -4 * TH
     &.active
       transform rotateY(0)
       z-index 1

@@ -2,12 +2,12 @@
   .tool-bar
     span.title {{ title }}
     el-button-group
-      el-button(v-bind:icon="starClass" @click="like" v-if="menuid")
-      .el-button(@click="minus")
+      el-button(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
+      .el-button(@click.stop="minus")
         .el-icon-minus
-      .el-button(@click="full")
+      .el-button(@click.stop="full")
         .full
-      el-button.close(icon="close" @click="close")
+      el-button.close(icon="close" @click.stop="close")
 
 
 </template>
