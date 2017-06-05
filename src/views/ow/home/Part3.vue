@@ -6,8 +6,8 @@
     div(v-bind:class="{'ow-icon-pc': on === 0, 'ow-icon-mobile': on === 1}")
     
     .button-group
-      .button(:class="{on: on === 0}" @click="goIntro(0)") 电脑版
-      .button(:class="{on: on === 1}" @click="goIntro(1)") 手机版
+      .button(:class="{on: on === 0}" @click.stop="goIntro(0)") 电脑版
+      .button(:class="{on: on === 1}" @click.stop="goIntro(1)") 手机版
    
 </template>
 

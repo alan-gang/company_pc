@@ -27,7 +27,7 @@
 
         el-table.header-bold.nopadding(:data="bonusList" v-bind:row-class-name="tableRowClassName" max-height="400" v-show=" !(type === 0 && me.role < 4)")
 
-          el-table-column(prop="nickName" label="用户名" width="80" v-if="type === 1")
+          el-table-column(prop="userName" label="用户名" width="80" v-if="type === 1")
 
           el-table-column(prop="expireTm" label="契约结束时间" width="140" )
 
@@ -52,7 +52,7 @@
 
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click="goStockDetail(scope.row.id)") 查看详情
+              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goStockDetail(scope.row.id)") 查看详情
 
 
         el-table.header-bold.nopadding(:data="topBonuList" max-height="400" v-on:expand="expand" v-show=" (type === 0 && me.role < 4)")
@@ -77,7 +77,7 @@
                     span(:class="{ 'text-green': scope.row.isDone > 0, 'text-blue': scope.row.isDone < 1 }") {{ ['未发放', '已发放'][scope.row.isDone]}}
                 el-table-column(prop="userpoint" label="操作" align="center")
                     template(scope="scope")
-                      .ds-button.text-button.blue(style="padding: 0 .05rem" @click="goContractDetail(scope.row.contractId)") 查看契约详情
+                      .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goContractDetail(scope.row.contractId)") 查看契约详情
 
           el-table-column(prop="issue" label="期号" width="140")
           el-table-column(prop="date" label="理论发放日期" width="140" )

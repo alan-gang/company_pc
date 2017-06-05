@@ -4,7 +4,7 @@
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
-          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed")
+          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt(v-if="group.title") {{ group.title }}
@@ -53,7 +53,7 @@
 
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
-    router-link.logo.ds-icon-logo-middle(:to="' /home '")
+    router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
 
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )

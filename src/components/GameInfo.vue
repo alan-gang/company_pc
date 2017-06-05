@@ -18,12 +18,12 @@
               {{ type.example || '暂无' }}
 
       
-      // router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  ") 走势图
+      // router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
 
     el-col.right(:span="6")
       el-button-group.right
-        router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} ") 投注记录
-        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} ") 追号记录
+        router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} " @click.native.stop="") 投注记录
+        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
 
         
 </template>

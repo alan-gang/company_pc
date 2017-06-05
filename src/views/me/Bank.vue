@@ -14,7 +14,7 @@
             | 每个游戏帐户最多绑定 
             span.text-danger 5
             |  张银行卡，您已成功绑定 
-            span.text-danger {{ times }} 0
+            span.text-danger {{ myBanks.length }}
             |  张。
             br
             span.text-danger 银行卡锁定后，不能增加新的银行卡，同时也不能解绑已绑定的银行卡！
@@ -25,8 +25,8 @@
 
         .form
           .buttons(style="float: right; padding: .2rem 0")
-            .ds-button.primary.large(@click="(type = 'bind') &&  stepIndex++") 增加银行卡
-            button.ds-button.cancel.large(@click=" (type = 'lock') &&  stepIndex++" v-bind:disabled = "!myBanks[0]") 锁定全部银行卡
+            button.ds-button.primary.large(@click="(type = 'bind') &&  stepIndex++" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 增加银行卡
+            button.ds-button.cancel.large(@click=" (type = 'lock') &&  stepIndex++" v-bind:disabled="!!locked || !myBanks[0]" v-bind:class="{ disabled: !!locked || !myBanks[0] }") 锁定全部银行卡
 
         el-table.header-bold.margin(:data="myBanks" style="margin: .2rem")
           el-table-column(label="银行名称")
@@ -41,7 +41,7 @@
 
           el-table-column(label="操作" min-width="60"  align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(@click="unbindCard(scope.row)") 解绑
+              button.ds-button.text-button.blue(@click="unbindCard(scope.row)" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 解绑
 
 
       
@@ -64,7 +64,7 @@
             | 3. 每个游戏帐户最多绑定
             span.text-danger  5 
             | 张银行卡，您已成功绑定
-            span.text-danger  2 
+            span.text-danger {{ myBanks.length }} 
             | 张。
             br
             | 4. 一个游戏帐户只能绑定同一个开户人姓名的银行卡。
@@ -94,11 +94,11 @@
           
           p.item 支行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="branchName")
-            span(style="font-size: .12rem")  （由1至20个字符或汉字组成，不能使用特殊字符）
+            span(style="font-size: .12rem")  （由3至20个汉字组成，不能使用数字、字符）
 
           p.item 开户人姓名：&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="name")
-            span(style="font-size: .12rem")  （由1至20个字符或汉字组成，不能使用特殊字符）
+            span(style="font-size: .12rem")  （由2至8个汉字组成，不能使用数字、字符）
 
           p.item 银行帐号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cardNo")
@@ -223,6 +223,7 @@ export default {
     return {
       me: store.state.user,
       avaibleBanks: [],
+      cpwd: '',
       // BANKS: BANKS,
       myBanks: [],
       PROVINCES: [],
@@ -238,7 +239,7 @@ export default {
       cardNo: '',
       // 分行
       branchName: '',
-
+      locked: false,
       type: 'bind',
       stepIndex: 0,
       s: ['01 资料验证', '02 安全验证', '03 完成'],
@@ -260,6 +261,11 @@ export default {
     },
     branchName () {
       this.branchName = this.branchName.trim()
+    },
+    stepIndex () {
+      if (this.stepIndex === 0) {
+        this.clearBankCard()
+      }
     }
   },
   computed: {
@@ -334,6 +340,7 @@ export default {
     getUserBankCards () {
       this.$http.get(api.getUserBankCards).then(({data}) => {
         if (data.success === 1) {
+          this.locked = data.lockCard
           this.myBanks = data.userBankCards
           this.myBanks.forEach(c => {
             c.addTime = c.addTime
@@ -365,7 +372,7 @@ export default {
     },
     checkbindBankCard () {
       if (!this.bank.apiName || !this.province.id || !this.city.id) return this.$message.error({target: this.$el, message: '请选择相应的银行、省份及城市！'})
-      if (this.branchName.length < 3 || !Validate.chinese(this.branchName)) return this.$message.error({target: this.$el, message: '请输入您的开户银行支行名！'})
+      if (this.branchName.length > 20 || this.branchName.length < 3 || !Validate.chinese(this.branchName)) return this.$message.error({target: this.$el, message: '请输入您的开户银行支行名！'})
       if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户银行姓名！'})
       if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
       if (this.cardNo !== this.cardNoAgain) return this.$message.error({target: this.$el, message: '两次输入卡号不一致！'})
@@ -404,6 +411,7 @@ export default {
       this.name = ''
       this.cardNo = ''
       this.cardNoAgain = ''
+      this.cpwd = ''
     },
     unbindBankCardCheck () {
       console.log(this.cardNo)
@@ -471,6 +479,7 @@ export default {
           modal.btn = []
           modal.content = '恭喜您，锁定成功！'
           modal.ok = null
+          this.stepIndex = 0
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }

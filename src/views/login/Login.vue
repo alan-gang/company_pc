@@ -21,8 +21,8 @@
     dd.ds-button.positive.full.bold.login(@click="login" style="border: none") 登录
 
     dd.actions
-      router-link.try.ds-button.text-button.light.small(:to="'/login/try'") 试玩登录
-      router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'") 忘记密码
+      router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 试玩登录
+      router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'" @click.native.stop="") 忘记密码
 
 
 

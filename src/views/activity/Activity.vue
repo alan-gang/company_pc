@@ -6,7 +6,7 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.activity-center
-      router-link.banner.section(v-for=" (a, i) in activities " v-bind:to=" sources[a.activityType - 1].href ")
+      router-link.banner.section(v-for=" (a, i) in activities " v-bind:to=" sources[a.activityType - 1].href " @click.native.stop="")
         img(:src=" sources[a.activityType - 1].src ")
         h4.text-black {{ a.title }}
         h5 {{ a.subTitle }}

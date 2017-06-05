@@ -28,7 +28,7 @@
 
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName")
 
-          el-table-column(prop="nickName" label="用户名" width="150" v-if="type === 1")
+          el-table-column(prop="userName" label="用户名" width="150" v-if="type === 1")
 
           el-table-column(prop="expireTm" label="契约结束时间" width="150" )
 
@@ -86,7 +86,7 @@
           p.item.block
             span.text-danger *
             | 用户名：&nbsp;&nbsp;&nbsp;&nbsp;
-            span.text-black {{ user.nickName }}
+            span.text-black {{ user.userName }}
 
           .item.block
             span.text-danger *

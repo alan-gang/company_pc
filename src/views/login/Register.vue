@@ -14,7 +14,7 @@
     div.form-item
       .ds-button.bold.tall.high-positive._3rem.oval(@click="autoRegist") 立即注册
       br
-      router-link.ds-button.text-button.light(:to=" '/login' " style="margin-top: .1rem") 我要登录
+      router-link.ds-button.text-button.light(:to=" '/login' " style="margin-top: .1rem" @click.native.stop="") 我要登录
 
 
 

@@ -18,6 +18,7 @@ import ToolBar from 'components/ToolBar'
 // game
 import SSC from './game/SSC'
 import SSL from './game/SSL'
+import SSL3D from './game/SSL3D'
 import G115 from './game/G115'
 import PK10 from './game/PK10'
 import KL8 from './game/KL8'
@@ -79,6 +80,7 @@ export default {
     // game
     SSC,
     SSL,
+    SSL3D,
     G115,
     PK10,
     KL8,

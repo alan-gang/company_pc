@@ -13,7 +13,7 @@
       div.c(v-for=" (c, ci) in contracts "  v-bind:class=" ['ds-icon-stock-' + STATUS[c.stat].class ] ")
         
         h2.text-black(style="margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
-        p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.nickName }}
+        p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.userName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}
         p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
         p.item 发放周期：按{{ TIME[c.shareCycle] }}

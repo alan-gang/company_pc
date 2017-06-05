@@ -3,7 +3,7 @@
     h1 404
     p 您访问的页面不存在！
     .buttons
-      router-link.ds-button.primary(:to=" '/' ") 返回首页
+      router-link.ds-button.primary(:to=" '/' " @click.native.stop="") 返回首页
 
    
 </template>

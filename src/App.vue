@@ -204,7 +204,7 @@ export default {
               // class: 'ds-icon-item',
               // url: 'K3',
               items: [
-                {url: 'SSL', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
+                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10},
                 {url: 'SSL', class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5}
               ]
@@ -779,6 +779,7 @@ export default {
     z-index 1
     & + .scroll-content
       top HH
+  @import './ow.stylus'
   footer
     position absolute
     bottom 0
@@ -851,5 +852,5 @@ export default {
     &[class*=-enter]
       transform none
 
-  @import './ow.stylus'
+  
 </style>

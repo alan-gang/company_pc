@@ -35,7 +35,7 @@
           
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click="goProfitLossDetail(scope.row.userId)") 明细
+              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goProfitLossDetail(scope.row.userId)") 明细
       
 </template>
 

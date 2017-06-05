@@ -14,7 +14,7 @@ let chinese = chinese => {
   return chinese.match(/^[\u4e00-\u9fa5]+$/)
 }
 let chineseName = chineseName => {
-  return chineseName.match(/^[\u4e00-\u9fa5]{2,6}$/)
+  return chineseName.match(/^[\u4e00-\u9fa5]{2,8}$/)
 }
 let account = account => {
   return account.length >= 6 && account.length <= 16 && account.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)

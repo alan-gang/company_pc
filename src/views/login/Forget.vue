@@ -78,7 +78,7 @@
         br
         span.time {{ time }}
         | 秒后将跳转至
-        router-link.login(:to="'/login'") 登录
+        router-link.login(:to="'/login'" @click.native.stop="") 登录
         |页
         
 
@@ -87,9 +87,9 @@
       dd.ds-button.positive.full.bold.next(v-if="stepIndex === lastStepIndex && !finish" @click="done") 提交
 
       dd.actions(v-if="!finish")
-        router-link.back.ds-button.text-button.light.small(:to="'/login'") 
+        router-link.back.ds-button.text-button.light.small(:to="'/login'" @click.native.stop="") 
           | <返回登录
-        router-link.try.ds-button.text-button.light.small(:to="'/login/try'") 
+        router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 
           | 试玩登录
 </template>
 

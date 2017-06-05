@@ -2,7 +2,7 @@
   .header
     .ow-icon-logo(style="min-width: 200px; width: 20%; height: 100%; display: inline-block")
     nav(:class=" {open: open} ")
-      router-link(v-for=" r in links " v-bind:to=" r.link " ) {{ r.title }}
+      router-link(v-for=" r in links " v-bind:to=" r.link "  @click.native.stop="") {{ r.title }}
       a.collapse(@click="open = !open")
         i
 

@@ -393,7 +393,7 @@ export default {
               this.__setCall({fn: '__logout'})
             }, 3000)
           } else {
-            this.$message.error({target: this.$el, message: '旧密码错误！'})
+            this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
             this.clearPwd()
           }
         }, (rep) => {

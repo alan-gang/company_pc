@@ -1,8 +1,8 @@
 <template lang="jade">
   .ow-content
     .button-group
-      .button(:class="{on: on === 0}" @click="goIntro(0)") 电脑版
-      .button(:class="{on: on === 1}" @click="goIntro(1)") 手机版
+      .button(:class="{on: on === 0}" @click.stop="goIntro(0)") 电脑版
+      .button(:class="{on: on === 1}" @click.stop="goIntro(1)") 手机版
    
     h2 轻巧 快速 安全
     h4 精心雕琢只为提供最舒适的感受

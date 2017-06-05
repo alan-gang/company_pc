@@ -58,7 +58,7 @@
           el-table-column(label="追号编号" width="100" )
             template(scope="scope")
               div
-                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
+                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click.stop="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
           el-table-column(prop="nickName" label="用户" width="80")

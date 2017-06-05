@@ -10,7 +10,7 @@
 
       div(v-if="stock" style="margin: .3rem" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
         h2.text-black(style="margin: .3rem 0; text-align: center") 分红详情
-        p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.nickName }} 
+        p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.userName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
         p.item 本期时间：{{ stock.times }}
         p.item 发放周期：按{{ TIME[stock.shareCycle] }} 
@@ -130,7 +130,7 @@
       paid () {
         let modal = this.$modal.redpocket({
           target: this.$el,
-          content: '<h2 class="title">为 ' + this.stock.nickName + ' 发放红包 </h2><p class="content"><span class="amount">' + this.stock.bouns + '</span> 元</p>',
+          content: '<h2 class="title">为 ' + this.stock.userName + ' 发放红包 </h2><p class="content"><span class="amount">' + this.stock.bouns + '</span> 元</p>',
           btn: ['下一步'],
           O: this,
           ok () {

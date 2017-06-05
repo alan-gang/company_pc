@@ -4,7 +4,7 @@
       .button 全部活动
       .button 进行中的活动
       .button 已经结束的活动
-    router-link.banner.section(v-for=" (a, i) in activities " v-bind:to=" sources[a.activityType - 1].href ")
+    router-link.banner.section(v-for=" (a, i) in activities " v-bind:to=" sources[a.activityType - 1].href " @click.native.stop="")
       img(:src=" sources[a.activityType - 1].src ")
       h4.text-black {{ a.title }}
       h5 {{ a.subTitle }}

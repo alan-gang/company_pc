@@ -28,7 +28,7 @@
             | 那么：您开设新帐户的
             span.text-blue 直选返点
             | 即为 
-            span.text-blue {{ 0.3 }}%
+            span.text-danger {{ 0.3 }}%
             | ，不定位返点为 
             span.text-danger {{ 0.1 }}%
 

@@ -140,7 +140,7 @@
                 span.text-black {{ row.methodName }}
               el-col(:span="5")
                 注单状态：
-                span.text-black {{ STATUS[row.stat] }}
+                span.text-black {{ ORDERSTATUS[row.stat] }}
 
               el-col(:span="5")
                 倍数模式：
@@ -203,6 +203,7 @@
         MODES: ['元', '角', '分', '厘'],
         // STATUS: ['进行中', '已完成', '已取消'],
         STATUS: ['未生成', '已生成', '已取消'],
+        ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         show: false,
         detail: {},
         taskId: '',
