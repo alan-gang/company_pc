@@ -35,7 +35,8 @@
 
         .buttons
           .ds-button.primary.large.bold(@click="searNow") 搜索
-          .ds-button.cancel.large.bold(@click="addUserNow") 增加用户
+          .ds-button.primary.large.bold(style="float: right" @click="addUserNow") 增加用户
+          .ds-button.cancel.large(@click="clear") 清空
 
         p(style="margin: .3rem 0 .15rem 0")
           el-breadcrumb(separator=">")
@@ -69,10 +70,10 @@
               .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" (user = scope.row) && goBonus()  ") 奖金详情
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
-              div(v-if="scope.row.showTeanBalance") 团队余额：
-                span.text-danger {{ scope.row.teamBalance }}
+              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
+              // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
+              // div(v-if="scope.row.showTeanBalance") 团队余额：
+              //   span.text-danger {{ scope.row.teamBalance }}
 
       // 充值
       div(v-if="stepIndex === 1 && stepType === 'topUp' ")
@@ -125,7 +126,7 @@
             br
             | 2：到量升点（必须达到相应投注量要求，不需要配额） 
             br
-            | 到量升点的投注量统一为3天和7天量标准，时间以当日的前一天到往后退3/7天；只要达到其中任何一个要求即可 
+            | 到量升点的投注量统一为3天和7天量标准，时间以当日的前一天到往前推3/7天；只要达到其中任何一个要求即可 
 
         .notice(style="margin: .2rem" v-if=" pointType === 'down' ")
           p.content
@@ -295,6 +296,13 @@
       this.getUserList()
     },
     methods: {
+      clear () {
+        this.name = ''
+        this.minMoney = ''
+        this.maxMoney = ''
+        this.minPoint = ''
+        this.maxPoint = ''
+      },
       // sortByteamBalance (a, b) {
       //   console.log(a, b)
       //   return a > b

@@ -226,7 +226,7 @@
 
             .buttons(style="margin-left: .65rem")
               .ds-button.primary.large(@click="setSafeQuestion") 提交
-              .ds-button.cancel.large(@click=clearSafeQuerstion) 清空
+              .ds-button.cancel.large(@click="clearSafeQuestion") 清空
       // 安全验证
       el-row.safe-check(v-bind:class="{expand: index === 7 }")
         el-col

@@ -129,6 +129,7 @@ export default {
   },
   beforeDestroy () {
     if (store.state.user.login) this.$emit('logout', true)
+    else this.setFarChat()
   },
   methods: {
     fullScreen () {

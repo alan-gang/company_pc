@@ -164,7 +164,7 @@
               socketUrl: data.platUrl
             })
             window.accessAngular.isStranger(false)
-            window.accessAngular.connect()
+            setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
           } else {
             this._getVerifyImage()
             // loading.text = '自动登录失败'

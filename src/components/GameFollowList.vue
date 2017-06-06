@@ -11,10 +11,10 @@
       |  &nbsp;&nbsp;起始倍数：
       el-input-number.center.times(v-model="times" v-bind:min="1" v-bind:max="100")
       |  倍
-
-      | &nbsp;&nbsp;最低收益：
-      el-input-number.center.get(v-model="this.idType ")
-      |  %
+      span(v-if="tabIndex === 3")
+        | &nbsp;&nbsp;最低收益：
+        el-input-number.center.get(v-model="get")
+        |  %
     el-table.ghost(:data="data" max-height="500" min-width="400" @selection-change="getSelection")
 
       el-table-column(width="80"  type="selection")
@@ -45,9 +45,9 @@
       // 当前期数
       CNPER: String,
       pay: Number,
-      type: Number,
-      t: Number,
-      point: Number,
+      // type: Number,
+      // t: Number,
+      // point: Number,
       // dates: Array,
       issues: Array
     },
@@ -56,7 +56,7 @@
         nper: 5,
         npers: [5, 10, 15, 20, 25, 30],
         times: 1,
-        get: 0,
+        get: 50,
         tabIndex: 3,
         selection: []
       }
@@ -97,8 +97,8 @@
     },
     mounted () {
       this.$emit('set-follow', {NPER: this.selection.length, pay: this.PAY})
-      this.times = this.t
-      this.get = this.point
+      // this.times = this.t
+      // this.get = this.point
     },
     watch: {
       PAY () {
@@ -112,7 +112,7 @@
       },
       get () {
         if (this.tabIndex === 3 && this.get > 0) this.adjustList()
-        this.$emit('set-follow', {point: this.get})
+        this.$emit('set-follow', {point: this.get / 100})
       },
       selection () {
         this.$emit('set-follow', {items: this.selection})

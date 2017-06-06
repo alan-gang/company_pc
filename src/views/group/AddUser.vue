@@ -92,7 +92,7 @@
         account: '',
         pwd: '123qwe',
         range: {
-          min: 0.1,
+          min: 0,
           max: 3
         },
         point: '',
@@ -126,6 +126,7 @@
             this.pwd = '123qwe'
             // this.point = ''
             this.u = {}
+            this.showRegistUser()
           } else this.$message.error(data.msg || '注册失败！')
         }, (rep) => {
           // error

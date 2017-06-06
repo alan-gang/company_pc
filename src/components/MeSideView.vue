@@ -4,8 +4,8 @@
     p.account 帐号：
       span {{ me.account }}
     div.me(v-if=" type === 'me' ")
-      .ds-button.danger.full(@click="topUp") 充值
-      .ds-button.positive.full(@click="withDraw") 提现
+      .ds-button.danger.full(@click.stop="topUp") 充值
+      .ds-button.positive.full(@click.stop="withDraw") 提现
 
     div.safe(v-if=" type === 'safe' ")
       p.icons

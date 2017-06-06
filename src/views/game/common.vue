@@ -134,7 +134,7 @@ export default {
         // 翻倍追号倍数
         t: 2,
         // 低收益率
-        point: 0,
+        point: 50,
         items: []
       },
       // 使用优惠卷

@@ -27,6 +27,7 @@
 <script>
   import SignalBar from 'components/SignalBar'
   import api from '../../http/api'
+  import store from '../../store'
   // import Url from '../../util/Url'
   // import cookie from 'js-cookie'
   export default {
@@ -172,19 +173,22 @@
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       goLogin (r) {
         if (this.server) {
+          api.preApi = api.api
           api.api = r
           this.currentServer = api.api
-          this.$message.success('线路切换成功！')
+          this.$message.success('线路切换成功，您将需要重新去登录')
           this.$emit('close')
-          // this.__setCall({
-          //   fn: '__logout',
-          //   args: {
-          //     stay: true,
-          //     fn () {
-          //       api.api = r
-          //     }
-          //   }
-          // })
+          this.__setCall({
+            fn: '__logoutChat',
+            args: {
+              stay: true,
+              fn () {
+                api.api = r
+              }
+            }
+          })
+          store.actions.setUser()
+          this.$router.push('/login/login')
           // this.$router.push({
           //   path: '/login/login'
           //   // query: {
