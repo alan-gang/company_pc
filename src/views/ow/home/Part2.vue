@@ -1,18 +1,21 @@
 <template lang="jade">
-  .ow-content
-    h2  三大特性，铸就精彩
-    .card
-      .ow-icon-safe
-      h4 信誉保证
-      h6 雄厚实力，确保畅玩无忧！
-    .card
-      .ow-icon-fast
-      h4 充提更快捷
-      h6 为玩家提供一系列安全、可靠便捷的重提服务。
-    .card
-      .ow-icon-nice
-      h4 信誉保证
-      h6 20多种主流彩票游戏。让您玩的尽兴。
+  .slide-page.scroll-content
+    .slide-content
+      .scroll-content.flex(ref="sc")
+        .flex-content
+          h3  三大特性，铸就精彩
+          .card.hover
+            .ds-icon-ow-safe
+            h5 信誉保证
+            h6 雄厚实力，确保畅玩无忧！
+          .card.hover
+            .ds-icon-ow-fast
+            h5 充提更快捷
+            h6 为玩家提供一系列安全、可靠便捷的重提服务。
+          .card.hover
+            .ds-icon-ow-nice
+            h5 信誉保证
+            h6 20多种主流彩票游戏。让您玩的尽兴。
     
 </template>
 
@@ -36,39 +39,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
-  
-  .ow-content
-    display inline-block
-    color #5b6470
-    width 90%
-    h2
-      font-size .36rem
-      color #5b6470
-      margin-bottom 1rem
-    h4
-      font-size .2rem
-    h6
-      color #bbb
-
+  h3
+    margin-bottom .5rem
+  h5
+    margin-bottom .1rem  
+  .slide-page
     .card
-      padding-top .4rem
-      display inline-block
-      width 20%
-      height 40%
-     
-      min-width 3.5rem
-      max-height 5rem
-      
-      padding PW
-      margin PW
-      shadow(0 0 .1rem #eee)
-
+      width 2.8rem
       @media(max-width: PHONEW)
         height 200px
-    
-      .ow-icon-nice
-      .ow-icon-safe
-      .ow-icon-fast
+      .ds-icon-ow-nice
+      .ds-icon-ow-safe
+      .ds-icon-ow-fast
         position relative
         radius(50%)
         margin 20% auto
@@ -84,13 +66,13 @@ export default {
           z-index -1
           radius(50%)
         
-      .ow-icon-safe
+      .ds-icon-ow-safe
         &:after
           bg-gradient(180deg, #787ef2, #8e93f5) 
-      .ow-icon-fast
+      .ds-icon-ow-fast
         &:after
           bg-gradient(180deg, #2a9afd, #25b2fe) 
-      .ow-icon-nice
+      .ds-icon-ow-nice
         &:after
           bg-gradient(180deg, #fd5f46, #fd8671) 
       

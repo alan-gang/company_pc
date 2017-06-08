@@ -1,13 +1,23 @@
 <template lang="jade">
-  .ow-content
-    .button-group
-      .button(:class="{on: on === 0}" @click.stop="goIntro(0)") 电脑版
-      .button(:class="{on: on === 1}" @click.stop="goIntro(1)") 手机版
-   
-    h2 轻巧 快速 安全
-    h4 精心雕琢只为提供最舒适的感受
-
-    .ow-icon-laptop
+  .slide-page.scroll-content
+    .slide-content
+      .scroll-content(ref="sc").flex
+        .flex-content.white
+          .ds-ow-button-group
+            .ds-ow-button.light(:class="{'green': on === 0}" @click.stop="goIntro(0)") 电脑版
+            .ds-ow-button.light(:class="{'green': on === 1}" @click.stop="goIntro(1)") 手机版
+          br
+          br
+          h2 轻巧 快速 安全
+          br
+          br
+          h5 精心雕琢只为提供最舒适的感受
+          br
+          br
+          br
+          br
+          br
+          img(src="/static/ow/laptop.png")
 
     
     
@@ -36,23 +46,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
-  
-  .ow-content
-    display inline-block
-    color #5b6470
-    height 100%
-    width 100%
-    color #fff
-    position relative
-    padding-top 1rem
-    .ow-icon-laptop
-      max-width 15rem
-      max-height 9rem
-      width 90%
-      height 100%
-      margin 0 auto
-      
-      
+  .slide-page
+    overflow hidden
     &:before
       content ''
       position absolute
@@ -69,34 +64,10 @@ export default {
       top 60%
       left -100rem 
       right -100rem 
-      height 100%
+      height 100rem
       background #fff
       transform rotateZ(-15deg)
       z-index -1
-    h2
-      font-size .6rem
-      margin-bottom .4rem
-      
-    h4
-      font-size .2rem
-      margin PW
-      
-    .ow-icon-pc
-    .ow-icon-mobile
-      width 100%
-      height 4rem
-      margin 8% 0 8% 0
-  
-    .button-group
-      display inline-block
-      radius(.2rem)
-      overflow hidden
-      margin .5rem 0
-      border 1px solid #888
-      color #666
-      background-color #fff
-      .button.on
-        color #fff
    
 </style>
 

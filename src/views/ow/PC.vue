@@ -6,9 +6,9 @@
       Part2
     swiper-slide.part3-slide
       Part3
-    swiper-slide.part4-slide.ow-icon-wave
+    swiper-slide.part4-slide
       Part4
-    swiper-slide.part5-slide.ow-icon-safe-bg
+    swiper-slide.part5-slide
       Part5
     swiper-slide.part6-slide
       Part6

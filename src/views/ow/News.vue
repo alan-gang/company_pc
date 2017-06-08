@@ -1,29 +1,37 @@
 <template lang="jade">
-  .ow-news.scroll-content
+  .slide-page.scroll-content
+    .slide-header(ref="sh").ds-icon-ow-news-bg
+        fieldset
+          legend 
+            h2 NEWS
+          h5.light-white 了解畅博资讯 动态讯息全掌握
 
-    .ow-icon-news-bg
-      fieldset
-        legend NEWS
-        h4 了解畅博资讯 动态讯息全掌握
-    .list-container
-      ul.news-list
-        li.news-item(v-for=" n in news ")
-          .time
-            h2 {{n.date}}
-            h6 {{n.year }}
-          h4 {{n.title}}
-          h6 {{n.content}}
-      .loading-more 
-        .link(:class=" {nomore: nomore} " @click="nomore = !nomore") 
+    .slide-content
+      .scroll-content(ref="sc")
+        .flex-content
+          .list-container
+            ul.news-list
+              li.news-item(v-for=" n in news ")
+                .time
+                  h2 {{n.date}}
+                  h6 {{n.year }}
+                h4 {{n.title}}
+                h6 {{n.content}}
+            .loading-more 
+              .link(:class=" {nomore: nomore} " @click="nomore = !nomore") 
 
-    h6(style="margin: .1rem 0") Copyright © 2017 Changbo Entertainment Inc 
-    h6(style="margin: .1rem 0") All right reserved
+    .slide-footer.scroll-content(ref="sf") Copyright © 2017 Changbo Entertainment Inc 
+        br
+        | All right reserved
+
+
         
 </template>
 
 <script>
-import AllRights from 'components/AllRights'
+import common from './common'
 export default {
+  mixins: [common],
   data () {
     return {
       news: [
@@ -47,14 +55,13 @@ export default {
   methods: {
   },
   components: {
-    AllRights
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
-  @import '../../owvar.stylus'
+  @import './var.stylus'
    .loading-more
     text-align center
     .link
@@ -78,10 +85,8 @@ export default {
           content '没有更多了'
           color #bbb
           
-  .ow-news
-    display inline-block
-    color #666
-    .ow-icon-news-bg
+  .slide-page
+    .slide-header
       padding 1rem
     fieldset
       border .05rem solid #fff
@@ -91,9 +96,7 @@ export default {
       max-width 4rem
       width 60%
       margin 0 auto
-      h4 
-        font-size .24rem
-        opacity .8
+      h5 
         padding-bottom .2rem
     legend
       margin 0 auto
@@ -102,17 +105,13 @@ export default {
     
     .list-container
       text-align left
-      max-height 70%
       padding 0 PW
       overflow auto
-      @media (max-width: IPADW)
-        max-height 65%
     .news-list
       padding 0
       max-width 10rem
       margin 0 auto
       list-style none
-      
       h2
         font-size .4rem
         font-gradient()
@@ -134,10 +133,7 @@ export default {
         border-bottom 1px solid #eee
         padding .4rem 0
         padding-left 2rem
-      
         
-        
-    
    
 </style>
 

@@ -202,10 +202,12 @@ input
 .el-icon-star-on
   &:before
     color YELLOW
+
 /*
  *rewrite el-select
  */
 .el-select
+.el-date-editor
   vertical-align middle
 // .el-select
 //   display inline-block

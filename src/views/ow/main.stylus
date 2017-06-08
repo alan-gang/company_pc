@@ -1,0 +1,403 @@
+@import './var.stylus'
+html
+  @media(max-width: PHONEW)
+    font-size 60px
+    
+section.ow
+  .ds-icon-ow-cloud
+    background url(./assets/cloud.png) center bottom no-repeat
+    background-size 100% 100%
+  
+
+  .ds-icon-ow-news-bg
+    background url(./assets/news-bg.png) center center no-repeat
+    background-size 100% 100%
+  
+  .ds-icon-ow-faq-bg
+    background url(./assets/faqs-bg.png) center center no-repeat
+    background-size 100% 100%
+  
+
+  // .ds-icon-ow-laptop
+  //   background url(./assets/laptop.png) center center no-repeat
+  //   background-size 100%
+  
+  .ds-icon-ow-router-test
+    background url(./assets/router-test.png) center center no-repeat
+    background-size 100%
+  .ds-icon-ow-layout
+    background url(./assets/layout.png) center center no-repeat
+    background-size 100%
+  .ds-icon-ow-dialog-model
+    background url(./assets/dialog-model.png) center center no-repeat
+    background-size 100%
+  .ds-icon-ow-day-model
+    background url(./assets/day-model.png) center center no-repeat
+    background-size 100%
+  .ds-icon-ow-day-icon
+    background url(./assets/day-icon.png) top center no-repeat
+    background-size 100%
+  .ds-icon-ow-night-icon
+    background url(./assets/night-icon.png) top center no-repeat
+    background-size 100%
+  
+  .ds-icon-ow-design
+    background url(./assets/design.png)  center no-repeat
+    background-size 100%
+  
+  .ds-icon-ow-design-bg
+    background url(./assets/design-bg.png) center no-repeat
+    background-size 100% 100%
+  .ds-icon-ow-anywhere
+    background url(./assets/anywhere.png)  center top no-repeat
+    background-size 100%
+  
+  .ds-icon-ow-phone
+    background url(./assets/phone.png)  center top no-repeat
+    background-size 100%
+  .ds-icon-ow-wave01
+    background url(./assets/wave01.png)  center top no-repeat
+    background-size 100%
+  .ds-icon-ow-phone01
+    background url(./assets/phone01.png)  center top no-repeat
+    background-size 100%
+  .ds-icon-ow-phone-hand
+    background url(./assets/phone-hand.png)  center top no-repeat
+    background-size 100%
+  .ds-icon-ow-phone-dice
+    background url(./assets/phone-dice.png)  center top no-repeat
+    background-size 100%
+  .ds-icon-ow-phone-night
+    background url(./assets/phone-night.png)  center top no-repeat
+    background-size 100%
+    
+    
+    
+
+    
+    
+    
+    
+    
+  // comon swiper
+    
+  .swiper-container 
+    overflow hidden
+    
+    // .swiper-slide
+    //   overflow hidden
+    //   // padding-top HH
+    //   text-align center
+    //   display flex
+    //   -ms-flex-pack center
+    //   justify-content center
+    //   -ms-flex-align center
+    //   align-items center
+    //   &.root
+    //     display block
+    .swiper-button-prev
+    .swiper-button-next
+      width .6rem
+      height .6rem
+      radius(50%)
+      background url(./assets/pre.png) #a98afb center no-repeat
+      &:hover
+        background-color #ff4857
+        
+        
+    .swiper-button-next
+      background-color  #5b9df4 
+      transform rotateZ(180deg)
+    .swiper-pagination
+      .swiper-pagination-bullet
+        width .15rem
+        height .15rem
+        radius(50%)
+        background #c3c1fb
+        opacity .5
+        &:hover
+          background #fff
+        &.swiper-pagination-bullet-active
+          background #fff
+          opacity 1
+      &.blue
+        .swiper-pagination-bullet
+          background #1a9ff3
+          opacity .2
+          &:hover
+            opacity .6
+          &.swiper-pagination-bullet-active
+            opacity 1
+            background #1a9ff3
+            
+            
+  
+  // common button
+  .button
+    display inline-block
+    padding 0 .2rem
+    line-height .3rem
+    background-color rgba(222,222,222, .2)
+    cursor pointer
+    &:hover
+      background-color rgba(222,222,222, .3)
+    &.on
+      background-color #37d679
+    
+    &.green
+      background-color #10d560
+      radius(.15rem)
+      opacity .95
+      &:hover
+        opacity 1
+    &.oval
+      border-top-left-radius 10% 50%
+      border-top-right-radius 10% 50%
+      border-bottom-left-radius 10% 50%
+      border-bottom-right-radius 10% 50%
+   
+      
+        
+  
+
+h1,h2,h3,h4,h5,h6,p
+  margin 0
+  font-weight normal
+h1
+  font-size .72rem
+h2
+  font-size .6rem
+  
+h3
+  font-size .48rem
+
+h4
+  font-size .36rem
+
+h5
+  font-size .24rem
+
+h6
+  font-size .12rem
+
+.ft18
+  font-size .18rem
+
+.white
+  color #fff
+.light-white
+  color rgba(255, 255, 255, .8)
+.text-black
+  color #333
+.text-999
+  color #999
+    
+
+.flex
+  text-align center
+  display flex
+  -ms-flex-pack center
+  justify-content center
+  -ms-flex-align center
+  align-items center
+
+.ds-icon-ow-input-clear
+  background url(./assets/clear.png) center center no-repeat
+
+.ds-icon-ow-lock
+  display inline-block
+  background url(./assets/lock.png) center center no-repeat
+  width 85px
+  height 123px
+
+.ds-icon-ow-download-windows
+  background url(./assets/download-window.png) center center no-repeat
+  height 82px
+
+.ds-icon-ow-download-iphone
+  background url(./assets/download-iphone.png) center center no-repeat
+  height 82px
+
+.card:hover
+  .ds-icon-ow-download-iphone
+    background url(./assets/download-iphone-hover.png) center center no-repeat
+
+.ds-icon-ow-download-android
+  background url(./assets/download-android.png) center center no-repeat
+  height 82px
+.ds-icon-ow-logo
+  background url(./assets/logo.png) .5rem center no-repeat
+  
+.ds-icon-ow-safe
+  background url(./assets/safe.png) center no-repeat
+  background-size 50%
+.ds-icon-ow-fast
+  background url(./assets/fast.png) center no-repeat
+  background-size 50%
+  
+.ds-icon-ow-nice
+  background url(./assets/nice.png) center no-repeat
+  background-size 50%
+
+.ds-icon-ow-game
+  width .96rem
+  height .96rem
+  margin PWX
+  display inline-block
+  background-size contain
+.ds-icon-ow-game-01
+  background url(./assets/game/01_big.png) center no-repeat
+.ds-icon-ow-game-02
+  background url(./assets/game/02_big.png) center no-repeat
+
+.ds-icon-ow-game-03
+  background url(./assets/game/03_big.png) center no-repeat
+
+.ds-icon-ow-game-04
+  background url(./assets/game/04_big.png) center no-repeat
+
+.ds-icon-ow-game-05
+  background url(./assets/game/05_big.png) center no-repeat
+.ds-icon-ow-game-06
+  background url(./assets/game/06_big.png) center no-repeat
+
+.ds-icon-ow-game-07
+  background url(./assets/game/07_big.png) center no-repeat
+
+.ds-icon-ow-game-08
+  background url(./assets/game/08_big.png) center no-repeat
+
+.ds-icon-ow-wave
+  background url(./assets/wave.png) center bottom no-repeat
+  background-size 100%
+  
+.ds-icon-ow-safe-bg
+  background url(./assets/safe-bg.png) #787ef2 center .2rem no-repeat
+  background-size 100% 100%
+  &.nobgcolor
+    background url(./assets/safe-bg.png)  center no-repeat
+    background-size cover
+  
+
+
+.ds-icon-ow-clock24
+  background url(./assets/clock24.png) center center no-repeat
+  background-size contain
+  
+.ds-icon-ow-credit
+  background url(./assets/credit.png) center center no-repeat
+  background-size contain
+
+.ds-icon-ow-protect
+  background url(./assets/protect.png) center center no-repeat
+  background-size contain
+
+.ds-icon-ow-twservice
+  background url(./assets/twservice.png) center center no-repeat
+  background-size contain
+
+.ds-icon-ow-download
+  background url(./assets/download.png) center no-repeat
+  &.ds-ow-button
+    padding-left .4rem
+    background-position .2rem center
+  
+.ds-ow-button-group
+  display inline-block
+  radius(.2rem)
+  overflow hidden
+  margin .2rem 0
+  border 1px solid #888
+  .ds-ow-button
+    border-radius 0
+  
+.ds-ow-button
+  display inline-block
+  padding 0 .22rem
+  // height .3rem
+  line-height .3rem
+  text-align center
+  color WHITE
+  font-size .14rem
+  border 0
+  radius()
+  user-select none
+  cursor pointer
+  box-sizing border-box
+  vertical-align middle
+
+  &.bold
+    font-weight bold
+  &.large
+    padding 0 .3rem
+  &.x-large
+    padding 0 .5rem
+  &.full
+    padding-left 0
+    padding-right 0
+    width 100%
+  &.small
+    padding 0 .15rem
+  &.x-small
+    padding 0 .1rem
+  &.xx-small
+    line-height 1
+    padding .035rem
+  &._3rem
+    width 3rem
+  &.tall
+    height .4rem
+    line-height .4rem
+    font-size .24rem
+  &.oval
+    border-top-left-radius 10% 50%
+    border-top-right-radius 10% 50%
+    border-bottom-left-radius 10% 50%
+    border-bottom-right-radius 10% 50%
+
+  &.light
+    color #fff
+    background rgba(255, 255, 255, .5)
+  &.grey-border
+    border 1px solid #ccc
+    background-color #fff
+    color #999
+  &.green
+    background-color #10d560
+    opacity .95
+    &:hover
+      opacity 1
+  &.under-border
+    width 1.5rem
+    height .6rem
+    line-height .6rem
+    margin 0 .3rem
+    border-bottom 2px solid rgba(0,0,0,0)
+    opacity .5
+    radius(0)
+    .on
+      border-color #fff
+      opacity 1
+    &:hover
+      border-color #fff
+      opacity .8
+      background-color rgba(0,0,0,0)
+    
+
+.card
+  cursor pointer
+  margin .3rem
+  display inline-block
+  padding PW * 4 PW * 3
+  radius()
+  
+  &.hover
+    shadow(0 0 .8rem rgba(0,0,0,.1))
+  &:hover
+    shadow(0 0 .8rem rgba(0,0,0,.1))
+    .ds-ow-button
+      bg-gradient(90deg, #1a9ff3, #8f84ff)
+      color #fff
+      border-color rgba(0,0,0,0)
+  .ds-ow-button
+    margin-top .5rem

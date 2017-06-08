@@ -779,7 +779,6 @@ export default {
     z-index 1
     & + .scroll-content
       top HH
-  @import './ow.stylus'
   footer
     position absolute
     bottom 0

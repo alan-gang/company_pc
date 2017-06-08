@@ -1,11 +1,11 @@
 <template lang="jade">
-  .ow-content.ow-icon-design-bg
+  .ow-content.ds-icon-ow-design-bg
    
 
     h2 图像化设计
     h4 惊艳的图像式设计，深入界面每一个层面，专注打磨每一个细节，让您玩的更畅快
     
-    .ow-icon-design
+    .ds-icon-ow-design
     
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -21,7 +21,7 @@
     position relative
     padding-top 1.5rem
     text-align center
-    .ow-icon-design
+    .ds-icon-ow-design
       max-width 14rem
       max-height 10rem
       width 90%
@@ -39,8 +39,8 @@
       margin-bottom 1rem
       opacity .8
       
-    .ow-icon-pc
-    .ow-icon-mobile
+    .ds-icon-ow-pc
+    .ds-icon-ow-mobile
       width 100%
       height 4rem
       margin 8% 0 8% 0

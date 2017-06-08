@@ -1,27 +1,34 @@
 <template lang="jade">
-  .ow-faq.scroll-content
+  .slide-page.scroll-content
+    .slide-header(ref="sh").ds-icon-ow-faq-bg
+        fieldset
+          legend 
+            h2 FAQS
+          h5.light-white 常见问题解答
+        .buttons
+            span.link(v-for=" (b,bi) in btns" v-bind:class="{ on: i === bi }" @click="i = bi") {{b}}
+    .slide-content
+      .scroll-content(ref="sc")
+        .flex-content
+          .list-container
+            ul.faq-list
+              li.faq-item(v-for=" (n, ni) in faq " v-bind:class="{ on: j === ni }")
+                h4(@click=" j !== ni ? (j = ni): (j = -1) ") {{n.title}}
+                h6(v-show=" j === ni ") {{n.content}}
 
-    .ow-icon-faq-bg
-      fieldset
-        legend FAQS
-        h4 常见问题解答
-    .buttons
-      span.link(v-for=" (b,bi) in btns" v-bind:class="{ on: i === bi }" @click="i = bi") {{b}}
-    .list-container
-      ul.faq-list
-        li.faq-item(v-for=" (n, ni) in faq " v-bind:class="{ on: j === ni }")
-          h4(@click=" j !== ni ? (j = ni): (j = -1) ") {{n.title}}
-          h6(v-show=" j === ni ") {{n.content}}
+    .slide-footer.scroll-content(ref="sf") Copyright © 2017 Changbo Entertainment Inc 
+        br
+        | All right reserved
 
-    h6(style="margin: .1rem 0") Copyright © 2017 Changbo Entertainment Inc 
-    h6(style="margin: .1rem 0") All right reserved
+  
 
         
 </template>
 
 <script>
-import AllRights from 'components/AllRights'
+import common from './common'
 export default {
+  mixins: [common],
   data () {
     return {
       i: 0,
@@ -45,36 +52,31 @@ export default {
   methods: {
   },
   components: {
-    AllRights
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
-  @import '../../owvar.stylus'
+  @import './var.stylus'
   
-  .ow-faq
-    display inline-block
-    color #666
-    .ow-icon-faq-bg
-      padding 1rem
-    fieldset
-      border .05rem solid #fff
-      radius()
-      color #fff
-      text-align center
-      max-width 4rem
-      width 60%
-      margin 0 auto
-      h4 
-        font-size .24rem
-        opacity .8
-        padding-bottom .2rem
-    legend
-      margin 0 auto
-      font-size .58rem
-      color #fff
+  .slide-page
+    .slide-header
+      padding-top 1rem
+      fieldset
+        border .05rem solid #fff
+        radius()
+        color #fff
+        text-align center
+        max-width 4rem
+        width 60%
+        margin 0 auto
+        h5 
+          padding-bottom .2rem
+      legend
+        margin 0 auto
+    .slide-content
+      padding-top PWX
     .list-container
       text-align left
       max-height 65%
@@ -87,7 +89,6 @@ export default {
       max-width 10rem
       margin 0 auto
       list-style none
-      
       h2
         font-size .4rem
         font-gradient()
@@ -125,6 +126,8 @@ export default {
     
     .buttons
       text-align center
+      margin-top .5rem
+      background-color #fff
       .link
         display inline-block
         cursor pointer
@@ -141,9 +144,6 @@ export default {
           color #1a9ff3
           
         
-         
-    
-   
 </style>
 
 

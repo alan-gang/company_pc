@@ -1,0 +1,38 @@
+HH = .6rem
+PW = .15rem
+PWX = .2rem
+FH = .6rem
+PHONEW = 414px
+IPADW = 768px
+/*
+ *mixin define
+ */
+// font color gradient
+font-gradient(p = 90deg, c1 = #ff3350, c2 = #1a9ff3)
+  font-family Roboto, Arial
+  background linear-gradient(p, c1, c2)
+  -webkit-background-clip text
+  -webkit-text-fill-color transparent
+  
+bg-gradient(p = 90deg, c1 = #ff3350, c2 = #1a9ff3)
+  background linear-gradient(p, c1, c2)
+  
+
+// border-radius
+radius(x = .05rem)
+  border-radius x
+// font-shadow
+font-shadow(x = 1px 1px 1px rgba(0, 0, 0, .3))
+  text-shadow x
+shadow(x = 2px 2px 2px rgba(0,0,0,.2))
+  box-shadow x
+outshadow(x = 0 0 2px rgba(0,0,0,.2))
+  box-shadow x
+  
+  
+// center
+center()
+  position absolute
+  left 50%
+  top 50%
+  transform translateX(-50%) translateY(-50%)

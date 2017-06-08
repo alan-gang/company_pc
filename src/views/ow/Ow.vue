@@ -1,13 +1,6 @@
 <template lang="jade">
   section.ow
-    // header
     owHeader
-    
-    // pages
-    // keep-alive
-    // transition(name="fade")
-    //  router-view.scroll-content
-
     swiper.scroll-content(:options="swiperOption" ref="mySwiper")
       swiper-slide
         Home
@@ -21,19 +14,24 @@
         Phone
       swiper-slide
         EventList
+      swiper-slide
+        Download
+      swiper-slide
+        Check
 
 </template>
 
 <script>
 import base from 'components/base'
-import owHeader from 'components/ow/owHeader'
-import owFooter from 'components/ow/owFooter'
+import owHeader from './components/Header'
 import Home from './Home'
 import FAQ from './FAQ'
 import NEWS from './NEWS'
 import PC from './PC'
 import Phone from './Phone'
 import EventList from './EventList'
+import Download from './Download'
+import Check from './Check'
 export default {
   name: 'Ow',
   mixins: [base],
@@ -74,7 +72,9 @@ export default {
         news: 2,
         pc: 3,
         phone: 4,
-        eventlist: 5
+        eventlist: 5,
+        download: 6,
+        Check: 7
       }
     }
   },
@@ -98,27 +98,20 @@ export default {
   },
   components: {
     owHeader,
-    owFooter,
     Home,
     FAQ,
     NEWS,
     PC,
     Phone,
-    EventList
+    EventList,
+    Download,
+    Check
   }
 }
 </script>
 
 <style lang="stylus">
-
+  @import './main.stylus'
+  .ow
+    background-color #fff
 </style>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus">
-  @import '../../var.stylus'
-  section.ow
-    background #fff
-</style>
-
-
-

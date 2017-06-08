@@ -22,7 +22,7 @@
           
         label.item  &nbsp;状态 
           el-select(clearable v-model="s"  placeholder="全")
-            el-option( v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
+            el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S")
         | &nbsp;&nbsp;
         .ds-button.primary.large.bold(@click="contract") 搜索
 
@@ -133,7 +133,7 @@
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
             span.text-black  万，分红比例 
-            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate")
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="99")
             |  %
 
           .buttons.item.block(style="padding-left: .55rem")
@@ -204,7 +204,7 @@
         st: '',
         et: '',
         STATUS: [
-          {id: 0, title: '待确认'},
+          {id: '0', title: '待确认'},
           {id: 1, title: '已签订'},
           {id: 2, title: '未签订', reason: '已作废'},
           {id: 3, title: '已拒绝', reason: '已拒绝'},

@@ -1,13 +1,16 @@
 <template lang="jade">
-  .ow-content
-    h2 多屏幕畅玩
-    h4 支持桌面端及移动端，完美适配市面绝大多数机型，让您随时随地，想玩就玩！
+  .slide-page.scroll-content
+    .slide-content
+      .scroll-content.flex(ref="sc")
+        .flex-content.white
+          h3 多屏幕畅玩
+          h5.light-white 支持桌面端及移动端，完美适配市面绝大多数机型，让您随时随地，想玩就玩！
+          img(:src="src[on]")
 
-    div(v-bind:class="{'ow-icon-pc': on === 0, 'ow-icon-mobile': on === 1}")
-    
-    .button-group
-      .button(:class="{on: on === 0}" @click.stop="goIntro(0)") 电脑版
-      .button(:class="{on: on === 1}" @click.stop="goIntro(1)") 手机版
+          div
+            .ds-ow-button-group
+              .ds-ow-button.light(:class="{green: on === 0}" @click.stop="goIntro(0)") 电脑版
+              .ds-ow-button.light(:class="{green: on === 1}" @click.stop="goIntro(1)") 手机版
    
 </template>
 
@@ -15,7 +18,8 @@
 export default {
   data () {
     return {
-      on: 0
+      on: 0,
+      src: ['/static/ow/pc.png', '/static/ow/mobile.png']
     }
   },
   computed: {
@@ -37,39 +41,12 @@ export default {
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
   
-  .ow-content
-    display inline-block
-    color #5b6470
-    width 100%
-    color #fff
-    h2
-      font-size .36rem
-    h4
-      font-size .2rem
-      margin PW
-      opacity .8
-      
-    .ow-icon-pc
-    .ow-icon-mobile
-      width 100%
-      height 8rem
-      max-width 12rem
-      max-height 10rem
-      margin 0 auto
-      
-    .button-group
-      display inline-block
-      radius(.2rem)
-      overflow hidden
-      margin .2rem 0
-      border 1px solid #888
-      
-        
-            
-
-      
-        
-    
+  .slide-page
+    bg-gradient(90deg, #a97afc, #4892eb)
+    h3,h5
+      margin PW 0
+    img
+      margin 5*PW 0
    
 </style>
 
