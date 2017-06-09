@@ -14,10 +14,13 @@
           .ds-button-group
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
-        label.item 契约结束时间从 
-          el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-          |  至 
-          el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
+        label.item 契约生效时间范围 
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+        // label.item 契约结束时间从 
+        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+        //   |  至 
+        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
           
         label.item  &nbsp;状态 
           el-select(v-model="s")
@@ -113,12 +116,76 @@
   export default {
     data () {
       return {
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近六个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起六个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起一年',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+          // disabledDate (time) {
+          //   return time.getTime() > Date.now()
+          // }
+        },
+        defaultStEt: ['', ''],
+        stEt: ['', ''],
         me: store.state.user,
         // 0 我的分红
         // 1 下级分红
         type: 0,
-        st: '',
-        et: '',
+        // st: '',
+        // et: '',
         // 分红状态
         STATUS: [
           {id: '0', title: '未发放', class: 'waiting-pay'},
@@ -140,6 +207,15 @@
     watch: {
       type () {
         this.bonus()
+      },
+      stEt: {
+        deep: true,
+        handler () {
+          if (!this.stEt) this.stEt = this.defaultStEt
+          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
+            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          }
+        }
       }
     },
     mounted () {
@@ -193,8 +269,11 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(this.apiBonus, {
-          startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           status: this.s.id || ''
         }).then(({data}) => {
           // success

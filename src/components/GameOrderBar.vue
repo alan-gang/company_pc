@@ -80,7 +80,7 @@ export default {
     p () {
       if (this.p < this.min) this.p = this.min
       else if (this.p > this.max) this.p = this.max
-      this.$emit('set-point', this.p / 10000, this.prize)
+      this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     },
     t () {
       this.setTimes(this.t)
@@ -98,6 +98,13 @@ export default {
       this.$emit('set-times', t)
     },
     order () {
+      if (this.n > (this.P.maxCount || 1) || this.n < (this.P.minCount || 0)) {
+        return this.$modal.warn({
+          content: '<div class="text-666" style="line-height: .3rem;">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注，最少投注量 <span class="text-danger">' + this.P.minCount + '</span> 注</div>',
+          btn: ['确定'],
+          target: this.$el.parentNode.parentNode
+        })
+      }
       this.$emit('order')
     }
   },

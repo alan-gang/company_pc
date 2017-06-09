@@ -32,9 +32,10 @@
             | ，不定位返点为 
             span.text-danger {{ 0.1 }}%
 
-        p(style="padding: .05rem .4rem" v-if="UL[me.role]") 用户类型： &nbsp;&nbsp;
-          el-select(v-model="u")
-            el-option(v-for="U in UL[me.role]" v-bind:label="U.title" v-bind:value="U")
+        // p(style="padding: .05rem .4rem" v-if="UL[me.role]") 用户类型： &nbsp;&nbsp;
+        //   el-select(v-model="u")
+        //     el-option(v-for="U in UL[me.role]" v-bind:label="U.title" v-bind:value="U")
+
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
           span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符, 必须包含数字和字母）
@@ -45,11 +46,11 @@
      
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
-        p(style="padding: .1rem .4rem") 剩余开户额：
+        p(style="padding: .1rem .4rem" v-if="PS[0]") 剩余开户额：
           label(style="display: inline-block")
             span(style="margin: 0 .15rem " v-for="P in PS")
               span.text-blue [{{ P.point }}]:
-              span.text-danger {{ P.count }}个
+              span.text-danger  {{ P.count }}个
 
         p(style="padding: 0rem .4rem") 您的返点级别：
           span.amount {{ point  }}
@@ -137,7 +138,7 @@
         this.$http.get(api.showRegistUser).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.PS = data.addUsers
+            this.PS = data.addUsers || []
             this.range = data.range
             this.point = data.userPoint
           } else this.$message.error(data.msg || '注册信息获取失败！')

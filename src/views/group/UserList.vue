@@ -35,7 +35,7 @@
 
         .buttons
           .ds-button.primary.large.bold(@click="searNow") 搜索
-          .ds-button.primary.large.bold(style="float: right" @click="addUserNow") 增加用户
+          .ds-button.primary.large.bold(style="float: right" @click.stop="addUserNow") 增加用户
           .ds-button.cancel.large(@click="clear") 清空
 
         p(style="margin: .3rem 0 .15rem 0")
@@ -69,7 +69,7 @@
             template(scope="scope")
               .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
-              .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
+              .ds-button.text-button.blue(v-if="!scope.row.self && scope.row.gid"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
               // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
               // div(v-if="scope.row.showTeanBalance") 团队余额：
@@ -119,14 +119,14 @@
             .ds-button.text-button(:class=" { selected: pointType === 'up' } " @click=" pointType='up' ") 升点
             .ds-button.text-button(:class=" { selected: pointType === 'down' }" @click=" pointType='down'  ") 降点
 
-        .notice(style="margin: .2rem" v-if=" pointType === 'up' ")
-          span.title 升点可有两种方式：
-          p.content
-            | 1：配额升点（扣除相应配额，无量要求） 
-            br
-            | 2：到量升点（必须达到相应投注量要求，不需要配额） 
-            br
-            | 到量升点的投注量统一为3天和7天量标准，时间以当日的前一天到往前推3/7天；只要达到其中任何一个要求即可 
+        // .notice(style="margin: .2rem" v-if=" pointType === 'up' ")
+        //   span.title 升点可有两种方式：
+        //   p.content
+        //     | 1：配额升点（扣除相应配额，无量要求） 
+        //     br
+        //     | 2：到量升点（必须达到相应投注量要求，不需要配额） 
+        //     br
+        //     | 到量升点的投注量统一为3天和7天量标准，时间以当日的前一天到往前推3/7天；只要达到其中任何一个要求即可 
 
         .notice(style="margin: .2rem" v-if=" pointType === 'down' ")
           p.content
@@ -134,7 +134,7 @@
             span.text-danger 低于
             | 最低量要求，才能降点，降点以后将返还一个当前用户返点级别的配额。
 
-        div(style="padding: 0 .2rem")
+        div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
 
           el-table.header-bold(:data="pointData[pointType]" v-bind:row-class-name="tableRowClassName" style="margin: .2rem")
 
@@ -145,17 +145,17 @@
             el-table-column(prop="3Day" label="3天投注量" width="200" align="right" v-if="pointType === 'up' ")
 
 
-            el-table-column(prop="7Day" label="7天投注量" width="200" align="right")
+            el-table-column(prop="7Day" label="30天投注量" width="200" align="right")
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
       
-        p(style="padding: .1rem .4rem" v-if=" pointType === 'up' ") 该帐户3天总量：
-          span.text-danger {{ threeDaysAmount }}
-        p(style="padding: .1rem .4rem") 该帐户7天总量：
+        // p(style="padding: .1rem .4rem" v-if=" pointType === 'up' ") 该帐户3天总量：
+        //   span.text-danger {{ threeDaysAmount }}
+        p(style="padding: .1rem .4rem" v-if=" pointType === 'down' ") 该帐户30天总量：
           span.text-danger {{ sevenDaysAmount }}
 
-        p(style="padding: .1rem .4rem" v-if="thirtyDaysAmount") 该帐户7天总量：
-          span.text-danger {{ thirtyDaysAmount }}
+        // p(style="padding: .1rem .4rem" v-if="thirtyDaysAmount") 该帐户30天总量：
+        //   span.text-danger {{ thirtyDaysAmount }}
 
         p(style="padding: .1rem .4rem" v-if="PS.length !== 0") 剩余开户额：&nbsp;&nbsp;
           label(style="display: inline-block")

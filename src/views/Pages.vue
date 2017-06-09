@@ -713,10 +713,10 @@ export default {
     background-color #ededed
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
     transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
+    // transform perspective(1rem) translate3D(-4rem, -4rem, -.8rem)
     &[h-align=left]
-      transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 0, -.8rem)
       // &[v-align=bottom]
-      //   transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 2rem, -.8rem)
+      transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 0rem, -.8rem)
     &[h-align=right]
       transform perspective(1rem) rotateY(1deg) translate3D(3rem, 0, -.8rem)
       // &[v-align=bottom]

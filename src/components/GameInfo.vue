@@ -18,7 +18,7 @@
               {{ type.example || '暂无' }}
 
       
-      // router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
+      router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
 
     el-col.right(:span="6")
       el-button-group.right

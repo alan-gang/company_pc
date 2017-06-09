@@ -14,7 +14,7 @@
             el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
         label.item 帐变时间范围 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" @change="detectDate")
 
         
         label.item 资金 
@@ -35,16 +35,16 @@
           el-input(v-model="id" style="width: 1.5rem")
         
         label.item 游戏名称 
-          el-select(clearable placeholder="全" v-model="game" style="width: 1.5rem; ")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U")
+          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.5rem; ")
+            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
         label.item 玩法 
-          el-select(clearable placeholder="全" v-model="method" style="width: 1.5rem")
+          el-select(clearable v-bind:disabled=" !methodList[0] " placeholder="全" v-model="method" style="width: 1.5rem")
             el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
 
         label.item 奖期 
-          el-select(clearable placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
-            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U")
+          el-select(clearable v-bind:disabled=" !issueList[0] " placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
+            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
         label.item 模式 
           el-select(clearable placeholder="全" v-model="mode" style="width: .6rem" )
@@ -176,7 +176,7 @@
         ISFREE: ['现金', '优惠券', '积分'],
         isFree: '',
         gameList: [],
-        game: '',
+        gameid: '',
         methodList: [],
         method: '',
         issueList: [],
@@ -217,7 +217,10 @@
       stEt: {
         deep: true,
         handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+          // if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+          if (new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
+            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          }
         }
       },
       type (o, n) {
@@ -235,7 +238,7 @@
         }
         this.preTypeLength = n.length
       },
-      game () {
+      gameid (o, n) {
         this.getMethods()
         this.getRecentIssueList()
       }
@@ -246,6 +249,9 @@
       this.list()
     },
     methods: {
+      detectDate (v) {
+        // console.log(v)
+      },
       summary () {
         this.amount[0].income = 0
         this.amount[0].expenditure = 0
@@ -368,7 +374,7 @@
             scope: this.zone,
             serialType: this.query,
             serialValue: this.id,
-            lotteryId: this.game.lotteryId,
+            lotteryId: this.gameid,
             methodId: this.method.methodId,
             issueId: this.issue,
             modes: this.mode !== '' ? this.mode + 1 : '',
@@ -388,7 +394,7 @@
               loading.text = '加载成功!'
             }, 100)
             this.summary()
-          } else loading.text = '加载失败!'
+          } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error
         }).finally(() => {
@@ -408,20 +414,26 @@
         })
       },
       getMethods () {
-        this.$http.get(api.getMethods, {lotteryId: this.game.lotteryId}).then(({data}) => {
+        this.$http.get(api.getMethods, {lotteryId: this.gameid}).then(({data}) => {
           // success
           if (data.success === 1) {
             this.methodList = data.methodList
+          } else {
+            this.methodList = []
+            this.method = {}
           }
         }, (rep) => {
           // error
         })
       },
       getRecentIssueList () {
-        this.$http.get(api.getRecentIssueList, {lotteryId: this.game.lotteryId, issCount: 30}).then(({data}) => {
+        this.$http.get(api.getRecentIssueList, {lotteryId: this.gameid, issCount: 30}).then(({data}) => {
           // success
           if (data.success === 1) {
             this.issueList = data.issueList
+          } else {
+            this.issueList = []
+            this.issue = ''
           }
         }, (rep) => {
           // error

@@ -8,11 +8,13 @@
     .user-list.scroll-content
 
       .form
-        
         label.item 游戏时间 
-          el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-          |  至 
-          el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+        // label.item 游戏时间 
+        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+        // label.item(style="margin-left: -.1rem") 至 
+        //   el-date-picker(:picker-options="pickerOptions" v-model="et" type="datetime" placeholder="请选择日期时间")
 
         label.item 状态 
           el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
@@ -218,8 +220,41 @@
   export default {
     data () {
       return {
-        st: '',
-        et: '',
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }],
+          disabledDate (time) {
+            return time.getTime() > Date.now()
+          }
+        },
+        // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+        defaultStEt: ['', ''],
+        stEt: ['', ''],
+        // st: '',
+        // et: '',
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         status: '',
         ISFREE: ['现金', '优惠券'],
@@ -266,6 +301,15 @@
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
+      },
+      stEt: {
+        deep: true,
+        handler () {
+          if (!this.stEt) this.stEt = this.defaultStEt
+          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
+            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          }
+        }
       }
     },
     mounted () {
@@ -325,8 +369,9 @@
         })
       },
       clear () {
-        this.st = ''
-        this.et = ''
+        // this.st = ''
+        // this.et = ''
+        this.stEt = this.defaultStEt
         this.status = ''
         this.isFree = ''
         this.gameid = ''
@@ -370,8 +415,10 @@
         if (!fn) {
           this.preOptions = {
             projectId: this.id,
-            beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-            endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+            beginDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+            // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
             stat: this.status,
             isFree: this.isFree,
             userName: this.name,
@@ -396,7 +443,7 @@
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
             this.summary()
-          } else loading.text = '加载失败!'
+          } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error
         }).finally(() => {
@@ -448,6 +495,9 @@
           // success
           if (data.success === 1) {
             this.methodList = data.methodList
+          } else {
+            this.methodList = []
+            this.method = {}
           }
         }, (rep) => {
           // error
@@ -458,6 +508,9 @@
           // success
           if (data.success === 1) {
             this.issueList = data.issueList
+          } else {
+            this.issueList = []
+            this.issue = ''
           }
         }, (rep) => {
           // error

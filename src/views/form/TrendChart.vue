@@ -36,7 +36,7 @@
           .item
             .ds-button.primary 搜索
 
-      .chart(style="position: relative")
+      .chart(style="position: relative; display: inline-block;")
 
         el-table.nopadding.header-bold.has-border(:data="data" border v-bind:row-class-name="tableRowClassName")
           el-table-column(prop="issue" label="期号" width="100" align="center" class-name="bg-white")
@@ -46,9 +46,17 @@
                 div
                   span(:class="[ scope.row.numbers && scope.row.numbers[i + k*10].class ]") {{ scope.row.numbers ? scope.row.numbers[i + k*10].n: 0 }}
         
-        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 100px; top: 62px")
-          polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i %2 === 0 ? '#89d2ff' : '#ff7f8a' " )
+        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 100px; top: 70px")
+          polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#1a9ff3' : '#ff5f6a' " )
+          // polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#89d2ff' : '#ff7f8a' " )
 
+        el-table.nopadding.header-bold.has-border(:data="fData" border v-bind:row-class-name="tableRowClassName" v-bind:show-header="false" style="position: relative; top: -10px")
+          el-table-column(prop="issue" label="期号" width="100" align="center" class-name="bg-white")
+          el-table-column(v-for="(P, k) in PS" v-bind:label="P.title" align="center" v-bind:class-name=" k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger' ")
+            el-table-column(align="center" width="30" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (i % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
+              template(scope="scope")
+                div
+                  span(:class="[ scope.row.numbers && scope.row.numbers[i + k*10].class ]") {{ scope.row.numbers ? scope.row.numbers[i + k*10].n: 0 }}
 
 </template>
 
@@ -105,12 +113,21 @@ export default {
       type: 0,
       data: [
       ],
+      fData: [
+        {issue: '出现总次数', myClass: 'bg-white border-top'},
+        {issue: '平均遗漏值', myClass: 'bg-white '},
+        {issue: '最大遗漏值', myClass: 'bg-white'},
+        {issue: '最大连出值', myClass: 'bg-white '}
+      ],
       lines: []
     }
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'openRoute'
+    '$route': 'openRoute',
+    gameid () {
+      this.trendData()
+    }
   },
   computed: {
   },
@@ -125,28 +142,28 @@ export default {
       }
       this.data.push(o)
     }
-    this.data.push({issue: '出现总次数', myClass: 'bg-white border-top'})
-    this.data.push({issue: '平均遗漏值', myClass: 'bg-white '})
-    this.data.push({issue: '最大遗漏值', myClass: 'bg-white'})
-    this.data.push({issue: '最大连出值', myClass: 'bg-white '})
+    // this.data.push({issue: '出现总次数', myClass: 'bg-white border-top'})
+    // this.data.push({issue: '平均遗漏值', myClass: 'bg-white '})
+    // this.data.push({issue: '最大遗漏值', myClass: 'bg-white'})
+    // this.data.push({issue: '最大连出值', myClass: 'bg-white '})
     this.data.forEach((d, j) => {
       d.numbers && d.numbers.forEach((s, i) => {
         if (s.class !== 'ball') return false
         if (i < 10) {
           !this.lines[0] && (this.lines[0] = '')
-          this.lines[0] += 30.5 * (i + 0.5) + ',' + (31 * j + 15) + ' '
+          this.lines[0] += 30.5 * (i + 0.5) + ',' + (34 * j + 15) + ' '
         } else if (i < 20) {
           !this.lines[1] && (this.lines[1] = '')
-          this.lines[1] += 30.4 * (i + 0.5) + ',' + (31 * j + 15) + ' '
+          this.lines[1] += 30.4 * (i + 0.5) + ',' + (34 * j + 15) + ' '
         } else if (i < 30) {
           !this.lines[2] && (this.lines[2] = '')
-          this.lines[2] += 30.3 * (i + 0.5) + ',' + (31 * j + 15) + ' '
+          this.lines[2] += 30.3 * (i + 0.5) + ',' + (34 * j + 15) + ' '
         } else if (i < 40) {
           !this.lines[3] && (this.lines[3] = '')
-          this.lines[3] += 30.2 * (i + 0.5) + ',' + (31 * j + 15) + ' '
+          this.lines[3] += 30.2 * (i + 0.5) + ',' + (34 * j + 15) + ' '
         } else if (i < 50) {
           !this.lines[4] && (this.lines[4] = '')
-          this.lines[4] += 30.1 * (i + 0.5) + ',' + (31 * j + 15) + ' '
+          this.lines[4] += 30.1 * (i + 0.5) + ',' + (34 * j + 15) + ' '
         }
       })
     })
@@ -175,6 +192,16 @@ export default {
       }, (rep) => {
         // error
       })
+    },
+    trendData () {
+      this.$http.get(api.trendData, {id: this.gameid, size: 100}).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          // this.gameList = data.lotteryList
+        }
+      }, (rep) => {
+        // error
+      })
     }
   },
   components: {
@@ -189,14 +216,15 @@ export default {
     top TH
   .trend-chart
     // padding PW
-    
+    text-align center
     .game-info
+      text-align left
       padding PWX
       padding-left .8rem
       .text-button
         padding 0 .05rem
     .chart
-      min-width 14.4rem
+      // min-width 14.4rem
       .el-row
         height .4rem
         line-height .4rem

@@ -455,16 +455,16 @@ export default {
                     width: '12rem'
                   },
                   url: 'Account'
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '60',
+                  title: '走势图',
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
-                // {
-                //   id: '4-5-3',
-                //   menuid: '60',
-                //   title: '走势图',
-                //   position: {
-                //     width: '16.3rem'
-                //   },
-                //   url: 'TrendChart'
-                // }
               ]
             }
           ]

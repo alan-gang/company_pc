@@ -435,7 +435,10 @@ let Form = {
   getMethods: '/report/OrderReport.do?method=getMethods',
   // 获取期号
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=getRecentIssueList&lotteryId=1&issCount=10
-  getRecentIssueList: '/issue.do?method=getRecentIssueList'
+  getRecentIssueList: '/issue.do?method=getRecentIssueList',
+  // 走势图
+  // /cagamesclient/issuehistory.do?method=list&id=2&size=100&data=
+  trendData: '/issuehistory.do?method=list'
 }
 
 let Help = {

@@ -427,9 +427,10 @@ export default {
       this.oldPwd = ''
       this.newPwd = ''
       this.newPwdAgain = ''
+      this.clearCashPwd()
     },
     clearCashPwd () {
-      this.oldCasjPwd = ''
+      this.oldCashPwd = ''
       this.newCashPwd = ''
       this.newCashPwdAgain = ''
     },

@@ -10,7 +10,7 @@
       .form
 
         label.item 帐变时间范围 
-          el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围")
+          el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         
         .buttons(style="margin-left: .9rem")
           .ds-button.primary.large.bold(@click="profitList") 搜索
@@ -47,6 +47,7 @@
     data () {
       return {
         me: store.state.user,
+        clearableOnTime: false,
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',

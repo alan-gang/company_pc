@@ -14,11 +14,13 @@
           .ds-button-group
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的契约
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级契约
+        label.item 契约生效时间范围 
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        label.item 契约结束时间从 
-          el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-          |  至 
-          el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
+        // label.item 契约结束时间从 
+        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+        //   |  至 
+        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
           
         label.item  &nbsp;状态 
           el-select(clearable v-model="s"  placeholder="全")
@@ -159,9 +161,32 @@
       return {
         // 0 我的契约
         // 1 下级契约
-        stEt: ['', ''],
         pickerOptions: {
           shortcuts: [{
+            text: '最近一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近六个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
             text: '今起一个月',
             onClick (picker) {
               const end = new Date()
@@ -198,11 +223,13 @@
           //   return time.getTime() > Date.now()
           // }
         },
+        defaultStEt: ['', ''],
+        stEt: ['', ''],
         me: store.state.user,
         time: ['', '月', '半月', '周'],
         type: 0,
-        st: '',
-        et: '',
+        // st: '',
+        // et: '',
         STATUS: [
           {id: '0', title: '待确认'},
           {id: 1, title: '已签订'},
@@ -273,6 +300,15 @@
           content: '请不要输入相同相似的规则!',
           btn: ['好的']
         })
+      },
+      stEt: {
+        deep: true,
+        handler () {
+          if (!this.stEt) this.stEt = this.defaultStEt
+          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
+            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          }
+        }
       }
     },
     mounted () {
@@ -291,8 +327,12 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(this.type === 0 ? api.queryMyContract : api.mySubContract, {
-          startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           status: this.s.id || ''
         }).then(({data}) => {
           // success
