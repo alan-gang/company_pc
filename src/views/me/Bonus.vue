@@ -24,7 +24,7 @@
               | 元
 
         .ds-button-group
-          .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.enName }}
+          .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.cnName }}
 
       el-table.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" style="width: 8rem; margin: 0 auto")
         el-table-column(prop="methodName" label="玩法" width="200" )

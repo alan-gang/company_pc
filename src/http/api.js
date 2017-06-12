@@ -285,7 +285,13 @@ let Me = {
 
   // 系统支持充值方式
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getEnableSaveType
-  getEnableSaveType: '/person/recharge.do?method=getEnableSaveType'
+  getEnableSaveType: '/person/recharge.do?method=getEnableSaveType',
+  // 添加催到账
+  // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=addPayError&apiName=icbc&getName=&payName=张三&payCardNo=1234&payAmount=123&noteWord=1213&serialNo=&payTime=2017-06-08 16:15:15
+  addPayError: 'person/recharge.do?method=addPayError',
+  // 查询催到账记录
+  // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
+  queryPayError: 'person/recharge.do?method=queryPayError'
 }
 
 let Group = {
@@ -449,7 +455,10 @@ let Help = {
   // game:玩法介绍
   getHelpInfo: '/help.do?method=getHelpContent',
   // http://192.168.169.161:8080/cagamesclient/help.do?method=getHelpTag&subject=comment
-  getHelpTag: '/help.do?method=getHelpTag'
+  getHelpTag: '/help.do?method=getHelpTag',
+  // 意见反馈
+  // http://192.168.169.161:8080/cagamesclient//help/feeback.do?method=add&title=xxx&content=xxxxx&priority=1
+  addFeedback: '/help/feeback.do?method=add'
 }
 
 let Activity = {

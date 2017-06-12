@@ -49,7 +49,7 @@
 
       
       .form(v-if="type === 2")
-
+        
         // label.item 充值时间 
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
         //   |  至 
@@ -59,20 +59,35 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
+        .notice(style="margin: .2rem")
+          span.title 温馨提示：
+          p.content
+            | 一般情况
+            span.text-blue 充值
+            | 为
+            span.text-danger 1-2分钟
+            | 之内到帐;
+            br
+            | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
+
         el-table.header-bold.margin(:data="data" style="margin: .2rem")
           el-table-column(prop="doneTime" label="充值时间" width="180")
 
-          el-table-column(prop="bankName" label="银行" width="150")
+          el-table-column(prop="bankName" label="银行" width="140")
 
-          el-table-column(prop="payerRealAmount" label="金额" width="150" align="right")
+          el-table-column(prop="payerRealAmount" label="金额" width="140" align="right")
 
-          el-table-column(prop="payerTransferFee" label="手续费" width="150" align="right")
+          el-table-column(prop="payerTransferFee" label="手续费" width="140" align="right")
 
-          el-table-column(label="" align="right" width="50")
+          el-table-column(label="" align="right" width="20")
 
-          el-table-column(label="状态")
+          el-table-column(label="状态" width="100")
             template(scope="scope")
               span.text-green {{ '充值成功' }}
+
+          el-table-column(label="操作")
+            template(scope="scope")
+              span.ds-button.text-button(:class="{ blue: !scope.row.hasId, light: scope.row.hasId }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
     
@@ -118,6 +133,59 @@
         p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
           span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
+    
+    .modal(v-show="showRequest" )
+      .mask
+      .box-wrapper
+        .box
+          .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
+            span.title.text-black(style="font-size: .18rem;") 催到帐
+            el-button-group
+              i.el-icon-close.ds-button.text-button(@click="showRequest = false" )
+              
+          .content
+            .form(style="margin: .2rem .4rem")
+              
+              p.item 
+                span.text-danger *
+                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                el-select(v-model="bank" style="width: 2.2rem")
+                  el-option(v-for="(b, index) in BANKS" v-bind:label="b.text" v-bind:value="b")
+             
+              p.item 
+                span.text-danger *
+                | 付款人姓名：&nbsp;
+                input.ds-input.large(v-model="branchName")
+                span(style="font-size: .12rem") 
+
+              p.item 
+                span.text-danger *
+                | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp;
+                input.ds-input.large(v-model="name")
+                span(style="font-size: .12rem")
+
+               p.item 
+                span.text-danger *
+                | 收款人姓名：&nbsp;
+                input.ds-input.large(v-model="name")
+                span(style="font-size: .12rem")
+
+              p.item 交易序列号：&nbsp;&nbsp;
+                input.ds-input.large(v-model="cardNo")
+                span(style="font-size: .12rem") 
+
+              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                input.ds-input.large(v-model="cardNoAgain")
+                span(style="font-size: .12rem")
+
+              p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                input.ds-input.large(v-model="cardNoAgain")
+                span(style="font-size: .12rem")
+
+              .buttons(style="margin-left: 1rem; padding-top: .05rem; text-align: left")
+                .ds-button.primary.large(@click="sendReq") 提交
+            
+
 
       
       
@@ -161,7 +229,8 @@ export default {
       status: '',
       pageSize: 20,
       total: 0,
-      currentPage: 1
+      currentPage: 1,
+      showRequest: false
     }
   },
   computed: {
@@ -227,6 +296,14 @@ export default {
     //     this.$message.error({target: this.$el, message: '资金密码密码验证失败！'})
     //   })
     // },
+    showReq (row) {
+      this.showRequest = true
+      this.row = row
+    },
+    sendReq (row) {
+      this.showRequest = false
+      this.row.hasId = true
+    },
     pageChanged (cp) {
       this.qryRecharge(cp, () => {
         this.currentPage = cp
@@ -242,7 +319,7 @@ export default {
         pageSize: this.pageSize
       }).then(({data}) => {
         if (data.success === 1) {
-          this.data = data.payRecordData || []
+          // this.data = data.payRecordData || []
           typeof fn === 'function' && fn()
           this.total = data.totalSize || this.data.length
         }
@@ -438,6 +515,27 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  
+  .form
+    margin 0 .4rem
+    font-size .14rem
+  .item
+    margin .1rem 0
+
+  .notice
+    font-size .12rem
+    line-height .22rem
+    margin 0 .2rem
+    padding PWX
+    background-color #fffde8
+    border 1px solid #d5d09b
+    radius()
+    .content
+      display inline-block
+      margin 0
+      line-height .25rem
+      vertical-align top
+      
   .scroll-content
     top TH
   .me-topup

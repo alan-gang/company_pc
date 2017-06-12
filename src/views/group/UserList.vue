@@ -69,7 +69,7 @@
             template(scope="scope")
               .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
-              .ds-button.text-button.blue(v-if="!scope.row.self && scope.row.gid"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
+              .ds-button.text-button.blue(v-if="!scope.row.self && scope.row.isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
               // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
               // div(v-if="scope.row.showTeanBalance") 团队余额：

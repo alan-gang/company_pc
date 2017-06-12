@@ -56,13 +56,14 @@ import Today from './form/Today'
 // 趋势图
 import TrendChart from './form/TrendChart'
 
-// Help
+// 帮助中心
 import PlayHelp from './help/PlayHelp'
 import FunctionHelp from './help/FunctionHelp'
 import QuestionHelp from './help/QuestionHelp'
 import System from './help/System'
+import Feedback from './help/Feedback'
 
-// 帮助中心
+// 活动中心
 import Activity from './activity/Activity'
 import Gift from './activity/Gift'
 
@@ -118,6 +119,7 @@ export default {
     FunctionHelp,
     QuestionHelp,
     System,
+    Feedback,
     // 活动
     Activity,
     Gift,
@@ -411,6 +413,7 @@ export default {
           target.setAttribute('expand', 'expand')
           el.setAttribute('adjusting', 'adjusting')
           el.parentNode.setAttribute('adjusting', 'adjusting')
+          // el.parentNode.parentNode.setAttribute('adjusting', 'adjusting')
           let offset = util.getOffset(el, 0)
           top = offset.top
           left = offset.left
@@ -447,6 +450,7 @@ export default {
           target.removeAttribute('expand')
           el.removeAttribute('adjusting')
           el.parentNode.removeAttribute('adjusting')
+          // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
           canMove = false
           el.style.transition = ''
         })
@@ -454,6 +458,7 @@ export default {
           target.removeAttribute('expand')
           el.removeAttribute('adjusting')
           el.parentNode.removeAttribute('adjusting')
+          // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
           canMove = false
           el.style.transition = ''
         })
@@ -503,10 +508,10 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           if (!canResizeX) return
-          if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
-          else el.setAttribute('h-align', 'left')
-          if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
-          else el.setAttribute('v-align', 'top')
+          // if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
+          // else el.setAttribute('h-align', 'left')
+          // if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
+          // else el.setAttribute('v-align', 'top')
           dx = evt.movementX || (evt.clientX - sx)
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
           width += dx
@@ -553,10 +558,10 @@ export default {
           evt.preventDefault()
           evt.stopPropagation()
           if (!canResizeY) return
-          if (left > boxOffset.width / 2) el.setAttribute('h-align', 'right')
-          else el.setAttribute('h-align', 'left')
-          if (top > boxOffset.height / 2) el.setAttribute('v-align', 'bottom')
-          else el.setAttribute('v-align', 'top')
+          // if (left > boxOffset.width / 2) el.setAttribute('h-align', 'right')
+          // else el.setAttribute('h-align', 'left')
+          // if (top > boxOffset.height / 2) el.setAttribute('v-align', 'bottom')
+          // else el.setAttribute('v-align', 'top')
           dy = evt.movementY || (evt.clientY - sy)
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) return
           height += dy
@@ -653,6 +658,7 @@ export default {
     height TH
     cursor move
     z-index 10000
+    // background-color red
     &:hover
       height 2 * TH
       top -1 * TH
@@ -714,20 +720,39 @@ export default {
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
     transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
     // transform perspective(1rem) translate3D(-4rem, -4rem, -.8rem)
+    // &[h-align=left]
+    //   // &[v-align=bottom]
+    //   transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 0rem, -.8rem)
+    // &[h-align=right]
+    //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 0, -.8rem)
     &[h-align=left]
       // &[v-align=bottom]
-      transform perspective(1rem) rotateY(-1deg) translate3D(-3rem, 0rem, -.8rem)
+      transform perspective(1rem) translate3D(0, 0, -.8rem)
     &[h-align=right]
-      transform perspective(1rem) rotateY(1deg) translate3D(3rem, 0, -.8rem)
+      transform perspective(1rem) translate3D(0, 0, -.8rem)
       // &[v-align=bottom]
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
- 
+    &.active
+      transform rotateY(0)
+      // transition-duration .5s
+      z-index 1
+      
+    &[class*=-enter]
+    &[class*=-leave]
+    // [class*=-move]
+      transition all linear .2s // @static 2
+
+    &.zoom-enter-active
+    &.zoom-leave-active
+      // opacity 0
+      // transform perspective(500px) translateZ(-5000px)
+      opacity .2
+      transform perspective(500px) translateZ(-1000px)
+
     &[adjusting]
       z-index 2
       
-    &.active
-      transform rotateY(0)
-      z-index 1
+    
     // &.minus
     //   transition all linear 0.2s
     

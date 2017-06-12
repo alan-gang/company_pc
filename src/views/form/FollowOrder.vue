@@ -159,7 +159,7 @@
 
             p 可能中奖的情况：
 
-            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
+            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0" max-height="200")
 
               el-table-column(prop="projectid" label="编号" width="160" )
 

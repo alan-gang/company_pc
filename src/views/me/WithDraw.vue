@@ -198,14 +198,14 @@ export default {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.stepIndex++
-          this.$message.success({target: this.$el, message: data.msg || '资金密码密码验证成功！'})
+          this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
       }).catch(rep => {
-        this.$message.error({target: this.$el, message: '资金密码密码验证失败！'})
+        this.$message.error({target: this.$el, message: '资金密码验证失败！'})
       })
     },
     getUserBankCards () {

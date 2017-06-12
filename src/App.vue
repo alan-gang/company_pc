@@ -519,13 +519,18 @@ export default {
             },
             {
               id: '6-2',
-              title: '系统公告',
+              title: '系统',
               items: [
                 {
                   id: '6-2-1',
                   title: '系统公告',
                   url: 'System'
                   // menuid: '68'
+                },
+                {
+                  id: '6-2-2',
+                  title: '意见反馈',
+                  url: 'Feedback'
                 }
               ]
             }
@@ -842,6 +847,11 @@ export default {
 .page
   &[class*=-leave]
     // transition-delay .5s
+  
+  // &[adjusting]
+  //   top 0
+  //   bottom 0
+    
 .back
   // define for main page when back 
   &>.page

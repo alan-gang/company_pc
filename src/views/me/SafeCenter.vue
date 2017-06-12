@@ -345,6 +345,12 @@ export default {
         this.$message.error({target: this.$el, message: '请先绑定手机，再来绑定安全验证方式!'})
         this.safeCheck = 0
       }
+    },
+    index () {
+      this.clearPwd()
+      this.clearSafeQuestion()
+      this.clearPhone()
+      this.clearEmail()
     }
   },
   mounted () {

@@ -5,7 +5,7 @@
 
     transition(name="slide-down" appear=true)
       .f(v-if="rows.length === 0")
-        p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
+        p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
         el-row
           el-col(:span="20")
             el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
@@ -16,6 +16,9 @@
               input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
             br
             .ds-button.outline(@click=" __clearValue ") 清空
+
+        p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .3rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
+
 
     transition(name="slide-down" appear=true)
       el-row.pos(v-if="show")

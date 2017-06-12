@@ -183,8 +183,8 @@
               el-input.font-12(disabled v-model="row.code" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
 
             p 可能中奖的情况：
-
-            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0")
+            
+            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0;" max-height="200")
 
               el-table-column(prop="projectid" label="编号" width="160" )
 
@@ -281,7 +281,7 @@
         type: 0,
         row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
-        expandList: [],
+        expandList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: []
       }
@@ -466,7 +466,7 @@
           // success
           if (data.success === 1) {
             // this.show = false
-            this.expandList = data.expandList
+            // this.expandList = data.expandList
             row.userPoint = data.userPoint
             setTimeout(() => {
               loading.text = '详情加载成功!'

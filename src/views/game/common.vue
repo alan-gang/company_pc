@@ -240,6 +240,12 @@ export default {
           this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
         }
       }
+    },
+    follow: {
+      deep: true,
+      handler () {
+        if (this.follow.show) this.__getTraceIssueList()
+      }
     }
   },
   created () {

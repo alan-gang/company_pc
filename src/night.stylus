@@ -9,6 +9,10 @@ body.night
   // common
   .el-loading-mask
     background-color rgba(85, 85, 85, .9)
+  .el-textarea__inner
+    border-color #777
+    background-color #666
+    color #aaa
   .el-input.is-disabled .el-input__inner
     background-color #666
   .me-sideview
