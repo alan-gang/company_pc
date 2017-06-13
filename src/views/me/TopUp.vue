@@ -59,7 +59,7 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        .notice(style="margin: .2rem")
+        .notice(style="margin: .2rem 0")
           span.title 温馨提示：
           p.content
             | 一般情况
@@ -71,7 +71,7 @@
             | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
 
         el-table.header-bold.margin(:data="data" style="margin: .2rem")
-          el-table-column(prop="doneTime" label="充值时间" width="180")
+          el-table-column(prop="payerTime" label="充值时间" width="180")
 
           el-table-column(prop="bankName" label="银行" width="140")
 
@@ -83,11 +83,11 @@
 
           el-table-column(label="状态" width="100")
             template(scope="scope")
-              span.text-green {{ '充值成功' }}
+              span(:class="{ 'text-green': scope.row.isDone === '充值成功', 'text-danger': scope.row.isDone !== '充值成功' }") {{  scope.row.isDone}}
 
           el-table-column(label="操作")
             template(scope="scope")
-              span.ds-button.text-button(:class="{ blue: !scope.row.hasId, light: scope.row.hasId }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
+              span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
     
@@ -137,53 +137,93 @@
     .modal(v-show="showRequest" )
       .mask
       .box-wrapper
-        .box
+        .box(style="width: 6rem")
           .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
             span.title.text-black(style="font-size: .18rem;") 催到帐
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="showRequest = false" )
               
           .content
-            .form(style="margin: .2rem .4rem")
+            .form(style="margin: .2rem .4rem" v-if="row.errorEntry === '0' ")
               
               p.item 
                 span.text-danger *
                 | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                el-select(v-model="bank" style="width: 2.2rem")
-                  el-option(v-for="(b, index) in BANKS" v-bind:label="b.text" v-bind:value="b")
+                el-select(v-model="Cbank" style="width: 3rem")
+                  el-option(v-for="(b, index) in ALLBANKS" v-bind:label="b.text" v-bind:value="b")
              
               p.item 
                 span.text-danger *
                 | 付款人姓名：&nbsp;
-                input.ds-input.large(v-model="branchName")
+                input.ds-input.large(v-model="Cname" style="width: 3rem")
                 span(style="font-size: .12rem") 
 
               p.item 
                 span.text-danger *
                 | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="name")
+                input.ds-input.large(v-model="Ccardno" style="width: 3rem")
                 span(style="font-size: .12rem")
 
                p.item 
                 span.text-danger *
-                | 收款人姓名：&nbsp;
-                input.ds-input.large(v-model="name")
+                | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp;
+                el-input-number(type="number" v-model="Camount" style="width: 3rem")
                 span(style="font-size: .12rem")
 
+               // p.item 
+               //  | 收款人姓名：&nbsp;
+               //  input.ds-input.large(v-model="CRname" style="width: 3rem")
+               //  span(style="font-size: .12rem")
+
               p.item 交易序列号：&nbsp;&nbsp;
-                input.ds-input.large(v-model="cardNo")
+                input.ds-input.large(v-model="Cid" style="width: 3rem")
                 span(style="font-size: .12rem") 
 
               p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="cardNoAgain")
+                el-date-picker(type="datetime" v-model="Ctime"  style="width: 3rem")
                 span(style="font-size: .12rem")
 
               p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="cardNoAgain")
+                input.ds-input.large(v-model="Cmore" style="width: 3rem")
                 span(style="font-size: .12rem")
 
-              .buttons(style="margin-left: 1rem; padding-top: .05rem; text-align: left")
+              .buttons(style="margin-left: 1.35rem; padding-top: .05rem; text-align: left")
                 .ds-button.primary.large(@click="sendReq") 提交
+
+            .form(style="margin: .2rem .4rem; padding-bottom: .3rem " v-if="row.errorEntry !== '0' ")
+              
+              p.item 
+                span.text-danger *
+                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.bankName || '空' }}
+                
+             
+              p.item 
+                span.text-danger *
+                | 付款人姓名：&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payname || '空' }} 
+
+              p.item 
+                span.text-danger *
+                | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payCardNo || '空' }}
+
+              p.item 
+                span.text-danger *
+                | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payAmount || '空' }}
+
+               // p.item 
+               //  | 收款人姓名：&nbsp; 
+               //  span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.x1 || '空' }}
+
+              p.item 交易序列号：&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.serialNo || '空' }}
+
+              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payTime || '空' }}
+              p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.noteWord || '空' }}
             
 
 
@@ -230,7 +270,19 @@ export default {
       pageSize: 20,
       total: 0,
       currentPage: 1,
-      showRequest: false
+      showRequest: false,
+      ALLBANKS: BANKS,
+      // 催帐
+      row: {},
+      Cbank: {},
+      Cname: '',
+      Ccardno: '',
+      Camount: 0,
+      CRname: '',
+      Cid: '',
+      Ctime: '',
+      Cmore: '',
+      detail: {}
     }
   },
   computed: {
@@ -296,13 +348,78 @@ export default {
     //     this.$message.error({target: this.$el, message: '资金密码密码验证失败！'})
     //   })
     // },
+    // 添加催到账
+    // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=addPayError&apiName=icbc&getName=&payName=张三&payCardNo=1234&payAmount=123&noteWord=1213&serialNo=&payTime=2017-06-08 16:15:15
+    // addPayError: 'person/recharge.do?method=addPayError',
+    // // 查询催到账记录
+    // // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
+    // queryPayError: 'person/recharge.do?method=queryPayError'
     showReq (row) {
       this.showRequest = true
       this.row = row
+      if (this.row.errorEntry !== '0') this.queryPayError(this.row)
     },
-    sendReq (row) {
-      this.showRequest = false
-      this.row.hasId = true
+    sendReq () {
+      if (this.row.errorEntry === '0') this.addPayError(this.row)
+      else this.queryPayError(this.row)
+    },
+    addPayError (row) {
+      if (!this.Cbank || !this.Cname || !this.Ccardno) return this.$message.warning('带星号的内容不能为空！')
+      // if (!this.Cname) return this.$message.warning('带星号的内容不能为空！')
+      // if (!this.Ccardno) return this.$message.warning('带星号的内容不能为空！')
+      if (!this.Camount) return this.$message.warning('付款金额不能为0！')
+      let loading = this.$loading({
+        text: '催帐中...',
+        target: this.$el
+      }, 10000, '催帐超时...')
+      this.$http.get(api.addPayError, {
+        apiName: this.Cbank.apiName,
+        payName: this.Cname,
+        payCardNo: this.Ccardno,
+        payAmount: this.Camount,
+        noteWord: this.Cmore,
+        serialNo: this.Cid,
+        payTime: this.Ctime,
+        paymentId: this.row.billNo
+      }).then(({data}) => {
+        if (data.success === 1) {
+          loading.text = '恭喜您，催帐成功！'
+          this.Cbank = {}
+          this.Cname = ''
+          this.Ccardno = ''
+          this.Camount = 0
+          this.CRname = ''
+          this.Cid = ''
+          this.Ctime = ''
+          this.Cmore = ''
+          this.showRequest = false
+          this.qryRecharge()
+          // this.row.errorEntry = data.errorEntry || '22050'
+        } else loading.text = data.msg || '不好意思，催帐失败！'
+      }).catch(rpe => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
+    },
+    queryPayError (page, fn) {
+      let loading = this.$loading({
+        text: '催帐详情获取中...',
+        target: this.$el
+      }, 10000, '催帐详情获取超时...')
+      this.$http.get(api.queryPayError, {
+        entry: this.row.errorEntry
+      }).then(({data}) => {
+        if (data.success === 1) {
+          this.detail = data
+        } else loading.text = data.msg || '催帐详情查询失败'
+      }).catch(rpe => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
     },
     pageChanged (cp) {
       this.qryRecharge(cp, () => {
@@ -319,7 +436,7 @@ export default {
         pageSize: this.pageSize
       }).then(({data}) => {
         if (data.success === 1) {
-          // this.data = data.payRecordData || []
+          this.data = data.payRecordData || []
           typeof fn === 'function' && fn()
           this.total = data.totalSize || this.data.length
         }
@@ -517,7 +634,6 @@ export default {
   @import '../../var.stylus'
   
   .form
-    margin 0 .4rem
     font-size .14rem
   .item
     margin .1rem 0

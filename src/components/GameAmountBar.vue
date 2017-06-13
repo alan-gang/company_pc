@@ -18,9 +18,28 @@
       |  元&nbsp;&nbsp;
       // el-checkbox(v-model="checked" checked) 使用优惠券
       
+      
+
+      
+
+      el-popover(placement="top-start" trigger="hover" v-bind:popper-class="'popover-instruction font-white popover-pot'")
+        span(slot="reference")
+          .ds-checkbox-label(v-bind:class="{active: pot}" @click="pot = !pot").ds-icon-text-question
+            .ds-checkbox
+            | 奖池抽奖
+          // .ds-button.danger.bold(@click="book") ? 奖池投注
+        slot
+          p(style="line-height: .25rem")
+              span.label.font-gold 奖池投注：
+              | 您将多花费一元来进行投注，多花费的一元将累加入到奖池，每次选择奖池投注您将多获得一次奖池抽奖机会
+          p(style="line-height: .25rem")
+              span.label.font-gold 奖池开奖：
+              | 奖池将在每月最后一天下午8点开奖，届时将在使用奖池投注的用户中抽取出1、2、3等奖，奖池投注越大机会越大，奖金也更丰厚
+      
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
         .ds-checkbox
         | 使用优惠券
+
       .ds-button.danger.bold(@click="book") 投注
 
 
@@ -41,6 +60,7 @@ export default {
   },
   data () {
     return {
+      pot: true
     }
   },
   computed: {
@@ -62,6 +82,12 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  @import '../var.stylus'
+  .popover-pot
+    radius()
+
+</style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'

@@ -790,7 +790,7 @@ export default {
     left 0
     right 0
     min-width 8.5rem
-    z-index 1
+    // z-index 1
   .scroll-content
     position absolute
     left 0

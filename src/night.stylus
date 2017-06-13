@@ -34,6 +34,8 @@ body.night
       background-color rgba(102,102,102,.6)
     .modal .box
       background-color #333
+      radius()
+      overflow hidden
       .tool-bar
         background linear-gradient(180deg, #333, #222)
         
@@ -181,10 +183,14 @@ body.night
         color #aaa
         &:hover
           color BLUE
+        &.light:hover
+          color #ccc
       &.disabled
         background #666
       &.blue
         color BLUE
+        &:hover
+          color BLUE-HOVER
         
         
   

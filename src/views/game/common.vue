@@ -241,11 +241,8 @@ export default {
         }
       }
     },
-    follow: {
-      deep: true,
-      handler () {
-        if (this.follow.show) this.__getTraceIssueList()
-      }
+    'follow.show' () {
+      if (this.follow.show) this.__getTraceIssueList()
     }
   },
   created () {

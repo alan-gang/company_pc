@@ -155,6 +155,7 @@
               account: data.userName,
               role: data.roleId,
               guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+              // guide: true
             })
             this.$router.push('/')
             window.accessAngular.setUser({

@@ -288,10 +288,10 @@ let Me = {
   getEnableSaveType: '/person/recharge.do?method=getEnableSaveType',
   // 添加催到账
   // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=addPayError&apiName=icbc&getName=&payName=张三&payCardNo=1234&payAmount=123&noteWord=1213&serialNo=&payTime=2017-06-08 16:15:15
-  addPayError: 'person/recharge.do?method=addPayError',
+  addPayError: '/person/recharge.do?method=addPayError',
   // 查询催到账记录
   // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
-  queryPayError: 'person/recharge.do?method=queryPayError'
+  queryPayError: '/person/recharge.do?method=queryPayError'
 }
 
 let Group = {

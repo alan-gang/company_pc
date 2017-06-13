@@ -606,8 +606,11 @@ input
   .ds-icon-notice-large
       background url(assets/notice-large.png) center top no-repeat
       
-   .ds-icon-question-large
+  .ds-icon-question-large
       background url(assets/question-large.png) center top no-repeat 
+  .ds-icon-text-question
+      background url(assets/text-question.png) right center no-repeat 
+      padding-right .2rem
 
   .ds-icon-user
     background url(assets/user.png) PW center no-repeat
@@ -622,7 +625,10 @@ input
   .ds-icon-success-large
     background url(assets/success-large.png) center top no-repeat
   .ds-icon-logo-middle
-    background url(assets/logo-middle.png) center top no-repeat
+    background url(assets/logo-middle.png) center top no-repeat 
+  .ds-icon-pot
+    background url(assets/pot.png) center top no-repeat
+  
 
   .ds-icon-home
     background url(assets/home.png) center center no-repeat
@@ -1144,6 +1150,10 @@ input
     color LIGHT
     &:not(.disabled):hover
       color LIGHT-HOVER
+  &.light.wg
+    color #999
+    &:not(.disabled):hover
+      color #666
   &.blue
     color BLUE
     &:not(.disabled):hover

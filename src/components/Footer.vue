@@ -54,7 +54,9 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-
+    .logo.ds-icon-pot(style="width: 247px; height: 145px;display: inline-block; top: -1.5rem; padding-top: .25rem; z-index: 0")
+      p.font-white(style="font-size: .12rem") 平台奖池累计
+      .amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") 65,891.00
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")

@@ -12,7 +12,7 @@
 
       label.item
         span 内容：
-        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="请输入您的意见哦，不得少上5个字")
+        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="请输入您的意见哦，不得少于5个字")
       
       .buttons.item
         .ds-button.primary.large(@click="addFeedback") 提交
@@ -46,7 +46,7 @@
       // http://192.168.169.161:8080/cagamesclient//help/feeback.do?method=add&title=xxx&content=xxxxx&priority=1
       addFeedback () {
         if (!this.t) return this.$message.warning('请输入意见标题') && this.$refs.t.focus()
-        if (!this.v || this.v.length < 5) return this.$message.warning('请输入您的意见哦，不得少上5个字') && this.$el.querySelector('textarea').focus()
+        if (!this.v || this.v.length < 5) return this.$message.warning('请输入您的意见哦，不得少于5个字') && this.$el.querySelector('textarea').focus()
         this.$http.get(api.addFeedback, {priority: 1, title: this.t, content: this.v}).then(({data}) => {
           if (data.success === 1) {
             this.$modal.success({

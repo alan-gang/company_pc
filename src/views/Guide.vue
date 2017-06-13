@@ -192,6 +192,7 @@ export default {
     this.getBankList()
     this.getProvices()
     util.addEvent('resize', window, this.getPos)
+    this.getPos()
   },
   beforeDestroy () {
     util.removeEvent('resize', window, this.getPos)
