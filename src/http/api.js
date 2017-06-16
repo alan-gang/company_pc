@@ -161,7 +161,10 @@ let Game = {
   // 1.  最近投注记录
   getOrderList: '/project.do?method=list',
   // 2.  最近追号记录
-  getFollowList: '/task.do?method=list'
+  getFollowList: '/task.do?method=list',
+  // /cagamesclient/ltrPool.do?method=current
+  pricePot: '/ltrPool.do?method=current'
+  // 19、修改密码页面，校验安全问答  ALL  仅在投注时候有效（追号无效），如用户选择参与奖池投注则该订单的每个方案需额外多花费一元金额，且不能撤销。
 }
 
 let Me = {
@@ -489,6 +492,9 @@ let Activity = {
   // 充值活动
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
   doSave: '/activity.do?method=doSave',
+  // 日工资
+  // /activity.do?method=getSalary
+  getSalary: '/activity.do?method=getSalary',
   // 礼品中心
   getAllEnablePrize: '/activity.do?method=getAllEnablePrize',
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=getAllEnablePrize

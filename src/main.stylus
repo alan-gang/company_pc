@@ -599,7 +599,30 @@ input
   .ds-icon-game-jxssc
       background url(assets/game/17_big.png) center no-repeat
   .ds-icon-game-jxssc-middle
-      background url(assets/game/17.png) center no-repeat  
+      background url(assets/game/17.png) center no-repeat
+        
+  .ds-icon-game-bjssc
+      background url(assets/game/18_big.png) center no-repeat
+  .ds-icon-game-bjssc-middle
+      background url(assets/game/18.png) center no-repeat
+        
+  .ds-icon-game-hg15
+      background url(assets/game/19_big.png) center no-repeat
+  .ds-icon-game-hg15-middle
+      background url(assets/game/19.png) center no-repeat
+        
+  .ds-icon-game-dj15
+      background url(assets/game/20_big.png) center no-repeat
+  .ds-icon-game-dj15-middle
+      background url(assets/game/20.png) center no-repeat
+        
+  .ds-icon-game-tw5
+      background url(assets/game/21_big.png) center no-repeat
+  .ds-icon-game-tw5-middle
+      background url(assets/game/21.png) center no-repeat
+        
+
+      
       
   .ds-icon-notice
       background url(assets/notice.png) PW 0.6*PW no-repeat

@@ -234,6 +234,7 @@
 <script>
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
+import { dateTimeFormat } from '../../util/Date'
 // import util from '../../util'
 import Modal from 'components/Modal'
 export default {
@@ -323,6 +324,9 @@ export default {
     type () {
       if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
+    },
+    Ctime () {
+      console.log(this.Ctime)
     }
   },
   mounted () {
@@ -372,14 +376,14 @@ export default {
         text: '催帐中...',
         target: this.$el
       }, 10000, '催帐超时...')
-      this.$http.get(api.addPayError, {
+      this.$http.post(api.addPayError, {
         apiName: this.Cbank.apiName,
         payName: this.Cname,
         payCardNo: this.Ccardno,
         payAmount: this.Camount,
         noteWord: this.Cmore,
         serialNo: this.Cid,
-        payTime: this.Ctime,
+        payTime: this.Ctime ? dateTimeFormat(this.Ctime.getTime()) : '',
         paymentId: this.row.billNo
       }).then(({data}) => {
         if (data.success === 1) {

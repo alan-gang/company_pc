@@ -4,7 +4,7 @@ export default {
   mixins: [common],
   data () {
     return {
-      gameType: 'SSC',
+      gameType: 'SSL',
       menus: [
         // {
         //   title: '三星',

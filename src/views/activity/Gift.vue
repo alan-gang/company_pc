@@ -61,7 +61,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary]
     }
   },
   watch: {

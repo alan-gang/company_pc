@@ -12,7 +12,7 @@
 
       label.item
         span 内容：
-        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="请输入您的意见哦，不得少于5个字")
+        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 20 }" placeholder="请输入您的意见哦，不得少于5个字")
       
       .buttons.item
         .ds-button.primary.large(@click="addFeedback") 提交
@@ -51,9 +51,11 @@
           if (data.success === 1) {
             this.$modal.success({
               target: this.$el,
-              content: '感谢您你宝贵的建议，我们会仔细核对您的建议，让平台越来越好',
+              content: '感谢您宝贵的建议，我们会仔细核对您的建议，让平台越来越好。',
               btn: ['确定']
             })
+            this.t = ''
+            this.v = ''
           } else this.$message.warning({target: this.$el, message: '反馈添加失败！'})
         }, (rep) => {
           this.$message.warning({target: this.$el, message: '反馈添加失败！'})

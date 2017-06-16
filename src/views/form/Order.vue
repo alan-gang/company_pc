@@ -281,7 +281,7 @@
         type: 0,
         row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
-        expandList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+        expandList: [],
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: []
       }
@@ -466,7 +466,7 @@
           // success
           if (data.success === 1) {
             // this.show = false
-            // this.expandList = data.expandList
+            this.expandList = data.expandList
             row.userPoint = data.userPoint
             setTimeout(() => {
               loading.text = '详情加载成功!'

@@ -151,10 +151,11 @@ export default {
       this.trendData()
     },
     size () {
+      if (this.st) this.st = ''
       this.trendData()
     },
     st () {
-      this.trendData()
+      if (this.st) this.trendData()
     }
   },
   computed: {
@@ -234,7 +235,7 @@ export default {
         text: '数据查询中...',
         target: this.$el
       }, 10000, '数据查询超时...')
-      this.$http.get(api.trendData, {id: this.gameid, size: this.size, date: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
+      this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
         // success
         if (data.success === 1) {
           this.fData[0].numbers = Array(55).fill(0).map(n => (n = {n: 0}))

@@ -13,14 +13,14 @@
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.money" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
       
     // Chat
 
 </template>
 
 <script>
-import util from './util'
+// import util from './util'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
 // import Chat from './components/Chat'
@@ -140,7 +140,11 @@ export default {
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
                 {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gameid: 16},
                 {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 2},
-                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4}
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4},
+                {class: 'ds-icon-game-bjssc', id: '1-1-5', menuid: '', title: '北京时时彩', gameid: 100},
+                {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '', title: '韩国1.5分彩', gameid: 101},
+                {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '', title: '东京1.5分彩', gameid: 102},
+                {class: 'ds-icon-game-tw5', id: '1-1-8', menuid: '', title: '台湾5分彩', gameid: 103}
                 // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
                 // {class: 'ds-icon-game-chq', menuid: '12', title: '欢乐分分彩', showInHome: true, liked: true}
               ]
@@ -555,7 +559,7 @@ export default {
     },
     ctabs () {
       return this.state.pages.filter(t => {
-        return t.opened
+        return t.opened && !t.removed
       })
     },
     currentab () {
@@ -588,8 +592,9 @@ export default {
       handler () {
         this.ctabs.forEach(tab => {
           if (!this.tabs.find(t => t.id === tab.id)) this.tabs.push(tab)
+          else this.tabs.find(t => t.id === tab.id && (t = tab))
         })
-        this.tabs = this.tabs.filter(t => t.opened)
+        this.tabs = this.tabs.filter(t => t.opened && !t.removed)
       }
     }
     // // 如果路由有变化，会再次执行该方法
@@ -619,7 +624,7 @@ export default {
         m.groups = m.groups || []
         return m.groups.reduce((p, g, gi) => {
           // delete un authority
-          if (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1) {
+          if (m.removed || (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1)) {
             // m.groups.splice(gi, 1)
             this.$set(g, 'removed', true)
             return p
@@ -627,10 +632,10 @@ export default {
             this.$set(g, 'removed', false)
           }
           g.items = g.items || []
-          if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
+          // if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
-            if (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1) {
+            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1)) {
               // g.items.splice(ii, 1)
               this.$set(i, 'removed', true)
               return p
@@ -664,7 +669,7 @@ export default {
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
-      if (this.tabs.length < this.maxPages || this.tabs.find(t => t.id === url)) this.$router.push(this.state.pages.find(p => p.id === url).href)
+      if (this.tabs.length < this.maxPages || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
       else {
         this.$modal.warn({
           content: '最大窗口打开数：' + this.maxPages,
@@ -706,7 +711,14 @@ export default {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
-          this._getPages()
+          this.setPages(this._getPages())
+          this.tabs.forEach((t, i) => {
+            if (!this.state.pages.find(x => x.id === t.id)) {
+              this.tabs.splice(i, 1)
+            } else {
+              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true}))
+            }
+          })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})

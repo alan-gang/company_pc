@@ -225,7 +225,7 @@ export default {
       if (this.ns.length > 0) {
         if (!this.notify) {
           this.notify = this.$modal.question({
-            content: '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+            content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
             btn: ['转到当前期', '清空投注'],
             target: this.$el,
             cancel () {
@@ -350,11 +350,11 @@ export default {
         // error
       })
     },
-    book () {
-      this.booking()
+    book (pot) {
+      this.booking(pot)
     },
     // 投注
-    booking () {
+    booking (pot) {
       if (this.follow.show && !this.follow.items[0]) {
         return this.$modal.warn({
           target: this.$el,
@@ -374,7 +374,8 @@ export default {
         type: this.follow.show ? 2 : 1, // 类型：1-投注；2-追号
         isusefree: this.checked ? 1 : 0, // 是否使用优惠券，0-否，1-是
         items: JSON.stringify(this._getOrderItems()),
-        trace: this.follow.show ? JSON.stringify(this._getTrace()) : ''
+        trace: this.follow.show ? JSON.stringify(this._getTrace()) : '',
+        isJoinPool: !this.follow.show && pot ? 1 : 0
       }).then(({data}) => {
         // success
         if (data.success > 0) {

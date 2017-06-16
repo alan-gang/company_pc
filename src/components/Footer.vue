@@ -2,8 +2,8 @@
   footer
     el-row
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-if="!menu.hide") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-if="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
@@ -54,9 +54,14 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: 247px; height: 145px;display: inline-block; top: -1.5rem; padding-top: .25rem; z-index: 0")
-      p.font-white(style="font-size: .12rem") 平台奖池累计
-      .amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") 65,891.00
+    .logo.ds-icon-pot(style="width: auto; width: 390px; height: 145px; top: -1.5rem; padding-top: .3rem; z-index: 0; background-size: 100%")
+      div(style="padding: 0 .3rem; display: inline-block")
+        p.font-white(style="font-size: .12rem") 平台奖池累计
+        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotAmount.toFixed(3) }}
+      div(style="padding: 0 .3rem; display: inline-block")
+        p.font-white(style="font-size: .12rem") 参与人次
+        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
+      
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
@@ -77,6 +82,7 @@ export default {
     return {
       model: store.state.user.model,
       isTry: store.state.user.isTry,
+      login: store.state.user.login,
       modal: false,
       shows: {},
       more: false,
@@ -88,10 +94,17 @@ export default {
       W: 48,
       full: false,
       checkDays: 0,
-      prizeAmount: 0.00
+      prizeAmount: 0.00,
+      timeout: 0,
+      pricePotAmount: 0,
+      pricePotCount: 0
     }
   },
   mounted () {
+    if (this.login) {
+      this.pricePot()
+      this.timeout = setInterval(this.pricePot, 5000)
+    }
     this.initShows()
     this.setFarChat()
     setTimeout(this.getPos, 0)
@@ -130,10 +143,24 @@ export default {
     }
   },
   beforeDestroy () {
+    clearInterval(this.timeout)
     if (store.state.user.login) this.$emit('logout', true)
     else this.setFarChat()
   },
   methods: {
+    pricePot () {
+      this.$http.get(api.pricePot).then(({data}) => {
+        if (data.success === 1) {
+          this.pricePotAmount = data.amount
+          this.pricePotCount = data.count
+          // }
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '奖池信息获取失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '奖池信息获取失败！'})
+      })
+    },
     fullScreen () {
       toggleFullScreen()
       this.full = !this.full
