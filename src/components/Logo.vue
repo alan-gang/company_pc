@@ -12,5 +12,5 @@
       width LGH
       height LGH
   .ds-icon-logo
-    background url(../assets/logo.png) center center no-repeat
+    background url($CASSETS/logo.png) center center no-repeat
 </style>

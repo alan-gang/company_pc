@@ -208,7 +208,7 @@ body.night
     .ds-button-group
       background-color #444
       border border 
-      height .32rem
+      // height .32rem
       .ds-button
         background-color #444
         &.selected

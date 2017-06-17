@@ -368,14 +368,14 @@ export default {
       position absolute
       width 3.35rem
       height 5.55rem
-      background url(../assets/guide/teacher.png) left center no-repeat
+      background url($VASSETS/guide/teacher.png) left center no-repeat
       .voice
         position absolute
         left -1.7rem
         top -.7rem
         width 2.11rem
         height 2.05rem
-        background url(../assets/guide/talk01.png) left center no-repeat
+        background url($VASSETS/guide/talk01.png) left center no-repeat
   
           
         
@@ -431,10 +431,10 @@ export default {
       bottom 0
       width 5rem
       height 5rem
-      background url(../assets/guide/i1.png) .7rem 2.5rem no-repeat
+      background url($VASSETS/guide/i1.png) .7rem 2.5rem no-repeat
       z-index -1
     .teacher .voice
-      background url(../assets/guide/talk02.png) left center no-repeat
+      background url($VASSETS/guide/talk02.png) left center no-repeat
     .guide-wrap
       width 5rem
       opacity 0
@@ -453,7 +453,7 @@ export default {
       bottom 5.68rem
       width 5rem
       height 5rem
-      background url(../assets/guide/i2.png) .7rem 2.5rem no-repeat
+      background url($VASSETS/guide/i2.png) .7rem 2.5rem no-repeat
       z-index -1
 </style>
 

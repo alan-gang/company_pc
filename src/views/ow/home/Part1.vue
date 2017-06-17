@@ -60,7 +60,7 @@ export default {
         top 0 
         right 0
         bottom 0
-        background url(../assets/cloud.png) center bottom no-repeat
+        background url($VASSETS/cloud.png) center bottom no-repeat
         background-size 100%
         
       &:after

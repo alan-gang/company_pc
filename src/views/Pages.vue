@@ -1,7 +1,7 @@
 <template lang="jade">
 
-  transition-group.dialog-container(adjusting="adjusting" appear=true name="zoom" tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)")
+  transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         .move-bar(slot="movebar")
@@ -133,7 +133,7 @@ export default {
   },
   name: 'Pages',
   mixins: [base],
-  props: ['pages', 'prehref'],
+  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition'],
   data () {
     return {
       // 可打开的最大的页数
@@ -156,6 +156,13 @@ export default {
           left: '25%',
           width: '9.3rem',
           height: '6.4rem'
+        },
+        static: {
+          top: 0,
+          left: 0,
+          minWidth: '70%',
+          maxWidth: '100%',
+          height: '100%'
         }
       },
       // 提供随机的位置
@@ -309,6 +316,14 @@ export default {
       // ]
     }
   },
+  computed: {
+    furl () {
+      return (this.pages[0] || {}).id
+    },
+    curl () {
+      return (this.pages.find(p => p.active) || {}).id
+    }
+  },
   watch: {
     // 如果路由有变化，会再次执行该方法
     '$route': 'openRoute'
@@ -326,7 +341,14 @@ export default {
       if (url) this.openAPage(url)
     },
     openAPage (url) {
-      this.$emit('open-tab', url)
+      if (this.pages.length === this.maxPages) {
+        if (!this.loop) return false
+        else if (this.curl !== url) {
+          this.$emit('close-tab', this.furl, url)
+        }
+      } else {
+        this.$emit('open-tab', url)
+      }
     },
     full (page) {
       if (page.size !== 'full') this.setDefaultPosition(page)
@@ -392,7 +414,9 @@ export default {
   },
   directives: {
     moveable: {
-      inserted (el, binding, vnode) {
+      // inserted () {
+      // },
+      update (el, binding, vnode) {
         let canMove = false
         let wantMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
@@ -467,7 +491,7 @@ export default {
       }
     },
     resizeable: {
-      inserted (el, binding) {
+      update (el, binding) {
         let canResizeX = false
         let canResizeY = false
         let {top, left, width, height} = util.getOffset(el, 0)
@@ -763,6 +787,9 @@ export default {
           height TH
           top 0
           z-index 0
+    
+    
+      
 </style>
 
 

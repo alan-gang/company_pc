@@ -9,7 +9,7 @@
     // pages
     // keep-alive
     transition(name="fade" appear=true)
-      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }")
+      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
 
     // footer
     transition(name="slide-down" appear=true)
@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       // skin: 'day',
+      loop: true,
       maxPages: 10,
       state: store.state,
       tabs: [],
@@ -677,7 +678,7 @@ export default {
         })
       }
     },
-    closeTab (url) {
+    closeTab (url, nurl) {
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
@@ -685,6 +686,8 @@ export default {
           setTimeout(() => {
             this.$router.push('/')
           }, 100)
+        } else if (nurl) {
+          this.openTab(nurl)
         } else this.$router.push(this.prev.href)
       })
     },
@@ -752,6 +755,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+  @import './var.stylus'
   html
     height 100%
     font-size 100px
@@ -765,17 +769,17 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(./assets/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) center center no-repeat
     background-size cover
   
   body:fullscreen #app > * {
-    background url(./assets/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) center center no-repeat
   }
   body:full-screen #app > * {
-    background url(./assets/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) center center no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url(./assets/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) center center no-repeat
   }
 </style>
 

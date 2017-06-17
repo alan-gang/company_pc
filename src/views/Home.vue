@@ -224,7 +224,7 @@ export default {
         width .16rem
         height .16rem
         margin-right .05rem
-        background url('../assets/+.png') center center no-repeat
+        background url($VASSETS/logo.png) center center no-repeat
         
     .content
       .el-col

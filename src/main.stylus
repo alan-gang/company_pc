@@ -34,12 +34,48 @@ input
   background-color #eee
   color #333
   
+@import './var.stylus'
+@import './ie.stylus'
+
+/*
+ *common css define
+ */
+a
+  text-decoration none
+  color #666
+h1, h2, h3, h4, h5, p, dl, dd, dt
+  margin 0
+input
+  outline none
+.pl1
+  padding-left .1rem
+.pl2
+  padding-left .2rem
+
+.pr1
+  padding-right .1rem
+.pr2
+  padding-right .2rem
+.pointer
+  cursor pointer
+::-webkit-input-placeholder
+:-ms-placeholder
+::-moz-placeholder
+:-ms-input-placeholder
+::-webkit-input-placeholder
+    color #999 
+
+
+.el-textarea.is-disabled .el-textarea__inner
+  background-color #eee
+  color #333
+  
 // el-table__empty-text
 .el-table__empty-block
   position relative
   margin-top .2rem
   height 1.5rem
-  background url(./assets/404/empty-table.png) center top no-repeat
+  background url($ASSETS/404/empty-table.png) center top no-repeat
   .el-table__empty-text
     vertical-align bottom
     transform: translate(-50%, 250%)
@@ -517,294 +553,294 @@ input
  */
   // game icons
   .ds-icon-game-chq
-      background url(assets/game/01_big.png) center no-repeat
+      background url($ASSETS/game/01_big.png) center no-repeat
   .ds-icon-game-chq-middle
-      background url(assets/game/01.png) center no-repeat
+      background url($ASSETS/game/01.png) center no-repeat
   
   .ds-icon-game-xj
-      background url(assets/game/02_big.png) center no-repeat
+      background url($ASSETS/game/02_big.png) center no-repeat
   .ds-icon-game-xj-middle
-      background url(assets/game/02.png) center no-repeat
+      background url($ASSETS/game/02.png) center no-repeat
   
   .ds-icon-game-tj
-      background url(assets/game/03_big.png) center no-repeat
+      background url($ASSETS/game/03_big.png) center no-repeat
   .ds-icon-game-tj-middle
-      background url(assets/game/03.png) center no-repeat
+      background url($ASSETS/game/03.png) center no-repeat
       
   .ds-icon-game-hl
-      background url(assets/game/04_big.png) center no-repeat
+      background url($ASSETS/game/04_big.png) center no-repeat
   .ds-icon-game-hl-middle
-      background url(assets/game/04.png) center no-repeat
+      background url($ASSETS/game/04.png) center no-repeat
   
   .ds-icon-game-xf
-      background url(assets/game/05_big.png) center no-repeat
+      background url($ASSETS/game/05_big.png) center no-repeat
   .ds-icon-game-xf-middle
-      background url(assets/game/05.png) center no-repeat  
+      background url($ASSETS/game/05.png) center no-repeat  
 
   .ds-icon-game-shh
-      background url(assets/game/06_big.png) center no-repeat
+      background url($ASSETS/game/06_big.png) center no-repeat
   .ds-icon-game-shh-middle
-      background url(assets/game/06.png) center no-repeat  
+      background url($ASSETS/game/06.png) center no-repeat  
 
   .ds-icon-game-dl
-      background url(assets/game/07_big.png) center no-repeat
+      background url($ASSETS/game/07_big.png) center no-repeat
   .ds-icon-game-dl-middle
-      background url(assets/game/07.png) center no-repeat    
+      background url($ASSETS/game/07.png) center no-repeat    
   
   .ds-icon-game-gd
-      background url(assets/game/08_big.png) center no-repeat
+      background url($ASSETS/game/08_big.png) center no-repeat
   .ds-icon-game-gd-middle
-      background url(assets/game/08.png) center no-repeat     
+      background url($ASSETS/game/08.png) center no-repeat     
   
   .ds-icon-game-dj
-      background url(assets/game/09_big.png) center no-repeat
+      background url($ASSETS/game/09_big.png) center no-repeat
   .ds-icon-game-dj-middle
-      background url(assets/game/09.png) center no-repeat     
+      background url($ASSETS/game/09.png) center no-repeat     
       
   .ds-icon-game-bj
-      background url(assets/game/10_big.png) center no-repeat
+      background url($ASSETS/game/10_big.png) center no-repeat
   .ds-icon-game-bj-middle
-      background url(assets/game/10.png) center no-repeat   
+      background url($ASSETS/game/10.png) center no-repeat   
       
   .ds-icon-game-bjpk10
-      background url(assets/game/11_big.png) center no-repeat
+      background url($ASSETS/game/11_big.png) center no-repeat
   .ds-icon-game-bjpk10-middle
-      background url(assets/game/11.png) center no-repeat         
+      background url($ASSETS/game/11.png) center no-repeat         
 
   .ds-icon-game-fc
-      background url(assets/game/12_big.png) center no-repeat
+      background url($ASSETS/game/12_big.png) center no-repeat
   .ds-icon-game-fc-middle
-      background url(assets/game/12.png) center no-repeat   
+      background url($ASSETS/game/12.png) center no-repeat   
   
   .ds-icon-game-pl
-      background url(assets/game/13_big.png) center no-repeat
+      background url($ASSETS/game/13_big.png) center no-repeat
   .ds-icon-game-pl-middle
-      background url(assets/game/13.png) center no-repeat   
+      background url($ASSETS/game/13.png) center no-repeat   
   
   .ds-icon-game-11ydj
-      background url(assets/game/14_big.png) center no-repeat
+      background url($ASSETS/game/14_big.png) center no-repeat
   .ds-icon-game-11ydj-middle
-      background url(assets/game/14.png) center no-repeat  
+      background url($ASSETS/game/14.png) center no-repeat  
 
   .ds-icon-game-ks
-      background url(assets/game/15_big.png) center no-repeat
+      background url($ASSETS/game/15_big.png) center no-repeat
   .ds-icon-game-ks-middle
-      background url(assets/game/15.png) center no-repeat  
+      background url($ASSETS/game/15.png) center no-repeat  
   
   .ds-icon-game-hljssc
-      background url(assets/game/16_big.png) center no-repeat
+      background url($ASSETS/game/16_big.png) center no-repeat
   .ds-icon-game-hljssc-middle
-      background url(assets/game/16.png) center no-repeat  
+      background url($ASSETS/game/16.png) center no-repeat  
   
   .ds-icon-game-jxssc
-      background url(assets/game/17_big.png) center no-repeat
+      background url($ASSETS/game/17_big.png) center no-repeat
   .ds-icon-game-jxssc-middle
-      background url(assets/game/17.png) center no-repeat
+      background url($ASSETS/game/17.png) center no-repeat
         
   .ds-icon-game-bjssc
-      background url(assets/game/18_big.png) center no-repeat
+      background url($ASSETS/game/18_big.png) center no-repeat
   .ds-icon-game-bjssc-middle
-      background url(assets/game/18.png) center no-repeat
+      background url($ASSETS/game/18.png) center no-repeat
         
   .ds-icon-game-hg15
-      background url(assets/game/19_big.png) center no-repeat
+      background url($ASSETS/game/19_big.png) center no-repeat
   .ds-icon-game-hg15-middle
-      background url(assets/game/19.png) center no-repeat
+      background url($ASSETS/game/19.png) center no-repeat
         
   .ds-icon-game-dj15
-      background url(assets/game/20_big.png) center no-repeat
+      background url($ASSETS/game/20_big.png) center no-repeat
   .ds-icon-game-dj15-middle
-      background url(assets/game/20.png) center no-repeat
+      background url($ASSETS/game/20.png) center no-repeat
         
   .ds-icon-game-tw5
-      background url(assets/game/21_big.png) center no-repeat
+      background url($ASSETS/game/21_big.png) center no-repeat
   .ds-icon-game-tw5-middle
-      background url(assets/game/21.png) center no-repeat
+      background url($ASSETS/game/21.png) center no-repeat
         
 
       
       
   .ds-icon-notice
-      background url(assets/notice.png) PW 0.6*PW no-repeat
+      background url($ASSETS/notice.png) PW 0.6*PW no-repeat
   .ds-icon-notice-large
-      background url(assets/notice-large.png) center top no-repeat
+      background url($ASSETS/notice-large.png) center top no-repeat
       
   .ds-icon-question-large
-      background url(assets/question-large.png) center top no-repeat 
+      background url($ASSETS/question-large.png) center top no-repeat 
   .ds-icon-text-question
-      background url(assets/text-question.png) right center no-repeat 
+      background url($ASSETS/text-question.png) right center no-repeat 
       padding-right .2rem
 
   .ds-icon-user
-    background url(assets/user.png) PW center no-repeat
+    background url($ASSETS/user.png) PW center no-repeat
   .ds-icon-pwd
-    background url(assets/pwd.png) PW center no-repeat
+    background url($ASSETS/pwd.png) PW center no-repeat
   .ds-icon-edit
-    background url(assets/edit.png) PW center no-repeat
+    background url($ASSETS/edit.png) PW center no-repeat
   .ds-icon-code
-    background url(assets/code.png) center no-repeat
+    background url($ASSETS/code.png) center no-repeat
   .ds-icon-success
-    background url(assets/success.png) left top no-repeat
+    background url($ASSETS/success.png) left top no-repeat
   .ds-icon-success-large
-    background url(assets/success-large.png) center top no-repeat
+    background url($ASSETS/success-large.png) center top no-repeat
   .ds-icon-logo-middle
-    background url(assets/logo-middle.png) center top no-repeat 
+    background url($ASSETS/logo-middle.png) center top no-repeat 
   .ds-icon-pot
-    background url(assets/pot.png) center top no-repeat
+    background url($ASSETS/pot.png) center top no-repeat
   
 
   .ds-icon-home
-    background url(assets/home.png) center center no-repeat
+    background url($ASSETS/home.png) center center no-repeat
   .ds-icon-home-middle
-    background url(assets/home-middle.png) center center no-repeat
+    background url($ASSETS/home-middle.png) center center no-repeat
 
   .ds-icon-game
-    background url(assets/game.png) center center no-repeat
+    background url($ASSETS/game.png) center center no-repeat
   .ds-icon-game-middle
-    background url(assets/game-middle.png) center center no-repeat
+    background url($ASSETS/game-middle.png) center center no-repeat
   .ds-icon-game-small
-    background url(assets/game-small.png) .3rem center no-repeat
+    background url($ASSETS/game-small.png) .3rem center no-repeat
 
   .ds-icon-me
-    background url(assets/me.png) center center no-repeat
+    background url($ASSETS/me.png) center center no-repeat
   .ds-icon-me-middle
-    background url(assets/me-middle.png) center center no-repeat
+    background url($ASSETS/me-middle.png) center center no-repeat
   .ds-icon-me-small
-    background url(assets/me-small.png) .3rem center no-repeat
+    background url($ASSETS/me-small.png) .3rem center no-repeat
 
   .ds-icon-group
-    background url(assets/group.png) center center no-repeat
+    background url($ASSETS/group.png) center center no-repeat
   .ds-icon-group-middle
-    background url(assets/group-middle.png) center center no-repeat
+    background url($ASSETS/group-middle.png) center center no-repeat
   .ds-icon-group-small
-    background url(assets/group-small.png) .3rem center no-repeat
+    background url($ASSETS/group-small.png) .3rem center no-repeat
 
   .ds-icon-record
-    background url(assets/record.png) center center no-repeat
+    background url($ASSETS/record.png) center center no-repeat
   .ds-icon-record-middle
-    background url(assets/record-middle.png) center center no-repeat
+    background url($ASSETS/record-middle.png) center center no-repeat
   .ds-icon-record-small
-    background url(assets/record-small.png) .3rem center no-repeat
+    background url($ASSETS/record-small.png) .3rem center no-repeat
   
 
   .ds-icon-gift
-    background url(assets/gift.png) center center no-repeat
+    background url($ASSETS/gift.png) center center no-repeat
   .ds-icon-gift-middle
-    background url(assets/gift-middle.png) center center no-repeat
+    background url($ASSETS/gift-middle.png) center center no-repeat
   .ds-icon-gift-small
-    background url(assets/gift-small.png) .3rem center no-repeat
+    background url($ASSETS/gift-small.png) .3rem center no-repeat
     
   .ds-icon-help
-    background url(assets/help.png) center center no-repeat
+    background url($ASSETS/help.png) center center no-repeat
   .ds-icon-help-middle
-    background url(assets/help-middle.png) center center no-repeat
+    background url($ASSETS/help-middle.png) center center no-repeat
   .ds-icon-help-small
-    background url(assets/help-small.png) .3rem center no-repeat
+    background url($ASSETS/help-small.png) .3rem center no-repeat
     
   .ds-icon-download
-    background url(assets/download.png) center center no-repeat
+    background url($ASSETS/download.png) center center no-repeat
   .ds-icon-download-middle
-    background url(assets/download-middle.png) center center no-repeat
+    background url($ASSETS/download-middle.png) center center no-repeat
 
   .ds-icon-chat
-    background url(assets/chat.png) center center no-repeat
+    background url($ASSETS/chat.png) center center no-repeat
   .ds-icon-chat-middle
-    background url(assets/chat-middle.png) center center no-repeat
+    background url($ASSETS/chat-middle.png) center center no-repeat
     &.disabled
-      background url(assets/chat-middle-disabled.png) center center no-repeat
+      background url($ASSETS/chat-middle-disabled.png) center center no-repeat
     
   .ds-icon-item-middle
-    background url(assets/item-middle.png) left center no-repeat
+    background url($ASSETS/item-middle.png) left center no-repeat
   .ds-icon-item
-    background url(assets/item.png) left center no-repeat
+    background url($ASSETS/item.png) left center no-repeat
 
   .ds-icon-m
-    background url(assets/m.png) left center no-repeat
+    background url($ASSETS/m.png) left center no-repeat
 
   .ds-icon-money
-    background url(assets/$.png) left center no-repeat
+    background url($ASSETS/$.png) left center no-repeat
 
   .ds-icon-free
-    background url(assets/$-red.png) left center no-repeat
+    background url($ASSETS/$-red.png) left center no-repeat
   
   .ds-icon-add-item
-    background url(assets/add-item.png) center no-repeat
+    background url($ASSETS/add-item.png) center no-repeat
   
   .ds-icon-clock
-    background url(assets/clock.png) left center no-repeat
+    background url($ASSETS/clock.png) left center no-repeat
     
   .ds-icon-polyline
-    background url(assets/polyline.png) .08rem center no-repeat
+    background url($ASSETS/polyline.png) .08rem center no-repeat
   
   // 115
   .ds-icon-G115-1
-    background url(assets/qiu01.png) center no-repeat
+    background url($ASSETS/qiu01.png) center no-repeat
   .ds-icon-G115-2
-    background url(assets/qiu02.png) center no-repeat
+    background url($ASSETS/qiu02.png) center no-repeat
   .ds-icon-G115-3
-    background url(assets/qiu03.png) center no-repeat
+    background url($ASSETS/qiu03.png) center no-repeat
   .ds-icon-G115-4
-    background url(assets/qiu04.png) center no-repeat
+    background url($ASSETS/qiu04.png) center no-repeat
   .ds-icon-G115-5
-    background url(assets/qiu05.png) center no-repeat
+    background url($ASSETS/qiu05.png) center no-repeat
 
   // PK10
   .ds-icon-PK10
-    background url(assets/car_gray.png) center no-repeat
+    background url($ASSETS/car_gray.png) center no-repeat
     &:hover
-      background url(assets/car_blue.png) center no-repeat
+      background url($ASSETS/car_blue.png) center no-repeat
     &.selected
-      background url(assets/car_red.png) center no-repeat
+      background url($ASSETS/car_red.png) center no-repeat
   .ds-icon-PK10-1
-    background url(assets/car_colour01.png) center no-repeat
+    background url($ASSETS/car_colour01.png) center no-repeat
   .ds-icon-PK10-2
-    background url(assets/car_colour02.png) center no-repeat
+    background url($ASSETS/car_colour02.png) center no-repeat
   .ds-icon-PK10-3
-    background url(assets/car_colour03.png) center no-repeat
+    background url($ASSETS/car_colour03.png) center no-repeat
   .ds-icon-PK10-4
-    background url(assets/car_colour02.png) center no-repeat
+    background url($ASSETS/car_colour02.png) center no-repeat
   .ds-icon-PK10-5
-    background url(assets/car_colour01.png) center no-repeat
+    background url($ASSETS/car_colour01.png) center no-repeat
   
   // Me
   .ds-icon-me-avatar
-    background url(assets/me-avatar.png) center no-repeat
+    background url($ASSETS/me-avatar.png) center no-repeat
   .ds-icon-luckchance
-    background url(assets/luck-chance.png) left no-repeat
+    background url($ASSETS/luck-chance.png) left no-repeat
   
   // Safe
   .ds-icon-greeting
-    background url(assets/greeting.png) left center no-repeat
+    background url($ASSETS/greeting.png) left center no-repeat
     &.on
-      background url(assets/greeting-active.png) left center no-repeat
+      background url($ASSETS/greeting-active.png) left center no-repeat
   .ds-icon-phone
-    background url(assets/phone.png) left center no-repeat
+    background url($ASSETS/phone.png) left center no-repeat
     &.on
-      background url(assets/phone-active.png) left center no-repeat
+      background url($ASSETS/phone-active.png) left center no-repeat
   .ds-icon-email
-    background url(assets/email.png) left center no-repeat
+    background url($ASSETS/email.png) left center no-repeat
     &.on
-      background url(assets/email-active.png) left center no-repeat
+      background url($ASSETS/email-active.png) left center no-repeat
   .ds-icon-safe
-    background url(assets/safe.png) left center no-repeat
+    background url($ASSETS/safe.png) left center no-repeat
     &.on
-      background url(assets/safe-active.png) left center no-repeat
+      background url($ASSETS/safe-active.png) left center no-repeat
   
   .ds-icon-lock
-    background url(assets/lock.png) left center no-repeat
+    background url($ASSETS/lock.png) left center no-repeat
   .ds-icon-nickname
-    background url(assets/nickname.png) left center no-repeat
+    background url($ASSETS/nickname.png) left center no-repeat
   .ds-icon-safecheck
-    background url(assets/safe-check.png) left center no-repeat
+    background url($ASSETS/safe-check.png) left center no-repeat
   
   .ds-icon-set
     padding-right PWX
     color GREEN
-    background url(assets/set.png) right center no-repeat
+    background url($ASSETS/set.png) right center no-repeat
   .ds-icon-unset
     padding-right PWX
     color DANGER
-    background url(assets/unset.png) right center no-repeat
+    background url($ASSETS/unset.png) right center no-repeat
   
   // bankCard
   .ds-icon-bank-card
@@ -838,77 +874,77 @@ input
         background-color rgba(26, 159, 243, .2)
     
     &.dy
-      background url(assets/bankcard/dy.png) #fff .1rem center no-repeat
+      background url($ASSETS/bankcard/dy.png) #fff .1rem center no-repeat
     &.bjnshyh
-      background url(assets/bankcard/bjnshyh.png) #fff .1rem center no-repeat
+      background url($ASSETS/bankcard/bjnshyh.png) #fff .1rem center no-repeat
     &.shhnshyh
-      background url(assets/bankcard/shhnshyh.png) #fff .1rem center no-repeat
+      background url($ASSETS/bankcard/shhnshyh.png) #fff .1rem center no-repeat
     
 
     &.alipay
-      background url(assets/bankcard/alipay.png) #fff .1rem center no-repeat
+      background url($ASSETS/bankcard/alipay.png) #fff .1rem center no-repeat
     
     &.wepay
-      background url(assets/bankcard/wepay.png) #fff .1rem center no-repeat
+      background url($ASSETS/bankcard/wepay.png) #fff .1rem center no-repeat
 
     &.zggsh
-      background url(assets/bankcard/zggsh.png) right center no-repeat
+      background url($ASSETS/bankcard/zggsh.png) right center no-repeat
     
     &.zhshyh
-      background url(assets/bankcard/zhshyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zhshyh.png) right center no-repeat
     
     &.zgnyyh
-      background url(assets/bankcard/zgnyyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zgnyyh.png) right center no-repeat
     
     &.zgjshyh
-      background url(assets/bankcard/zgjshyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zgjshyh.png) right center no-repeat
     
     &.jtyh
-      background url(assets/bankcard/jtyh.png) right center no-repeat
+      background url($ASSETS/bankcard/jtyh.png) right center no-repeat
     
     &.xyyh
-      background url(assets/bankcard/xyyh.png) right center no-repeat
+      background url($ASSETS/bankcard/xyyh.png) right center no-repeat
     
     &.zgmshyh
-      background url(assets/bankcard/zgmshyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zgmshyh.png) right center no-repeat
     
     &.zgyh
-      background url(assets/bankcard/zgyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zgyh.png) right center no-repeat
     
     &.payh
-      background url(assets/bankcard/payh.png) right center no-repeat
+      background url($ASSETS/bankcard/payh.png) right center no-repeat
     
     &.zhxyh
-      background url(assets/bankcard/zhxyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zhxyh.png) right center no-repeat
     
     &.gfyh
-      background url(assets/bankcard/gfyh.png) right center no-repeat
+      background url($ASSETS/bankcard/gfyh.png) right center no-repeat
     
     &.pfyh
-      background url(assets/bankcard/pfyh.png) right center no-repeat
+      background url($ASSETS/bankcard/pfyh.png) right center no-repeat
     
     &.zgyzhchxyh
-      background url(assets/bankcard/zgyzhchxyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zgyzhchxyh.png) right center no-repeat
     
     &.shzhfzhyh
-      background url(assets/bankcard/shzhfzhyh.png) right center no-repeat
+      background url($ASSETS/bankcard/shzhfzhyh.png) right center no-repeat
     
     &.bjyh
-      background url(assets/bankcard/bjyh.png) right center no-repeat
+      background url($ASSETS/bankcard/bjyh.png) right center no-repeat
     
     &.zggdyh
-      background url(assets/bankcard/zggdyh.png) right center no-repeat
+      background url($ASSETS/bankcard/zggdyh.png) right center no-repeat
     
     &.shhyh
-      background url(assets/bankcard/shhyh.png) right center no-repeat
+      background url($ASSETS/bankcard/shhyh.png) right center no-repeat
     
     &.hxyh
-      background url(assets/bankcard/hxyh.png) right center no-repeat
+      background url($ASSETS/bankcard/hxyh.png) right center no-repeat
       
 
   // me/Bank.vue
   .ds-icon-right-arrow
-    background url(assets/right-arrow.png) right center no-repeat
+    background url($ASSETS/right-arrow.png) right center no-repeat
     
   // QR
   .ds-icon-QR
@@ -917,20 +953,20 @@ input
   
   // Stock
   .ds-icon-stock-wait
-    background url(assets/stock-wait.png) right top no-repeat   
+    background url($ASSETS/stock-wait.png) right top no-repeat   
   .ds-icon-stock-modified
-    background url(assets/stock-modified.png) right top no-repeat   
+    background url($ASSETS/stock-modified.png) right top no-repeat   
   .ds-icon-stock-done
-    background url(assets/stock-done.png) right top no-repeat   
+    background url($ASSETS/stock-done.png) right top no-repeat   
   .ds-icon-stock-paid
-    background url(assets/stock-paid.png) right top no-repeat   
+    background url($ASSETS/stock-paid.png) right top no-repeat   
   .ds-icon-stock-paid-out
-    background url(assets/stock-paid-out.png) right top no-repeat
+    background url($ASSETS/stock-paid-out.png) right top no-repeat
   .ds-icon-stock-refused
-    background url(assets/stock-refused.png) right top no-repeat
+    background url($ASSETS/stock-refused.png) right top no-repeat
   
   .ds-icon-redpocket
-    background url(assets/redpocket.jpg) center top no-repeat
+    background url($ASSETS/redpocket.jpg) center top no-repeat
     
     .title
       font-size 18px
@@ -944,37 +980,37 @@ input
       vertical-align sub
   
   .ds-icon-activity-1
-    background url('assets/activity/activity1.jpg') center top no-repeat
+    background url($ASSETS/activity/activity1.jpg) center top no-repeat
     &.banner
-      background url('assets/activity/banner1.jpg') center top no-repeat
+      background url($ASSETS/activity/banner1.jpg) center top no-repeat
       
   .ds-icon-activity-2
-    background url('assets/activity/activity2.jpg') center top no-repeat
+    background url($ASSETS/activity/activity2.jpg) center top no-repeat
     &.banner
-      background url('assets/activity/banner2.jpg') center top no-repeat
+      background url($ASSETS/activity/banner2.jpg) center top no-repeat
       
   .ds-icon-activity-3
-    background url('assets/activity/activity3.jpg') center top no-repeat
+    background url($ASSETS/activity/activity3.jpg) center top no-repeat
     &.banner
-      background url('assets/activity/banner3.jpg') center top no-repeat
+      background url($ASSETS/activity/banner3.jpg) center top no-repeat
       
   .ds-icon-activity-4
-    background url('assets/activity/activity4.jpg') center top no-repeat
+    background url($ASSETS/activity/activity4.jpg) center top no-repeat
     &.banner
-      background url('assets/activity/banner4.jpg') center top no-repeat
+      background url($ASSETS/activity/banner4.jpg) center top no-repeat
       
   .ds-icon-activity-5
-    background url('assets/activity/activity5.jpg') center top no-repeat
+    background url($ASSETS/activity/activity5.jpg) center top no-repeat
     &.banner
-      background url('assets/activity/banner5.jpg') center top no-repeat
+      background url($ASSETS/activity/banner5.jpg) center top no-repeat
   
   .ds-icon-activity-ticket
-    background url('assets/activity/youhui.png') left center no-repeat
+    background url($ASSETS/activity/youhui.png) left center no-repeat
     &.small
       position relative
       height .58rem
       padding-left .7rem
-      background url('assets/activity/youhui_small.png')left center no-repeat
+      background url($ASSETS/activity/youhui_small.png)left center no-repeat
       &:before
         position absolute
         left 0
@@ -986,11 +1022,11 @@ input
         z-index -1
   
   .ds-icon-activity-coin
-    background url('assets/activity/jinbi.png')  left center no-repeat
+    background url($ASSETS/activity/jinbi.png)  left center no-repeat
     &.small
       height .58rem
       padding-left .7rem
-      background url('assets/activity/jinbi_small.png') left center no-repeat
+      background url($ASSETS/activity/jinbi_small.png) left center no-repeat
       &:before
         position absolute
         left 0
@@ -1010,24 +1046,24 @@ input
     opacity .7
     &:hover
       opacity 1
-    background url('assets/quanping.png') left center no-repeat
+    background url($ASSETS/quanping.png) left center no-repeat
     &.no
-      background url('assets/noquanping.png') left center no-repeat  
+      background url($ASSETS/noquanping.png) left center no-repeat  
     
   .ds-icon-unfull-screen
-    background url('assets/noquanping.png') left center no-repeat  
+    background url($ASSETS/noquanping.png) left center no-repeat  
     
   .ds-icon-day-model
     width 1.1rem
     display inline-block
     cursor pointer
     text-align center
-    background url('assets/baitian.png') .08rem .22rem no-repeat
+    background url($ASSETS/baitian.png) .08rem.22rem no-repeat
     &.no
-      background url('assets/yewan.png') .08rem .22rem no-repeat 
+      background url($ASSETS/yewan.png) .08rem.22rem no-repeat 
       
   .ds-icon-night-model
-    background url('assets/yewan.png') .03rem .22rem no-repeat 
+    background url($ASSETS/yewan.png) .03rem.22rem no-repeat 
   .switch-box
     margin 0 .15rem 0 .05rem
     .el-switch

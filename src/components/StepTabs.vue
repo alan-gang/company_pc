@@ -81,6 +81,6 @@
       font-size .2rem
       
     .ds-icon-right-arrow
-      background url(../assets/guide/right-arrow-small.png) right center no-repeat
+      background url($CASSETS/guide/right-arrow-small.png) right center no-repeat
       
 </style>
