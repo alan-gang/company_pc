@@ -52,7 +52,8 @@ export default {
                 {id: '5-2-3', title: '全民签到', url: 'ForAll'},
                 {id: '5-2-4', title: '充值送', url: 'ForTopup'},
                 {id: '5-2-5', title: '首提大返利', url: 'ForWithdraw'},
-                {id: '5-2-6', title: '充值送', url: 'ForTopupA'}
+                {id: '5-2-6', title: '充值送', url: 'ForTopupA'},
+                {id: '5-2-7', title: '最新活动', url: 'ForOther'}
               ]
             }
           ]
@@ -142,10 +143,10 @@ export default {
                 {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gameid: 16},
                 {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 2},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4},
-                {class: 'ds-icon-game-bjssc', id: '1-1-5', menuid: '', title: '北京时时彩', gameid: 100},
-                {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '', title: '韩国1.5分彩', gameid: 101},
-                {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '', title: '东京1.5分彩', gameid: 102},
-                {class: 'ds-icon-game-tw5', id: '1-1-8', menuid: '', title: '台湾5分彩', gameid: 103}
+                {class: 'ds-icon-game-bjssc', id: '1-1-5', menuid: '73', title: '北京时时彩', gameid: 17},
+                {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '74', title: '韩国1.5分彩', gameid: 18},
+                {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '东京1.5分彩', gameid: 19},
+                {class: 'ds-icon-game-tw5', id: '1-1-8', menuid: '76', title: '台湾5分彩', gameid: 20}
                 // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
                 // {class: 'ds-icon-game-chq', menuid: '12', title: '欢乐分分彩', showInHome: true, liked: true}
               ]
@@ -602,6 +603,7 @@ export default {
     // '$route': 'openRoute'
   },
   mounted () {
+    // 登录isTop = 1
     this.setPages(this._getPages())
   },
   methods: {
@@ -650,6 +652,7 @@ export default {
               // pre activated
               prev: 0,
               star: false,
+              defaultSize: '',
               size: '',
               url: g.url || '',
               href: i.href || ('/' + m.url + '/' + i.id),
@@ -670,13 +673,13 @@ export default {
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
-      if (this.tabs.length < this.maxPages || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
-      else {
-        this.$modal.warn({
-          content: '最大窗口打开数：' + this.maxPages,
-          btn: ['确定']
-        })
-      }
+      if (this.tabs.length < this.maxPages || this.loop || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
+      // else {
+      //   this.$modal.warn({
+      //     content: '最大窗口打开数：' + this.maxPages,
+      //     btn: ['确定']
+      //   })
+      // }
     },
     closeTab (url, nurl) {
       this.updatePage(url, {opened: false, position: null})

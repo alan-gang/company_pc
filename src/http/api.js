@@ -516,7 +516,7 @@ Object.keys(API).forEach((key) => {
       // (this._api || '') + this['_' + key]
     },
     set: function (v) {
-      this['_' + key] = v
+      this['_' + key] = v.replace(this.api, '')
     }
   })
   API[key] = value

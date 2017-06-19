@@ -74,6 +74,7 @@ import ForAll from './activity/ForAll'
 import ForTopup from './activity/ForTopup'
 import ForTopupA from './activity/ForTopupA'
 import ForWithdraw from './activity/ForWithdraw'
+import ForOther from './activity/ForOther'
 
 export default {
   components: {
@@ -129,7 +130,8 @@ export default {
     ForAll,
     ForTopup,
     ForTopupA,
-    ForWithdraw
+    ForWithdraw,
+    ForOther
   },
   name: 'Pages',
   mixins: [base],

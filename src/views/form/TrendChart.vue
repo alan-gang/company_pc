@@ -5,12 +5,12 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    el-row.game-info.ds-icon-item
+    el-row.game-info(:class="[ game.class + '-middle' ]" style="background-position: .2rem center;")
 
         el-col.left(:span="4" style="min-width: 1.8rem")
           .item 
-            el-select(v-model="gameid" style="width: 1.5rem")
-              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
+            el-select(v-model="game" style="width: 1.5rem")
+              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U")
         el-col.right(:span="20")
           .item 
             .ds-checkbox-label(:class="{ active: polyline }" @click=" polyline = !polyline ")
@@ -76,7 +76,7 @@
 <script>
 import api from '../../http/api'
 import { dateTimeFormat, dateFormat } from '../../util/Date'
-// import store from '../../store'
+import store from '../../store'
 export default {
   data () {
     return {
@@ -89,7 +89,7 @@ export default {
       lyd: dateTimeFormat(new Date().getTime() - 3600 * 24 * 2 * 100),
       resizable: false,
       gameList: [],
-      gameid: '',
+      game: {},
       polyline: true,
       shown: true,
       pickerOptions: {
@@ -159,6 +159,9 @@ export default {
     }
   },
   computed: {
+    gameid () {
+      return this.game.lotteryId
+    }
     // Cdata () {
     //   return this.myData.map(c => {
     //     return {
@@ -224,6 +227,9 @@ export default {
       this.$http.get(api.getLotterys).then(({data}) => {
         // success
         if (data.success === 1) {
+          data.lotteryList.forEach(d => {
+            d.class = (store.state.pages.find(p => p.gameid === d.lotteryId) || {}).class
+          })
           this.gameList = data.lotteryList
         }
       }, (rep) => {

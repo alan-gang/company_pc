@@ -10,8 +10,8 @@
       
       .form
 
-        div(style="text-align: center")
-          .ds-button-group
+        div(style="text-align: center; min-height: .2rem" )
+          .ds-button-group(v-if="me.role > 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
         label.item 契约生效时间范围 

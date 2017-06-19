@@ -99,11 +99,23 @@ export default {
     },
     order () {
       if (this.n > (this.P.maxCount || 1) || this.n < (this.P.minCount || 0)) {
-        return this.$modal.warn({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注，最少投注量 <span class="text-danger">' + this.P.minCount + '</span> 注</div>',
-          btn: ['确定'],
-          target: this.$el.parentNode
-        })
+        if (this.n > (this.P.maxCount || 1)) {
+          return this.$modal.warn({
+            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
+            btn: ['确定'],
+            target: this.$el.parentNode
+          })
+        } else {
+          return this.$modal.question({
+            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，奖金受限',
+            btn: ['继续购买', '再来几注'],
+            target: this.$el.parentNode,
+            O: this,
+            ok () {
+              this.$emit('order')
+            }
+          })
+        }
       }
       this.$emit('order')
     }

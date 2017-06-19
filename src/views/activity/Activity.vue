@@ -29,8 +29,9 @@
           {href: '/activity/5-2-3', src: '/static/activity/banner3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'},
           {href: '/activity/5-2-4', src: '/static/activity/banner4.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
           {href: '/activity/5-2-5', src: '/static/activity/banner5.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
-          {href: '/activity/5-2-6', src: '/static/activity/banner4.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
-          {href: '/activity/5-2-6', src: '/static/activity/banner4.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'}
+          {href: '/activity/5-2-5', src: '/static/activity/banner4.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
+          {href: '/activity/5-2-7', src: '/static/activity/banner7.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
+          {href: '/activity/5-2-7', src: '/static/activity/banner7.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'}
         ],
         activities: [
         ]
