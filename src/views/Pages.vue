@@ -363,8 +363,8 @@ export default {
       this.updatePage(page.id, {size: 'minus'}, page)
       this.prehref && this.$router.push(this.prehref)
     },
-    close (url) {
-      this.$emit('close-tab', url)
+    close (url, nurl) {
+      this.$emit('close-tab', url, nurl)
     },
     star (page) {
       if (!page.star) this.addPrefence(page)

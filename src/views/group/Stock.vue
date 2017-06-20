@@ -91,7 +91,7 @@
           el-table-column(prop="totalProfit" label="总盈亏" width="140" )
           el-table-column(prop="shareBook" label="理论分红金额" width="140" )
           el-table-column(prop="shareAmount" label="分红金额" width="140" )
-          el-table-column(label="奖金类型" align="center" width="80")
+          // el-table-column(label="奖金类型" align="center" width="80")
             template(scope="scope")
               span {{ ['团队分红', '关联分红'][scope.row.bonusType - 1]}}
 

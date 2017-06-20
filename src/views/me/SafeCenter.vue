@@ -253,6 +253,11 @@
               .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }")
                 .ds-checkbox
                 手机验证
+
+              .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }")
+                .ds-checkbox
+                畅博安全认证
+
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
               //  安全问题验证

@@ -685,12 +685,12 @@ export default {
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
-        if (this.tabs.length === 0) {
+        if (nurl) {
+          this.openTab(nurl)
+        } else if (this.tabs.length === 0) {
           setTimeout(() => {
             this.$router.push('/')
           }, 100)
-        } else if (nurl) {
-          this.openTab(nurl)
         } else this.$router.push(this.prev.href)
       })
     },
