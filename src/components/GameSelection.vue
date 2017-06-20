@@ -8,7 +8,9 @@
         p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
         el-row
           el-col(:span="20")
-            el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
+            .el-textarea
+              textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
+            // el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
           el-col.btn-groups(:span="4")
             .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
             br
@@ -389,10 +391,11 @@
       //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       // },
       // C2
-      V () {
+      V (n, o) {
+        console.log(o, '=>', n)
         setTimeout(() => {
           this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
-        })
+        }, 0)
       },
       value () {
         this.removeRepeat()
