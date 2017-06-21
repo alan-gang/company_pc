@@ -168,10 +168,17 @@ let Game = {
 }
 
 let Me = {
+  // 开启关闭
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=swithGoogAuth& verifyCode=123456&type=1
+  switchGoogleAuth: '/person/accountSecur.do?method=swithGoogAuth',
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=createAuthQr
+  createCBqr: '/person/accountSecur.do?method=createAuthQr',
+  // 校验安全验证二维码
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=checkAuthKey&verifyCode=905420
+  checkGoogleAuth: '/person/accountSecur.do?method=checkAuthKey',
   // 显示账号信息
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=acctSecureInfo
   acctSecureInfo: '/person/accountSecur.do?method=acctSecureInfo',
-
   // 修改登录密码
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000
   changLoginPwd: '/person/accountSecur.do?method=changLoginPwd',

@@ -108,7 +108,7 @@ export default {
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
-      radios: ['通过邮箱找回', '通过手机找回', '通过安全问题找回'],
+      radios: ['邮箱找回', '手机找回', '安全问题找回', '畅博安全找回'],
       finish: false,
       time: 5,
       newpwd: '',

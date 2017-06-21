@@ -6,6 +6,19 @@
     <!-- <link href="favicon.ico" type="image/x-icon"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+    <style>
+    body #nprogress .bar {
+      background: rgb(143, 255, 199)
+    }
+    body #nprogress .spinner {
+      border-top-color: rgb(143, 255, 199);
+      border-left-color: rgb(143, 255, 199)
+    }
+    </style>
+
+
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"
     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
@@ -13,6 +26,9 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script> -->
   </head> 
   <body>
+    <script>
+      NProgress.start()
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     
@@ -610,7 +626,7 @@
          // document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
          document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")
     </script>
-
+     
 
     <!-- 主要逻辑代码 或切换到main.all.min.js-->
     <!-- <script type="text/javascript" src="/static/chat/js/lib.js"></script>

@@ -1,7 +1,9 @@
 <template lang="jade">
 
   div#app(:class=" [state.user.model, 'app'] ")
-
+    
+    // vue-progress-bar
+    
     // header
     transition(name="slide-up" appear=true)
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
@@ -605,6 +607,7 @@ export default {
   mounted () {
     // 登录isTop = 1
     this.setPages(this._getPages())
+    window.NProgress.done()
   },
   methods: {
     // openRoute ({path}) {

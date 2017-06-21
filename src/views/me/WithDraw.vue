@@ -12,10 +12,19 @@
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
 
       .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
-        p 资金密码：
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
-          .buttons(style="margin-left: .70rem; padding: .2rem 0")
-            .ds-button.primary.large(@click="checkSecurityPwd") 确认
+        p 资金密码： &nbsp;&nbsp;
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+        p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+            span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? _sendMail : _sendSms "  v-bind:class="{ disabled: (this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) > 0") 
+              span(v-if="!((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
+              span.text-black(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
+                span.text-999 秒后可重新发送
+        p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+
+        .buttons(style="margin-left: .85rem; padding: .2rem 0")
+          .ds-button.primary.large(@click="checkNow") 确认
       
 
       .bank-form(v-if="tabIndex === 1 && stepIndex === 1")
@@ -120,8 +129,10 @@ import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
 import { digitUppercase } from '../../util/Number'
+import xhr from 'components/xhr'
 // import util from '../../util'
 export default {
+  mixins: [xhr],
   data () {
     return {
       me: store.state.user,
@@ -141,7 +152,8 @@ export default {
       currentPage: 1,
       data: [{}],
       S: ['未处理', '失败', '成功'],
-      V: ['未审核', '审核通过', '审核失败']
+      V: ['未审核', '审核通过', '审核失败'],
+      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
     }
   },
   computed: {
@@ -194,9 +206,17 @@ export default {
       }).catch(rpe => {
       })
     },
+    checkNow () {
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '安全验证码！'})
+      this.checkSecurityPwd()
+    },
     checkSecurityPwd () {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
+          if (this.me.safeCheck) {
+            return this.checkSafeCode()
+          }
           this.stepIndex++
           this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
           this.__setCall({fn: '__getUserFund'})
@@ -206,6 +226,20 @@ export default {
         }
       }).catch(rep => {
         this.$message.error({target: this.$el, message: '资金密码验证失败！'})
+      })
+    },
+    checkSafeCode () {
+      this.$http.post(this.checkSafeCodeUrl[this.me.safeCheck], {verifyCode: this.safeCheckCode}).then(({data}) => {
+        if (data.success === 1) {
+          this.stepIndex++
+          this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
+          this.__setCall({fn: '__getUserFund'})
+          this.getUserBankCards()
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '安全验证失败！'})
       })
     },
     getUserBankCards () {

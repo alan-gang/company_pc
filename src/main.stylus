@@ -833,6 +833,9 @@ input
   .ds-icon-safecheck
     background url($ASSETS/safe-check.png) left center no-repeat
   
+  .ds-icon-cbsafe
+    background url($ASSETS/gray_08.png) left center no-repeat
+  
   .ds-icon-set
     padding-right PWX
     color GREEN

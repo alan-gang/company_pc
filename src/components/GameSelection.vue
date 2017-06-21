@@ -8,9 +8,9 @@
         p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
         el-row
           el-col(:span="20")
-            .el-textarea
-              textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
-            // el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
+            // .el-textarea
+            //   textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
+            el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
           el-col.btn-groups(:span="4")
             .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
             br
@@ -378,11 +378,24 @@
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
         }
+      },
+      test () {
+        return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      },
+      testV () {
+        return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length
+      },
+      // 无效号码提醒
+      hasUnable () {
+        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== this.n
       }
     },
     watch: {
       n () {
-        this.$emit('n-change', this.n)
+        this.$emit('n-change', this.n, this.hasUnable)
+      },
+      hasUnable () {
+        this.$emit('n-change', this.n, this.hasUnable)
       },
       // 传递value值到父
       // value () {
@@ -395,6 +408,7 @@
         console.log(o, '=>', n)
         setTimeout(() => {
           this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+          this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
       },
       value () {

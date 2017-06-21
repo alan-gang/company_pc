@@ -149,7 +149,8 @@ export default {
       overtime: false,
       lucknumbersTimeout: 0,
       allLuckyNumbers: [],
-      notify: null
+      notify: null,
+      hasUnable: false
     }
   },
   computed: {
@@ -445,8 +446,9 @@ export default {
       this.follow.pay = 0
     },
     // 注数
-    Nchange (n) {
+    Nchange (n, hasUnable) {
       this.n = n
+      this.hasUnable = hasUnable
     },
     // 当前注的号码
     setNsns (nsns, nsnsTitle) {
@@ -475,22 +477,49 @@ export default {
     //   this.order()
     // },
     order () {
-      this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: this.point * 100 + '%', selected: false}, {
-        methodid: parseInt(this.methodid), // 玩法编号
-        type: parseInt(this.methodidtype),
-        pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
-        codes: this._getCodes(), // 投注内容,不同位的用竖线“|”连接，相同位选多个号码用“,”连接.
-        nsnsTitle: this.nsnsTitle,
-        count: this.n, // 注数
-        times: this.times, // 倍数
-        money: this.pay, // 金额
-        mode: this.currency.model, // 1-元，2-角，3-分，4-厘
-        userpoint: this.point // 用户选择的返点
-      }))
-      this.__setCall({fn: '__clearSelectedNumbers'})
-      setTimeout(() => {
-        this.__setCall({fn: '__clearValue'})
-      }, 0)
+      if (this.hasUnable) {
+        return this.$modal.warn({
+          content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">您输入了<span class="text-danger">无效号码</span>，系统已自动删除无效号码</div>',
+          btn: ['确定', '取消'],
+          target: this.$el,
+          ok () {
+            this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+              methodid: parseInt(this.methodid), // 玩法编号
+              type: parseInt(this.methodidtype),
+              pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
+              codes: this._getCodes(), // 投注内容,不同位的用竖线“|”连接，相同位选多个号码用“,”连接.
+              nsnsTitle: this.nsnsTitle,
+              count: this.n, // 注数
+              times: this.times, // 倍数
+              money: this.pay, // 金额
+              mode: this.currency.model, // 1-元，2-角，3-分，4-厘
+              userpoint: this.point // 用户选择的返点
+            }))
+            this.__setCall({fn: '__clearSelectedNumbers'})
+            setTimeout(() => {
+              this.__setCall({fn: '__clearValue'})
+            }, 0)
+          },
+          O: this
+        })
+      } else {
+        this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+          methodid: parseInt(this.methodid), // 玩法编号
+          type: parseInt(this.methodidtype),
+          pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
+          codes: this._getCodes(), // 投注内容,不同位的用竖线“|”连接，相同位选多个号码用“,”连接.
+          nsnsTitle: this.nsnsTitle,
+          count: this.n, // 注数
+          times: this.times, // 倍数
+          money: this.pay, // 金额
+          mode: this.currency.model, // 1-元，2-角，3-分，4-厘
+          userpoint: this.point // 用户选择的返点
+        }))
+        this.__setCall({fn: '__clearSelectedNumbers'})
+        setTimeout(() => {
+          this.__setCall({fn: '__clearValue'})
+        }, 0)
+      }
       // after push need initial the selected numbers
     },
     _getOrderItems () {

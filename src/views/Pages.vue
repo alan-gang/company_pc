@@ -335,6 +335,9 @@ export default {
       return vm.openAPage(to.params.url)
     })
   },
+  mounted () {
+    console.log('end??????????????')
+  },
   beforeDestroy () {
     this.pages.forEach(t => this.updatePage('', {size: 'minus'}, t))
   },
@@ -543,8 +546,8 @@ export default {
           width += dx
           el.style.width = width + 'px'
           if (width > 800) el.removeAttribute('w')
-          if (width < 800) el.setAttribute('w', 'w', '800')
-          if (width < 700) el.setAttribute('w', 'w', '700')
+          if (width < 800) el.setAttribute('w', '800')
+          if (width < 700) el.setAttribute('w', '700')
           sx = evt.clientX
         })
         util.addEvent('mouseup', targetX, (evt) => {
