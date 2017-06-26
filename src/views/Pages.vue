@@ -75,6 +75,8 @@ import ForTopup from './activity/ForTopup'
 import ForTopupA from './activity/ForTopupA'
 import ForWithdraw from './activity/ForWithdraw'
 import ForOther from './activity/ForOther'
+// 下载
+import Download from './download/Download'
 
 export default {
   components: {
@@ -131,7 +133,9 @@ export default {
     ForTopup,
     ForTopupA,
     ForWithdraw,
-    ForOther
+    ForOther,
+    // 下载
+    Download
   },
   name: 'Pages',
   mixins: [base],

@@ -684,7 +684,8 @@ input
   .ds-icon-success-large
     background url($ASSETS/success-large.png) center top no-repeat
   .ds-icon-logo-middle
-    background url($ASSETS/logo-middle.png) center top no-repeat 
+    // background url($ASSETS/logo-middle.png) center top no-repeat 
+    background url($ASSETS/cb_logo.png) center top no-repeat 
   .ds-icon-pot
     background url($ASSETS/pot.png) center top no-repeat
   
@@ -1067,6 +1068,51 @@ input
       
   .ds-icon-night-model
     background url($ASSETS/yewan.png) .03rem.22rem no-repeat 
+  
+  // download
+  .ds-icon-download-logo
+    background url($ASSETS/download/logo01.png) .3rem .3rem no-repeat 
+  .ds-icon-download-cbsafe
+    background url($ASSETS/download/logo02.png) .3rem .3rem no-repeat 
+  .ds-icon-download-chat
+    background url($ASSETS/download/logo03.png) .3rem .3rem no-repeat
+  
+  .ds-icon-download-ios
+    background url($ASSETS/download/ios.png) .3rem center no-repeat
+    position relative
+    .after
+      radius()
+      content ''
+      position absolute
+      top 0
+      left 0 
+      right 0 
+      bottom 0
+      background url($ASSETS/download/ios.png) .3rem center no-repeat
+      
+    .before
+      radius()
+      content ''
+      position absolute
+      top 0
+      left 0 
+      right 0 
+      bottom 0
+      bg-gradient(180deg, #515151, #6a6a6a)
+      
+      
+  .ds-icon-download-android
+    background url($ASSETS/download/android.png) #a3c435 .3rem center no-repeat
+    .after
+    .before
+      display none
+    
+  .ds-icon-download-windows
+    background url($ASSETS/download/windows.png) .3rem center no-repeat
+    .after
+    .before
+      display none
+
   .switch-box
     margin 0 .15rem 0 .05rem
     .el-switch
@@ -1085,8 +1131,8 @@ input
  *buttons class define
  */
 .buttons
-  .ds-button:first-child
-    margin-right .1rem
+  &>.ds-button:not(:first-child)
+    margin-left .1rem
 
 .ds-button
   display inline-block

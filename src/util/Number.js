@@ -28,7 +28,10 @@ var digitUppercase = function (n) {
         .replace(/(零.)+/g, '零')
         .replace(/^整$/, '零元整')
 }
-
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 module.exports = {
-  digitUppercase
+  digitUppercase,
+  numberWithCommas
 }

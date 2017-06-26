@@ -100,7 +100,9 @@ let Login = {
   getEnableLines: '/login/lineTest.do?method=getEnableLines',
   // 测试线路
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
-  lineTest: '/login/lineTest.do?method=lineTest'
+  lineTest: '/login/lineTest.do?method=lineTest',
+  // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
+  isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth'
 }
 
 let Game = {

@@ -54,13 +54,13 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 390px; height: 145px; top: -1.5rem; padding-top: .3rem; z-index: 0; background-size: 100%")
+    .logo.ds-icon-pot(style="width: auto; width: 607px; height: 204px; top: -2.5rem; padding-top: 1.1rem; z-index: 0; background-size: 100%")
       div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .12rem") 平台奖池累计
-        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotAmount.toFixed(3) }}
-      div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .12rem") 参与人次
-        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
+        p.font-white(style="font-size: .18rem") 平台奖池累计：
+          span.amount.font-gold(style="font-size: .48rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
+      // div(style="padding: 0 .3rem; display: inline-block")
+      //   p.font-white(style="font-size: .12rem") 参与人次
+      //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
       
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
@@ -71,6 +71,7 @@
 import api from '../http/api'
 import LoginTest from '../views/login/LoginTest'
 import { toggleFullScreen } from '../util/Dom'
+import { numberWithCommas } from '../util/Number'
 import util from '../util'
 import store from '../store'
 export default {
@@ -103,7 +104,7 @@ export default {
   mounted () {
     if (this.login) {
       this.pricePot()
-      this.timeout = setInterval(this.pricePot, 5000)
+      this.timeout = setInterval(this.pricePot, 30000)
     }
     this.initShows()
     this.setFarChat()
@@ -131,6 +132,9 @@ export default {
   computed: {
     ML () {
       return this.menus.length
+    },
+    EM () {
+      return numberWithCommas(this.pricePotAmount)
     }
   },
   watch: {
@@ -378,19 +382,21 @@ export default {
   footer
     // height FH
     text-align center
-    bg-gradient(180deg, rgba(255, 255, 255, .1), rgba(0, 0, 0, .1))
+    bg-gradient(180deg, rgba(255, 255, 255, .1) 20%, rgba(0, 0, 0, .1))
     // @media screen and (max-width: 1100px)
       // height 2 * FH
     .logo
       position absolute
-      top -.2rem
+      top 0
       left 50%
       transform translateX(-50%)
       display inline-block
-      width 1rem
-      height .88rem
+      width LGW
+      height LGH
       z-index 1
-      
+    
+    .amount
+      font-gradient(180deg, #fff, #ffd800 60%)
       
   .el-row
     text-align left

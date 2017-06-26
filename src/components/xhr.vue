@@ -148,6 +148,20 @@
           // error
         })
       },
+      _isOpenCbAuth (fn) {
+        this.$http.get(api.isOpenCbAuth).then(({data}) => {
+          // success
+          if (data.success === 1 && data.openCbAuth === '1') {
+            fn && fn()
+            // this.phone_ = data.mobile
+            store.actions.setUser({cbsafe: true})
+          } else {
+            this.$message.warning(data.msg || '您还没有开启畅博安全！')
+          }
+        }, (rep) => {
+          // error
+        })
+      },
       // 发送手机验证码
       _sendSms (fn) {
         this.$http.get(api.sendSms).then(({data}) => {

@@ -1,6 +1,6 @@
 <template lang="jade">
   el-row.amout-bar
-    el-col.left(:span="10")
+    el-col.left(:span="8")
       .ds-button.primary.bold(@click="showFollow" v-if="!show") 追号
       span.follow(v-if="show")
         | 追号总期数 
@@ -10,7 +10,7 @@
 
 
 
-    el-col.right(:span="14")
+    el-col.right(:span="16")
       | 总计 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;&nbsp;总计&nbsp;&nbsp;

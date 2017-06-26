@@ -34,7 +34,8 @@ ARH = .44rem
 // download heights
 DLH = 1rem
 // logo heights
-LGH = 1.23rem
+LGH = .68rem
+LGW = 1.8rem
 // code pic
 CW = .83rem
 CH = .29rem

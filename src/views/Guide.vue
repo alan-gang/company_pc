@@ -192,19 +192,19 @@ export default {
     this.getBankList()
     this.getProvices()
     util.addEvent('resize', window, this.getPos)
-    this.getPos()
+    // this.getPos()
   },
   beforeDestroy () {
     util.removeEvent('resize', window, this.getPos)
   },
   methods: {
     getPos () {
-      if (document.querySelector('footer .icon-button.ds-icon-game-middle')) {
+      if (document.querySelector('footer .icon-button.ds-icon-game-middle').style.display !== 'none') {
         let H = document.querySelector('footer ').offsetHeight
         this.$refs.modal.style.bottom = H / 100 + 'rem'
       } else {
         // this.showGameNow = false
-        this.__closeGuide()
+        if (this.step > 3) this.__closeGuide()
       }
     },
     __guideStep () {

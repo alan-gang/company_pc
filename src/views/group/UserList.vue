@@ -142,17 +142,14 @@
 
             el-table-column(prop="prize" label="最高奖金" width="120" align="right")
 
-            el-table-column(prop="3Day" label="3天投注量" width="200" align="right" v-if="pointType === 'up' ")
-
-
-            el-table-column(prop="7Day" label="30天投注量" width="200" align="right")
+            el-table-column(prop="30Days" label="30天投注量(万)" width="200" align="right")
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
       
         // p(style="padding: .1rem .4rem" v-if=" pointType === 'up' ") 该帐户3天总量：
         //   span.text-danger {{ threeDaysAmount }}
         p(style="padding: .1rem .4rem" v-if=" pointType === 'down' ") 该帐户30天总量：
-          span.text-danger {{ sevenDaysAmount }}
+          span.text-danger {{ thirtyDaysAmount }}
 
         // p(style="padding: .1rem .4rem" v-if="thirtyDaysAmount") 该帐户30天总量：
         //   span.text-danger {{ thirtyDaysAmount }}
@@ -173,14 +170,15 @@
           |  % 
           span.text-money (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 
-        p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' && myPoint >= 7.3 ")
-          label.text-666.ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
-            span.ds-radio.white
-            | 用量升
+        // p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' && myPoint >= 7.3 ")
+        //   label.text-666.ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
+        //     span.ds-radio.white
+        //     | 用量升
 
-          label.text-666.ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
-            span.ds-radio.white
-            | 用配额升
+        // label.text-666.ds-radio-label(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
+        //   span.ds-radio.white
+        //   | 用配额升
+
         div.buttons(style="padding: .1rem .4rem")
           .ds-button.primary.large.bold(@click="adjustPoint") {{ pointType === 'up' ? '升点' : '降点' }}
 
@@ -203,15 +201,15 @@
 
           el-table.header-bold.margin(:data="openUserData" v-bind:row-class-name="tableRowClassName" style="margin: .2rem auto; width: 6rem")
 
-            el-table-column(prop="point" label="开户级别" align="center" width="120")
+            el-table-column(prop="name" label="开户级别" align="center" width="120")
 
             el-table-column(prop="src" label="我的剩余开户额" width="150" align="right")
 
-            el-table-column(prop="dest" label="下级剩余开户额" width="150" align="right" v-if="pointType === 'up' ")
+            el-table-column(prop="dest" label="下级剩余开户额" width="150" align="right")
 
             el-table-column(label="为下级增加开户额" width="150" align="right")
               template(scope="scope")
-                el-input-number.center(v-model="scope.row.i" v-bind:min="0" v-bind:max="10")
+                el-input-number.center(v-model="scope.row.i" v-bind:min="0" v-bind:max="scope.row.src")
                 
   
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
@@ -416,8 +414,8 @@
             this.pointData.down = data.downPoint
             this.threeDaysAmount = data['3DaysAmount']
             this.sevenDaysAmount = data['7DaysAmount']
-            this.thirtyDaysAmount = data['30DaysAmount']
-            this.PS = data.addUsersKeys.map(k => {
+            this.thirtyDaysAmount = data['buy30Amount']
+            this.PS = (data.addUsersKeys || []).map(k => {
               return (k = {
                 point: k,
                 n: data[k]
@@ -449,14 +447,10 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.openUserData = data.addUsersKeys.map(k => {
-              return (k = {
-                point: k,
-                dest: data[k].dest,
-                src: data[k].src,
-                i: 0
-              })
+            data.addUsersKeys.forEach(k => {
+              k.i = 0
             })
+            this.openUserData = data.addUsersKeys
           } else {
             this.openUserData = []
             this.$message.error(data.msg || '开户额数据获取失败！')
@@ -468,9 +462,10 @@
       },
       distriAddCount () {
         let items = []
+        if (!this.openUserData.find(o => o.i > 0)) return this.$message.warning({target: this.$el, message: '您确定要调整下级开户额吗？ 输入的值需 >0 哦'})
         this.openUserData.forEach(o => {
           items.push({
-            point: o.point,
+            gId: o.gId,
             n: o.i
           })
         })
@@ -480,6 +475,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
+            this.showUserAddCount()
             this.$message.success('开户额调整成功！')
           } else this.$message.error(data.msg || '开户额调整失败！')
         }, (rep) => {

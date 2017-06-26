@@ -80,6 +80,22 @@ export default {
           ]
         },
         {
+          class: 'ds-icon-download',
+          hide: true,
+          url: 'download',
+          groups: [
+            {
+              items: [
+                {
+                  id: '7-1-1',
+                  title: '下载中心',
+                  url: 'Download'
+                }
+              ]
+            }
+          ]
+        },
+        {
           class: 'ds-icon-group',
           hide: true,
           url: 'group',
@@ -546,7 +562,9 @@ export default {
         },
         {
           id: 7,
-          class: 'ds-icon-download'
+          class: 'ds-icon-download',
+          href: '/download/7-1-1',
+          title: '下载'
         },
         {
           id: 8,

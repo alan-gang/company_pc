@@ -121,6 +121,13 @@ export default function (VueRoter) {
         component: Pages
       },
       {
+        path: '/download/:url',
+        meta: {
+          login: true
+        },
+        component: Pages
+      },
+      {
         path: '*',
         redirect: '/'
       }

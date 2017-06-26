@@ -32,7 +32,7 @@
   // import cookie from 'js-cookie'
   export default {
     // if show server
-    props: ['server'],
+    props: ['server', 'm'],
     components: {
       SignalBar
     },
@@ -105,7 +105,7 @@
       getEnableLines () {
         this.$http.get(api.getEnableLines).then(({data}) => {
           if (data.success === 1) {
-            this.frontList = data.frontList
+            this.frontList = !this.m ? data.frontList : data.managerList
             this.serverList = data.serverList
             this.test()
           } else this.$message.warning({target: this.$el, message: '线路信息获取失败！'})
@@ -172,6 +172,10 @@
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       goLogin (r) {
         if (this.server) {
+          if (r === this.currentServer) {
+            this.$emit('close')
+            return this.$message.warning('已是当前线路，无需切换')
+          }
           api.preApi = api.api
           api.api = r
           this.currentServer = api.api

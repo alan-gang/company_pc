@@ -16,9 +16,9 @@
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-            span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? _sendMail : _sendSms "  v-bind:class="{ disabled: (this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) > 0") 
-              span(v-if="!((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
-              span.text-black(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
+            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
+              span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
+              span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
                 span.text-999 秒后可重新发送
         p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
@@ -183,6 +183,28 @@ export default {
     }
   },
   methods: {
+    sendSms () {
+      this.$http.post(api.person_sendSms, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 手机验证码发送成功，请注意查收。'})
+          this.pt_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '手机验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
+    sendMail () {
+      this.$http.post(api.person_sendMail, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 邮箱验证码发送成功，请注意查收。'})
+          this.et_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '邮箱验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
     pageChanged (cp) {
       this.queryWithdraw(cp, () => {
         this.currentPage = cp

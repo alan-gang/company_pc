@@ -299,9 +299,9 @@
               //  安全问题验证
             p(v-if="me.safeCheck != safeCheck && safeCheck !== 3" style="margin-top: .2rem") 验证码：
                 input.ds-input.large(v-model="safeCheckCode")
-                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) > 0") 
-                  span(v-if="!((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
-                  span.text-black(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
+                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (safeCheck || me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((safeCheck || me.safeCheck) === 1 ? et_ : pt_) > 0") 
+                  span(v-if="!((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
+                  span.text-black(v-if="((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") {{ ((safeCheck || me.safeCheck) === 1 ? et_ : pt_) }} 
                     span.text-999 秒后可重新发送
             transition(name="slide" appear=true)
               p(v-if="me.safeCheck != safeCheck && safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：

@@ -1,7 +1,7 @@
 @import './var.stylus'
 border = 1px solid #5a5a5a
 body.night
-  outline 10rem solid rgba(0,0,0, .6)
+  outline 10rem solid rgba(0,0,0, .3)
   outline-offset -10rem
   .el-popover.footer-popover
     background-color #16161d
@@ -175,7 +175,7 @@ body.night
       &.outline
       &.secondary
         color #aaa
-        background-color #444
+        background #444
         border border
         &:hover
           border-color BLUE

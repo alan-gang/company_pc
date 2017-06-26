@@ -35,6 +35,10 @@
         label(for="friendName") {{ q2_ }}：
         input(v-model="a2_" id="friendName" @keyup.enter="next")
 
+      dd.table(v-if="stepIndex === 1 && radioIndex === 3")
+        label(for="cb") 畅博安全码：
+        input(v-model="cb_" id="cb" @keyup.enter="next")
+
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
         label 已绑定手机为: 
           span.phone {{ me.phone }}
@@ -163,6 +167,12 @@ export default {
                     this.focus()
                   })
                   break
+                case 3:
+                  this._isOpenCbAuth(() => {
+                    this.stepIndex++
+                    this.focus()
+                  })
+                  break
               }
             })
             break
@@ -182,6 +192,12 @@ export default {
                 break
               case 2:
                 this._safeAnswer(() => {
+                  this.stepIndex++
+                  this.focus()
+                })
+                break
+              case 3:
+                this._checkGoogleAuth(() => {
                   this.stepIndex++
                   this.focus()
                 })
@@ -218,6 +234,7 @@ export default {
           if (this.radioIndex === 0) noEmpty = this.ec_
           if (this.radioIndex === 1) noEmpty = this.pc_
           if (this.radioIndex === 2) noEmpty = this.a1_ && this.a2_
+          if (this.radioIndex === 3) noEmpty = this.cb_
           break
         case 2:
           noEmpty = this.newpwd
@@ -231,7 +248,7 @@ export default {
     },
     focus () {
       setTimeout(() => {
-        this.$el.querySelector('input').focus()
+        this.$el.querySelector('input') && this.$el.querySelector('input').focus()
       }, 0)
     }
   },
