@@ -5,7 +5,7 @@
         el-col(:span="12")
           .ds-button.small.stick 中奖公告
           span(v-for=" (msg, ii) in msgs " v-show="ii === j")
-            | {{ msg.cnName }}{{ msg.issue }}期 
+            | {{ msg.cnName }} ({{ msg.issue }}) 期 
             span.userName.font-blue {{ msg.nickName }}
             |  喜中 
             span.money.font-danger {{ msg.amount }}
@@ -32,7 +32,7 @@
             dl.submenu(v-for="group in canCollectMenus[activeIndex].groups")
               dt {{ group.title }}
               // v-bind:class="[item.class || group.class]"
-              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
+              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid && !item.removed" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
@@ -54,6 +54,8 @@ export default {
   props: ['menus'],
   data () {
     return {
+      hasHeader: true,
+      hasFooter: true,
       pages: store.state.pages,
       me: store.state.user,
       userName: 'ls123',
@@ -93,7 +95,9 @@ export default {
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {}
     // ]
-    this.$emit('get-menus')
+    setTimeout(() => {
+      this.$emit('get-menus')
+    }, 1000)
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
@@ -224,7 +228,7 @@ export default {
         width .16rem
         height .16rem
         margin-right .05rem
-        background url($VASSETS/logo.png) center center no-repeat
+        background url($VASSETS/add-collect.png) center center no-repeat
         
     .content
       .el-col

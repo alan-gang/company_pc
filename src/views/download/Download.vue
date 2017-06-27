@@ -68,6 +68,18 @@
   }
 </script>
 
+
+<style lang="stylus">
+  
+  #app.night
+    .dialog-page
+      .download-center
+        .el-row:hover
+          background-color #444
+          
+
+</style>
+
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .qr

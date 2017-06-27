@@ -142,15 +142,20 @@ export default function (VueRoter) {
   })
   // 匹配前
   router.beforeEach((to, from, next) => {
+    console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
     window.NProgress.start()
     // 如果需要登录，而当前没有登录， 先测试有没有登录
     if (to.meta.login && !store.state.user.login) next({path: '/login'})
     // 如果不要登录， 而当前登录了, 跳到大厅
     else if (to.meta.login === false && store.state.user.login) {
-      router.app.$Progress.fail()
+      // router.app.$Progress.fail()
       next(false)
+    } else if ('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1] || 'xxxxx') === -1 && 'game,me,group,form,activity,help,download'.indexOf(from.path.split('/')[1] || 'xxxxx') !== -1) {
+      store.state.pages.forEach(t => store.actions.updatePage('', {size: 'minus'}, t))
+      setTimeout(next, 500)
     } else next()
+    // next()
   })
 
   // 匹配后

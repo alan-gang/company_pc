@@ -323,6 +323,7 @@
       // }
     },
     watch: {
+      '$route': 'openRoute',
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
@@ -343,6 +344,13 @@
       this.Orderlist()
     },
     methods: {
+      openRoute ({path, query: {gameid}}) {
+        if (path !== '/form/4-1-1') return false
+        if (gameid && gameid !== this.gameid) {
+          this.gameid = gameid
+          this.Orderlist()
+        }
+      },
       summary () {
         this.amount[0].income = 0
         this.amount[0].expenditure = 0

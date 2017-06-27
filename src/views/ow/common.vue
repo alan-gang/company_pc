@@ -9,6 +9,7 @@
     mounted () {
       setTimeout(this.adjust, 0)
       util.addEvent('resize', window, this.adjust)
+      this.$el.querySelector('.slide-header img') && util.addEvent('load', this.$el.querySelector('.slide-header img'), this.adjust)
     },
     methods: {
       adjust () {

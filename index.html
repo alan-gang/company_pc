@@ -17,6 +17,9 @@
       border-top-color: rgb(143, 255, 199);
       border-left-color: rgb(143, 255, 199)
     }
+    .ng-cloak{
+        display:none;
+    }
     </style>
 
 
@@ -39,7 +42,7 @@
 
     <link rel="stylesheet" href="/static/chat/css/index.css?v=20170dsa412543">
     <!-- chat  -->
-    <div data-ng-app="custom-service" id="custom-service" >
+    <div data-ng-app="custom-service" id="custom-service ng-cloak" >
      <div data-ng-controller="MainCtrl">
        <!-- <link rel="stylesheet" data-ng-href="{{ css }}"> -->
        <div class="dialog-container  animation opacity-0"  data-ng-hide="close" data-ng-class="{'opacity-0': !open,  heart: !stranger, stranger: !!stranger}">

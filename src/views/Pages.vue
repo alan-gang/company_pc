@@ -142,6 +142,8 @@ export default {
   props: ['pages', 'prehref', 'loop', 'maxPages', 'transition'],
   data () {
     return {
+      hasHeader: true,
+      hasFooter: true,
       // 可打开的最大的页数
       pageSizes: {
         full: {
@@ -340,10 +342,9 @@ export default {
     })
   },
   mounted () {
-    console.log('end??????????????')
   },
   beforeDestroy () {
-    this.pages.forEach(t => this.updatePage('', {size: 'minus'}, t))
+    // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))
   },
   methods: {
     openRoute ({path, params: {url}}) {

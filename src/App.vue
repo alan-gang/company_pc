@@ -743,7 +743,7 @@ export default {
             if (!this.state.pages.find(x => x.id === t.id)) {
               this.tabs.splice(i, 1)
             } else {
-              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true}))
+              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
             }
           })
           this.$nextTick(() => {
@@ -764,7 +764,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvailableBalance})
         }
       }, (rep) => {
         // error
@@ -879,6 +879,8 @@ export default {
   transform translateX(-100%)
 .fade-enter, .fade-leave-active
   opacity 0
+  &.dialog-container
+    transition all linear 0s // @static 2
 
   
   

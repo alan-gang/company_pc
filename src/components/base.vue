@@ -4,8 +4,8 @@
     data () {
       return {
         // show header and footer by default
-        hasHeader: true,
-        hasFooter: true
+        hasHeader: false,
+        hasFooter: false
       }
     },
     created () {

@@ -17,8 +17,8 @@ export default {
   mixins: [base],
   data () {
     return {
-      hasHeader: false,
-      hasFooter: false,
+      // hasHeader: false,
+      // hasFooter: false,
       notice: ''
     }
   },
