@@ -68,7 +68,7 @@
           el-table-column(label="操作" align="center")
             template(scope="scope")
               .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
-              .ds-button.text-button.blue(v-if="!scope.row.self"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
+              .ds-button.text-button.blue(v-if="!scope.row.self && BL.length === 1"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
               // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
@@ -108,12 +108,13 @@
           |  进行调点
           span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
 
-        p(style="text-align: center; margin-top: .2rem") 帐号: 
-          span.text-blue {{ user.userName }} 
-          | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-          span.text-black {{ user.nickName }} 
-          | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
-          span.text-danger {{ user.userPoint }}
+        p(style="text-align: center; margin-top: .2rem") 
+          // |帐号: 
+          // span.text-blue {{ user.userName }} 
+          // | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
+          // span.text-black {{ user.nickName }} 
+          | &nbsp;&nbsp;&nbsp;&nbsp;您的返点级别：
+          span.text-danger {{ myPoint }}
         div(style="text-align: center; margin-top: .1rem")
           .ds-button-group(style="margin: 0")
             .ds-button.text-button(:class=" { selected: pointType === 'up' } " @click=" pointType='up' ") 升点
@@ -163,8 +164,10 @@
             // span.text-danger(v-if="PS.length === 0") 0
 
 
-        p(style="padding: 0rem .4rem") 您的返点级别：
-          span.amount {{ myPoint }}
+        p(style="padding: 0rem .4rem") 您下级( 
+          span.text-blue {{ user.userName }}
+          |  )的返点级别：
+          span.amount {{ user.userPoint }}
           | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
           el-input-number( v-model="point" style="width: .5rem" v-bind:min="range[pointType].min"  v-bind:max="range[pointType].max")
           |  % 

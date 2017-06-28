@@ -54,7 +54,7 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 607px; height: 204px; top: -2.5rem; padding-top: 1.1rem; z-index: 0; background-size: 100%")
+    .logo.ds-icon-pot(style="width: auto; width: 607px; height: 204px; top: -2.5rem; padding-top: 1.1rem; z-index: 0; background-size: 100%" v-if="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
         p.font-white(style="font-size: .18rem") 平台奖池累计：
           span.amount.font-gold(style="font-size: .48rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
@@ -98,7 +98,8 @@ export default {
       prizeAmount: 0.00,
       timeout: 0,
       pricePotAmount: 0,
-      pricePotCount: 0
+      pricePotCount: 0,
+      showPool: false
     }
   },
   mounted () {
@@ -152,6 +153,12 @@ export default {
     else this.setFarChat()
   },
   methods: {
+    __showPool () {
+      this.showPool = true
+    },
+    __hidePool () {
+      this.showPool = false
+    },
     pricePot () {
       this.$http.get(api.pricePot).then(({data}) => {
         if (data.success === 1) {

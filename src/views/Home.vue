@@ -103,6 +103,10 @@ export default {
     this.sysNotices()
     this.getUserPrefence()
     this.switchI()
+    this.__setCall({fn: '__showPool', callId: undefined})
+  },
+  beforeDestroy () {
+    this.__setCall({fn: '__hidePool', callId: undefined})
   },
   methods: {
     switchI () {

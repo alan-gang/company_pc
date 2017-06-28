@@ -864,6 +864,7 @@ export default {
     opacity .2
     transform perspective(500px) translateZ(-1000px)
     
+    
 .slide-enter, .slide-leave-active
   opacity 0
   transform translateX(100%)
