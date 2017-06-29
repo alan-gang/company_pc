@@ -300,10 +300,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../var.stylus'
-  W = 2.7rem
-  H = 1.8rem
+  W = 2.3rem
+  H = 1.5rem
   .container
-    max-width 12rem
+    max-width 10.4rem
     min-width 6rem
     margin 0 auto
     margin-top 10%
@@ -326,7 +326,7 @@ export default {
         margin-bottom .3rem
         overflow hidden
         radius()
-        padding-top H - 3*PW
+        padding-top H - 2*PW
         background-color rgba(255, 255, 255, .2)
         box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         background-position 50% 35% 

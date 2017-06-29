@@ -194,34 +194,34 @@ export default {
                 // {class: '', menuid: '11', title: '重庆十一选五'}
               ]
             },
-            {
-              title: '北京PK10',
-              // withIcon: true,
-              // class: 'ds-icon-item',
-              url: 'PK10',
-              items: [
-                {class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13}
-              ]
-            },
-            {
-              title: '北京快乐8',
-              // withIcon: true,
-              // class: 'ds-icon-item',
-              url: 'KL8',
-              items: [
-                {class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14}
-              ]
-            },
-            {
-              title: '快三',
-              // withIcon: true,
-              // class: 'ds-icon-item',
-              url: 'K3',
-              // width: '1.8rem',
-              items: [
-                {class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
-              ]
-            },
+            // {
+            //   title: '北京PK10',
+            //   // withIcon: true,
+            //   // class: 'ds-icon-item',
+            //   url: 'PK10',
+            //   items: [
+            //     {class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13}
+            //   ]
+            // },
+            // {
+            //   title: '北京快乐8',
+            //   // withIcon: true,
+            //   // class: 'ds-icon-item',
+            //   url: 'KL8',
+            //   items: [
+            //     {class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14}
+            //   ]
+            // },
+            // {
+            //   title: '快三',
+            //   // withIcon: true,
+            //   // class: 'ds-icon-item',
+            //   url: 'K3',
+            //   // width: '1.8rem',
+            //   items: [
+            //     {class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
+            //   ]
+            // },
             {
               title: '其它游戏',
               // withIcon: true,
@@ -230,7 +230,10 @@ export default {
               items: [
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5}
+                {url: 'SSL', class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5},
+                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13},
+                {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14},
+                {url: 'K3', class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
               ]
             }
           ]

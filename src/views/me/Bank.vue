@@ -6,6 +6,21 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .width-draw-info.scroll-content
+      
+      .cashpwd-form.form(v-if="stepIndex === -1" style="padding-top: .4rem")
+        p 资金密码： &nbsp;&nbsp;
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+        p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
+              span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
+              span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
+                span.text-999 秒后可重新发送
+        p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+
+        .buttons(style="margin-left: .85rem; padding: .2rem 0")
+          .ds-button.primary.large(@click="checkNow") 确认
 
       .bank-form(v-if="stepIndex === 0")
         .notice(style="margin-top: .2rem")
@@ -216,9 +231,11 @@ import StepTabs from 'components/StepTabs'
 import { BANKS } from '../../util/static'
 import api from '../../http/api'
 import store from '../../store'
+import xhr from 'components/xhr'
 import Validate from '../../util/Validate'
 // import { dateTimeFormat } from '../../util/Date'
 export default {
+  mixins: [xhr],
   data () {
     return {
       me: store.state.user,
@@ -241,12 +258,13 @@ export default {
       branchName: '',
       locked: false,
       type: 'bind',
-      stepIndex: 0,
+      stepIndex: -1,
       s: ['01 资料验证', '02 安全验证', '03 完成'],
       i: 0,
 
       bs: ['01 添加新银行卡信息', '02 核对信息', '03 完成'],
-      bi: 0
+      bi: 0,
+      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
     }
   },
   watch: {
@@ -287,6 +305,25 @@ export default {
     this.getProvices()
   },
   methods: {
+    checkNow () {
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '安全验证码！'})
+      this.checkSecurityPwd()
+    },
+    checkSafeCode () {
+      this.$http.post(this.checkSafeCodeUrl[this.me.safeCheck], {verifyCode: this.safeCheckCode}).then(({data}) => {
+        if (data.success === 1) {
+          this.stepIndex++
+          this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
+          this.__setCall({fn: '__getUserFund'})
+          this.getUserBankCards()
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '安全验证失败！'})
+      })
+    },
     noPaste (evt) {
       evt.preventDefault()
       this.$modal.warn({
@@ -318,7 +355,7 @@ export default {
     //       target: this.$el,
     //       content: '恭喜您，解绑成功！',
     //       close () {
-    //         this.stepIndex = 0
+    //         this.stepIndex = -1
     //         this.i = 0
     //       },
     //       O: this
@@ -387,7 +424,7 @@ export default {
             target: this.$el,
             btn: ['确定'],
             close () {
-              this.stepIndex = 0
+              this.stepIndex = -1
               this.bi = 0
               this.i = 0
             },
@@ -440,7 +477,7 @@ export default {
             target: this.$el,
             content: '恭喜您，解绑成功！',
             close () {
-              this.stepIndex = 0
+              this.stepIndex = -1
               this.bi = 0
               this.i = 0
             },
@@ -463,13 +500,17 @@ export default {
     checkSecurityPwd (type) {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
-          if (this.type === 'unbind') this.unbindBankCard()
-          else if (this.type === 'lock') this.lockNow()
+          if (this.stepIndex === -1) {
+            if (this.me.safeCheck) {
+              return this.checkSafeCode()
+            } else this.stepIndex++
+          } else {
+            if (this.type === 'unbind') this.unbindBankCard()
+            else if (this.type === 'lock') this.lockNow()
+          }
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
-      }).catch(({data}) => {
-        this.$message.error({target: this.$el, message: data.msg || '资金密码验证失败！'})
       })
     },
     lockBankCard (modal) {
@@ -479,7 +520,7 @@ export default {
           modal.btn = []
           modal.content = '恭喜您，锁定成功！'
           modal.ok = null
-          this.stepIndex = 0
+          this.stepIndex = -1
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }

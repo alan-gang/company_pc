@@ -53,7 +53,7 @@
     mounted () {
       this._getVerifyImage()
       this.tag = this.$route.query.tag
-      if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go?tag=' + this.tag
+      if (browser.mobile) window.location.href = 'login_regist.html?tag=' + this.tag
       setTimeout(this.getStrangerInfo, 1000)
     },
     beforeDestroy () {

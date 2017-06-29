@@ -105,7 +105,12 @@
         font-size .18rem
       .ds-button
         margin .1rem
-        padding-left .7rem
+        height .5rem
+        width 1.68rem
+        padding 0 0 0 .6rem
+        text-align left
+        line-height .5rem
+        font-size .14rem
         .after
         .before
           padding-left .6rem

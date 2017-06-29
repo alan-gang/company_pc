@@ -29,7 +29,6 @@ input
 ::-webkit-input-placeholder
     color #999 
 
-
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee
   color #333
@@ -256,6 +255,9 @@ input
 .el-select
 .el-date-editor
   vertical-align middle
+
+.el-select:hover .el-input__inner
+  border-color BLUE
 // .el-select
 //   display inline-block
 //   line-height .3rem
@@ -385,7 +387,7 @@ input
       font-weight x 
        
   table-row-hover(x = #d8e6ef)
-    .el-table--enable-row-hover tr:hover>td
+    .el-table--enable-row-hover .el-table__body tr:hover>td
       background-color x
 
     // tr.hover-row td
@@ -413,8 +415,8 @@ input
   .el-table__fixed::before
   .el-table__fixed::after
     display none
-  table-row-hover()
-  
+  .el-table--enable-row-hover .el-table__body tr:hover>td
+    background-color #d8e6ef
   .el-table
     margin .05rem .02rem
     font-size .12rem
@@ -1078,7 +1080,7 @@ input
     background url($ASSETS/download/logo03.png) .3rem .3rem no-repeat
   
   .ds-icon-download-ios
-    background url($ASSETS/download/ios.png) .3rem center no-repeat
+    background url($ASSETS/download/ios.png) .2rem center no-repeat
     position relative
     .after
       radius()
@@ -1088,7 +1090,7 @@ input
       left 0 
       right 0 
       bottom 0
-      background url($ASSETS/download/ios.png) .3rem center no-repeat
+      background url($ASSETS/download/ios.png) .2rem center no-repeat
       
     .before
       radius()
@@ -1102,13 +1104,13 @@ input
       
       
   .ds-icon-download-android
-    background url($ASSETS/download/android.png) #a3c435 .3rem center no-repeat
+    background url($ASSETS/download/android.png) #a3c435 .2rem center no-repeat
     .after
     .before
       display none
     
   .ds-icon-download-windows
-    background url($ASSETS/download/windows.png) .3rem center no-repeat
+    background url($ASSETS/download/windows.png) .2rem center no-repeat
     .after
     .before
       display none

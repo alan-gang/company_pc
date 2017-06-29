@@ -2,14 +2,14 @@
   footer
     el-row
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt(v-if="group.title") {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
-                .ds-button(style="position: relative; left: -.2rem") {{ menu.url === 'game' ? '' : item.title }}
+                .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
@@ -54,7 +54,7 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 607px; height: 204px; top: -2.5rem; padding-top: 1.1rem; z-index: 0; background-size: 100%" v-if="showPool")
+    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.8rem; padding-top: .85rem; z-index: 0; background-size: 100%" v-if="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
         p.font-white(style="font-size: .18rem") 平台奖池累计：
           span.amount.font-gold(style="font-size: .48rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     ML () {
-      return this.menus.length
+      return this.menus.filter(m => !m.removed).length
     },
     EM () {
       return numberWithCommas(this.pricePotAmount)
@@ -145,6 +145,11 @@ export default {
     },
     more () {
       this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
+    },
+    ML () {
+      this.getPos()
+      setTimeout(this.getPos, 50)
+      setTimeout(this.getPos, 100)
     }
   },
   beforeDestroy () {
@@ -280,16 +285,19 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    &.left-menus
+      text-align center
     transform translateY(.05rem)
+    padding PW
     &.game
-      max-width 9rem
+      max-width 12rem
       .submenu
-        width 3rem
+        max-width 2.7rem
       
     .submenu
       float left
       display inline-block
-      margin 0 .3rem
+      margin 0 .1rem
       dt
         font-size .18rem
         color BLUE

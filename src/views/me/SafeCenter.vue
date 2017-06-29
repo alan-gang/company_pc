@@ -283,28 +283,28 @@
               .ds-checkbox-label.active.disabled
                 .ds-checkbox
                 资金密码验证
-              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }")
+              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 邮箱验证
-              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }")
+              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 手机验证
 
-              .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }")
+              .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 畅博安全认证
 
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
               //  安全问题验证
-            p(v-if="me.safeCheck != safeCheck && safeCheck !== 3" style="margin-top: .2rem") 验证码：
+            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码：
                 input.ds-input.large(v-model="safeCheckCode")
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (safeCheck || me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((safeCheck || me.safeCheck) === 1 ? et_ : pt_) > 0") 
                   span(v-if="!((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
                   span.text-black(v-if="((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") {{ ((safeCheck || me.safeCheck) === 1 ? et_ : pt_) }} 
                     span.text-999 秒后可重新发送
             transition(name="slide" appear=true)
-              p(v-if="me.safeCheck != safeCheck && safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
+              p(v-if=" me.safeCheck != safeCheck &&  (me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) " style="margin-top: .2rem") 畅博安全码：
                   input.ds-input.large(v-model="safeCheckCode")
 
 
@@ -773,11 +773,11 @@ export default {
       .static
         border-bottom none
       .action
-        border-bottom 1px solid #ccc
+        // border-bottom 1px solid #ccc
     .el-row.static
       height H
       line-height H
-      border-bottom 1px solid #ccc
+      // border-bottom 1px solid #ccc
       .title
         color #333
         padding-left .5rem

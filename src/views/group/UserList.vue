@@ -51,6 +51,8 @@
             template(scope="scope")
               span(:class=" { 'pointer text-blue': !scope.row.self } ") {{ scope.row.userName }}
 
+          el-table-column(prop="teamBalance"  label="日工资" width="100" align="right")
+
           el-table-column(prop="teamBalance"  label="团队余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
@@ -70,6 +72,15 @@
               .ds-button.text-button.blue(v-if="!scope.row.self &&scope.row.uploadlevel !== '0' "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="!scope.row.self && BL.length === 1"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" !scope.row.self && BL.length === 1 " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 调整日工资
+              // el-popover.footer-more(placement="bottom-start" trigger="hover" v-bind:popper-class=" '' ")
+              //   span(slot="reference")
+              //     .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" !scope.row.self && BL.length === 1 " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 调整日工资
+              //  slot
+              //    p(style="" v-if="topUpIndex === 0")
+              //      el-select(v-model="o")
+              //        el-option(v-for="O in OL" v-bind:label="O" v-bind:value="O")
+
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
               // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
               // div(v-if="scope.row.showTeanBalance") 团队余额：
@@ -99,6 +110,19 @@
           span.text-money  {{ textMoney }}
           <br>
           span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="recharge") 确认
+
+       div(v-if="stepIndex === 1 && stepType === 'salary' ")
+        p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          span.text-blue {{ user.nickName }}
+          |  调整日工资
+          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
+
+        p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 日工资：
+          el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
+            el-option(v-for="O in OL" v-bind:label="O" v-bind:value="O")
+          br
+          span.ds-button.primary.large.bold(style="margin-left: .55rem; margin-top: .15rem" @click="setSalary") 确认
+
 
       // 升点、降点
       div(v-if="stepIndex === 1 && stepType === 'point' ")
@@ -245,6 +269,9 @@
         maxMoney: '',
         minPoint: '',
         maxPoint: '',
+        // 日工资
+        OL: [100, 120, 140, 160, 180, 200],
+        o: 100,
         // 默认排序
         // OL: [
         //   {id: 1, title: '用户名'},
@@ -298,6 +325,8 @@
       this.getUserList()
     },
     methods: {
+      setSalary () {
+      },
       clear () {
         this.name = ''
         this.minMoney = ''
