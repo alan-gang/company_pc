@@ -125,7 +125,7 @@
           if (data.success) {
             this.regard = data.greetingMsg || ''
             if (!this.regard) {
-              this.$message('常用语空空如也。')
+              this.$message.warning('您未设置登录问候语！')
             }
             setTimeout(() => this.$el.querySelector('.ds-icon-pwd input').focus(), 0)
           } else {

@@ -11,7 +11,7 @@
     GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
-      GameLuckyNumber(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory")
+      GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
       <!-- 游戏信息 -->
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
       <!-- 游戏菜单 -->
@@ -40,11 +40,12 @@
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
 
     <!-- 历史开奖信息 -->
-    GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
+    // GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
 
 </template>
 <script>
 import GameLuckyNumber from 'components/GameLuckyNumber'
+import GameLuckyNumberWithHistory from 'components/GameLuckyNumberWithHistory'
 import GameLuckyNumberHistory from 'components/GameLuckyNumberHistory'
 import GameInfo from 'components/GameInfo'
 import GameMenu from 'components/GameMenu'
@@ -605,6 +606,7 @@ export default {
   },
   components: {
     GameLuckyNumber,
+    GameLuckyNumberWithHistory,
     GameInfo,
     GameMenu,
     GameSelection,

@@ -247,7 +247,7 @@ input
     
 .el-icon-star-on
   &:before
-    color YELLOW
+    color GOLD
 
 /*
  *rewrite el-select

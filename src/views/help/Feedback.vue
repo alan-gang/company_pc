@@ -12,7 +12,7 @@
 
       label.item
         span 内容：
-        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 20 }" placeholder="请输入您的意见哦，不得少于5个字")
+        el-input(v-model="v" type="textarea" v-bind:autosize="{ minRows: 5, maxRows: 20 }" placeholder="请输入您的意见哦，不得少于5个字（若意见被采纳，将有机会获得现金红包奖励）")
       
       .buttons.item
         .ds-button.primary.large(@click="addFeedback") 提交

@@ -500,8 +500,8 @@ export default {
           id: 5,
           class: 'ds-icon-gift',
           title: '活动中心',
-          href: '/activity/5-1-1',
-          url: 'Activity',
+          // href: '/activity/5-1-1',
+          url: 'activity',
           menuid: '6',
           groups: [
             {

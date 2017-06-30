@@ -305,6 +305,28 @@ export default {
     this.getProvices()
   },
   methods: {
+    sendSms () {
+      this.$http.post(api.person_sendSms, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 手机验证码发送成功，请注意查收。'})
+          this.pt_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '手机验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
+    sendMail () {
+      this.$http.post(api.person_sendMail, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 邮箱验证码发送成功，请注意查收。'})
+          this.et_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '邮箱验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
     checkNow () {
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
       if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '安全验证码！'})
@@ -409,9 +431,9 @@ export default {
     },
     checkbindBankCard () {
       if (!this.bank.apiName || !this.province.id || !this.city.id) return this.$message.error({target: this.$el, message: '请选择相应的银行、省份及城市！'})
-      if (this.branchName.length > 20 || this.branchName.length < 3 || !Validate.chinese(this.branchName)) return this.$message.error({target: this.$el, message: '请输入您的开户银行支行名！'})
-      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户银行姓名！'})
-      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
+      if (this.branchName.length > 20 || this.branchName.length < 3 || !Validate.chinese(this.branchName)) return this.$message.error({target: this.$el, message: '请您输入【正确的】支行名！'})
+      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户【人】姓名！'})
+      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入【正确的】银行卡号！'})
       if (this.cardNo !== this.cardNoAgain) return this.$message.error({target: this.$el, message: '两次输入卡号不一致！'})
       this.bi++
     },
@@ -452,8 +474,8 @@ export default {
     },
     unbindBankCardCheck () {
       console.log(this.cardNo)
-      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
-      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户银行姓名！'})
+      if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入【正确的】银行卡号！'})
+      if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户【人】姓名！'})
       this.$http.post(api.unbindBankCardCheck, {realName: this.name, cardNo: this.cardNo, entry: this.bank.entry}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '基本信息校验成功！'})

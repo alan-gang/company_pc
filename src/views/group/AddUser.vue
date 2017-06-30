@@ -29,8 +29,10 @@
             span.text-blue 直选返点
             | 即为 
             span.text-danger {{ 0.3 }}%
-            | ，不定位返点为 
-            span.text-blue {{ 0.1 }}%
+            | ，不定位返点 
+            span.text-blue 不定位返点
+            | 为
+            span.text-danger {{ 0.1 }}%
 
         // p(style="padding: .05rem .4rem" v-if="UL[me.role]") 用户类型： &nbsp;&nbsp;
         //   el-select(v-model="u")

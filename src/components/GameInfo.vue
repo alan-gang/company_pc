@@ -22,7 +22,7 @@
 
     el-col.right(:span="6")
       el-button-group.right
-        el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist'" )
+        el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist'" ref="MO")
           span(slot="reference")
             router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} " @click.native.stop="" @mouseover.native="Orderlist") 投注记录
           slot
@@ -41,11 +41,15 @@
                 template(scope="scope")
                   span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
                   span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+
+              el-table-column(label="状态" width="70")
+                template(scope="scope")
+                  span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
               
-              el-table-column(label="操作" wdith="100")
+              el-table-column(label="操作" wdith="50")
                 template(scope="scope")
                   div(v-if="!scope.row.last")
-                    .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                    .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
         router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
 
         
@@ -68,7 +72,8 @@ export default {
       // 默认倒计时
       time: 0,
       interval: 0,
-      Cdata: []
+      Cdata: [],
+      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单']
     }
   },
   computed: {
@@ -129,6 +134,30 @@ export default {
       }, (rep) => {
         // error
       })
+    },
+    cancel (row) {
+      let loading = this.$loading({
+        text: '撤单中...',
+        target: this.$refs.MO.$refs.popper
+      }, 10000, '撤单超时...')
+      this.$http.get(api.cancel, {id: row.projectId}).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          setTimeout(() => {
+            loading.text = '撤单成功!'
+            setTimeout(() => {
+              this.Orderlist()
+              this.__setCall({fn: '__getUserFund', callId: undefined})
+            }, 500)
+          }, 500)
+        } else loading.text = '撤单失败!'
+      }, (rep) => {
+        // error
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
     }
   },
   components: {
@@ -139,7 +168,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .popover-orderlist
-    width 5rem
+    width 5.5rem
     background-color #ff
     border 1px solid #ccc
     shadow(0 0 10px rgba(0,0,0,.3))
