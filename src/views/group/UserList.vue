@@ -241,6 +241,8 @@
     
           hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
           div.buttons(style="padding: .1rem .4rem; text-align: center")
+            .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开户额
+
 
 
 
