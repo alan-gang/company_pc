@@ -53,6 +53,7 @@ import Order from './form/Order'
 import ProfitLoss from './form/ProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
+import DaySalary from './form/DaySalary'
 // 趋势图
 import TrendChart from './form/TrendChart'
 
@@ -115,6 +116,7 @@ export default {
     ProfitLoss,
     ProfitLossDetail,
     Today,
+    DaySalary,
     // 走势图
     TrendChart,
     // Help

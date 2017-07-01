@@ -97,7 +97,7 @@
          
           p.item 开户银行：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             el-select.width1-5rem(v-model="bank")
-              el-option(v-for="(b, index) in BANKS" v-bind:label="b.text" v-bind:value="b")
+              el-option(v-for="(b, index) in avaibleBanks" v-bind:label="b.text" v-bind:value="b")
 
           p.item 开户银行省份：
             el-select.width1-5rem(v-model="province")
@@ -287,11 +287,11 @@ export default {
     }
   },
   computed: {
-    BANKS () {
-      return BANKS.filter(b => {
-        return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
-      })
-    },
+    // BANKS () {
+    //   return BANKS.filter(b => {
+    //     return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
+    //   })
+    // },
     textMoney () {
       return this.money
     }
@@ -413,6 +413,17 @@ export default {
     getBankList (fn) {
       this.$http.get(api.getBankList).then(({data}) => {
         if (data.success === 1) {
+          data.allBankData.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.apiName === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.apiName === bb.apiName
+            }) || {}).text
+            // (BANKS.find(bb => {
+            //   return b.apiName === bb.apiName
+            // }) || {}).sortNum = b.sortNum
+          })
           this.avaibleBanks = data.allBankData
           fn()
         }

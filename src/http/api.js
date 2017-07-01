@@ -307,6 +307,9 @@ let Me = {
 }
 
 let Group = {
+  // 设置日工资：
+  // http://192.168.169.161:8080/cagamesclient/team/useList.do?method=setSubDaySalary&destUserId=51&daySalary=50
+  setSubDaySalary: '/team/useList.do?method=setSubDaySalary',
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr
   // 二维码
   createQr: '/team/createAccount.do?method=createQr',
@@ -412,6 +415,9 @@ let Group = {
 }
 
 let Form = {
+  // 查询日工资（数据要分页）
+  // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
+  daySalaryRepor: '/report/daySalaryRepor.do?method=list',
   // 投注列表
   // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&beginDate=20170101000000&endDate=20170303000000&stat=1&isFree=1&userName=test&scope=1&lotteryId=1&methodId=16&issue=170104071&modes=1
   Orderlist: '/report/buyReport.do?method=list',

@@ -88,7 +88,7 @@ export default {
         this.time--
       }
     }, 1000)
-    this.Orderlist()
+    // this.Orderlist()
   },
   watch: {
     timeout () {

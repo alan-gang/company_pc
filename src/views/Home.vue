@@ -214,7 +214,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  WW = 10rem
+  WW = 6rem
   WH = 5rem
   IH = .36rem
   
@@ -223,6 +223,7 @@ export default {
   .dialog-collect
     min-width WW
     min-height WH
+    width auto
     .el-dialog__title
       &:before
         content ''

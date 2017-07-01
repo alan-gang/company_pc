@@ -30,6 +30,8 @@
     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
     crossorigin="anonymous"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script> -->
+    
+
   </head> 
   <body>
     <script>
@@ -632,13 +634,18 @@
          // document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
          document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")
     </script>
-     
+    
 
     <!-- 主要逻辑代码 或切换到main.all.min.js-->
     <!-- <script type="text/javascript" src="/static/chat/js/lib.js"></script>
     <script type="text/javascript">
          document.write("<script src='/static/chat/js/main.js?v=" + new Date().getTime() + "'><\/script>")
     </script> -->
+    <script>
+        window.onbeforeunload = function() {
+          return "";
+        };
+    </script>
 
   </body>
 </html>

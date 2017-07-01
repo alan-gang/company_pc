@@ -491,6 +491,12 @@ export default {
                     width: '16.3rem'
                   },
                   url: 'TrendChart'
+                },
+                {
+                  id: '4-5-5',
+                  menuid: '78',
+                  title: '我的日工资详情',
+                  url: 'DaySalary'
                 }
               ]
             }
@@ -767,7 +773,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvailableBalance})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvailable})
         }
       }, (rep) => {
         // error
