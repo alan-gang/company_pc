@@ -46,10 +46,14 @@
             transition all linear .5s
             transform translateY(-100%)
             opacity 0
+            font-family MyT
+            
           &>h3,&>h4
             transition all linear .5s
             transform translateX(-100%)
             opacity 0
+            margin-bottom .2rem
+            font-family MyT
           &>h5,&>h6
             transition all linear 1s
             transform translateX(100%)

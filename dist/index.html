@@ -15,6 +15,10 @@
         // path: 'ichatClient', 
         // pltCd: '102'
       }</script><script type=text/javascript>// document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
-         document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")</script><script>window.onbeforeunload = function() {
-          return "";
-        };</script><script type=text/javascript src=/static/js/manifest.5eb511d2debd8a7655ef.js></script><script type=text/javascript src=/static/js/vendor.5fff65dc98bc65f5ce1c.js></script><script type=text/javascript src=/static/js/app.cf927fa1b5a71db4318f.js></script></body></html>
+         document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")</script><script>setTimeout(function(){
+        window.onbeforeunload = function(e) {
+          var text = '确定离开当前页吗？'
+          event.returnValue = text
+          return text
+        }
+      }, 0)</script><script type=text/javascript src=/static/js/manifest.bb60a9446aeb14318512.js></script><script type=text/javascript src=/static/js/vendor.4ec0a144880fec23fa56.js></script><script type=text/javascript src=/static/js/app.82323abf1de5551335ce.js></script></body></html>

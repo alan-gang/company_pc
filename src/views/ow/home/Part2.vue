@@ -3,16 +3,16 @@
     .slide-content
       .scroll-content.flex(ref="sc")
         .flex-content
-          h3  三大特性，铸就精彩
-          .card.hover
+          h3.myt(style="font-family: MyT")  三大特性，铸就精彩
+          .card.hover.f
             .ds-icon-ow-safe
             h5 信誉保证
             h6 雄厚实力，确保畅玩无忧！
-          .card.hover
+          .card.hover.s
             .ds-icon-ow-fast
             h5 充提更快捷
             h6 为玩家提供一系列安全、可靠便捷的重提服务。
-          .card.hover
+          .card.hover.t
             .ds-icon-ow-nice
             h5 信誉保证
             h6 20多种主流彩票游戏。让您玩的尽兴。
@@ -39,13 +39,27 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
+  .myt
+    font-gradient(90deg, #ffff86, #ffce43)
+  .f
+    background-color #7f85f3
+  .s
+    background-color #27a5fd
+  .t
+    background-color #fd6047
   h3
     margin-bottom .5rem
   h5
+    color #fff
     margin-bottom .1rem  
+  h6
+    font-size .14rem
+    color rgba(255, 255, 255, .5)
+    
   .slide-page
+    background #0d1052
     .card
-      width 2.8rem
+      width 3rem
       @media(max-width: PHONEW)
         height 200px
       .ds-icon-ow-nice
@@ -63,21 +77,10 @@ export default {
           left 0 
           right 0
           bottom 0
-          z-index -1
+          background rgba(255, 255, 255, .1)
+          // z-index -1
           radius(50%)
         
-      .ds-icon-ow-safe
-        &:after
-          bg-gradient(180deg, #787ef2, #8e93f5) 
-      .ds-icon-ow-fast
-        &:after
-          bg-gradient(180deg, #2a9afd, #25b2fe) 
-      .ds-icon-ow-nice
-        &:after
-          bg-gradient(180deg, #fd5f46, #fd8671) 
-      
-        
-    
    
 </style>
 

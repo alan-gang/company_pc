@@ -23,8 +23,6 @@
         display:none;
     }
     </style>
-
-
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"
     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
@@ -641,11 +639,15 @@
     <script type="text/javascript">
          document.write("<script src='/static/chat/js/main.js?v=" + new Date().getTime() + "'><\/script>")
     </script> -->
-    <script>
-        window.onbeforeunload = function() {
-          return "";
-        };
+    
+   <script>
+      setTimeout(function(){
+        window.onbeforeunload = function(e) {
+          var text = '确定离开当前页吗？'
+          event.returnValue = text
+          return text
+        }
+      }, 0)
     </script>
-
   </body>
 </html>

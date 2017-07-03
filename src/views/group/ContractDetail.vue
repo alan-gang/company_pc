@@ -71,14 +71,17 @@
       '$route': 'openRoute'
     },
     mounted () {
+      console.log(this.$route.query.self, '????????????????!!!!!!!!!!!!')
       this.self = this.$route.query.self
       this.qryContractById(this.$route.query.id || '')
     },
     methods: {
       openRoute ({path, query: {id, self}}) {
         if (path !== '/group/3-3-4') return false
-        this.self = self
-        if (id) this.qryContractById(id)
+        if (id) {
+          this.self = self
+          this.qryContractById(id)
+        }
       },
       contract () {
         let loading = this.$loading({

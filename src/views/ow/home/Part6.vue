@@ -31,8 +31,8 @@
                 br
                 h6.text-bbb 支持国内各大主流银行及第三方充值，充值
                 h6.text-bbb 即时到账，提现最快3分钟到账
-            .ds-icon-ow-safe-bg.nobgcolor
-              h2 随时随地 快乐游戏
+            .ds-icon-ow-safe-bg
+              h5 随时随地 快乐游戏
               h6.light-white 畅博娱乐 轻松享受游戏乐趣
               br
               p
@@ -66,21 +66,21 @@ export default {
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
   
-  .ds-icon-ow-safe-bg.nobgcolor
-    padding .4rem 0
+  .ds-icon-ow-safe-bg
+    padding .8rem 0
     position relative
     color #fff
     margin-bottom .2rem
-    &:after
-      content ''
-      position absolute
-      left 0
-      right 0
-      top 0
-      bottom 0
-      content ''
-      bg-gradient(90deg, #a97afc, #4892eb)
-      z-index -1
+    // &:after
+    //   content ''
+    //   position absolute
+    //   left 0
+    //   right 0
+    //   top 0
+    //   bottom 0
+    //   content ''
+    //   bg-gradient(90deg, #a97afc, #4892eb)
+    //   z-index -1
       
 
 

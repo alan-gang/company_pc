@@ -2,7 +2,7 @@
   .header
     .ds-icon-ow-logo(style="min-width: 200px; width: 20%; height: 100%; display: inline-block")
     nav(:class=" {open: open} ")
-      router-link(v-for=" r in links " v-bind:to=" r.link "  @click.native.stop="") {{ r.title }}
+      router-link(v-for=" r in links " v-bind:to=" r.link "  @click.native.stop="" v-bind:class="[r.class]") {{ r.title }}
       a.collapse(@click="open = !open")
         i
 
@@ -16,7 +16,7 @@ export default {
     return {
       open: false,
       links: [
-        {title: '首页', link: '/ow'},
+        {title: '首页', link: '/ow', class: 'ds-icon-ow-home'},
         {title: '热门活动', link: '/ow?url=event'},
         {title: '游戏介绍', link: '/ow?url=intro'},
         {title: '常见问题', link: '/ow?url=faq'},
@@ -55,6 +55,7 @@ export default {
     right 0
     height HH
     line-height HH
+    background-color #101463
     // bg-gradient(90deg, #a97afc, #4892eb)
     nav
       position: relative;
@@ -81,8 +82,24 @@ export default {
             transform rotate(40deg) translateY(-.12rem)
         
       a
-        padding .1rem
+        display inline-block
+        height HH
+        width 1rem
+        text-align center
+        // padding 0 .3rem
         color #fff
+        opacity .5
+        background-position center -.8rem
+        vertical-align top
+        transition all .2s linear
+        &:hover
+          opacity 1
+          background-position center .15rem
+          padding-top .2rem
+          line-height 1.4rem
+          background-color #2c77f4
+          shadow(0 10px 0 rgba(44,119,244, .6))
+          
         @media (max-width IPADW)
           line-height .3rem
           color hsla(0,0%,100%,.5)

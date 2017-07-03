@@ -93,7 +93,7 @@
           .item.block
             span.text-danger *
             | 契约时间：
-            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+            el-date-picker(:picker-options="pickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
           
           p.item.block
              span.text-danger *
@@ -225,6 +225,7 @@
         },
         defaultStEt: ['', ''],
         stEt: ['', ''],
+        stEtA: ['', ''],
         me: store.state.user,
         time: ['', '月', '半月', '周'],
         type: 0,
@@ -367,7 +368,7 @@
         //   c.bounsRate /= 100
         //   delete c.title
         // })
-        if (!this.stEt[0] || !this.stEt[1]) {
+        if (!this.stEtA[0] || !this.stEtA[1]) {
           return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
         }
         if (!this.dataRules[0]) {
@@ -381,8 +382,8 @@
           })
         }
         this.$http.post(api.createContract, {
-          beginTm: dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, ''),
-          expireTm: dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, ''),
+          beginTm: dateTimeFormat(new Date(this.stEtA[0]).getTime()).replace(/[\s:-]*/g, ''),
+          expireTm: dateTimeFormat(new Date(this.stEtA[1]).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
           // sharecycle: this.AT,
