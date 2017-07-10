@@ -29,7 +29,7 @@
           el-col.right(:span="19"  v-if="canCollectMenus[0]")
 
             // v-bind:class="{'with-icon': group.withIcon}"          
-            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups")
+            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups" v-if="!group.hide")
               dt {{ group.title }}
               // v-bind:class="[item.class || group.class]"
               dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid && !item.removed" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
@@ -86,11 +86,11 @@ export default {
   },
   mounted () {
     // this.collects = [
-    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {}

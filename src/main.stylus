@@ -396,12 +396,12 @@ input
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
-  table-row-height(x = .33rem)
+  table-row-height(x = .2rem)
     td
       height auto
       .cell
         line-height x
-   table-header-height(x = .30rem)
+   table-header-height(x = .2rem)
     th
       height auto
       .cell
@@ -452,7 +452,8 @@ input
     &.nopadding
       .cell
       th > div
-        padding 0 .02rem
+        padding 0.05rem .02rem
+        line-height .2rem
   
   TABLEH = 6rem
   .el-table
@@ -554,112 +555,120 @@ input
  *icons class define
  */
   // game icons
+  
   .ds-icon-game-chq
-      background url($ASSETS/game/01_big.png) center no-repeat
-  .ds-icon-game-chq-middle
-      background url($ASSETS/game/01.png) center no-repeat
+      background url($ASSETS/game/new/xxc_cq.png) center no-repeat
   
   .ds-icon-game-xj
-      background url($ASSETS/game/02_big.png) center no-repeat
-  .ds-icon-game-xj-middle
-      background url($ASSETS/game/02.png) center no-repeat
+      background url($ASSETS/game/new/xxc_xj.png) center no-repeat
   
   .ds-icon-game-tj
-      background url($ASSETS/game/03_big.png) center no-repeat
-  .ds-icon-game-tj-middle
-      background url($ASSETS/game/03.png) center no-repeat
+      background url($ASSETS/game/new/xxc_tj.png) center no-repeat
       
   .ds-icon-game-hl
       background url($ASSETS/game/04_big.png) center no-repeat
-  .ds-icon-game-hl-middle
-      background url($ASSETS/game/04.png) center no-repeat
   
   .ds-icon-game-xf
       background url($ASSETS/game/05_big.png) center no-repeat
-  .ds-icon-game-xf-middle
-      background url($ASSETS/game/05.png) center no-repeat  
 
   .ds-icon-game-shh
       background url($ASSETS/game/06_big.png) center no-repeat
-  .ds-icon-game-shh-middle
-      background url($ASSETS/game/06.png) center no-repeat  
 
   .ds-icon-game-dl
       background url($ASSETS/game/07_big.png) center no-repeat
-  .ds-icon-game-dl-middle
-      background url($ASSETS/game/07.png) center no-repeat    
   
   .ds-icon-game-gd
-      background url($ASSETS/game/08_big.png) center no-repeat
-  .ds-icon-game-gd-middle
-      background url($ASSETS/game/08.png) center no-repeat     
+      background url($ASSETS/game/new/115_gd.png) center no-repeat
+  .ds-icon-game-jx115
+      background url($ASSETS/game/new/115_jx.png) center no-repeat
+  
+  .ds-icon-game-hb115
+      background url($ASSETS/game/new/115_hb.png) center no-repeat
+  
+  .ds-icon-game-kt115
+      background url($ASSETS/game/new/115_kt.png) center no-repeat
+  
+  .ds-icon-game-ahK3
+      background url($ASSETS/game/new/k3_ah.png) center no-repeat
+  
+  .ds-icon-game-jsK3
+      background url($ASSETS/game/new/k3_js.png) center no-repeat
+  
+  .ds-icon-game-jlK3
+      background url($ASSETS/game/new/k3_jl.png) center no-repeat
+  
+  .ds-icon-game-bjK3
+      background url($ASSETS/game/new/k3_bj.png) center no-repeat
+  
+  .ds-icon-game-ktK3
+      background url($ASSETS/game/new/k3_kt.png) center no-repeat
+        
   
   .ds-icon-game-dj
       background url($ASSETS/game/09_big.png) center no-repeat
-  .ds-icon-game-dj-middle
-      background url($ASSETS/game/09.png) center no-repeat     
       
   .ds-icon-game-bj
       background url($ASSETS/game/10_big.png) center no-repeat
-  .ds-icon-game-bj-middle
-      background url($ASSETS/game/10.png) center no-repeat   
       
   .ds-icon-game-bjpk10
-      background url($ASSETS/game/11_big.png) center no-repeat
-  .ds-icon-game-bjpk10-middle
-      background url($ASSETS/game/11.png) center no-repeat         
+      background url($ASSETS/game/new/qt_pk10.png) center no-repeat
 
   .ds-icon-game-fc
-      background url($ASSETS/game/12_big.png) center no-repeat
-  .ds-icon-game-fc-middle
-      background url($ASSETS/game/12.png) center no-repeat   
+      background url($ASSETS/game/new/qt_3d.png) center no-repeat
+      
+  .ds-icon-game-kt3D
+      background url($ASSETS/game/new/qt_3d_kt.png) center no-repeat
   
-  .ds-icon-game-pl
-      background url($ASSETS/game/13_big.png) center no-repeat
-  .ds-icon-game-pl-middle
-      background url($ASSETS/game/13.png) center no-repeat   
+  .ds-icon-game-pl5
+      background url($ASSETS/game/new/qt_p5.png) center no-repeat
   
+  .ds-icon-game-pl35
+      background url($ASSETS/game/new/qt_35.png) center no-repeat
+  
+
   .ds-icon-game-11ydj
-      background url($ASSETS/game/14_big.png) center no-repeat
-  .ds-icon-game-11ydj-middle
-      background url($ASSETS/game/14.png) center no-repeat  
+      background url($ASSETS/game/new/11yun.png) center no-repeat
 
   .ds-icon-game-ks
       background url($ASSETS/game/15_big.png) center no-repeat
-  .ds-icon-game-ks-middle
-      background url($ASSETS/game/15.png) center no-repeat  
   
   .ds-icon-game-hljssc
       background url($ASSETS/game/16_big.png) center no-repeat
-  .ds-icon-game-hljssc-middle
-      background url($ASSETS/game/16.png) center no-repeat  
   
   .ds-icon-game-jxssc
       background url($ASSETS/game/17_big.png) center no-repeat
-  .ds-icon-game-jxssc-middle
-      background url($ASSETS/game/17.png) center no-repeat
         
   .ds-icon-game-bjssc
-      background url($ASSETS/game/18_big.png) center no-repeat
-  .ds-icon-game-bjssc-middle
-      background url($ASSETS/game/18.png) center no-repeat
-        
+      background url($ASSETS/game/new/xxc_bj.png) center no-repeat
+      
+  .ds-icon-game-twssc
+      background url($ASSETS/game/new/xxc_tw.png) center no-repeat
+      
+  .ds-icon-game-cb30
+      background url($ASSETS/game/new/ffc_30.png) center no-repeat
+      
+  .ds-icon-game-cb60
+      background url($ASSETS/game/new/ffc_60.png) center no-repeat
+  
+  .ds-icon-game-cb120
+      background url($ASSETS/game/new/ffc_120.png) center no-repeat
+
+
   .ds-icon-game-hg15
-      background url($ASSETS/game/19_big.png) center no-repeat
-  .ds-icon-game-hg15-middle
-      background url($ASSETS/game/19.png) center no-repeat
+      background url($ASSETS/game/new/ffc_hg.png) center no-repeat
         
   .ds-icon-game-dj15
-      background url($ASSETS/game/20_big.png) center no-repeat
-  .ds-icon-game-dj15-middle
-      background url($ASSETS/game/20.png) center no-repeat
+      background url($ASSETS/game/new/ffc_dj.png) center no-repeat
+  
+  .ds-icon-game-ffctx
+      background url($ASSETS/game/new/ffc_tx.png) center no-repeat
         
   .ds-icon-game-tw5
       background url($ASSETS/game/21_big.png) center no-repeat
-  .ds-icon-game-tw5-middle
-      background url($ASSETS/game/21.png) center no-repeat
         
-
+  [class*="dis-icon-game-"]
+  [class*="middle"]
+    background-size .7rem .7rem
       
       
   .ds-icon-notice

@@ -7,13 +7,18 @@
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
-              dt(v-if="group.title") {{ group.title }}
+              dt
+                span.title(v-if="group.title")  {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
+                .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
+                  span.text-gold {{ item.pretitle }}
+                  | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
+
 
       el-col.info(:span="10" v-bind:offset="4")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
@@ -287,10 +292,11 @@ export default {
   .footer-popover
     &.left-menus
       text-align center
+    background rgba(49,41,84, .95)
     transform translateY(.05rem)
     padding PW
     &.game
-      max-width 12rem
+      max-width 8.7rem
       .submenu
         max-width 2.7rem
       
@@ -303,6 +309,23 @@ export default {
         color BLUE
         font-shadow()
         padding PW 0 .18rem 0
+        height .3rem
+        .title
+          padding  .1rem .2rem
+          bg-gradient(180deg, BLUE, #36b0d9)
+          shadow()
+          radius()
+          color #fff
+          position relative
+          &:after
+            content ''
+            position absolute
+            width 10px
+            height 10px
+            transform translateX(-50%) rotateZ(45deg)
+            left 50%
+            bottom -5px
+            background-color #36b0d9
       dd:not(.inner-submenu)
         height H - .06rem
         line-height H - .06rem
@@ -331,20 +354,33 @@ export default {
           // &[class*=ds-icon]
           //   padding-left W + .05rem
       &.game
+        dt
+          text-align left
         dd
+          position relative
           display inline-block
           margin-right PWX
           width .6rem + .4rem
           height .6rem + .4rem
           // margin-top PW
-          margin -.1rem 0 0 -.1rem
+          margin -.1rem 0 .2rem -.1rem
           float left
           transition all linear .2s // @static 2
-          transform perspective(100px) translateZ(-30px)
+          // transform perspective(100px) translateZ(-30px)
+          background-size .7rem .7rem
           
           &:hover
             // transform perspective(100px) translateZ(30px)
-            transform perspective(100px) translateZ(0)
+            // transform perspective(100px) translateZ(0)
+            background-size .96rem .96rem
+            .game-title
+              bottom -.3rem
+            
+          .game-title
+            transition all linear .2s // @static 2
+            bottom -.2rem
+            
+            // transform perspective(100px) translateZ(15px)
           
       .inner-submenu
         float left

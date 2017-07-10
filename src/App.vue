@@ -69,6 +69,7 @@ export default {
               items: [
                 {
                   id: '4-2-2',
+                  menuid: '54',
                   title: '追号记录详情',
                   url: 'FollowDetail',
                   position: {
@@ -151,22 +152,36 @@ export default {
               // withIcon: true,
               // class: 'ds-icon-item',
               url: 'SSC',
-              id: 2,
+              // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
-                // {class: 'ds-icon-game-hljssc', menuid: '8', title: '黑龙江时时彩', gameid: 2},
-                // {class: 'ds-icon-game-jxssc', menuid: '13', title: '江西时时彩', gameid: 16},
-                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
-                {class: 'ds-icon-game-xf', id: '1-2-3', menuid: '16', title: '幸福三分彩', gameid: 16},
-                {class: 'ds-icon-game-hl', id: '1-2-4', menuid: '62', title: '欢乐分分彩', gameid: 2},
-                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '天津时时彩', gameid: 4},
-                {class: 'ds-icon-game-bjssc', id: '1-1-5', menuid: '73', title: '北京时时彩', gameid: 17},
-                {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '74', title: '韩国1.5分彩', gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-tw5', id: '1-1-8', menuid: '76', title: '台湾5分彩', gameid: 20}
-                // {class: 'ds-icon-game-chq', menuid: '10', title: '排列三、五', showInHome: true, liked: true},
-                // {class: 'ds-icon-game-chq', menuid: '12', title: '欢乐分分彩', showInHome: true, liked: true}
+                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '8', title: '重庆时时彩', gameid: 1},
+                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '16', title: '新疆时时彩', gameid: 3},
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '15', title: '天津时时彩', gameid: 4},
+                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '10', title: '北京时时彩', gameid: 17},
+                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台北时时彩', gameid: 20}
+                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博30秒', gameid: 4},
+                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博60秒', gameid: 4},
+                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博120秒', gameid: 4},
+                // {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '74', title: '韩国1.5分彩', gameid: 18},
+                // {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '东京1.5分彩', gameid: 19},
+                // {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '腾讯分分彩', gameid: 19}
+              ]
+            },
+            {
+              // title: '分分彩',
+              // withIcon: true,
+              // class: 'ds-icon-item',
+              url: 'SSC',
+              // id: 2,
+              // width: '8rem',
+              items: [
+                {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '9', title: '畅博30秒', gameid: 16},
+                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '18', title: '畅博60秒', gameid: 12},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '畅博120秒', gameid: 21},
+                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
+                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
+                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
               ]
             },
             // {
@@ -187,10 +202,11 @@ export default {
               // width: '1.8rem',
               items: [
                 // {class: '', menuid: '6', title: '十一运夺金'},
-                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '18', title: '广东十一选五', gameid: 8},
-                {class: 'ds-icon-game-dj', id: '1-3-2', menuid: '19', title: '夺金120秒', gameid: 11},
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-7-1', menuid: '23', title: '十一运夺金', gameid: 6},
-                {class: 'ds-icon-game-dl', id: '1-3-3', menuid: '15', title: '多乐彩', gameid: 7}
+                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '76', title: '广东十一选五', gameid: 8},
+                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '79', title: '江西十一选五', gameid: 7},
+                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '75', title: '湖北十一选五', gameid: 22},
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '73', title: '十一运夺金', gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '74', title: '快投11选5', gameid: 11}
                 // {class: '', menuid: '11', title: '重庆十一选五'}
               ]
             },
@@ -212,28 +228,31 @@ export default {
             //     {class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14}
             //   ]
             // },
-            // {
-            //   title: '快三',
-            //   // withIcon: true,
-            //   // class: 'ds-icon-item',
-            //   url: 'K3',
-            //   // width: '1.8rem',
-            //   items: [
-            //     {class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
-            //   ]
-            // },
+            {
+              title: '快三',
+              // withIcon: true,
+              // class: 'ds-icon-item',
+              url: 'K3',
+              // width: '1.8rem',
+              items: [
+                {class: 'ds-icon-game-ahK3', id: '1-4-1', menuid: '82', title: '安徽快三', gameid: 23},
+                {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', gameid: 24},
+                {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', gameid: 25},
+                {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', gameid: 26},
+                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '81', title: '快投快三', gameid: 15}
+              ]
+            },
             {
               title: '其它游戏',
               // withIcon: true,
               // class: 'ds-icon-item',
               // url: 'K3',
               items: [
-                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-7-2', menuid: '24', title: '福彩3D', gameid: 9},
-                {url: 'SSL', class: 'ds-icon-game-pl', id: '1-7-3', menuid: '25', title: '排列三、五', gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5},
-                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13},
-                {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14},
-                {url: 'K3', class: 'ds-icon-game-ks', id: '1-6-1', menuid: '22', title: '快三', gameid: 15}
+                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '80', title: '北京PK10', gameid: 13},
+                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '61', title: '福彩3D', gameid: 9},
+                {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '60', title: '排列三、五', gameid: 10},
+                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '62', title: '排列五', gameid: 5},
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '19', title: '快投3D', gameid: 14}
               ]
             }
           ]
@@ -257,7 +276,7 @@ export default {
                 },
                 {
                   id: '2-2-1',
-                  menuid: '21',
+                  menuid: '87',
                   title: '安全中心',
                   url: 'SafeCenter'
                 },
@@ -476,7 +495,7 @@ export default {
                 // },
                 {
                   id: '4-5-2',
-                  menuid: '59',
+                  menuid: '67',
                   title: '帐变列表',
                   position: {
                     width: '12rem'
@@ -485,7 +504,7 @@ export default {
                 },
                 {
                   id: '4-5-3',
-                  menuid: '60',
+                  menuid: '89',
                   title: '走势图',
                   position: {
                     width: '16.3rem'
@@ -553,16 +572,19 @@ export default {
             {
               id: '6-2',
               title: '系统',
+              hide: true,
               items: [
                 {
                   id: '6-2-1',
                   title: '系统公告',
+                  menuid: '90',
                   url: 'System'
                   // menuid: '68'
                 },
                 {
                   id: '6-2-2',
                   title: '意见反馈',
+                  menuid: '91',
                   url: 'Feedback'
                 }
               ]
@@ -773,7 +795,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvailable})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable})
         }
       }, (rep) => {
         // error

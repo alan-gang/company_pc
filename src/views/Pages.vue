@@ -158,7 +158,7 @@ export default {
           top: '80%',
           left: '50%',
           transform: 'perspective(100px) translateZ(-100px) translateX(-100%)',
-          'transition-duration': '0.5s',
+          'transition-duration': '0.3s',
           opacity: 0
         },
         default: {

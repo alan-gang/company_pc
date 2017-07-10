@@ -1,5 +1,5 @@
 <template lang="jade">
-  h5.all-rights 版权所有 COPYRIGHT © 2015 尊皇娱乐 ALL RIGHTS RESERVED
+  h5.all-rights 版权所有 COPYRIGHT © 2015 畅博娱乐 ALL RIGHTS RESERVED
 </template>
 
 <style lang="stylus">

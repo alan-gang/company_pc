@@ -5,7 +5,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    el-row.game-info(:class="[ game.class + '-middle' ]" style="background-position: .2rem center;")
+    el-row.game-info(:class="[ game.class, game.class + '-middle' ]" style="background-position: .2rem center;")
 
         el-col.left(:span="4" style="min-width: 1.8rem")
           .item 
@@ -86,8 +86,8 @@ export default {
       size: 100,
       st: '',
       td: dateTimeFormat(new Date().getTime()),
-      yd: dateTimeFormat(new Date().getTime() - 3600 * 24 * 100),
-      lyd: dateTimeFormat(new Date().getTime() - 3600 * 24 * 2 * 100),
+      yd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 1000),
+      lyd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 2 * 1000),
       resizable: false,
       gameList: [],
       game: {lotteryId: 0},
@@ -275,7 +275,7 @@ export default {
           this.myData.forEach((d, j) => {
             d.code.split(',').forEach((s, i) => {
               !this.lines[i] && (this.lines[i] = '')
-              this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (34 * j + 15) + ' '
+              this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
               // 总出现
               // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
               // if (i === 1) {
