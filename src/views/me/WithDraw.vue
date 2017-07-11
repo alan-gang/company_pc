@@ -34,7 +34,7 @@
             | 每天限提 
             span.text-danger 5
             |  次，今天您已经发起了 
-            span.text-danger {{ times }} 0
+            span.text-danger {{ times }}
             |  次提现申请。
             br
             | 每天的提现处理时间为：
@@ -153,7 +153,8 @@ export default {
       data: [{}],
       S: ['未处理', '失败', '成功'],
       V: ['未审核', '审核通过', '审核失败'],
-      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
+      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+      times: 0
     }
   },
   computed: {
@@ -243,6 +244,7 @@ export default {
           this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
+          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
@@ -257,11 +259,20 @@ export default {
           this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
+          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
         }
       }).catch(rep => {
         this.$message.error({target: this.$el, message: '安全验证失败！'})
+      })
+    },
+    withdrawTimes () {
+      this.$http.get(api.withdrawTimes).then(({data}) => {
+        if (data.success === 1) {
+          this.times = data.times
+        }
+      }).catch(rep => {
       })
     },
     getUserBankCards () {

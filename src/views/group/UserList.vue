@@ -157,7 +157,7 @@
             p.content
               | 降点必须量
               span.text-danger 低于
-              | 最低量要求，才能降点，降点以后将返还一个当前用户返点级别的配额。
+              | 最低量要求，才能降点
 
           div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
 

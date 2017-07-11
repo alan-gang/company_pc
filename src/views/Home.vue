@@ -214,7 +214,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  WW = 6rem
+  WW = 7rem
   WH = 5rem
   IH = .36rem
   
@@ -255,18 +255,21 @@ export default {
             background-color BLUE
       .right
         background-color  #ededed
-        padding 0 .05rem
+        padding PW .05rem
         .submenu
-          float left
+          // float left
+          vertical-align top
           display inline-block
           margin 0 PW
           // &:not(:first-child)
           //   margin-left .3rem
           dt
+            height .3rem
+            line-height .3rem
             font-size .18rem
             color BLUE
             // font-shadow()
-            padding .23rem 0 .18rem 0
+            // padding .1rem 0 .18rem 0
           dd
             cursor pointer
           

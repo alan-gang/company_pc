@@ -170,6 +170,9 @@ let Game = {
 }
 
 let Me = {
+  // 今日提款次数
+  // http://192.168.169.44:9901/cagamesclient/person/withDraw.do?method=withdrawTimes
+  withdrawTimes: '/person/withDraw.do?method=withdrawTimes',
   // 开启关闭
   // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=swithGoogAuth& verifyCode=123456&type=1
   switchGoogleAuth: '/person/accountSecur.do?method=swithGoogAuth',

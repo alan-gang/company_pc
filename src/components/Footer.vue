@@ -59,10 +59,10 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.8rem; padding-top: .85rem; z-index: 0; background-size: 100%" v-if="showPool")
+    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .65rem; z-index: 0; background-size: 80%" v-if="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
         p.font-white(style="font-size: .18rem") 平台奖池累计：
-          span.amount.font-gold(style="font-size: .48rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
+          span.amount.font-gold(style="font-size: .45rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
       // div(style="padding: 0 .3rem; display: inline-block")
       //   p.font-white(style="font-size: .12rem") 参与人次
       //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}

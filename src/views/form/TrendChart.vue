@@ -5,7 +5,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    el-row.game-info(:class="[ game.class, game.class + '-middle' ]" style="background-position: .2rem center;")
+    el-row.game-info(:class="[ game.class, game.class + '-middle' ]" style="background-position: .2rem .2rem;")
 
         el-col.left(:span="4" style="min-width: 1.8rem")
           .item 
