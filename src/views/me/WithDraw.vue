@@ -231,7 +231,7 @@ export default {
     },
     checkNow () {
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '安全验证码！'})
+      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '请输入安全验证码！'})
       this.checkSecurityPwd()
     },
     checkSecurityPwd () {
@@ -336,6 +336,7 @@ export default {
             },
             O: this
           })
+          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '提现申请提交失败！'})
         }

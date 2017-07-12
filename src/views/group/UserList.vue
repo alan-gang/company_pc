@@ -93,10 +93,22 @@
             |  进行充值
             span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
 
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 资金密码：
+          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 资金密码：&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
+            span(v-if="")
+              <br>
+              <br>
+              label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
+                  input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+                  button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
+                    span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
+                    span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
+                      span.text-999 秒后可重新发送
+
+              label(v-if="me.safeCheck === 3 " ) 畅博安全码：
+                  input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             <br>
-            span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click="checkSecurityPwd") 下一步
+            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 充值金额：
             el-input-number.large(style="width: 2.2rem" v-model="money") 
@@ -253,11 +265,15 @@
 
 <script>
   import { digitUppercase } from '../../util/Number'
+  import store from '../../store'
+  import xhr from 'components/xhr'
   import api from '../../http/api'
   export default {
+    mixins: [xhr],
     data () {
       return {
         // me: store.state.user,
+        me: store.state.user,
         myPoint: '',
         stepIndex: 0,
         // topUp, point
@@ -315,7 +331,9 @@
         openUserData: [],
         isAddAccount: 0,
         // 给下级充值
-        canTopUp: false
+        canTopUp: false,
+        safeCheckCode: '',
+        checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
       }
     },
     computed: {
@@ -327,6 +345,47 @@
       this.getUserList()
     },
     methods: {
+      sendSms () {
+        this.$http.post(api.person_sendSms, {}).then(({data}) => {
+          if (data.success === 1) {
+            this.$message.success({target: this.$el, message: '恭喜您， 手机验证码发送成功，请注意查收。'})
+            this.pt_ = this.time_
+          } else {
+            this.$message.error({target: this.$el, message: data.msg || '手机验证码发送失败！'})
+          }
+        }).catch(rep => {
+        })
+      },
+      sendMail () {
+        this.$http.post(api.person_sendMail, {}).then(({data}) => {
+          if (data.success === 1) {
+            this.$message.success({target: this.$el, message: '恭喜您， 邮箱验证码发送成功，请注意查收。'})
+            this.et_ = this.time_
+          } else {
+            this.$message.error({target: this.$el, message: data.msg || '邮箱验证码发送失败！'})
+          }
+        }).catch(rep => {
+        })
+      },
+      checkNow () {
+        if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+        if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '请输入安全验证码！'})
+        this.checkSecurityPwd()
+      },
+      checkSafeCode () {
+        this.$http.post(this.checkSafeCodeUrl[this.me.safeCheck], {verifyCode: this.safeCheckCode}).then(({data}) => {
+          if (data.success === 1) {
+            this.topUpIndex++
+            this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
+            // this.__setCall({fn: '__getUserFund'})
+            this.getUserBankCards()
+          } else {
+            this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
+          }
+        }).catch(rep => {
+          this.$message.error({target: this.$el, message: '安全验证失败！'})
+        })
+      },
       // 设置日工资：
       // http://192.168.169.161:8080/cagamesclient/team/useList.do?method=setSubDaySalary&destUserId=51&daySalary=50
       setSubDaySalary () {
@@ -430,8 +489,11 @@
       checkSecurityPwd () {
         this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
           if (data.success === 1) {
-            this.topUpIndex++
-            this.$message.success({target: this.$el, message: data.msg || '资金密码密码验证成功！'})
+            if (this.me.safeCheck) {
+              return this.checkSafeCode()
+            } else this.topUpIndex++
+            // this.topUpIndex++
+            // this.$message.success({target: this.$el, message: data.msg || '资金密码密码验证成功！'})
           } else {
             this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
           }

@@ -8,7 +8,7 @@
 
       el-popover(placement="bottom-start" trigger="hover" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
         span(slot="reference")
-          .ds-button.outline.small.instruction ? {{ type.title }}
+          .ds-button.outline.small.instruction(ref="instruction") ? {{ type.title }}
         slot
             p(style="line-height: .25rem")
               span.label.font-gold 玩法说明：
@@ -91,6 +91,14 @@ export default {
     // this.Orderlist()
   },
   watch: {
+    type () {
+      if (!this.$refs.instruction.style.transform) {
+        this.$refs.instruction.style.transform = 'perspective(100px) translateZ(30px)'
+        setTimeout(() => {
+          this.$refs.instruction.style.transform = ''
+        }, 200)
+      }
+    },
     timeout () {
       this.time = Math.floor(this.timeout)
     },
@@ -246,6 +254,7 @@ export default {
       padding 0 .1rem 0 .36rem
       margin-left .1rem
     .instruction
+      transition transform .2s linear
       position relative
       border 1px solid #ccc
       &:hover

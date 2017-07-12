@@ -98,12 +98,12 @@
               span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(prop="bonus" label="奖金" width="80" align="right")
+
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="80" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.bonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
-          
 
           el-table-column( prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
           

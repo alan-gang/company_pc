@@ -1,7 +1,7 @@
 <template lang="jade">
   .login-test
     h2 线路检测
-    el-row.routers.font-white(:gutter="30" style="width: 9.0003rem; padding-left: 0; padding-right: 0")
+    el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
           p {{ r }}
@@ -239,6 +239,7 @@
 
       
   .routers
+    width 9.0003rem;
     padding .5rem 1rem
     text-align center
     display inline-block

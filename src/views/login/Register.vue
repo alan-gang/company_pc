@@ -53,7 +53,12 @@
     mounted () {
       this._getVerifyImage()
       this.tag = this.$route.query.tag
-      if (browser.mobile) window.location.href = 'login_regist.html?tag=' + this.tag
+      if (browser.mobile) {
+        window.onbeforeunload = null
+        setTimeout(() => {
+          window.location.href = 'login_regist.html?tag=' + this.tag
+        }, 0)
+      }
       setTimeout(this.getStrangerInfo, 1000)
     },
     beforeDestroy () {

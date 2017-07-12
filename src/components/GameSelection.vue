@@ -391,6 +391,18 @@
       }
     },
     watch: {
+      type () {
+        // 根据allChecks确定默认的checkbox选中效果
+        this.positions.forEach(check => (check.selected = false))
+        let min = this.allChecks.filter(check => check.ids.match(
+          new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g')
+        ))[0]
+        if (min) {
+          for (let k = 0; k < min.min; k++) {
+            this.positions[4 - k].selected = true
+          }
+        }
+      },
       n () {
         this.$emit('n-change', this.n, this.hasUnable)
       },

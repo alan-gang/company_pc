@@ -159,7 +159,7 @@ export default {
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '16', title: '新疆时时彩', gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '15', title: '天津时时彩', gameid: 4},
                 {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '10', title: '北京时时彩', gameid: 17},
-                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台北时时彩', gameid: 20}
+                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台湾时时彩', gameid: 20}
                 // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博30秒', gameid: 4},
                 // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博60秒', gameid: 4},
                 // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博120秒', gameid: 4},
@@ -842,6 +842,7 @@ export default {
   @import './var.stylus'
   @import './main.stylus'
   @import './night.stylus'
+  @import './1600.stylus'
   // @import './chat.night.stylus'
   
   
@@ -935,5 +936,4 @@ export default {
     &[class*=-enter]
       transform none
 
-  
 </style>

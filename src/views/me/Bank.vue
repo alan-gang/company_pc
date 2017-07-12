@@ -9,7 +9,7 @@
       
       .cashpwd-form.form(v-if="stepIndex === -1" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow()")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
@@ -230,15 +230,16 @@
 import StepTabs from 'components/StepTabs'
 import { BANKS } from '../../util/static'
 import api from '../../http/api'
-import store from '../../store'
-import xhr from 'components/xhr'
+// import store from '../../store'
+// import xhr from 'components/xhr'
 import Validate from '../../util/Validate'
 // import { dateTimeFormat } from '../../util/Date'
 export default {
-  mixins: [xhr],
+  // mixins: [xhr],
   data () {
     return {
-      me: store.state.user,
+      // me: store.state.user,
+      me: {safeCheck: 0},
       avaibleBanks: [],
       cpwd: '',
       // BANKS: BANKS,
@@ -329,7 +330,7 @@ export default {
     },
     checkNow () {
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '安全验证码！'})
+      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '请输入安全验证码！'})
       this.checkSecurityPwd()
     },
     checkSafeCode () {
@@ -534,9 +535,10 @@ export default {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           if (this.stepIndex === -1) {
-            if (this.me.safeCheck) {
-              return this.checkSafeCode()
-            } else this.stepIndex++
+            // if (this.me.safeCheck) {
+              // return this.checkSafeCode()
+            // } else this.stepIndex++
+            this.stepIndex++
           } else {
             if (this.type === 'unbind') this.unbindBankCard()
             else if (this.type === 'lock') this.lockNow()
@@ -549,11 +551,13 @@ export default {
     lockBankCard (modal) {
       this.$http.get(api.lockBankCard).then(({data}) => {
         if (data.success === 1) {
+          this.cpwd = ''
+          this.stepIndex = 0
           modal.type = 'success'
           modal.btn = []
           modal.content = '恭喜您，锁定成功！'
           modal.ok = null
-          this.stepIndex = -1
+          this.locked = true
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
