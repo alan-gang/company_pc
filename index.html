@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+    <script src="/static/update/browser.js"></script>
     <style>
     body #nprogress .bar {
       background: rgb(143, 255, 199)
@@ -24,6 +25,13 @@
         display:none;
     }
     </style>
+    <script>
+      if (window.userPlatInfo) {
+        if ( (window.userPlatInfo.browser === 'ie' && window.userPlatInfo.v < 10) ||   (window.userPlatInfo.browser === 'chrome' && window.userPlatInfo.v < 43) ||  (window.userPlatInfo.browser === 'firefox' && window.userPlatInfo.v < 35)) {
+          window.location = '/static/update.html'
+        }
+      }
+    </script>
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"
     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="

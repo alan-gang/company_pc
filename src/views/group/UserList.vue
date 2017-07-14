@@ -100,15 +100,16 @@
               <br>
               label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
                   input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-                  button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
-                    span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
-                    span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
+                  button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+                    span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
+                    span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
                       span.text-999 秒后可重新发送
 
               label(v-if="me.safeCheck === 3 " ) 畅博安全码：
                   input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             <br>
             span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
+
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 充值金额：
             el-input-number.large(style="width: 2.2rem" v-model="money") 

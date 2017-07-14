@@ -112,13 +112,15 @@
                     stay: true
                   }
                 })
-                this.$router.push({
-                  path: '/login/login',
-                  query: {
-                    un_: this.account,
-                    pwd: '123qwe'
-                  }
-                })
+                setTimeout(() => {
+                  this.$router.push({
+                    path: '/login/login',
+                    query: {
+                      un_: this.account,
+                      pwd: '123qwe'
+                    }
+                  })
+                }, 200)
               },
               O: this
             })

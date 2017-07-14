@@ -239,7 +239,7 @@
 
       
   .routers
-    width 9.0003rem;
+    width 9.2rem;
     padding .5rem 1rem
     text-align center
     display inline-block

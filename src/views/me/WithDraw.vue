@@ -16,9 +16,9 @@
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
-              span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
-              span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
+            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+              span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
+              span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
                 span.text-999 秒后可重新发送
         p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")

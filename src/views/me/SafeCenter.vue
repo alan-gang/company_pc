@@ -283,10 +283,12 @@
               .ds-checkbox-label.active.disabled
                 .ds-checkbox
                 资金密码验证
-              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
+
+              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 邮箱验证
-              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
+                
+              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 手机验证
 

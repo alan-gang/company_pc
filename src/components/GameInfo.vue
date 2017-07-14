@@ -8,7 +8,7 @@
 
       el-popover(placement="bottom-start" trigger="hover" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
         span(slot="reference")
-          .ds-button.outline.small.instruction(ref="instruction") ? {{ type.title }}
+          span.ds-button.instruction.primary(ref="instruction") ? {{ type.title }}
         slot
             p(style="line-height: .25rem")
               span.label.font-gold 玩法说明：
@@ -91,14 +91,14 @@ export default {
     // this.Orderlist()
   },
   watch: {
-    type () {
-      if (!this.$refs.instruction.style.transform) {
-        this.$refs.instruction.style.transform = 'perspective(100px) translateZ(30px)'
-        setTimeout(() => {
-          this.$refs.instruction.style.transform = ''
-        }, 200)
-      }
-    },
+    // type () {
+    //   if (!this.$refs.instruction.style.transform) {
+    //     this.$refs.instruction.style.transform = 'perspective(100px) translateZ(30px)'
+    //     setTimeout(() => {
+    //       this.$refs.instruction.style.transform = ''
+    //     }, 200)
+    //   }
+    // },
     timeout () {
       this.time = Math.floor(this.timeout)
     },
@@ -186,7 +186,7 @@ export default {
     // top 100%
     transition none
     max-width 4.5rem
-    transform translateX(.2rem) translateY(-.09rem)
+    transform translateX(.2rem) translateY(-.1rem)
     padding PW .2rem 0 .2rem
     text-align left
     background-color rgba(22, 113, 188, .95)
@@ -256,7 +256,14 @@ export default {
     .instruction
       transition transform .2s linear
       position relative
-      border 1px solid #ccc
+      vertical-align super
+      margin-left .2rem
+      padding-left .08rem
+      padding-right .1rem
+      font-size .12rem
+      height .32rem
+      line-height .32rem
+
       &:hover
         color WHITE
         background-color rgba(22, 113, 188, .9)

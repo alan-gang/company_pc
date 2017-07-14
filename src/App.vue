@@ -160,18 +160,9 @@ export default {
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '15', title: '天津时时彩', gameid: 4},
                 {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '10', title: '北京时时彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台湾时时彩', gameid: 20}
-                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博30秒', gameid: 4},
-                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博60秒', gameid: 4},
-                // {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '13', title: '畅博120秒', gameid: 4},
-                // {class: 'ds-icon-game-hg15', id: '1-1-6', menuid: '74', title: '韩国1.5分彩', gameid: 18},
-                // {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '东京1.5分彩', gameid: 19},
-                // {class: 'ds-icon-game-dj15', id: '1-1-7', menuid: '75', title: '腾讯分分彩', gameid: 19}
               ]
             },
             {
-              // title: '分分彩',
-              // withIcon: true,
-              // class: 'ds-icon-item',
               url: 'SSC',
               // id: 2,
               // width: '8rem',
@@ -181,19 +172,9 @@ export default {
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '畅博120秒', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
                 {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
+                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯时时彩', gameid: 2}
               ]
             },
-            // {
-            //   title: '时时乐',
-            //   // withIcon: true,
-            //   // class: 'ds-icon-item',
-            //   url: 'SSL',
-            //   items: [
-            //     {class: 'ds-icon-game-shh', id: '1-2-1', menuid: '14', title: '上海时时乐', gameid: 5}
-            //     // {class: 'ds-icon-game-hl', menuid: '9', title: '福彩3D'}
-            //   ]
-            // },
             {
               title: '11选5',
               // withIcon: true,
@@ -201,37 +182,15 @@ export default {
               url: 'G115',
               // width: '1.8rem',
               items: [
-                // {class: '', menuid: '6', title: '十一运夺金'},
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '76', title: '广东十一选五', gameid: 8},
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '79', title: '江西十一选五', gameid: 7},
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '75', title: '湖北十一选五', gameid: 22},
                 {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '73', title: '十一运夺金', gameid: 6},
                 {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '74', title: '快投11选5', gameid: 11}
-                // {class: '', menuid: '11', title: '重庆十一选五'}
               ]
             },
-            // {
-            //   title: '北京PK10',
-            //   // withIcon: true,
-            //   // class: 'ds-icon-item',
-            //   url: 'PK10',
-            //   items: [
-            //     {class: 'ds-icon-game-bjpk10', id: '1-4-1', menuid: '20', title: '北京PK10', gameid: 13}
-            //   ]
-            // },
-            // {
-            //   title: '北京快乐8',
-            //   // withIcon: true,
-            //   // class: 'ds-icon-item',
-            //   url: 'KL8',
-            //   items: [
-            //     {class: 'ds-icon-game-bj', id: '1-5-1', menuid: '21', title: '北京快乐8', gameid: 14}
-            //   ]
-            // },
             {
               title: '快三',
-              // withIcon: true,
-              // class: 'ds-icon-item',
               url: 'K3',
               // width: '1.8rem',
               items: [
@@ -813,6 +772,7 @@ export default {
   @import './var.stylus'
   html
     height 100%
+    width 100%
     font-size 100px
     overflow hidden
     min-height 600px
@@ -821,6 +781,7 @@ export default {
   
   body
     height 100%
+    width 100%
     font-size .14rem
     color #666
     margin 0

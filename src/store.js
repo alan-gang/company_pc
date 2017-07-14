@@ -140,5 +140,4 @@ Object.defineProperty(store.state.user, 'email', {
     this._email = v
   }
 })
-
 export default store
