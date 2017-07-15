@@ -12,6 +12,7 @@ const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
 
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
+const C500 = r => require.ensure([], () => r(require('../views/login/500')), 'login-part')
 const Forbidden = r => require.ensure([], () => r(require('../views/login/Forbidden')), 'login-part')
 const Register = r => require.ensure([], () => r(require('../views/login/Register')), 'login-part')
 const LoginTest = r => require.ensure([], () => r(require('../views/login/LoginTest')), 'login-part')
@@ -57,6 +58,7 @@ export default function (VueRoter) {
         children: [
           // { path: '404', component: require('../views/login/404') },
           { path: '404', component: C404 },
+          { path: '500', component: C500 },
           { path: 'forbidden', component: Forbidden },
           // { path: 'forbidden', component: require('../views/login/Forbidden') },
           { path: 'register', component: Register },
