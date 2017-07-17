@@ -55,7 +55,7 @@
       return {
         nper: 5,
         npers: [5, 10, 15, 20, 25, 30],
-        times: 1,
+        times: 2,
         get: 50,
         tabIndex: 3,
         selection: []
