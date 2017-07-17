@@ -745,6 +745,9 @@ export default {
   .page
     overflow hidden
   .dialog-page
+    &>.scroll-content
+      left 50%
+      transform translateX(-50%)
     position absolute !important
     min-width 5.4rem
     min-height 4rem

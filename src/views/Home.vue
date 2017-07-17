@@ -22,7 +22,7 @@
 
 
 
-      el-dialog(title="添加收藏" v-model="adding" size="small" custom-class="dialog-collect")
+      el-dialog(title="添加收藏" v-model="adding" size="small" custom-class="dialog-collect" v-bind:modal="modal")
         el-row.content
           el-col.left(:span="5")
             .item(v-for=" (m, index) in  canCollectMenus" v-bind:class="[m.class + '-small', {active: index === activeIndex}]" @click="activeIndex = index") {{ m.title }}
@@ -54,6 +54,7 @@ export default {
   props: ['menus'],
   data () {
     return {
+      modal: false,
       hasHeader: true,
       hasFooter: true,
       pages: store.state.pages,

@@ -8,7 +8,7 @@
     slot(name="toolbar")
 
     <!-- 游戏信息 -->
-    GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
+    GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
       GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
@@ -35,7 +35,7 @@
       // GameFollowHistory
 
     <!-- 总计栏 -->
-    GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-on:toggle-checked="toggleChecked" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+    GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
 
@@ -140,6 +140,8 @@ export default {
       },
       // 使用优惠卷
       checked: false,
+      // 奖池投注
+      pot: true,
       // 位置集合
       ps: [],
       // 游戏所有玩法的返点信息
@@ -177,7 +179,7 @@ export default {
     NPAY () {
       return this.ns.reduce((p, n) => {
         return (p += n.pay)
-      }, 0)
+      }, this.pot ? 1 : 0)
     },
     // 已投注注数金额不包含times
     N1PAY () {
@@ -421,6 +423,9 @@ export default {
     },
     toggleChecked () {
       this.checked = !this.checked
+    },
+    togglePot () {
+      this.pot = !this.pot
     },
     showFollow () {
       this.follow.show = true

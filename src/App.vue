@@ -897,4 +897,8 @@ export default {
     &[class*=-enter]
       transform none
 
+// .dialog-container .dialog-page>.scroll-content
+//   width 100%
+//   left 50%
+//   transform translateX(-50%)
 </style>
