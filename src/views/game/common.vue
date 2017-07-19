@@ -141,7 +141,7 @@ export default {
       // 使用优惠卷
       checked: false,
       // 奖池投注
-      pot: true,
+      pot: false,
       // 位置集合
       ps: [],
       // 游戏所有玩法的返点信息

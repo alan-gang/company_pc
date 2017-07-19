@@ -1594,7 +1594,8 @@ input
     border-color BLUE
     box-shadow 0 0 .05rem BLUE
     
-.el-input 
+.el-input
+  vertical-align middle
   .el-input__inner 
     height .3rem !important
     line-height .3rem

@@ -344,6 +344,7 @@ export default {
     })
   },
   mounted () {
+    this.__setCall({fn: '__hidePool', callId: undefined})
   },
   beforeDestroy () {
     // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))

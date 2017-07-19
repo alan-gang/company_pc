@@ -12,10 +12,12 @@
           p.intro.text-999 {{ d.intro }}
         el-col.title(:span="18")
           .buttons
-            .ds-button.tall.wide(:class="[ b.class ]" v-for="b in d.buttons") {{ b.title }}
-              .before
-              .after {{ b.title }}
-              .qr(:style="b.style" v-if="b.style")
+            a(v-for="b in d.buttons" v-bind:href="b.download" v-bind:download="b.title")
+              .ds-button.tall.wide(:class="[ b.class ]") {{ b.title }}
+                .before
+                .after {{ b.title }}
+                .qr(:style="b.style" v-if="b.style")
+
 
 
 
@@ -33,9 +35,9 @@
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-logo',
             buttons: [
-              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.createCBqr + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
-              {title: 'Android下载', class: 'ds-icon-download-android'},
-              {title: 'PC下载', class: 'ds-icon-download-windows primary'}
+              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.plat_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
+              {title: 'Android下载', class: 'ds-icon-download-android', style: {background: 'url(' + api.plat_andr + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
+              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: api.getWinClient}
             ]
           },
           {
@@ -43,8 +45,8 @@
             intro: '保障用户帐户安全的神器',
             class: 'ds-icon-download-cbsafe',
             buttons: [
-              {title: 'IOS下载', class: 'ds-icon-download-ios'},
-              {title: 'Android下载', class: 'ds-icon-download-android'}
+              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.code_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
+              {title: 'Android下载', class: 'ds-icon-download-android', style: {background: 'url(' + api.code_andr + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}}
               // {title: 'PC下载', class: 'ds-icon-download-windows'}
             ]
           },
@@ -53,7 +55,7 @@
             intro: '功能完善的客服聊天系统',
             class: 'ds-icon-download-chat',
             buttons: [
-              {title: 'IOS下载', class: 'ds-icon-download-ios'}
+              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.chat_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}}
               // {title: 'Android下载', class: 'ds-icon-download-android'}
               // {title: 'PC下载', class: 'ds-icon-download-windows'}
             ]
@@ -64,6 +66,20 @@
     mounted () {
     },
     methods: {
+      // 二维码
+      // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_ios
+      // plat_ios: '/help/download.do?method=getApp&type=plat_ios',
+      // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_andr
+      // plat_andr: '/help/download.do?method=getApp&type=plat_andr',
+      // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_ios
+      // code_ios: '/help/download.do?method=getApp&type=code_ios',
+      // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_andr
+      // code_andr: '/help/download.do?method=getApp&type=code_andr',
+      // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=chat_ios
+      // chat_ios: '/help/download.do?method=getApp&type=chat_ios',
+      // // win客户端下载
+      // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
+      // getWinClient: '/help/download.do?method=getWinClient'
     }
   }
 </script>
@@ -104,6 +120,7 @@
       .title
         font-size .18rem
       .ds-button
+        position relative
         margin .1rem
         height .5rem
         width 1.68rem
@@ -118,7 +135,4 @@
           .qr
             display block
       
-          
-      
-    
 </style>

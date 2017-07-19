@@ -524,7 +524,24 @@ let Activity = {
   getCheckToday: '/activity.do?method=getCheckToday'
 }
 
-let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity)
+let Download = {
+  // 二维码
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_ios
+  plat_ios: '/help/download.do?method=getApp&type=plat_ios',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_andr
+  plat_andr: '/help/download.do?method=getApp&type=plat_andr',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_ios
+  code_ios: '/help/download.do?method=getApp&type=code_ios',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_andr
+  code_andr: '/help/download.do?method=getApp&type=code_andr',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=chat_ios
+  chat_ios: '/help/download.do?method=getApp&type=chat_ios',
+  // win客户端下载
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
+  getWinClient: '/help/download.do?method=getWinClient'
+}
+
+let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity, Download)
 Object.keys(API).forEach((key) => {
   // if (key.startsWith('http')) return
   const value = API[key]
