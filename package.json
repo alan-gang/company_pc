@@ -84,6 +84,7 @@
     "url-loader": "^0.5.7",
     "vue-chartjs": "^2.5.0",
     "vue-loader": "^9.9.5",
+    "vue-progressbar": "^0.7.2",
     "vue-resource": "^0.7.4",
     "vue-router": "^2.0.1",
     "vue-style-loader": "^1.0.0",

@@ -18,6 +18,8 @@
         pc_: '',
         // 邮箱验证码
         ec_: '',
+        // 畅博安全码
+        cb_: '',
         // 安全问答1、2
         q1_: '',
         q2_: '',
@@ -60,6 +62,23 @@
       }
     },
     methods: {
+      // 校验安全验证二维码
+      _checkGoogleAuth (fn) {
+        this.$http.post(api.checkGoogleAuth, {verifyCode: this.cb_}).then(({data}) => {
+          // success
+          // if (data.success !== 1) this.notice = '验证码输入不正确！'
+          if (data.success !== 1) {
+            this.$message.warning('畅博安全码输入不正确！')
+          } else {
+            if (fn) fn()
+            else {
+              // this.$message.success('验证码正确！')
+            }
+          }
+        }, (rep) => {
+          // error
+        })
+      },
       // 获取验证码
       _getVerifyImage () {
         this.$http.get(api.getVerifyImage).then(({data}) => {
@@ -124,6 +143,20 @@
             store.actions.setUser({phone: data.mobile})
           } else {
             this.$message.warning(data.msg || '您还没有绑定手机！')
+          }
+        }, (rep) => {
+          // error
+        })
+      },
+      _isOpenCbAuth (fn) {
+        this.$http.get(api.isOpenCbAuth).then(({data}) => {
+          // success
+          if (data.success === 1 && data.openCbAuth === '1') {
+            fn && fn()
+            // this.phone_ = data.mobile
+            store.actions.setUser({cbsafe: true})
+          } else {
+            this.$message.warning(data.msg || '您还没有开启畅博安全！')
           }
         }, (rep) => {
           // error

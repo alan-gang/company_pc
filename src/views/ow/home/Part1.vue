@@ -1,13 +1,7 @@
 <template lang="jade">
   swiper.part1-swiper.scroll-content(:options="swiperOption" ref="mySwiper")
-    swiper-slide.flex
+    swiper-slide.flex.ds-icon-home-bg
       .flex-content
-        h2.white 全新畅博精彩呈现
-        h4.light-white Changbo Entertainments
-    swiper-slide.flex
-      .flex-content
-        h2.white 全新畅博精彩呈现1
-        h4.light-white Changbo Entertainments
     .swiper-pagination(slot="pagination")
     .swiper-button-prev(slot="button-prev")
     .swiper-button-next(slot="button-next")
@@ -53,25 +47,25 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
     .part1-swiper
-      &:before
-        content ''
-        position absolute
-        left 0
-        top 0 
-        right 0
-        bottom 0
-        background url($VASSETS/cloud.png) center bottom no-repeat
-        background-size 100%
+      // &:before
+      //   content ''
+      //   position absolute
+      //   left 0
+      //   top 0 
+      //   right 0
+      //   bottom 0
+      //   background url($VASSETS/cloud.png) center bottom no-repeat
+      //   background-size 100%
         
-      &:after
-        content ''
-        position absolute
-        left 0
-        top 0 
-        right 0
-        bottom 0
-        bg-gradient(90deg, #a97afc, #4892eb)
-        z-index -1
+      // &:after
+      //   content ''
+      //   position absolute
+      //   left 0
+      //   top 0 
+      //   right 0
+      //   bottom 0
+      //   // bg-gradient(90deg, #a97afc, #4892eb)
+      //   z-index -1
 </style>
 
 

@@ -260,7 +260,7 @@ export default {
       amount: '',
       min: 0,
       max: 0,
-      data: [{}],
+      data: [],
       show: false,
       time_: 60,
       pt_: 0,

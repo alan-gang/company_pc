@@ -284,7 +284,7 @@
       },
       myTopup () {
         this.clear()
-        this.type = [1]
+        this.type = [0]
         this.list()
       },
       myWithdraw () {

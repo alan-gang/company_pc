@@ -4,7 +4,7 @@
       .scroll-content(style="padding: 10% 0")
         .flex
           .flex-content
-            h4 采种丰富
+            h3.myt(style="font-family: MyT") 彩种丰富
             br
             h5.text-999 近年来我们致力于投资开发多种类的彩票游戏，以创新的方式让彩票产品娱乐升级。重庆11选5，分分彩...
             h5.text-999 多达15个彩种，上百个玩法。满足玩家多变的需求。所有彩票游戏公正公开，皆参照各地官方开奖结果为
@@ -67,6 +67,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../../var.stylus'
+  .myt
+    color #333
   .part4-swiper
     height 4rem
     width 100%

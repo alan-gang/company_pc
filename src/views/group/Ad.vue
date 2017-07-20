@@ -53,12 +53,6 @@
         
 
       
-
-
-
-
-
-      
 </template>
 
 <script>
@@ -113,10 +107,11 @@
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
           if (data.success === 1) {
+            console.log(data.userPoint, data.range)
             this.userPoint = data.userPoint
             this.autoRegistMinPoint = data.autoRegistMinPoint
             this.url = data.url
-            this.p = data.autoPoint.toFixed(1)
+            this.p = (data.autoPoint < data.range.min ? data.range.min : data.autoPoint > data.range.max ? data.range.max : data.autoPoint).toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {
               this.PS.push(i.toFixed(1))
             }

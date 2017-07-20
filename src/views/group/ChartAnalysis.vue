@@ -278,6 +278,9 @@
       this.getData()
     },
     methods: {
+      symbolSize (value) {
+        return [Math.max(value.toFixed(0).length * (1 + 0.1 * parseInt((value + '').slice(0, 1))) * 20.5, 50), Math.max(value.toFixed(0).length * (1 + 0.03 * parseInt((value + '').slice(0, 1))) * 10, 50)]
+      },
       // 7.团队盈亏图表（投注+返点+中奖+结算+中奖率） http://192.168.169.44:9901/cagamesclient/team/teamStatistic.do?method=getTeamProfit&startDay=170226&endDay=170303
       // getTeamProfit: api + 'team/teamStatistic.do?method=getTeamProfit',
       // 10.团队总销量（投注+返奖数据）  http://192.168.169.44:9901/cagamesclient/team/teamStatistic.do?method=getTeamSale&startDay=170226&endDay=170303
@@ -285,15 +288,16 @@
       // 12 团队用户图表（用户数图表：总用户数，活跃用户数，投注用户数）  http://192.168.169.44:9901/cagamesclient/team/teamStatistic.do?method=getTeamUserChart&startDay=170226&endDay=170303
       // teamStatistic: api + 'team/teamStatistic.do?method=getTeamUserChart'
       getData () {
-        let loading = this.$loading({
-          text: '数据获取中...',
-          target: this.$el
-        }, 10000, '数据获取失败...')
+        // let loading = this.$loading({
+        //   text: '数据获取中...',
+        //   target: this.$el
+        // }, 10000, '数据获取失败...')
         this.$http.get(this.url[this.type], {
           startDay: dateFormat(this.stEt[this.timeType][0], 6).replace(/[-]/g, ''),
           endDay: dateFormat(this.stEt[this.timeType][1], 6).replace(/[-]/g, '')
         }).then(({data}) => {
           // success
+          this.CHART.clear()
           if (data.success === 1) {
             this.line.xAxis = Object.assign({
               data: data.chartData.map(function (item) {
@@ -313,6 +317,7 @@
                   return item.userCount
                 }),
                 markPoint: {
+                  symbolSize: this.symbolSize,
                   data: [
                     {type: 'max', name: '最大值'},
                     {type: 'min', name: '最小值'}
@@ -331,6 +336,7 @@
                   return item.userActivity
                 }),
                 markPoint: {
+                  symbolSize: this.symbolSize,
                   data: [
                     {type: 'max', name: '最大值'},
                     {type: 'min', name: '最小值'}
@@ -349,6 +355,7 @@
                   return item.buyUserCount
                 }),
                 markPoint: {
+                  symbolSize: this.symbolSize,
                   data: [
                     {type: 'max', name: '最大值'},
                     {type: 'min', name: '最小值'}
@@ -373,7 +380,9 @@
                   return item.buy
                 }),
                 markPoint: {
+                  symbolSize: this.symbolSize,
                   data: [
+                    // {type: 'max', name: '最大值', label: {normal: {textStyle: {color: '#000'}}}},
                     {type: 'max', name: '最大值'},
                     {type: 'min', name: '最小值'}
                   ]
@@ -391,6 +400,7 @@
                   return item.prize
                 }),
                 markPoint: {
+                  symbolSize: this.symbolSize,
                   data: [
                     {type: 'max', name: '最大值'},
                     {type: 'min', name: '最小值'}
@@ -416,7 +426,7 @@
                 }),
                 markPoint: {
                   data: [
-                    {type: 'max', name: '最大值'},
+                    {type: 'max', name: '最大值', label: {emphasis: {textStyle: {color: '#000'}}}},
                     {type: 'min', name: '最小值'}
                   ]
                 },
@@ -500,13 +510,14 @@
               }]
             }
             this.CHART.setOption(this.line)
-          } else loading.text = '数据获取失败'
+          }
+          // else loading.text = '数据获取失败'
         }, (rep) => {
           // error
         }).finally(() => {
-          setTimeout(() => {
-            loading.close()
-          }, 1000)
+          // setTimeout(() => {
+          //   loading.close()
+          // }, 1000)
         })
       },
       onReady (instance) {

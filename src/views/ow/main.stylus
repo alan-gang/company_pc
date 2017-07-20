@@ -2,6 +2,11 @@
 html
   @media(max-width: PHONEW)
     font-size 60px
+
+@font-face
+    /* font-properties */  
+    font-family MyT
+    src url('./assets/MyT.otf')
     
 section.ow
   .ds-icon-ow-cloud
@@ -21,7 +26,10 @@ section.ow
   // .ds-icon-ow-laptop
   //   background url(./assets/laptop.png) center center no-repeat
   //   background-size 100%
-  
+  .ds-icon-home-bg
+    background url(./assets/home-bg.png) center center no-repeat
+    background-size 100% 100%
+    
   .ds-icon-ow-router-test
     background url(./assets/router-test.png) center center no-repeat
     background-size 100%
@@ -186,7 +194,7 @@ h6
 .white
   color #fff
 .light-white
-  color rgba(255, 255, 255, .8)
+  color rgba(255, 255, 255, .5)
 .text-black
   color #333
 .text-999
@@ -225,8 +233,12 @@ h6
 .ds-icon-ow-download-android
   background url(./assets/download-android.png) center center no-repeat
   height 82px
+
 .ds-icon-ow-logo
   background url(./assets/logo.png) .5rem center no-repeat
+
+.ds-icon-ow-home
+  background url(./assets/home.png) center no-repeat
   
 .ds-icon-ow-safe
   background url(./assets/safe.png) center no-repeat
@@ -272,7 +284,7 @@ h6
   background-size 100%
   
 .ds-icon-ow-safe-bg
-  background url(./assets/safe-bg.png) #787ef2 center .2rem no-repeat
+  background url(./assets/safe-bg.png) #14197d center .2rem no-repeat
   background-size 100% 100%
   &.nobgcolor
     background url(./assets/safe-bg.png)  center no-repeat

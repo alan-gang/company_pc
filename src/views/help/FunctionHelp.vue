@@ -11,7 +11,7 @@
       
       .content(v-for="gcontent in gcontents")
 
-        span.step(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.title}}
+        span.step.text-black(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.title}}
         .value {{ gcontent.content }}
         
         // p.title {{ gcontent.content }}

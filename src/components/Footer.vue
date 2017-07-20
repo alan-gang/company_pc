@@ -2,18 +2,23 @@
   footer
     el-row
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
-              dt(v-if="group.title") {{ group.title }}
+              dt
+                span.title(v-if="group.title")  {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
-                .ds-button(style="position: relative; left: -.2rem") {{ menu.url === 'game' ? '' : item.title }}
+                .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
+                .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
+                  span.text-gold {{ item.pretitle }}
+                  | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
+
 
       el-col.info(:span="10" v-bind:offset="4")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
@@ -54,13 +59,13 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 390px; height: 145px; top: -1.5rem; padding-top: .3rem; z-index: 0; background-size: 100%")
+    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .65rem; z-index: 0; background-size: 80%" v-show="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .12rem") 平台奖池累计
-        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotAmount.toFixed(3) }}
-      div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .12rem") 参与人次
-        p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
+        p.font-white(style="font-size: .18rem") 平台奖池累计：
+          span.amount.font-gold(style="font-size: .45rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
+      // div(style="padding: 0 .3rem; display: inline-block")
+      //   p.font-white(style="font-size: .12rem") 参与人次
+      //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
       
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
@@ -71,6 +76,7 @@
 import api from '../http/api'
 import LoginTest from '../views/login/LoginTest'
 import { toggleFullScreen } from '../util/Dom'
+import { numberWithCommas } from '../util/Number'
 import util from '../util'
 import store from '../store'
 export default {
@@ -97,13 +103,14 @@ export default {
       prizeAmount: 0.00,
       timeout: 0,
       pricePotAmount: 0,
-      pricePotCount: 0
+      pricePotCount: 0,
+      showPool: false
     }
   },
   mounted () {
     if (this.login) {
       this.pricePot()
-      this.timeout = setInterval(this.pricePot, 5000)
+      this.timeout = setInterval(this.pricePot, 30000)
     }
     this.initShows()
     this.setFarChat()
@@ -130,7 +137,10 @@ export default {
   },
   computed: {
     ML () {
-      return this.menus.length
+      return this.menus.filter(m => !m.removed).length
+    },
+    EM () {
+      return numberWithCommas(this.pricePotAmount)
     }
   },
   watch: {
@@ -140,6 +150,11 @@ export default {
     },
     more () {
       this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
+    },
+    ML () {
+      this.getPos()
+      setTimeout(this.getPos, 50)
+      setTimeout(this.getPos, 100)
     }
   },
   beforeDestroy () {
@@ -148,6 +163,12 @@ export default {
     else this.setFarChat()
   },
   methods: {
+    __showPool () {
+      this.showPool = true
+    },
+    __hidePool () {
+      this.showPool = false
+    },
     pricePot () {
       this.$http.get(api.pricePot).then(({data}) => {
         if (data.success === 1) {
@@ -269,21 +290,42 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    &.left-menus
+      text-align center
+    background rgba(49,41,84, .95)
     transform translateY(.05rem)
+    padding PW
     &.game
-      max-width 9rem
+      max-width 8.7rem
       .submenu
-        width 3rem
+        max-width 2.7rem
       
     .submenu
       float left
       display inline-block
-      margin 0 .3rem
+      margin 0 .1rem
       dt
         font-size .18rem
         color BLUE
         font-shadow()
         padding PW 0 .18rem 0
+        height .3rem
+        .title
+          padding  .1rem .2rem
+          bg-gradient(180deg, BLUE, #36b0d9)
+          shadow()
+          radius()
+          color #fff
+          position relative
+          &:after
+            content ''
+            position absolute
+            width 10px
+            height 10px
+            transform translateX(-50%) rotateZ(45deg)
+            left 50%
+            bottom -5px
+            background-color #36b0d9
       dd:not(.inner-submenu)
         height H - .06rem
         line-height H - .06rem
@@ -312,20 +354,33 @@ export default {
           // &[class*=ds-icon]
           //   padding-left W + .05rem
       &.game
+        dt
+          text-align left
         dd
+          position relative
           display inline-block
           margin-right PWX
           width .6rem + .4rem
           height .6rem + .4rem
           // margin-top PW
-          margin -.1rem 0 0 -.1rem
+          margin -.1rem 0 .2rem -.1rem
           float left
           transition all linear .2s // @static 2
-          transform perspective(100px) translateZ(-30px)
+          // transform perspective(100px) translateZ(-30px)
+          background-size .7rem .7rem
           
           &:hover
             // transform perspective(100px) translateZ(30px)
-            transform perspective(100px) translateZ(0)
+            // transform perspective(100px) translateZ(0)
+            background-size .96rem .96rem
+            .game-title
+              bottom -.3rem
+            
+          .game-title
+            transition all linear .2s // @static 2
+            bottom -.2rem
+            
+            // transform perspective(100px) translateZ(15px)
           
       .inner-submenu
         float left
@@ -378,19 +433,21 @@ export default {
   footer
     // height FH
     text-align center
-    bg-gradient(180deg, rgba(255, 255, 255, .1), rgba(0, 0, 0, .1))
+    bg-gradient(180deg, rgba(255, 255, 255, .1) 20%, rgba(0, 0, 0, .1))
     // @media screen and (max-width: 1100px)
       // height 2 * FH
     .logo
       position absolute
-      top -.2rem
+      top 0
       left 50%
       transform translateX(-50%)
       display inline-block
-      width 1rem
-      height .88rem
+      width LGW
+      height LGH
       z-index 1
-      
+    
+    .amount
+      font-gradient(180deg, #fff, #ffd800 60%)
       
   .el-row
     text-align left

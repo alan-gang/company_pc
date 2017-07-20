@@ -2,17 +2,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
-    <title>DSGAMING</title>
+    <title>畅博游戏</title>
+    <link rel="shortcut icon" type="image/png" href="/static/favicon.png" />
     <!-- <link href="favicon.ico" type="image/x-icon"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+    <script src="/static/update/browser.js"></script>
+    <style>
+    body #nprogress .bar {
+      background: rgb(143, 255, 199)
+    }
+    body #nprogress .spinner {
+      border-top-color: rgb(143, 255, 199);
+      border-left-color: rgb(143, 255, 199);
+      display: none;
+    }
+    .ng-cloak{
+        display:none;
+    }
+    </style>
+    <script>
+      if (window.userPlatInfo) {
+        if ( (window.userPlatInfo.browser === 'ie' && window.userPlatInfo.v < 10) ||   (window.userPlatInfo.browser === 'chrome' && window.userPlatInfo.v < 43) ||  (window.userPlatInfo.browser === 'firefox' && window.userPlatInfo.v < 35)) {
+          window.location = '/static/update.html'
+        }
+      }
+    </script>
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"
     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
     crossorigin="anonymous"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script> -->
+    
+
   </head> 
   <body>
+    <script>
+      NProgress.start()
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     
@@ -22,7 +53,7 @@
 
     <link rel="stylesheet" href="/static/chat/css/index.css?v=20170dsa412543">
     <!-- chat  -->
-    <div data-ng-app="custom-service" id="custom-service" >
+    <div data-ng-app="custom-service" id="custom-service ng-cloak" >
      <div data-ng-controller="MainCtrl">
        <!-- <link rel="stylesheet" data-ng-href="{{ css }}"> -->
        <div class="dialog-container  animation opacity-0"  data-ng-hide="close" data-ng-class="{'opacity-0': !open,  heart: !stranger, stranger: !!stranger}">
@@ -610,13 +641,22 @@
          // document.write("<script src='/static/chat/js/main.all.min.js?v=" + new Date().getTime() + "'><\/script>")
          document.write("<script src='/static/chat/js/main.all.min.js'><\/script>")
     </script>
-
+    
 
     <!-- 主要逻辑代码 或切换到main.all.min.js-->
     <!-- <script type="text/javascript" src="/static/chat/js/lib.js"></script>
     <script type="text/javascript">
          document.write("<script src='/static/chat/js/main.js?v=" + new Date().getTime() + "'><\/script>")
     </script> -->
-
+    
+   <script>
+      setTimeout(function(){
+        window.onbeforeunload = function(e) {
+          var text = '确定离开当前页吗？'
+          event.returnValue = text
+          return text
+        }
+      }, 0)
+    </script>
   </body>
 </html>

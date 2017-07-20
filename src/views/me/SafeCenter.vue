@@ -197,6 +197,42 @@
               .ds-button.primary.large(@click="bindEmail" v-if="!me.email") 提交
               .ds-button.primary.large(@click="unbindEmail" v-if="me.email") 提交
               .ds-button.cancel.large(@click="clearEmail") 清空
+
+      // 畅博安全
+      el-row.email(v-bind:class="{expand: index === 8 }")
+        el-col
+          el-row.static
+            el-col(:span="6").title.ds-icon-cbsafe 畅博安全
+
+            el-col(:span="14").email
+              span.text-green.ds-icon-set(v-if="me.cbsafe") 已设置
+              // span.text-black(v-if="me.email")  {{ me.cbsafe }}
+              span.text-danger.ds-icon-unset(v-if="!me.cbsafe") 未设置
+
+            el-col(:span="4").toggle
+              .ds-button.text-button.blue(@click="index === 8 ? index = 0 : index = 8") {{ index === 8 ? '收起' : !me.cbsafe ? '立即设置' : '立即修改' }}
+
+          el-row.action(v-if="index === 8" )
+
+            .email-form.form
+              p(v-if="stepIndex === 0") 资金密码：&nbsp;&nbsp;&nbsp;
+                input.ds-input.large(v-model="newCashPwd" type="password" @keyup.enter="checkSecurityPwd")
+              
+              transition(name="slide" appear=true)
+                div(style="padding: 0 1rem;" v-if="stepIndex === 1 && !me.cbsafe")
+                  .QR.ds-icon-QR(:style="myQR")
+                    p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码查看畅博安全码
+
+              transition(name="slide" appear=true)
+                p(v-if="stepIndex === 1") 畅博安全码：
+                  input.ds-input.large(v-model="cb_" @keyup.enter="switchGoogleAuth(me.cbsafe ? 0 : 1)")
+
+            .buttons(style="margin-left: .85rem")
+              .ds-button.primary.large(@click="checkSecurityPwd" v-if="stepIndex === 0") 提交
+              .ds-button.primary.large(@click="switchGoogleAuth(1)" v-if="stepIndex === 1 && !me.cbsafe") 立即开启
+              .ds-button.primary.large(@click="switchGoogleAuth(0)" v-if="stepIndex === 1 && me.cbsafe") 立即关闭
+              // .ds-button.cancel.large(@click="clearEmail") 清空
+
       // 安全问题
       el-row.safe-question(v-bind:class="{expand: index === 6 }")
         el-col
@@ -247,22 +283,31 @@
               .ds-checkbox-label.active.disabled
                 .ds-checkbox
                 资金密码验证
-              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }")
+
+              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 邮箱验证
-              .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }")
+                
+              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
                 .ds-checkbox
                 手机验证
+
+              .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
+                .ds-checkbox
+                畅博安全认证
+
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
               //  安全问题验证
-            
-            p(v-if="me.safeCheck != safeCheck " style="margin-top: .2rem") 验证码：
+            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码：
                 input.ds-input.large(v-model="safeCheckCode")
-                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) > 0") 
-                  span(v-if="!((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
-                  span.text-black(v-if="((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_)") {{ ((this.safeCheck || this.me.safeCheck) === 1 ? et_ : pt_) }} 
+                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (safeCheck || me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((safeCheck || me.safeCheck) === 1 ? et_ : pt_) > 0") 
+                  span(v-if="!((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
+                  span.text-black(v-if="((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") {{ ((safeCheck || me.safeCheck) === 1 ? et_ : pt_) }} 
                     span.text-999 秒后可重新发送
+            transition(name="slide" appear=true)
+              p(v-if=" me.safeCheck != safeCheck &&  (me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) " style="margin-top: .2rem") 畅博安全码：
+                  input.ds-input.large(v-model="safeCheckCode")
 
 
             .buttons(style="margin: .2rem 0; padding-top: 0")
@@ -300,7 +345,8 @@ export default {
       safeCheckCode: '',
 
       index: 0,
-      tabIndex: 1
+      tabIndex: 1,
+      stepIndex: 0
     }
   },
   computed: {
@@ -309,6 +355,14 @@ export default {
     },
     greetingPlaceholder () {
       return !this.me.greeting ? '请输入登录问候语' : this.me.greeting
+    },
+    myQR () {
+      return {
+        background: 'url(' + api.createCBqr + ') left top no-repeat',
+        height: '1.96rem',
+        width: '1.4rem',
+        textAlign: 'center'
+      }
     }
   },
   watch: {
@@ -345,12 +399,17 @@ export default {
         this.$message.error({target: this.$el, message: '请先绑定手机，再来绑定安全验证方式!'})
         this.safeCheck = 0
       }
+      if (!this.me.cbsafe && this.safeCheck === 3) {
+        this.$message.error({target: this.$el, message: '请先开启畅博安全，再来绑定安全验证方式!'})
+        this.safeCheck = 0
+      }
     },
     index () {
       this.clearPwd()
       this.clearSafeQuestion()
       this.clearPhone()
       this.clearEmail()
+      this.stepIndex = 0
     }
   },
   mounted () {
@@ -358,6 +417,38 @@ export default {
     this.safeQuestionList()
   },
   methods: {
+    // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=swithGoogAuth& verifyCode=123456&type=1
+    switchGoogleAuth (type) {
+      this.$http.post(api.switchGoogleAuth, {verifyCode: this.cb_, type: type}).then(({data}) => {
+        // success
+        // if (data.success !== 1) this.notice = '验证码输入不正确！'
+        this.newCashPwd = ''
+        this.cb_ = ''
+        if (data.success === 1) {
+          this.$message.success(type ? '恭喜您，畅博安全开启成功' : '您已成功关闭畅博安全！')
+          store.actions.setUser({
+            cbsafe: !!type
+          })
+          this.stepIndex = 0
+          if (this.me.safeCheck === 3) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
+          // this.index = -1
+        } else this.$message.warning(data.msg || '畅博安全码输入不正确！')
+      }, (rep) => {
+        // error
+      })
+    },
+    checkSecurityPwd () {
+      this.$http.post(api.checkSecurityPwd, {password: this.newCashPwd}).then(({data}) => {
+        if (data.success === 1) {
+          this.stepIndex = 1
+          this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '资金密码验证失败！'})
+      })
+    },
     acctSecureInfo () {
       this.$http.get(api.acctSecureInfo).then(({data}) => {
         if (data.success === 1) {
@@ -369,6 +460,7 @@ export default {
             cashPwd: data.isSetSecurityPwd,
             safe: data.isSetSafeQuest,
             safeCheck: data.isSetVerifytype,
+            cbsafe: !!data.isOpenKey,
             safeScore: data.accountPoint,
             location: data.location,
             lastLoginTime: data.lastLoginTime
@@ -502,6 +594,7 @@ export default {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机解绑成功。'})
           store.actions.setUser({phone: ''})
+          if (this.me.safeCheck === 2) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
         } else {
           this.$message.error({target: this.$el, message: data.msg || '手机解绑失败！'})
         }
@@ -549,6 +642,7 @@ export default {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 邮箱解绑成功。'})
           store.actions.setUser({email: ''})
+          if (this.me.safeCheck === 1) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
         } else {
           this.$message.error({target: this.$el, message: data.msg || '邮箱解绑失败！'})
         }
@@ -681,11 +775,11 @@ export default {
       .static
         border-bottom none
       .action
-        border-bottom 1px solid #ccc
+        // border-bottom 1px solid #ccc
     .el-row.static
       height H
       line-height H
-      border-bottom 1px solid #ccc
+      // border-bottom 1px solid #ccc
       .title
         color #333
         padding-left .5rem

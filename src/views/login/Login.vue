@@ -66,6 +66,31 @@
     activated () {
     },
     methods: {
+      loginSuccess (data) {
+        this.$emit('update-user', {login: true,
+          name: data.nickName,
+          pwd: data.hasLogPwd === '1',
+          cashPwd: data.hasSecurityPwd === '1',
+          type: data.identity,
+          account: data.userName,
+          shareCycle: data.shareCycle,
+          role: data.roleId,
+          hasBankCard: data.hasBankCard === '1',
+          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          cbsafe: !!data.isOpenKey,
+          safeCheck: data.verifyType
+        })
+        this.$router.push('/')
+        window.accessAngular.setUser({
+          id: data.userId,
+          key: data.token,
+          pltCd: data.platId,
+          socketUrl: data.platUrl
+        })
+        window.accessAngular.isStranger(false)
+        // window.accessAngular.connect()
+        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+      },
       login () {
         if (this.hasEmpty()) {
           this.$message.warning('输入值不能为空')
@@ -76,26 +101,7 @@
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
               // success
               if (data.success) {
-                this.$emit('update-user', {login: true,
-                  name: data.nickName,
-                  pwd: data.hasLogPwd === '1',
-                  cashPwd: data.hasSecurityPwd === '1',
-                  type: data.identity,
-                  account: data.userName,
-                  shareCycle: data.shareCycle,
-                  role: data.roleId,
-                  hasBankCard: data.hasBankCard === '1',
-                  guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
-                })
-                this.$router.push('/')
-                window.accessAngular.setUser({
-                  id: data.userId,
-                  key: data.token,
-                  pltCd: data.platId,
-                  socketUrl: data.platUrl
-                })
-                window.accessAngular.isStranger(false)
-                window.accessAngular.connect()
+                this.loginSuccess(data)
               } else {
                 this.$message.error('用户名或密码错误！')
                 this._getVerifyImage()
@@ -119,7 +125,7 @@
           if (data.success) {
             this.regard = data.greetingMsg || ''
             if (!this.regard) {
-              this.$message('常用语空空如也。')
+              this.$message.warning('您未设置登录问候语！')
             }
             setTimeout(() => this.$el.querySelector('.ds-icon-pwd input').focus(), 0)
           } else {
@@ -145,27 +151,28 @@
         this.$http.get(api.validate).then(({data}) => {
           // success
           if (data.success) {
-            this.$emit('update-user', {login: true,
-              name: data.nickName,
-              pwd: data.hasLogPwd === '1',
-              cashPwd: data.hasSecurityPwd === '1',
-              hasBankCard: data.hasBankCard === '1',
-              shareCycle: data.shareCycle,
-              type: data.identity,
-              account: data.userName,
-              role: data.roleId,
-              guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
-              // guide: true
-            })
-            this.$router.push('/')
-            window.accessAngular.setUser({
-              id: data.userId,
-              key: data.token,
-              pltCd: data.platId,
-              socketUrl: data.platUrl
-            })
-            window.accessAngular.isStranger(false)
-            setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+            this.loginSuccess(data)
+            // this.$emit('update-user', {login: true,
+            //   name: data.nickName,
+            //   pwd: data.hasLogPwd === '1',
+            //   cashPwd: data.hasSecurityPwd === '1',
+            //   hasBankCard: data.hasBankCard === '1',
+            //   shareCycle: data.shareCycle,
+            //   type: data.identity,
+            //   account: data.userName,
+            //   role: data.roleId,
+            //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+            //   // guide: true
+            // })
+            // this.$router.push('/')
+            // window.accessAngular.setUser({
+            //   id: data.userId,
+            //   key: data.token,
+            //   pltCd: data.platId,
+            //   socketUrl: data.platUrl
+            // })
+            // window.accessAngular.isStranger(false)
+            // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
           } else {
             this._getVerifyImage()
             // loading.text = '自动登录失败'

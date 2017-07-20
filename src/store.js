@@ -21,6 +21,7 @@ let store = {
       cashPwd: '',
       safe: '',
       safeCheck: '',
+      cbsafe: false,
       safeScore: '',
       location: '',
       lastLoginTime: '',
@@ -67,6 +68,7 @@ let store = {
         cashPwd: '',
         safe: '',
         safeCheck: '',
+        cbsafe: false,
         safeScore: '',
         location: '',
         lastLoginTime: '',
@@ -88,9 +90,9 @@ let store = {
       })
     },
     updatePage (id, {opened, active, size, star, position, desk}, page) {
-      console.log('updatePage:', id, 'opened:', opened, 'active:', active, 'size:', size, 'star:', star, 'position:', position)
+      // console.log('page:', page, 'updatePage:', id, 'opened:', opened, 'active:', active, 'size:', size, 'star:', star, 'position:', position)
       page = page || store.state.pages.filter(p => p.id === id || p.menuid === id)[0]
-      if (page && page.size === 'minus' && active) size = ''
+      if (page && page.size === 'minus' && active) console.log('updatePageNeedDefault') || (size = page.defaultSize)
       if (page) {
         opened !== undefined && (page.opened = opened)
         active !== undefined && (page.active = active)
@@ -138,5 +140,4 @@ Object.defineProperty(store.state.user, 'email', {
     this._email = v
   }
 })
-
 export default store

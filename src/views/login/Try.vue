@@ -14,7 +14,7 @@
 
 <script>
 // import base from 'components/base'
-import { launchFullScreen } from '../../util/Dom'
+// import { launchFullScreen } from '../../util/Dom'
 import xhr from 'components/xhr'
 import api from '../../http/api'
 export default {
@@ -49,7 +49,7 @@ export default {
       }, (rep) => {
         // error
       })
-      launchFullScreen(document.body)
+      // launchFullScreen(document.body)
     }
   },
   components: {

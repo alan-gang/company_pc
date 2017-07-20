@@ -1,7 +1,7 @@
 <template lang="jade">
   .login-test
     h2 线路检测
-    el-row.routers.font-white(:gutter="30" style="width: 9.0003rem; padding-left: 0; padding-right: 0")
+    el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
           p {{ r }}
@@ -32,7 +32,7 @@
   // import cookie from 'js-cookie'
   export default {
     // if show server
-    props: ['server'],
+    props: ['server', 'm'],
     components: {
       SignalBar
     },
@@ -105,7 +105,7 @@
       getEnableLines () {
         this.$http.get(api.getEnableLines).then(({data}) => {
           if (data.success === 1) {
-            this.frontList = data.frontList
+            this.frontList = !this.m ? data.frontList : data.managerList
             this.serverList = data.serverList
             this.test()
           } else this.$message.warning({target: this.$el, message: '线路信息获取失败！'})
@@ -172,6 +172,10 @@
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       goLogin (r) {
         if (this.server) {
+          if (r === this.currentServer) {
+            this.$emit('close')
+            return this.$message.warning('已是当前线路，无需切换')
+          }
           api.preApi = api.api
           api.api = r
           this.currentServer = api.api
@@ -235,6 +239,7 @@
 
       
   .routers
+    width 9.2rem;
     padding .5rem 1rem
     text-align center
     display inline-block

@@ -65,7 +65,7 @@
             .form(v-if="step === 3 && bi === 0")
               p.item 开户银行：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 el-select.width1-5rem(v-model="bank")
-                  el-option(v-for="(b, index) in BANKS" v-bind:label="b.text" v-bind:value="b")
+                  el-option(v-for="(b, index) in avaibleBanks" v-bind:label="b.text" v-bind:value="b")
 
               p.item 开户银行省份：
                 el-select.width1-5rem(v-model="province")
@@ -163,11 +163,11 @@ export default {
     }
   },
   computed: {
-    BANKS () {
-      return BANKS.filter(b => {
-        return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
-      })
-    }
+    // BANKS () {
+    //   return BANKS.filter(b => {
+    //     return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
+    //   }).sort((a, b) => a.sortNum > b.sortNum)
+    // }
   },
   watch: {
     cardNo () {
@@ -192,19 +192,19 @@ export default {
     this.getBankList()
     this.getProvices()
     util.addEvent('resize', window, this.getPos)
-    this.getPos()
+    // this.getPos()
   },
   beforeDestroy () {
     util.removeEvent('resize', window, this.getPos)
   },
   methods: {
     getPos () {
-      if (document.querySelector('footer .icon-button.ds-icon-game-middle')) {
+      if (document.querySelector('footer .icon-button.ds-icon-game-middle').style.display !== 'none') {
         let H = document.querySelector('footer ').offsetHeight
         this.$refs.modal.style.bottom = H / 100 + 'rem'
       } else {
         // this.showGameNow = false
-        this.__closeGuide()
+        if (this.step > 3) this.__closeGuide()
       }
     },
     __guideStep () {
@@ -237,7 +237,7 @@ export default {
       if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
       if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
       // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-      this.$http.post(api.changLoginPwd, {password: '123qwe', newPwd: this.newPwd}).then(({data}) => {
+      this.$http.post(api.changLoginPwd, {password: '123qwe', newPwd: this.newPwd, isFirst: 1}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功'})
           // this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
@@ -296,6 +296,17 @@ export default {
     getBankList (fn) {
       this.$http.get(api.getBankList).then(({data}) => {
         if (data.success === 1) {
+          data.allBankData.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.apiName === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.apiName === bb.apiName
+            }) || {}).text
+            // (BANKS.find(bb => {
+            //   return b.apiName === bb.apiName
+            // }) || {}).sortNum = b.sortNum
+          })
           this.avaibleBanks = data.allBankData
           fn()
         }

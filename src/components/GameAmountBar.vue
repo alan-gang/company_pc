@@ -1,6 +1,6 @@
 <template lang="jade">
   el-row.amout-bar
-    el-col.left(:span="10")
+    el-col.left(:span="8")
       .ds-button.primary.bold(@click="showFollow" v-if="!show") 追号
       span.follow(v-if="show")
         | 追号总期数 
@@ -10,7 +10,7 @@
 
 
 
-    el-col.right(:span="14")
+    el-col.right(:span="16")
       | 总计 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;&nbsp;总计&nbsp;&nbsp;
@@ -24,7 +24,7 @@
 
       el-popover(placement="top-start" trigger="hover" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
-          .ds-checkbox-label(v-bind:class="{active: pot}" @click="pot = !pot").ds-icon-text-question
+          .ds-checkbox-label(v-bind:class="{active: pot}" @click=" togglePot ").ds-icon-text-question
             .ds-checkbox
             | 奖池抽奖
           // .ds-button.danger.bold(@click="book") ? 奖池投注
@@ -56,11 +56,11 @@ export default {
     n: Number,
     pay: Number,
     // 优惠券
-    checked: Boolean
+    checked: Boolean,
+    pot: Boolean
   },
   data () {
     return {
-      pot: true
     }
   },
   computed: {
@@ -73,6 +73,9 @@ export default {
     },
     toggle () {
       this.$emit('toggle-checked')
+    },
+    togglePot () {
+      this.$emit('toggle-pot')
     },
     book () {
       this.$emit('book', this.pot)

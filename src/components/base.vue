@@ -4,8 +4,8 @@
     data () {
       return {
         // show header and footer by default
-        hasHeader: true,
-        hasFooter: true
+        hasHeader: false,
+        hasFooter: false
       }
     },
     created () {
@@ -31,9 +31,9 @@
        */
       openPage (url) {
         store.actions.updateAllPages({active: false})
-        let page = this.updatePage(url, {active: true, opened: true})
-        if (page && page.size === 'minus') this.updatePage(url, {size: ''}, page)
-        return page
+        return this.updatePage(url, {active: true, opened: true})
+        // if (page && page.size === 'minus') this.updatePage(url, {size: ''}, page)
+        // return page
       },
       updatePage (url, options, page) {
         return store.actions.updatePage(url, options, page)

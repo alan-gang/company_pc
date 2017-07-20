@@ -11,6 +11,9 @@
       |  &nbsp;&nbsp;起始倍数：
       el-input-number.center.times(v-model="times" v-bind:min="1" v-bind:max="100")
       |  倍
+      span(v-if="tabIndex == 2") &nbsp;&nbsp;&nbsp;&nbsp;倍数 
+        span(style="font-size: 9px") X&nbsp;&nbsp;
+        el-input-number.center.times(v-model="xtimes" v-bind:min="1" v-bind:max="100")
       span(v-if="tabIndex === 3")
         | &nbsp;&nbsp;最低收益：
         el-input-number.center.get(v-model="get")
@@ -56,6 +59,7 @@
         nper: 5,
         npers: [5, 10, 15, 20, 25, 30],
         times: 1,
+        xtimes: 2,
         get: 50,
         tabIndex: 3,
         selection: []
@@ -82,7 +86,7 @@
           // return iii
           return (iii = {
             issue: iii.issue,
-            times: this.tabIndex === 2 ? this.times * Math.pow(2, index) : this.times,
+            times: this.tabIndex === 2 ? this.times * Math.pow(this.xtimes, index) : this.times,
             saleend: iii.saleend
           })
         })
@@ -107,8 +111,16 @@
       tabIndex () {
         this.$emit('set-follow', {type: this.tabIndex})
       },
+      xtimes () {
+        setTimeout(() => {
+          this.xtimes = Math.floor(this.xtimes)
+        })
+      },
       times () {
-        this.$emit('set-follow', {t: this.times})
+        setTimeout(() => {
+          this.times = Math.floor(this.times)
+          this.$emit('set-follow', {t: this.times})
+        })
       },
       get () {
         if (this.tabIndex === 3 && this.get > 0) this.adjustList()

@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 // Vue.config.devtools = false
 // Vue.config.silent = true
@@ -6,8 +7,23 @@ import './polyline'
 import config from './config'
 config(Vue)
 
+// ow
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
+
+// progressBar
+// import VueProgressBar from 'vue-progressbar'
+
+// Vue.use(VueProgressBar, {
+//   color: 'rgb(143, 255, 199)',
+//   failedColor: 'red',
+//   height: '3px',
+//   transition: {
+//     speed: '0.2s',
+//     opacity: '0.6s',
+//     termination: 300
+//   }
+// })
 
 // 饿了么
 import elementConfig from './elementConfig'

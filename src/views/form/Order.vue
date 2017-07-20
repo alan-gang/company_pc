@@ -98,13 +98,21 @@
               span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(prop="bonus" label="奖金" width="80" align="right")
+
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="80" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.bonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
-          el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
 
+          el-table-column( prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
+          
+          el-table-column(class-name="pr2" label="参与奖池" width="80" align="center")
+            template(scope="scope")
+              div(v-if="!scope.row.last")
+                span.text-danger(v-if="scope.row.isJoinPool") 是
+                span.text-grey(v-if="!scope.row.isJoinPool") 否
+         
           el-table-column(label="状态" width="60")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
@@ -129,7 +137,7 @@
               el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="9")
+              el-col(:span="8")
                 游戏用户：
                 span.text-black {{ row.nickName }}
               el-col(:span="5")
@@ -143,12 +151,12 @@
                   span 开奖号码：
                     span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 总金额：
                 span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="9")
+              el-col(:span="8")
                 注单编号：
                 span.text-black {{ row.projectId }}
               el-col(:span="5")
@@ -158,13 +166,13 @@
                 注单状态：
                 span.text-black {{ STATUS[row.stat] }}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 倍数模式：
                 span.text-black {{ row.multiple }}
 
             
             el-row
-              el-col(:span="9")
+              el-col(:span="8")
                 投单时间：
                 span.text-black {{ row.writeTime }}
               el-col(:span="5")
@@ -174,9 +182,26 @@
                 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 动态奖金返点：
                 span.text-black {{ row.userPoint }}
+
+            el-row(v-if="row.isJoinPool")
+
+              el-col(:span="8")
+                奖池期号：
+                span.text-black {{ row.poolIssue}}
+
+              el-col(:span="5")
+                奖池状态：
+                span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
+              el-col(:span="5")
+                奖池开奖号码：
+                span.text-black {{ row.poolCode }}
+
+              el-col(:span="6")
+                奖池奖金：
+                span.text-black {{ row.poolBonus  }}
 
             p.textarea-label
               span.label 投注内容：
@@ -298,6 +323,7 @@
       // }
     },
     watch: {
+      '$route': 'openRoute',
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
@@ -318,6 +344,13 @@
       this.Orderlist()
     },
     methods: {
+      openRoute ({path, query: {gameid}}) {
+        if (path !== '/form/4-1-1') return false
+        if (gameid && gameid !== this.gameid) {
+          this.gameid = gameid
+          this.Orderlist()
+        }
+      },
       summary () {
         this.amount[0].income = 0
         this.amount[0].expenditure = 0
@@ -468,6 +501,10 @@
             // this.show = false
             this.expandList = data.expandList
             row.userPoint = data.userPoint
+            row.poolIssue = data.poolIssue
+            row.poolCode = data.poolCode
+            row.poolBonus = data.poolBonus
+            row.poolIsGetPrize = data.poolIsGetPrize
             setTimeout(() => {
               loading.text = '详情加载成功!'
             }, 500)

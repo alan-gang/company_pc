@@ -100,7 +100,9 @@ let Login = {
   getEnableLines: '/login/lineTest.do?method=getEnableLines',
   // 测试线路
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
-  lineTest: '/login/lineTest.do?method=lineTest'
+  lineTest: '/login/lineTest.do?method=lineTest',
+  // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
+  isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth'
 }
 
 let Game = {
@@ -168,10 +170,20 @@ let Game = {
 }
 
 let Me = {
+  // 今日提款次数
+  // http://192.168.169.44:9901/cagamesclient/person/withDraw.do?method=withdrawTimes
+  withdrawTimes: '/person/withDraw.do?method=withdrawTimes',
+  // 开启关闭
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=swithGoogAuth& verifyCode=123456&type=1
+  switchGoogleAuth: '/person/accountSecur.do?method=swithGoogAuth',
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=createAuthQr
+  createCBqr: '/person/accountSecur.do?method=createAuthQr',
+  // 校验安全验证二维码
+  // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=checkAuthKey&verifyCode=905420
+  checkGoogleAuth: '/person/accountSecur.do?method=checkAuthKey',
   // 显示账号信息
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=acctSecureInfo
   acctSecureInfo: '/person/accountSecur.do?method=acctSecureInfo',
-
   // 修改登录密码
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000
   changLoginPwd: '/person/accountSecur.do?method=changLoginPwd',
@@ -298,6 +310,9 @@ let Me = {
 }
 
 let Group = {
+  // 设置日工资：
+  // http://192.168.169.161:8080/cagamesclient/team/useList.do?method=setSubDaySalary&destUserId=51&daySalary=50
+  setSubDaySalary: '/team/useList.do?method=setSubDaySalary',
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr
   // 二维码
   createQr: '/team/createAccount.do?method=createQr',
@@ -403,6 +418,9 @@ let Group = {
 }
 
 let Form = {
+  // 查询日工资（数据要分页）
+  // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
+  daySalaryRepor: '/report/daySalaryRepor.do?method=list',
   // 投注列表
   // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&beginDate=20170101000000&endDate=20170303000000&stat=1&isFree=1&userName=test&scope=1&lotteryId=1&methodId=16&issue=170104071&modes=1
   Orderlist: '/report/buyReport.do?method=list',
@@ -506,7 +524,24 @@ let Activity = {
   getCheckToday: '/activity.do?method=getCheckToday'
 }
 
-let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity)
+let Download = {
+  // 二维码
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_ios
+  plat_ios: '/help/download.do?method=getApp&type=plat_ios',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=plat_andr
+  plat_andr: '/help/download.do?method=getApp&type=plat_andr',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_ios
+  code_ios: '/help/download.do?method=getApp&type=code_ios',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=code_andr
+  code_andr: '/help/download.do?method=getApp&type=code_andr',
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getApp&type=chat_ios
+  chat_ios: '/help/download.do?method=getApp&type=chat_ios',
+  // win客户端下载
+  // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
+  getWinClient: '/help/download.do?method=getWinClient'
+}
+
+let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity, Download)
 Object.keys(API).forEach((key) => {
   // if (key.startsWith('http')) return
   const value = API[key]
@@ -516,7 +551,7 @@ Object.keys(API).forEach((key) => {
       // (this._api || '') + this['_' + key]
     },
     set: function (v) {
-      this['_' + key] = v
+      this['_' + key] = v.replace(this.api, '')
     }
   })
   API[key] = value

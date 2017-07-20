@@ -25,7 +25,7 @@
                 div(v-html="content")
 
           .footer-bar(:class="[ 'btn' + btn.length ]")
-            a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click="btnClick(i)" v-bind:class="[ btnClass[type][i] ]") {{ b }}
+            a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click.stop="btnClick(i)" v-bind:class="[ btnClass[type][i] ]") {{ b }}
 
 
 

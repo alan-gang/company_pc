@@ -5,7 +5,7 @@
         el-col(:span="12")
           .ds-button.small.stick 中奖公告
           span(v-for=" (msg, ii) in msgs " v-show="ii === j")
-            | {{ msg.cnName }}{{ msg.issue }}期 
+            | {{ msg.cnName }} ({{ msg.issue }}) 期 
             span.userName.font-blue {{ msg.nickName }}
             |  喜中 
             span.money.font-danger {{ msg.amount }}
@@ -22,17 +22,17 @@
 
 
 
-      el-dialog(title="添加收藏" v-model="adding" size="small" custom-class="dialog-collect")
+      el-dialog(title="添加收藏" v-model="adding" size="small" custom-class="dialog-collect" v-bind:modal="modal")
         el-row.content
           el-col.left(:span="5")
             .item(v-for=" (m, index) in  canCollectMenus" v-bind:class="[m.class + '-small', {active: index === activeIndex}]" @click="activeIndex = index") {{ m.title }}
           el-col.right(:span="19"  v-if="canCollectMenus[0]")
 
             // v-bind:class="{'with-icon': group.withIcon}"          
-            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups")
+            dl.submenu(v-for="group in canCollectMenus[activeIndex].groups" v-if="!group.hide")
               dt {{ group.title }}
               // v-bind:class="[item.class || group.class]"
-              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
+              dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid && !item.removed" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}
 
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
@@ -54,6 +54,9 @@ export default {
   props: ['menus'],
   data () {
     return {
+      modal: false,
+      hasHeader: true,
+      hasFooter: true,
       pages: store.state.pages,
       me: store.state.user,
       userName: 'ls123',
@@ -84,21 +87,27 @@ export default {
   },
   mounted () {
     // this.collects = [
-    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 1, title: '尊皇时时彩', class: 'ds-icon-game'},
+    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
     //   {}
     // ]
-    this.$emit('get-menus')
+    setTimeout(() => {
+      this.$emit('get-menus')
+    }, 1000)
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
     this.getUserPrefence()
     this.switchI()
+    this.__setCall({fn: '__showPool', callId: undefined})
+  },
+  beforeDestroy () {
+    this.__setCall({fn: '__hidePool', callId: undefined})
   },
   methods: {
     switchI () {
@@ -206,7 +215,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  WW = 10rem
+  WW = 7rem
   WH = 5rem
   IH = .36rem
   
@@ -215,6 +224,7 @@ export default {
   .dialog-collect
     min-width WW
     min-height WH
+    width auto
     .el-dialog__title
       &:before
         content ''
@@ -224,7 +234,7 @@ export default {
         width .16rem
         height .16rem
         margin-right .05rem
-        background url($VASSETS/logo.png) center center no-repeat
+        background url($VASSETS/add-collect.png) center center no-repeat
         
     .content
       .el-col
@@ -246,18 +256,21 @@ export default {
             background-color BLUE
       .right
         background-color  #ededed
-        padding 0 .05rem
+        padding PW .05rem
         .submenu
-          float left
+          // float left
+          vertical-align top
           display inline-block
           margin 0 PW
           // &:not(:first-child)
           //   margin-left .3rem
           dt
+            height .3rem
+            line-height .3rem
             font-size .18rem
             color BLUE
             // font-shadow()
-            padding .23rem 0 .18rem 0
+            // padding .1rem 0 .18rem 0
           dd
             cursor pointer
           
@@ -292,10 +305,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../var.stylus'
-  W = 2.7rem
-  H = 1.8rem
+  W = 2.3rem
+  H = 1.5rem
   .container
-    max-width 12rem
+    max-width 10.4rem
     min-width 6rem
     margin 0 auto
     margin-top 10%
@@ -318,7 +331,7 @@ export default {
         margin-bottom .3rem
         overflow hidden
         radius()
-        padding-top H - 3*PW
+        padding-top H - 2*PW
         background-color rgba(255, 255, 255, .2)
         box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         background-position 50% 35% 

@@ -12,10 +12,19 @@
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
 
       .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
-        p 资金密码：
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
-          .buttons(style="margin-left: .70rem; padding: .2rem 0")
-            .ds-button.primary.large(@click="checkSecurityPwd") 确认
+        p 资金密码： &nbsp;&nbsp;
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+        p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+              span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
+              span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
+                span.text-999 秒后可重新发送
+        p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
+            input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+
+        .buttons(style="margin-left: .85rem; padding: .2rem 0")
+          .ds-button.primary.large(@click="checkNow") 确认
       
 
       .bank-form(v-if="tabIndex === 1 && stepIndex === 1")
@@ -25,7 +34,7 @@
             | 每天限提 
             span.text-danger 5
             |  次，今天您已经发起了 
-            span.text-danger {{ times }} 0
+            span.text-danger {{ times }}
             |  次提现申请。
             br
             | 每天的提现处理时间为：
@@ -120,8 +129,10 @@ import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
 import { digitUppercase } from '../../util/Number'
+import xhr from 'components/xhr'
 // import util from '../../util'
 export default {
+  mixins: [xhr],
   data () {
     return {
       me: store.state.user,
@@ -141,7 +152,9 @@ export default {
       currentPage: 1,
       data: [{}],
       S: ['未处理', '失败', '成功'],
-      V: ['未审核', '审核通过', '审核失败']
+      V: ['未审核', '审核通过', '审核失败'],
+      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+      times: 0
     }
   },
   computed: {
@@ -171,6 +184,28 @@ export default {
     }
   },
   methods: {
+    sendSms () {
+      this.$http.post(api.person_sendSms, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 手机验证码发送成功，请注意查收。'})
+          this.pt_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '手机验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
+    sendMail () {
+      this.$http.post(api.person_sendMail, {}).then(({data}) => {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: '恭喜您， 邮箱验证码发送成功，请注意查收。'})
+          this.et_ = this.time_
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '邮箱验证码发送失败！'})
+        }
+      }).catch(rep => {
+      })
+    },
     pageChanged (cp) {
       this.queryWithdraw(cp, () => {
         this.currentPage = cp
@@ -194,18 +229,50 @@ export default {
       }).catch(rpe => {
       })
     },
+    checkNow () {
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.me.safeCheck && !this.safeCheckCode) return this.$message.warning({target: this.$el, message: '请输入安全验证码！'})
+      this.checkSecurityPwd()
+    },
     checkSecurityPwd () {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
+          if (this.me.safeCheck) {
+            return this.checkSafeCode()
+          }
           this.stepIndex++
           this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
+          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
       }).catch(rep => {
         this.$message.error({target: this.$el, message: '资金密码验证失败！'})
+      })
+    },
+    checkSafeCode () {
+      this.$http.post(this.checkSafeCodeUrl[this.me.safeCheck], {verifyCode: this.safeCheckCode}).then(({data}) => {
+        if (data.success === 1) {
+          this.stepIndex++
+          this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
+          this.__setCall({fn: '__getUserFund'})
+          this.getUserBankCards()
+          this.withdrawTimes()
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '安全验证失败！'})
+      })
+    },
+    withdrawTimes () {
+      this.$http.get(api.withdrawTimes).then(({data}) => {
+        if (data.success === 1) {
+          this.times = data.times
+        }
+      }).catch(rep => {
       })
     },
     getUserBankCards () {
@@ -217,8 +284,8 @@ export default {
               content: '您还未曾绑定过银行卡，请绑定银行卡后再进行提现！',
               target: this.$el,
               close () {
-                this.$router.push('/me/2-6-1')
-                this.$emit('close', '2-5-1')
+                this.$emit('close', '2-5-1', '2-6-1')
+                // this.$router.push('/me/2-6-1')
               },
               O: this
             })
@@ -269,6 +336,7 @@ export default {
             },
             O: this
           })
+          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '提现申请提交失败！'})
         }

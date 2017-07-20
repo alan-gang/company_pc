@@ -197,6 +197,7 @@
       // }
     },
     watch: {
+      '$route': 'openRoute',
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
@@ -217,6 +218,13 @@
       this.followList()
     },
     methods: {
+      openRoute ({path, query: {gameid}}) {
+        if (path !== '/form/4-2-1') return false
+        if (gameid && gameid !== this.gameid) {
+          this.gameid = gameid
+          this.followList()
+        }
+      },
       summary () {
         this.amount[0].income = 0
         this.amount[0].expectCost = 0

@@ -53,7 +53,12 @@
     mounted () {
       this._getVerifyImage()
       this.tag = this.$route.query.tag
-      if (browser.mobile) window.location.href = 'http://mobile.cagames.ca.go?tag=' + this.tag
+      if (browser.mobile) {
+        window.onbeforeunload = null
+        setTimeout(() => {
+          window.location.href = 'login_regist.html?tag=' + this.tag
+        }, 0)
+      }
       setTimeout(this.getStrangerInfo, 1000)
     },
     beforeDestroy () {
@@ -107,13 +112,15 @@
                     stay: true
                   }
                 })
-                this.$router.push({
-                  path: '/login/login',
-                  query: {
-                    un_: this.account,
-                    pwd: '123qwe'
-                  }
-                })
+                setTimeout(() => {
+                  this.$router.push({
+                    path: '/login/login',
+                    query: {
+                      un_: this.account,
+                      pwd: '123qwe'
+                    }
+                  })
+                }, 200)
               },
               O: this
             })

@@ -94,6 +94,8 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$route.query.id, '???')
+    if (this.$route.query.id) this.id = this.$route.query.id
     this.__getActivityDetail()
   },
   methods: {
@@ -116,7 +118,7 @@ export default {
           this.list = data.saveDetail || []
           this.expand = data.expand || []
           data.msg && this.$message.info(data.msg || this.message)
-        } else this.$message.error('活动详情加载失败！')
+        } else this.$message.error(data.msg || '活动详情加载失败！')
       }, (rep) => {
         // error
         this.$message.error('活动详情加载失败！')

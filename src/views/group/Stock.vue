@@ -10,8 +10,8 @@
       
       .form
 
-        div(style="text-align: center")
-          .ds-button-group
+        div(style="text-align: center; min-height: .2rem" )
+          .ds-button-group(v-if="me.role > 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
         label.item 契约生效时间范围 
@@ -85,13 +85,13 @@
           el-table-column(prop="issue" label="期号" width="140")
           el-table-column(prop="date" label="理论发放日期" width="140" )
           el-table-column(prop="uTime" label="更新时间" width="140" )
-          el-table-column(prop="monthlyBuy" label="月销售额" width="140" )
-          el-table-column(prop="monthlyProfit" label="月盈亏额" width="140" )
+          el-table-column(prop="monthlyBuy" label="本期销售额" width="140" )
+          el-table-column(prop="monthlyProfit" label="本期盈亏额" width="140" )
           el-table-column(prop="bookProfit" label="理论盈亏" width="140" )
           el-table-column(prop="totalProfit" label="总盈亏" width="140" )
           el-table-column(prop="shareBook" label="理论分红金额" width="140" )
           el-table-column(prop="shareAmount" label="分红金额" width="140" )
-          el-table-column(label="奖金类型" align="center" width="80")
+          // el-table-column(label="奖金类型" align="center" width="80")
             template(scope="scope")
               span {{ ['团队分红', '关联分红'][scope.row.bonusType - 1]}}
 

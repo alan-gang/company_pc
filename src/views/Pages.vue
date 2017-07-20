@@ -53,6 +53,7 @@ import Order from './form/Order'
 import ProfitLoss from './form/ProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
+import DaySalary from './form/DaySalary'
 // 趋势图
 import TrendChart from './form/TrendChart'
 
@@ -74,6 +75,9 @@ import ForAll from './activity/ForAll'
 import ForTopup from './activity/ForTopup'
 import ForTopupA from './activity/ForTopupA'
 import ForWithdraw from './activity/ForWithdraw'
+import ForOther from './activity/ForOther'
+// 下载
+import Download from './download/Download'
 
 export default {
   components: {
@@ -112,6 +116,7 @@ export default {
     ProfitLoss,
     ProfitLossDetail,
     Today,
+    DaySalary,
     // 走势图
     TrendChart,
     // Help
@@ -129,13 +134,18 @@ export default {
     ForAll,
     ForTopup,
     ForTopupA,
-    ForWithdraw
+    ForWithdraw,
+    ForOther,
+    // 下载
+    Download
   },
   name: 'Pages',
   mixins: [base],
   props: ['pages', 'prehref', 'loop', 'maxPages', 'transition'],
   data () {
     return {
+      hasHeader: true,
+      hasFooter: true,
       // 可打开的最大的页数
       pageSizes: {
         full: {
@@ -148,7 +158,7 @@ export default {
           top: '80%',
           left: '50%',
           transform: 'perspective(100px) translateZ(-100px) translateX(-100%)',
-          'transition-duration': '0.5s',
+          'transition-duration': '0.3s',
           opacity: 0
         },
         default: {
@@ -333,8 +343,11 @@ export default {
       return vm.openAPage(to.params.url)
     })
   },
+  mounted () {
+    this.__setCall({fn: '__hidePool', callId: undefined})
+  },
   beforeDestroy () {
-    this.pages.forEach(t => this.updatePage('', {size: 'minus'}, t))
+    // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))
   },
   methods: {
     openRoute ({path, params: {url}}) {
@@ -361,8 +374,8 @@ export default {
       this.updatePage(page.id, {size: 'minus'}, page)
       this.prehref && this.$router.push(this.prehref)
     },
-    close (url) {
-      this.$emit('close-tab', url)
+    close (url, nurl) {
+      this.$emit('close-tab', url, nurl)
     },
     star (page) {
       if (!page.star) this.addPrefence(page)
@@ -541,8 +554,8 @@ export default {
           width += dx
           el.style.width = width + 'px'
           if (width > 800) el.removeAttribute('w')
-          if (width < 800) el.setAttribute('w', 'w', '800')
-          if (width < 700) el.setAttribute('w', 'w', '700')
+          if (width < 800) el.setAttribute('w', '800')
+          if (width < 700) el.setAttribute('w', '700')
           sx = evt.clientX
         })
         util.addEvent('mouseup', targetX, (evt) => {
@@ -733,6 +746,9 @@ export default {
   .page
     overflow hidden
   .dialog-page
+    &>.scroll-content
+      left 50%
+      transform translateX(-50%)
     position absolute !important
     min-width 5.4rem
     min-height 4rem
