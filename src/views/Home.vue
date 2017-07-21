@@ -107,7 +107,7 @@ export default {
     this.__setCall({fn: '__showPool', callId: undefined})
   },
   beforeDestroy () {
-    this.__setCall({fn: '__hidePool', callId: undefined})
+    // this.__setCall({fn: '__hidePool', callId: undefined})
   },
   methods: {
     switchI () {

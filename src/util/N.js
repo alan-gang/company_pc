@@ -1360,7 +1360,6 @@ let PK10 = {
   // title: '猜前三名
   '-1-1-3-PK10' ({ns}) {
     let n = 0
-    console.log('??????', ns[0])
     ns[0] && ns[0][0] && ns[0].forEach(n0 => {
       ns[1] && ns[1][0] && ns[1].forEach(n1 => {
         ns[2] && ns[2][0] && ns[2].forEach(n2 => {

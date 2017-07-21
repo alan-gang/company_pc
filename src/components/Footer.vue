@@ -144,6 +144,8 @@ export default {
     }
   },
   watch: {
+    showPool () {
+    },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
       document.body.className = this.day ? 'day' : 'night'

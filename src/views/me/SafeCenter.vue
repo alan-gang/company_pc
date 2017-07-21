@@ -277,7 +277,7 @@
             el-col(:span="4").toggle
               .ds-button.text-button.blue(@click="index === 7 ? index = 0 : index = 7") {{ index === 7 ? '收起' : !pwd ? '立即设置' : '立即修改' }}
 
-          el-row.action(v-if="index === 7" style="text-align: center; padding-left: 0")
+          el-row.action(v-if="index === 7" style="text-align: left;")
             
             .safe-check-form.form(style="margin-top: .3rem")
               .ds-checkbox-label.active.disabled
@@ -299,7 +299,10 @@
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
               //  安全问题验证
-            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码：
+            p(style="margin-top: .2rem" v-if=" me.safeCheck != safeCheck ") 资金密码&nbsp;&nbsp;&nbsp;：
+              input.ds-input.large(v-model="newCashPwd" type="password")
+
+            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：
                 input.ds-input.large(v-model="safeCheckCode")
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (safeCheck || me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((safeCheck || me.safeCheck) === 1 ? et_ : pt_) > 0") 
                   span(v-if="!((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
@@ -311,7 +314,7 @@
 
 
             .buttons(style="margin: .2rem 0; padding-top: 0")
-              .ds-button.primary.large(@click="setsecurityCheck" v-if="safeCheckCode") 提交
+              .ds-button.primary.large(@click="checkSecurityPwd(setsecurityCheck)" v-if="safeCheckCode && me.safeCheck != safeCheck") 提交
 
       
       
@@ -410,6 +413,7 @@ export default {
       this.clearPhone()
       this.clearEmail()
       this.stepIndex = 0
+      this.safeCheckCode = ''
     }
   },
   mounted () {
@@ -437,11 +441,17 @@ export default {
         // error
       })
     },
-    checkSecurityPwd () {
+    checkSecurityPwd (fn) {
       this.$http.post(api.checkSecurityPwd, {password: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
-          this.stepIndex = 1
-          this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
+          // stepIndex only for google safecheck
+          if (!fn) {
+            this.stepIndex = 1
+            this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
+          } else {
+            // if there is no callback
+            typeof fn === 'function' && fn()
+          }
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
@@ -692,10 +702,10 @@ export default {
     getVerifyCode () {
       switch (this.safeCheck || this.me.safeCheck) {
         case 1:
-          this.sendMail()
+          this.sendSms()
           break
         case 2:
-          this.sendSms()
+          this.sendMail()
       }
     },
     setsecurityCheck () {

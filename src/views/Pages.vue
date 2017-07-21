@@ -345,6 +345,9 @@ export default {
   },
   mounted () {
     this.__setCall({fn: '__hidePool', callId: undefined})
+    setTimeout(() => {
+      this.__setCall({fn: '__hidePool', callId: undefined})
+    }, 500)
   },
   beforeDestroy () {
     // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))

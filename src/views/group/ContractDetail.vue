@@ -71,7 +71,7 @@
       '$route': 'openRoute'
     },
     mounted () {
-      console.log(this.$route.query.self, '????????????????!!!!!!!!!!!!')
+      // console.log(this.$route.query.self, '????????????????!!!!!!!!!!!!')
       this.self = this.$route.query.self
       this.qryContractById(this.$route.query.id || '')
     },

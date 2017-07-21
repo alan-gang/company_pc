@@ -144,7 +144,7 @@ export default function (VueRoter) {
   })
   // 匹配前
   router.beforeEach((to, from, next) => {
-    console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
+    // console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
     window.NProgress.start()
     // 如果需要登录，而当前没有登录， 先测试有没有登录
