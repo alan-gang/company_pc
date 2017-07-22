@@ -169,10 +169,10 @@
         this.numbers.forEach(n => this.select(n, signal))
       },
       small (signal) {
-        this.numbers.forEach((n, i) => ((2 * i) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
+        this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
       big (signal) {
-        this.numbers.forEach((n, i) => ((2 * i) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
+        this.numbers.forEach((n, i) => ((2 * i + 1) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
       even (signal) {
         this.numbers.forEach((n, i) => ((n.value % 2) === 0 ? this.select(n, signal) : this.unSelect(n, signal)))
@@ -193,8 +193,8 @@
         if (!this.row.buttons) return -1
         if (this.ns.length === 0) return this.row.buttons.length - 1
         if (this.ns.length === this.numbers.length) return 0
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n >= this.numbers.length)) return 1
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n <= this.numbers.length)) return 2
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) >= this.numbers.length)) return 1
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) < this.numbers.length)) return 2
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
         if (this.ns.length === this.numbers.filter(n => isPrime(n.value)).length && this.ns.every(n => isPrime(n))) return 5

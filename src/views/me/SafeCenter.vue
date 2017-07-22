@@ -394,11 +394,11 @@ export default {
       this.a2_ = this.a2_.trim()
     },
     safeCheck () {
-      if (!this.me.email && this.safeCheck === 1) {
+      if (!this.me.email && this.safeCheck === 2) {
         this.$message.error({target: this.$el, message: '请先绑定邮箱，再来绑定安全验证方式!'})
         this.safeCheck = 0
       }
-      if (!this.me.phone && this.safeCheck === 2) {
+      if (!this.me.phone && this.safeCheck === 1) {
         this.$message.error({target: this.$el, message: '请先绑定手机，再来绑定安全验证方式!'})
         this.safeCheck = 0
       }

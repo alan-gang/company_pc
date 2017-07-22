@@ -190,7 +190,7 @@ export default {
     P () {
       return this.PS.find(p => {
         return (p.methodid + '') === this.methodid
-      }) || {maxprize: 1800, minprize: 1400, scale: 50, maxpoint: 0.08, minpoint: 0}
+      }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}
     },
     methodid () {
       return M[this.type.id + this.idType].split(':')[0]
@@ -206,10 +206,10 @@ export default {
     ns () {
       if (this.ns.length === 0) this.follow.show = false
     },
-    P () {
-      this.p && (this.point = this.P.minpoint)
-      this.p && (this.bonus = this.P.maxprize)
-    },
+    // P () {
+    //   this.p && (this.point = this.P.minpoint)
+    //   this.p && (this.bonus = this.P.maxprize)
+    // },
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
@@ -416,7 +416,7 @@ export default {
     },
     setType (type) {
       this.type = type
-      this.__setCall({fn: '__clearSelectedNumbers', args: this.call.args + ' '})
+      this.__setCall({fn: '__clearSelectedNumbers'})
       setTimeout(() => {
         this.__setCall({fn: '__clearValue'})
       }, 0)

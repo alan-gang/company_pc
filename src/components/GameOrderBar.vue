@@ -84,6 +84,10 @@ export default {
     },
     t () {
       this.setTimes(this.t)
+    },
+    // p changing or prize changing need update point and bonus in game/common.vue
+    prize () {
+      this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     }
   },
   mounted () {
@@ -91,7 +95,9 @@ export default {
     this.t = this.times
     this.p = this.point * 10000
     this.cIndex = this.currency.model - 1
-    this.$emit('set-point', this.p / 10000, this.prize)
+    // setTimeout(() => {
+    //   this.$emit('set-point', this.p / 10000, this.prize)
+    // }, 0)
   },
   methods: {
     setTimes (t) {
