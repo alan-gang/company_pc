@@ -786,7 +786,7 @@ export default {
     color #666
     margin 0
     background url($ASSETS/bg.jpg) center center no-repeat
-    background-size cover
+    // background-size cover
   
   body:fullscreen #app > * {
     background url($ASSETS/bg.jpg) center center no-repeat

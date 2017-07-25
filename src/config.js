@@ -15,7 +15,7 @@ export default (Vue) => {
         deep: true,
         handler () {
           if (this.call.fn && typeof this[this.call.fn] === 'function') {
-            console.log(this.call.fn, '!!!!!!!!!!!!!!!!!!!!!!!!!!!callnow') && (!this.call.callId || this.call.callId === this.callId) && this.$nextTick(this[this.call.fn](this.call.args))
+            (!this.call.callId || this.call.callId === this.callId) && this.$nextTick(this[this.call.fn](this.call.args))
           }
         }
       }

@@ -288,7 +288,7 @@ h6
   background-size 100% 100%
   &.nobgcolor
     background url(./assets/safe-bg.png)  center no-repeat
-    background-size cover
+    // background-size cover
   
 
 
