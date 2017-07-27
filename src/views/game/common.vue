@@ -81,9 +81,9 @@ export default {
       // 秒
       timeout: (100 * 3600) - 1,
       // 剩余的奖期数
-      FNPER: 502,
+      FNPER: 0,
       // 开过的奖期数
-      PNPER: 518,
+      PNPER: 0,
       // 玩法信息
       // type: {
       //   id: '5-1-1',
@@ -200,6 +200,9 @@ export default {
     },
     idType () {
       return this.gameType === 'SSL' ? '-' + this.gameType : ''
+    },
+    hasRepeatOrder () {
+      return this.ns.filter(o => (o.methodid + '') === this.methodid && o.codes === this.nsns)[0]
     }
   },
   watch: {
@@ -508,6 +511,15 @@ export default {
           },
           O: this
         })
+      } else if (this.hasRepeatOrder) {
+        this.$modal.warn({
+          content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">已存在<span class="text-danger">相同订单</span>了！</div>',
+          btn: ['确定']
+        })
+        this.__setCall({fn: '__clearSelectedNumbers'})
+        setTimeout(() => {
+          this.__setCall({fn: '__clearValue'})
+        }, 0)
       } else {
         this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
           methodid: parseInt(this.methodid), // 玩法编号

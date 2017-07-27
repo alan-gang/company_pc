@@ -251,10 +251,12 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-      setTimeout(() => {
-        this.shows[index] = false
-        this.openPage(item.id)
-      }, 0)
+      if (item.id) {
+        setTimeout(() => {
+          this.shows[index] = false
+          this.openPage(item.id)
+        }, 0)
+      }
     },
     logout () {
       this.$emit('logout')

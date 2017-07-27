@@ -555,7 +555,15 @@ input
  *icons class define
  */
   // game icons
+  .ds-icon-game-lhg00
+      background url($ASSETS/game/new/lhg00.png) center no-repeat
+
+  .ds-icon-game-lhg01
+      background url($ASSETS/game/new/lhg01.png) center no-repeat
   
+  .ds-icon-game-lhg02
+      background url($ASSETS/game/new/lhg02.png) center no-repeat
+
   .ds-icon-game-chq
       background url($ASSETS/game/new/xxc_cq.png) center no-repeat
   

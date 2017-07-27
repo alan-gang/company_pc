@@ -213,6 +213,15 @@ export default {
                 {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '62', title: '排列五', gameid: 5},
                 {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '19', title: '快投3D', gameid: 14}
               ]
+            },
+            {
+              title: '老虎机',
+              url: 'LHG',
+              items: [
+                {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
+                {class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
+                {class: 'ds-icon-game-lhg00', title: 'more'}
+              ]
             }
           ]
         },

@@ -98,7 +98,7 @@
             .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
 
     .buttons()
-      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel") 终止追号 
+      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 终止追号 
     
     .modal(v-show="show" )
       .mask
@@ -186,20 +186,21 @@
 
               el-table-column(prop="prize" label="奖金"  align="right")
 
-            .buttons(style="margin: .3rem; text-align: center")
-              .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
+            // .buttons(style="margin: .3rem; text-align: center")
+            //   .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
+            //   .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
 
 </template>
 
 <script>
   // import { digitUppercase } from '../../util/Number'
-  // import store from '../../store'
+  import store from '../../store'
   import api from '../../http/api'
   // import util from '../../util'
   export default {
     data () {
       return {
+        ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
         // STATUS: ['进行中', '已完成', '已取消'],
         STATUS: ['未生成', '已生成', '已取消'],

@@ -23,6 +23,7 @@ import G115 from './game/G115'
 import PK10 from './game/PK10'
 import KL8 from './game/KL8'
 import K3 from './game/K3'
+import LHG from './game/LHG'
 import util from '../util'
 
 // me
@@ -90,6 +91,7 @@ export default {
     PK10,
     KL8,
     K3,
+    LHG,
     // me
     Me,
     SafeCenter,

@@ -47,7 +47,7 @@
           input.ds-input.small(v-model="name" style="width: 1rem")
 
         label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: .8rem" placeholder="全")
+          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
@@ -120,7 +120,7 @@
             template(scope="scope")
               div(v-if="!scope.row.last")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                .ds-button.text-button.blue(v-if="scope.row.stat === 0 && scope.row.userName === ACCOUNT " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== 0 " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
         
 
@@ -229,7 +229,7 @@
 
             .buttons(style="margin: .3rem; text-align: center")
               .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
+              .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel") 确认撤销
 
 
 
@@ -241,10 +241,12 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
+  import store from '../../store'
   // import util from '../../util'
   export default {
     data () {
       return {
+        ACCOUNT: store.state.user.account,
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',

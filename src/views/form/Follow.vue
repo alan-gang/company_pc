@@ -48,7 +48,7 @@
 
         label.item 范围 
           el-select(clearable v-bind:disabled=" !ZONES[0] " placeholder="全" v-model="zone" style="width: 1rem")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="U")
+            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
         .buttons(style="margin-left: .6rem")
