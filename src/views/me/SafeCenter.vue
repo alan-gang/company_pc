@@ -216,7 +216,7 @@
 
             .email-form.form
               p(v-if="stepIndex === 0") 资金密码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newCashPwd" type="password" @keyup.enter="checkSecurityPwd")
+                input.ds-input.large(v-model="newCashPwd" type="password" @keyup.enter="checkSecurityPwd()")
               
               transition(name="slide" appear=true)
                 div(style="padding: 0 1rem;" v-if="stepIndex === 1 && !me.cbsafe")
@@ -228,7 +228,7 @@
                   input.ds-input.large(v-model="cb_" @keyup.enter="switchGoogleAuth(me.cbsafe ? 0 : 1)")
 
             .buttons(style="margin-left: .85rem")
-              .ds-button.primary.large(@click="checkSecurityPwd" v-if="stepIndex === 0") 提交
+              .ds-button.primary.large(@click="checkSecurityPwd()" v-if="stepIndex === 0") 提交
               .ds-button.primary.large(@click="switchGoogleAuth(1)" v-if="stepIndex === 1 && !me.cbsafe") 立即开启
               .ds-button.primary.large(@click="switchGoogleAuth(0)" v-if="stepIndex === 1 && me.cbsafe") 立即关闭
               // .ds-button.cancel.large(@click="clearEmail") 清空
@@ -304,9 +304,9 @@
 
             p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：
                 input.ds-input.large(v-model="safeCheckCode")
-                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: (safeCheck || me.safeCheck) === 1 ? et_ : pt_ }" v-bind:disabled="((safeCheck || me.safeCheck) === 1 ? et_ : pt_) > 0") 
-                  span(v-if="!((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") 发送验证码
-                  span.text-black(v-if="((safeCheck || me.safeCheck) === 1 ? et_ : pt_)") {{ ((safeCheck || me.safeCheck) === 1 ? et_ : pt_) }} 
+                span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: safeCheck === 1 ? pt_ : et_  }" v-bind:disabled="(safeCheck === 1 ? pt_ : et_ ) > 0") 
+                  span(v-if="!(safeCheck === 1 ? pt_ : et_ )") 发送验证码
+                  span.text-black(v-if="(safeCheck === 1 ? pt_ : et_ )") {{ (safeCheck === 1 ? pt_ : et_ ) }} 
                     span.text-999 秒后可重新发送
             transition(name="slide" appear=true)
               p(v-if=" me.safeCheck != safeCheck &&  (me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) " style="margin-top: .2rem") 畅博安全码：

@@ -21,7 +21,8 @@ const BANKS = [
   {apiName: 'beascnsh', class: 'dy', text: '东亚银行'},
   {apiName: 'brcb', class: 'bjnshyh', text: '北京农商银行'},
   {apiName: 'srcb', class: 'shhnshyh', text: '上海农商银行'},
-  {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'}
+  {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'},
+  {apiName: 'chbh', class: 'bhyh', text: '渤海银行'}
 ]
 
 const PROVINCES = [
