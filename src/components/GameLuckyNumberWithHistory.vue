@@ -13,12 +13,12 @@
             
           Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-          span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖超时，请刷新
+          span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
       slot
         GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
         br
       | 已开
       span.PNPER {{ PNPER }}

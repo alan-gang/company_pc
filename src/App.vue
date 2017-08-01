@@ -216,6 +216,7 @@ export default {
             },
             {
               title: '老虎机',
+              hide: true,
               url: 'LHG',
               items: [
                 {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
@@ -540,7 +541,7 @@ export default {
             {
               id: '6-2',
               title: '系统',
-              hide: true,
+              // hide: true,
               items: [
                 {
                   id: '6-2-1',

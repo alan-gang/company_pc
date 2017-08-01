@@ -161,8 +161,9 @@ export default {
   },
   beforeDestroy () {
     clearInterval(this.timeout)
-    if (store.state.user.login) this.$emit('logout', true)
-    else this.setFarChat()
+    // if (store.state.user.login) this.$emit('logout', true)
+    // else
+    this.setFarChat()
   },
   methods: {
     __showPool () {

@@ -119,7 +119,7 @@
     top 0 
     left 0
     background-color #4121e0
-    transition background-color .10s linear
+    transition background-color .5s linear
     
   .side:not(.front) .dot
     width w-2
@@ -131,7 +131,7 @@
     height W
     radius(PW)
     bg-gradient(180deg, #f9f9f9, #e6e6e6)
-    transition background-color .1s linear
+    transition background-color .5s linear
       
     // 1
     &.front

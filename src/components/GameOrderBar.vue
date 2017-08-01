@@ -70,7 +70,7 @@ export default {
       return (this.p / 100).toFixed(2) + '%'
     },
     prize () {
-      return (this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)).toFixed(3)
+      return ((this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
     }
   },
   watch: {

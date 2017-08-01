@@ -21,7 +21,7 @@
     data () {
       return {
         // 产生10期
-        length: 10,
+        length: 100,
         checked: true,
         nper: ''
       }

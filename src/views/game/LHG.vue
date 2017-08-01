@@ -10,35 +10,38 @@
         .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 ") 全部游戏
         .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 快速转帐
         .ds-button.text-button(:class="{ selected: type === 3 }" @click=" type = 3 ") 我的收藏
-    .filter-fixed(v-if="type === 1")
-      .search-bar
-        input.ds-input(v-model="search" style="width: 1.8rem; margin-right: .1rem" placeholder="请输入您要搜索的游戏")
-        span.ds-button.primary(@click="searchNow") 搜索
-      
-      .game-platform.notice(style="margin-top: .12rem")
-        span.title 游戏平台：&nbsp;&nbsp;
-        .content
-          .ds-button-group
-            .ds-button.x-small.text-button(:class="{ selected: cp === i }" @click=" cp = i " v-for=" (p, i) in platforms ") {{ p }}
-
-      .game-type.notice
-        span.title 游戏类型：&nbsp;&nbsp;
-        .content
-          .ds-button-group
-            .ds-button.x-small.text-button(:class="{ selected: ct === i }" @click=" ct = i " v-for=" (g, i) in gameTypes ") {{ g }}
-
-      .game-route.notice
-        span.title 赔钱线数：&nbsp;&nbsp;
-        .content
-          .ds-button-group
-            .ds-button.x-small.text-button(:class="{ selected: cr === i }" @click=" cr = i " v-for=" (r, i) in gameRoutes ") {{ r }}
-
-      .game-style.notice
-        span.title 游戏风格：&nbsp;&nbsp;
-        .content
-          .ds-button-group
-            .ds-button.x-small.text-button(:class="{ selected: cs === i }" @click=" cs = i " v-for=" (s, i) in gameStyles ") {{ s }}
+    
     .scroll-content.game-store(:class="{ collected: type === 3 }" v-if="type !== 2")
+      // put top to fixed it
+      .filter-fixed(v-if="type === 1")
+        .search-bar
+          input.ds-input(v-model="search" style="width: 1.8rem; margin-right: .1rem" placeholder="请输入您要搜索的游戏")
+          span.ds-button.primary(@click="searchNow") 搜索
+        
+        .game-platform.notice(style="margin-top: .12rem")
+          span.title 游戏平台：&nbsp;&nbsp;
+          .content
+            .ds-button-group
+              .ds-button.x-small.text-button(:class="{ selected: cp === i }" @click=" cp = i " v-for=" (p, i) in platforms ") {{ p }}
+
+        .game-type.notice
+          span.title 游戏类型：&nbsp;&nbsp;
+          .content
+            .ds-button-group
+              .ds-button.x-small.text-button(:class="{ selected: ct === i }" @click=" ct = i " v-for=" (g, i) in gameTypes ") {{ g }}
+
+        .game-route.notice
+          span.title 赔钱线数：&nbsp;&nbsp;
+          .content
+            .ds-button-group
+              .ds-button.x-small.text-button(:class="{ selected: cr === i }" @click=" cr = i " v-for=" (r, i) in gameRoutes ") {{ r }}
+
+        .game-style.notice
+          span.title 游戏风格：&nbsp;&nbsp;
+          .content
+            .ds-button-group
+              .ds-button.x-small.text-button(:class="{ selected: cs === i }" @click=" cs = i " v-for=" (s, i) in gameStyles ") {{ s }}
+
       .game(v-for=" game in GAMES ")
         img(src="../../assets/game/new/lhgimg.png")
         .el-icon-star-on.my-star(:class="{ on: game.star }" @click=" game.star = !game.star " )
@@ -50,6 +53,8 @@
         .buttons
           .ds-button.outline 试玩
           .ds-button.primary(style="float: right") 进入游戏
+
+      p.text-999(v-if=" !GAMES[0] " style="text-align: center;") 您还没有收藏游戏哦。
     .scroll-content.transfer(v-if=" type === 2 ")
       p
         el-select(style="width: 1.5rem" v-model="sa")
@@ -81,13 +86,13 @@ export default {
       gameStyles: ['全选', '奖池游戏', '最新', '热门', '幸运转游戏'],
       cs: 0,
       games: [
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'},
-        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0'}
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
+        {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false}
       ],
       sas: ['畅博帐户'],
       sa: 0,
@@ -143,9 +148,9 @@ export default {
   color DANGER
   line-height .3rem
 .game-store
-  &.collected
-    top 1.2rem
-  top 3.3rem
+  // &.collected
+  //   top 1.2rem
+  top 1.2rem
   padding 0 .55rem .3rem .4rem
   .game
     display inline-block
@@ -158,6 +163,7 @@ export default {
     img
       width 2rem
       height 2.4rem
+      cursor pointer
     &:hover
       shadow(0 0 5px 0px rgba(0, 0, 0, .3))
       background-color #fff
@@ -179,7 +185,7 @@ export default {
       right PW
       
 .filter-fixed
-  padding 0 .55rem .3rem .4rem
+  padding 0 .55rem .3rem 0
   .notice
     padding .05rem 0
     line-height .3rem

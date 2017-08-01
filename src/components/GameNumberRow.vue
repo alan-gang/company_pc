@@ -266,7 +266,8 @@
         position relative
         text-align center
         radius()
-        // transition background-color .05s linear
+        &.selected
+          transition background-color .5s linear
         
         // margin 0 .01rem
         cursor pointer
@@ -332,6 +333,7 @@
               border-color #0a7cc4
           &.selected
             .the-number
+              transition all .5s linear
               color #fff
               background-color DANGER
               font-shadow()

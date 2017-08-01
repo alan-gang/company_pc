@@ -514,7 +514,8 @@ export default {
       } else if (this.hasRepeatOrder) {
         this.$modal.warn({
           content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">已存在<span class="text-danger">相同订单</span>了！</div>',
-          btn: ['确定']
+          btn: ['确定'],
+          target: this.$el
         })
         this.__setCall({fn: '__clearSelectedNumbers'})
         setTimeout(() => {
@@ -538,6 +539,13 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       }
+      // this.currency = {
+      //   value: 1,
+      //   title: '元',
+      //   model: 1
+      // }
+      // this.point = 0.00
+      // this.times = 1
       // after push need initial the selected numbers
     },
     _getOrderItems () {
