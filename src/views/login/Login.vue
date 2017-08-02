@@ -22,6 +22,13 @@
 
     dd.actions
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 试玩登录
+      .forget.ds-button.text-button.light.small(style="position: relative") 无法登录
+        .con(style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
+          p(style="color: #349dbd; margin: .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
+          div(style="display: inline-block; margin: 0 auto; padding: .1rem .1rem .05rem .1rem; border-radius: 5px; background: rgba(255, 255, 255, .5)")
+            img(src="../../assets/1.png")
+          p(style="color: #349dbd; margin: .15rem") 第二步： 点击"隐私“选项卡，将隐私策略调整到”低“
+          img(src="../../assets/2.png")
       router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'" @click.native.stop="") 忘记密码
 
 
@@ -260,7 +267,11 @@
     float left
   .forget
     float right
-  
+    .con
+      display none
+    &:hover
+      .con
+        display block
   .ds-icon-user
   .ds-icon-pwd
   .ds-icon-edit

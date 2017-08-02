@@ -86,23 +86,15 @@ export default {
   watch: {
   },
   mounted () {
-    // this.collects = [
-    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
-    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 1, title: '畅博时时彩', class: 'ds-icon-game'},
-    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {id: 2, title: '重庆时时彩', class: 'ds-icon-game'},
-    //   {}
-    // ]
-    setTimeout(() => {
-      this.$emit('get-menus')
-    }, 1000)
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
-    this.getUserPrefence()
+    if (!this.$route.query.keep) {
+      this.getUserPrefence()
+      setTimeout(() => {
+        this.$emit('get-menus')
+      }, 1000)
+    } else this.collects = this.me.collects
     this.switchI()
     this.__setCall({fn: '__showPool', callId: undefined})
   },
@@ -179,6 +171,7 @@ export default {
             this.addIndex = d.sort - 1
             this.add(this.pages.find(p => p.menuid === d.menuId + '') || {})
           })
+          this.setUser({collects: this.collects})
         }
       }, (rep) => {
         // error

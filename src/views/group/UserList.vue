@@ -471,7 +471,7 @@
             data.subUserInfo[0] && (data.subUserInfo[0].static = true)
             data.subUserInfo[0] && (this.BL.length === 1) && (data.subUserInfo[0].self = true)
             if (this.BL.length === 1) {
-              this.canTopUp = (data.subUserInfo[0].uploadlevel !== '0')
+              this.canTopUp = data.subUserInfo[0] ? (data.subUserInfo[0].uploadlevel !== '0') : false
             }
             this.OL = data.salaryData
             this.data = data.subUserInfo.map(o => {

@@ -9,9 +9,9 @@
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
     
     // pages
-    // keep-alive
-    transition(name="fade" appear=true)
-      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
+    keep-alive
+      transition(name="fade" appear=true)
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
 
     // footer
     transition(name="slide-down" appear=true)
@@ -710,7 +710,12 @@ export default {
           this.openTab(nurl)
         } else if (this.tabs.length === 0) {
           setTimeout(() => {
-            this.$router.push('/')
+            this.$router.push({
+              path: '/',
+              query: {
+                keep: true
+              }
+            })
           }, 100)
         } else this.$router.push(this.prev.href)
       })

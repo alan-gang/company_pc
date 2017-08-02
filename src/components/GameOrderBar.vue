@@ -30,10 +30,12 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
   props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
   data () {
     return {
+      me: store.state.user,
       XXX: 19,
       XM: 100,
       XMM: 0,
@@ -111,14 +113,20 @@ export default {
             btn: ['确定'],
             target: this.$el.parentNode
           })
-        } else {
+        } else if (this.me.minOrderPop) {
           return this.$modal.question({
             content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，奖金受限',
-            btn: ['继续购买', '再来几注'],
+            btn: ['继续购买', '再来几注', '不再提醒'],
             target: this.$el.parentNode,
             O: this,
             ok () {
               this.$emit('order')
+            },
+            cancel (i) {
+              if (i === 2) {
+                this.$emit('order')
+                store.actions.setUser({minOrderPop: false})
+              }
             }
           })
         }
