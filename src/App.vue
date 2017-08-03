@@ -627,7 +627,7 @@ export default {
     this.setPages(this._getPages())
     window.NProgress.done()
     // console.log(this.$router)
-    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1]) || {meta: {login: false}}).meta.login) this.tryLogin()
+    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
     tryLogin () {
