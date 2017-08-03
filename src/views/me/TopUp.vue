@@ -9,8 +9,8 @@
 
       .tab(style="text-align: center")
         .ds-button-group
-          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if="bankList[0]") 网银转帐
-          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if="merBankList[0]") 快捷支付
+          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 ") 网银转帐
+          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 ") 快捷支付
           .ds-button.text-button(v-for=" (bb, i) in merNoBankList " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb) " ) {{ bb.text }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
@@ -360,7 +360,7 @@ export default {
       // if (this.type > 2) this.selectBank = this.otherPay
     },
     Ctime () {
-      console.log(this.Ctime)
+      // block8/3 console.log(this.Ctime)
     }
     // otherPay () {
     //   if (this.type > 2) {

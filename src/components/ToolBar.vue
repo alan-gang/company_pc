@@ -49,6 +49,7 @@ export default {
   bg-hover = #ececec
   bg-active = #e2e2e2
   .tool-bar
+    user-select none
     height TH
     line-height TH 
     background-color bg

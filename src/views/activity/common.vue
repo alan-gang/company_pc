@@ -94,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route.query.id, '???')
+    // block8/3 console.log(this.$route.query.id, '???')
     if (this.$route.query.id) this.id = this.$route.query.id
     this.__getActivityDetail()
   },

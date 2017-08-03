@@ -62,7 +62,7 @@ export default {
         // swiper callbacks
         // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
         onTransitionStart (swiper) {
-          console.log(swiper)
+          // block8/3 console.log(swiper)
         }
         // more Swiper configs and callbacks...
         // ...
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     openRoute ({path, query: {url}}) {
-      console.log(url)
+      // block8/3 console.log(url)
       this.swiper.slideTo(url ? this.pages[url] : 0, 300, false)
     }
   },

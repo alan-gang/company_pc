@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  div#app(:class=" [state.user.model, 'app'] ")
+  #app(:class=" [state.user.model, 'app'] ")
     
     // vue-progress-bar
     
@@ -626,8 +626,62 @@ export default {
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
+    // console.log(this.$router)
+    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    tryLogin () {
+      let M = this.$modal.warn({
+        content: '授权登录中...',
+        btn: [],
+        close () {
+          M = null
+        },
+        O: this
+      })
+      this.$http.get(api.validate).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          setTimeout(() => {
+            this.loginSuccess(data)
+            M.type = 'success'
+          }, 500)
+          setTimeout(M._close, 1000)
+        } else {
+          this.setUser({login: false})
+          M._close()
+        }
+      }, (rep) => {
+        this.setUser({login: false})
+        M._close()
+      }).finally(() => {
+      })
+    },
+    loginSuccess (data) {
+      this.setUser({login: true,
+        name: data.nickName,
+        pwd: data.hasLogPwd === '1',
+        cashPwd: data.hasSecurityPwd === '1',
+        type: data.identity,
+        account: data.userName,
+        shareCycle: data.shareCycle,
+        role: data.roleId,
+        hasBankCard: data.hasBankCard === '1',
+        guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+        cbsafe: !!data.isOpenKey,
+        safeCheck: data.verifyType
+      })
+      // this.$router.push('/')
+      window.accessAngular.setUser({
+        id: data.userId,
+        key: data.token,
+        pltCd: data.platId,
+        socketUrl: data.platUrl
+      })
+      window.accessAngular.isStranger(false)
+      // window.accessAngular.connect()
+      setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+    },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
     //   if (path.startsWith('/login') && store.state.user.login) {
@@ -635,7 +689,7 @@ export default {
     //   }
     // },
     _getPages () {
-      console.log('menus changed!!! or Menu need reauthority')
+      // console.log('menus changed!!! or Menu need reauthority')
       return this.menus.reduce((p, m, mi) => {
         // delete un authority
         if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {

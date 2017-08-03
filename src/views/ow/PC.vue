@@ -51,7 +51,7 @@
           // swiper callbacks
           // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
           onTransitionStart (swiper) {
-            console.log(swiper)
+            // block8/3 console.log(swiper)
           }
           // more Swiper configs and callbacks...
           // ...
@@ -68,7 +68,7 @@
     mounted () {
       // you can use current swiper instance object to do something(swiper methods)
       // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-      console.log('this is current swiper instance object', this.swiper)
+      // block8/3 console.log('this is current swiper instance object', this.swiper)
       // this.swiper.slideTo(3, 1000, false)
     },
     components: {

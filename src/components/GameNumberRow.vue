@@ -7,8 +7,8 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
-                span.the-number(v-if="showTitle") {{ n.title }}
+              el-col.circle(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
+                span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
 
                 span.after(v-if="after") 18
@@ -154,7 +154,7 @@
         else n.selected = false
       },
       __unselectSelectedNumber (value) {
-        console.log('i get recieve unSelect a ball', value)
+        // block8/3 console.log('i get recieve unSelect a ball', value)
         if (!this.__unselectFromSelf) {
           this.numbers.find(n => n.value === value && n.selected) && (this.numbers.find(n => n.value === value && n.selected).selected = false)
         }
@@ -266,6 +266,8 @@
         position relative
         text-align center
         radius()
+        // &:not(.dice)
+        //   border 1px solid currentColor
         &.selected
           transition background-color .5s linear
         
@@ -381,5 +383,50 @@
           background-color DANGER
           shadow()
           font-shadow()
+    
+    .circle:not(.dice):not(.square):not(.ds-icon-PK10)
+      &::before,
+      &::after
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      &::before
+        border: 2px solid transparent; // We're animating border-color again
+        transition:
+          border-top-color 0.15s linear 0.30s, // Stagger border appearances
+          border-right-color 0.15s linear 0.20s,
+          border-bottom-color 0.15s linear 0.10s;
+      &.selected:before
+      // &:hover::before
+        border-top-color: currentColor; // Show borders
+        border-right-color: currentColor;
+        border-bottom-color: currentColor;
+
+        transition:
+          border-top-color 0.15s linear, // Stagger border appearances
+          border-right-color 0.15s linear 0.10s,
+          border-bottom-color 0.15s linear 0.20s;
+
+      &::after
+        border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
+        transition:
+          transform 0.4s linear 0s,
+          border-color 0s linear 0.4s,
+          border-width 0s linear 0.4s; // Solid edge post-rotation
           
+      &.selected:after
+      // &:hover::after
+        border-top: 2px solid currentColor; // Shows border
+        border-left-width: 2px; // Solid edges, invisible borders
+        border-right-width: 2px; // Solid edges, invisible borders
+        transform: rotate(270deg); // Rotate around circle
+        transition:
+          transform 0.4s linear 0s,
+          border-left-width 0s linear 0.35s; // Solid edge post-rotation
+      
 </style>

@@ -5,7 +5,7 @@ let store = {
     hasHeader: false,
     hasFooter: false,
     user: {
-      login: false,
+      login: null,
       // Home & Me
       name: '游客',
       account: '',
@@ -50,7 +50,7 @@ let store = {
      *for login
      */
     setUser (user) {
-      console.log('user: ', user)
+      // block8/3 console.log('user: ', user)
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
       user = user || {

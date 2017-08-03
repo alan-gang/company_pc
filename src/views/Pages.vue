@@ -418,7 +418,7 @@ export default {
     },
     setDefaultPosition (page) {
       let el = this.$el.querySelector('.page-' + page.id)
-      console.log(el.style.top, el.style.left, el.style.width, el.style.height)
+      // block8/3 console.log(el.style.top, el.style.left, el.style.width, el.style.height)
       let position = {
         top: el.style.top,
         left: el.style.left,
@@ -779,6 +779,8 @@ export default {
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
     &.active
       transform rotateY(0)
+      // shadow(0 0 .1rem .1rem #fff)
+      
       // transition-duration .5s
       z-index 1
       
@@ -793,15 +795,18 @@ export default {
       // transform perspective(500px) translateZ(-5000px)
       opacity .2
       transform perspective(500px) translateZ(-1000px)
+      shadow(0 0 5rem 5rem #333)
+    
 
     &[adjusting]
       z-index 2
-      
+      shadow(0 0 5rem 5rem #333)
     
-    // &.minus
-    //   transition all linear 0.2s
+    &.minus
+      shadow(0 0 5rem 5rem #333)
     
     &.full
+      shadow(0 0 5rem 5rem #333)
       .move-bar
         cursor default
         &:hover

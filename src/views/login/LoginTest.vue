@@ -134,7 +134,7 @@
         const st = new Date().getTime()
         this.$http.jsonp(url).then((rep) => {
         }, (rep) => {
-          console.log('success testing', rep)
+          // block8/3 console.log('success testing', rep)
           const et = new Date().getTime()
           const v = this.getValue(et - st)
           this.$set(this[timeList], i, et - st)

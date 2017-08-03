@@ -89,7 +89,7 @@ export default {
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
-    if (!this.$route.query.keep) {
+    if (!this.$route.query.keep || !this.me.collects[0]) {
       this.getUserPrefence()
       setTimeout(() => {
         this.$emit('get-menus')

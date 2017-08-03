@@ -650,6 +650,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .game-page
+    user-select none
+    
   .game-info.show + .game-content
     top TH + GH
   .game-content

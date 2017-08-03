@@ -26,7 +26,7 @@ export default (Vue) => {
             O: this
           })
         }
-        console.log(rep.data)
+        // block8/3 console.log(rep.data)
         // if (data && data.success === -2) console.log('no Authorization')
         return rep
       }

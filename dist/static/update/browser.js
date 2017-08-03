@@ -72,9 +72,9 @@
   if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
   if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
 
-  console.log('Your OS: '+OSName);
-  console.log('Your Browser: '+browserName);
-  console.log('Your Browser version: '+majorVersion);
+  // console.log('Your OS: '+OSName);
+  // console.log('Your Browser: '+browserName);
+  // console.log('Your Browser version: '+majorVersion);
 
   window.userPlatInfo = {
     OS: OSName,
