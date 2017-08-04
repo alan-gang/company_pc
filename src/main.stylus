@@ -811,16 +811,16 @@ input
       background url($ASSETS/car_blue.png) center no-repeat
     &.selected
       background url($ASSETS/car_red.png) center no-repeat
-  .ds-icon-PK10-1
-    background url($ASSETS/car_colour01.png) center no-repeat
-  .ds-icon-PK10-2
-    background url($ASSETS/car_colour02.png) center no-repeat
-  .ds-icon-PK10-3
-    background url($ASSETS/car_colour03.png) center no-repeat
-  .ds-icon-PK10-4
-    background url($ASSETS/car_colour02.png) center no-repeat
-  .ds-icon-PK10-5
-    background url($ASSETS/car_colour01.png) center no-repeat
+  // .ds-icon-PK10-1
+  //   background url($ASSETS/car_colour01.png) center no-repeat
+  // .ds-icon-PK10-2
+  //   background url($ASSETS/car_colour02.png) center no-repeat
+  // .ds-icon-PK10-3
+  //   background url($ASSETS/car_colour03.png) center no-repeat
+  // .ds-icon-PK10-4
+  //   background url($ASSETS/car_colour02.png) center no-repeat
+  // .ds-icon-PK10-5
+  //   background url($ASSETS/car_colour01.png) center no-repeat
   
   // Me
   .ds-icon-me-avatar

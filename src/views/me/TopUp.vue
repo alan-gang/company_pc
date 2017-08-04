@@ -9,8 +9,8 @@
 
       .tab(style="text-align: center")
         .ds-button-group
-          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList ") 网银转帐
-          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList ") 快捷支付
+          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
+          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 快捷支付
           .ds-button.text-button(v-for=" (bb, i) in merNoBankList " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb) " ) {{ bb.text }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
@@ -39,7 +39,7 @@
         
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
-          span(style="padding: 0 .2rem") 充值限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔充值限额：最低：
+          span(style="padding: 0 .2rem") 充值限额：(单笔充值限额：最低：
               span.min.text-danger  {{ min }} 
               | 元，
               | 最高：
@@ -602,6 +602,9 @@ export default {
             }) || {}).text
           })
           this.merNoBankList = data.merNoBankList || []
+          if (!this.bankList[0]) this.type = 1
+          else if (!this.merBankList[0]) this.type = 3
+          else if (!this.merNoBankList[0]) this.type = 2
           // this.max = data.max
           // this.min = data.min
         }

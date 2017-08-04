@@ -120,26 +120,26 @@ export default {
         color #333
     
     // PK10
-    &.game-PK10
-      .number
-        width 1rem
-        font-size .18rem
-        background-position center (.36rem - .27rem)
-        background-color transparent
-        line-height .36rem
-        box-shadow none
-        .the-number
-          position relative
-          display inline-block
-          width .35rem
-          height .35rem
-          background-color #fff
-          radius(50%)
-          shadow(0 0 0 2px #666)
-          border 1px solid #bd0615
-          color #fff
-          background-color DANGER
-          font-shadow()
+    // &.game-PK10
+    //   .number
+    //     width 1rem
+    //     font-size .18rem
+    //     background-position center (.36rem - .27rem)
+    //     background-color transparent
+    //     line-height .36rem
+    //     box-shadow none
+    //     .the-number
+    //       position relative
+    //       display inline-block
+    //       width .35rem
+    //       height .35rem
+    //       background-color #fff
+    //       radius(50%)
+    //       shadow(0 0 0 2px #666)
+    //       border 1px solid #bd0615
+    //       color #fff
+    //       background-color DANGER
+    //       font-shadow()
     
     // K3
     &.game-K3

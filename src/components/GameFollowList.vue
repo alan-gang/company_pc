@@ -29,8 +29,8 @@
 
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
-      el-table-column(prop="times" label="倍数" width="100" align="right" inline-template)
-        el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="100")
+      el-table-column(prop="times" label="倍数" width="150" align="right" inline-template)
+        el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="100000" style="width: .75rem")
       el-table-column(prop="payV" label="金额" width="200" align="right"  inline-template)
         span 
           span.pay {{ (row.times * pay).toFixed(3) }}
