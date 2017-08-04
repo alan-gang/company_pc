@@ -95,9 +95,9 @@
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 资金密码：&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
-            span(v-if="")
-              <br>
-              <br>
+            span(v-if=" me.safeCheck ")
+              br
+              br
               label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
                   input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
                   button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
@@ -105,23 +105,25 @@
                     span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
                       span.text-999 秒后可重新发送
 
-              label(v-if="me.safeCheck === 3 " ) 畅博安全码：
+              label(v-if="me.safeCheck === 3 " style="margin: .2rem 0") 畅博安全码：
                   input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-            <br>
+            br
             span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
 
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 充值金额：
             el-input-number.large(style="width: 2.2rem" v-model="money") 
             span.text-money  {{ textMoney }}
+            span.text-999(v-if=" topUpMax || topUpMin ")  ({{ topUpMin }} - {{ topUpMax }}元)
+
             <br>
-            span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click="topUpIndex++") 下一步
+            span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click=" checkTopup") 下一步
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 2") 充值金额：
             span.amount {{ money }}
             | 元   
             span.text-money  {{ textMoney }}
-            <br>
+            br
             span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="recharge") 确认
 
         div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
@@ -334,7 +336,9 @@
         // 给下级充值
         canTopUp: false,
         safeCheckCode: '',
-        checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
+        checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+        topUpMax: '',
+        topUpMin: ''
       }
     },
     computed: {
@@ -346,6 +350,13 @@
       this.getUserList()
     },
     methods: {
+      checkTopup () {
+        if ((this.topUpMax || this.topUpMin) && (this.money <= this.topUpMax && this.money >= this.topUpMin) || !(this.topUpMax || this.topUpMin)) {
+          this.topUpIndex++
+        } else {
+          this.$message.warning({target: this.$el, message: '您输入的金额过小或过大！'})
+        }
+      },
       sendSms () {
         this.$http.post(api.person_sendSms, {}).then(({data}) => {
           if (data.success === 1) {
@@ -472,6 +483,10 @@
             data.subUserInfo[0] && (this.BL.length === 1) && (data.subUserInfo[0].self = true)
             if (this.BL.length === 1) {
               this.canTopUp = data.subUserInfo[0] ? (data.subUserInfo[0].uploadlevel !== '0') : false
+              if (data.subUserInfo[0] && data.subUserInfo[0].uploadlevel !== '0') {
+                this.topUpMax = parseInt(data.subUserInfo[0].uploadlevel.split('-')[1])
+                this.topUpMin = parseInt(data.subUserInfo[0].uploadlevel.split('-')[0])
+              }
             }
             this.OL = data.salaryData
             this.data = data.subUserInfo.map(o => {
