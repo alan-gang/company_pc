@@ -384,6 +384,7 @@
           shadow()
           font-shadow()
     
+    // https://codepen.io/giana/pen/yYBpVY
     .circle:not(.dice):not(.square):not(.ds-icon-PK10)
       &::before,
       &::after
@@ -428,5 +429,139 @@
         transition:
           transform 0.4s linear 0s,
           border-left-width 0s linear 0.35s; // Solid edge post-rotation
+    
+    .square
+      // box-shadow: inset 0 0 0 2px #f45e61;
+      transition: color 0.25s
+      &::before,
+      &::after {
+        box-sizing: inherit;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        width: 0;
+        height: 0;
+        radius()
+      }
+      &::before {
+        top: 0;
+        left: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.75s, // Width expands first
+          height 0.25s ease-out 0.5s; // And then height
+      }
+
+      // And this the bottom & left borders (expands left, then up)
+      &::after {
+        bottom: 0;
+        right: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.25s, // Width expands first
+          height 0.25s ease-out; // And then height
+      }
       
+      &:hover {
+        color: currentColor;
+      }
+       // Hover styles
+      &.selected::before,
+      &.selected::after {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.selected::before {
+        border-top-color: currentColor; // Make borders visible
+        border-right-color: currentColor;
+        transition:
+          width 0.25s ease-out, // Width expands first
+          height 0.25s ease-out 0.25s; // And then height
+      }
+
+      &.selected::after {
+        border-bottom-color: currentColor; // Make borders visible
+        border-left-color: currentColor;
+        transition:
+          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.5s, // And then exanding width
+          height 0.25s ease-out 0.75s; // And finally height
+      }
+      
+</style>
+
+<style lang="stylus">
+  @import '../var.stylus'
+   .dice
+      .dice
+        transition: color 0.25s
+        color #666
+      &.selected .dice
+        color #fff
+      // box-shadow: inset 0 0 0 2px #f45e61;
+      .dice::before,
+      .dice::after {
+        box-sizing: inherit;
+        content: '';
+        position: absolute;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+        width: 0;
+        height: 0;
+        radius(.1rem)
+        z-index 1
+      }
+      .dice::before {
+        top: 0;
+        left: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.75s, // Width expands first
+          height 0.25s ease-out 0.5s; // And then height
+      }
+
+      // And this the bottom & left borders (expands left, then up)
+      .dice::after {
+        bottom: 0;
+        right: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out , // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.25s, // Width expands first
+          height 0.25s ease-out; // And then height
+      }
+      
+       // Hover styles
+      &.selected .dice::before,
+      &.selected .dice::after {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.selected .dice::before {
+        border-top-color: currentColor; // Make borders visible
+        border-right-color: currentColor;
+        transition:
+          width 0.25s ease-out, // Width expands first
+          height 0.25s ease-out 0.25s; // And then height
+      }
+
+      &.selected .dice::after {
+        border-bottom-color: currentColor; // Make borders visible
+        border-left-color: currentColor;
+        transition:
+          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.5s, // And then exanding width
+          height 0.25s ease-out 0.75s; // And finally height
+      }
 </style>

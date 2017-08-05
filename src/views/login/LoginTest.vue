@@ -4,7 +4,7 @@
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
-          p {{ r }}
+          // p {{ r }}
           span.route-index {{ index + 1 }}
           |  线 
           SignalBar(:value=" timeListValue[index] || 0 ")
