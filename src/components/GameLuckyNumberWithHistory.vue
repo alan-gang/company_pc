@@ -11,7 +11,7 @@
             span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
               span.the-number {{ n | padStart(2, 0) }}
             
-          Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
+          Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value=" n ")
 
           span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
       slot
@@ -63,6 +63,10 @@ export default {
     longNumbers () {
       return !this.isDice && this.isArray
     }
+  },
+  watch: {
+    // lucknumbers () {
+    // }
   },
   methods: {
     fresh () {
@@ -164,7 +168,8 @@ export default {
     // K3
     &.game-K3
       .left
-        perspective 100px
+        // perspective 80px
+        // perspective-origin  1.2rem center 
       .dice
         display inline-block
         float none

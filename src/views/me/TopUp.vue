@@ -603,8 +603,10 @@ export default {
           })
           this.merNoBankList = data.merNoBankList || []
           if (!this.bankList[0]) this.type = 1
-          else if (!this.merBankList[0]) this.type = 3
-          else if (!this.merNoBankList[0]) this.type = 2
+          else return false
+          if (!this.merBankList[0]) this.type = 3
+          else return false
+          if (!this.merNoBankList[0]) this.type = 2
           // this.max = data.max
           // this.min = data.min
         }

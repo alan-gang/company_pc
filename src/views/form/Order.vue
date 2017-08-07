@@ -120,7 +120,7 @@
             template(scope="scope")
               div(v-if="!scope.row.last")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                .ds-button.text-button.blue(v-if="scope.row.stat === 0 && scope.row.userName === ACCOUNT " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
         
 

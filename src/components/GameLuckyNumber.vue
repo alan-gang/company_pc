@@ -144,7 +144,7 @@ export default {
     // K3
     &.game-K3
       .left
-        perspective 100px
+        // perspective 100px
       .dice
         display inline-block
         float none

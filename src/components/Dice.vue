@@ -64,7 +64,7 @@
     },
     computed: {
       v_ () {
-        return parseInt(this.value || 0)
+        return parseInt(this.value || 0) || 'all'
       },
       text () {
         return this.vs.indexOf(this.v_) === -1
@@ -79,7 +79,7 @@
   @keyframes spin
     for i in 0..10
       {10% * i}
-        transform translateZ(-100px) rotateX(180deg * i) rotateY(180deg * 1) rotateZ(180deg * (i - 1))
+        transform perspective(100px) translateZ(-100px) rotateX(180deg * i) rotateY(180deg * 1) rotateZ(180deg * (i - 1))
     
   W = .52rem
   w-1 = .22rem
@@ -93,7 +93,8 @@
     float left
     radius(PW)
     transform-style  preserve-3d 
-    // animation spin 50s infinite linear
+    &.all
+      animation spin 50s infinite linear
     shadow()
     
     &:not(.dead)
