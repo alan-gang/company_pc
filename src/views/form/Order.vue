@@ -93,13 +93,13 @@
             template(scope="scope")
                 span {{ MODES[scope.row.modes - 1] }}     
 
-          el-table-column(prop="totalPrice" label="总金额" width="80" align="right")
+          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="80" align="right")
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="120" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.bonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}

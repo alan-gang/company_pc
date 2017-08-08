@@ -25,7 +25,7 @@
       GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
       <!-- 追号栏 -->
       transition(name="slide-left" appear=true key="follow")
-        GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
+        GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
       <!-- 追号单 -->
       transition(name="slide-left" appear=true key="follow")
         GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues")
