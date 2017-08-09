@@ -9,8 +9,8 @@ import config from './config'
 config(Vue)
 
 // ow
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-Vue.use(VueAwesomeSwiper)
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
 // progressBar
 // import VueProgressBar from 'vue-progressbar'
