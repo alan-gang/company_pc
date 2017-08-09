@@ -110,6 +110,7 @@
       // props:['Ptype', 'Pbtn', 'Pok', 'Pcancel', 'Pclose'],
       if (this.Ptype) this.type = this.Ptype
       if (this.Pbtn) this.btn = this.Pbtn
+      if (this.Phref) this.href = this.Phref
       if (this.Pok) this.ok = this.Pok
       if (this.Pcancel) this.cancel = this.Pcancel
       if (this.Pclose) this.close = this.Pclose

@@ -513,8 +513,10 @@ export default {
     Pok () {
       if (this.Pbtn[0] === '进入网上银行') {
         this.Ptype = 'question'
-        this.Phref = []
         this.Pbtn = ['充值成功', '充值失败']
+        setTimeout(() => {
+          this.Phref = []
+        }, 1000)
         return false
       } else {
         this.type = 2
@@ -630,7 +632,7 @@ export default {
             this.dataXorderId = data.orderId
             this.dataXappendix = data.appendix
             this.dataXnow = true
-            this.Phref[0] = data.bankUrl
+            this.Phref[0] = data.payUrl
             // 在线充值 附言
             // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
             //  '<p>银行信息：' + data.bankName + '' + '</p>' +
