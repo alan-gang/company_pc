@@ -150,6 +150,7 @@ export default {
     &.game-G115
       .number
         color #333
+        background-color rgba(0,0,0,0)
     
     // PK10
     &.game-PK10
