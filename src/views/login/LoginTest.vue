@@ -284,6 +284,7 @@
       &.current:before
         content '当前'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
+        transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
         
         
       

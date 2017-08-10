@@ -13,11 +13,11 @@
 
       .info
         .title 活动内容
-        .content {{ content }}
+        pre.content {{ content }}
 
       .info
         .title 活动规则
-        .content {{ rule }}
+        pre.content {{ rule }}
 
         .list(v-if="list && list[0]" )
 
