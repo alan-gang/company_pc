@@ -11,9 +11,9 @@
         
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
         br
       | 已开
       span.PNPER {{ PNPER }}
@@ -118,33 +118,35 @@ export default {
     &.game-G115
       .number
         color #333
+        background-color rgba(0,0,0,0)
+        
     
     // PK10
     &.game-PK10
-      .number
-        width 1rem
-        font-size .18rem
-        background-position center (.36rem - .27rem)
-        background-color transparent
-        line-height .36rem
-        box-shadow none
-        .the-number
-          position relative
-          display inline-block
-          width .35rem
-          height .35rem
-          background-color #fff
-          radius(50%)
-          shadow(0 0 0 2px #666)
-          border 1px solid #bd0615
-          color #fff
-          background-color DANGER
-          font-shadow()
+      // .number
+      //   width 1rem
+      //   font-size .18rem
+      //   background-position center (.36rem - .27rem)
+      //   background-color transparent
+      //   line-height .36rem
+      //   box-shadow none
+      //   .the-number
+      //     position relative
+      //     display inline-block
+      //     width .35rem
+      //     height .35rem
+      //     background-color #fff
+      //     radius(50%)
+      //     shadow(0 0 0 2px #666)
+      //     border 1px solid #bd0615
+      //     color #fff
+      //     background-color DANGER
+      //     font-shadow()
     
     // K3
     &.game-K3
       .left
-        perspective 100px
+        // perspective 100px
       .dice
         display inline-block
         float none

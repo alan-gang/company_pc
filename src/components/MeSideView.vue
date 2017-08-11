@@ -36,12 +36,12 @@
     },
     methods: {
       topUp () {
-        console.log('充值')
+        // block8/3 console.log('充值')
         // this.openPage
         this.doRecharge()
       },
       withDraw () {
-        console.log('提现')
+        // block8/3 console.log('提现')
         this.$router.push('/me/2-5-1')
       },
       doRecharge () {

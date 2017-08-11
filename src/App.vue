@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  div#app(:class=" [state.user.model, 'app'] ")
+  #app(:class=" [state.user.model, 'app'] ")
     
     // vue-progress-bar
     
@@ -9,9 +9,9 @@
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
     
     // pages
-    // keep-alive
-    transition(name="fade" appear=true)
-      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
+    keep-alive
+      transition(name="fade" appear=true)
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
 
     // footer
     transition(name="slide-down" appear=true)
@@ -212,6 +212,16 @@ export default {
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '60', title: '排列三、五', gameid: 10},
                 {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '62', title: '排列五', gameid: 5},
                 {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '19', title: '快投3D', gameid: 14}
+              ]
+            },
+            {
+              title: '老虎机',
+              hide: true,
+              url: 'LHG',
+              items: [
+                {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
+                {class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
+                {class: 'ds-icon-game-lhg00', title: 'more'}
               ]
             }
           ]
@@ -531,7 +541,7 @@ export default {
             {
               id: '6-2',
               title: '系统',
-              hide: true,
+              // hide: true,
               items: [
                 {
                   id: '6-2-1',
@@ -616,8 +626,62 @@ export default {
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
+    // console.log(this.$router)
+    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    tryLogin () {
+      let M = this.$modal.warn({
+        content: '授权登录中...',
+        btn: [],
+        close () {
+          M = null
+        },
+        O: this
+      })
+      this.$http.get(api.validate).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          setTimeout(() => {
+            this.loginSuccess(data)
+            M.type = 'success'
+          }, 500)
+          setTimeout(M._close, 1000)
+        } else {
+          this.setUser({login: false})
+          M._close()
+        }
+      }, (rep) => {
+        this.setUser({login: false})
+        M._close()
+      }).finally(() => {
+      })
+    },
+    loginSuccess (data) {
+      this.setUser({login: true,
+        name: data.nickName,
+        pwd: data.hasLogPwd === '1',
+        cashPwd: data.hasSecurityPwd === '1',
+        type: data.identity,
+        account: data.userName,
+        shareCycle: data.shareCycle,
+        role: data.roleId,
+        hasBankCard: data.hasBankCard === '1',
+        guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+        cbsafe: !!data.isOpenKey,
+        safeCheck: data.verifyType
+      })
+      // this.$router.push('/')
+      window.accessAngular.setUser({
+        id: data.userId,
+        key: data.token,
+        pltCd: data.platId,
+        socketUrl: data.platUrl
+      })
+      window.accessAngular.isStranger(false)
+      // window.accessAngular.connect()
+      setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+    },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
     //   if (path.startsWith('/login') && store.state.user.login) {
@@ -625,7 +689,7 @@ export default {
     //   }
     // },
     _getPages () {
-      console.log('menus changed!!! or Menu need reauthority')
+      // console.log('menus changed!!! or Menu need reauthority')
       return this.menus.reduce((p, m, mi) => {
         // delete un authority
         if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {
@@ -700,7 +764,12 @@ export default {
           this.openTab(nurl)
         } else if (this.tabs.length === 0) {
           setTimeout(() => {
-            this.$router.push('/')
+            this.$router.push({
+              path: '/',
+              query: {
+                keep: true
+              }
+            })
           }, 100)
         } else this.$router.push(this.prev.href)
       })
@@ -786,7 +855,7 @@ export default {
     color #666
     margin 0
     background url($ASSETS/bg.jpg) center center no-repeat
-    background-size cover
+    // background-size cover
   
   body:fullscreen #app > * {
     background url($ASSETS/bg.jpg) center center no-repeat

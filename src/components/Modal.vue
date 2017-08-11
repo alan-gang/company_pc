@@ -25,7 +25,7 @@
                 div(v-html="content")
 
           .footer-bar(:class="[ 'btn' + btn.length ]")
-            a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click.stop="btnClick(i)" v-bind:class="[ btnClass[type][i] ]") {{ b }}
+            a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click.stop="btnClick(i)" v-bind:class="[ btnClass[type][i] || btnClass[type][1] ]") {{ b }}
 
 
 
@@ -96,19 +96,21 @@
         if (typeof this.ok === 'function') this.ok.call(this.O) !== false && this._close()
         else this._close()
       },
-      _cancel () {
-        if (typeof this.cancel === 'function') this.cancel.call(this.O) !== false && this._close()
+      _cancel (i) {
+        if (typeof this.cancel === 'function') this.cancel.call(this.O, i) !== false && this._close()
         else this._close()
       },
       btnClick (i) {
         if (i === 0) this._ok()
-        if (i === 1) this._cancel()
+        else if (i === 1) this._cancel()
+        else this._cancel(i)
       }
     },
     created () {
       // props:['Ptype', 'Pbtn', 'Pok', 'Pcancel', 'Pclose'],
       if (this.Ptype) this.type = this.Ptype
       if (this.Pbtn) this.btn = this.Pbtn
+      if (this.Phref) this.href = this.Phref
       if (this.Pok) this.ok = this.Pok
       if (this.Pcancel) this.cancel = this.Pcancel
       if (this.Pclose) this.close = this.Pclose

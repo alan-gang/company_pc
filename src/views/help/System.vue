@@ -8,7 +8,7 @@
     .scroll-content.function-help
       .content
         .item(v-for="(g, index) in notices") 
-          .step.text-black(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
+          .step.text-666(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
             .time.text-666 {{ g.sendTime }}
           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
@@ -77,6 +77,8 @@
     top TH
     text-align center
     padding PWX
+    .item:hover .text-666
+      color #000
     .ds-button-group
       text-align left
       // height auto
@@ -101,4 +103,8 @@
         cursor pointer
       .value
         line-height .22rem
+</style>
+<style lang="stylus">
+  .night .function-help .item:hover .text-666
+    color #fff
 </style>

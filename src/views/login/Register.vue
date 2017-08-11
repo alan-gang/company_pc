@@ -25,7 +25,7 @@
 <script>
   // import '../../main.all.out.min.js'
   import api from '../../http/api'
-  import browser from '../../util/browser'
+  // import browser from '../../util/browser'
   import xhr from 'components/xhr'
   import Validate from '../../util/Validate'
   export default {
@@ -53,12 +53,12 @@
     mounted () {
       this._getVerifyImage()
       this.tag = this.$route.query.tag
-      if (browser.mobile) {
-        window.onbeforeunload = null
-        setTimeout(() => {
-          window.location.href = 'login_regist.html?tag=' + this.tag
-        }, 0)
-      }
+      // if (browser.mobile) {
+      //   window.onbeforeunload = null
+      //   setTimeout(() => {
+      //     window.location.href = 'login_regist.html?tag=' + this.tag
+      //   }, 0)
+      // }
       setTimeout(this.getStrangerInfo, 1000)
     },
     beforeDestroy () {

@@ -144,6 +144,8 @@ export default {
     }
   },
   watch: {
+    showPool () {
+    },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
       document.body.className = this.day ? 'day' : 'night'
@@ -159,8 +161,9 @@ export default {
   },
   beforeDestroy () {
     clearInterval(this.timeout)
-    if (store.state.user.login) this.$emit('logout', true)
-    else this.setFarChat()
+    // if (store.state.user.login) this.$emit('logout', true)
+    // else
+    this.setFarChat()
   },
   methods: {
     __showPool () {
@@ -249,10 +252,12 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-      setTimeout(() => {
-        this.shows[index] = false
-        this.openPage(item.id)
-      }, 0)
+      if (item.id) {
+        setTimeout(() => {
+          this.shows[index] = false
+          this.openPage(item.id)
+        }, 0)
+      }
     },
     logout () {
       this.$emit('logout')

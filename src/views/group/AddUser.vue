@@ -124,16 +124,16 @@
         this.$http.get(api.registUser, { userName: this.account, password: this.pwd, keepPoint: this.p, proxyType: this.u.id || '' }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.$message.success(data.msg || '注册成功！')
+            this.$message.success(data.msg || '开户成功！')
             this.account = ''
             this.pwd = '123qwe'
             // this.point = ''
             this.u = {}
             this.showRegistUser()
-          } else this.$message.error(data.msg || '注册失败！')
+          } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
           // error
-          this.$message.error('注册失败！')
+          this.$message.error('开户失败！')
         })
       },
       showRegistUser () {
@@ -143,10 +143,10 @@
             this.PS = data.addUsers || []
             this.range = data.range
             this.point = data.userPoint
-          } else this.$message.error(data.msg || '注册信息获取失败！')
+          } else this.$message.error(data.msg || '开户信息获取失败！')
         }, (rep) => {
           // error
-          this.$message.error('注册信息获取失败！')
+          this.$message.error('开户信息获取失败！')
         })
       }
     }

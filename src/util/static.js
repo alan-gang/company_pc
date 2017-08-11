@@ -1,4 +1,6 @@
 const BANKS = [
+  {apiName: 'qqwallet', class: 'qqwallet', text: 'QQ钱包'},
+  {apiName: 'bdwallet', class: 'bdwallet', text: '百度钱包'},
   {apiName: 'zfb', class: 'alipay', text: '支付宝'},
   {apiName: 'weixin', class: 'wepay', text: '微信'},
   {apiName: 'bob', class: 'bjyh', text: '北京银行'},
@@ -21,7 +23,8 @@ const BANKS = [
   {apiName: 'beascnsh', class: 'dy', text: '东亚银行'},
   {apiName: 'brcb', class: 'bjnshyh', text: '北京农商银行'},
   {apiName: 'srcb', class: 'shhnshyh', text: '上海农商银行'},
-  {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'}
+  {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'},
+  {apiName: 'chbh', class: 'bhyh', text: '渤海银行'}
 ]
 
 const PROVINCES = [

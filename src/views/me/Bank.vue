@@ -485,7 +485,7 @@ export default {
       this.cpwd = ''
     },
     unbindBankCardCheck () {
-      console.log(this.cardNo)
+      // block8/3 console.log(this.cardNo)
       if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
       if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户人姓名！'})
       this.$http.post(api.unbindBankCardCheck, {realName: this.name, cardNo: this.cardNo, entry: this.bank.entry}).then(({data}) => {

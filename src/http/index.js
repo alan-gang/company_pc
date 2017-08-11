@@ -47,7 +47,7 @@ export default (Vue) => {
           // })
           this.$router.push('/login/forbidden')
         }
-        console.log(rep.data)
+        // block8/3 console.log(rep.data)
         // if (data && data.success === -2) console.log('no Authorization')
         return rep
       }

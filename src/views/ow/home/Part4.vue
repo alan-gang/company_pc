@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted () {
-    console.log('this is current swiper instance object', this.swiper)
+    // block8/3 console.log('this is current swiper instance object', this.swiper)
   },
   methods: {
   },

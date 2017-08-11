@@ -5,20 +5,26 @@
         el-col.left(:span="onlyNumber ? 24: 20")
           span.NPER {{ NPER }} 
           | 期 &nbsp;
-          span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
-            span.the-number {{ n }}
+          .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
+            //.the-number {{ n }}
+            .the-number(style="z-index: -1" v-for=" (xx, nn ) in Array(100) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
+
           span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
             span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
               span.the-number {{ n | padStart(2, 0) }}
             
-          Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
+          // Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value=" n ")
 
-          span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖超时，请刷新
+          .number(v-if="isDice" v-for=" (n, i) in lucknumbers " style="background: none; overflow: hidden; border-radius: 0; vertical-align: middle; top: 0;" )
+            Dice.dead(style="display: block; position: relative; left: -.05rem; top: -.05rem; " v-for=" (xx, nn ) in Array(6) " v-bind:value=" nn + 1 " v-bind:style=" {transform: 'translateY(' + (-100 * (n - 1))  + '%) scaleX(0.8076923076923077) scaleY(0.8076923076923077)' , transition: 'transform ' + (1 + (1 * i)) + 's ease' } ")
+
+
+          span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
       slot
         GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖超时，请刷新
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
         br
       | 已开
       span.PNPER {{ PNPER }}
@@ -48,6 +54,7 @@ export default {
   },
   data () {
     return {
+      my: [2, 2, 2]
     }
   },
   computed: {
@@ -63,6 +70,10 @@ export default {
     longNumbers () {
       return !this.isDice && this.isArray
     }
+  },
+  watch: {
+    // lucknumbers () {
+    // }
   },
   methods: {
     fresh () {
@@ -103,8 +114,9 @@ export default {
     background-color #666
     cursor default
     .number
+      vertical-align middle
       position relative
-      top .03rem
+      top -.03rem
       display inline-block
       width W
       height W
@@ -138,33 +150,35 @@ export default {
     &.game-G115
       .number
         color #333
+        background-color rgba(0,0,0,0)
     
     // PK10
     &.game-PK10
-      .number
-        width 1rem
-        font-size .18rem
-        background-position center (.36rem - .27rem)
-        background-color transparent
-        line-height .36rem
-        box-shadow none
-        .the-number
-          position relative
-          display inline-block
-          width .35rem
-          height .35rem
-          background-color #fff
-          radius(50%)
-          shadow(0 0 0 2px #666)
-          border 1px solid #bd0615
-          color #fff
-          background-color DANGER
-          font-shadow()
+      // .number
+      //   width 1rem
+      //   font-size .18rem
+      //   background-position center (.36rem - .27rem)
+      //   background-color transparent
+      //   line-height .36rem
+      //   box-shadow none
+      //   .the-number
+      //     position relative
+      //     display inline-block
+      //     width .35rem
+      //     height .35rem
+      //     background-color #fff
+      //     radius(50%)
+      //     shadow(0 0 0 2px #666)
+      //     border 1px solid #bd0615
+      //     color #fff
+      //     background-color DANGER
+      //     font-shadow()
     
     // K3
     &.game-K3
       .left
-        perspective 100px
+        // perspective 80px
+        // perspective-origin  1.2rem center 
       .dice
         display inline-block
         float none

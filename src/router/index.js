@@ -1,11 +1,12 @@
 // import direction from './direction'
 import store from '../store'
+
 // function view(url) {
 //   return function(resolve) {
 //     require([url], resolve)
 //   }
 // }
-const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
+// const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
 // const OwHome = r => require.ensure([], () => r(require('../views/ow/Home')), 'ow')
 // const OwNews = r => require.ensure([], () => r(require('../views/ow/News')), 'ow')
 // const OwFAQ = r => require.ensure([], () => r(require('../views/ow/FAQ')), 'ow')
@@ -33,28 +34,30 @@ export default function (VueRoter) {
         },
         component: require('../views/Home')
       },
-      {
-        path: '/ow',
-        component: Ow
-        // children: [
-        //   {
-        //     path: '',
-        //     component: OwHome
-        //   },
-        //   {
-        //     path: 'news',
-        //     component: OwNews
-        //   },
-        //   {
-        //     path: 'faq',
-        //     component: OwFAQ
-        //   }
-        // ]
-      },
+      // {
+      //   path: '/ow',
+      //   component: Ow
+      //   // children: [
+      //   //   {
+      //   //     path: '',
+      //   //     component: OwHome
+      //   //   },
+      //   //   {
+      //   //     path: 'news',
+      //   //     component: OwNews
+      //   //   },
+      //   //   {
+      //   //     path: 'faq',
+      //   //     component: OwFAQ
+      //   //   }
+      //   // ]
+      // },
       {
         path: '/login',
         // component: require('../views/Login'),
         component: Login,
+        meta: {
+        },
         children: [
           // { path: '404', component: require('../views/login/404') },
           { path: '404', component: C404 },
@@ -67,14 +70,14 @@ export default function (VueRoter) {
           // { path: '', component: require('../views/login/LoginTest') },
           { path: 'login',
             meta: {
-              login: false
+              // login: false
             },
             // component: require('../views/login/Login')
             component: LoginNow
           },
           { path: 'try',
             meta: {
-              login: false
+              // login: false
             },
             component: Try },
           { path: 'forget', component: Forget }
@@ -144,13 +147,25 @@ export default function (VueRoter) {
   })
   // 匹配前
   router.beforeEach((to, from, next) => {
-    console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
+    // console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
     window.NProgress.start()
     // 如果需要登录，而当前没有登录， 先测试有没有登录
-    if (to.meta.login && !store.state.user.login) next({path: '/login'})
+    if (to.meta.login && store.state.user.login === false) {
+      next({path: '/login'})
     // 如果不要登录， 而当前登录了, 跳到大厅
-    else if (to.meta.login === false && store.state.user.login) {
+    } else if (to.meta.login && store.state.user.login === null) {
+      let t = setInterval(() => {
+        if (store.state.user.login === false) {
+          next({path: '/login'})
+          clearInterval(t)
+        }
+        if (store.state.user.login === true) {
+          next()
+          clearInterval(t)
+        }
+      }, 200)
+    } else if (to.meta.login === false && store.state.user.login) {
       // router.app.$Progress.fail()
       next(false)
     } else if ('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1] || 'xxxxx') === -1 && 'game,me,group,form,activity,help,download'.indexOf(from.path.split('/')[1] || 'xxxxx') !== -1) {
@@ -165,7 +180,7 @@ export default function (VueRoter) {
   router.afterEach(r => {
     window.NProgress.done()
     // router.app.$Progress.finish()
-    console.log('after:', r)
+    // block8/3 console.log('after:', r)
   })
   return router
 }

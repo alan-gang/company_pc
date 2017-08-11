@@ -7,8 +7,8 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
-                span.the-number(v-if="showTitle") {{ n.title }}
+              el-col.circle(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
+                span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
 
                 span.after(v-if="after") 18
@@ -154,7 +154,7 @@
         else n.selected = false
       },
       __unselectSelectedNumber (value) {
-        console.log('i get recieve unSelect a ball', value)
+        // block8/3 console.log('i get recieve unSelect a ball', value)
         if (!this.__unselectFromSelf) {
           this.numbers.find(n => n.value === value && n.selected) && (this.numbers.find(n => n.value === value && n.selected).selected = false)
         }
@@ -169,10 +169,10 @@
         this.numbers.forEach(n => this.select(n, signal))
       },
       small (signal) {
-        this.numbers.forEach((n, i) => ((2 * i) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
+        this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
       big (signal) {
-        this.numbers.forEach((n, i) => ((2 * i) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
+        this.numbers.forEach((n, i) => ((2 * i + 1) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
       even (signal) {
         this.numbers.forEach((n, i) => ((n.value % 2) === 0 ? this.select(n, signal) : this.unSelect(n, signal)))
@@ -193,8 +193,8 @@
         if (!this.row.buttons) return -1
         if (this.ns.length === 0) return this.row.buttons.length - 1
         if (this.ns.length === this.numbers.length) return 0
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n >= this.numbers.length)) return 1
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => 2 * n <= this.numbers.length)) return 2
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) >= this.numbers.length)) return 1
+        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) < this.numbers.length)) return 2
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
         if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
         if (this.ns.length === this.numbers.filter(n => isPrime(n.value)).length && this.ns.every(n => isPrime(n))) return 5
@@ -266,7 +266,10 @@
         position relative
         text-align center
         radius()
-        // transition background-color .05s linear
+        // &:not(.dice)
+        //   border 1px solid currentColor
+        &.selected
+          transition background-color .5s linear
         
         // margin 0 .01rem
         cursor pointer
@@ -332,6 +335,7 @@
               border-color #0a7cc4
           &.selected
             .the-number
+              transition all .5s linear
               color #fff
               background-color DANGER
               font-shadow()
@@ -379,5 +383,185 @@
           background-color DANGER
           shadow()
           font-shadow()
+    
+    // https://codepen.io/giana/pen/yYBpVY
+    .circle:not(.dice):not(.square):not(.ds-icon-PK10)
+      &::before,
+      &::after
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      &::before
+        border: 2px solid transparent; // We're animating border-color again
+        transition:
+          border-top-color 0.15s linear 0.30s, // Stagger border appearances
+          border-right-color 0.15s linear 0.20s,
+          border-bottom-color 0.15s linear 0.10s;
+      &.selected:before
+      // &:hover::before
+        border-top-color: currentColor; // Show borders
+        border-right-color: currentColor;
+        border-bottom-color: currentColor;
+
+        transition:
+          border-top-color 0.15s linear, // Stagger border appearances
+          border-right-color 0.15s linear 0.10s,
+          border-bottom-color 0.15s linear 0.20s;
+
+      &::after
+        border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
+        transition:
+          transform 0.4s linear 0s,
+          border-color 0s linear 0.4s,
+          border-width 0s linear 0.4s; // Solid edge post-rotation
           
+      &.selected:after
+      // &:hover::after
+        border-top: 2px solid currentColor; // Shows border
+        border-left-width: 2px; // Solid edges, invisible borders
+        border-right-width: 2px; // Solid edges, invisible borders
+        transform: rotate(270deg); // Rotate around circle
+        transition:
+          transform 0.4s linear 0s,
+          border-left-width 0s linear 0.35s; // Solid edge post-rotation
+    
+    .square
+      // box-shadow: inset 0 0 0 2px #f45e61;
+      transition: color 0.25s
+      &::before,
+      &::after {
+        box-sizing: inherit;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        width: 0;
+        height: 0;
+        radius()
+      }
+      &::before {
+        top: 0;
+        left: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.75s, // Width expands first
+          height 0.25s ease-out 0.5s; // And then height
+      }
+
+      // And this the bottom & left borders (expands left, then up)
+      &::after {
+        bottom: 0;
+        right: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.25s, // Width expands first
+          height 0.25s ease-out; // And then height
+      }
+      
+      &:hover {
+        color: currentColor;
+      }
+       // Hover styles
+      &.selected::before,
+      &.selected::after {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.selected::before {
+        border-top-color: currentColor; // Make borders visible
+        border-right-color: currentColor;
+        transition:
+          width 0.25s ease-out, // Width expands first
+          height 0.25s ease-out 0.25s; // And then height
+      }
+
+      &.selected::after {
+        border-bottom-color: currentColor; // Make borders visible
+        border-left-color: currentColor;
+        transition:
+          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.5s, // And then exanding width
+          height 0.25s ease-out 0.75s; // And finally height
+      }
+      
+</style>
+
+<style lang="stylus">
+  @import '../var.stylus'
+   .dice
+      .dice
+        transition: color 0.25s
+        color #666
+      &.selected .dice
+        color #fff
+      // box-shadow: inset 0 0 0 2px #f45e61;
+      .dice::before,
+      .dice::after {
+        box-sizing: inherit;
+        content: '';
+        position: absolute;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+        width: 0;
+        height: 0;
+        radius(.1rem)
+        z-index 1
+      }
+      .dice::before {
+        top: 0;
+        left: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.75s, // Width expands first
+          height 0.25s ease-out 0.5s; // And then height
+      }
+
+      // And this the bottom & left borders (expands left, then up)
+      .dice::after {
+        bottom: 0;
+        right: 0;
+        border-top-color: transparent; // Make borders visible
+        border-right-color: transparent;
+        transition:
+          border-color 0.5s ease-out , // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.25s, // Width expands first
+          height 0.25s ease-out; // And then height
+      }
+      
+       // Hover styles
+      &.selected .dice::before,
+      &.selected .dice::after {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.selected .dice::before {
+        border-top-color: currentColor; // Make borders visible
+        border-right-color: currentColor;
+        transition:
+          width 0.25s ease-out, // Width expands first
+          height 0.25s ease-out 0.25s; // And then height
+      }
+
+      &.selected .dice::after {
+        border-bottom-color: currentColor; // Make borders visible
+        border-left-color: currentColor;
+        transition:
+          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+          width 0.25s ease-out 0.5s, // And then exanding width
+          height 0.25s ease-out 0.75s; // And finally height
+      }
 </style>

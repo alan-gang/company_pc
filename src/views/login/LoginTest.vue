@@ -4,12 +4,13 @@
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
-          p {{ r }}
+          // p {{ r }}
           span.route-index {{ index + 1 }}
           |  线 
           SignalBar(:value=" timeListValue[index] || 0 ")
           .timer 
             span.time {{ timeList[index] }}
+            span.text-danger(v-if=" !timeList[index] && timeList[index] !== 0  ") {{ '计算中...' }}
             |  毫秒
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // el-col(:span="8" v-for=" (r, index) in serverList "  @click.native="switchCS(r)" v-if="!server")
@@ -133,7 +134,7 @@
         const st = new Date().getTime()
         this.$http.jsonp(url).then((rep) => {
         }, (rep) => {
-          console.log('success testing', rep)
+          // block8/3 console.log('success testing', rep)
           const et = new Date().getTime()
           const v = this.getValue(et - st)
           this.$set(this[timeList], i, et - st)
@@ -259,6 +260,7 @@
       &:active
         background-color rgba(255, 255, 255, .6)
       &:after
+      &:before
         background-color GOLD
         position absolute
         right 0
@@ -268,15 +270,21 @@
         padding .05rem 0
         font-shadow()
         transform rotateZ(42deg) translateY(-160%)  translateX(30%) 
+      &:before
+        left 0
+        right auto
+        transform rotateZ(-42deg) translateY(-160%)  translateX(-30%) 
+        
       &.fast:after
         content '最快'
         bg-gradient(180deg, #ff7200, #ff5e00)
-      &.usual:after
+      &.usual:before
         content '常用'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
-      &.current:after
+      &.current:before
         content '当前'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
+        transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
         
         
       

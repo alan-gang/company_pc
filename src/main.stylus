@@ -555,7 +555,15 @@ input
  *icons class define
  */
   // game icons
+  .ds-icon-game-lhg00
+      background url($ASSETS/game/new/lhg00.png) center no-repeat
+
+  .ds-icon-game-lhg01
+      background url($ASSETS/game/new/lhg01.png) center no-repeat
   
+  .ds-icon-game-lhg02
+      background url($ASSETS/game/new/lhg02.png) center no-repeat
+
   .ds-icon-game-chq
       background url($ASSETS/game/new/xxc_cq.png) center no-repeat
   
@@ -803,16 +811,16 @@ input
       background url($ASSETS/car_blue.png) center no-repeat
     &.selected
       background url($ASSETS/car_red.png) center no-repeat
-  .ds-icon-PK10-1
-    background url($ASSETS/car_colour01.png) center no-repeat
-  .ds-icon-PK10-2
-    background url($ASSETS/car_colour02.png) center no-repeat
-  .ds-icon-PK10-3
-    background url($ASSETS/car_colour03.png) center no-repeat
-  .ds-icon-PK10-4
-    background url($ASSETS/car_colour02.png) center no-repeat
-  .ds-icon-PK10-5
-    background url($ASSETS/car_colour01.png) center no-repeat
+  // .ds-icon-PK10-1
+  //   background url($ASSETS/car_colour01.png) center no-repeat
+  // .ds-icon-PK10-2
+  //   background url($ASSETS/car_colour02.png) center no-repeat
+  // .ds-icon-PK10-3
+  //   background url($ASSETS/car_colour03.png) center no-repeat
+  // .ds-icon-PK10-4
+  //   background url($ASSETS/car_colour02.png) center no-repeat
+  // .ds-icon-PK10-5
+  //   background url($ASSETS/car_colour01.png) center no-repeat
   
   // Me
   .ds-icon-me-avatar
@@ -887,7 +895,12 @@ input
         height 100%
         display inline-block
         background-color rgba(26, 159, 243, .2)
+    &.qqwallet
+      background url($ASSETS/bankcard/qqwallet.png) #fff .1rem center no-repeat
     
+    &.bdwallet
+      background url($ASSETS/bankcard/bdwallet.png) #fff .1rem center no-repeat
+      
     &.dy
       background url($ASSETS/bankcard/dy.png) #fff .1rem center no-repeat
     &.bjnshyh
@@ -955,6 +968,8 @@ input
     
     &.hxyh
       background url($ASSETS/bankcard/hxyh.png) right center no-repeat
+    &.bhyh
+      background url($ASSETS/bankcard/bhyh.png) #fff .1rem center no-repeat
       
 
   // me/Bank.vue

@@ -107,7 +107,7 @@
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
           if (data.success === 1) {
-            console.log(data.userPoint, data.range)
+            // block8/3 console.log(data.userPoint, data.range)
             this.userPoint = data.userPoint
             this.autoRegistMinPoint = data.autoRegistMinPoint
             this.url = data.url

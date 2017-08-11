@@ -23,6 +23,7 @@ import G115 from './game/G115'
 import PK10 from './game/PK10'
 import KL8 from './game/KL8'
 import K3 from './game/K3'
+import LHG from './game/LHG'
 import util from '../util'
 
 // me
@@ -90,6 +91,7 @@ export default {
     PK10,
     KL8,
     K3,
+    LHG,
     // me
     Me,
     SafeCenter,
@@ -345,6 +347,9 @@ export default {
   },
   mounted () {
     this.__setCall({fn: '__hidePool', callId: undefined})
+    setTimeout(() => {
+      this.__setCall({fn: '__hidePool', callId: undefined})
+    }, 500)
   },
   beforeDestroy () {
     // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))
@@ -413,7 +418,7 @@ export default {
     },
     setDefaultPosition (page) {
       let el = this.$el.querySelector('.page-' + page.id)
-      console.log(el.style.top, el.style.left, el.style.width, el.style.height)
+      // block8/3 console.log(el.style.top, el.style.left, el.style.width, el.style.height)
       let position = {
         top: el.style.top,
         left: el.style.left,
@@ -746,9 +751,9 @@ export default {
   .page
     overflow hidden
   .dialog-page
-    &>.scroll-content
-      left 50%
-      transform translateX(-50%)
+    // &>.scroll-content
+    //   left 50%
+    //   transform translateX(-50%)
     position absolute !important
     min-width 5.4rem
     min-height 4rem
@@ -774,6 +779,8 @@ export default {
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
     &.active
       transform rotateY(0)
+      // shadow(0 0 .1rem .1rem #fff)
+      
       // transition-duration .5s
       z-index 1
       
@@ -788,15 +795,18 @@ export default {
       // transform perspective(500px) translateZ(-5000px)
       opacity .2
       transform perspective(500px) translateZ(-1000px)
+      shadow(0 0 5rem 5rem #333)
+    
 
     &[adjusting]
       z-index 2
-      
+      shadow(0 0 5rem 5rem #333)
     
-    // &.minus
-    //   transition all linear 0.2s
+    &.minus
+      shadow(0 0 5rem 5rem #333)
     
     &.full
+      shadow(0 0 5rem 5rem #333)
       .move-bar
         cursor default
         &:hover

@@ -13,11 +13,11 @@
 
       .info
         .title 活动内容
-        .content {{ content }}
+        pre.content {{ content }}
 
       .info
         .title 活动规则
-        .content {{ rule }}
+        pre.content {{ rule }}
 
         .list(v-if="list && list[0]" )
 
@@ -94,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route.query.id, '???')
+    // block8/3 console.log(this.$route.query.id, '???')
     if (this.$route.query.id) this.id = this.$route.query.id
     this.__getActivityDetail()
   },

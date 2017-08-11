@@ -25,7 +25,7 @@
       GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
       <!-- 追号栏 -->
       transition(name="slide-left" appear=true key="follow")
-        GameFollowbar.inner-bar(v-if="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
+        GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
       <!-- 追号单 -->
       transition(name="slide-left" appear=true key="follow")
         GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues")
@@ -81,9 +81,9 @@ export default {
       // 秒
       timeout: (100 * 3600) - 1,
       // 剩余的奖期数
-      FNPER: 502,
+      FNPER: 0,
       // 开过的奖期数
-      PNPER: 518,
+      PNPER: 0,
       // 玩法信息
       // type: {
       //   id: '5-1-1',
@@ -190,7 +190,7 @@ export default {
     P () {
       return this.PS.find(p => {
         return (p.methodid + '') === this.methodid
-      }) || {maxprize: 1800, minprize: 1400, scale: 50, maxpoint: 0.08, minpoint: 0}
+      }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}
     },
     methodid () {
       return M[this.type.id + this.idType].split(':')[0]
@@ -200,16 +200,19 @@ export default {
     },
     idType () {
       return this.gameType === 'SSL' ? '-' + this.gameType : ''
+    },
+    hasRepeatOrder () {
+      return this.ns.filter(o => (o.methodid + '') === this.methodid && o.codes === this.nsns)[0]
     }
   },
   watch: {
     ns () {
       if (this.ns.length === 0) this.follow.show = false
     },
-    P () {
-      this.p && (this.point = this.P.minpoint)
-      this.p && (this.bonus = this.P.maxprize)
-    },
+    // P () {
+    //   this.p && (this.point = this.P.minpoint)
+    //   this.p && (this.bonus = this.P.maxprize)
+    // },
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
@@ -416,7 +419,7 @@ export default {
     },
     setType (type) {
       this.type = type
-      this.__setCall({fn: '__clearSelectedNumbers', args: this.call.args + ' '})
+      this.__setCall({fn: '__clearSelectedNumbers'})
       setTimeout(() => {
         this.__setCall({fn: '__clearValue'})
       }, 0)
@@ -508,6 +511,16 @@ export default {
           },
           O: this
         })
+      } else if (this.hasRepeatOrder) {
+        this.$modal.warn({
+          content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">已存在<span class="text-danger">相同订单</span>了！</div>',
+          btn: ['确定'],
+          target: this.$el
+        })
+        this.__setCall({fn: '__clearSelectedNumbers'})
+        setTimeout(() => {
+          this.__setCall({fn: '__clearValue'})
+        }, 0)
       } else {
         this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
           methodid: parseInt(this.methodid), // 玩法编号
@@ -526,6 +539,13 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       }
+      // this.currency = {
+      //   value: 1,
+      //   title: '元',
+      //   model: 1
+      // }
+      // this.point = 0.00
+      // this.times = 1
       // after push need initial the selected numbers
     },
     _getOrderItems () {
@@ -630,6 +650,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .game-page
+    user-select none
+    
   .game-info.show + .game-content
     top TH + GH
   .game-content

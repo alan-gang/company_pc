@@ -373,19 +373,20 @@
       value () {
         // C2
         // 如果是115
-        if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
+        // if there is no 010203 6 numbers together, take it as special
+        if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || !this.V.match(/[/d]{6}/g))) {
           return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
         }
       },
-      test () {
-        return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
-      },
-      testV () {
-        return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length
-      },
-      // 无效号码提醒
+      // test () {
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      // },
+      // testV () {
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length
+      // },
+      // // 无效号码提醒
       hasUnable () {
         return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== this.n
       }
@@ -417,7 +418,7 @@
       // },
       // C2
       V (n, o) {
-        console.log(o, '=>', n)
+        // console.log(o, '=>', n)
         setTimeout(() => {
           this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)

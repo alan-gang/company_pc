@@ -26,7 +26,7 @@
 
 
         label.item 范围 
-          el-select(clearable placeholder="全" v-model="zone" style="width: .8rem")
+          el-select(clearable placeholder="全" v-model="zone" style="width: 1rem")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
         
         .item

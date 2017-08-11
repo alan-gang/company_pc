@@ -524,7 +524,7 @@
         this.CHART = instance
       },
       onClick (event, instance, echarts) {
-        console.log(arguments)
+        // block8/3 console.log(arguments)
       }
     }
   }

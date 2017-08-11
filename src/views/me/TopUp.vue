@@ -9,8 +9,9 @@
 
       .tab(style="text-align: center")
         .ds-button-group
-          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if="enableSaveType === '2' || enableSaveType === '0' ") 银行卡充值
-          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if="enableSaveType === '2' || enableSaveType === '1' ") 在线充值
+          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
+          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 快捷支付
+          .ds-button.text-button(v-for=" (bb, i) in merNoBankList " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb) " ) {{ bb.text }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
       // .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
@@ -20,25 +21,25 @@
       //       .ds-button.primary.large(@click="checkSecurityPwd") 确认
       
 
-      .form(v-if="(type === 0 || type === 1) && (otherPay[0] || banksO[0]) ")
+      .form(v-if=" type !== 2 ")
         .item(style="line-height: .5rem") 支付方式：
             .banks
-                label.ds-radio-label(v-for="bank in otherPay" @click="selectBank = bank")
-                  span.ds-radio.white(v-bind:class="{ active: selectBank.apiName === bank.apiName }")
-                  span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.apiName === bank.apiName } ] ")
+                label.ds-radio-label( v-if=" type > 2")
+                  // span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
+                  span.ds-icon-bank-card.selected(v-bind:class=" [ selectBank.class ] ")
 
-                div
+                div(v-if=" (type === 0 || type === 1) ")
                   label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank")
-                    span.ds-radio.white(v-bind:class="{ active: selectBank.apiName === bank.apiName }")
-                    span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.apiName === bank.apiName } ] ")
+                    span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
+                    span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.bankCode === bank.bankCode } ] ")
 
                   label.ds-radio-label
                     span.ds-radio.white(style="opacity: 0")
-                    span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && myBanks.length > 10" @click="showAllBank = true")  更多银行
+                    span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 10" @click="showAllBank = true")  更多银行
         
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
-          span(style="padding: 0 .2rem") 充值限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔充值限额：最低：
+          span(style="padding: 0 .2rem") 充值限额：(单笔充值限额：最低：
               span.min.text-danger  {{ min }} 
               | 元，
               | 最高：
@@ -103,9 +104,9 @@
               
           .content
             p.text-black {{ selectBank.text }}扫码支付
-            .QR.ds-icon-QR(style="margin: 0 auto; margin-bottom: .5rem; width: 1.4rem; text-align: center")
+            .QR.ds-icon-QR(:style="myQR")
               p(style="padding-top: 1.5rem; position: relative")
-                span.refresh.ds-button.small(v-show="pt_ === 0") 重新获取二维码
+                span.refresh.ds-button.small(v-show="pt_ === 0" @click="commit") 重新获取二维码
                 span.loading(v-show="pt_ !== 0")
                   span.text-danger {{ this.pt_ }} 
                   | 秒后二维码过期 
@@ -254,7 +255,7 @@ export default {
       O: '',
       enableSaveType: '2',
       type: 0,
-      avaibleBanks: [],
+      // avaibleBanks: [],
       selectBank: {},
       showAllBank: false,
       amount: '',
@@ -283,31 +284,52 @@ export default {
       Cid: '',
       Ctime: '',
       Cmore: '',
-      detail: {}
+      detail: {},
+      myAllBanks: [],
+      myFastBanks: [],
+      Qr: '',
+      bankList: [],
+      merBankList: [],
+      merNoBankList: []
     }
   },
   computed: {
+    myQR () {
+      return {
+        margin: '0 auto',
+        marginBottom: '.5rem',
+        // width: '1.4rem',
+        background: 'url(data:image/png;base64,' + this.Qr + ') center top no-repeat',
+        height: '1.96rem',
+        width: '1.4rem',
+        textAlign: 'center'
+      }
+    },
+    avaibleBanks () {
+      return [this.bankList, this.merBankList][this.type] || []
+    },
     // Cdata () {
     //   if (this.data.length <= this.pageSize) return this.data
     //   else {
     //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
     //   }
     // },
-    BANKS () {
-      return BANKS.filter(b => {
-        return this.avaibleBanks.find(ab => ab.bankCode === b.apiName)
-      })
-    },
-    myBanks () {
-      return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
-      // return BANKS
-    },
+    // BANKS () {
+    //   return BANKS.filter(b => {
+    //     return this.avaibleBanks.find(ab => ab.bankCode === b.apiName)
+    //   })
+    // },
+    // myBanks () {
+    //   return this.avaibleBanks.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
+    //   // return BANKS
+    // },
     banksO () {
-      return this.showAllBank ? this.myBanks : this.myBanks.slice(0, 3)
-    },
-    otherPay () {
-      return this.BANKS.filter(b => ['alipay', 'wepay'].indexOf(b.class) !== -1)
+      return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     }
+    // ,
+    // otherPay () {
+      // return this.avaibleBanks.filter(b => ['alipay', 'wepay'].indexOf(b.class) !== -1)
+    // }
   },
   watch: {
     pt_ () {
@@ -319,23 +341,41 @@ export default {
       }
     },
     selectBank () {
-      this.saveAmountRange()
+      // this.saveAmountRange()
+      if (!this.selectBank.bankCode) {
+        this.max = 10000
+        this.min = 0
+      } else {
+        this.max = this.selectBank.maxSave
+        this.min = this.selectBank.minSave
+      }
     },
     type () {
-      if (this.type !== 2) this.TopUpGetBankList()
+      // this.max = 0
+      // this.min = 0
+      this.amount = 0
+      // if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
+      if (this.type < 2) this.selectBank = {}
+      // if (this.type > 2) this.selectBank = this.otherPay
     },
     Ctime () {
-      console.log(this.Ctime)
+      // block8/3 console.log(this.Ctime)
     }
+    // otherPay () {
+    //   if (this.type > 2) {
+    //     this.selectBank = (this.otherPay[4 - this.type] || {})
+    //   }
+    // }
   },
   mounted () {
     // this.getBankList()
     // this.showRecharge()
     this.O = this
-    this.TopUpGetBankList()
-    this.qryRecharge()
-    this.getEnableSaveType()
+    // this.TopUpGetBankList()
+    // this.qryRecharge()
+    // this.getEnableSaveType()
+    this.saveAmountRange()
   },
   methods: {
     // checkSecurityPwd () {
@@ -473,8 +513,10 @@ export default {
     Pok () {
       if (this.Pbtn[0] === '进入网上银行') {
         this.Ptype = 'question'
-        this.Phref = []
         this.Pbtn = ['充值成功', '充值失败']
+        setTimeout(() => {
+          this.Phref = []
+        }, 1000)
         return false
       } else {
         this.type = 2
@@ -498,40 +540,89 @@ export default {
     // // http://192.168.169.43:19012/finance/merSave.do?method=commit
     // httpCommit: 'http://192.168.169.43:19012/finance/merSave.do?method=commit'
     // // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
-    TopUpGetBankList (fn) {
-      let loading = this.$loading({
-        text: '银行列表获取中...',
-        target: this.$el
-      }, 10000, '银行列表获取超时...')
-      this.$http.get(api.TopUpGetBankList, {saveType: this.type}).then(({data}) => {
-        if (data.success === 1) {
-          this.avaibleBanks = data.bankList || []
-          if (!this.avaibleBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
-        } else this.$message.info({message: data.msg || '无可用支付方式！'})
-      }).catch(rpe => {
-        this.$message.error({message: '获取支付方式失败！'})
-      }).finally(() => {
-        setTimeout(() => {
-          loading.close()
-        }, 1000)
-      })
-    },
+    // TopUpGetBankList (fn) {
+    //   if ([this.myAllBanks, this.myFastBanks, [], this.myFastBanks, this.myFastBanks][this.type][0]) return false
+    //   let loading = this.$loading({
+    //     text: '银行列表获取中...',
+    //     target: this.$el
+    //   }, 10000, '银行列表获取超时...')
+    //   let nowType = this.type
+    //   this.$http.get(api.TopUpGetBankList, {saveType: Math.min(this.type, 1)}).then(({data}) => {
+    //     if (data.success === 1) {
+    //       data.bankList.forEach(b => {
+    //         b.class = (BANKS.find(bb => {
+    //           return b.bankCode === bb.apiName
+    //         }) || {}).class
+    //         b.text = (BANKS.find(bb => {
+    //           return b.bankCode === bb.apiName
+    //         }) || {}).text
+    //       })
+    //       if (nowType) {
+    //         this.myFastBanks = data.bankList || []
+    //         if (!this.myFastBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
+    //       } else {
+    //         this.myAllBanks = data.bankList || []
+    //         if (!this.myAllBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
+    //       }
+    //       // this.avaibleBanks = data.bankList || []
+    //     } else this.$message.info({message: data.msg || '无可用支付方式！'})
+    //   }).catch(rpe => {
+    //     this.$message.error({message: '获取支付方式失败！'})
+    //   }).finally(() => {
+    //     setTimeout(() => {
+    //       loading.close()
+    //     }, 1000)
+    //   })
+    // },
     saveAmountRange (fn) {
-      this.$http.get(api.saveAmountRange, {
-        saveType: this.type,
-        bankCode: this.selectBank.apiName
-      }).then(({data}) => {
+      this.$http.get(api.saveAmountRange).then(({data}) => {
         if (data.success === 1) {
-          this.max = data.max
-          this.min = data.min
+          data.bankList.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).text
+          })
+          this.bankList = data.bankList || []
+          data.merBankList.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).text
+          })
+          this.merBankList = data.merBankList || []
+          data.merNoBankList.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).text
+          })
+          this.merNoBankList = data.merNoBankList || []
+          if (!this.bankList[0]) this.type = 1
+          else return false
+          if (!this.merBankList[0]) this.type = 3
+          else return false
+          if (!this.merNoBankList[0]) this.type = 2
+          // this.max = data.max
+          // this.min = data.min
+        } else {
+          this.type = 2
         }
       }).catch(rpe => {
+        this.type = 2
       })
     },
     commit (fn) {
+      this.Qr = ''
       this.$http.get(api.commit, {
-        saveType: this.type,
-        bankCode: this.selectBank.apiName,
+        saveType: Math.min(this.type, 1),
+        bankCode: this.selectBank.bankCode,
         amount: this.amount
       }).then(({data}) => {
         if (data.success === 1) {
@@ -544,7 +635,7 @@ export default {
             this.dataXorderId = data.orderId
             this.dataXappendix = data.appendix
             this.dataXnow = true
-            this.Phref[0] = data.bankUrl
+            this.Phref[0] = data.payUrl
             // 在线充值 附言
             // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
             //  '<p>银行信息：' + data.bankName + '' + '</p>' +
@@ -561,10 +652,11 @@ export default {
             //   },
             //   O: this
             // })
-          } else if (this.type === 1) {
+          } else if (Math.min(this.type, 1) === 1) {
             // 第三方充值
             // 第三方充值 二维码支付
-            if (data.isQr === 1) {
+            if (data.payUrl) {
+              this.Qr = data.payUrl
               this.show = true
               this.pt_ = this.time_
             // 第三方充值 链接跳转
@@ -599,9 +691,9 @@ export default {
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
       if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
-      if (!this.selectBank.apiName) return this.$message.warning({message: '请选择支付方式!'})
+      if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
       this.commit()
-    },
+    }
     // 在线充值*************
     // 获取银行列表
     // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList&saveType=1
@@ -616,17 +708,17 @@ export default {
     // 系统支持充值方式
     // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getEnableSaveType
     // getEnableSaveType: '/person/recharge.do?method=getEnableSaveType'
-    getEnableSaveType (fn) {
-      this.$http.get(api.getEnableSaveType).then(({data}) => {
-        if (data.success === 1) {
-          this.enableSaveType = data.enableSaveType
-        } else {
-          this.$message.error({message: data.msg || '获取充值方式失败！'})
-        }
-      }).catch(rpe => {
-        this.$message.error({message: '获取充值方式失败！'})
-      })
-    }
+    // getEnableSaveType (fn) {
+    //   this.$http.get(api.getEnableSaveType).then(({data}) => {
+    //     if (data.success === 1) {
+    //       this.enableSaveType = data.enableSaveType
+    //     } else {
+    //       this.$message.error({message: data.msg || '获取充值方式失败！'})
+    //     }
+    //   }).catch(rpe => {
+    //     this.$message.error({message: '获取充值方式失败！'})
+    //   })
+    // }
   },
   components: {
     Modal

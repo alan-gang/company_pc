@@ -17,11 +17,11 @@
   // import util from '../util'
   export default {
     // props: ['CNPER'],
-    props: ['issues', 'CNPER'],
+    props: ['issues', 'CNPER', 'stop'],
     data () {
       return {
         // 产生10期
-        length: 10,
+        length: 100,
         checked: true,
         nper: ''
       }
@@ -50,6 +50,7 @@
     mounted () {
       // this.nper = this.NPERS[0]
       this.nper = (this.issues[0] || {}).issue
+      this.checked = this.stop
     },
     methods: {
       closeFollow () {

@@ -30,10 +30,12 @@
 </template>
 
 <script>
+import store from '../store'
 export default {
   props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
   data () {
     return {
+      me: store.state.user,
       XXX: 19,
       XM: 100,
       XMM: 0,
@@ -70,7 +72,7 @@ export default {
       return (this.p / 100).toFixed(2) + '%'
     },
     prize () {
-      return (this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)).toFixed(3)
+      return ((this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
     }
   },
   watch: {
@@ -84,6 +86,10 @@ export default {
     },
     t () {
       this.setTimes(this.t)
+    },
+    // p changing or prize changing need update point and bonus in game/common.vue
+    prize () {
+      this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     }
   },
   mounted () {
@@ -91,7 +97,9 @@ export default {
     this.t = this.times
     this.p = this.point * 10000
     this.cIndex = this.currency.model - 1
-    this.$emit('set-point', this.p / 10000, this.prize)
+    // setTimeout(() => {
+    //   this.$emit('set-point', this.p / 10000, this.prize)
+    // }, 0)
   },
   methods: {
     setTimes (t) {
@@ -105,14 +113,20 @@ export default {
             btn: ['确定'],
             target: this.$el.parentNode
           })
-        } else {
+        } else if (this.me.minOrderPop) {
           return this.$modal.question({
             content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，奖金受限',
-            btn: ['继续购买', '再来几注'],
+            btn: ['继续购买', '再来几注', '不再提醒'],
             target: this.$el.parentNode,
             O: this,
             ok () {
               this.$emit('order')
+            },
+            cancel (i) {
+              if (i === 2) {
+                this.$emit('order')
+                store.actions.setUser({minOrderPop: false})
+              }
             }
           })
         }

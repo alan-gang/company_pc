@@ -47,7 +47,7 @@
           input.ds-input.small(v-model="name" style="width: 1rem")
 
         label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: .8rem" placeholder="全")
+          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
@@ -93,13 +93,13 @@
             template(scope="scope")
                 span {{ MODES[scope.row.modes - 1] }}     
 
-          el-table-column(prop="totalPrice" label="总金额" width="80" align="right")
+          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="80" align="right")
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="120" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.bonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
@@ -120,8 +120,8 @@
             template(scope="scope")
               div(v-if="!scope.row.last")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
-                .ds-button.text-button.blue(v-if="scope.row.taskId !== 0 " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
+                .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
+                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
         
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -229,7 +229,7 @@
 
             .buttons(style="margin: .3rem; text-align: center")
               .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
+              .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel") 确认撤销
 
 
 
@@ -241,10 +241,12 @@
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
+  import store from '../../store'
   // import util from '../../util'
   export default {
     data () {
       return {
+        ACCOUNT: store.state.user.account,
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',

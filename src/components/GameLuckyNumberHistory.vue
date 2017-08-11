@@ -47,6 +47,7 @@ export default {
   @import '../var.stylus'
   s = TH + LH
   .game-luck-number-history
+    user-select none
     // top TH + LH
     // height 0
     max-height 4rem

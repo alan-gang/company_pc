@@ -22,6 +22,13 @@
 
     dd.actions
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 试玩登录
+      .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
+        .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
+          p(style="color: #349dbd; margin: .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
+          div(style="display: inline-block; margin: 0 auto; padding: .1rem .1rem .05rem .1rem; border-radius: 5px; background: rgba(255, 255, 255, .5)")
+            img(src="../../assets/1.png")
+          p(style="color: #349dbd; margin: .15rem") 第二步： 点击"隐私“选项卡，将隐私策略调整到”低“
+          img(src="../../assets/2.png")
       router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'" @click.native.stop="") 忘记密码
 
 
@@ -39,7 +46,9 @@
     data () {
       return {
         regard: false,
-        pwd: ''
+        pwd: '',
+        over: false,
+        overt: 0
       }
     },
     computed: {
@@ -100,7 +109,7 @@
           this._checkVerifyCode(() => {
             this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
               // success
-              if (data.success) {
+              if (data.success === 1) {
                 this.loginSuccess(data)
               } else {
                 this.$message.error('用户名或密码错误！')
@@ -118,11 +127,12 @@
         return !this.un_ || !this.pwd || !this.code_
       },
       getGreetingMsg () {
+        this.regard = false
         this.$http.get(api.getGreetingMsg, {
           userName: this.un_
         }).then(({data}) => {
           // success
-          if (data.success) {
+          if (data.success === 1) {
             this.regard = data.greetingMsg || ''
             if (!this.regard) {
               this.$message.warning('您未设置登录问候语！')
@@ -150,7 +160,7 @@
         // })
         this.$http.get(api.validate).then(({data}) => {
           // success
-          if (data.success) {
+          if (data.success === 1) {
             this.loginSuccess(data)
             // this.$emit('update-user', {login: true,
             //   name: data.nickName,
@@ -184,6 +194,17 @@
         }).finally(() => {
           // loading.close()
         })
+      },
+      overf (f) {
+        if (f) {
+          clearTimeout(this.overt)
+          this.over = true
+          this.$refs.con.focus()
+        } else {
+          this.overt = setTimeout(() => {
+            this.over = false
+          }, 300)
+        }
       }
     }
   }
@@ -259,7 +280,12 @@
     float left
   .forget
     float right
-  
+    .con
+      display none
+    &:hover
+    &.over
+      .con
+        display block
   .ds-icon-user
   .ds-icon-pwd
   .ds-icon-edit

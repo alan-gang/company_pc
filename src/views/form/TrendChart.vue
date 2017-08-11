@@ -235,6 +235,9 @@ export default {
             }
           })
           this.gameList = data.lotteryList
+          if (!this.game.lotteryId) {
+            this.game = this.gameList[0]
+          }
         }
       }, (rep) => {
         // error

@@ -140,7 +140,8 @@ export default {
       myBanks: [],
       showAllBank: false,
       selectBank: {},
-      max: 0,
+      maxmins: [],
+      max: 10000,
       min: 0,
       money: 0,
       get: 0,
@@ -173,13 +174,22 @@ export default {
   },
   watch: {
     selectBank () {
-      this.selectBank.apiName && this.getWithdrawByApi()
+      // this.selectBank.apiName && this.getWithdrawByApi()
+      if (!this.selectBank.apiName) {
+        this.max = 10000
+        this.min = 0
+      } else {
+        let x = this.maxmins.find(m => m.bankCode === this.selectBank.apiName) || {maxDraw: 10000, minDraw: 0}
+        this.max = x.maxDraw
+        this.min = x.minDraw
+      }
     },
     tabIndex () {
-      if (this.tabIndex === 2) this.queryWithdraw()
-      else {
+      if (this.tabIndex === 2) {
+        this.queryWithdraw()
+      } else {
         this.__setCall({fn: '__getUserFund'})
-        this.getUserBankCards()
+        // this.getUserBankCards()
       }
     }
   },
@@ -245,6 +255,7 @@ export default {
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
           this.withdrawTimes()
+          this.getWithdrawByApi()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
         }
@@ -260,6 +271,7 @@ export default {
           this.__setCall({fn: '__getUserFund'})
           this.getUserBankCards()
           this.withdrawTimes()
+          this.getWithdrawByApi()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
         }
@@ -299,10 +311,12 @@ export default {
       })
     },
     getWithdrawByApi () {
-      this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
+      // this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
+      this.$http.get(api.getWithdrawByApi).then(({data}) => {
         if (data.success === 1) {
-          this.max = data.max
-          this.min = data.min
+          // this.max = data.max
+          // this.min = data.min
+          this.maxmins = data.data
         } else {
           this.$message.error({target: this.$el, message: data.msg || '限额信息获取失败！'})
         }

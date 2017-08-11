@@ -15,7 +15,7 @@
             span.free {{ me.free }}
         el-row.base-info
           el-col.ds-icon-money(:span="12") 余  额：
-            span.money.text-danger {{ me.money }}
+            span.money.text-danger {{ me.amoney }}
           el-col.ds-icon-luckchance(:span="12") 综合中奖率：
             span.luck-chance {{ winRate }}%
 
