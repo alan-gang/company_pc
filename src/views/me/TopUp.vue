@@ -611,8 +611,11 @@ export default {
           if (!this.merNoBankList[0]) this.type = 2
           // this.max = data.max
           // this.min = data.min
+        } else {
+          this.type = 2
         }
       }).catch(rpe => {
+        this.type = 2
       })
     },
     commit (fn) {

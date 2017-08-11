@@ -70,14 +70,14 @@ export default function (VueRoter) {
           // { path: '', component: require('../views/login/LoginTest') },
           { path: 'login',
             meta: {
-              login: false
+              // login: false
             },
             // component: require('../views/login/Login')
             component: LoginNow
           },
           { path: 'try',
             meta: {
-              login: false
+              // login: false
             },
             component: Try },
           { path: 'forget', component: Forget }
