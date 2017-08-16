@@ -7,7 +7,7 @@
           | 期 &nbsp;
           .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
             //.the-number {{ n }}
-            .the-number(style="z-index: -1" v-for=" (xx, nn ) in Array(100) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
+            .the-number(v-for=" (xx, nn ) in Array(100) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
 
           span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
             span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 

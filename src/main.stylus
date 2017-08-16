@@ -761,6 +761,8 @@ input
     background url($ASSETS/download.png) center center no-repeat
   .ds-icon-download-middle
     background url($ASSETS/download-middle.png) center center no-repeat
+  .ds-icon-download-small
+    background url($ASSETS/download-small.png) center center no-repeat
 
   .ds-icon-chat
     background url($ASSETS/chat.png) center center no-repeat

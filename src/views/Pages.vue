@@ -772,9 +772,9 @@ export default {
     //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 0, -.8rem)
     &[h-align=left]
       // &[v-align=bottom]
-      transform perspective(1rem) translate3D(0, 0, -.8rem)
+      // transform perspective(1rem) translate3D(0, 0, -.8rem)
     &[h-align=right]
-      transform perspective(1rem) translate3D(0, 0, -.8rem)
+      // transform perspective(1rem) translate3D(0, 0, -.8rem)
       // &[v-align=bottom]
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
     &.active
@@ -795,18 +795,18 @@ export default {
       // transform perspective(500px) translateZ(-5000px)
       opacity .2
       transform perspective(500px) translateZ(-1000px)
-      shadow(0 0 5rem 5rem #333)
+      // shadow(0 0 5rem 5rem #333)
     
 
     &[adjusting]
       z-index 2
-      shadow(0 0 5rem 5rem #333)
+      shadow(0 0 5rem 2rem #333)
     
     &.minus
-      shadow(0 0 5rem 5rem #333)
+      // shadow(0 0 5rem 2rem #333)
     
     &.full
-      shadow(0 0 5rem 5rem #333)
+      // shadow(0 0 5rem 2rem #333)
       .move-bar
         cursor default
         &:hover

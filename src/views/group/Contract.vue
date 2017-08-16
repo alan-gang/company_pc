@@ -105,7 +105,7 @@
             | 发放方式：
             label.text-black(style="padding: 0; margin-left: -.05rem ").ds-radio-label(@click=" sendType = 0 " v-bind:class=" { active: sendType === 0 } ")
                span.ds-radio.white.
-               | 手动放发
+               | 手动发放
             label.text-black(style="padding: 0 .1rem").ds-radio-label(@click=" sendType = 1 " v-bind:class=" { active: sendType === 1 } ")
               span.ds-radio.white.
               | 自动发放

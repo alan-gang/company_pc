@@ -115,7 +115,7 @@ export default {
           })
         } else if (this.me.minOrderPop) {
           return this.$modal.question({
-            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，奖金受限',
+            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
             btn: ['继续购买', '再来几注', '不再提醒'],
             target: this.$el.parentNode,
             O: this,

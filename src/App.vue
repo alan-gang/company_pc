@@ -172,7 +172,7 @@ export default {
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '畅博120秒', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
                 {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯时时彩', gameid: 2}
+                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
               ]
             },
             {

@@ -35,7 +35,7 @@
 
                   label.ds-radio-label
                     span.ds-radio.white(style="opacity: 0")
-                    span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 10" @click="showAllBank = true")  更多银行
+                    span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 3" @click="showAllBank = true")  更多银行
         
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
@@ -171,10 +171,10 @@
                 el-input-number(type="number" v-model="Camount" style="width: 3rem")
                 span(style="font-size: .12rem")
 
-               // p.item 
-               //  | 收款人姓名：&nbsp;
-               //  input.ds-input.large(v-model="CRname" style="width: 3rem")
-               //  span(style="font-size: .12rem")
+               p.item 
+                | 收款人姓名：&nbsp;
+                input.ds-input.large(v-model="CRname" style="width: 3rem")
+                span(style="font-size: .12rem")
 
               p.item 交易序列号：&nbsp;&nbsp;
                 input.ds-input.large(v-model="Cid" style="width: 3rem")
@@ -214,9 +214,9 @@
                 | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp; 
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payAmount || '空' }}
 
-               // p.item 
-               //  | 收款人姓名：&nbsp; 
-               //  span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.x1 || '空' }}
+              p.item 
+               | 收款人姓名：&nbsp; 
+               span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.getname || '空' }}
 
               p.item 交易序列号：&nbsp;&nbsp; 
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.serialNo || '空' }}
@@ -424,7 +424,8 @@ export default {
         noteWord: this.Cmore,
         serialNo: this.Cid,
         payTime: this.Ctime ? dateTimeFormat(this.Ctime.getTime()) : '',
-        paymentId: this.row.billNo
+        paymentId: this.row.billNo,
+        getName: this.CRname
       }).then(({data}) => {
         if (data.success === 1) {
           loading.text = '恭喜您，催帐成功！'

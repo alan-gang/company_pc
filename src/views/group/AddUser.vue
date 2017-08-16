@@ -57,7 +57,7 @@
         p(style="padding: 0rem .4rem") 您的返点级别：
           span.amount {{ point  }}
           | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 保留返点：
-          el-input-number(v-model="p" style="width: .5rem" v-bind:min="range.min" v-bind:max="range.max")
+          el-input-number(v-model="p" style="width: .5rem" v-bind:min="range.min" v-bind:max="range.max" v-bind:debounce="3000")
           |  % 
           span.text-money (可填范围：{{ range.min }} ~ {{ range.max }})
 
@@ -95,8 +95,8 @@
         account: '',
         pwd: '123qwe',
         range: {
-          min: 0,
-          max: 3
+          min: 0.00,
+          max: 3.00
         },
         point: '',
         p: ''
@@ -141,6 +141,7 @@
           // success
           if (data.success === 1) {
             this.PS = data.addUsers || []
+            if (data.range.min === 0) data.range.min = 0.00
             this.range = data.range
             this.point = data.userPoint
           } else this.$message.error(data.msg || '开户信息获取失败！')

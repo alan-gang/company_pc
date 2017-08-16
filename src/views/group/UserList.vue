@@ -208,7 +208,7 @@
             |  )的返点级别：
             span.amount {{ user.userPoint }}
             | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
-            el-input-number( v-model="point" style="width: .6rem" v-bind:min="range[pointType].min"  v-bind:max="range[pointType].max")
+            el-input-number( v-model="point" style="width: .6rem" v-bind:min="range[pointType].min"  v-bind:max="range[pointType].max" v-bind:debounce="3000")
             |  % 
             span.text-money (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 

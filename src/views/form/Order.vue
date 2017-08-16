@@ -106,6 +106,12 @@
 
 
           el-table-column( prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
+
+          el-table-column(class-name="pr2" label="优惠券" width="80" align="center")
+            template(scope="scope")
+              div(v-if="!scope.row.last")
+                span.text-danger(v-if="scope.row.isusefree") 是
+                span.text-grey(v-if="!scope.row.isusefree") 否
           
           el-table-column(class-name="pr2" label="参与奖池" width="80" align="center")
             template(scope="scope")
@@ -183,8 +189,12 @@
                 span.text-black {{ row.bonus }}
 
               el-col(:span="6")
-                动态奖金返点：
-                span.text-black {{ row.userPoint }}
+                奖池奖金：
+                span.text-black {{ row.poolBonus  }}
+
+              // el-col(:span="6")
+              //   动态奖金返点：
+              //   span.text-black {{ row.userPoint }}
 
             el-row(v-if="row.isJoinPool")
 
@@ -199,9 +209,7 @@
                 奖池开奖号码：
                 span.text-black {{ row.poolCode }}
 
-              el-col(:span="6")
-                奖池奖金：
-                span.text-black {{ row.poolBonus  }}
+              
 
             p.textarea-label
               span.label 投注内容：
