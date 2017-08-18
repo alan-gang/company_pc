@@ -73,7 +73,7 @@
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
 
-          el-table-column(prop="nickName" label="用户名" width="80")
+          el-table-column(prop="userName" label="用户名" width="80")
            
           
           el-table-column(prop="times" label="时间" width="120")

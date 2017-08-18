@@ -195,38 +195,40 @@
               
               p.item 
                 span.text-danger *
-                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp; 
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.bankName || '空' }}
                 
              
               p.item 
                 span.text-danger *
-                | 付款人姓名：&nbsp; 
+                | 付款人姓名：&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payname || '空' }} 
 
               p.item 
                 span.text-danger *
-                | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp; 
+                | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payCardNo || '空' }}
 
               p.item 
                 span.text-danger *
-                | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp; 
+                | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payAmount || '空' }}
 
               p.item 
-               | 收款人姓名：&nbsp; 
+               | 收款人姓名：&nbsp;
                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.getname || '空' }}
 
-              p.item 交易序列号：&nbsp;&nbsp; 
+              p.item 交易序列号：&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.serialNo || '空' }}
 
-              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp; 
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payTime || '空' }}
-              p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+              p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.noteWord || '空' }}
-            
-
+              p.item 状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 1") 处理成功
+                span.text-green(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 0") 待处理
+                span.text-danger(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 2") 失败，{{ detail.backReson }}
 
       
       

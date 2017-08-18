@@ -9,11 +9,11 @@
       el-select(v-model="nper")
         el-option(v-for="i in npers" v-bind:label="i + '期' " v-bind:value="i")
       |  &nbsp;&nbsp;起始倍数：
-      el-input-number.center.times(v-model="times" v-bind:min="1" v-bind:max="100")
+      el-input-number.center.times.my-center(v-model="times" v-bind:min="1" v-bind:max="10000")
       |  倍
       span(v-if="tabIndex == 2") &nbsp;&nbsp;&nbsp;&nbsp;倍数 
         span(style="font-size: 9px") X&nbsp;&nbsp;
-        el-input-number.center.times(v-model="xtimes" v-bind:min="1" v-bind:max="100")
+        el-input-number.center.times( v-model="xtimes" v-bind:min="1" v-bind:max="100")
       span(v-if="tabIndex === 3")
         | &nbsp;&nbsp;最低收益：
         el-input-number.center.get(v-model="get")
@@ -30,7 +30,7 @@
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
       el-table-column(prop="times" label="倍数" width="150" align="right" inline-template)
-        el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="100000" style="width: .75rem")
+        el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="10000" style="width: .75rem")
       el-table-column(prop="payV" label="金额" width="200" align="right"  inline-template)
         span 
           span.pay {{ (row.times * pay).toFixed(3) }}

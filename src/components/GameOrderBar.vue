@@ -7,7 +7,7 @@
 
     el-col.left(:span="16")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
-      el-input-number.ds-button.small.input.outline.times(v-model="t" v-bind:min="1" v-popover:times="times" v-bind:max="MAXTIMES") 
+      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times" v-bind:max="MAXTIMES") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
       span.bei &nbsp;倍
       .ds-button-group
@@ -40,7 +40,7 @@ export default {
       XM: 100,
       XMM: 0,
       S: 100,
-      MAXTIMES: 100,
+      MAXTIMES: 10000,
       cIndex: 0,
       currencies: [
         {title: '元', value: 1, model: 1},
@@ -152,6 +152,11 @@ export default {
         &:hover
           color #fff
           background-color BLUE
+  
+  .times.my-center
+    input
+      text-align center
+      padding 0 .05rem
 </style>
 
 

@@ -12,7 +12,7 @@
           span.text-black {{ detail.taskId }}
         el-col(:span="6")
           游戏用户：
-          span.text-black {{ detail.nickName }}
+          span.text-black {{ detail.userName }}
         el-col(:span="6")
           追号时间：
           span.text-black {{ detail.begintime }}
@@ -113,7 +113,7 @@
             el-row
               el-col(:span="9")
                 游戏用户：
-                span.text-black {{ row.nickName }}
+                span.text-black {{ row.userName }}
               el-col(:span="5")
                 游戏：
                 span.text-black {{ row.lotteryName }}

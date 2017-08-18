@@ -63,7 +63,7 @@
                 .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click=" OrderDetail(scope.row, 0) ") {{ scope.row.projectId }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(prop="nickName" label="用户" width="80")
+          el-table-column(prop="userName" label="用户" width="80")
           
           el-table-column(prop="writeTime" label="投注时间" width="140")
             template(scope="scope")

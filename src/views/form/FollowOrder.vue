@@ -23,9 +23,9 @@
       // 跟单中心
       el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem" v-show=" type === 0 ")
 
-          el-table-column(prop="nickName" label="用户" width="100" )
+          el-table-column(prop="userName" label="用户" width="100" )
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row, 0)") {{ scope.row.nickName }}
+              .ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row, 0)") {{ scope.row.userName }}
 
           el-table-column(prop="projectId" label="注单编号" width="80")
           
