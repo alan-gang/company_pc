@@ -189,12 +189,8 @@
                 span.text-black {{ row.bonus }}
 
               el-col(:span="6")
-                奖池奖金：
-                span.text-black {{ row.poolBonus  }}
-
-              // el-col(:span="6")
-              //   动态奖金返点：
-              //   span.text-black {{ row.userPoint }}
+                动态奖金返点：
+                span.text-black {{ row.userPoint }}
 
             el-row(v-if="row.isJoinPool")
 
@@ -208,7 +204,10 @@
               el-col(:span="5")
                 奖池开奖号码：
                 span.text-black {{ row.poolCode }}
-
+              
+              el-col(:span="6")
+                奖池奖金：
+                span.text-black {{ row.poolBonus  }}
               
 
             p.textarea-label

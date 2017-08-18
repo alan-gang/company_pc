@@ -89,7 +89,7 @@
       transition-group(name="slide" appear=true tag="div")
         div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
           p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
-            span.text-blue {{ user.nickName }}
+            span.text-blue {{ user.userName }}
             |  进行充值
             span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
 
@@ -128,7 +128,7 @@
 
         div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
           p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
-            span.text-blue {{ user.nickName }}
+            span.text-blue {{ user.userName }}
             |  调整日工资
             span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
 
@@ -143,7 +143,7 @@
         div(key="3" v-if="stepIndex === 1 && stepType === 'point' ")
 
           p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
-            span.text-blue {{ user.nickName }}
+            span.text-blue {{ user.userName }}
             |  进行调点
             span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
 
@@ -151,7 +151,7 @@
             // |帐号: 
             // span.text-blue {{ user.userName }} 
             // | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-            // span.text-black {{ user.nickName }} 
+            // span.text-black {{ user.userName }} 
             | &nbsp;&nbsp;&nbsp;&nbsp;您的返点级别：
             span.text-danger {{ myPoint }}
           div(style="text-align: center; margin-top: .1rem")
@@ -209,8 +209,8 @@
             span.amount {{ user.userPoint }}
             | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
             el-input-number( v-model="point" style="width: .6rem" v-bind:min="range[pointType].min"  v-bind:max="range[pointType].max" v-bind:debounce="3000")
-            |  % 
-            span.text-money (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
+            // |  % 
+            span.text-money  (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 
           // p(style="padding: .1rem .4rem .1rem .2rem" v-if=" pointType==='up' && myPoint >= 7.3 ")
           //   label.text-666.ds-radio-label(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
@@ -228,14 +228,14 @@
         // 开户额
         div(key="4" v-if="stepIndex === 1 && stepType === 'open' ")
           p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
-              span.text-blue {{ user.nickName }}
+              span.text-blue {{ user.userName }}
               |  调整开户额
               span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
 
             p(style="text-align: center; margin-top: .2rem") 帐号: 
               span.text-blue {{ user.name }} 
               | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-              span.text-black {{ user.nickName }} 
+              span.text-black {{ user.userName }} 
               | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
               span.text-danger {{ user.userPoint }}
 

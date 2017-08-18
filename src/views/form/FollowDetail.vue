@@ -158,9 +158,9 @@
                 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              // el-col(:span="5")
-              //   动态奖金返点：
-              //   span.text-black {{ row.userPoint }}
+              el-col(:span="5")
+                动态奖金返点：
+                span.text-black {{ row.userPoint }}
 
             p.textarea-label
               span.label 投注内容：

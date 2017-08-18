@@ -58,8 +58,8 @@
           span.amount {{ point  }}
           | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 保留返点：
           el-input-number(v-model="p" style="width: .5rem" v-bind:min="range.min" v-bind:max="range.max" v-bind:debounce="3000")
-          |  % 
-          span.text-money (可填范围：{{ range.min }} ~ {{ range.max }})
+          // |  % 
+          span.text-money  (可填范围：{{ range.min }} ~ {{ range.max }})
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
        
