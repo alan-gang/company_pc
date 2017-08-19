@@ -374,7 +374,7 @@
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || !this.V.match(/[/d]{6}/g))) {
+        if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
           return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
