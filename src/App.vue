@@ -168,8 +168,8 @@ export default {
               // width: '8rem',
               items: [
                 {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '9', title: '快投30秒', gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '18', title: '快投60秒', gameid: 12},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '快投120秒', gameid: 21},
+                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '18', title: '快投1分彩', gameid: 12},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '快投2分秒', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
                 {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
                 {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
