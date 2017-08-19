@@ -93,7 +93,7 @@
           .item.block
             span.text-danger *
             | 契约时间：
-            el-date-picker(:picker-options="pickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+            el-date-picker(:picker-options="ApickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
           
           p.item.block
              span.text-danger *
@@ -222,6 +222,44 @@
           // disabledDate (time) {
           //   return time.getTime() > Date.now()
           // }
+        },
+        ApickerOptions: {
+          shortcuts: [{
+            text: '今起一个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起三个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起六个月',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '今起一年',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360)
+              picker.$emit('pick', [start, end])
+            }
+          }],
+          disabledDate (time) {
+            return time.getTime() < Date.now()
+          }
         },
         defaultStEt: ['', ''],
         stEt: ['', ''],
