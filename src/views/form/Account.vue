@@ -284,31 +284,37 @@
       },
       myTopup () {
         this.clear()
-        this.type = [0]
+        this.zone = 0
+        this.type = [1]
         this.list()
       },
       myWithdraw () {
         this.clear()
+        this.zone = 0
         this.type = [2, 3, 4]
         this.list()
       },
       myOrder () {
         this.clear()
+        this.zone = 0
         this.type = [7]
         this.list()
       },
       myFollow () {
         this.clear()
+        this.zone = 0
         this.type = [9]
         this.list()
       },
       myBonus () {
         this.clear()
+        this.zone = 0
         this.type = [12, 16]
         this.list()
       },
       myPoint () {
         this.clear()
+        this.zone = 0
         this.type = [11, 15]
         this.list()
       },

@@ -21,7 +21,7 @@
     dd.ds-button.positive.full.bold.login(@click="login" style="border: none") 登录
 
     dd.actions
-      router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 试玩登录
+      router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m") 试玩登录
       .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
         .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
           p(style="color: #349dbd; margin: .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
@@ -43,6 +43,7 @@
   export default {
     name: 'Login',
     mixins: [xhr],
+    props: ['m'],
     data () {
       return {
         regard: false,

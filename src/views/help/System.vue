@@ -13,6 +13,8 @@
           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+        p.class(v-if=" notices.length === 0 ") 暂无任何公告!
     
 </template>
 
