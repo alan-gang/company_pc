@@ -800,7 +800,7 @@ export default {
 
     &[adjusting]
       z-index 2
-      shadow(0 0 5rem 2rem #333)
+      // shadow(0 0 5rem 2rem #333)
     
     &.minus
       // shadow(0 0 5rem 2rem #333)

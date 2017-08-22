@@ -972,6 +972,12 @@ input
       background url($ASSETS/bankcard/hxyh.png) right center no-repeat
     &.bhyh
       background url($ASSETS/bankcard/bhyh.png) #fff .1rem center no-repeat
+    
+    &.njyh
+      background url($ASSETS/bankcard/njyh.jpg) #fff .1rem center no-repeat
+    
+    &.nbyh
+      background url($ASSETS/bankcard/nbyh.jpg) #fff .1rem center no-repeat
       
 
   // me/Bank.vue
