@@ -30,11 +30,11 @@
           // .ds-button.danger.bold(@click="book") ? 奖池投注
         slot
           p(style="line-height: .25rem")
-              span.label.font-gold 奖池投注：
-              | 您将多花费一元来进行投注，多花费的一元将累加入到奖池，每次选择奖池投注您将多获得一次奖池抽奖机会
+              span.label.font-gold 玩法说明：
+              | 每周一期，每注投注金额为1元，投注号码为随注单生成的3位随机数，每周六晚8:30开奖，开奖结果以周六晚的体彩排列三开奖结果为准，如三号全中为一等奖，中后两位为二等奖，中最后一位为三等奖。
           p(style="line-height: .25rem")
-              span.label.font-gold 奖池开奖：
-              | 奖池将在每周六晚上8点30分开奖，届时将在使用奖池投注的用户中抽取出1、2、3等奖，奖池投注越多机会越大，奖金也更丰厚
+              span.label.font-gold 派奖说明：
+              | 各奖级奖金总额为：一等级中奖金额占奖池总金额的40%，二等奖占奖池总金额30%，三等奖占奖池总金额20%。同一个奖级如多人中奖，平均分配该奖级所有奖金。
       
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
         .ds-checkbox
