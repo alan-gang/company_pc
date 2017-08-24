@@ -113,11 +113,11 @@
                 span.text-danger(v-if="scope.row.isusefree") 是
                 span.text-grey(v-if="!scope.row.isusefree") 否
           
-          el-table-column(class-name="pr2" label="参与奖池" width="80" align="center")
+          el-table-column(class-name="pr2" label="奖池号" width="100" align="center")
             template(scope="scope")
               div(v-if="!scope.row.last")
-                span.text-danger(v-if="scope.row.isJoinPool") 是
-                span.text-grey(v-if="!scope.row.isJoinPool") 否
+                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolcode }}
+                span.text-grey(v-if="!scope.row.isJoinPool") 未参与
          
           el-table-column(label="状态" width="60")
             template(scope="scope")
@@ -201,8 +201,9 @@
               el-col(:span="5")
                 奖池状态：
                 span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
+
               el-col(:span="5")
-                奖池开奖号码：
+                奖池号码：
                 span.text-black {{ row.poolCode }}
               
               el-col(:span="6")

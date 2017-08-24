@@ -549,7 +549,7 @@ Object.keys(API).forEach((key) => {
   const value = API[key]
   Object.defineProperty(API, key, {
     get: function () {
-      return this.api + this['_' + key]
+      return this.api + this['_' + key] + this.suffix
       // (this._api || '') + this['_' + key]
     },
     set: function (v) {
@@ -559,4 +559,5 @@ Object.keys(API).forEach((key) => {
   API[key] = value
 })
 API.api = api
+API.suffix = ''
 module.exports = API
