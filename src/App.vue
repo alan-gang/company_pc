@@ -15,7 +15,7 @@
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsFooter(:menus="menus" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
       
     // Chat
 

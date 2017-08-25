@@ -118,45 +118,39 @@
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       // 手机绑定
-      el-row.phone(v-bind:class="{expand: index === 4 }")
-        el-col
-          el-row.static
-            el-col(:span="6").title.ds-icon-phone 手机绑定
+      // el-row.phone(v-bind:class="{expand: index === 4 }")
+      //   el-col
+      //     el-row.static
+      //       el-col(:span="6").title.ds-icon-phone 手机绑定
+      //       el-col(:span="14").phone
+      //         span.text-green.ds-icon-set(v-if="me.phone") 已设置
+      //         span.text-black(v-if="me.phone")  {{ me.phone }}
+      //         span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
+      //       el-col(:span="4").toggle
+      //         .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
+      //    el-row.action(v-if="index === 4" )
+      //      .phone-form.form
+      //        p 资金密码：
+      //          input.ds-input.large(v-model="newCashPwd" type="password")
+      //        p(v-if="!me.phone") 绑定手机：
+      //          input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
+      //          button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+      //             span(v-if="!pt_") 发送验证码
+      //             span.text-333(v-if="pt_") {{ pt_ }} 
+      //               span.text-999 秒后可重新发送
+      //         p(v-if="me.phone") 解绑手机：
+      //           span {{ me.phone }}
+      //           button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+      //            span(v-if="!pt_") 发送验证码
+      //            span.text-black(v-if="pt_") {{ pt_ }} 
+      //              span.text-999 秒后可重新发送
+      //        p 验证码：&nbsp;&nbsp;&nbsp;
+      //          input.ds-input.large(v-model="pc_")
+      //      .buttons(style="margin-left: .65rem")
+      //        button.ds-button.primary.large(@click="bindPhone" v-if="!me.phone") 提交
+      //        button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 提交
+      //        .ds-button.cancel.large(@click="clearPhone") 清空
 
-            el-col(:span="14").phone
-              span.text-green.ds-icon-set(v-if="me.phone") 已设置
-              span.text-black(v-if="me.phone")  {{ me.phone }}
-              span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
-
-            el-col(:span="4").toggle
-              .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
-
-          el-row.action(v-if="index === 4" )
-            
-            .phone-form.form
-              p 资金密码：
-                input.ds-input.large(v-model="newCashPwd" type="password")
-              p(v-if="!me.phone") 绑定手机：
-                input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
-                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
-                  span(v-if="!pt_") 发送验证码
-                  span.text-333(v-if="pt_") {{ pt_ }} 
-                    span.text-999 秒后可重新发送
-              
-              p(v-if="me.phone") 解绑手机：
-                span {{ me.phone }}
-                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
-                  span(v-if="!pt_") 发送验证码
-                  span.text-black(v-if="pt_") {{ pt_ }} 
-                    span.text-999 秒后可重新发送
-
-              p 验证码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="pc_")
-
-            .buttons(style="margin-left: .65rem")
-              button.ds-button.primary.large(@click="bindPhone" v-if="!me.phone") 提交
-              button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 提交
-              .ds-button.cancel.large(@click="clearPhone") 清空
       // 邮箱绑定
       el-row.email(v-bind:class="{expand: index === 5 }")
         el-col
@@ -288,9 +282,9 @@
                 .ds-checkbox
                 邮箱验证
                 
-              .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
-                .ds-checkbox
-                手机验证
+              // .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
+              //  .ds-checkbox
+              //  手机验证
 
               .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
                 .ds-checkbox
@@ -299,10 +293,10 @@
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
               //  安全问题验证
-            p(style="margin-top: .2rem" v-if=" me.safeCheck != safeCheck ") 资金密码&nbsp;&nbsp;&nbsp;：
+            p(style="margin-top: .2rem" v-if=" me.safeCheck != safeCheck ") 资金密码：&nbsp;&nbsp;&nbsp;
               input.ds-input.large(v-model="newCashPwd" type="password")
 
-            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：
+            p(v-if="  me.safeCheck != safeCheck && !((me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) ) " style="margin-top: .2rem") 验证码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="safeCheckCode")
                 span.ds-button.secondary.outline(style="margin-left: .1rem;" @click="getVerifyCode"  v-bind:class="{ disabled: safeCheck === 1 ? pt_ : et_  }" v-bind:disabled="(safeCheck === 1 ? pt_ : et_ ) > 0") 
                   span(v-if="!(safeCheck === 1 ? pt_ : et_ )") 发送验证码

@@ -558,6 +558,7 @@ input
   .ds-icon-game-lhg00
       background url($ASSETS/game/new/lhg00.png) center no-repeat
 
+
   .ds-icon-game-lhg01
       background url($ASSETS/game/new/lhg01.png) center no-repeat
   
@@ -778,6 +779,16 @@ input
 
   .ds-icon-m
     background url($ASSETS/m.png) left center no-repeat
+    position relative
+    &.vip:after
+      position absolute
+      left .2rem
+      top -.03rem
+      content ''
+      display inline-block
+      width .26rem
+      height .16rem
+      background url($ASSETS/vip.png) center no-repeat
 
   .ds-icon-money
     background url($ASSETS/$.png) left center no-repeat
@@ -987,7 +998,7 @@ input
   // QR
   .ds-icon-QR
     // background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
-    background-size 140px
+    background-size 140px 140px
   
   // Stock
   .ds-icon-stock-wait

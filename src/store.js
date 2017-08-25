@@ -32,7 +32,8 @@ let store = {
       model: 'day',
       shareCycle: 0,
       collects: [],
-      minOrderPop: true
+      minOrderPop: true,
+      isVip: false
     },
     pages: []
   },
@@ -80,7 +81,8 @@ let store = {
         user: 'day',
         shareCycle: 0,
         collects: [],
-        minOrderPop: true
+        minOrderPop: true,
+        isVip: false
       }
       Object.assign(store.state.user, user)
     },

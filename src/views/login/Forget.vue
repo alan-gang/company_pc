@@ -11,7 +11,7 @@
         | <返回上一步
     
     dd.radios(v-if="stepIndex === 0")
-      label.ds-radio-label(v-for="(r, index) in radios"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }") 
+      label.ds-radio-label(v-if="r" v-for="(r, index) in radios"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }") 
         span.ds-radio
         | {{ r }}
 
@@ -112,7 +112,7 @@ export default {
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
-      radios: ['邮箱找回', '手机找回', '安全问题找回', '畅博安全找回'],
+      radios: ['邮箱找回', '', '安全问题找回', '畅博安全找回'],
       finish: false,
       time: 5,
       newpwd: '',

@@ -202,7 +202,7 @@ export default {
       return this.gameType === 'SSL' ? '-' + this.gameType : ''
     },
     hasRepeatOrder () {
-      return this.ns.filter(o => (o.methodid + '') === this.methodid && o.codes === this.nsns)[0]
+      return this.ns.filter(o => (o.methodid + '') === this.methodid && o.codes === this.nsns && o.pos === this._getPsstring(this.ps))[0]
     }
   },
   watch: {

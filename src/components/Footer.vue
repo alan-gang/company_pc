@@ -23,7 +23,7 @@
       el-col.info(:span="10" v-bind:offset="4")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
+            span.name.ds-icon-m.font-light(v-show="!hide" v-bind:class="{vip: vip}") {{ name }}
             span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
             // span.free.ds-icon-free.font-light(v-show="!hide" ) {{ free || '0.000' }}
           slot
@@ -80,7 +80,7 @@ import { numberWithCommas } from '../util/Number'
 import util from '../util'
 import store from '../store'
 export default {
-  props: ['menus', 'name', 'money', 'free'],
+  props: ['menus', 'name', 'money', 'free', 'vip'],
   components: {
     LoginTest
   },

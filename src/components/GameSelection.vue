@@ -311,10 +311,13 @@
       },
       // 位置集合
       ps () {
-        return this.show ? this.positions.filter(p => p.selected).map(p => {
+        // return this.show ? this.positions.filter(p => p.selected).map(p => {
+        //   return (p = p.value)
+        // }) : this.nsl.map((l, i) => {
+        //   return l > 0 && (l = 5 - i)
+        // })
+        return this.positions.filter(p => p.selected).map(p => {
           return (p = p.value)
-        }) : this.nsl.map((l, i) => {
-          return l > 0 && (l = 5 - i)
         })
       },
       // 位置长度
@@ -336,7 +339,7 @@
         }, {repeat: 0}).repeat
       },
       // 注数
-      n () {
+      no () {
         // for return a legal string
         let x = N[this.type.id] ? N[this.type.id]({
           ns: this.ns,
@@ -348,7 +351,8 @@
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败
         typeof x === 'object' && typeof x[1] === 'object' && this.$emit('set-nsns', x[1].join('|'), this.nsTitle.join(','))
-        return typeof x === 'object' ? x[0] : x
+        // return typeof x === 'object' ? x[0] : x
+        return x
         // return N[this.type.id] ? N[this.type.id]({
         //   ns: this.ns,
         //   nsl: this.nsl,
@@ -357,6 +361,10 @@
         //   value: this.value,
         //   r: this.r
         // }) : 0
+      },
+      // 注数
+      n () {
+        return typeof this.no === 'object' ? this.no[0] : this.no
       },
       // 位置组合
       comb () {
@@ -388,7 +396,7 @@
       // },
       // // 无效号码提醒
       hasUnable () {
-        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== this.n
+        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== (typeof this.no === 'object' ? this.no[1].length : this.no)
       }
     },
     watch: {
