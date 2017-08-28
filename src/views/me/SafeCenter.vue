@@ -215,7 +215,7 @@
               transition(name="slide" appear=true)
                 div(style="padding: 0 1rem;" v-if="stepIndex === 1 && !me.cbsafe")
                   .QR.ds-icon-QR(:style="myQR")
-                    p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码查看畅博安全码
+                  p.text-black(style="font-weight: bold; ") 扫码查看畅博安全码{{ qrDescrb }}
 
               transition(name="slide" appear=true)
                 p(v-if="stepIndex === 1") 畅博安全码：
@@ -343,7 +343,9 @@ export default {
 
       index: 0,
       tabIndex: 1,
-      stepIndex: 0
+      stepIndex: 0,
+      qrStr: '',
+      qrDescrb: ''
     }
   },
   computed: {
@@ -355,8 +357,8 @@ export default {
     },
     myQR () {
       return {
-        background: 'url(' + api.createCBqr + ') left top no-repeat',
-        height: '1.96rem',
+        background: 'url(' + this.qrStr + ') left top no-repeat',
+        height: '1.4rem',
         width: '1.4rem',
         textAlign: 'center'
       }
@@ -413,8 +415,20 @@ export default {
   mounted () {
     this.acctSecureInfo()
     this.safeQuestionList()
+    this.createCBqr()
   },
   methods: {
+    createCBqr (type) {
+      this.$http.get(api.createCBqr).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          this.qrStr = 'data:image/png;base64,' + data.qrStr
+          this.qrDescrb = '(密钥: ' + data.authKey + ', 平台：' + data.plat + ')'
+        } else this.$message.warning(data.msg || '畅博二维码获取失败！')
+      }, (rep) => {
+        // error
+      })
+    },
     // http://192.168.169.161:8080/cagamesclient/person/accountSecur.do?method=swithGoogAuth& verifyCode=123456&type=1
     switchGoogleAuth (type) {
       this.$http.post(api.switchGoogleAuth, {verifyCode: this.cb_, type: type}).then(({data}) => {
@@ -441,6 +455,7 @@ export default {
           // stepIndex only for google safecheck
           if (!fn) {
             this.stepIndex = 1
+            if (!this.qrStr) this.createCBqr()
             this.$message.success({target: this.$el, message: data.msg || '资金密码验证成功！'})
           } else {
             // if there is no callback
