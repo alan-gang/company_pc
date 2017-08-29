@@ -396,6 +396,7 @@
         width: 100%;
         height: 100%;
         border-radius: 100%;
+        color #aaa
       &::before
         border: 2px solid transparent; // We're animating border-color again
         transition:
@@ -404,6 +405,7 @@
           border-bottom-color 0.15s linear 0.10s;
       &.selected:before
       // &:hover::before
+        color #fff
         border-top-color: currentColor; // Show borders
         border-right-color: currentColor;
         border-bottom-color: currentColor;
@@ -422,6 +424,7 @@
           
       &.selected:after
       // &:hover::after
+        color #fff
         border-top: 2px solid currentColor; // Shows border
         border-left-width: 2px; // Solid edges, invisible borders
         border-right-width: 2px; // Solid edges, invisible borders
@@ -444,6 +447,7 @@
         width: 0;
         height: 0;
         radius()
+        color #aaa
       }
       &::before {
         top: 0;
@@ -476,6 +480,7 @@
       &.selected::after {
         width: 100%;
         height: 100%;
+        color #fff
       }
 
       &.selected::before {
@@ -517,6 +522,7 @@
         height: 0;
         radius(.1rem)
         z-index 1
+        color #ccc
       }
       .dice::before {
         top: 0;
@@ -546,6 +552,7 @@
       &.selected .dice::after {
         width: 100%;
         height: 100%;
+        color #fff
       }
 
       &.selected .dice::before {
