@@ -57,7 +57,7 @@
         p(style="padding: 0rem .4rem") 您的返点级别：
           span.amount {{ point  }}
           | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 保留返点：
-          el-input-number(v-model="p" style="width: .5rem" v-bind:min="range.min" v-bind:max="range.max" v-bind:debounce="3000")
+          el-input-number(v-model="p" style="width: .6rem" v-bind:min="range.min" v-bind:max="range.max" v-bind:debounce="3000")
           // |  % 
           span.text-money  (可填范围：{{ range.min }} ~ {{ range.max }})
 
@@ -110,6 +110,11 @@
       },
       pwd () {
         this.pwd = this.pwd.trim()
+      },
+      p () {
+        setTimeout(() => {
+          this.p = parseFloat((Math.floor(this.p * 100) / 100).toFixed(2))
+        })
       }
     },
     mounted () {

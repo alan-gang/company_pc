@@ -492,7 +492,7 @@ export default {
           btn: ['确定', '取消'],
           target: this.$el,
           ok () {
-            this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+            this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
               methodid: parseInt(this.methodid), // 玩法编号
               type: parseInt(this.methodidtype),
               pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
@@ -522,7 +522,7 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       } else {
-        this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+        this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g

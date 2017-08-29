@@ -33,7 +33,7 @@
             | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
         
         p(style="padding: 0rem 1rem") 您的返点级别：
-          span.amount {{ userPoint.toFixed(1) }}
+          span.amount {{ userPoint.toFixed(2) }}
 
         p(style="padding: .05rem 1rem") 保留返点： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           el-select(v-model="p")
@@ -111,10 +111,12 @@
             this.userPoint = data.userPoint
             this.autoRegistMinPoint = data.autoRegistMinPoint
             this.url = data.url
-            this.p = (data.autoPoint < data.range.min ? data.range.min : data.autoPoint > data.range.max ? data.range.max : data.autoPoint).toFixed(1)
+            this.p = (data.autoPoint <= data.range.min ? data.range.min : data.autoPoint >= data.range.max ? data.range.max : data.autoPoint).toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {
-              this.PS.push(i.toFixed(1))
+              if (i !== data.range.min) this.PS.push((Math.floor(i * 10) / 10).toFixed(1))
+              else this.PS.push(i)
             }
+            if (this.PS.length > 0 && (parseFloat(this.PS[this.PS.length - 1]) < data.range.max)) this.PS.push(data.range.max)
           } else this.$message.error(data.msg || '自动注册链接获取失败！')
         }, (rep) => {
           // error

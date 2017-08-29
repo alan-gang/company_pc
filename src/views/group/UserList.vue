@@ -328,6 +328,7 @@
           up: {},
           down: {}
         },
+        point: '',
         threeDaysAmount: 0,
         sevenDaysAmount: 0,
         thirtyDaysAmount: 0,
@@ -344,6 +345,13 @@
     computed: {
       textMoney () {
         return digitUppercase(this.money)
+      }
+    },
+    watch: {
+      point () {
+        setTimeout(() => {
+          this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(2))
+        })
       }
     },
     mounted () {
