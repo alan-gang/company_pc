@@ -93,7 +93,7 @@
             .ds-button.primary.large(@click="doWithDraw") 提交
 
 
-      form(v-if="tabIndex === 2 && stepIndex === 1")
+      form(v-if="tabIndex === 2")
 
         // label.item 充值时间 
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
