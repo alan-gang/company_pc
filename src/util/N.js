@@ -1407,7 +1407,8 @@ let PK10 = {
 let K3 = {
   // title: '二同复选'
   '2-1-1-K3' ({nsl}) {
-    return C(nsl[0], 1)
+    // return C(nsl[0], 1)
+    return C(nsl[0], 1) * 5
   },
   // title: '二同单选'
   '2-1-2-K3' ({nsl, r}) {
@@ -1451,7 +1452,8 @@ let K3 = {
   },
   // title: '猜1个号就中奖'
   '0-1-2-K3' ({nsl}) {
-    return C(nsl[0], 1) * 21
+    // return C(nsl[0], 1) * 21
+    return C(nsl[0], 1)
   }
 }
 module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3)
