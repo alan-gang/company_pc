@@ -53,7 +53,7 @@
 
           el-table-column(prop="daySalary"  label="日工资" width="100" align="right")
 
-          el-table-column(prop="teamBalance"  label="团队余额" width="120" align="right")
+          el-table-column(prop="teamBalance"  label="团队可用余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
 

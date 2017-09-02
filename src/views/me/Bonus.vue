@@ -86,6 +86,10 @@ export default {
       if (row.selected) return 'selected-row'
     },
     getLotteryPrinzeInfo (userId) {
+      let loading = this.$loading({
+        text: '奖金详情加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
       this.$http.get(api.getLotteryPrinzeInfo, {destUserId: userId || ''}).then(({data}) => {
         if (data.success === 1) {
           this.account = data.userName
@@ -98,6 +102,10 @@ export default {
           this.skey = Object.keys(this.games)[0]
         }
       }).catch(rep => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
       })
     }
   },
