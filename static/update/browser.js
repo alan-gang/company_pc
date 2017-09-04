@@ -82,5 +82,4 @@
     v: majorVersion,
     fv: fullVersion
   }
-
 })()

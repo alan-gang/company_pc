@@ -11,11 +11,11 @@
     // pages
     keep-alive
       transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
       
     // Chat
 
@@ -35,6 +35,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      collapseFooter: false,
       // skin: 'day',
       loop: true,
       maxPages: 10,
@@ -105,7 +106,7 @@ export default {
               items: [
                 {
                   id: '3-3-2',
-                  menuid: '29',
+                  // menuid: '29',
                   title: '分红详情',
                   url: 'StockDetail',
                   position: {
@@ -126,6 +127,7 @@ export default {
               items: [
                 {
                   id: '4-5-4',
+                  menuid: '59',
                   title: '个人盈亏明细',
                   url: 'ProfitLossDetail'
                 }
@@ -155,11 +157,11 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '8', title: '重庆时时彩', gameid: 1},
-                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '16', title: '新疆时时彩', gameid: 3},
-                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '15', title: '天津时时彩', gameid: 4},
-                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '10', title: '北京时时彩', gameid: 17},
-                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台湾时时彩', gameid: 20}
+                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
+                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', gameid: 4},
+                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
+                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20}
               ]
             },
             {
@@ -167,12 +169,12 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '9', title: '快投30秒', gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '18', title: '快投1分彩', gameid: 12},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '快投2分秒', gameid: 21},
-                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
+                {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '13', title: '快投30秒', gameid: 16},
+                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', gameid: 12},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', gameid: 21},
+                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
+                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19},
+                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '8', title: '腾讯分分彩', gameid: 2}
               ]
             },
             {
@@ -182,11 +184,11 @@ export default {
               url: 'G115',
               // width: '1.8rem',
               items: [
-                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '76', title: '广东十一选五', gameid: 8},
-                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '79', title: '江西十一选五', gameid: 7},
-                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '75', title: '湖北十一选五', gameid: 22},
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '73', title: '十一运夺金', gameid: 6},
-                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '74', title: '快投11选5', gameid: 11}
+                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', gameid: 8},
+                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '江西11选5', gameid: 7},
+                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', gameid: 22},
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', gameid: 11}
               ]
             },
             {
@@ -198,7 +200,7 @@ export default {
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', gameid: 24},
                 {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', gameid: 25},
                 {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', gameid: 26},
-                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '81', title: '快投快三', gameid: 15}
+                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', gameid: 15}
               ]
             },
             {
@@ -207,11 +209,11 @@ export default {
               // class: 'ds-icon-item',
               // url: 'K3',
               items: [
-                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '80', title: '北京PK10', gameid: 13},
-                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '61', title: '福彩3D', gameid: 9},
-                {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '60', title: '排列三、五', gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '62', title: '排列五', gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '19', title: '快投3D', gameid: 14}
+                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '18', title: '北京PK10', gameid: 13},
+                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
+                {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
+                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14}
               ]
             },
             {
@@ -296,13 +298,7 @@ export default {
                   position: {
                     width: '11rem'
                   }
-                }
-              ]
-            },
-            {
-              id: '3-2',
-              title: '开户中心',
-              items: [
+                },
                 {
                   id: '3-2-1',
                   menuid: '42',
@@ -317,6 +313,24 @@ export default {
                 }
               ]
             },
+            // {
+            //   id: '3-2',
+            //   title: '开户中心',
+            //   items: [
+            //     {
+            //       id: '3-2-1',
+            //       menuid: '42',
+            //       title: '增加用户',
+            //       url: 'AddUser'
+            //     },
+            //     {
+            //       id: '3-2-2',
+            //       menuid: '43',
+            //       title: '推广设置',
+            //       url: 'Ad'
+            //     }
+            //   ]
+            // },
             {
               id: '3-3',
               title: '契约分红',
@@ -345,6 +359,7 @@ export default {
                 },
                 {
                   id: '3-3-4',
+                  menuid: '88',
                   title: '契约详情',
                   url: 'ContractDetail',
                   position: {
@@ -386,7 +401,7 @@ export default {
           groups: [
             {
               id: '4-1',
-              title: '投注记录',
+              title: '游戏记录',
               items: [
                 {
                   id: '4-1-1',
@@ -396,13 +411,7 @@ export default {
                   position: {
                     width: '13rem'
                   }
-                }
-              ]
-            },
-            {
-              id: '4-2',
-              title: '追号记录',
-              items: [
+                },
                 {
                   id: '4-2-1',
                   menuid: '53',
@@ -411,17 +420,41 @@ export default {
                   position: {
                     width: '12rem'
                   }
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '89',
+                  title: '走势图',
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
-                // {
-                //   id: '4-2-2',
-                //   title: '追号记录详情',
-                //   url: 'FollowDetail',
-                //   position: {
-                //     width: '10rem'
-                //   }
-                // }
               ]
             },
+            // {
+            //   id: '4-2',
+            //   title: '追号记录',
+            //   items: [
+            //     {
+            //       id: '4-2-1',
+            //       menuid: '53',
+            //       title: '追号记录列表',
+            //       url: 'Follow',
+            //       position: {
+            //         width: '12rem'
+            //       }
+            //     }
+            //     // {
+            //     //   id: '4-2-2',
+            //     //   title: '追号记录详情',
+            //     //   url: 'FollowDetail',
+            //     //   position: {
+            //     //     width: '10rem'
+            //     //   }
+            //     // }
+            //   ]
+            // },
             // @TODO @next
             // {
             //   id: '4-3',
@@ -435,22 +468,28 @@ export default {
             //     }
             //   ]
             // },
+            // {
+            //   id: '4-4',
+            //   title: '今日报表',
+            //   items: [
+            //     {
+            //       id: '4-4-1',
+            //       menuid: '57',
+            //       title: '今日报表列表',
+            //       url: 'Today'
+            //     }
+            //   ]
+            // },
             {
-              id: '4-4',
-              title: '今日报表',
+              id: '4-5',
+              title: '游戏报表',
               items: [
                 {
                   id: '4-4-1',
                   menuid: '57',
                   title: '今日报表列表',
                   url: 'Today'
-                }
-              ]
-            },
-            {
-              id: '4-5',
-              title: '盈亏报表',
-              items: [
+                },
                 {
                   id: '4-5-1',
                   menuid: '58',
@@ -470,15 +509,6 @@ export default {
                     width: '12rem'
                   },
                   url: 'Account'
-                },
-                {
-                  id: '4-5-3',
-                  menuid: '89',
-                  title: '走势图',
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
                 },
                 {
                   id: '4-5-5',
@@ -873,6 +903,8 @@ export default {
   @import './main.stylus'
   @import './night.stylus'
   @import './1600.stylus'
+  @import './pad.stylus'
+  @import './phone.stylus'
   // @import './chat.night.stylus'
   
   
@@ -905,7 +937,7 @@ export default {
     // radius(x = .05rem)
     // &.has-header
     //   top HH
-    &.has-footer
+    &.has-footer:not(.collapse-footer)
       bottom FH
       @media(max-width: 1362px)
         bottom 2*FH

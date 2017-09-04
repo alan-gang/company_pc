@@ -63,7 +63,7 @@ import store from '../../store'
 // import GameFollowHistory from 'components/GameFollowHistory'
 
 export default {
-  props: ['page'],
+  props: ['page', 'money', 'free'],
   data () {
     return {
       isTry: store.state.user.isTry,
@@ -369,6 +369,14 @@ export default {
           btn: ['确定']
         })
       }
+      if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: '余额不足, 请充值。',
+          btn: ['确定']
+        })
+      }
+
       let loading = this.$loading({
         text: '投注中...',
         target: this.$el
@@ -573,8 +581,8 @@ export default {
           pos: item.pos,
           codes: item.codes,
           count: item.count,
-          times: item.times,
-          money: item.money,
+          times: this.follow.show ? 1 : item.times,
+          money: this.follow.show ? item.money / item.times : item.money,
           mode: item.mode,
           userpoint: item.userpoint
         })

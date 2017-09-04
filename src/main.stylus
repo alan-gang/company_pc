@@ -1000,6 +1000,13 @@ input
     // background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
     background-size 140px 140px !important
   
+  .ds-icon-cooking
+    background url($ASSETS/404/cooking.png) center no-repeat   
+    height 3rem
+    line-height 4.5rem
+    text-align center
+    &:after
+      content '正在研发中...'
   // Stock
   .ds-icon-stock-wait
     background url($ASSETS/stock-wait.png) right top no-repeat   

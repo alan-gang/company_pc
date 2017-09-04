@@ -1,3 +1,4 @@
+// import this file to show night-model
 @import './var.stylus'
 border = 1px solid #5a5a5a
 body.night

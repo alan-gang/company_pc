@@ -1,6 +1,6 @@
 <template lang="jade">
   footer
-    el-row
+    el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
@@ -59,6 +59,11 @@
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
     router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
+
+    .logo(style="cursor: pointer; user-select: none;")
+      .text-white.hide(style="position: relative; top: .9rem;font-size: .16rem" @click.stop="collapseFooter") 隐 藏 菜 单
+      .text-white.show(style="position: relative; top: -.45rem;font-size: .16rem" @click.stop="collapseFooter") 显 示 菜 单
+
     .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .65rem; z-index: 0; background-size: 80%" v-show="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
         p.font-white(style="font-size: .18rem") 平台奖池累计：
@@ -166,6 +171,9 @@ export default {
     this.setFarChat()
   },
   methods: {
+    collapseFooter () {
+      this.$emit('collapse-footer')
+    },
     __showPool () {
       this.showPool = true
     },
@@ -434,8 +442,18 @@ export default {
 </style>
 <style lang="stylus" scoped>
   @import '../var.stylus'
-  
+  .logo .show
+    display none
   footer
+    &.collapse-footer
+      .el-row
+      .ds-icon-pot
+      .logo .hide
+        display none
+      .logo .show
+        display block
+        
+      
     // height FH
     text-align center
     bg-gradient(180deg, rgba(255, 255, 255, .1) 20%, rgba(0, 0, 0, .1))

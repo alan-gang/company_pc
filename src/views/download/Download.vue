@@ -41,7 +41,7 @@
             ]
           },
           {
-            title: '畅博安全验证器',
+            title: '畅盾',
             intro: '保障用户帐户安全的神器',
             class: 'ds-icon-download-cbsafe',
             buttons: [
