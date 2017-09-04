@@ -31,7 +31,7 @@
       return {
         downloads: [
           {
-            title: '畅博平台',
+            title: '畅博娱乐',
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-logo',
             buttons: [
@@ -41,7 +41,7 @@
             ]
           },
           {
-            title: '畅盾',
+            title: '博盾验证器',
             intro: '保障用户帐户安全的神器',
             class: 'ds-icon-download-cbsafe',
             buttons: [
