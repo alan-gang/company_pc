@@ -1,7 +1,5 @@
-$ASSETS = 'assets'
-$VASSETS = '../assets'
-$CASSETS = '../assets'
-// @import '../../src/var.stylus'
+
+// @import '../DSM/src/var.stylus'
 /*
  * heights widths define
  */

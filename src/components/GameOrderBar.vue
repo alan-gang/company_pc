@@ -106,30 +106,28 @@ export default {
       this.$emit('set-times', t)
     },
     order () {
-      if (this.n > (this.P.maxCount || 1) || this.n < (this.P.minCount || 0)) {
-        if (this.n > (this.P.maxCount || 1)) {
-          return this.$modal.warn({
-            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
-            btn: ['确定'],
-            target: this.$el.parentNode
-          })
-        } else if (this.me.minOrderPop) {
-          return this.$modal.question({
-            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
-            btn: ['继续购买', '再来几注', '不再提醒'],
-            target: this.$el.parentNode,
-            O: this,
-            ok () {
+      if (this.P.maxCount && (this.n > this.P.maxCount)) {
+        return this.$modal.warn({
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
+          btn: ['确定'],
+          target: this.$el.parentNode
+        })
+      } else if (this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
+        return this.$modal.question({
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
+          btn: ['继续购买', '再来几注', '不再提醒'],
+          target: this.$el.parentNode,
+          O: this,
+          ok () {
+            this.$emit('order')
+          },
+          cancel (i) {
+            if (i === 2) {
               this.$emit('order')
-            },
-            cancel (i) {
-              if (i === 2) {
-                this.$emit('order')
-                store.actions.setUser({minOrderPop: false})
-              }
+              store.actions.setUser({minOrderPop: false})
             }
-          })
-        }
+          }
+        })
       }
       this.$emit('order')
     }

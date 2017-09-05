@@ -704,8 +704,8 @@ input
   .ds-icon-success-large
     background url($ASSETS/success-large.png) center top no-repeat
   .ds-icon-logo-middle
-    // background url($ASSETS/logo-middle.png) center top no-repeat 
     background url($ASSETS/cb_logo.png) center top no-repeat 
+    // background url($ASSETS/logo-middle.png) center top no-repeat 
   .ds-icon-pot
     background url($ASSETS/pot.png) center top no-repeat
   

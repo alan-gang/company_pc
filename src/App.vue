@@ -869,6 +869,7 @@ export default {
 </script>
 <style lang="stylus">
   @import './var.stylus'
+  @import './path.stylus'
   html
     height 100%
     width 100%
@@ -900,11 +901,12 @@ export default {
 
 <style lang="stylus">
   @import './var.stylus'
+  @import './path.stylus'
   @import './main.stylus'
   @import './night.stylus'
-  @import './1600.stylus'
-  @import './pad.stylus'
-  @import './phone.stylus'
+  // @import './1600.stylus'
+  // @import './pad.stylus'
+  // @import './phone.stylus'
   // @import './chat.night.stylus'
   
   

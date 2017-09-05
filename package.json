@@ -5,7 +5,9 @@
   "author": "joey",
   "private": true,
   "scripts": {
+    "dsm-dev": "node build/dsm-dev-server.js",
     "dev": "node build/dev-server.js",
+    "dsm-build": "node build/dsm-build.js",
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",

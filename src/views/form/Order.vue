@@ -231,7 +231,7 @@
 
               el-table-column(label="奖级" width="80" align="right")
                 template(scope="scope")
-                  span {{ scope.row.level }} 等奖
+                  span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
               el-table-column(prop="prize" label="奖金"  align="right")
 

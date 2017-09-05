@@ -5,6 +5,7 @@
 
 <style lang="stylus">
   @import '../var.stylus'
+  @import '../path.stylus'
   .logo
     text-align center
     .icon-list

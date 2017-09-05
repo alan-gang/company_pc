@@ -7,6 +7,7 @@ s<template lang="jade">
 
 <style lang="stylus">
   @import '../var.stylus'
+  @import '../path.stylus'
   .download
     text-align center
     .icon-list
