@@ -14,7 +14,7 @@
             |  毫秒
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // el-col(:span="8" v-for=" (r, index) in serverList "  @click.native="switchCS(r)" v-if="!server")
-      //   .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: r === cs}")
+      //   .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: (r === cs || (r === 'www.' + cs))}")
       //     p {{ r }}
       //     span.route-index {{ index + 1 }}
       //     |  线 

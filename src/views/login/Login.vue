@@ -130,6 +130,7 @@
       },
       getGreetingMsg () {
         this.regard = false
+        if (!this.un_) return false
         this.$http.get(api.getGreetingMsg, {
           userName: this.un_
         }).then(({data}) => {

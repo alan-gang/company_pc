@@ -111,6 +111,17 @@ export default {
               ]
             }
           ]
+        },
+        {
+          title: '龙虎',
+          groups: [
+            {
+              // title: '五位',
+              items: [
+                {id: '-3-1-3-115', title: '龙虎', description: '', example: ''}
+              ]
+            }
+          ]
         }
       ],
       getTitle () {
@@ -127,6 +138,8 @@ export default {
             return '任选'
           case '-2':
             return '趣味'
+          case '-3':
+            return '龙虎'
         }
       },
       gameType: 'G115',

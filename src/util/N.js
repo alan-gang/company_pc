@@ -1064,6 +1064,12 @@ let SSC = {
   */
   '-2-2-5' ({nsl}) {
     return C(nsl[0], 5)
+  },
+  /*
+    龙虎
+  */
+  '-4-1-1' ({nsl, psl}) {
+    return C(nsl[0], 1) *  C(psl, 2)
   }
 }
 let SSL = {
@@ -1300,6 +1306,10 @@ let G115 = {
    // '猜中位',
   '-2-1-2-115' ({nsl}) {
     return C(nsl[0], 1)
+  },
+   // '龙虎',
+  '-3-1-3-115' ({nsl, psl}) {
+    return C(nsl[0], 1) * C(psl, 2)
   }
 }
 let KL8 = {
@@ -1402,6 +1412,10 @@ let PK10 = {
   // title: '龙虎
   '-1-1-6-PK10' ({nsl}) {
     return C(nsl[0], 1)
+  },
+  // title: '定位胆
+  '-1-1-7-PK10' ({nsl}) {
+    return A(nsl)
   }
 }
 let K3 = {

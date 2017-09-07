@@ -210,6 +210,7 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '18', title: '北京PK10', gameid: 13},
+                {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
                 {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
@@ -870,6 +871,7 @@ export default {
 <style lang="stylus">
   @import './var.stylus'
   @import './path.stylus'
+  // @import './chat.stranger.phone.stylus'
   html
     height 100%
     width 100%

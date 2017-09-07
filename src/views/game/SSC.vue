@@ -315,6 +315,17 @@ export default {
               ]
             }
           ]
+        },
+        {
+          title: '龙虎',
+          groups: [
+            {
+              // title: '龙虎',
+              items: [
+                {id: '-4-1-1', title: '龙虎', description: '', example: ''}
+              ]
+            }
+          ]
         }
       ],
       getTitle () {
@@ -339,6 +350,8 @@ export default {
             return '任选'
           case '-2':
             return '趣味'
+          case '-4':
+            return '龙虎'
         }
       },
       // 玩法信息

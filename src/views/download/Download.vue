@@ -12,7 +12,7 @@
           p.intro.text-999 {{ d.intro }}
         el-col.title(:span="18")
           .buttons
-            a(v-for="b in d.buttons" v-bind:href="b.download" v-bind:download="b.title")
+            a(v-for="b in d.buttons" v-bind:href="b.download" target="_blank")
               .ds-button.tall.wide(:class="[ b.class ]") {{ b.title }}
                 .before
                 .after {{ b.title }}
@@ -37,7 +37,7 @@
             buttons: [
               {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.plat_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
               {title: 'Android下载', class: 'ds-icon-download-android', style: {background: 'url(' + api.plat_andr + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}},
-              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: api.getWinClient}
+              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: ''}
             ]
           },
           {
@@ -64,6 +64,7 @@
       }
     },
     mounted () {
+      this.getWinClient()
     },
     methods: {
       // 二维码
@@ -80,6 +81,17 @@
       // // win客户端下载
       // // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
       // getWinClient: '/help/download.do?method=getWinClient'
+      getWinClient () {
+        this.$http.get(api.getWinClient).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.downloads[0].buttons[2].download = data.cbClient
+          } else {
+          }
+        }, (rep) => {
+          // error
+        })
+      }
     }
   }
 </script>

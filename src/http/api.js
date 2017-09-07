@@ -542,7 +542,7 @@ let Download = {
   chat_ios: '/help/download.do?method=getApp&type=chat_ios',
   // win客户端下载
   // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
-  getWinClient: '/help/download.do?method=getWinClient'
+  getWinClient: '/help/download.do?method=goFir'
 }
 
 let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity, Download)

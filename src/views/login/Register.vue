@@ -79,7 +79,7 @@
               toId: data.userId
             })
             window.accessAngular.isStranger(true)
-            window.accessAngular.connect()
+            window.accessAngular.connect(true)
           } else this.$message.warning(data.msg || '暂时无法与上级聊天， 请重新刷新!')
         }, (rep) => {
           // error

@@ -163,6 +163,8 @@
           ** 趣味[后二大小单双]
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
+          {ids: '-4-1-1:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+
           /***
           ** 趣味[猜遗漏]
           ***/
@@ -193,6 +195,7 @@
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '0单5双', value: '1'}, {selected: false, title: '5单0双', value: '2'}, {selected: false, title: '1单4双', value: '3'}, {selected: false, title: '4单1双', value: '4'}, {selected: false, title: '2单3双', value: '5'}, {selected: false, title: '3单2双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-3-1-3-115:1', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
 
           // =========================================================PK10========================================================
           /***
@@ -204,6 +207,17 @@
           {ids: '-1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-5-PK10', class: 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-6-PK10:1', class: 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
+          // {ids: '-1-1-7-PK10:1', class: 'ds-icon-PK10', title: '定位胆', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第一名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第二名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第三名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第六名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第七名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第八名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第九名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第十名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           // =========================================================KL8========================================================
           /***
@@ -268,13 +282,13 @@
         // 要显示pos的玩法集
         allChecks: [
           // 最少2个位置
-          {ids: '-1-1-2, -1-1-3, -1-1-4', min: 2},
+          {ids: '-1-1-2, -1-1-3, -1-1-4, -4-1-1, -3-1-3-115', min: 2},
           // 最少3个位置
           {ids: '-1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7', min: 3},
           // 最少4个位置
           {ids: '-1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6', min: 4}
         ],
-        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6',
+        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1, -3-1-3-115',
         // 号码集
         ns: [],
         // 号码的文字表示集
