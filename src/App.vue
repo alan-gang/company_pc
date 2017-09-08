@@ -56,7 +56,9 @@ export default {
                 {id: '5-2-4', title: '充值送', url: 'ForTopup'},
                 {id: '5-2-5', title: '首提大返利', url: 'ForWithdraw'},
                 {id: '5-2-6', title: '充值送', url: 'ForTopupA'},
-                {id: '5-2-7', title: '最新活动', url: 'ForOther'}
+                {id: '5-2-7', title: '最新活动', url: 'ForOther'},
+                {id: '5-2-8', title: '大家来找茬', url: 'FindMe'},
+                {id: '5-2-9', title: '王者争霸赛', url: 'Fight'}
               ]
             }
           ]

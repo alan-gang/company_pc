@@ -53,6 +53,10 @@
 
           el-table-column(prop="daySalary"  label="日工资" width="100" align="right")
 
+          el-table-column(prop="winSalary"  label="中奖工资" width="100" align="right")
+
+          el-table-column(prop="loseSalary"  label="未中奖工资" width="100" align="right")
+
           el-table-column(prop="teamBalance"  label="团队可用余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
@@ -72,7 +76,7 @@
               .ds-button.text-button.blue(v-if=" canTopUp && !scope.row.self "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="(!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2) "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
-              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && (o = scope.row.daySalary)   ") 调整日工资
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (me.role !== 1) && (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
               // el-popover.footer-more(placement="bottom-start" trigger="hover" v-bind:popper-class=" '' ")
               //   span(slot="reference")
               //  slot
@@ -129,14 +133,18 @@
         div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
           p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
-            |  调整日工资
+            |  调整工资级别
             span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
 
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 日工资：
+          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 中奖工资：&nbsp;&nbsp;&nbsp;
+            el-select(v-model="oo" style="width: 2.2rem; position: relative; top: -.01rem")
+              el-option(v-for="O in OOL" v-bind:label="O.name" v-bind:value="O.value")
+
+          p(style="padding-left: 30%; margin-top: .1rem" v-if="topUpIndex === 0") 未中奖工资：
             el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
               el-option(v-for="O in OL" v-bind:label="O.name" v-bind:value="O.value")
             br
-            span.ds-button.primary.large.bold(style="margin-left: .55rem; margin-top: .15rem" @click="setSubDaySalary") 确认
+            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="setSubDaySalary") 确认
 
 
         // 升点、降点
@@ -291,6 +299,9 @@
         // 日工资
         OL: [],
         o: '',
+        // 中奖工资
+        OOL: [],
+        oo: '',
         // 默认排序
         // OL: [
         //   {id: 1, title: '用户名'},
@@ -411,22 +422,24 @@
       setSubDaySalary () {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=recharge&destId=5&amount=100.5
         let loading = this.$loading({
-          text: '日工资调整中...',
+          text: '工资调整中...',
           target: this.$el
-        }, 10000, '日工资调整超时...')
+        }, 10000, '工资调整超时...')
         this.$http.get(api.setSubDaySalary, {
           destUserId: this.user.userId,
-          daySalary: this.o
+          // daySalary: this.o
+          winSalary: this.oo,
+          loseSalary: this.o
         }).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
-              loading.text = '日工资调整成功!'
+              loading.text = '工资调整成功!'
               this.stepIndex = 0
               this.topUpIndex = 0
               this.getUserList()
             }, 100)
-          } else loading.text = data.msg || '日工资调整失败!'
+          } else loading.text = data.msg || '工资调整失败!'
         }, (rep) => {
           // error
         }).finally(() => {
@@ -496,7 +509,9 @@
                 this.topUpMin = parseInt(data.subUserInfo[0].uploadlevel.split('-')[0])
               }
             }
-            this.OL = data.salaryData
+            // this.OL = data.salaryData
+            this.OL = data.loseSlaryData
+            this.OOL = data.winSlaryData
             this.data = data.subUserInfo.map(o => {
               o.showTeanBalance = false
               return o

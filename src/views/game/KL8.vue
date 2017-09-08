@@ -53,7 +53,7 @@ export default {
         // 玩法描述
         description: ''
       },
-      lucknumbers: [[5, 8, 5, 6, 8], [5, 8, 5, 6, 8], [5, 8, 5, 6, 8], [5, 8, 5, 6, 8]],
+      lucknumbers: [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
       getTitle () {
         switch (this.type.id.slice(0, 2)) {
           case '-1':

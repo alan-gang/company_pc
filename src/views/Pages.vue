@@ -77,6 +77,8 @@ import ForTopup from './activity/ForTopup'
 import ForTopupA from './activity/ForTopupA'
 import ForWithdraw from './activity/ForWithdraw'
 import ForOther from './activity/ForOther'
+import FindMe from './activity/FindMe'
+import Fight from './activity/Fight'
 // 下载
 import Download from './download/Download'
 
@@ -138,6 +140,8 @@ export default {
     ForTopupA,
     ForWithdraw,
     ForOther,
+    FindMe,
+    Fight,
     // 下载
     Download
   },
