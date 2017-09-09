@@ -37,7 +37,7 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
   @import '../var.stylus'
   @import '../../../src/var.stylus'
   .home

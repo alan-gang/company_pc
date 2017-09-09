@@ -51,11 +51,11 @@
             template(scope="scope")
               span(:class=" { 'pointer text-blue': !scope.row.static } ") {{ scope.row.userName }}
 
-          el-table-column(prop="daySalary"  label="日工资" width="100" align="right")
+          el-table-column(v-if="showDaySalary" prop="daySalary"  label="日工资" width="100" align="right")
 
-          el-table-column(prop="winSalary"  label="中奖工资" width="100" align="right")
+          el-table-column(v-if="showSalary" prop="winSalary"  label="中奖工资" width="100" align="right")
 
-          el-table-column(prop="loseSalary"  label="未中奖工资" width="100" align="right")
+          el-table-column(v-if="showSalary" prop="loseSalary"  label="未中奖工资" width="100" align="right")
 
           el-table-column(prop="teamBalance"  label="团队可用余额" width="120" align="right")
 
@@ -76,7 +76,8 @@
               .ds-button.text-button.blue(v-if=" canTopUp && !scope.row.self "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
               .ds-button.text-button.blue(v-if="(!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2) "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
-              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (me.role !== 1) && (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
+              // .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (me.role !== 1) && (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
               // el-popover.footer-more(placement="bottom-start" trigger="hover" v-bind:popper-class=" '' ")
               //   span(slot="reference")
               //  slot
@@ -283,6 +284,8 @@
     mixins: [xhr],
     data () {
       return {
+        showDaySalary: 0,
+        showSalary: 0,
         // me: store.state.user,
         me: store.state.user,
         myPoint: '',
@@ -509,6 +512,8 @@
                 this.topUpMin = parseInt(data.subUserInfo[0].uploadlevel.split('-')[0])
               }
             }
+            this.showSalary = data.showSalary
+            this.showDaySalary = data.showDaySalary
             // this.OL = data.salaryData
             this.OL = data.loseSlaryData
             this.OOL = data.winSlaryData

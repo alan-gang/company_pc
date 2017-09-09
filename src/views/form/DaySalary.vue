@@ -17,14 +17,19 @@
 
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
          
-          el-table-column(prop="days" label="日期" width="100" )
-          el-table-column(prop="buyamount" label="团队总销量" width="100" )
-          el-table-column(prop="profitamount" label="团队总亏损" width="100" )
-          el-table-column(prop="salarylevel" label="工资标准" width="100" )
-          el-table-column(prop="booksalary" label="应发日工资" width="100" )
-          el-table-column(prop="subsalary" label="应发下级日工资" width="100" )
-          el-table-column(prop="salary" label="实发日工资" width="100" )
-          el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
+          // el-table-column(prop="days" label="日期" width="100" )
+          // el-table-column(prop="buyamount" label="团队总销量" width="100" )
+          // el-table-column(prop="profitamount" label="团队总亏损" width="100" )
+          // el-table-column(prop="salarylevel" label="工资标准" width="100" )
+          // el-table-column(prop="booksalary" label="应发日工资" width="100" )
+          // el-table-column(prop="subsalary" label="应发下级日工资" width="100" )
+          // el-table-column(prop="salary" label="实发日工资" width="100" )
+          // el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
+
+          el-table-column(prop="daySalary" label="日工资" width="200" )
+          el-table-column(prop="salary" label="中奖工资" width="200"  )
+          el-table-column(prop="totalGetAmount" label="总工资" width="200"  )
+          el-table-column(prop="days" label="日期")
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
@@ -104,7 +109,7 @@
           if (data.success === 1) {
             typeof fn === 'function' && fn()
             this.total = data.totalSize || this.data.length
-            this.data = data.allDate
+            this.data = data.recordList
             // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'

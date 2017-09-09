@@ -8,8 +8,7 @@ export default {
       // to: '/me/2-5-1',
       src: '/static/activity/activity8.jpg',
       bg: '#e2f1f7',
-      color: '#333',
-      myClass: 'content-shadow'
+      color: '#333'
     }
   }
 }

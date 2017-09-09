@@ -1,8 +1,8 @@
 s<template lang="jade">
   dl.download
-    dd.ds-button.text-button.light.icon-list.ds-icon-windows Windows        
-    dd.ds-button.text-button.light.icon-list.ds-icon-apple iPhone        
-    dd.ds-button.text-button.light.icon-list.ds-icon-android Android        
+    a.ds-button.text-button.light.icon-list.ds-icon-windows(target="_blank" href="http://www.changbo.net/#/download") Windows        
+    a.ds-button.text-button.light.icon-list.ds-icon-apple(target="_blank" href="https://fir.im/t6rk") iPhone        
+    a.ds-button.text-button.light.icon-list.ds-icon-android(target="_blank" href="https://fir.im/2819") Android        
 </template>
 
 <style lang="stylus">
