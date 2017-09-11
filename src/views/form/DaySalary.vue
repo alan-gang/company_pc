@@ -27,7 +27,7 @@
           // el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
 
           el-table-column(prop="daySalary" label="日工资" width="200" )
-          el-table-column(prop="salary" label="中奖工资" width="200"  )
+          el-table-column(prop="salary" label="投注工资" width="200"  )
           el-table-column(prop="totalGetAmount" label="总工资" width="200"  )
           el-table-column(prop="days" label="日期")
 

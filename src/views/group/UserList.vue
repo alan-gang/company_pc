@@ -77,7 +77,7 @@
               .ds-button.text-button.blue(v-if="(!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2) "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
               .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               // .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (me.role !== 1) && (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
-              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && ((!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)) " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
               // el-popover.footer-more(placement="bottom-start" trigger="hover" v-bind:popper-class=" '' ")
               //   span(slot="reference")
               //  slot
