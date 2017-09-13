@@ -224,8 +224,8 @@
           **
           ***/
           {ids: '-1-1-1-KL8, -1-1-2-KL8:8, -1-1-3-KL8:8, -1-1-4-KL8:8, -1-1-5-KL8:8, -1-1-6-KL8:8, -1-1-7-KL8:8', min: 1, max: 80, l: 2, buttons: ['全:1', '大:1', '小:1', '奇:1', '偶:1', '质:1', '合:1', '清'], btnClass: 'block'},
-          {ids: '0-1-1-KL8', class: 'default square', title: '上下盘', values: [{selected: false, title: '上盘', value: '1'}, {selected: false, title: '下盘', value: '2'}]},
-          {ids: '0-1-2-KL8', class: 'default square', title: '奇偶盘', values: [{selected: false, title: '奇盘', value: '1'}, {selected: false, title: '偶盘', value: '2'}]},
+          {ids: '0-1-1-KL8', class: 'default square', title: '上下盘', values: [{selected: false, title: '上盘', value: '1'}, {selected: false, title: '下盘', value: '2'}, {selected: false, title: '和盘', value: '3'}]},
+          {ids: '0-1-2-KL8', class: 'default square', title: '奇偶盘', values: [{selected: false, title: '奇盘', value: '1'}, {selected: false, title: '偶盘', value: '2'}, {selected: false, title: '和盘', value: '3'}]},
           {ids: '0-1-3-KL8', class: 'default square', title: '大小单双', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}]},
           {ids: '0-1-4-KL8', class: 'default square', title: '五行', values: [{selected: false, title: '金', value: '1'}, {selected: false, title: '木', value: '2'}, {selected: false, title: '水', value: '3'}, {selected: false, title: '火', value: '4'}, {selected: false, title: '土', value: '5'}]},
 
