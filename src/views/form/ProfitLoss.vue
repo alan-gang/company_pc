@@ -19,6 +19,7 @@
 
           el-table-column(prop="userName" label="用户名" width="100" v-bind:sortable="true")
           el-table-column(prop="userPoint" label="返点级别" width="100" )
+          el-table-column(prop="salaryAmount" label="工资总额" width="100" )
           el-table-column(prop="saveAmount" label="充值总额" width="100" )
           el-table-column(prop="withdrawAmount" label="提款总额" width="100" )
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
