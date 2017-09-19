@@ -92,9 +92,7 @@
       color #999
     .content
       text-align left
-      pre
-        white-space pre-wrap
-        word-break break-all
+      
       .item
         margin PW 0
       .step

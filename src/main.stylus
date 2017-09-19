@@ -11,6 +11,9 @@ h1, h2, h3, h4, h5, p, dl, dd, dt
   margin 0
 input
   outline none
+pre
+  white-space pre-wrap
+  word-break break-all
 .pl1
   padding-left .1rem
 .pl2
