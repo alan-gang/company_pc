@@ -24,7 +24,7 @@
     data () {
       return {
         notices: [],
-        openIndex: -1,
+        openIndex: 0,
         pageSize: 20,
         total: 0,
         currentPage: 1,
