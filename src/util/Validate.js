@@ -17,7 +17,9 @@ let chineseName = chineseName => {
   return chineseName.match(/^[\u4e00-\u9fa5]{1,8}(·*[\u4e00-\u9fa5]{1,8}){1,4}$/)
 }
 let account = account => {
-  return account.length >= 6 && account.length <= 16 && account.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)
+  // 必须包含数字和字母
+  // return account.length >= 6 && account.length <= 16 && account.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)
+  return account.match(/^[0-9a-zA-Z]{6,16}$/)
 }
 let nickName = nickName => {
   return nickName.length >= 2 && nickName.length <= 8 && !(nickName.match(/\d/g) || [])[4] && !nickName.match(/q{2,}/gi) && nickName.match(/^[\u4e00-\u9fa5\da-zA-Z]+$/)

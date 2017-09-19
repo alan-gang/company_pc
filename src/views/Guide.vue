@@ -370,6 +370,7 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  @import '../../DSM/src/var.stylus'
   .item
     margin PW 0
   .box

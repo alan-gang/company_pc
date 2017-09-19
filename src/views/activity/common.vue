@@ -36,12 +36,12 @@
           el-row.list-title
             el-col(:span="8") {{ '名次' }}
             el-col(:span="5" style="text-align: right") {{ '金额' }} 
-            el-col(:span="8" style="text-align: right") {{ '预算' }}  
+            // el-col(:span="8" style="text-align: right") {{ '预算' }}  
 
           el-row.list-item(v-for=" l in list9 " )
             el-col(:span="8") {{ l.levelName }}
             el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
-            el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
+            // el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
 
         // 签到
         .list(v-if="expand && expand[0]" )
@@ -130,8 +130,7 @@ export default {
           this.et = data.endDate
           this.content = data.content
           this.rule = data.ruleDesc
-          console.log(String(this.id) === String(9))
-          if (String(this.id) === String(9)) {
+          if (String(this.idt) === String(9)) {
             this.list9 = data.saveDetail || []
           } else {
             this.list = data.saveDetail || []

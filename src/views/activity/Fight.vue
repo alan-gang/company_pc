@@ -4,7 +4,7 @@ export default {
   mixins: [common],
   data () {
     return {
-      id: 9,
+      idt: 9,
       // to: '/me/2-5-1',
       src: '/static/activity/activity9.jpg',
       bg: '#a72353',
