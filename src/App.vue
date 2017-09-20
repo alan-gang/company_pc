@@ -715,6 +715,7 @@ export default {
       window.accessAngular.isStranger(false)
       // window.accessAngular.connect()
       setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+      window.localStorage.setItem('api', api.api)
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -831,6 +832,7 @@ export default {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
+          this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
           this.setPages(this._getPages())
           this.tabs.forEach((t, i) => {
             if (!this.state.pages.find(x => x.id === t.id)) {

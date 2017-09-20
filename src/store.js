@@ -33,7 +33,9 @@ let store = {
       shareCycle: 0,
       collects: [],
       minOrderPop: true,
-      isVip: false
+      isVip: false,
+      canTopUp: true,
+      canWithDraw: true
     },
     pages: []
   },
@@ -82,7 +84,9 @@ let store = {
         shareCycle: 0,
         collects: [],
         minOrderPop: true,
-        isVip: false
+        isVip: false,
+        canTopUp: true,
+        canWithDraw: true
       }
       Object.assign(store.state.user, user)
     },

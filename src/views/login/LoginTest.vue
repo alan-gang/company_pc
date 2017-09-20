@@ -87,7 +87,7 @@
     },
     watch: {
       fastServer () {
-        if (!this.server) api.api = this.fastServer
+        if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // this.cs = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -143,6 +143,9 @@
           if (rep.status !== 0) {
             this.$set(this[timeList], i, '> 10000')
             this.$set(this[timeList + 'Value'], i, 0)
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.replace('www.', '')) {
+              window.localStorage.removeItem('api')
+            }
           }
         }).finally((rep) => {
           // console.log('final', rep)

@@ -6,7 +6,7 @@
       | &nbsp;&nbsp;期
       span.ds-icon-clock {{ showTime }}
 
-      el-popover(placement="bottom-start" trigger="hover" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
+      el-popover(placement="bottom-start" trigger="click" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
         span(slot="reference")
           span.ds-button.instruction.primary(ref="instruction") ? {{ type.title }}
         slot
@@ -22,6 +22,8 @@
 
     el-col.right(:span="6")
       el-button-group.right
+        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
+
         el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist'" ref="MO")
           span(slot="reference")
             router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} " @click.native.stop="" @mouseover.native="Orderlist") 投注记录
@@ -50,7 +52,6 @@
                 template(scope="scope")
                   div(v-if="!scope.row.last")
                     .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
-        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
 
         
 </template>

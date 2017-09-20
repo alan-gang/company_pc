@@ -101,6 +101,7 @@
         window.accessAngular.isStranger(false)
         // window.accessAngular.connect()
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        window.localStorage.setItem('api', api.api)
       },
       login () {
         if (this.hasEmpty()) {

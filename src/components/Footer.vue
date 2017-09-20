@@ -50,8 +50,8 @@
         span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-if="!isTry") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
-        span.ds-button.danger(@click="doRecharge" v-if="!isTry") 充值
-        span.ds-button.primary(@click="withDraw" v-if="!isTry") 提现
+        span.ds-button.danger(@click="doRecharge" v-if="!isTry && canTopUp") 充值
+        span.ds-button.primary(@click="withDraw" v-if="!isTry && canWithDraw") 提现
 
         .switch-box.ds-icon-day-model(:class=" { no: !day} ")
           el-switch(v-model="day" on-text="日" off-text="夜" on-color="#ccc" off-color="#13ce66" v-bind:width="W")
@@ -94,6 +94,8 @@ export default {
       model: store.state.user.model,
       isTry: store.state.user.isTry,
       login: store.state.user.login,
+      canTopUp: store.state.user.canTopUp,
+      canWithDraw: store.state.user.canWithDraw,
       modal: false,
       shows: {},
       more: false,
