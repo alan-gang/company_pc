@@ -6,7 +6,10 @@ body.night
   outline-offset -10rem
   .el-popover.footer-popover
     background-color #16161d
+    
 .app.night
+  // icon
+  
   // common
   .el-loading-mask
     background-color rgba(85, 85, 85, .9)
@@ -192,6 +195,8 @@ body.night
         color BLUE
         &:hover
           color BLUE-HOVER
+      &.ds-icon-polyline
+        background url($ASSETS/polyline-night.png) .08rem center no-repeat
         
         
   

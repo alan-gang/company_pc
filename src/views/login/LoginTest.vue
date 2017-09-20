@@ -3,7 +3,7 @@
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
-        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
+        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index {{ index + 1 }}
           |  线 
@@ -97,6 +97,7 @@
       this.auto = this.$route.query.auto
       this.getEnableLines()
       this.currentServer = this.server ? api.api : window.location.origin
+      // this.currentServer = this.server ? api.api : 'http://game.com:8080'
       // cookie.set('mySession', 'xxsffe-fe-s-f-esf-se-fe-s-f', {domain: ''})
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // this.cs = api.api

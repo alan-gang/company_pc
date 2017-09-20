@@ -47,7 +47,7 @@
       addFeedback () {
         if (!this.t) return this.$message.warning('请输入意见标题') && this.$refs.t.focus()
         if (!this.v || this.v.length < 5) return this.$message.warning('请输入您的意见哦，不得少于5个字') && this.$el.querySelector('textarea').focus()
-        this.$http.get(api.addFeedback, {priority: 1, title: this.t, content: this.v}).then(({data}) => {
+        this.$http.post(api.addFeedback, {priority: 1, title: this.t, content: this.v}).then(({data}) => {
           if (data.success === 1) {
             this.$modal.success({
               target: this.$el,
