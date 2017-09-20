@@ -36,8 +36,8 @@ footer(:class="{'hide-info': hide}")
 
 
   .buttons
-    span.ds-button.danger(@click="doRecharge" v-if="!isTry") 充值
-    span.ds-button.primary(@click="withDraw" v-if="!isTry") 提现
+    span.ds-button.danger(@click="doRecharge" v-if="!isTry && me.canTopUp") 充值
+    span.ds-button.primary(@click="withDraw" v-if="!isTry && me.canWithDraw") 提现
 
     
   el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
@@ -61,6 +61,7 @@ export default {
       model: store.state.user.model,
       isTry: store.state.user.isTry,
       login: store.state.user.login,
+      me: store.state.user,
       modal: false,
       shows: {},
       more: false,

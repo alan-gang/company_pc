@@ -264,7 +264,7 @@ export default {
       // 设置
       if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
       if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
-      if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
+      if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
       // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
       this.$http.post(api.changSecurePwd, {newPwd: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
