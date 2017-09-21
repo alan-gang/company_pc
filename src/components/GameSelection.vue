@@ -303,6 +303,10 @@
       callId () {
         return this.gameid + '|' + this.type.id
       },
+      // 根据玩法确定是否为组选
+      o () {
+        return ['+3-2-2', '+3-2-4', '+3-2-5', '3-2-2', '3-2-4', '3-2-5', '-3-2-2', '-3-2-4', '-3-2-5', '2-2-2', '2-4-2', '-1-1-4', '-1-2-4', '-1-2-6', '-1-2-7', '-3-2-2-SSL', '-3-2-4-SSL', '-3-2-5-SSL', '2-2-2-SSL-SSL', '2-4-2-SSL', '3-1-4-115', '2-1-4-115', '-1-2-2-115', '-1-2-3-115', '-1-2-4-115', '-1-2-5-115', '-1-2-6-115', '-1-2-7-115', '-1-2-8-115'].indexOf(this.type.id) !== -1
+      },
       // 根据玩法确定是与其它行不能重复
       nr () {
         return ['3-1-5-115', '2-1-5-115', '-1-3-1-115', '-1-3-2-115', '-1-3-3-115', '-1-3-4-115', '-1-3-5-115', '-1-3-6-115', '-1-3-7-115', '-2-1-2-K3', '-3-1-2-K3', '2-1-2-K3'].indexOf(this.type.id) !== -1
@@ -529,9 +533,9 @@
       removeRepeat () {
         let R = null
         if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
-          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',')
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',', this.o, 2)
         } else {
-          R = removeDuplicate(this.V, /[,;\s]+/)
+          R = removeDuplicate(this.V, /[,;\s]+/, null, this.o, (this.type.id.indexOf('-115') !== -1 ? 2 : 1))
         }
         if (R.has) this.V = R.s
         return R.has
