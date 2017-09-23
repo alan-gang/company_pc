@@ -691,6 +691,7 @@ export default {
       })
     },
     loginSuccess (data) {
+      this.__setCall({fn: '__getUserFund', callId: undefined})
       this.setUser({login: true,
         name: data.nickName,
         pwd: data.hasLogPwd === '1',
