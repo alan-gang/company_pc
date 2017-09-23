@@ -57,7 +57,7 @@
 
           el-table-column(v-if="showSalary" prop="loseSalary"  label="未中奖工资" width="100" align="right")
 
-          el-table-column(prop="teamBalance"  label="团队可用余额" width="120" align="right")
+          el-table-column(prop="teamBalance"  label="可用余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
 
@@ -86,9 +86,9 @@
               //        el-option(v-for="O in OL" v-bind:label="O" v-bind:value="O")
 
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (user = scope.row) && goBonus()  ") 奖金详情
-              // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" scope.row.showTeanBalance = ! scope.row.showTeanBalance ") 团队余额
-              // div(v-if="scope.row.showTeanBalance") 团队余额：
-              //   span.text-danger {{ scope.row.teamBalance }}
+              .ds-button.text-button.blue(style="padding: 0 .05rem; vertical-align: top;" @click="getTeamBalance(scope.row)") 团队余额
+                div(v-if="scope.row.showTeanBalance") 团队余额：
+                 span.text-danger {{ scope.row.myTeamBalance }}
 
       // 充值
       transition-group(name="slide" appear=true tag="div")
@@ -379,6 +379,20 @@
           this.$message.warning({target: this.$el, message: '您输入的金额过小或过大！'})
         }
       },
+      getTeamBalance (row) {
+        row.showTeanBalance = !row.showTeanBalance
+        if (!row.showTeanBalance) return false
+        this.$http.post(api.getTeamBalance, {userId: row.userId}).then(({data}) => {
+          if (data.success === 1) {
+            // row.myTeamBalance = data.
+            // this.pt_ = this.time_
+            row.myTeamBalance = data.teamBalance
+          } else {
+            this.$message.error({target: this.$el, message: data.msg || '团队余额获取失败！'})
+          }
+        }).catch(rep => {
+        })
+      },
       sendSms () {
         this.$http.post(api.person_sendSms, {}).then(({data}) => {
           if (data.success === 1) {
@@ -519,6 +533,7 @@
             this.OOL = data.winSlaryData
             this.data = data.subUserInfo.map(o => {
               o.showTeanBalance = false
+              o.myTeamBalance = '获取中...'
               return o
             })
           } else loading.text = '加载失败!'

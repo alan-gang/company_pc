@@ -45,7 +45,10 @@ export default {
             guide: data.isTry !== '1'
           })
           this.$router.push('/')
-        } else this.$message.error('试玩登陆失败!')
+        } else {
+          this.$message.error('试玩登陆失败!')
+          this._getVerifyImage()
+        }
       }, (rep) => {
         // error
       })

@@ -440,7 +440,7 @@
               },
               O: this
             })
-          }
+          } else this.$message.error(data.msg || '契约创建失败！')
         }, (rep) => {
           // error
           this.$message.error('契约创建失败！')

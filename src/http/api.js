@@ -315,6 +315,9 @@ let Me = {
 }
 
 let Group = {
+  // 团队余额
+  // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
+  getTeamBalance: '/team/useList.do?method=getTeamBalance',
   // 设置日工资：
   // http://192.168.169.161:8080/cagamesclient/team/useList.do?method=setSubDaySalary&destUserId=51&daySalary=50
   setSubDaySalary: '/team/useList.do?method=setSubDaySalary',
@@ -484,7 +487,9 @@ let Help = {
   getHelpTag: '/help.do?method=getHelpTag',
   // 意见反馈
   // http://192.168.169.161:8080/cagamesclient//help/feeback.do?method=add&title=xxx&content=xxxxx&priority=1
-  addFeedback: '/help/feeback.do?method=add'
+  addFeedback: '/help/feeback.do?method=add',
+  // /cagamesclient/help/feeback.do?method=list&page=1&pageSize=10
+  getFeedbackList: '/help/feeback.do?method=list'
 }
 
 let Activity = {

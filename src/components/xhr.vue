@@ -97,6 +97,7 @@
           if (data.success !== 1) {
             this.$message.warning('验证码输入不正确！')
             this._getVerifyImage()
+            this.code_ = ''
           } else {
             if (fn) fn()
             else {
