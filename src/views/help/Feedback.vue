@@ -77,7 +77,7 @@
       },
       getFeedbackList (page, fn) {
         let loading = this.$loading({
-          text: '公告加载中...',
+          text: '意见反馈加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         if (!fn) {
