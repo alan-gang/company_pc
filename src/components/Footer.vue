@@ -58,7 +58,7 @@
 
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
-    router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
+    router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="" style="z-index: 2")
 
     .logo(style="cursor: pointer; user-select: none;")
       .text-white.hide(style="position: relative; top: .9rem;font-size: .16rem" @click.stop="collapseFooter") 隐 藏 菜 单

@@ -271,13 +271,17 @@
         top 0
         width 2rem
         text-align center
-        padding .05rem 0
+        padding 0.05rem 0
         font-shadow()
         transform rotateZ(42deg) translateY(-160%)  translateX(30%) 
-      &:before
-        left 0
-        right auto
-        transform rotateZ(-42deg) translateY(-160%)  translateX(-30%) 
+      &.fast.current
+        &:before
+          padding .1rem 0 0.05rem 0
+          transform rotateZ(42deg) translateY(-190%)  translateX(30%) 
+        &:after
+          transform rotateZ(42deg) translateY(-110%)  translateX(30%) 
+          
+        
         
       &.fast:after
         content '最快'
@@ -288,7 +292,7 @@
       &.current:before
         content '当前'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
-        transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
+        // transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
         
         
       

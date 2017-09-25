@@ -308,7 +308,7 @@
         return this.RULES.slice(0, this.ruleLength)
       },
       dataRules () {
-        return this.CRULES.filter(c => c.sales > 0 && c.bounsRate > 0).map(n => {
+        return this.CRULES.filter(c => c.sales >= 0 && c.bounsRate > 0).map(n => {
           return {
             ruletype: n.ruletype,
             sales: n.sales,

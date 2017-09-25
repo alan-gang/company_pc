@@ -174,7 +174,8 @@
 
               el-col(:span="6")
                 倍数模式：
-                span.text-black {{ row.multiple }}
+                span.text-black {{ row.multiple }} 
+                  span ({{ MODES[row.modes - 1] }})
 
             
             el-row

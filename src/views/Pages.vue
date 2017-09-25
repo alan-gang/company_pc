@@ -185,7 +185,7 @@ export default {
       // 没有记录过位置的窗口将自动分配位置
       PPP: [
         {
-          top: 'calc(10% + 0.15rem)',
+          top: document.body.clientHeight < 900 ? '0.15rem' : 'calc(10% + 0.15rem)',
           left: 'calc(20% + 0.15rem)',
           width: '9.3rem',
           // width: '50%',
@@ -193,7 +193,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 0.5rem)',
+          top: document.body.clientHeight < 900 ? '0.5rem' : 'calc(10% + 0.5rem)',
           left: 'calc(20% + 0.5rem)',
           width: '9.3rem',
           // width: '50%',
@@ -201,7 +201,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 0.85rem)',
+          top: document.body.clientHeight < 900 ? '0.85rem' : 'calc(10% + 0.85rem)',
           left: 'calc(20% + 0.85rem)',
           width: '9.3rem',
           // width: '50%',
@@ -209,7 +209,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 1.2rem)',
+          top: document.body.clientHeight < 900 ? '1.2rem' : 'calc(10% + 1.2rem)',
           left: 'calc(20% + 1.2rem)',
           width: '9.3rem',
           // width: '50%',
@@ -217,7 +217,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 1.55rem)',
+          top: document.body.clientHeight < 900 ? '1.55rem' : 'calc(10% + 1.55rem)',
           left: 'calc(20% + 1.55rem)',
           width: '9.3rem',
           // width: '50%',
@@ -225,7 +225,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 1.9rem)',
+          top: document.body.clientHeight < 900 ? '1.9rem' : 'calc(10% + 1.9rem)',
           left: 'calc(20% + 1.9rem)',
           width: '9.3rem',
           // width: '50%',
@@ -233,7 +233,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 2.25rem)',
+          top: document.body.clientHeight < 900 ? '2.25rem' : 'calc(10% + 2.25rem)',
           left: 'calc(20% + 2.25rem)',
           width: '9.3rem',
           // width: '50%',
@@ -241,7 +241,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 2.6rem)',
+          top: document.body.clientHeight < 900 ? '2.6rem' : 'calc(10% + 2.6rem)',
           left: 'calc(20% + 2.6rem)',
           width: '9.3rem',
           // width: '50%',
@@ -249,7 +249,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 2.95rem)',
+          top: document.body.clientHeight < 900 ? '2.95rem' : 'calc(10% + 2.95rem)',
           left: 'calc(20% + 2.95rem)',
           width: '9.3rem',
           // width: '50%',
@@ -257,7 +257,7 @@ export default {
           height: '6.4rem'
         },
         {
-          top: 'calc(10% + 3.3rem)',
+          top: document.body.clientHeight < 900 ? '3.3rem' : 'calc(10% + 3.3rem)',
           left: 'calc(20% + 3.3rem)',
           width: '9.3rem',
           // width: '50%',
