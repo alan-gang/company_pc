@@ -35,7 +35,7 @@
       // GameFollowHistory
 
     <!-- 总计栏 -->
-    GameAmountBar.inner-bar(:show="follow.show" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+    GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
     GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
 
@@ -73,6 +73,8 @@ export default {
       // 最近的已开奖期数
       NPER: '100000000',
       CNPER: '100000000',
+      // 用户选择投注的起始期数
+      // usernper: '100000000',
       // 最近的已开奖期号码
       lucknumbers: [0, 0, 0, 0, 0],
       // 即将开奖的期数
@@ -235,26 +237,26 @@ export default {
       }
     },
     // 如果当前奖期改变，那么提示已投注的期数直接过渡到下期
-    CNPER (n, o) {
-      if (this.ns.length > 0) {
-        if (!this.notify) {
-          this.notify = this.$modal.question({
-            content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
-            btn: ['转到当前期', '清空投注'],
-            target: this.$el,
-            cancel () {
-              this.ns = []
-            },
-            close () {
-              this.notify = null
-            },
-            O: this
-          })
-        } else {
-          this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
-        }
-      }
-    },
+    // CNPER (n, o) {
+    //   if (this.ns.length > 0) {
+    //     if (!this.notify) {
+    //       this.notify = this.$modal.question({
+    //         content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+    //         btn: ['转到当前期', '清空投注'],
+    //         target: this.$el,
+    //         cancel () {
+    //           this.ns = []
+    //         },
+    //         close () {
+    //           this.notify = null
+    //         },
+    //         O: this
+    //       })
+    //     } else {
+    //       this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
+    //     }
+    //   }
+    // },
     'follow.show' () {
       if (this.follow.show) this.__getTraceIssueList()
     }
@@ -364,11 +366,11 @@ export default {
         // error
       })
     },
-    book (pot) {
-      this.booking(pot)
+    book (pot, nper) {
+      this.booking(pot, nper)
     },
     // 投注
-    booking (pot) {
+    booking (pot, nper) {
       if (this.follow.show && !this.follow.items[0]) {
         return this.$modal.warn({
           target: this.$el,
@@ -390,7 +392,7 @@ export default {
       }, 10000, '投注超时...')
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.gameid), // 游戏代码
-        issue: String(this.CNPER), // 起始期号
+        issue: String(nper || this.CNPER), // 起始期号
         totalnums: this.N, // 总注数
         totalmoney: this.NPAY, // 总投注金额
         type: this.follow.show ? 2 : 1, // 类型：1-投注；2-追号

@@ -343,6 +343,7 @@
         this.zone = ''
         this.type = []
         this.query = ''
+        this.list()
       },
       cancel () {
         let loading = this.$loading({

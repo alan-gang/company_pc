@@ -425,6 +425,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
+        this.Orderlist()
       },
       cancel () {
         let loading = this.$loading({

@@ -67,6 +67,7 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
+          size: 'full',
           groups: [
             {
               items: [
@@ -124,6 +125,7 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
+          size: 'full',
           groups: [
             {
               items: [
@@ -150,6 +152,7 @@ export default {
           class: 'ds-icon-game',
           title: '游戏',
           url: 'game',
+          size: 'full',
           groups: [
             {
               title: '时时彩',
@@ -298,6 +301,7 @@ export default {
                   menuid: '38',
                   title: '用户列表',
                   url: 'UserList',
+                  size: 'full',
                   position: {
                     width: '11rem'
                   }
@@ -401,6 +405,7 @@ export default {
           title: '报表统计',
           menuid: '5',
           url: 'form',
+          size: 'full',
           groups: [
             {
               id: '4-1',
@@ -763,8 +768,8 @@ export default {
               // pre activated
               prev: 0,
               star: false,
-              defaultSize: '',
-              size: '',
+              defaultSize: m.size || i.size || g.size || '',
+              size: m.size || i.size || g.size || '',
               url: g.url || '',
               href: i.href || ('/' + m.url + '/' + i.id),
               // class: g.class || '',
@@ -780,6 +785,7 @@ export default {
       }, [])
     },
     openTab (url, same) {
+      // console.log(this.$route.params.url === url, url, '|||||')
       if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },
@@ -796,7 +802,7 @@ export default {
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
-        if (nurl) {
+        if (nurl && nurl !== '/') {
           this.openTab(nurl)
         } else if (this.tabs.length === 0) {
           setTimeout(() => {
@@ -807,7 +813,9 @@ export default {
               }
             })
           }, 100)
-        } else this.$router.push(this.prev.href)
+        } else {
+          this.prev.href !== '/' && this.openTab(this.prev.href)
+        }
       })
     },
     // setMenus (menus) {

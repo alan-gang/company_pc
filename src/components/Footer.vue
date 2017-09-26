@@ -146,7 +146,7 @@ export default {
       return this.menus.filter(m => !m.removed).length
     },
     EM () {
-      return numberWithCommas(this.pricePotAmount)
+      return numberWithCommas(this.pricePotAmount || 0)
     }
   },
   watch: {

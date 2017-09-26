@@ -19,6 +19,7 @@
 
       
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
+      .ds-button.outline(style="margin-left: .05rem;padding: 0 .15rem" @click="__setCall({fn: '__random'})") 机选
 
     el-col.right(:span="6")
       el-button-group.right
@@ -80,6 +81,9 @@ export default {
   computed: {
     showTime () {
       return util.timeFormat(this.time)
+    },
+    callId () {
+      return this.gameid + '|' + this.type.id
     }
   },
   mounted () {

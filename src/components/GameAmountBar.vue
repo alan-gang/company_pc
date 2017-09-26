@@ -39,8 +39,12 @@
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
         .ds-checkbox
         | 使用优惠券
-
-      .ds-button.danger.bold(@click="book") 投注
+      
+      .ds-button.danger.bold(@click.self="book") 投注
+        span(v-if="!show")
+          |  起始期：
+          el-select(v-model="nper" style="position: relative; top: -0.01rem")
+            el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
 
 
 
@@ -57,15 +61,24 @@ export default {
     pay: Number,
     // 优惠券
     checked: Boolean,
-    pot: Boolean
+    pot: Boolean,
+    issues: Array,
+    CNPER: String
   },
   data () {
     return {
+      nper: ''
     }
   },
   computed: {
   },
   mounted () {
+    this.nper = (this.issues[0] || {}).issue
+  },
+  watch: {
+    issues () {
+      this.nper = (this.issues[0] || {}).issue
+    }
   },
   methods: {
     showFollow () {
@@ -78,7 +91,7 @@ export default {
       this.$emit('toggle-pot')
     },
     book () {
-      this.$emit('book', this.pot)
+      this.$emit('book', this.pot, this.nper)
     }
   },
   components: {

@@ -289,6 +289,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
+        this.followList()
       },
       cancel () {
         let loading = this.$loading({

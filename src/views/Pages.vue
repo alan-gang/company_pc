@@ -438,7 +438,7 @@ export default {
     moveable: {
       // inserted () {
       // },
-      update (el, binding, vnode) {
+      inserted (el, binding, vnode) {
         let canMove = false
         let wantMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
@@ -513,7 +513,7 @@ export default {
       }
     },
     resizeable: {
-      update (el, binding) {
+      inserted (el, binding) {
         let canResizeX = false
         let canResizeY = false
         let {top, left, width, height} = util.getOffset(el, 0)

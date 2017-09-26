@@ -168,6 +168,11 @@
       all (signal) {
         this.numbers.forEach(n => this.select(n, signal))
       },
+      // 随机选择一个号码
+      __random () {
+        this.clear()
+        this.select(this.numbers[parseInt(Math.random() * this.numbers.length)])
+      },
       small (signal) {
         this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
