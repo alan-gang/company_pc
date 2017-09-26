@@ -116,7 +116,7 @@
           el-table-column(class-name="pr2" label="奖池号" width="100" align="center")
             template(scope="scope")
               div(v-if="!scope.row.last")
-                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolcode }}
+                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolCode }}
                 span.text-grey(v-if="!scope.row.isJoinPool") 未参与
          
           el-table-column(label="状态" width="60")
