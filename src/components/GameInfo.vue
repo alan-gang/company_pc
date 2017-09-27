@@ -42,8 +42,11 @@
 
               el-table-column(prop="totalPrice" label="总金额" width="80")
                 template(scope="scope")
-                  span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
-                  span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+                  span {{ scope.row.totalPrice }}
+
+              el-table-column(class-name="pr2" prop="bonus" label="奖金" width="60" align="right")
+                template(scope="scope")
+                  span {{ scope.row.bonus }}
 
               el-table-column(label="状态" width="70")
                 template(scope="scope")
@@ -51,7 +54,7 @@
               
               el-table-column(label="操作" wdith="50")
                 template(scope="scope")
-                  div(v-if="!scope.row.last")
+                  div
                     .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
 
         
@@ -181,7 +184,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .popover-orderlist
-    width 5.5rem
+    width 6.1rem
     background-color #ff
     border 1px solid #ccc
     shadow(0 0 10px rgba(0,0,0,.3))

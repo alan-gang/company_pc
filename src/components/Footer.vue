@@ -1,5 +1,5 @@
 <template lang="jade">
-  footer
+  footer(ref="myFooter")
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
@@ -174,6 +174,12 @@ export default {
   methods: {
     collapseFooter () {
       this.$emit('collapse-footer')
+      if (this.$refs.myFooter.className.indexOf('collapse-footer') !== -1) {
+        setTimeout(this.getPos, 0)
+        setTimeout(this.getPos, 50)
+        setTimeout(this.getPos, 100)
+        setTimeout(this.getPos, 500)
+      }
     },
     __showPool () {
       this.showPool = true

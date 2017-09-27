@@ -133,7 +133,7 @@ export default {
         // 中奖后停止追号
         stop: true,
         // 追号类型，1-同步，2-翻倍，3-利润率
-        type: 3,
+        type: 1,
         // 翻倍追号倍数
         t: 2,
         // 低收益率
@@ -413,6 +413,7 @@ export default {
           // this.__setCall({fn: '__getFollowList'})
           this.__setCall({fn: '__getUserFund', callId: undefined})
           this.ns = []
+          this.follow.items = []
         } else {
           // this.$message.warning('投注失败！')
           let temp = []

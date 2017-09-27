@@ -189,7 +189,7 @@
                 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              el-col(:span="6")
+              el-col(:span="6" v-if="row.userPoint")
                 动态奖金返点：
                 span.text-black {{ row.userPoint }}
 

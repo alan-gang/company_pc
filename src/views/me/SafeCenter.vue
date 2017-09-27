@@ -533,7 +533,7 @@ export default {
             this.$message.success({target: this.$el, message: message})
             if (!this.me.cashPwd) store.actions.setUser({cashPwd: true})
           } else {
-            this.$message.error({target: this.$el, message: '旧密码错误！'})
+            this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
             this.clearCashPwd()
           }
         }, (rep) => {

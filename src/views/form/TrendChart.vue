@@ -49,23 +49,23 @@
         //           span(:class="[ scope.row.numbers && scope.row.numbers[i + k*12].class ]") {{ scope.row.numbers ? scope.row.numbers[i + k*12].n: 0 }}
 
         el-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName")
-          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="100" align="center" class-name="bg-white")
-          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" width="100" align="center" class-name="bg-white")
+          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="70" align="center" class-name="bg-white")
+          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" width="70" align="center" class-name="bg-white")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" v-bind:class-name=" k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger' ")
-            el-table-column(:resizable=" resizable " align="center" width="30" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
+            el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
               template(scope="scope")
                 div
                   span(:class="{ball: i === parseInt(scope.row.code.split(',')[k]), danger: k % 2 !== 0  }" v-show=" i === parseInt(scope.row.code.split(',')[k]) || shown ") {{ i === parseInt(scope.row.code.split(',')[k]) ? i : scope.row.misseddata[k] && scope.row.misseddata[k]['d' + i] || ''}}
 
         
-        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 200px; top: 70px" v-show="polyline")
+        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 145px; top: 69px" v-show="polyline")
           polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#1a9ff3' : '#ff5f6a' " )
           // polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#89d2ff' : '#ff7f8a' " )
 
         el-table.nopadding.header-bold.has-border(:data="fData" border v-bind:row-class-name="tableRowClassName"  v-bind:show-header="false" style="position: relative; top: -5px;")
-          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="200" align="center")
+          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="140" align="center")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" )
-            el-table-column(:resizable=" resizable " align="center" width="30" v-for="(n, i) in P.numbers" v-bind:label="n+'' ")
+            el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' ")
               template(scope="scope")
                 div
                   span(v-if="!scope.row.total") {{ scope.row.numbers ? scope.row.numbers[k*12 + i].n || '' : '' }}
@@ -278,7 +278,10 @@ export default {
           this.myData.forEach((d, j) => {
             d.code.split(',').forEach((s, i) => {
               !this.lines[i] && (this.lines[i] = '')
-              this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+              // width height 30*30
+              // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+              // width height 25*25
+              this.lines[i] += 24.46 * (parseInt(s) + 12.18 * i + 1.1) + ',' + (30.9 * j + 15) + ' '
               // 总出现
               // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
               // if (i === 1) {
@@ -351,6 +354,8 @@ export default {
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   H = 1rem
+  .el-table
+    font-size .1rem
   .scroll-content
     overflow-x auto
     top TH * 4
@@ -364,7 +369,6 @@ export default {
   .trend-chart
     padding 0 PWX 
     text-align center
-    
     .chart
       // min-width 14.4rem
       .el-row

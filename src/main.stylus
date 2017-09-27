@@ -102,11 +102,11 @@ input
   .cell
     .ball
       display inline-block
-      width .24rem
-      height .24rem
+      width .2rem
+      height .2rem
       background-color BLUE
       color #fff
-      line-height .24rem
+      line-height .2rem
       radius(50%)
       &.danger
         background-color DANGER
