@@ -697,6 +697,7 @@ export default {
     },
     loginSuccess (data) {
       this.__setCall({fn: '__getUserFund', callId: undefined})
+      this.getUserPrefence()
       this.setUser({login: true,
         name: data.nickName,
         pwd: data.hasLogPwd === '1',
@@ -834,6 +835,9 @@ export default {
     },
     __logoutChat () {
       window.accessAngular.close('您已退出聊天系统！')
+    },
+    __getUserPrefence () {
+      this.getUserPrefence()
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence () {

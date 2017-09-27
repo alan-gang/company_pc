@@ -78,6 +78,7 @@
     methods: {
       loginSuccess (data) {
         this.__setCall({fn: '__getUserFund', callId: undefined})
+        this.__setCall({fn: '__getUserPrefence', callId: undefined})
         this.$emit('update-user', {login: true,
           name: data.nickName,
           pwd: data.hasLogPwd === '1',
