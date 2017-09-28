@@ -695,34 +695,41 @@ export default {
       }).finally(() => {
       })
     },
+    __loginSuccess (data) {
+      this.loginSuccess(data)
+    },
     loginSuccess (data) {
-      this.__setCall({fn: '__getUserFund', callId: undefined})
-      this.getUserPrefence()
-      this.setUser({login: true,
-        name: data.nickName,
-        pwd: data.hasLogPwd === '1',
-        cashPwd: data.hasSecurityPwd === '1',
-        type: data.identity,
-        account: data.userName,
-        shareCycle: data.shareCycle,
-        role: data.roleId,
-        hasBankCard: data.hasBankCard === '1',
-        guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-        cbsafe: !!data.isOpenKey,
-        safeCheck: data.verifyType
+      // this.__setCall({fn: '__getUserFund', callId: undefined})
+      // setTimeout(this.getUserPrefence, 1000)
+      this.getUserPrefence(() => {
+        // this.getUserPrefence()
+        this.__getUserFund()
+        this.setUser({login: true,
+          name: data.nickName,
+          pwd: data.hasLogPwd === '1',
+          cashPwd: data.hasSecurityPwd === '1',
+          type: data.identity,
+          account: data.userName,
+          shareCycle: data.shareCycle,
+          role: data.roleId,
+          hasBankCard: data.hasBankCard === '1',
+          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          cbsafe: !!data.isOpenKey,
+          safeCheck: data.verifyType
+        })
+        // this.$router.push('/')
+        this.$router.push('/help/6-2-1')
+        window.accessAngular.setUser({
+          id: data.userId,
+          key: data.token,
+          pltCd: data.platId,
+          socketUrl: data.platUrl
+        })
+        window.accessAngular.isStranger(false)
+        // window.accessAngular.connect()
+        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        window.localStorage.setItem('api', api.api)
       })
-      // this.$router.push('/')
-      this.$router.push('/help/6-2-1')
-      window.accessAngular.setUser({
-        id: data.userId,
-        key: data.token,
-        pltCd: data.platId,
-        socketUrl: data.platUrl
-      })
-      window.accessAngular.isStranger(false)
-      // window.accessAngular.connect()
-      setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
-      window.localStorage.setItem('api', api.api)
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -786,11 +793,13 @@ export default {
       }, [])
     },
     openTab (url, same) {
+      // console.log('openTab', url)
       // console.log(this.$route.params.url === url, url, '|||||')
       if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
+      // console.log('openAnotherPage', url)
       if (this.tabs.length < this.maxPages || this.loop || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
       // else {
       //   this.$modal.warn({
@@ -800,6 +809,7 @@ export default {
       // }
     },
     closeTab (url, nurl) {
+      // console.log('closeTab', url)
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
@@ -840,7 +850,15 @@ export default {
       this.getUserPrefence()
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
-    getUserPrefence () {
+    getUserPrefence (fn) {
+      let M = this.$modal.warn({
+        content: '获取权限信息中...',
+        btn: [],
+        close () {
+          M = null
+        },
+        O: this
+      })
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
         if (data.success === 1) {
@@ -862,9 +880,12 @@ export default {
             //   store.actions.updatePage(d.menuId + '', {desk: true})
             // })
           })
+          typeof fn === 'function' && fn()
+          M._close()
         }
       }, (rep) => {
         // error
+        M._close()
       })
     },
     // 6、用户资金信息  ALL

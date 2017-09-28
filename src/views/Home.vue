@@ -89,11 +89,12 @@ export default {
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
+    // 如果需要保持原桌面
     if (!this.$route.query.keep || !this.me.collects[0]) {
       this.getUserPrefence()
-      setTimeout(() => {
-        this.$emit('get-menus')
-      }, 1000)
+      // setTimeout(() => {
+      //   this.$emit('get-menus')
+      // }, 1000)
     } else this.collects = this.me.collects
     this.switchI()
     this.__setCall({fn: '__showPool', callId: undefined})

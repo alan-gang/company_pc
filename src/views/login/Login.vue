@@ -77,33 +77,36 @@
     },
     methods: {
       loginSuccess (data) {
-        this.__setCall({fn: '__getUserFund', callId: undefined})
-        this.__setCall({fn: '__getUserPrefence', callId: undefined})
-        this.$emit('update-user', {login: true,
-          name: data.nickName,
-          pwd: data.hasLogPwd === '1',
-          cashPwd: data.hasSecurityPwd === '1',
-          type: data.identity,
-          account: data.userName,
-          shareCycle: data.shareCycle,
-          role: data.roleId,
-          hasBankCard: data.hasBankCard === '1',
-          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-          cbsafe: !!data.isOpenKey,
-          safeCheck: data.verifyType,
-          isVip: data.isVip === '1'
-        })
-        this.$router.push('/help/6-2-1')
-        window.accessAngular.setUser({
-          id: data.userId,
-          key: data.token,
-          pltCd: data.platId,
-          socketUrl: data.platUrl
-        })
-        window.accessAngular.isStranger(false)
-        // window.accessAngular.connect()
-        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
-        window.localStorage.setItem('api', api.api)
+        // call app.vue loginsuccess
+        this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
+
+        // this.__setCall({fn: '__getUserFund', callId: undefined})
+        // this.__setCall({fn: '__getUserPrefence', callId: undefined})
+        // this.$emit('update-user', {login: true,
+        //   name: data.nickName,
+        //   pwd: data.hasLogPwd === '1',
+        //   cashPwd: data.hasSecurityPwd === '1',
+        //   type: data.identity,
+        //   account: data.userName,
+        //   shareCycle: data.shareCycle,
+        //   role: data.roleId,
+        //   hasBankCard: data.hasBankCard === '1',
+        //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+        //   cbsafe: !!data.isOpenKey,
+        //   safeCheck: data.verifyType,
+        //   isVip: data.isVip === '1'
+        // })
+        // this.$router.push('/help/6-2-1')
+        // window.accessAngular.setUser({
+        //   id: data.userId,
+        //   key: data.token,
+        //   pltCd: data.platId,
+        //   socketUrl: data.platUrl
+        // })
+        // window.accessAngular.isStranger(false)
+        // // window.accessAngular.connect()
+        // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        // window.localStorage.setItem('api', api.api)
       },
       login () {
         if (this.hasEmpty()) {

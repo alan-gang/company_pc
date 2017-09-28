@@ -450,8 +450,9 @@ export default {
         let dy = 0
         util.addEvent('click', target, (evt) => {
           if (wantMove) {
-            evt.preventDefault()
-            evt.stopPropagation()
+            // 移动时， 窗口不上浮为当前活动窗口
+            // evt.preventDefault()
+            // evt.stopPropagation()
             wantMove = false
           }
         })
@@ -525,12 +526,14 @@ export default {
         let dx = 0
         let dy = 0
         util.addEvent('click', targetX, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
+          // 窗口不上浮为当前活动窗口
+          // evt.preventDefault()
+          // evt.stopPropagation()
         })
         util.addEvent('click', targetY, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
+          // 窗口不上浮为当前活动窗口
+          // evt.preventDefault()
+          // evt.stopPropagation()
         })
         // X
         util.addEvent('mousedown', targetX, (evt) => {
