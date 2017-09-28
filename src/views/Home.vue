@@ -209,6 +209,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
+  @import '../path.stylus'
   WW = 7rem
   WH = 5rem
   IH = .36rem

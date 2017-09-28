@@ -1,7 +1,7 @@
 <template lang="jade">
   el-row.game-info
 
-    el-col.left(:span="18")
+    el-col.left(:span="19")
       span.title {{ CNPER }}
       | &nbsp;&nbsp;期
       span.ds-icon-clock {{ showTime }}
@@ -21,7 +21,7 @@
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
       .ds-button.outline(style="margin-left: .05rem;padding: 0 .15rem" @click="__setCall({fn: '__random'})") 机选
 
-    el-col.right(:span="6")
+    el-col.right(:span="5")
       el-button-group.right
         router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
 
