@@ -128,6 +128,7 @@
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
         
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -214,7 +215,7 @@
 
             p.textarea-label
               span.label 投注内容：
-              el-input.font-12(disabled v-model="row.code" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+              el-input.font-12(disabled v-model=" codePosition " type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
 
             p 可能中奖的情况：
             
@@ -325,6 +326,9 @@
     computed: {
       textMoney () {
         return digitUppercase(this.money)
+      },
+      codePosition () {
+        return this.row.code + '[' + this.row.position + ']'
       }
       // Cdata () {
       //   // if (this.data.length <= this.pageSize) return this.data
@@ -355,6 +359,27 @@
       this.Orderlist()
     },
     methods: {
+      callPrint (row) {
+        this.__setCall({
+          fn: '__print',
+          args: {
+            '注单编号': row.projectId,
+            '用户': row.userName,
+            '投注时间': row.writeTime,
+            '游戏': row.lotteryName,
+            '玩法': row.methodName,
+            '期号': row.issue,
+            // '投注内容': row.code,
+            // '投注位置': row.position,
+            '投注内容': row.code + '[' + row.position + ']',
+            '倍数': row.multiple,
+            '模式': row.modes,
+            '总金额': row.totalPrice,
+            '奖金': row.bonus,
+            '开奖号码': row.prizeCode
+          }
+        })
+      },
       openRoute ({path, query: {gameid}}) {
         if (path !== '/form/4-1-1') return false
         if (gameid && gameid !== this.gameid) {

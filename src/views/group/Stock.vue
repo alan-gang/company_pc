@@ -14,8 +14,8 @@
           .ds-button-group(v-if="me.role > 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
-        label.item 契约生效时间范围 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+        label.item 分红发放日期范围 
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
         // label.item 契约结束时间从 
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
@@ -60,27 +60,27 @@
 
         el-table.header-bold.nopadding(:data="topBonuList" max-height="400" v-on:expand="expand" v-show=" (type === 0 && me.role < 4)")
 
-          el-table-column(type="expand")
-            template(scope="scope")
-              el-table.header-bold.nopadding(:data="topDetailList")
-                el-table-column(prop="creatTime" label="创建日期" width="140" )
-                el-table-column(prop="times" label="发放日期" width="140" )
-                // el-table-column(prop="startDate" label="分红开始日期" width="140" )
-                // el-table-column(prop="endDate" label="分红结束日期" width="140" )
-                el-table-column(prop="relatName" label="关联用户" width="80" )
-                // el-table-column(prop="conBeginTm" label="契约开始日期" width="140" )
-                // el-table-column(prop="conExPireTm" label="契约过期日期" width="140" )
-                el-table-column(prop="bonusRate" label="分红比率" width="80" )
-                el-table-column(prop="saleAmount" label="销售金额" width="100" )
-                el-table-column(prop="profitAmoun" label="盈亏金额" width="100" )
-                el-table-column(prop="bonusBook" label="理论分红" width="100" )
-                el-table-column(prop="bonus" label="实际分红" width="100" )
-                el-table-column(prop="" label="状态" align="center" width="80")
-                   template(scope="scope")
-                    span(:class="{ 'text-green': scope.row.isDone > 0, 'text-blue': scope.row.isDone < 1 }") {{ ['未发放', '已发放'][scope.row.isDone]}}
-                el-table-column(prop="userpoint" label="操作" align="center")
-                    template(scope="scope")
-                      .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goContractDetail(scope.row.contractId)") 查看契约详情
+          // el-table-column(type="expand")
+          //   template(scope="scope")
+          //     el-table.header-bold.nopadding(:data="topDetailList")
+          //       el-table-column(prop="creatTime" label="创建日期" width="140" )
+          //       el-table-column(prop="times" label="发放日期" width="140" )
+          //       // el-table-column(prop="startDate" label="分红开始日期" width="140" )
+          //       // el-table-column(prop="endDate" label="分红结束日期" width="140" )
+          //       el-table-column(prop="relatName" label="关联用户" width="80" )
+          //       // el-table-column(prop="conBeginTm" label="契约开始日期" width="140" )
+          //       // el-table-column(prop="conExPireTm" label="契约过期日期" width="140" )
+          //       el-table-column(prop="bonusRate" label="分红比率" width="80" )
+          //       el-table-column(prop="saleAmount" label="销售金额" width="100" )
+          //       el-table-column(prop="profitAmoun" label="盈亏金额" width="100" )
+          //       el-table-column(prop="bonusBook" label="理论分红" width="100" )
+          //       el-table-column(prop="bonus" label="实际分红" width="100" )
+          //       el-table-column(prop="" label="状态" align="center" width="80")
+          //          template(scope="scope")
+          //           span(:class="{ 'text-green': scope.row.isDone > 0, 'text-blue': scope.row.isDone < 1 }") {{ ['未发放', '已发放'][scope.row.isDone]}}
+          //       el-table-column(prop="userpoint" label="操作" align="center")
+          //           template(scope="scope")
+          //             .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goContractDetail(scope.row.contractId)") 查看契约详情
 
           el-table-column(prop="issue" label="期号" width="140")
           el-table-column(prop="date" label="理论发放日期" width="140" )
@@ -112,7 +112,7 @@
 <script>
   import api from '../../http/api'
   import store from '../../store'
-  import { dateTimeFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   export default {
     data () {
       return {
@@ -213,7 +213,7 @@
         handler () {
           if (!this.stEt) this.stEt = this.defaultStEt
           if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+            this.stEt[1] = dateFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       }
@@ -269,11 +269,11 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(this.apiBonus, {
-          startDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
-          // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.stEt[0] ? dateFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          endDate: this.stEt[1] ? dateFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+          // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           status: this.s.id || ''
         }).then(({data}) => {
           // success

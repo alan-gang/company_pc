@@ -18,6 +18,9 @@
       dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
       
     // Chat
+    // Print
+    Print(:data="printData" v-if="showPrint")
+
 
 </template>
 
@@ -25,6 +28,7 @@
 // import util from './util'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
+import Print from './components/Print'
 // import Chat from './components/Chat'
 import base from './components/base'
 import store from './store'
@@ -35,6 +39,8 @@ export default {
   mixins: [base],
   data () {
     return {
+      showPrint: false,
+      printData: {},
       collapseFooter: false,
       // skin: 'day',
       loop: true,
@@ -668,6 +674,14 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    __print (data) {
+      this.printData = data
+      this.showPrint = true
+    },
+    __unprint () {
+      this.printData = {}
+      this.showPrint = false
+    },
     tryLogin () {
       let M = this.$modal.warn({
         content: '授权登录中...',
@@ -810,12 +824,13 @@ export default {
     },
     closeTab (url, nurl) {
       // console.log('closeTab', url)
+      // console.log(this.tabs.length, nurl, this.prev)
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
         if (nurl && nurl !== '/') {
           this.openTab(nurl)
-        } else if (this.tabs.length === 0) {
+        } else if (this.tabs.length === 0 || this.prev.href === '/') {
           setTimeout(() => {
             this.$router.push({
               path: '/',
@@ -825,7 +840,7 @@ export default {
             })
           }, 100)
         } else {
-          this.prev.href !== '/' && this.openTab(this.prev.href)
+          this.openTab(this.prev.href)
         }
       })
     },
@@ -869,6 +884,7 @@ export default {
             if (!this.state.pages.find(x => x.id === t.id)) {
               this.tabs.splice(i, 1)
             } else {
+              console.log(t.id)
               this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
             }
           })
@@ -902,7 +918,8 @@ export default {
   },
   components: {
     dsHeader,
-    dsFooter
+    dsFooter,
+    Print
     // Chat
   }
 }

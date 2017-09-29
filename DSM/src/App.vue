@@ -658,32 +658,41 @@ export default {
       }).finally(() => {
       })
     },
+    __loginSuccess (data) {
+      this.loginSuccess(data)
+    },
     loginSuccess (data) {
-      this.__setCall({fn: '__getUserFund', callId: undefined})
-      this.getUserPrefence()
-      this.setUser({login: true,
-        name: data.nickName,
-        pwd: data.hasLogPwd === '1',
-        cashPwd: data.hasSecurityPwd === '1',
-        type: data.identity,
-        account: data.userName,
-        shareCycle: data.shareCycle,
-        role: data.roleId,
-        hasBankCard: data.hasBankCard === '1',
-        guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-        cbsafe: !!data.isOpenKey,
-        safeCheck: data.verifyType
+      // this.__setCall({fn: '__getUserFund', callId: undefined})
+      // setTimeout(this.getUserPrefence, 1000)
+      this.getUserPrefence(() => {
+        // this.getUserPrefence()
+        this.__getUserFund()
+        this.setUser({login: true,
+          name: data.nickName,
+          pwd: data.hasLogPwd === '1',
+          cashPwd: data.hasSecurityPwd === '1',
+          type: data.identity,
+          account: data.userName,
+          shareCycle: data.shareCycle,
+          role: data.roleId,
+          hasBankCard: data.hasBankCard === '1',
+          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          cbsafe: !!data.isOpenKey,
+          safeCheck: data.verifyType
+        })
+        // this.$router.push('/')
+        this.$router.push('/help/6-2-1')
+        window.accessAngular.setUser({
+          id: data.userId,
+          key: data.token,
+          pltCd: data.platId,
+          socketUrl: data.platUrl
+        })
+        window.accessAngular.isStranger(false)
+        // window.accessAngular.connect()
+        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        window.localStorage.setItem('api', api.api)
       })
-      // this.$router.push('/')
-      window.accessAngular.setUser({
-        id: data.userId,
-        key: data.token,
-        pltCd: data.platId,
-        socketUrl: data.platUrl
-      })
-      window.accessAngular.isStranger(false)
-      // window.accessAngular.connect()
-      setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -800,12 +809,29 @@ export default {
       window.accessAngular.close('您已退出聊天系统！')
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
-    getUserPrefence () {
+    getUserPrefence (fn) {
+      let M = this.$modal.warn({
+        content: '获取权限信息中...',
+        btn: [],
+        close () {
+          M = null
+        },
+        O: this
+      })
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
-          this._getPages()
+          this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
+          this.setPages(this._getPages())
+          this.tabs.forEach((t, i) => {
+            if (!this.state.pages.find(x => x.id === t.id)) {
+              this.tabs.splice(i, 1)
+            } else {
+              console.log(t.id)
+              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+            }
+          })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})
@@ -814,9 +840,12 @@ export default {
             //   store.actions.updatePage(d.menuId + '', {desk: true})
             // })
           })
+          typeof fn === 'function' && fn()
+          M._close()
         }
       }, (rep) => {
         // error
+        M._close()
       })
     },
     // 6、用户资金信息  ALL

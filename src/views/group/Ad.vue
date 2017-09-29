@@ -113,7 +113,7 @@
             this.url = data.url
             this.p = (data.autoPoint <= data.range.min ? data.range.min : data.autoPoint >= data.range.max ? data.range.max : data.autoPoint).toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {
-              if (i !== data.range.min) this.PS.push((Math.floor(i * 10) / 10).toFixed(1))
+              if (i !== data.range.min) this.PS.push((Math.round(i * 10) / 10).toFixed(1))
               else this.PS.push(i)
             }
             if (this.PS.length > 0 && (parseFloat(this.PS[this.PS.length - 1]) < data.range.max)) this.PS.push(data.range.max)

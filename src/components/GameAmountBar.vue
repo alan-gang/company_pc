@@ -39,12 +39,16 @@
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
         .ds-checkbox
         | 使用优惠券
-      
+
+      lable(style="display: inline-block") 起始期：
+        el-select(v-model="nper" style="position: relative; top: -0.01rem")
+          el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
+
       .ds-button.danger.bold(@click.self="book") 投注
-        span(v-if="!show")
-          |  起始期：
-          el-select(v-model="nper" style="position: relative; top: -0.01rem")
-            el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
+        // span(v-if="!show")
+        //   |  起始期：
+        //   el-select(v-model="nper" style="position: relative; top: -0.01rem")
+        //     el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
 
 
 

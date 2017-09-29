@@ -274,7 +274,7 @@ export default {
           if (!this.me.cashPwd) store.actions.setUser({cashPwd: true})
           this.step++
         } else {
-          // this.$message.error({target: this.$el, message: '旧密码错误！'})
+          this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
           this.clearPwd()
         }
       }, (rep) => {

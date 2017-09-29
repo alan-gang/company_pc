@@ -56,6 +56,8 @@
                 template(scope="scope")
                   div
                     .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
+                    .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
+
 
         
 </template>
@@ -129,6 +131,28 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    callPrint (row) {
+      this.__setCall({
+        fn: '__print',
+        args: {
+          '注单编号': row.projectId,
+          '用户': row.userName,
+          '投注时间': row.writeTime,
+          '游戏': row.lotteryName,
+          '玩法': row.methodName,
+          '期号': row.issue,
+          // '投注内容': row.code,
+          // '投注位置': row.position,
+          '投注内容': row.code + '[' + row.position + ']',
+          '倍数': row.multiple,
+          '模式': row.modes,
+          '总金额': row.totalPrice,
+          '奖金': row.bonus,
+          '开奖号码': row.prizeCode
+        },
+        callId: undefined
+      })
+    },
     ableRowClassName (row, index) {
       if (row.selected) return 'selected-row'
     },
