@@ -37,7 +37,7 @@
           el-table-column(prop="userName" label="" width="100")
           el-table-column(prop="day" label="" width="100")
           el-table-column(prop="userPoint" label="" width="80" )
-            
+          el-table-column(prop="salaryAmount" width="100" )
           el-table-column(prop="totalSsave" label="" width="100" )
           el-table-column(prop="totalWithdraw" label="" width="100" )
             template(scope="scope")

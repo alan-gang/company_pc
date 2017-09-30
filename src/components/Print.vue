@@ -10,7 +10,8 @@
         .content
           iframe(ref="frame" style="border: none; height: 600px; width: 100%")
             .frame-content(ref="frameContent")
-              p(style="line-height: 25px; min-width: 36px; padding-left: 75px; margin: 0 0 15px 0; color: #000" v-for=" (v, k, i) in data ")
+              title 打印订单
+              p(style="line-height: 25px; min-width: 36px; padding-left: 80px; margin: 0 0 15px 0; color: #000; word-break: break-all;" v-for=" (v, k, i) in data ")
                 span(style="position: absolute; left: 2px; ") {{ k }}：
                 {{ v || '暂无' }}
           .buttons(style="margin-bottom: .3rem")
@@ -36,6 +37,7 @@
     },
     methods: {
       print () {
+        // this.$refs.frame.contentWindow.location.href = 'about:blank'
         this.$refs.frame.contentWindow.print()
       }
     }

@@ -830,7 +830,7 @@ export default {
         // after close open the pre one
         if (nurl && nurl !== '/') {
           this.openTab(nurl)
-        } else if (this.tabs.length === 0 || this.prev.href === '/') {
+        } else if (this.tabs.length === 0) {
           setTimeout(() => {
             this.$router.push({
               path: '/',

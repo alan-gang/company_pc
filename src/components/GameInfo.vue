@@ -135,20 +135,20 @@ export default {
       this.__setCall({
         fn: '__print',
         args: {
-          '注单编号': row.projectId,
-          '用户': row.userName,
+          // '注单编号': row.projectId,
+          // '用户': row.userName,
           '投注时间': row.writeTime,
           '游戏': row.lotteryName,
           '玩法': row.methodName,
           '期号': row.issue,
           // '投注内容': row.code,
           // '投注位置': row.position,
-          '投注内容': row.code + '[' + row.position + ']',
-          '倍数': row.multiple,
-          '模式': row.modes,
-          '总金额': row.totalPrice,
-          '奖金': row.bonus,
-          '开奖号码': row.prizeCode
+          '投注内容': row.code + (row.position ? '[' + row.position + ']' : ''),
+          // '倍数': row.multiple,
+          // '模式': row.modes,
+          '总金额': row.totalPrice
+          // '奖金': row.bonus,
+          // '开奖号码': row.prizeCode
         },
         callId: undefined
       })
