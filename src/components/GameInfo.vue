@@ -19,7 +19,7 @@
 
       
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
-      .ds-button.outline(style="margin-left: .05rem;padding: 0 .15rem" @click="__setCall({fn: '__random'})") 机选
+      .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="__setCall({fn: '__random', args: {}})") 机选
 
     el-col.right(:span="5")
       el-button-group.right
@@ -65,13 +65,15 @@
 <script>
 import util from '../util'
 import api from '../http/api'
+import M from '../util/M'
 export default {
   props: {
     // NPER: Number,
     CNPER: String,
     timeout: Number,
     type: Object,
-    gameid: Number
+    gameid: Number,
+    gameType: String
     // title: String
   },
   data () {
@@ -84,6 +86,12 @@ export default {
     }
   },
   computed: {
+    idType () {
+      return this.gameType === 'SSL' ? '-' + this.gameType : ''
+    },
+    methodidtype () {
+      return M[this.type.id + this.idType].split(':')[1]
+    },
     showTime () {
       return util.timeFormat(this.time)
     },
@@ -146,7 +154,7 @@ export default {
           '投注内容': row.code + (row.position ? '[' + row.position + ']' : ''),
           // '倍数': row.multiple,
           // '模式': row.modes,
-          '总金额': row.totalPrice
+          '总金额': row.totalPrice + '元'
           // '奖金': row.bonus,
           // '开奖号码': row.prizeCode
         },

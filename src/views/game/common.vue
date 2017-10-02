@@ -13,7 +13,7 @@
       <!-- 开奖信息 -->
       GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
       <!-- 游戏信息 -->
-      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
+      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="!scrollAtBottom")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -237,26 +237,26 @@ export default {
       }
     },
     // 如果当前奖期改变，那么提示已投注的期数直接过渡到下期
-    // CNPER (n, o) {
-    //   if (this.ns.length > 0) {
-    //     if (!this.notify) {
-    //       this.notify = this.$modal.question({
-    //         content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
-    //         btn: ['转到当前期', '清空投注'],
-    //         target: this.$el,
-    //         cancel () {
-    //           this.ns = []
-    //         },
-    //         close () {
-    //           this.notify = null
-    //         },
-    //         O: this
-    //       })
-    //     } else {
-    //       this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
-    //     }
-    //   }
-    // },
+    CNPER (n, o) {
+      if (this.ns.length > 0) {
+        if (!this.notify) {
+          this.notify = this.$modal.question({
+            content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
+            btn: ['转到当前期', '清空投注'],
+            target: this.$el,
+            cancel () {
+              this.ns = []
+            },
+            close () {
+              this.notify = null
+            },
+            O: this
+          })
+        } else {
+          this.notify.content = '<div class="text-666" style="line-height: .3rem;">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>'
+        }
+      }
+    },
     'follow.show' () {
       if (this.follow.show) this.__getTraceIssueList()
     }

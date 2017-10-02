@@ -53,7 +53,7 @@
 
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
-          .ds-button.cancel.large(@click="clear") 清空
+          .ds-button.cancel.large(@click="clear(true)") 清空
 
         el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
@@ -374,7 +374,7 @@
             '投注内容': row.code + (row.position ? '[' + row.position + ']' : ''),
             // '倍数': row.multiple,
             // '模式': row.modes,
-            '总金额': row.totalPrice
+            '总金额': row.totalPrice + '元'
             // '奖金': row.bonus,
             // '开奖号码': row.prizeCode
           },
@@ -438,7 +438,7 @@
           this.currentPage = cp
         })
       },
-      clear () {
+      clear (a) {
         // this.st = ''
         // this.et = ''
         this.stEt = this.defaultStEt
@@ -451,7 +451,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
-        this.Orderlist()
+        a && this.Orderlist()
       },
       cancel () {
         let loading = this.$loading({

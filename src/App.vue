@@ -884,7 +884,7 @@ export default {
             if (!this.state.pages.find(x => x.id === t.id)) {
               this.tabs.splice(i, 1)
             } else {
-              console.log(t.id)
+              // console.log(t.id)
               this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
             }
           })

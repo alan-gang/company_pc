@@ -21,7 +21,7 @@
   import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
   export default {
-    props: ['row', 'titleSpan', 'gameid'],
+    props: ['row', 'rowIndex', 'titleSpan', 'gameid'],
     data () {
       return {
         // 显示遗漏号码
@@ -169,9 +169,13 @@
         this.numbers.forEach(n => this.select(n, signal))
       },
       // 随机选择一个号码
-      __random () {
-        this.clear()
-        this.select(this.numbers[parseInt(Math.random() * this.numbers.length)])
+      __random ({continuee, rowIndex}) {
+        if (!continuee) this.clear()
+        if (rowIndex === undefined || this.rowIndex === rowIndex) {
+          setTimeout(() => {
+            this.toggle(this.numbers[parseInt(Math.random() * this.numbers.length)])
+          }, 50 * this.rowIndex)
+        }
       },
       small (signal) {
         this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))

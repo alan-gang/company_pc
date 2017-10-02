@@ -61,7 +61,7 @@
         times: 1,
         xtimes: 2,
         get: 50,
-        tabIndex: 3,
+        tabIndex: 1,
         selection: []
       }
     },

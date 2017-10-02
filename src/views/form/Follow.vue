@@ -53,7 +53,7 @@
 
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="followList()") 搜索
-          .ds-button.cancel.large(@click="clear") 清空
+          .ds-button.cancel.large(@click="clear(true)") 清空
 
         el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
@@ -276,7 +276,7 @@
           this.currentPage = cp
         })
       },
-      clear () {
+      clear (a) {
         // this.st = ''
         // this.et = ''
         this.stEt = this.defaultStEt
@@ -289,7 +289,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
-        this.followList()
+        a && this.followList()
       },
       cancel () {
         let loading = this.$loading({

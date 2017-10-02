@@ -62,7 +62,7 @@
 
         .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="list") 搜索
-          .ds-button.cancel.large(@click="clear") 清空
+          .ds-button.cancel.large(@click="clear(true)") 清空
 
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected"  style="margin-top: .1rem")
 
@@ -330,7 +330,7 @@
           this.currentPage = cp
         })
       },
-      clear () {
+      clear (a) {
         // this.st = ''
         // this.et = ''
         this.isFree = ''
@@ -343,7 +343,7 @@
         this.zone = ''
         this.type = []
         this.query = ''
-        this.list()
+        a && this.list()
       },
       cancel () {
         let loading = this.$loading({

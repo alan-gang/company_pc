@@ -28,12 +28,12 @@ let dateTimeFormat = (time) => {
   return date.getFullYear() + '-' + padStart(date.getMonth() + 1, 2, 0) + '-' + padStart(date.getDate(), 2, 0) + ' ' + padStart(date.getHours(), 2, 0) + ':' + padStart(date.getMinutes(), 2, 0) + ':' + padStart(date.getSeconds(), 2, 0)
 }
 //170202
-let dateFormat = (time, six) => {
+let dateFormat = (time, six, splitor) => {
   if (typeof time !== 'number') {
     return time
   }
   let date = new Date(time)
-  return (six ? (date.getFullYear() + '').slice(2) : date.getFullYear()) + '-' + padStart(date.getMonth() + 1, 2, 0) + '-' + padStart(date.getDate(), 2, 0) 
+  return (six ? (date.getFullYear() + '').slice(2) : date.getFullYear()) + (splitor || '-') + padStart(date.getMonth() + 1, 2, 0) + (splitor || '-') + padStart(date.getDate(), 2, 0) 
 }
 module.exports = {
   timeFormat,

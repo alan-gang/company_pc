@@ -10,10 +10,13 @@
         .content
           iframe(ref="frame" style="border: none; height: 600px; width: 100%")
             .frame-content(ref="frameContent")
-              title 打印订单
-              p(style="line-height: 25px; min-width: 36px; padding-left: 80px; margin: 0 0 15px 0; color: #000; word-break: break-all;" v-for=" (v, k, i) in data ")
-                span(style="position: absolute; left: 2px; ") {{ k }}：
-                {{ v || '暂无' }}
+              title 订单打印
+              p {{ d }}
+                span(style="float: right;margin-right: 30px;") 订单打印
+              div(style="padding: 15px 30px;")
+                p(style="position: relative; line-height: 25px; min-width: 100px; padding-left: 100px; margin: 0 0 15px 0; color: #333; word-break: break-all;" v-for=" (v, k, i) in data ")
+                  span(style="position: absolute; left: 2px; font-weight: bold;") {{ k }}：
+                  {{ v || '暂无' }}
           .buttons(style="margin-bottom: .3rem")
             .ds-button.primary.full(@click="print") 打印
 
@@ -21,12 +24,18 @@
 
 <script>
   import Modal from 'components/Modal'
+  import { dateFormat } from '../util/Date'
   export default {
     name: 'Print',
     props: ['data'],
     components: [
       Modal
     ],
+    data () {
+      return {
+        d: dateFormat((new Date()).getTime(), null, '/')
+      }
+    },
     computed: {
       dataArray () {
         // return Object.entries(this.data)

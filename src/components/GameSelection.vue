@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection
     transition-group(name="slide" appear=true tag="div")
-      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
+      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
 
     transition(name="slide-down" appear=true)
       .f(v-if="rows.length === 0")
@@ -478,6 +478,18 @@
       this.$emit('set-ps', this.ps)
     },
     methods: {
+      // 随机选择一个号码
+      __random ({continuee}) {
+        if (!continuee) {
+          let t = setInterval(() => {
+            if (this.n === 0) {
+              let m = Math.min.apply(Math, this.nsl)
+              let i = this.nsl.lastIndexOf(m)
+              this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i}})
+            } else clearInterval(t)
+          }, 500)
+        }
+      },
       __clearValue () {
         this.V = ''
         this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = '')
