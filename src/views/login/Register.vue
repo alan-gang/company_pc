@@ -139,7 +139,7 @@
   W = 2.7rem
   H = 1.8rem
   .login-register
-    background url(../../assets/banner.png) 55% top no-repeat
+    background url(../../assets/banner.png) 48.2% .53rem no-repeat
     padding-top 4rem
     position relative
     top -1.5rem

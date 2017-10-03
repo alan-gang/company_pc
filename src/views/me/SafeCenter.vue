@@ -377,11 +377,13 @@ export default {
     newCashPwdAgain () {
       this.newPwdAgain = this.newPwdAgain.trim()
     },
-    q1 () {
+    q1 (n, o) {
       this.q1 && (this.q1.disabled = true)
+      if (o) o.disabled = false
     },
-    q2 () {
+    q2 (n, o) {
       this.q2 && (this.q2.disabled = true)
+      if (o) o.disabled = false
     },
     a1_ () {
       this.a1_ = this.a1_.trim()

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import { dateTimeFormat, dateFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
@@ -74,7 +74,7 @@
             return time.getTime() > Date.now() || time.getTime() < (Date.now() - 3600 * 1000 * 24 * 30)
           }
         },
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 1), dateTimeFormat(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 1), new Date(new Date().getTime())],
         data: [{}],
         pageSize: 20,
         total: 0,
@@ -100,8 +100,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.daySalaryRepor, {
-          startDate: dateFormat(new Date(this.stEt[0]).getTime()).replace(/[-]/g, ''),
-          endDate: dateFormat(new Date(this.stEt[1]).getTime()).replace(/[-]/g, ''),
+          startDate: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDate: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
           page: page !== undefined ? page : this.currentPage,
           pageSize: this.pageSize
         }).then(({data}) => {

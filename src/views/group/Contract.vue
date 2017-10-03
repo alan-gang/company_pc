@@ -344,8 +344,8 @@
         deep: true,
         handler () {
           if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+            this.stEt[1] = dateTimeFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       }
@@ -367,9 +367,9 @@
         }, 10000, '加载超时...')
         this.$http.get(this.type === 0 ? api.queryMyContract : api.mySubContract, {
           // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          startDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
           // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+          endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
           // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
           // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           status: this.s.id || ''
@@ -420,8 +420,8 @@
           })
         }
         this.$http.post(api.createContract, {
-          beginTm: dateTimeFormat(new Date(this.stEtA[0]).getTime()).replace(/[\s:-]*/g, ''),
-          expireTm: dateTimeFormat(new Date(this.stEtA[1]).getTime()).replace(/[\s:-]*/g, ''),
+          beginTm: dateTimeFormat((window.newDate(this.stEtA[0])).getTime()).replace(/[\s:-]*/g, ''),
+          expireTm: dateTimeFormat((window.newDate(this.stEtA[1])).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
           // sharecycle: this.AT,

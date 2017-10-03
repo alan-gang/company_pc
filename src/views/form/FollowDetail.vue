@@ -8,7 +8,7 @@
     div.info
       el-row
         el-col(:span="6")
-          注单编号：
+          追号编号：
           span.text-black {{ detail.taskId }}
         el-col(:span="6")
           游戏用户：

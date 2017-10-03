@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import { dateTimeFormat, dateFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
@@ -79,7 +79,7 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
         data: [{}]
       }
     },
@@ -99,8 +99,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.profitList, {
-          startDay: dateFormat(new Date(this.stEt[0]).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat(new Date(this.stEt[1]).getTime()).replace(/[-]/g, '')
+          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
         }).then(({data}) => {
           // success
           if (data.success === 1) {

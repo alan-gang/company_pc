@@ -814,6 +814,7 @@ export default {
     },
     openAnotherPage (url) {
       // console.log('openAnotherPage', url)
+      if (url === '/') return this.$router.push('/')
       if (this.tabs.length < this.maxPages || this.loop || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
       // else {
       //   this.$modal.warn({

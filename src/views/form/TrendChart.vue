@@ -76,7 +76,7 @@
 
 <script>
 import api from '../../http/api'
-import { dateTimeFormat, dateFormat } from '../../util/Date'
+import { dateFormat } from '../../util/Date'
 import store from '../../store'
 export default {
   data () {
@@ -85,9 +85,9 @@ export default {
       // dateFormat: dateFormat,
       size: 100,
       st: '',
-      td: dateTimeFormat(new Date().getTime()),
-      yd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 1000),
-      lyd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 2 * 1000),
+      td: new Date(new Date().getTime()),
+      yd: new Date((new Date().getTime()) - 3600 * 24 * 1000),
+      lyd: new Date((new Date().getTime()) - 3600 * 24 * 2 * 1000),
       resizable: false,
       gameList: [],
       game: {lotteryId: 0},
@@ -123,7 +123,7 @@ export default {
           return time.getTime() > Date.now()
         }
       },
-      stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+      stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
       PS: [
         {title: '第一位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
         {title: '第二位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
@@ -248,7 +248,7 @@ export default {
         text: '数据查询中...',
         target: this.$el
       }, 10000, '数据查询超时...')
-      this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
+      this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
         // success
         if (data.success === 1) {
           this.fData[0].numbers = Array(60).fill(0).map(n => (n = {n: 0}))

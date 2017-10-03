@@ -19,7 +19,7 @@
 
       
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
-      .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="__setCall({fn: '__random', args: {}})") 机选
+      .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
 
     el-col.right(:span="5")
       el-button-group.right
@@ -82,7 +82,8 @@ export default {
       time: 0,
       interval: 0,
       Cdata: [],
-      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单']
+      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+      t: 0
     }
   },
   computed: {
@@ -109,6 +110,13 @@ export default {
     // this.Orderlist()
   },
   watch: {
+    t () {
+      if (this.t !== 0) {
+        setTimeout(() => {
+          this.t = 0
+        }, this.t)
+      }
+    },
     // type () {
     //   if (!this.$refs.instruction.style.transform) {
     //     this.$refs.instruction.style.transform = 'perspective(100px) translateZ(30px)'

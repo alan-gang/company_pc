@@ -212,8 +212,8 @@
         deep: true,
         handler () {
           if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+            this.stEt[1] = dateFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       }
@@ -269,9 +269,9 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(this.apiBonus, {
-          startDate: this.stEt[0] ? dateFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.stEt[0] ? dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[\s:-]*/g, '') : '',
           // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1] ? dateFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+          endDate: this.stEt[1] ? dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[\s:-]*/g, '') : '',
           // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
           // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           status: this.s.id || ''

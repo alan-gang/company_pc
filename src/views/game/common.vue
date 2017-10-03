@@ -381,7 +381,7 @@ export default {
       if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
         return this.$modal.warn({
           target: this.$el,
-          content: '余额不足, 请充值。',
+          content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
           btn: ['确定']
         })
       }

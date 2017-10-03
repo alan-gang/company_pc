@@ -171,8 +171,8 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
         ISFREE: ['现金', '优惠券', '积分'],
         isFree: '',
         gameList: [],
@@ -218,8 +218,8 @@
         deep: true,
         handler () {
           // if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if (new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+            this.stEt[1] = dateTimeFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       },
@@ -366,6 +366,7 @@
         })
       },
       list (page, fn) {
+        console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
           text: '帐变记录加载中...',
           target: this.$el
@@ -374,8 +375,8 @@
         if (!fn) {
           this.preOptions = {
             orderId: this.type.join(','),
-            beginDate: dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[-:\s]/g, ''),
-            endDate: dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[-:\s]/g, ''),
+            beginDate: dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''),
+            endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
             scope: this.zone,
