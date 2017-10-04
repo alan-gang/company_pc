@@ -328,7 +328,7 @@
         return digitUppercase(this.money)
       },
       codePosition () {
-        return this.row.code + '[' + this.row.position + ']'
+        return this.row.position ? (this.row.code + '[' + this.row.position + ']') : this.row.code
       }
       // Cdata () {
       //   // if (this.data.length <= this.pageSize) return this.data

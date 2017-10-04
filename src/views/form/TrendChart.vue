@@ -58,7 +58,7 @@
                   span(:class="{ball: i === parseInt(scope.row.code.split(',')[k]), danger: k % 2 !== 0  }" v-show=" i === parseInt(scope.row.code.split(',')[k]) || shown ") {{ i === parseInt(scope.row.code.split(',')[k]) ? i : scope.row.misseddata[k] && scope.row.misseddata[k]['d' + i] || ''}}
 
         
-        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 165px; top: 69px" v-show="polyline")
+        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" v-bind:style="svgstyle" v-show="polyline")
           polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#1a9ff3' : '#ff5f6a' " )
           // polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#89d2ff' : '#ff7f8a' " )
 
@@ -76,6 +76,7 @@
 
 <script>
 import api from '../../http/api'
+import util from '../../util'
 import { dateFormat } from '../../util/Date'
 import store from '../../store'
 export default {
@@ -142,7 +143,8 @@ export default {
         {issue: '最大遗漏值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))},
         {issue: '最大连出值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))}
       ],
-      lines: []
+      lines: [],
+      x: 1
     }
   },
   watch: {
@@ -162,6 +164,13 @@ export default {
   computed: {
     gameid () {
       return this.game.lotteryId
+    },
+    svgstyle () {
+      return {
+        position: 'absolute',
+        left: 165 + 'px',
+        top: 69 * this.x + 'px'
+      }
     }
     // Cdata () {
     //   return this.myData.map(c => {
@@ -210,10 +219,44 @@ export default {
     // })
   },
   mounted () {
+    util.addEvent('resize', window, () => {
+      !((this.W > 800) === (window.document.body.clientHeight > 800)) && this.draw((window.document.body.clientHeight > 800 ? 1 : 0.9))
+    })
     this.getLotterys()
     this.$route.query.gameid && (this.game.lotteryId = this.$route.query.gameid)
   },
   methods: {
+    draw (x) {
+      this.x = x
+      this.lines = []
+      // console.log(this.fData[0].numbers[10].n, '*************************')
+      this.myData.forEach((d, j) => {
+        d.code.split(',').forEach((s, i) => {
+          !this.lines[i] && (this.lines[i] = '')
+          // width height 30*30
+          // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+          // width height 25*25
+          this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 * x + (j - 1) / (j + 1)) * j + 15 * x) + ' '
+          // 总出现
+          // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
+          // if (i === 1) {
+          //   console.log(s, i * 12 + parseInt(s), this.fData[0].numbers[i * 12 + parseInt(s)].n)
+          // }
+          // this.fData[0].numbers[i * 12 + parseInt(s)].n += 1
+          // // 最大连出值
+          // if (this.fData[3].numbers[i * 12 + parseInt(s)].i === j - 1) {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].temp += 1
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].i = j
+          // } else {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].temp = 1
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].i = j
+          // }
+          // if (this.fData[3].numbers[i * 12 + parseInt(s)].temp > this.fData[3].numbers[i * 12 + parseInt(s)].n) {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].n = this.fData[3].numbers[i * 12 + parseInt(s)].temp
+          // }
+        })
+      })
+    },
     openRoute ({path, query: {gameid}}) {
       if (path !== '/form/4-5-3') return false
       if (gameid) {
@@ -275,13 +318,14 @@ export default {
           this.myData = data.items
           this.lines = []
           // console.log(this.fData[0].numbers[10].n, '*************************')
+          this.draw((window.document.body.clientHeight > 800 ? 1 : 0.9))
           this.myData.forEach((d, j) => {
             d.code.split(',').forEach((s, i) => {
-              !this.lines[i] && (this.lines[i] = '')
+              // !this.lines[i] && (this.lines[i] = '')
               // width height 30*30
               // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
               // width height 25*25
-              this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 + (j - 1) / (j + 1)) * j + 15) + ' '
+              // this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 + (j - 1) / (j + 1)) * j + 15) + ' '
               // 总出现
               // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
               // if (i === 1) {

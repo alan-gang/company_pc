@@ -963,7 +963,7 @@ export default {
   @import './path.stylus'
   @import './main.stylus'
   @import './night.stylus'
-  // @import './1600.stylus'
+  @import './1280X800.stylus'
   // @import './pad.stylus'
   // @import './phone.stylus'
   // @import './chat.night.stylus'

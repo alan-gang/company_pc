@@ -1,7 +1,7 @@
 @import './var.stylus'
-@media screen and (max-width: 1600px)
+@media screen and (max-height: 800px)
   html
-    // font-size 80px
+    font-size 80px
 #app    
   @media screen and (max-width: 1600px)
     // *
