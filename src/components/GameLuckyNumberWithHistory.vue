@@ -1,7 +1,7 @@
 <template lang="jade">
   el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
     
-    el-col.left(:span="onlyNumber ? 24: 20")
+    el-col.left(:span="onlyNumber ? 24 : longNumbers ? 20 : 18")
       el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
         span(slot="reference")
           div(style="display: inline-block;")
@@ -29,7 +29,7 @@
         slot
           GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
-    el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
+    el-col.right(:span=" longNumbers ? 4 : 6" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
       span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
         br
       | 已派奖

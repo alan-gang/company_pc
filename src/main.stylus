@@ -37,6 +37,9 @@ pre
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee
   color #333
+.modal .box-wrapper .box
+  max-height 6rem
+  overflow-y auto
   
 @import './var.stylus'
 @import './ie.stylus'
