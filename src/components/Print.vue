@@ -8,7 +8,7 @@
           el-button-group
             i.el-icon-close.ds-button.text-button(@click="__setCall({fn: '__unprint'})")
         .content
-          iframe(ref="frame" style="border: none; height: 600px; width: 100%")
+          iframe(ref="frame" style="border: none; height: 400px; width: 100%")
             .frame-content(ref="frameContent")
               title 订单打印
               p {{ d }}

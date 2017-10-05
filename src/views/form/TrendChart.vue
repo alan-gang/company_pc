@@ -220,7 +220,7 @@ export default {
   },
   mounted () {
     util.addEvent('resize', window, () => {
-      !((this.W > 800) === (window.document.body.clientHeight > 800)) && this.draw((window.document.body.clientHeight > 800 ? 1 : 0.9))
+      !((this.W > 900) === (window.document.body.clientHeight > 900)) && this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
     })
     this.getLotterys()
     this.$route.query.gameid && (this.game.lotteryId = this.$route.query.gameid)
@@ -318,7 +318,7 @@ export default {
           this.myData = data.items
           this.lines = []
           // console.log(this.fData[0].numbers[10].n, '*************************')
-          this.draw((window.document.body.clientHeight > 800 ? 1 : 0.9))
+          this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
           this.myData.forEach((d, j) => {
             d.code.split(',').forEach((s, i) => {
               // !this.lines[i] && (this.lines[i] = '')

@@ -10,7 +10,7 @@
 
 
 
-    el-col.right(:span="16")
+    el-col.right(:span="16" style="line-height: .4rem; padding: .05rem 0 .1rem 0 ")
       | 总计 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;&nbsp;总计&nbsp;&nbsp;

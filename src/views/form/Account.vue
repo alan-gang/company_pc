@@ -217,9 +217,9 @@
       stEt: {
         deep: true,
         handler () {
-          // if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
           if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = dateTimeFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
+            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       },

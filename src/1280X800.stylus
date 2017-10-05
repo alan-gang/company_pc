@@ -1,5 +1,5 @@
 @import './var.stylus'
-@media screen and (max-height: 800px)
+@media screen and (max-height: 900px)
   html
     font-size 90px
     [data-ng-app=custom-service] .custom-service-box
@@ -46,10 +46,12 @@
             width 9.5rem
         // footer icon
         footer
+            .logo.ds-icon-logo-middle
+                display none
             .el-col-10
-                width 45%
+                width 50%
                 &.el-col-offset-4
-                    margin-left 10%
+                    margin-left 0
         
         // page
         .scroll-content.has-footer:not(.collapse-footer)

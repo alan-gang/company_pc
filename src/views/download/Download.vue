@@ -55,7 +55,7 @@
             intro: '功能完善的客服聊天系统',
             class: 'ds-icon-download-chat',
             buttons: [
-              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {background: 'url(' + api.chat_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}}
+              {title: 'IOS下载', class: 'ds-icon-download-ios', style: {position: 'absolute', top: '-2rem', background: 'url(' + api.chat_ios + ') center top no-repeat', height: '1.96rem', textAlign: 'center', backgroundSize: 'cover'}}
               // {title: 'Android下载', class: 'ds-icon-download-android'}
               // {title: 'PC下载', class: 'ds-icon-download-windows'}
             ]

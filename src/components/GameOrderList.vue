@@ -1,6 +1,6 @@
 <template lang="jade">
   .order-list
-    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
+    el-table.ghost.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
       el-table-column(label="玩法、投注号码" width="150" show-overflow-tooltip=true)
         template(scope="scope") {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
@@ -63,6 +63,7 @@
 <style lang="stylus">
   H = 1.6rem
   .order-list
+    
     .el-table
     // width "calc(100% - %s)" % s
       .el-table__body-wrapper
@@ -73,6 +74,9 @@
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  .order-list
+    padding-top .1rem
+    // border-top 1px solid #ddd
   .ds-button
     text-shadow none
     vertical-align middle

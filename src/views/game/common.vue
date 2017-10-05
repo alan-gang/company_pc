@@ -20,7 +20,7 @@
       transition(name="slide" appear=true)
         GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
-      GameOrderBar.inner-bar( v-if="ns.length > 0" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+      GameOrderBar.inner-bar(v-if="ns.length > 0" style="background: #fff; box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
       <!-- 投注单 -->
       GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
       <!-- 追号栏 -->
@@ -94,6 +94,9 @@ export default {
       //   // 玩法描述
       //   description: ''
       // },
+      wnt: 0,
+      // delay by n
+      wn: 0,
       // 选择的注数
       n: 0,
       // 投注列表
@@ -208,6 +211,13 @@ export default {
     }
   },
   watch: {
+    n (n, o) {
+      clearTimeout(this.wnt)
+      if (this.ns.length === 0) return (this.wn = 0)
+      this.wnt = setTimeout(() => {
+        this.wn = n
+      }, n === 0 ? 1000 : 0)
+    },
     ns () {
       if (this.ns.length === 0) this.follow.show = false
       if (this.ns.length === 10) {
