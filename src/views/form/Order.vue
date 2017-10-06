@@ -144,13 +144,13 @@
               el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 游戏用户：
                 span.text-black {{ row.nickName }}
-              el-col(:span="5")
+              el-col(:span="6")
                 游戏：
                 span.text-black {{ row.lotteryName }}
-              el-col(:span="5")
+              el-col(:span="6")
                 span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
                     span.text-black {{ row.prizeCode  }}
                 el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
@@ -163,13 +163,13 @@
                 span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 注单编号：
                 span.text-black {{ row.projectId }}
-              el-col(:span="5")
+              el-col(:span="6")
                 玩法：
                 span.text-black {{ row.methodName }}
-              el-col(:span="5")
+              el-col(:span="6")
                 注单状态：
                 span.text-black {{ STATUS[row.stat] }}
 
@@ -180,13 +180,13 @@
 
             
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 投单时间：
                 span.text-black {{ row.writeTime }}
-              el-col(:span="5")
+              el-col(:span="6")
                 奖期：
                 span.text-black {{ row.issue }}
-              el-col(:span="5")
+              el-col(:span="6")
                 注单奖金：
                 span.text-black {{ row.bonus }}
 
@@ -196,15 +196,15 @@
 
             el-row(v-if="row.isJoinPool")
 
-              el-col(:span="8")
+              el-col(:span="6")
                 奖池期号：
                 span.text-black {{ row.poolIssue}}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 奖池状态：
                 span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 奖池号码：
                 span.text-black {{ row.poolCode }}
               
@@ -720,7 +720,7 @@
       vertical-align middle
       background-color #ededed
       font-size .12rem
-      width 7rem
+      width 9rem
       radius()
     .content
       margin 0 .2rem

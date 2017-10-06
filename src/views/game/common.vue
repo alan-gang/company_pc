@@ -158,6 +158,7 @@ export default {
       lucknumbersTimeout: 0,
       allLuckyNumbers: [],
       notify: null,
+      notifyshow: true,
       hasUnable: false
     }
   },
@@ -248,12 +249,15 @@ export default {
     },
     // 如果当前奖期改变，那么提示已投注的期数直接过渡到下期
     CNPER (n, o) {
-      if (this.ns.length > 0) {
+      if (this.ns.length > 0 && this.notifyshow) {
         if (!this.notify) {
           this.notify = this.$modal.question({
             content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">当前期为<span class="text-danger">' + n + '</span>，您在<span class="text-danger">' + o + '</span>期的投注将默认直接转到当前期</div>',
-            btn: ['转到当前期', '清空投注'],
+            btn: ['转到当前期，不再提醒', '清空投注'],
             target: this.$el,
+            ok () {
+              this.notifyshow = false
+            },
             cancel () {
               this.ns = []
             },

@@ -807,7 +807,8 @@ export default {
       }, [])
     },
     openTab (url, same) {
-      // console.log('openTab', url)
+      // some url likes /form/4-2-1 !== page.id != 4-2-1
+      if (url && url.indexOf('/') !== -1) url = url.slice(url.lastIndexOf('/') + 1)
       // console.log(this.$route.params.url === url, url, '|||||')
       if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)

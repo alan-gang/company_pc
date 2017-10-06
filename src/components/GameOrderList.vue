@@ -1,8 +1,10 @@
 <template lang="jade">
-  .order-list
+  .order-list(style="position: relative;")
+    span(style="background: red; color: #fff; border-radius: 50%; display: inline-block; width: .2rem; height: .2rem; text-align: center; position: absolute; left: 0; top: 0rem; line-height: .2rem") {{ ns.length }}
     el-table.ghost.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
-      el-table-column(label="玩法、投注号码" width="150" show-overflow-tooltip=true)
-        template(scope="scope") {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
+      el-table-column(:render-header="renderHeader" label="玩法、投注号码" width="150" show-overflow-tooltip=true)
+        template(scope="scope") 
+          span {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
       el-table-column(prop="$" label="模式" width="60")
       el-table-column(prop="n" label="注数" width="80" align="right")
@@ -41,6 +43,20 @@
       }
     },
     methods: {
+      renderHeader (createElement, { column }) {
+        return createElement(
+          'div',
+          [
+            column.label
+            // createElement('span', {
+            //   attrs: {
+            //     style: 'background: red; color: #fff; border-radius: 50%; display: inline-block; width: .2rem; height: .2rem; text-align: center; position: absolute; left: 0;top: -.02rem'
+            //   }
+            // },
+            // [this.data.length])
+          ]
+        )
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },

@@ -112,6 +112,10 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .amout-bar
+    margin: 0 auto;
+    max-width: 9.3rem;
+    left: 0;
+    right: 0;
     z-index 9999
     position absolute
     bottom 0

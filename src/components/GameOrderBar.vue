@@ -167,6 +167,10 @@ export default {
     &.fixed
       position absolute
       bottom 0
+      margin: 0 auto;
+      max-width: 9.3rem;
+      left: 0;
+      right: 0;
       border-bottom-right-radius .05rem
       border-bottom-left-radius .05rem
     .el-row
@@ -203,7 +207,7 @@ export default {
     overflow visible
     .ds-button
       position relative
-      top -.01rem
+      top -.02rem
       // color #666
       text-shadow none
       radius(0)

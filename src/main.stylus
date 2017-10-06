@@ -2,7 +2,8 @@
 @import './ie.stylus'
 
 
-
+.el-tooltip__popper
+  word-break break-all
 /*
  *common css define
  */
