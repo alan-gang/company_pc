@@ -41,12 +41,7 @@ pre
 .modal .box-wrapper .box
   max-height 6rem
   overflow-y auto
-.opacity-0
-  transition all .6s linear
-  opacity 0
-.opacity-1
-  transition all .6s linear
-  opacity 1
+
   
 @import './var.stylus'
 @import './ie.stylus'
@@ -422,8 +417,9 @@ input
       .cell
         line-height x
 
-  // .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
-  //   color #333
+  .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
+    color inherit
+    background-color inherit
     
   .el-table::before
   .el-table::after

@@ -161,9 +161,16 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .el-row
+    transition height .5s linear
+    &.opacity-0 
+      height 0
+      overflow hidden
+    &.opacity-1
+      height .5rem
+      
     width 100%
     // color #666
-    background-color #fff
+    background #fff
     &.fixed
       position absolute
       bottom 0

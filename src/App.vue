@@ -158,7 +158,7 @@ export default {
           class: 'ds-icon-game',
           title: '游戏',
           url: 'game',
-          size: 'full',
+          // size: 'full',
           groups: [
             {
               title: '时时彩',

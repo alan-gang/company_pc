@@ -1,6 +1,6 @@
 <template lang="jade">
   .order-list(style="position: relative;")
-    span(style="background: red; color: #fff; border-radius: 50%; display: inline-block; width: .2rem; height: .2rem; text-align: center; position: absolute; left: 0; top: 0rem; line-height: .2rem") {{ ns.length }}
+    span(style="background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
     el-table.ghost.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
       el-table-column(:render-header="renderHeader" label="玩法、投注号码" width="150" show-overflow-tooltip=true)
         template(scope="scope") 

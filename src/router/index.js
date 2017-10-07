@@ -147,11 +147,14 @@ export default function (VueRoter) {
       }
     }
   })
+  let t = 0
   // 匹配前
   router.beforeEach((to, from, next) => {
     // console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
-    window.NProgress.start()
+    t = setTimeout(() => {
+      window.NProgress.start()
+    }, 300)
     // 如果需要登录，而当前没有登录， 先测试有没有登录
     if (to.meta.login && store.state.user.login === false) {
       next({path: '/login'})
@@ -180,6 +183,7 @@ export default function (VueRoter) {
 
   // 匹配后
   router.afterEach(r => {
+    clearTimeout(t)
     window.NProgress.done()
     // router.app.$Progress.finish()
     // block8/3 console.log('after:', r)
