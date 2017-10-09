@@ -13,7 +13,7 @@
 
       .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
@@ -325,6 +325,8 @@ export default {
       })
     },
     showWithDraw () {
+      if (this.selectBank.entry === undefined) return this.$message.warning({target: this.$el, message: '您还未选择银行卡。'})
+      if (this.money === 0) return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
       this.$http.post(api.showWithDraw, {userBankId: this.selectBank.entry, amount: this.money}).then(({data}) => {
         if (data.success === 1) {
           this.get = data.realmoney
