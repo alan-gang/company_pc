@@ -56,6 +56,7 @@ export default {
         // 玩法描述
         description: ''
       },
+      lucknumbers: ['01', '01', '01', '01', '01', '01', '01', '01', '01', '01'],
       getTitle () {
         switch (this.type.id.slice(0, 6)) {
           case '-1-1-1':

@@ -4,7 +4,7 @@
  * heights widths define
  */
 // header heights
-HH = .3rem
+HH = .36rem
 // footer heights
 FH = .68rem
 // toolbar heights

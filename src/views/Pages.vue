@@ -642,7 +642,21 @@ export default {
 </script>
 
 <style lang="stylus">
-  // @media(max-width: 1024px)
+  .dialog-page.full .tool-bar
+    background none
+    .title
+      display none
+  @media(max-width: 1024px)
+    .page .dialog-page
+      top 0 !important
+      left 0 !important
+      width 100% !important
+      height 100% !important
+      border-radius 0 !important
+      .tool-bar
+        background none
+        .title
+          display none
   //   html
   //     overflow auto
   //     font-size 80px
@@ -757,6 +771,8 @@ export default {
       
   .page
     overflow hidden
+    perspective 100px
+    top 0
   .dialog-page
     // &>.scroll-content
     //   left 50%
@@ -785,7 +801,7 @@ export default {
       // &[v-align=bottom]
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
     &.active
-      transform rotateY(0)
+      transform none
       // shadow(0 0 .1rem .1rem #fff)
       
       // transition-duration .5s
@@ -801,7 +817,7 @@ export default {
       // opacity 0
       // transform perspective(500px) translateZ(-5000px)
       opacity .2
-      transform perspective(500px) translateZ(-1000px)
+      transform perspective(100px) translateZ(-1000px)
       // shadow(0 0 5rem 5rem #333)
     
 
@@ -814,6 +830,7 @@ export default {
     
     &.full
       // shadow(0 0 5rem 2rem #333)
+      radius(0)
       .move-bar
         cursor default
         &:hover

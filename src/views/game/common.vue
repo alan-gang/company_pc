@@ -185,7 +185,7 @@ export default {
     NPAY () {
       return this.ns.reduce((p, n) => {
         return (p += n.pay)
-      }, this.pot ? 1 : 0)
+      }, this.pot ? this.ns.length : 0)
     },
     // 已投注注数金额不包含times
     N1PAY () {
@@ -479,12 +479,14 @@ export default {
       this.pot = !this.pot
     },
     showFollow () {
+      this.pot = 0
       this.follow.show = true
       this.$nextTick(() => {
         this.$el.querySelector('.follow-list').scrollIntoViewIfNeeded()
       })
     },
     closeFollow () {
+      this.pot = false
       this.follow.show = false
       this.clearFollow()
     },

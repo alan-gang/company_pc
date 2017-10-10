@@ -974,7 +974,8 @@ export default {
   header
     position absolute
     top 0
-    right: 0
+    // right: 1.2rem
+    max-width "calc(100% - %s)" % 1.5rem
     left: 0
     height HH
     z-index 1

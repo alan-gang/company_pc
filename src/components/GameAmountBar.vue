@@ -24,7 +24,7 @@
 
       el-popover(placement="top-start" trigger="hover" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
-          .ds-checkbox-label(v-bind:class="{active: pot}" @click=" togglePot ").ds-icon-text-question
+          .ds-checkbox-label(v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ").ds-icon-text-question
             .ds-checkbox
             | 奖池抽奖
           // .ds-button.danger.bold(@click="book") ? 奖池投注
@@ -65,7 +65,7 @@ export default {
     pay: Number,
     // 优惠券
     checked: Boolean,
-    pot: Boolean,
+    pot: [Boolean, Number],
     issues: Array,
     CNPER: String
   },

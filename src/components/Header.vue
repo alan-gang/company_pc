@@ -99,7 +99,7 @@ export default {
   @import '../var.stylus'
   header
     font-size .12rem
-    background-color rgba(255, 255, 255, .1)
+    // background-color rgba(255, 255, 255, .1)
   .tab
     &.first
       margin-left 1.6rem
@@ -108,14 +108,14 @@ export default {
     line-height: HH
     padding-left .3rem
     box-sizing border-box
-    background-color rgba(0,0,0,.4)
+    background-color rgba(0,0,0,.7)
     font-shadow()
     cursor pointer
     &[class*=ds-icon-]
       background-position .1rem center
     &:hover
       color WHITE
-      background-color rgba(0,0,0,.6)
+      background-color rgba(0,0,0,.8)
     &:active
     &.active
       background-color BLUE
@@ -131,10 +131,10 @@ export default {
       padding .0571rem .0571rem
       &:hover
         color WHITE
-        background-color rgba(0,0,0, .6)
+        background-color rgba(0,0,0, .8)
         
       position relative
-      top .02rem
+      top .05rem
       left .05rem
       font-size .1rem
       text-shadow none

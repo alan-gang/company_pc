@@ -11,6 +11,9 @@
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 礼品中心
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 已领取的礼品
       .gift-list(v-if="tabIndex === 1")
+
+        .empty(v-if=" tickets.length === 0 ") 暂无可领取的礼品
+
         .ticket(:class=" [ ticketType[0] ] " v-for=" t in tickets ")
           h1
             span ￥
