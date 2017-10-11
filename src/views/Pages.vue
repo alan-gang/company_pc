@@ -1,7 +1,7 @@
 <template lang="jade">
 
   transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         .move-bar(slot="movebar")
@@ -381,7 +381,7 @@ export default {
       if (page.size !== 'full') this.setDefaultPosition(page)
       // console.log('minusnow', page.size, page.url, page.id)
       this.updatePage(page.id, {size: 'minus'}, page)
-      this.prehref && this.$router.push(this.prehref)
+      if (page.opened && page.active) this.prehref && this.$router.push(this.prehref)
     },
     close (url, nurl) {
       this.$emit('close-tab', url, nurl)
@@ -642,10 +642,30 @@ export default {
 </script>
 
 <style lang="stylus">
-  .dialog-page.full .tool-bar
-    background none
-    .title
-      display none
+  @import '../var.stylus'
+  .dialog-page.active .tool-bar
+    background-color WHITE
+  .page .dialog-page.full
+    background rgba(0,0,0,0)
+    & > div:not(.tool-bar):not(.move-bar):not(.resize-x):not(.resize-y):not(.modal):not([class*='el-'])
+      background-color #ededed
+    & > .tool-bar
+      background-color rgba(0,0,0,.2)
+      background none
+      .title
+        display none
+      .el-button-group .el-button
+        color WHITE
+        .full 
+          border-color WHITE
+        &:hover
+          color GREY
+          .full
+            border-color GREY
+          .el-icon-close
+            color WHITE
+          
+      
   @media(max-width: 1024px)
     .page .dialog-page
       top 0 !important
@@ -805,7 +825,7 @@ export default {
       // shadow(0 0 .1rem .1rem #fff)
       
       // transition-duration .5s
-      z-index 1
+      z-index 9999 !important
       
     &[class*=-enter]
     &[class*=-leave]

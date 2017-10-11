@@ -108,14 +108,14 @@ export default {
     line-height: HH
     padding-left .3rem
     box-sizing border-box
-    background-color rgba(0,0,0,.7)
+    background-color rgba(0,0,0,.4)
     font-shadow()
     cursor pointer
     &[class*=ds-icon-]
       background-position .1rem center
     &:hover
       color WHITE
-      background-color rgba(0,0,0,.8)
+      background-color rgba(0,0,0,.6)
     &:active
     &.active
       background-color BLUE
@@ -131,7 +131,7 @@ export default {
       padding .0571rem .0571rem
       &:hover
         color WHITE
-        background-color rgba(0,0,0, .8)
+        background-color rgba(0,0,0, .6)
         
       position relative
       top .05rem

@@ -5,7 +5,7 @@
       el-button(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
       .el-button(@click.stop="minus")
         .el-icon-minus
-      .el-button(@click.stop="full")
+      .el-button(@click="full")
         .full
       el-button.close(icon="close" @click.stop="close")
 
@@ -58,9 +58,7 @@ export default {
     border-top-left-radius .05rem
     overflow hidden
     background-position .2rem center
-  .dialog-page.active
-    .tool-bar
-      background-color WHITE
+  
   
   .title
     color #333
