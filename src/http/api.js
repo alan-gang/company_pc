@@ -315,6 +315,8 @@ let Me = {
 }
 
 let Group = {
+  setSalary: '/team/setDaySalary.do?method=setSalary',
+  subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
   // 团队余额
   // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
   getTeamBalance: '/team/useList.do?method=getTeamBalance',
@@ -426,6 +428,8 @@ let Group = {
 }
 
 let Form = {
+  poolIssue: '/report/buyReport.do?method=poolIssue',
+  poolList: '/report/buyReport.do?method=poolList',
   // 查询日工资（数据要分页）
   // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
   daySalaryRepor: '/report/daySalaryRepor.do?method=list',
@@ -493,6 +497,7 @@ let Help = {
 }
 
 let Activity = {
+  getRewardSalary: '/activity.do?method=getRewardSalary',
   // 活动首页展示页
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=getAllActivityList
   getAllActivityList: '/activity.do?method=getAllActivityList',

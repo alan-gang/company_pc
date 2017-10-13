@@ -707,8 +707,8 @@ export default {
     top TH + GH
   .game-content
     top TH
-    bottom GAH * 2
-    // padding-bottom GAH
+    // bottom GAH * 2
+    padding-bottom GAH * 2
     max-width 9.3rem
     // max-height "calc(100% - %s)" % (TH + GAH)
     margin 0 auto

@@ -17,7 +17,7 @@
 
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
          
-          // el-table-column(prop="days" label="日期" width="100" )
+          // el-table-column(prop="date" label="日期" width="100" )
           // el-table-column(prop="buyamount" label="团队总销量" width="100" )
           // el-table-column(prop="profitamount" label="团队总亏损" width="100" )
           // el-table-column(prop="salarylevel" label="工资标准" width="100" )
@@ -27,9 +27,10 @@
           // el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
 
           el-table-column(prop="daySalary" label="日工资" width="200" )
-          el-table-column(prop="salary" label="投注工资" width="200"  )
-          el-table-column(prop="totalGetAmount" label="总工资" width="200"  )
-          el-table-column(prop="days" label="日期")
+          el-table-column(prop="salaryLevel" label="日工资级别" width="200" )
+          // el-table-column(prop="activitUser" label="活跃用户数" width="200"  )
+          el-table-column(prop="buyAmount" label="团队销量" width="200"  )
+          el-table-column(prop="date" label="日期")
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       

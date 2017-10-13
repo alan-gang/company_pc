@@ -129,7 +129,7 @@
 
               el-col(:span="5")
                 总金额：
-                span.text-black {{ row.totalPrice }}
+                span.text-black {{ row.TotalPrice }}
 
             el-row
               el-col(:span="9")

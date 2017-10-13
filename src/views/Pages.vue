@@ -36,6 +36,7 @@ import Bank from './me/Bank'
 
 // group
 import UserList from './group/UserList'
+import SetDaySalary from './group/SetDaySalary'
 import AddUser from './group/AddUser'
 import Ad from './group/Ad'
 import Contract from './group/Contract'
@@ -51,6 +52,7 @@ import Follow from './form/Follow'
 import FollowDetail from './form/FollowDetail'
 import FollowOrder from './form/FollowOrder'
 import Order from './form/Order'
+import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
@@ -79,6 +81,7 @@ import ForWithdraw from './activity/ForWithdraw'
 import ForOther from './activity/ForOther'
 import FindMe from './activity/FindMe'
 import Fight from './activity/Fight'
+import Salary from './activity/Salary'
 // 下载
 import Download from './download/Download'
 
@@ -103,6 +106,7 @@ export default {
     Bank,
     // group
     UserList,
+    SetDaySalary,
     AddUser,
     Ad,
     Contract,
@@ -117,6 +121,7 @@ export default {
     FollowDetail,
     FollowOrder,
     Order,
+    LuckyPool,
     ProfitLoss,
     ProfitLossDetail,
     Today,
@@ -142,6 +147,7 @@ export default {
     ForOther,
     FindMe,
     Fight,
+    Salary,
     // 下载
     Download
   },
@@ -484,7 +490,7 @@ export default {
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
           if (dx < 0 && left <= 15) dx = 0
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
-          if (dy < 0 && top <= 15) dy = 0
+          if (dy < 0 && top <= (15 + 36)) dy = 0
           if (dx === 0 && dy === 0) return
           left += dx
           el.style.left = left + 'px'
@@ -647,11 +653,19 @@ export default {
     background-color WHITE
   .page .dialog-page.full
     background rgba(0,0,0,0)
-    & > div:not(.tool-bar):not(.move-bar):not(.resize-x):not(.resize-y):not(.modal):not([class*='el-'])
+    &:after
+      content ''
+      position absolute
+      top .36rem
+      left 0 
+      right 0
+      bottom 0
       background-color #ededed
+      z-index -1
+    // & > div:not(.tool-bar):not(.move-bar):not(.resize-x):not(.resize-y):not(.modal):not([class*='el-'])
+    //   background-color #ededed
     & > .tool-bar
-      background-color rgba(0,0,0,.2)
-      background none
+      background rgba(0,0,0,0)
       .title
         display none
       .el-button-group .el-button

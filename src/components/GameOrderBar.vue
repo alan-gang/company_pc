@@ -13,7 +13,7 @@
       .ds-button-group
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}") {{c.title}}
       
-      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P")
+      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)")
       span.p(v-if="P") {{ ps}} - {{ prize }}
 
     el-col.right(:span="8")
@@ -95,7 +95,7 @@ export default {
   mounted () {
     // console.log('new orderbar, point:', this.point)
     this.t = this.times
-    this.p = this.point * 10000
+    this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
     this.cIndex = this.currency.model - 1
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
@@ -162,9 +162,9 @@ export default {
   @import '../var.stylus'
   .el-row
     transition height .5s linear
+    overflow hidden
     &.opacity-0 
       height 0
-      overflow hidden
     &.opacity-1
       height .5rem
       

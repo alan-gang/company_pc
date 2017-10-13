@@ -20,8 +20,8 @@ body.night
   .el-input.is-disabled .el-input__inner
     background-color #666
   .me-sideview
-    outline 1.25rem solid rgba(0,0,0, .2)
-    outline-offset -1.25rem
+    outline 1.3rem solid rgba(0,0,0, .2)
+    outline-offset -1.3rem
   .el-textarea.is-disabled .el-textarea__inner
     background-color #666
     border border
@@ -64,6 +64,9 @@ body.night
   // 1. change background of dialog-page
   .dialog-page
     background-color #333
+    &.full
+      &:after
+        background-color #333
     &.active .tool-bar
       background-color #444
     .tool-bar

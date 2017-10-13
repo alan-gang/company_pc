@@ -44,7 +44,7 @@ export default {
       collapseFooter: false,
       // skin: 'day',
       loop: true,
-      maxPages: 10,
+      maxPages: 5,
       state: store.state,
       tabs: [],
       menus: [
@@ -64,7 +64,8 @@ export default {
                 {id: '5-2-6', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopupA'},
                 {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
                 {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
-                {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'}
+                {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '直属总代日工资增加1w20', url: 'Salary'}
               ]
             }
           ]
@@ -323,6 +324,12 @@ export default {
                   menuid: '43',
                   title: '推广设置',
                   url: 'Ad'
+                },
+                {
+                  id: '3-2-3',
+                  menuid: '93',
+                  title: '设置日工资',
+                  url: 'SetDaySalary'
                 }
               ]
             },
@@ -431,6 +438,15 @@ export default {
                   menuid: '53',
                   title: '追号记录列表',
                   url: 'Follow',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-1-2',
+                  menuid: '94',
+                  title: '我的奖池号',
+                  url: 'LuckyPool',
                   position: {
                     width: '12rem'
                   }
@@ -1002,7 +1018,8 @@ export default {
     //   top HH
     &.has-footer:not(.collapse-footer)
       bottom FH
-      @media(max-width: 1362px)
+      // @media(max-width: 1362px)
+      @media(max-width: 1500px)
         bottom 2*FH
       @media(max-width: 862px)
         bottom 3*FH 

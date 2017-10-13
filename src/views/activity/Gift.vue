@@ -64,7 +64,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary]
     }
   },
   watch: {
@@ -115,6 +115,7 @@ export default {
     // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
     // doSave: '/activity.do?method=doSave',
     getNow (t) {
+      if (!this.actions[t.activityType - 1]) return
       this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
         // success
         if (data.success === 1) {
@@ -189,7 +190,7 @@ export default {
       radius()
       float left
       min-height 1.06rem
-      width 2rem
+      width 3rem
       padding .05rem 0
       padding-left 1.16rem
       padding-right 1.16rem

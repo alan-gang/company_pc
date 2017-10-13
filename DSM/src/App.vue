@@ -20,7 +20,8 @@
     // lefter
     transition(name="slide-left" appear=true)
       dsLefter.scroll-content(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
-
+    // Print
+    Print(:data="printData" v-if="showPrint")
 </template>
 
 <script>
@@ -28,6 +29,7 @@
 import dsHeader from 'components/Header'
 import dsFooter from 'components/Footer'
 import dsLefter from 'mycomponents/Lefter'
+import Print from 'components/Print'
 // import Chat from 'components/Chat'
 import base from 'components/base'
 import store from 'src/store'
@@ -38,6 +40,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      showPrint: false,
       // 循环打开模式
       loop: true,
       // skin: 'day',
@@ -302,6 +305,12 @@ export default {
                   position: {
                     width: '11rem'
                   }
+                },
+                {
+                  id: '3-2-3',
+                  menuid: '93',
+                  title: '设置日工资',
+                  url: 'SetDaySalary'
                 }
               ]
             },
@@ -631,6 +640,14 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    __print (data) {
+      this.printData = data
+      this.showPrint = true
+    },
+    __unprint () {
+      this.printData = {}
+      this.showPrint = false
+    },
     tryLogin () {
       let M = this.$modal.warn({
         content: '授权登录中...',
@@ -863,7 +880,8 @@ export default {
   components: {
     dsHeader,
     dsFooter,
-    dsLefter
+    dsLefter,
+    Print
     // Chat
   }
 }
