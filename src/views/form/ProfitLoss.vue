@@ -122,7 +122,8 @@
         this.$router.push({
           path: '/form/4-5-4',
           query: {
-            stEt: encodeURIComponent(this.stEt.join('|')),
+            st: (window.newDate(this.stEt[0])).getTime(),
+            et: (window.newDate(this.stEt[1])).getTime(),
             userId: userId
           }
         })

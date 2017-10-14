@@ -116,7 +116,7 @@ export default {
   mounted () {
     if (this.login) {
       this.pricePot()
-      this.timeout = setInterval(this.pricePot, 30000)
+      this.timeout = setInterval(this.pricePot, 60000)
     }
     this.initShows()
     this.setFarChat()

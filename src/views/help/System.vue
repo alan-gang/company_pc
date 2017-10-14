@@ -95,6 +95,7 @@
       
       .item
         margin PW 0
+        padding-bottom .2rem
       .step
         position relative
         top -.02rem
@@ -102,6 +103,7 @@
         font-weight bold
         cursor pointer
       .value
+        margin-top 0
         line-height .22rem
 </style>
 <style lang="stylus">

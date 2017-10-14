@@ -93,15 +93,27 @@
         total: []
       }
     },
+    watch: {
+      '$route': 'openRoute'
+    },
     computed: {
     },
     mounted () {
-      let {stEt, userId} = this.$route.query
-      if (stEt) this.stEt = decodeURIComponent(stEt).split('|')
+      let {st, et, userId} = this.$route.query
+      // if (st) this.stEt[0] = new Date(Number(st))
+      // if (et) this.stEt[1] = new Date(Number(et))
+      if (st && et) this.stEt = [new Date(Number(st)), new Date(Number(et))]
       if (userId) this.userId = userId
       this.profitDetail()
     },
     methods: {
+      openRoute ({path, query: {st, et, userId}}) {
+        // if (st) this.stEt[0] = new Date(Number(st))
+        // if (et) this.stEt[1] = new Date(Number(et))
+        if (st && et) this.stEt = [new Date(Number(st)), new Date(Number(et))]
+        if (userId) this.userId = userId
+        this.profitDetail()
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
