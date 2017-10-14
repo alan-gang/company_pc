@@ -110,7 +110,7 @@ export default {
     box-sizing border-box
     background-color rgba(0,0,0,.4)
     font-shadow()
-    cursor pointer
+    cursor default
     &[class*=ds-icon-]
       background-position .1rem center
     &:hover

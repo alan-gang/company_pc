@@ -328,7 +328,7 @@ export default {
         radius()
         padding-top H - 2*PW
         background-color rgba(255, 255, 255, .2)
-        box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+        // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         background-position 50% 35% 
         cursor pointer
         // &:not(:first-child)
@@ -380,6 +380,7 @@ export default {
       radius(50%)
       transform perspective(500px) translateZ(-77px)
       &:hover
+        text-decoration none
         background-color rgba(0,0,0, .6)
         color #fff
       

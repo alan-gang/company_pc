@@ -748,7 +748,7 @@ export default {
           safeCheck: data.verifyType
         })
         // this.$router.push('/')
-        this.$router.push('/help/6-2-1')
+        this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
           id: data.userId,
           key: data.token,

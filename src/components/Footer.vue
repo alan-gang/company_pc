@@ -64,10 +64,10 @@
       .text-white.hide(style="position: relative; top: .9rem;font-size: .16rem" @click.stop="collapseFooter") 隐 藏 菜 单
       .text-white.show(style="position: relative; top: -.45rem;font-size: .16rem" @click.stop="collapseFooter") 显 示 菜 单
 
-    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .65rem; z-index: 0; background-size: 80%" v-show="showPool")
+    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .725rem; z-index: 0; background-size: 80%" v-show="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .18rem") 平台奖池累计：
-          span.amount.font-gold(style="font-size: .45rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
+        p.text-white(style="font-size: .16rem") 平台奖池累计：
+          span.amount.text-gold(style="font-size: .4rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .2rem; vertical-align: sub") {{ EM }}
       // div(style="padding: 0 .3rem; display: inline-block")
       //   p.font-white(style="font-size: .12rem") 参与人次
       //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
@@ -448,6 +448,8 @@ export default {
     
 </style>
 <style lang="stylus" scoped>
+  .ds-button
+    box-shadow none
   @import '../var.stylus'
   .logo .show
     display none
@@ -477,7 +479,8 @@ export default {
       z-index 1
     
     .amount
-      font-gradient(180deg, #fff, #ffd800 60%)
+      font-gradient(180deg, #fff 10%, #ffd800)
+      text-shadow none
       
   .el-row
     text-align left
@@ -524,7 +527,7 @@ export default {
         box-sizing border-box
         background-color 
         z-index -1
-        box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+        // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         radius(50%)
   
   NW = .26rem
@@ -547,6 +550,8 @@ export default {
       padding-left FW + .03rem
       margin-right 2*PW
     .collapse
+      &:hover
+        text-decoration none
       margin-right 2*PW
       &:before
         font-size .08rem

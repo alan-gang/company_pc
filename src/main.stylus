@@ -1317,6 +1317,8 @@ input
     background-color transparent
     box-shadow none
     text-shadow none
+    &:not(.el-icon-close):hover
+      text-decoration underline
   &.light
     color LIGHT
     &:not(.disabled):hover
@@ -1415,6 +1417,7 @@ input
       radius(0)
       &:hover
         color BLUE
+        text-decoration none
       &:last-child
         border-top-right-radius .05rem
         border-bottom-right-radius .05rem

@@ -369,7 +369,7 @@ export default {
       if (url) this.openAPage(url)
     },
     openAPage (url) {
-      if (this.pages.length === this.maxPages) {
+      if (this.pages.length === this.maxPages && !(this.pages.find(p => p.id === url))) {
         if (!this.loop) return false
         else if (this.curl !== url) {
           this.$emit('close-tab', this.furl, url)
@@ -668,16 +668,19 @@ export default {
       background rgba(0,0,0,0)
       .title
         display none
-      .el-button-group .el-button
-        color WHITE
-        .full 
-          border-color WHITE
-        &:hover
-          color GREY
-          .full
-            border-color GREY
-          .el-icon-close
+      .el-button-group 
+        background-color #668ccb
+        .el-button
+          color WHITE
+          .full 
+            border-color WHITE
+          &:hover
+            background-color rgba(255, 255, 255, .2)
             color WHITE
+            .full
+              border-color WHITE
+            .el-icon-close
+              color WHITE
           
       
   @media(max-width: 1024px)

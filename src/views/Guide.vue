@@ -525,6 +525,9 @@ export default {
       text-align left
       display inline-block
       vertical-align middle
+      max-height initial
+      overflow-y initial
+      
 </style>
 
 

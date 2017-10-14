@@ -2,7 +2,7 @@
   .tool-bar
     span.title {{ title }}
     el-button-group
-      el-button(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
+      el-button.my-star(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
       .el-button(@click.stop="minus")
         .el-icon-minus
       .el-button(@click="full")
@@ -76,6 +76,7 @@ export default {
       width TH
       padding 0
       radius(0)
+      cursor default
       background-color transparent
       &:hover
         background-color bg-hover
