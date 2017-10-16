@@ -520,13 +520,13 @@ export default {
         width 0
         vertical-align middle
         display inline-block
-    .box
-      position relative
-      text-align left
-      display inline-block
-      vertical-align middle
-      max-height initial
-      overflow-y initial
+      .box
+        position relative
+        text-align left
+        display inline-block
+        vertical-align middle
+        max-height initial
+        overflow-y initial
       
 </style>
 
