@@ -220,7 +220,7 @@ export default {
       }, n === 0 ? 1000 : 0)
     },
     ns () {
-      if (this.ns.length === 0) this.follow.show = false
+      if (this.ns.length === 0) this.closeFollow()
       if (this.ns.length === 10) {
         this.$modal.warn({
           content: '<div class="text-666" style="text-align: center; line-height: .3rem;text-indent: .15rem">一次最多只能投注：<span class="text-danger">10</span> 个方案',
@@ -666,7 +666,7 @@ export default {
       if (index === undefined) this.ns = []
       else {
         this.ns.splice(index, 1)
-        if (this.ns.length === 0) this.follow.show = false
+        if (this.ns.length === 0) this.closeFollow()
       }
     },
     setNPER (n) {

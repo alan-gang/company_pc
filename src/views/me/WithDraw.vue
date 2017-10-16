@@ -36,9 +36,9 @@
             |  次，今天您已经发起了 
             span.text-danger {{ times }}
             |  次提现申请。
-            br
-            | 每天的提现处理时间为：
-            span.text-danger 早上 10:00 至 次日凌晨 2:00
+            // br
+            // | 每天的提现处理时间为：
+            // span.text-danger 早上 10:00 至 次日凌晨 2:00
             br
             | 新绑定的提款银行卡需要绑定时间超过 
             span.text-danger 6

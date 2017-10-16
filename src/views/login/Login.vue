@@ -122,6 +122,7 @@
               } else {
                 this.$message.error(data.msg || '用户名或密码错误！')
                 this.code_ = ''
+                this.pwd = ''
                 this._getVerifyImage()
               }
             }, (rep) => {
