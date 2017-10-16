@@ -305,13 +305,13 @@ export default {
                   position: {
                     width: '11rem'
                   }
-                },
-                {
-                  id: '3-2-3',
-                  menuid: '93',
-                  title: '设置日工资',
-                  url: 'SetDaySalary'
                 }
+                // {
+                //   id: '3-2-3',
+                //   menuid: '93',
+                //   title: '设置日工资',
+                //   url: 'SetDaySalary'
+                // }
               ]
             },
             {
@@ -489,19 +489,19 @@ export default {
                 },
                 {
                   id: '4-5-3',
-                  menuid: '60',
+                  menuid: '89',
                   title: '走势图',
                   position: {
                     width: '20rem'
                   },
                   url: 'TrendChart'
-                },
-                {
-                  id: '4-5-5',
-                  menuid: '78',
-                  title: '我的日工资详情',
-                  url: 'DaySalary'
                 }
+                // {
+                //   id: '4-5-5',
+                //   menuid: '78',
+                //   title: '我的日工资详情',
+                //   url: 'DaySalary'
+                // }
               ]
             }
           ]
@@ -965,6 +965,7 @@ export default {
     //   top HH
     &.has-footer
       left LW
+      padding-bottom .5rem
       // bottom FH
       
     &.has-footer + footer

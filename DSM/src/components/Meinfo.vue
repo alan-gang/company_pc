@@ -176,8 +176,8 @@ export default {
     setBottomChat () {
       let chat = document.querySelector('.custom-service-box')
       chat.style.top = 'auto'
-      chat.style.left = '230px'
-      chat.style.bottom = '0px'
+      chat.style.left = '150px'
+      chat.style.bottom = '80px'
       chat.style.right = '0px'
     },
     getPos () {

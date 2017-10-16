@@ -5,7 +5,7 @@ let store = {
     hasHeader: false,
     hasFooter: false,
     user: {
-      login: null,
+      login: true,
       // Home & Me
       name: '游客',
       account: '',

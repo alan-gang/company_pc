@@ -121,6 +121,7 @@
                 this.loginSuccess(data)
               } else {
                 this.$message.error(data.msg || '用户名或密码错误！')
+                this.code_ = ''
                 this._getVerifyImage()
               }
             }, (rep) => {
