@@ -264,8 +264,12 @@ export default {
   F = .3rem
   .game-info
     &.fixed
+      box-shadow 0 2px 20px rgba(0,0,0,.2)
       z-index 1
       overflow-x hidden
+    &.my-hide
+      opacity 0
+      
     background-color: #ededed;
     // height GH
     line-height GH

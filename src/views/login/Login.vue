@@ -108,7 +108,7 @@
         // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         // window.localStorage.setItem('api', api.api)
       },
-      login () {
+      login: window._.throttle(function () {
         if (this.hasEmpty()) {
           this.$message.warning('输入值不能为空')
         } else {
@@ -132,7 +132,7 @@
             })
           })
         }
-      },
+      }, 1000),
       hasEmpty () {
         return !this.un_ || !this.pwd || !this.code_
       },

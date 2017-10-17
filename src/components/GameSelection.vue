@@ -547,7 +547,7 @@
         if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
           R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',', this.o, 2)
         } else {
-          R = removeDuplicate(this.V, /[,;\s]+/, null, this.o, (this.type.id.indexOf('-115') !== -1 ? 2 : 1))
+          R = removeDuplicate(this.V.trim(), /[,;\s]+/, null, this.o, (this.type.id.indexOf('-115') !== -1 ? 2 : 1))
         }
         if (R.has) this.V = R.s
         return R.has

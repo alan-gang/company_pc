@@ -4,6 +4,7 @@
 
 .el-tooltip__popper
   word-break break-all
+  max-width 50%
 /*
  *common css define
  */
@@ -1410,7 +1411,7 @@ input
     box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
     box-sizing border-box
     overflow visible
-    .ds-button
+    .ds-button:not(.el-icon-close)
       position relative
       color #666
       text-shadow none

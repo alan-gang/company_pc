@@ -25,6 +25,14 @@ config(Vue)
 //     termination: 300
 //   }
 // })
+// click throttling
+import _ from 'lodash'
+// Vue.use({
+//   install () {
+//     Vue.prototype._ = _
+//   }
+// })
+window._ = _
 
 // 饿了么
 import elementConfig from './elementConfig'

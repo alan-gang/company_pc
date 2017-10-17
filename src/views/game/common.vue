@@ -13,7 +13,7 @@
       <!-- 开奖信息 -->
       GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
       <!-- 游戏信息 -->
-      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle']" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid")
+      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->

@@ -992,11 +992,21 @@ export default {
     top 0
     // right: 1.2rem
     max-width "calc(100% - %s)" % 1.5rem
-    left: 0
+    left 0
+    right 0
     height HH
     z-index 1
     & + .scroll-content
       top HH
+    // &:after
+    //   content ''
+    //   position absolute
+    //   left 0 
+    //   right -1.5rem
+    //   top 0
+    //   bottom 0
+    //   background-color rgba(55,255,255,.1)
+    //   z-index -9999
   footer
     position absolute
     bottom 0

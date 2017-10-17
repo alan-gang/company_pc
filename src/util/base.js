@@ -45,7 +45,7 @@ let removeDuplicate = (s, i, join, o, l) => {
   let has = false
   return { s: s.split(i).filter((n, i, arr) => {
     if (!n.match(new RegExp('\\d{' + (l || 1) + '}', 'g'))) return false
-    return i === arr.findIndex(nn => !o ? nn ===n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
+    return i === arr.findIndex(nn => !o ? nn === n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
   }).join(join || ' '), has: has }
 }
 
