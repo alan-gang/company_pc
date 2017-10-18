@@ -74,6 +74,20 @@
       }
     },
     activated () {
+      // let {un_, pwd} = this.$route.query
+      // if (un_) this.un_ = un_
+      // if (pwd) this.pwd = pwd
+      // if (un_ && pwd) {
+      //   setTimeout(() => {
+      //     this.$el.querySelector('.ds-icon-edit input').focus()
+      //   }, 0)
+      //   this._getVerifyImage()
+      // } else {
+      //   setTimeout(() => {
+      //     this.$el.querySelector('.ds-icon-user input').focus()
+      //   }, 0)
+      //   this.tryLogin()
+      // }
     },
     methods: {
       loginSuccess (data) {
@@ -108,7 +122,7 @@
         // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         // window.localStorage.setItem('api', api.api)
       },
-      login: window._.throttle(function () {
+      login () {
         if (this.hasEmpty()) {
           this.$message.warning('输入值不能为空')
         } else {
@@ -132,7 +146,7 @@
             })
           })
         }
-      }, 1000),
+      },
       hasEmpty () {
         return !this.un_ || !this.pwd || !this.code_
       },

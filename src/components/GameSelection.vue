@@ -397,7 +397,28 @@
       // separator () {
       //   return this.V.match(/[,;]/g) ? /[,;]+/g : /[\s]+/g
       // },
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       value () {
+        if (this.V.length > 10000) {
+          this.$worker.run((V, type) => {
+            if (type.id.indexOf('-115') !== -1 && (V.match(/[,;]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+              return V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            } else {
+              return V.replace(/[,;\s]+/g, ' ')
+            }
+          }, [this.V, this.type])
+          .then(result => {
+            this.value = result
+          })
+          .catch(e => {
+            // console.error(e)
+          })
+          return this.V
+        }
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
@@ -444,9 +465,28 @@
       //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       // },
       // C2
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       V (n, o) {
         // console.log(o, '=>', n)
         setTimeout(() => {
+          if (this.V.length > 10000) {
+            this.$worker.run((V) => {
+              return V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+            }, [this.V])
+            .then(result => {
+              this.V = result
+              this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
+              // this.value = result
+            })
+            .catch(e => {
+              // console.error(e)
+            })
+            return this.V
+          }
           this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
@@ -517,12 +557,46 @@
         let files = evt.target.files
         Array.from(files).forEach(f => {
           if (f.type.indexOf(allowedFiles) !== -1) {
+            // this.$worker.run((arg) => {
+            //   console.log('Z!!Z!')
+            //   // if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //   //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            //   // } else {
+            //   //   return this.V.replace(/[,;\s]+/g, ' ')
+            //   // }
+            // }, ['hello'])
+            // .then(result => {
+            //   console.log(result, '???')
+            //   // this.value = result
+            // })
+            // .catch(e => {
+            //   // console.error(e)
+            // })
+
             let reader = new window.FileReader()
             // reader.onerror = this.error
             // reader.onprogress = this.progress
             // reader.onabort = this.abort
             // reader.onloadstart = this.loadstart
             reader.onload = this.load
+            // reader.onload = (evt) => {
+            //   console.log(evt.target.result)
+            //   this.$worker.run((arg) => {
+            //     console.log('Z!!Z!')
+            //     // if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //     //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            //     // } else {
+            //     //   return this.V.replace(/[,;\s]+/g, ' ')
+            //     // }
+            //   }, [evt.target.result])
+            //   .then(result => {
+            //     console.log(result, '???')
+            //     // this.value = result
+            //   })
+            //   .catch(e => {
+            //     // console.error(e)
+            //   })
+            // }
             reader.readAsText(f, 'utf-8')
           }
         })
@@ -531,7 +605,6 @@
       load (evt) {
         // console.log(evt.target.result)
         this.V += this.V ? ',' + evt.target.result : evt.target.result
-        // .replace(/\s+/g, ' ')
       },
       // __removeRepeat () {
       //   if (this.removeRepeat()) {
@@ -542,7 +615,27 @@
       //   }
       //   this.__setCall({fn: '__order'})
       // },
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       removeRepeat () {
+        if (this.V.length > 10000) {
+          this.$worker.run((V, type, o) => {
+            if (type.id.indexOf('-115') !== -1 && V.match(/[,;]+/g)) {
+              R = removeDuplicate(V.replace(/ +/g, ''), /[,;\s]+/, ',', o, 2)
+            } else {
+              R = removeDuplicate(V.trim(), /[,;\s]+/, null, o, (type.id.indexOf('-115') !== -1 ? 2 : 1))
+            }
+          }, [this.V, this.type, this.o])
+          .then(result => {
+            if (result.has) this.V = result.s
+          })
+          .catch(e => {
+            // console.error(e)
+          })
+          return this.V
+        }
         let R = null
         if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
           R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',', this.o, 2)

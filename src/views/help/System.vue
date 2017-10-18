@@ -61,7 +61,7 @@
           if (data.success) {
             this.notices = data.sysNotices || []
             typeof fn === 'function' && fn()
-            this.total = data.totalSize || this.data.length
+            this.total = data.totalSize || this.notices.length
           }
         }, (rep) => {
           // error

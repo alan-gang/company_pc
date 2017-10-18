@@ -67,7 +67,7 @@
             | 元)
 
           p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            el-input-number(v-model="money" v-bind:max="max" v-bind:min="min" controls=false)
+            el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
           .buttons(style="margin-left: .98rem; padding: .2rem 0")
@@ -75,7 +75,11 @@
 
       
       .bank-form(v-if="tabIndex === 1 && stepIndex === 2")
-        
+        p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 
+          // |您正在增加 
+          // span.text-blue {{ me.name }}
+          // |  帐号的银行卡
+          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
         .form
           p.item 实扣金额：&nbsp;&nbsp;&nbsp;
             span.amount {{ money }}

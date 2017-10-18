@@ -1,5 +1,6 @@
 
 import Vue from 'vue'
+import SimpleWebWorker from 'simple-web-worker'
 Vue.config.devtools = false
 Vue.config.silent = true
 Vue.config.productionTip = false
@@ -8,6 +9,12 @@ import './polyline'
 import config from './config'
 config(Vue)
 
+Vue.use({
+  install: function (Vue, name) {
+    name = name || '$worker'
+    Object.defineProperty(Vue.prototype, name, { value: SimpleWebWorker })
+  }
+})
 // ow
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // Vue.use(VueAwesomeSwiper)
@@ -26,13 +33,13 @@ config(Vue)
 //   }
 // })
 // click throttling
-import _ from 'lodash'
-// Vue.use({
-//   install () {
-//     Vue.prototype._ = _
-//   }
-// })
-window._ = _
+// import _ from 'lodash'
+// // Vue.use({
+// //   install () {
+// //     Vue.prototype._ = _
+// //   }
+// // })
+// window._ = _
 
 // 饿了么
 import elementConfig from './elementConfig'

@@ -858,7 +858,7 @@ export default {
             })
           }, 100)
         } else {
-          this.openTab(this.prev.href === '/' && this.ctabs.length > 0 ? this.ctabs[0].href : this.prev.href)
+          !this.currentab[0] && this.openTab(this.prev.href === '/' && this.ctabs.length > 0 ? this.ctabs[0].href : this.prev.href)
         }
       })
     },

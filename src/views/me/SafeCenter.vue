@@ -509,8 +509,8 @@ export default {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
-              this.__setCall({fn: '__logout'})
-            }, 3000)
+              this.__setCall({fn: '__logout', args: undefined, callId: undefined})
+            }, 1500)
           } else {
             this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
             this.clearPwd()

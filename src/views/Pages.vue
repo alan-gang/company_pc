@@ -674,13 +674,14 @@ export default {
           color WHITE
           .full 
             border-color WHITE
+          
           &:hover
             background-color rgba(255, 255, 255, .2)
             color WHITE
             .full
               border-color WHITE
-            .el-icon-close
-              color WHITE
+            &.close
+              background-color DANGER
           
       
   @media(max-width: 1024px)
