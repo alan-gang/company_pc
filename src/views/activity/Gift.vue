@@ -83,7 +83,8 @@ export default {
     // 今日签到
     checkinNow (t) {
       if (t.enable !== '1') return
-      this.$http.get(api.getCheckToday).then(({data}) => {
+      // this.$http.get(api.getCheckToday).then(({data}) => {
+      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday).then(({data}) => {
         if (data.success === 1) {
           t.get = true
         } else {
@@ -184,7 +185,7 @@ export default {
     text-align center
     .gift-list
       display inline-block
-      max-width 11rem
+      max-width 12rem
     .ticket
       position relative
       radius()
