@@ -84,7 +84,7 @@ export default (Vue) => {
         if (rep.data && rep.data.success === -1 && !M) {
           // if (store.state.user.login) {
           store.state.user.login = false
-          M = this.$modal.warn({
+          this && this.$modal && (M = this.$modal.warn({
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
             close () {
@@ -92,7 +92,7 @@ export default (Vue) => {
               this.__setCall({fn: '__logout', args: undefined, callId: undefined})
             },
             O: this
-          })
+          }))
           // }
         } else if (rep.data && rep.data.success === -3) {
           // M = this.$modal.warn({
