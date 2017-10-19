@@ -15,7 +15,12 @@ export default (Vue) => {
   // })
   let THROTTLE = {
     xhr: {
-      then: function () {
+      then: function (s, e) {
+        e && e()
+        return THROTTLE.xhr
+      },
+      finally: function (f) {
+        f && f()
         return THROTTLE.xhr
       }
     }

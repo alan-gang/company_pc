@@ -177,7 +177,7 @@ export default {
       // row.selected = !row.selected
     },
     Orderlist () {
-      this.$http.post(api.Orderlist, {
+      this.$http.mypost(api.Orderlist, {
         scope: 0,
         lotteryId: this.gameid,
         page: 1,
