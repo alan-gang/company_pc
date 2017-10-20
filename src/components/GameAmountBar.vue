@@ -24,7 +24,7 @@
       .ds-checkbox-label(style="margin-right: 0" v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ")
         .ds-checkbox
         | 奖池抽奖
-      el-popover(placement="top-start" trigger="click" v-bind:popper-class="'popover-instruction font-white popover-pot'")
+      el-popover(placement="top" trigger="click" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
           span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
         slot
