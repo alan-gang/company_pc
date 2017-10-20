@@ -23,6 +23,9 @@
       span.pay {{ pay }}
       |  元
       .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+      .buttons
+        .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && quickbook()") 一键下单
 
 
 
@@ -105,6 +108,9 @@ export default {
     setTimes (t) {
       this.$emit('set-times', t)
     },
+    quickbook () {
+      this.$emit('quickbook')
+    },
     order () {
       if (this.P.maxCount && (this.n > this.P.maxCount)) {
         return this.$modal.warn({
@@ -115,17 +121,14 @@ export default {
       } else if (this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
         return this.$modal.question({
           content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
-          btn: ['继续购买', '再来几注', '不再提醒'],
+          btn: ['继续购买，不再提醒', '再来几注'],
           target: this.$el.parentNode,
           O: this,
           ok () {
+            store.actions.setUser({minOrderPop: false})
             this.$emit('order')
           },
           cancel (i) {
-            if (i === 2) {
-              this.$emit('order')
-              store.actions.setUser({minOrderPop: false})
-            }
           }
         })
       }
@@ -180,6 +183,15 @@ export default {
       right: 0;
       border-bottom-right-radius .05rem
       border-bottom-left-radius .05rem
+      .left
+        padding: 0.08rem 0px 0.07rem;
+      .right
+        line-height: .4rem; padding: 0.08rem 0px 0.07rem;
+        & > .primary
+          display none
+        .buttons
+          position: relative; top: -.08rem
+        
     .el-row
       width 100%
   .el-col

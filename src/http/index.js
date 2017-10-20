@@ -22,6 +22,10 @@ export default (Vue) => {
       finally: function (f) {
         f && f()
         return THROTTLE.xhr
+      },
+      catch: function (f) {
+        f && f()
+        return THROTTLE.xhr
       }
     }
   }

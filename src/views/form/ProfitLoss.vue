@@ -36,7 +36,7 @@
           
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goProfitLossDetail(scope.row.userId)") 明细
+              .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0 .05rem" @click.stop="goProfitLossDetail(scope.row.userId)") 明细
       
 </template>
 
@@ -89,6 +89,29 @@
       this.profitList()
     },
     methods: {
+      summary () {
+        let s = {
+          last: true,
+          userName: '小结：',
+          salaryAmount: 0,
+          saveAmount: 0,
+          withdrawAmount: 0,
+          buyAmount: 0,
+          pointAmount: 0,
+          prizeAmount: 0,
+          profitAmount: 0
+        }
+        this.data.forEach(d => {
+          s.salaryAmount += parseInt(d.salaryAmount) || 0
+          s.saveAmount += parseInt(d.saveAmount) || 0
+          s.withdrawAmount += parseInt(d.withdrawAmount) || 0
+          s.buyAmount += parseInt(d.buyAmount) || 0
+          s.pointAmount += parseInt(d.pointAmount) || 0
+          s.prizeAmount += parseInt(d.prizeAmount) || 0
+          s.profitAmount += parseInt(d.profitAmount) || 0
+        })
+        this.data[0] && this.data.push(s)
+      },
       // 盈亏报表列表
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
       // profitList: api + 'report/profit.do?method=list',
@@ -109,6 +132,7 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

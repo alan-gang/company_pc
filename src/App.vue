@@ -953,7 +953,7 @@ export default {
     overflow hidden
     min-height 600px
     min-width 800px
-    font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
+    font-family Arial, Helvetica, sans-serif, 'Microsoft YaHei'
   
   body
     height 100%

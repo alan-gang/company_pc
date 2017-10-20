@@ -1376,6 +1376,10 @@ input
     &.secondary
       color LIGHT
       bg-gradient(180deg, #f1f1f1, #e6e6e6)
+    &.danger
+      color DANGER
+      background-color transparent
+      border .01rem solid DANGER
 
   &.isworking
     // font-size .18rem

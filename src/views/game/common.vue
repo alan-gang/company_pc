@@ -37,7 +37,7 @@
     <!-- 总计栏 -->
     GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
-    GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order")
+    GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
     <!-- 历史开奖信息 -->
     // GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
@@ -451,6 +451,91 @@ export default {
           //   text: '投注失败！',
           //   target: this.$el
           // }, 1000)
+        }
+      }, (rep) => {
+        loading.text = '投注失败！'
+        // this.__loading({
+        //   text: '投注失败！',
+        //   target: this.$el
+        // }, 1000)
+        // error
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 1000)
+      })
+    },
+    quickbook () {
+      let loading = this.$loading({
+        text: '投注中...',
+        target: this.$el
+      }, 10000, '投注超时...')
+      this.$http.post(api.booking, {
+        gameid: parseInt(this.page.gameid), // 游戏代码
+        issue: String(this.CNPER), // 起始期号
+        totalnums: this.N, // 总注数
+        totalmoney: this.NPAY, // 总投注金额
+        type: 1, // 类型：1-投注；2-追号
+        isusefree: 0, // 是否使用优惠券，0-否，1-是
+        items: JSON.stringify([
+          {
+            methodid: parseInt(this.methodid), // 玩法编号
+            type: parseInt(this.methodidtype),
+            pos: this._getPsstring(),
+            codes: this._getCodes(),
+            count: this.n,
+            times: this.times,
+            money: this.pay,
+            mode: this.currency.model,
+            userpoint: this.point
+          }
+        ]),
+        trace: '',
+        isJoinPool: 0
+      }).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          // this.$message.success('投注成功')
+          loading.text = '投注成功'
+          this.__setCall({fn: '__clearSelectedNumbers'})
+          setTimeout(() => {
+            this.__setCall({fn: '__clearValue'})
+          }, 0)
+          setTimeout(() => {
+            this.__setCall({fn: '__getUserFund', callId: undefined})
+          }, 200)
+          // this.__loading({
+          //   text: '投注成功.',
+          //   target: this.$el
+          // }, 1000)
+          // this.__setCall({fn: '__getOrderList'})
+          // this.__setCall({fn: '__getFollowList'})
+          // this.__setCall({fn: '__getUserFund', callId: undefined})
+          // this.ns = []
+          // this.follow.items = []
+        } else {
+          // this.$message.warning('投注失败！')
+          // let temp = []
+          // data.failItems.split(',').map(i => parseInt(i)).sort((a, b) => b - a).forEach(i => {
+          //   this.ns.splice(i, 1)
+          // })
+          loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
+          // if (parseInt(data.msg)) {
+          //   data.msg.split(',').map(i => parseInt(i)).forEach(i => {
+          //     temp.push(this.ns[i - 1])
+          //   })
+          //   this.ns = temp
+          //   loading.close()
+          //   this.$modal.warn({
+          //     target: this.$el,
+          //     content: '投注列表中的第' + data.msg + '项投注失败！',
+          //     btn: ['确定']
+          //   })
+          // }
+          this.__loading({
+            text: '投注失败！',
+            target: this.$el
+          }, 1000)
         }
       }, (rep) => {
         loading.text = '投注失败！'

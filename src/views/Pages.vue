@@ -159,6 +159,7 @@ export default {
       hasHeader: true,
       hasFooter: true,
       // 可打开的最大的页数
+      // H: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem',
       pageSizes: {
         full: {
           top: 0,
@@ -177,7 +178,7 @@ export default {
           top: '15%',
           left: '25%',
           width: '9.3rem',
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         static: {
           top: 0,
@@ -191,12 +192,12 @@ export default {
       // 没有记录过位置的窗口将自动分配位置
       PPP: [
         {
-          top: document.body.clientHeight < 900 ? '0.15rem' : 'calc(10% + 0.15rem)',
+          top: document.body.clientHeight < 900 ? '0.36rem' : 'calc(10% + 0.15rem)',
           left: 'calc(20% + 0.15rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '0.5rem' : 'calc(10% + 0.5rem)',
@@ -204,7 +205,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '0.85rem' : 'calc(10% + 0.85rem)',
@@ -212,7 +213,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '1.2rem' : 'calc(10% + 1.2rem)',
@@ -220,7 +221,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '1.55rem' : 'calc(10% + 1.55rem)',
@@ -228,7 +229,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '1.9rem' : 'calc(10% + 1.9rem)',
@@ -236,7 +237,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '2.25rem' : 'calc(10% + 2.25rem)',
@@ -244,7 +245,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '2.6rem' : 'calc(10% + 2.6rem)',
@@ -252,7 +253,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '2.95rem' : 'calc(10% + 2.95rem)',
@@ -260,7 +261,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
           top: document.body.clientHeight < 900 ? '3.3rem' : 'calc(10% + 3.3rem)',
@@ -268,7 +269,7 @@ export default {
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         }
       ]
       // PPP: [
@@ -816,7 +817,7 @@ export default {
     //   left 50%
     //   transform translateX(-50%)
     position absolute !important
-    min-width 5.4rem
+    min-width 5.8rem
     min-height 4rem
     overflow visible
     z-index 0

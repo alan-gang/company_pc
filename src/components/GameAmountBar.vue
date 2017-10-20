@@ -21,13 +21,12 @@
       
 
       
-
-      el-popover(placement="top-start" trigger="hover" v-bind:popper-class="'popover-instruction font-white popover-pot'")
+      .ds-checkbox-label(style="margin-right: 0" v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ")
+        .ds-checkbox
+        | 奖池抽奖
+      el-popover(placement="top-start" trigger="click" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
-          .ds-checkbox-label(v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ").ds-icon-text-question
-            .ds-checkbox
-            | 奖池抽奖
-          // .ds-button.danger.bold(@click="book") ? 奖池投注
+          span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
         slot
           p(style="line-height: .25rem")
               span.label.font-gold 奖池说明：
@@ -36,7 +35,7 @@
               span.label.font-gold 奖金分配：
               | 一等级中奖金额占奖池总金额的70%，二等奖占奖池总金额30%。同一个奖级如多人中奖，平均分配该奖级所有奖金，当期剩余的未派发的奖金自动滚入下一期。
       
-      .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
+      .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle" style="margin-right: 0")
         .ds-checkbox
         | 使用优惠券
 
