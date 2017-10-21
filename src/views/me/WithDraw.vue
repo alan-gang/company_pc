@@ -177,6 +177,16 @@ export default {
     }
   },
   watch: {
+    money () {
+      if (typeof this.money === 'number') {
+        setTimeout(() => {
+          (this.money + '') !== (this.money.toFixed(2)) && (this.money = (this.money.toFixed(2)))
+        }, 300)
+        // setTimeout(() => {
+        //   this.amount = parseFloat(this.amount) || 0
+        // }, 300)
+      }
+    },
     selectBank () {
       // this.selectBank.apiName && this.getWithdrawByApi()
       if (!this.selectBank.apiName) {

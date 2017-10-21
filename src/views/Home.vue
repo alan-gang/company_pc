@@ -30,7 +30,7 @@
 
             // v-bind:class="{'with-icon': group.withIcon}"          
             dl.submenu(v-for="group in canCollectMenus[activeIndex].groups" v-if="!group.hide")
-              dt {{ group.title }}
+              dt(v-if="group.items.filter(function(x){return !x.removed})[0]") {{ group.title }}
               // v-bind:class="[item.class || group.class]"
               dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid && !item.removed" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}

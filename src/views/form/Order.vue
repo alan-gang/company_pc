@@ -72,7 +72,9 @@
 
           el-table-column(prop="lotteryName" label="游戏" width="100")
 
-          el-table-column(prop="methodName" label="玩法" width="100")
+          el-table-column(prop="methodName" label="玩法" width="150")
+            template(scope="scope")
+              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
           el-table-column(prop="issue" label="期号" width="100")
 
@@ -168,7 +170,7 @@
                 span.text-black {{ row.projectId }}
               el-col(:span="6")
                 玩法：
-                span.text-black {{ row.methodName }}
+                span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
               el-col(:span="6")
                 注单状态：
                 span.text-black {{ STATUS[row.stat] }}

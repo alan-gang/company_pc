@@ -23,11 +23,11 @@
 
 
     transition(name="slide-down" appear=true)
-      el-row.pos(v-if="show")
+      el-row.pos(v-if="show[0]")
         el-col(v-bind:span="13")
           label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
             span.ds-checkbox 
-            | {{ p.title }}
+            | {{ p.title[show[1]] }}
         el-col.notice(:span="11")
           | 温馨提示：你选择了 
           span.count {{ psl }}
@@ -254,27 +254,27 @@
         // 位置选择
         positions: [
           {
-            title: '万位',
+            title: ['万位', '第一位'],
             value: 5,
             selected: false
           },
           {
-            title: '千位',
+            title: ['千位', '第二位'],
             value: 4,
             selected: true
           },
           {
-            title: '百位',
+            title: ['百位', '第三位'],
             value: 3,
             selected: true
           },
           {
-            title: '十位',
+            title: ['十位', '第四位'],
             value: 2,
             selected: true
           },
           {
-            title: '个位',
+            title: ['个位', '第五位'],
             value: 1,
             selected: true
           }
@@ -288,7 +288,7 @@
           // 最少4个位置
           {ids: '-1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6', min: 4}
         ],
-        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1, -3-1-3-115',
+        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1, -3-1-3-115,',
         // 号码集
         ns: [],
         // 号码的文字表示集
@@ -325,8 +325,9 @@
       },
       // 显示位置选择
       show () {
+        // console.log(this.type.id, this.type.id.match(/^[+-]/), ('\\' + this.type.id + '(:\\d)*,'), '[^+-]' + this.type.id + '(:\\d)*,')
         // return this.ids.match(new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g'))
-        return this.ids.match(new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g'))
+        return [this.ids.match(new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g')), this.type.id === '-3-1-3-115' ? 1 : 0]
       },
       // 位置集合
       ps () {

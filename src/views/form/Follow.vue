@@ -73,6 +73,8 @@
           el-table-column(prop="lotteryName" label="游戏" width="100" )
 
           el-table-column(prop="methodName" label="玩法" min-width="100" )
+            template(scope="scope")
+              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
 
           el-table-column(prop="beginIssue" label="开始期数" width="100" )
 

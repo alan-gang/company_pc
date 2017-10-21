@@ -24,7 +24,7 @@
       el-row
         el-col(:span="6")
           玩法：
-          span.text-black {{ detail.methodName }}
+          span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
         el-col(:span="6")
           模式：
           span.text-black {{ MODES[detail.modes - 1] }}
@@ -137,7 +137,7 @@
                 span.text-black {{ row.projectId }}
               el-col(:span="5")
                 玩法：
-                span.text-black {{ row.methodName }}
+                span.text-black {{ row.methodName }}（{{ row.codeType === 1 ? '复式' : '单式'}}）
               el-col(:span="5")
                 注单状态：
                 span.text-black {{ ORDERSTATUS[row.stat] }}

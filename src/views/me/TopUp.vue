@@ -268,7 +268,7 @@ export default {
       // avaibleBanks: [],
       selectBank: {},
       showAllBank: false,
-      amount: '',
+      amount: 0,
       min: 0,
       max: 0,
       data: [],
@@ -342,6 +342,16 @@ export default {
     // }
   },
   watch: {
+    amount () {
+      if (typeof this.amount === 'number') {
+        setTimeout(() => {
+          (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+        }, 300)
+        // setTimeout(() => {
+        //   this.amount = parseFloat(this.amount) || 0
+        // }, 300)
+      }
+    },
     pt_ () {
       if (this.pt_ === this.time_) {
         let t = setInterval(() => {

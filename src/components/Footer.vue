@@ -8,7 +8,7 @@
           slot
             dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
-                span.title(v-if="group.title")  {{ group.title }}
+                span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
                 .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
