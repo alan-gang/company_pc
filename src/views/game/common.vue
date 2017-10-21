@@ -466,6 +466,13 @@ export default {
       })
     },
     quickbook () {
+      if (this.pay > this.money) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: '余额不足, 请充值。',
+          btn: ['确定']
+        })
+      }
       let loading = this.$loading({
         text: '投注中...',
         target: this.$el
@@ -474,7 +481,7 @@ export default {
         gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
         totalnums: this.N, // 总注数
-        totalmoney: this.NPAY, // 总投注金额
+        totalmoney: this.pay, // 总投注金额
         type: 1, // 类型：1-投注；2-追号
         isusefree: 0, // 是否使用优惠券，0-否，1-是
         items: JSON.stringify([
