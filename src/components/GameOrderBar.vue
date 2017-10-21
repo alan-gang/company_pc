@@ -25,7 +25,7 @@
       .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
       .buttons
         .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
-        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && quickbook()") 一键下单
+        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
 
 
 
@@ -111,7 +111,7 @@ export default {
     quickbook () {
       this.$emit('quickbook')
     },
-    order () {
+    order (quick) {
       if (this.P.maxCount && (this.n > this.P.maxCount)) {
         return this.$modal.warn({
           content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
@@ -120,19 +120,23 @@ export default {
         })
       } else if (this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
         return this.$modal.question({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
-          btn: ['继续购买，不再提醒', '再来几注'],
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金最高限制为元模式3万，角3千， 分3百，厘30',
+          btn: ['继续购买', '再来几注', '不再提醒'],
           target: this.$el.parentNode,
           O: this,
           ok () {
-            store.actions.setUser({minOrderPop: false})
-            this.$emit('order')
+            // store.actions.setUser({minOrderPop: false})
+            this.$emit(quick ? 'quickbook' : 'order')
           },
           cancel (i) {
+            if (i === 2) {
+              store.actions.setUser({minOrderPop: false})
+              this.$emit(quick ? 'quickbook' : 'order')
+            }
           }
         })
       }
-      this.$emit('order')
+      this.$emit(quick ? 'quickbook' : 'order')
     }
   },
   components: {
