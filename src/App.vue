@@ -159,6 +159,7 @@ export default {
           class: 'ds-icon-game',
           title: '游戏',
           url: 'game',
+          hideIcon: false,
           // size: 'full',
           groups: [
             {

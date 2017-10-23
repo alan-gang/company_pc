@@ -2,7 +2,7 @@
   footer(ref="myFooter")
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
@@ -18,6 +18,8 @@
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
+
+            .ds-button.text-button.linght(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' " @click=" dododo(menu)") 简化菜单
 
 
       el-col.info(:span="10" v-bind:offset="4")
@@ -172,6 +174,11 @@ export default {
     this.setFarChat()
   },
   methods: {
+    dododo (menu) {
+      menu.hideIcon = !menu.hideIcon
+      this.$refs.game[0].$refs.popper.style.transform = menu.hideIcon ? (!menu.hideIconOnHover ? 'translateY(2.2rem)' : 'translateY(0rem)') : menu.hideIconOnHover ? 'translateY(-2.2rem)' : 'translateY(0rem)'
+      return true
+    },
     collapseFooter () {
       this.$emit('collapse-footer')
       if (this.$refs.myFooter.className.indexOf('collapse-footer') !== -1) {
@@ -240,6 +247,7 @@ export default {
     },
     mouseover (menu) {
       if (menu.url === 'game') {
+        menu.hideIconOnHover = menu.hideIcon
         this.__setCall({
           fn: '__guideStep'
         })
@@ -319,6 +327,12 @@ export default {
       max-width 8.7rem
       .submenu
         max-width 2.7rem
+      &.hide-icon
+        .submenu
+          max-width 1.2rem
+          dd
+            background none
+            height auto
       
     .submenu
       float left

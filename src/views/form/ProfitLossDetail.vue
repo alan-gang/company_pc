@@ -30,6 +30,7 @@
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
+          el-table-column(prop="rewardsAmount" label="活动" width="100")
           el-table-column(prop="profitAmount" label="盈亏结算" width="100" v-bind:sortable="true")
         
         el-table.header-bold.nopadding(:data="total" row-class-name="text-danger" v-on:row-click="setSelected" style="" v-if="total[0]")

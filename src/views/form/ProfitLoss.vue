@@ -13,11 +13,18 @@
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         
         .buttons(style="margin-left: .9rem")
-          .ds-button.primary.large.bold(@click="profitList") 搜索
+          .ds-button.primary.large.bold(@click="profitList()") 搜索
+        
+        p(style="margin: .3rem 0 .15rem 0")
+          el-breadcrumb(separator=">")
+            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
+        el-table.header-bold.nopadding(:data="data" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
 
           el-table-column(prop="userName" label="用户名" width="100" v-bind:sortable="true")
+            template(scope="scope")
+              span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
+  
           el-table-column(prop="userPoint" label="返点级别" width="100" )
           el-table-column(prop="salaryAmount" label="工资总额" width="100" )
           el-table-column(prop="saveAmount" label="充值总额" width="100" )
@@ -25,6 +32,7 @@
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
+          el-table-column(prop="rewardsAmount" label="活动" width="100")
           el-table-column(prop="profitAmount" label="盈亏结算" width="100"  v-bind:sortable="true")
 
           // el-table-column(prop="userName" label="用户名" width="100" sortable="true")
@@ -80,7 +88,11 @@
           }
         },
         stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
-        data: [{}]
+        data: [{}],
+        BL: [
+          {title: '自己'},
+          {}
+        ]
       }
     },
     computed: {
@@ -89,6 +101,22 @@
       this.profitList()
     },
     methods: {
+      cellClick (row, column, cell, event) {
+        if (column.property === 'userName') {
+          // this.BL.push({
+          //   id: row.userId,
+          //   title: row.userName
+          // })
+          this.profitList(row.userId)
+        }
+      },
+      link (B, i) {
+        // if (i !== B.length - 1) {
+          // this.BL = this.BL.slice(0, i + 1)
+          // this.profitList()
+        // }
+        this.profitList(B.userId)
+      },
       summary () {
         let s = {
           last: true,
@@ -116,23 +144,26 @@
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
       // profitList: api + 'report/profit.do?method=list',
       // api.getTeamProfit
-      profitList () {
+      profitList (id) {
         let loading = this.$loading({
           text: '盈亏报表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.profitList, {
           startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
+          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
+          userId: id || this.BL[this.BL.length - 2].userId
+          // userId: id || ''
         }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.data = data.allDate
+            this.BL = (data.userBreads).concat([{}])
             // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-            this.summary()
+            // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

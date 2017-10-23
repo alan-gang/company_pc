@@ -458,7 +458,7 @@ export default {
         if (data.success === 1) {
           // this.$message.success({target: this.$el, message: '银行绑定成功！'})
           this.$modal.success({
-            content: '恭喜您，绑定成功！',
+            content: data.msg || '恭喜您，绑定成功！',
             target: this.$el,
             btn: ['确定'],
             close () {

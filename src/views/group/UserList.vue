@@ -10,7 +10,7 @@
       // 用户列表
       .form(v-if="stepIndex === 0")
         label.item 用户名 
-          input.ds-input.small(v-model="name")
+          input.ds-input.small(v-model="name" @keyup.enter="searNow")
 
         label.item 帐户余额 
           el-input-number(v-model="minMoney")
@@ -40,16 +40,17 @@
 
         p(style="margin: .3rem 0 .15rem 0")
           el-breadcrumb(separator=">")
-            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ B.title }}
+            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-        el-table.header-bold.nopadding(:data="data"  @cell-click="cellClick")
+        el-table.header-bold.nopadding(:data="data"  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName")
 
           // el-table-column(class-name="pointer text-blue" prop="userId" label="下级" width="50" align="left")
             
 
           el-table-column(prop="userName"  label="用户名" width="100")
             template(scope="scope")
-              span(:class=" { 'pointer text-blue': !scope.row.static } ") {{ scope.row.userName }}
+              // span(:class=" { 'pointer text-blue': !scope.row.self } ") {{ scope.row.userName }}
+              span.pointer.text-blue(:class=" { 'text-danger': scope.row.userId === id } ") {{ scope.row.userName }}
 
           // el-table-column(v-if="showDaySalary" prop="daySalary"  label="日工资" width="100" align="right")
 
@@ -73,9 +74,9 @@
 
           el-table-column(label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(v-if=" canTopUp && !scope.row.self "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
-              .ds-button.text-button.blue(v-if="(!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2) "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
-              .ds-button.text-button.blue(v-if="!scope.row.self && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
+              .ds-button.text-button.blue(v-if=" canTopUp && (scope.row.userId !== id) "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 充值
+              .ds-button.text-button.blue(v-if=" scope.row.isSub !== '0'  "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调点
+              .ds-button.text-button.blue(v-if=" (scope.row.userId !== id) && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               // .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" (me.role !== 1) && (!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
               // .ds-button.text-button.blue(style="padding: 0 .05rem" v-if="(me.role !== 1) && showSalary && ((!scope.row.self && BL.length === 1) || (scope.row.static && BL.length === 2)) " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.loseSalary) || ( oo = scope.row.winSalary ))   ") 调整工资
               // el-popover.footer-more(placement="bottom-start" trigger="hover" v-bind:popper-class=" '' ")
@@ -185,7 +186,7 @@
 
           div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
 
-            el-table.header-bold(:data="pointData[pointType]" v-bind:row-class-name="tableRowClassName" style="margin: .2rem")
+            el-table.header-bold(:data="pointData[pointType]"  style="margin: .2rem")
 
               el-table-column(prop="level" label="返点等级" align="right" width="120")
 
@@ -250,7 +251,7 @@
 
           div(style="padding: 0 1rem")
 
-            el-table.header-bold.margin(:data="openUserData" v-bind:row-class-name="tableRowClassName" style="margin: .2rem auto; width: 6rem")
+            el-table.header-bold.margin(:data="openUserData" style="margin: .2rem auto; width: 6rem")
 
               el-table-column(prop="name" label="开户级别" align="center" width="120")
 
@@ -288,6 +289,7 @@
         showSalary: 0,
         // me: store.state.user,
         me: store.state.user,
+        id: '',
         myPoint: '',
         stepIndex: 0,
         // topUp, point
@@ -322,7 +324,8 @@
         // btos: false,
         // 面包
         BL: [
-          {title: '自己'}
+          {title: '自己'},
+          {}
         ],
         data: [{}],
         // 下级
@@ -373,6 +376,9 @@
       this.getUserList()
     },
     methods: {
+      tableRowClassName (row) {
+        if (this.id === row.userId) return 'text-danger'
+      },
       checkTopup () {
         if ((this.topUpMax || this.topUpMin) && (this.money <= this.topUpMax && this.money >= this.topUpMin) || !(this.topUpMax || this.topUpMin)) {
           this.topUpIndex++
@@ -478,34 +484,38 @@
       //   return a > b
       // },
       cellClick (row, column, cell, event) {
-        if (column.property === 'userName' && !row.static) {
-          this.BL.push({
-            id: row.userId,
-            title: row.userName
-          })
-          this.getUserList()
+        if (column.property === 'userName') {
+          this.clear()
+          // this.BL.push({
+          //   id: row.userId,
+          //   title: row.userName
+          // })
+          this.getUserList(row.userId)
         }
       },
       link (B, i) {
-        if (i !== B.length - 1) {
-          this.BL = this.BL.slice(0, i + 1)
-          this.getUserList()
-        }
+        // if (i !== B.length - 1) {
+          // this.BL = this.BL.slice(0, i + 1)
+          // this.getUserList()
+        // }
+        this.clear()
+        this.getUserList(B.id)
       },
       searNow () {
+        this.BL = this.BL.slice(0, 1)
         this.getUserList()
       },
       addUserNow () {
         this.$router.push('/group/3-2-1')
       },
-      getUserList () {
+      getUserList (id) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
         let loading = this.$loading({
           text: '用户列表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.post(api.getUserList, {
-          userId: this.BL[this.BL.length - 1].id,
+          userId: id || this.BL[this.BL.length - 1].id,
           userName: this.name,
           minPoint: this.minPoint,
           maxPoint: this.maxPoint,
@@ -517,21 +527,30 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            // 当前登录用户的固定信息
+            this.id = data.currUserId
+            // 开户
             this.isAddAccount = data.isAddAccount
-            data.subUserInfo[0] && (data.subUserInfo[0].static = true)
-            data.subUserInfo[0] && (this.BL.length === 1) && (data.subUserInfo[0].self = true)
-            if (this.BL.length === 1) {
-              this.canTopUp = data.subUserInfo[0] ? (data.subUserInfo[0].uploadlevel !== '0') : false
-              if (data.subUserInfo[0] && data.subUserInfo[0].uploadlevel !== '0') {
-                this.topUpMax = parseInt(data.subUserInfo[0].uploadlevel.split('-')[1])
-                this.topUpMin = parseInt(data.subUserInfo[0].uploadlevel.split('-')[0])
-              }
+            // 代充
+            this.canTopUp = data.uploadLevel !== '0'
+            // 代充范围
+            if (this.canTopUp) {
+              this.topUpMax = parseInt(data.uploadLevel.split('-')[1])
+              this.topUpMin = parseInt(data.uploadLevel.split('-')[0])
             }
-            this.showSalary = data.showSalary
-            this.showDaySalary = data.showDaySalary
-            // this.OL = data.salaryData
-            this.OL = data.loseSlaryData
-            this.OOL = data.winSlaryData
+            this.BL = (data.userBreads).concat([{}])
+
+            // static 1st
+            data.subUserInfo[0] && (data.subUserInfo[0].static = true)
+            // self = self and 1st
+            // data.subUserInfo[0] && (this.BL.length === 1) && (data.subUserInfo[0].userId === data.currUserId) && (data.subUserInfo[0].self = true)
+
+            // 日工资已迁移至新页面
+            // this.showSalary = data.showSalary
+            // this.showDaySalary = data.showDaySalary
+            // this.OL = data.loseSlaryData
+            // this.OOL = data.winSlaryData
+
             this.data = data.subUserInfo.map(o => {
               o.showTeanBalance = false
               o.myTeamBalance = '获取中...'
