@@ -158,7 +158,7 @@ export default {
       data: [{}],
       S: ['未处理', '失败', '成功'],
       V: ['未审核', '审核通过', '审核失败'],
-      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+      checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0
     }
   },
