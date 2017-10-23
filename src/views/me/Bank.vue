@@ -233,7 +233,7 @@
 import StepTabs from 'components/StepTabs'
 import { BANKS } from '../../util/static'
 import api from '../../http/api'
-import store from '../../store'
+// import store from '../../store'
 // import xhr from 'components/xhr'
 import Validate from '../../util/Validate'
 // import { dateTimeFormat } from '../../util/Date'
@@ -241,7 +241,8 @@ export default {
   // mixins: [xhr],
   data () {
     return {
-      me: store.state.user,
+      // me: store.state.user,
+      me: {safeCheck: 0},
       avaibleBanks: [],
       cpwd: '',
       // BANKS: BANKS,

@@ -351,7 +351,8 @@
         // 给下级充值
         canTopUp: false,
         safeCheckCode: '',
-        checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+        // checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+        checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
         topUpMax: '',
         topUpMin: ''
       }
@@ -425,8 +426,8 @@
           if (data.success === 1) {
             this.topUpIndex++
             this.$message.success({target: this.$el, message: data.msg || '安全码验证成功！'})
-            // this.__setCall({fn: '__getUserFund'})
-            this.getUserBankCards()
+            this.__setCall({fn: '__getUserFund'})
+            // this.getUserBankCards()
           } else {
             this.$message.error({target: this.$el, message: data.msg || '安全码错误！'})
           }
