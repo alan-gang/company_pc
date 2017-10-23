@@ -306,8 +306,8 @@ export default {
     //   {id: 1, class: 'zggsh', cardNo: 112132484244, bindTime: '1990-02-02 12:56:05', text: '中国工商银行'},
     //   {id: 1, class: 'zggsh', cardNo: 112132484244, bindTime: '1990-02-02 12:56:05', text: '中国工商银行'}
     // ]
-    this.getBankList(this.getUserBankCards)
-    this.getProvices()
+    // this.getBankList(this.getUserBankCards)
+    // this.getProvices()
   },
   methods: {
     sendSms () {
@@ -539,6 +539,8 @@ export default {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           if (this.stepIndex === -1) {
+            this.getBankList(this.getUserBankCards)
+            this.getProvices()
             // if (this.me.safeCheck) {
               // return this.checkSafeCode()
             // } else this.stepIndex++
