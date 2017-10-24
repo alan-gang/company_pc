@@ -39,14 +39,15 @@
           el-table-column(prop="day" label="" width="100")
           el-table-column(prop="userPoint" label="" width="80" )
           el-table-column(prop="salaryAmount" width="100" )
-          el-table-column(prop="totalSsave" label="" width="100" )
-          el-table-column(prop="totalWithdraw" label="" width="100" )
             template(scope="scope")
               span(style="color: #666; position: absolute; left: -.4rem") 合计:
-              | {{ scope.row. totalWithdraw}}
+              | {{ scope.row. totalSalary}}
+          el-table-column(prop="totalSave" label="" width="100" )
+          el-table-column(prop="totalWithdraw" label="" width="100" )
           el-table-column(prop="totalBuy" label="" width="100" )
           el-table-column(prop="totalPoint" label="" width="100" )
           el-table-column(prop="totalPrize" label="" width="100" )
+          el-table-column(prop="totalReward" label="" width="100" )
           el-table-column(prop="totalSettle" label="" width="100" )
 </template>
 

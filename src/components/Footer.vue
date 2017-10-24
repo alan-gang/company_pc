@@ -19,7 +19,7 @@
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
 
-            .ds-button.text-button.linght(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' " @click=" dododo(menu)") 简化菜单
+            .ds-button.text-button.linght(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
 
 
       el-col.info(:span="10" v-bind:offset="4")
