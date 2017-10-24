@@ -6,7 +6,7 @@
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
-            dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+            dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
@@ -19,7 +19,25 @@
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
 
-            .ds-button.text-button.linght(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
+            dl.submenu(v-if=" menu.hideIcon ")
+              dt
+                span.title {{ '所有游戏' }}
+
+              el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: false }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
+                dd(style="max-width: 1rem" slot="reference")
+                  span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
+                slot
+                  dl.submenu(style="min-width: 1.2rem")
+                    dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+                      .ds-button(style="position: relative; ") {{ item.title }}
+                    dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+                      .ds-button(style="position: relative; ") {{ iitem.title }}
+
+             
+              span.ds-button.text-button.light(style="float: left; margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
+              
+              
+            .ds-button.text-button.light(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
 
 
       el-col.info(:span="10" v-bind:offset="4")
@@ -176,7 +194,7 @@ export default {
   methods: {
     dododo (menu) {
       menu.hideIcon = !menu.hideIcon
-      this.$refs.game[0].$refs.popper.style.transform = menu.hideIcon ? (!menu.hideIconOnHover ? 'translateY(2.2rem)' : 'translateY(0rem)') : menu.hideIconOnHover ? 'translateY(-2.2rem)' : 'translateY(0rem)'
+      this.$refs.game[0].$refs.popper.style.transform = menu.hideIcon ? (!menu.hideIconOnHover ? 'translateY(2.73rem)' : 'translateY(0.05rem)') : menu.hideIconOnHover ? 'translateY(-2.73rem)' : 'translateY(0.05rem)'
       return true
     },
     collapseFooter () {
@@ -318,6 +336,8 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    &.sst
+      transform translateY(-0.2rem) translateX(0.22rem)
     &.left-menus
       text-align center
     background rgba(49,41,84, .95)

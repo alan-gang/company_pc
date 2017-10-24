@@ -406,7 +406,7 @@
       value () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type) => {
-            if (type.id.indexOf('-115') !== -1 && (V.match(/[,;]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (V.match(/[,;]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
               return V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
             } else {
               return V.replace(/[,;\s]+/g, ' ')
@@ -423,7 +423,7 @@
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
           return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
         } else {
           return this.V.replace(/[,;\s]+/g, ' ')
@@ -560,7 +560,7 @@
           if (f.type.indexOf(allowedFiles) !== -1) {
             // this.$worker.run((arg) => {
             //   console.log('Z!!Z!')
-            //   // if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //   // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
             //   //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
             //   // } else {
             //   //   return this.V.replace(/[,;\s]+/g, ' ')
@@ -584,7 +584,7 @@
             //   console.log(evt.target.result)
             //   this.$worker.run((arg) => {
             //     console.log('Z!!Z!')
-            //     // if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //     // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
             //     //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
             //     // } else {
             //     //   return this.V.replace(/[,;\s]+/g, ' ')
@@ -623,10 +623,10 @@
       removeRepeat () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type, o) => {
-            if (type.id.indexOf('-115') !== -1 && V.match(/[,;]+/g)) {
+            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && V.match(/[,;]+/g)) {
               R = removeDuplicate(V.replace(/ +/g, ''), /[,;\s]+/, ',', o, 2)
             } else {
-              R = removeDuplicate(V.trim(), /[,;\s]+/, null, o, (type.id.indexOf('-115') !== -1 ? 2 : 1))
+              R = removeDuplicate(V.trim(), /[,;\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
           }, [this.V, this.type, this.o])
           .then(result => {
@@ -638,10 +638,10 @@
           return this.V
         }
         let R = null
-        if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;]+/g)) {
           R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',', this.o, 2)
         } else {
-          R = removeDuplicate(this.V.trim(), /[,;\s]+/, null, this.o, (this.type.id.indexOf('-115') !== -1 ? 2 : 1))
+          R = removeDuplicate(this.V.trim(), /[,;\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
         }
         if (R.has) this.V = R.s
         return R.has
