@@ -1,5 +1,5 @@
 <template lang="jade">
-  .login-register
+  .login-register(:class="{tsfl: isGet }")
     div.form-item
       label.item.ds-input 帐号:
         input(v-model="account" placeholder="请输入帐号")
@@ -37,7 +37,8 @@
       return {
         account: '',
         name: '',
-        tag: ''
+        tag: '',
+        isGet: false
       }
     },
     computed: {
@@ -71,6 +72,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
+            this.isGet = true
             window.accessAngular.setUser({
               id: data.strangerId,
               key: data.token,
@@ -139,6 +141,13 @@
   W = 2.7rem
   H = 1.8rem
   .login-register
+    @media screen and (max-width: 1440px) and (max-height: 1366px)
+      &.tsfl
+        transform translateX(-2rem)
+    @media screen and (max-width: 800px) and (max-height: 1366px)
+      &.tsfl
+        transform translateY(-2rem)
+
     background url(../../assets/banner.png) 48.2% .53rem no-repeat
     padding-top 4rem
     position relative
