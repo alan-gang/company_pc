@@ -7,7 +7,7 @@
 
     el-col.left(:span="16")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
-      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times" v-bind:max="MAXTIMES") 
+      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
       span.bei &nbsp;倍
       .ds-button-group
@@ -26,6 +26,7 @@
       .buttons
         .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
+        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
 
 
 
@@ -43,7 +44,7 @@ export default {
       XM: 100,
       XMM: 0,
       S: 100,
-      MAXTIMES: 10000,
+      // MAXTIMES: 1000000000,
       cIndex: 0,
       currencies: [
         {title: '元', value: 1, model: 1},
@@ -110,6 +111,24 @@ export default {
     },
     quickbook () {
       this.$emit('quickbook')
+    },
+    sh () {
+      // 如果是梭哈， 改变模式为厘， 全部余额投注到上面
+      this.cIndex = 3
+      let am = this.me.amoney
+      this.__setCall({fn: '__getUserFund', callId: undefined})
+      setTimeout(() => {
+        if (this.me.amoney !== am) {
+          this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
+          this.order(true)
+        } else {
+          setTimeout(() => {
+            this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
+            this.order(true)
+          }, 300)
+        }
+        // this.order(true)
+      }, 0)
     },
     order (quick) {
       if (this.P.maxCount && (this.n > this.P.maxCount)) {

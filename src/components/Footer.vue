@@ -23,7 +23,7 @@
               dt
                 span.title {{ '所有游戏' }}
 
-              el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: false }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
+              el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
                 dd(style="max-width: 1rem" slot="reference")
                   span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
                 slot

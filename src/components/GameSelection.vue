@@ -164,6 +164,7 @@
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           {ids: '-4-1-1:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+          {ids: '-5-1-1', title: '斗牛', class: 'default square', values: [{selected: false, title: '牛一', value: '1'}, {selected: false, title: '牛二', value: '2'}, {selected: false, title: '牛三', value: '3'}, {selected: false, title: '牛四', value: '4'}, {selected: false, title: '牛五', value: '5'}, {selected: false, title: '牛六', value: '6'}, {selected: false, title: '牛七', value: '7'}, {selected: false, title: '牛八', value: '8'}, {selected: false, title: '牛九', value: '9'}, {selected: false, title: '牛牛', value: '10'}, {selected: false, title: '没牛', value: '11'}], buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           /***
           ** 趣味[猜遗漏]
@@ -366,7 +367,7 @@
           nsl: this.nsl,
           ps: this.ps,
           psl: this.psl,
-          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' '),
+          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
           r: this.r
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败
@@ -396,7 +397,7 @@
       // 当输入型时， 注数的分隔符
       // has ,; ? ,; : ' '
       // separator () {
-      //   return this.V.match(/[,;]/g) ? /[,;]+/g : /[\s]+/g
+      //   return this.V.match(/[,;|]/g) ? /[,;|]+/g : /[\s]+/g
       // },
       // ****************************************************************************************************************************this.V
       // ****************************************************************************************************************************this.V
@@ -406,10 +407,10 @@
       value () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type) => {
-            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (V.match(/[,;]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
-              return V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+              return V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
             } else {
-              return V.replace(/[,;\s]+/g, ' ')
+              return V.replace(/[,;|\s]+/g, ' ')
             }
           }, [this.V, this.type])
           .then(result => {
@@ -423,21 +424,21 @@
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-          return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+          return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
         } else {
-          return this.V.replace(/[,;\s]+/g, ' ')
+          return this.V.replace(/[,;|\s]+/g, ' ')
         }
       },
       // test () {
-      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ')
       // },
       // testV () {
-      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ').split(' ').length
       // },
       // // 无效号码提醒
       hasUnable () {
-        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== (typeof this.no === 'object' ? this.no[1].length : this.no)
+        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ').split(' ').length !== (typeof this.no === 'object' ? this.no[1].length : this.no)
       }
     },
     watch: {
@@ -461,7 +462,7 @@
       },
       // 传递value值到父
       // value () {
-      //   this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      //   this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ')
       //   this.removeRepeat()
       //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       // },
@@ -476,7 +477,7 @@
         setTimeout(() => {
           if (this.V.length > 10000) {
             this.$worker.run((V) => {
-              return V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
             }, [this.V])
             .then(result => {
               this.V = result
@@ -488,7 +489,7 @@
             })
             return this.V
           }
-          this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
       },
@@ -560,10 +561,10 @@
           if (f.type.indexOf(allowedFiles) !== -1) {
             // this.$worker.run((arg) => {
             //   console.log('Z!!Z!')
-            //   // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-            //   //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            //   // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //   //   return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
             //   // } else {
-            //   //   return this.V.replace(/[,;\s]+/g, ' ')
+            //   //   return this.V.replace(/[,;|\s]+/g, ' ')
             //   // }
             // }, ['hello'])
             // .then(result => {
@@ -584,10 +585,10 @@
             //   console.log(evt.target.result)
             //   this.$worker.run((arg) => {
             //     console.log('Z!!Z!')
-            //     // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-            //     //   return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+            //     // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //     //   return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
             //     // } else {
-            //     //   return this.V.replace(/[,;\s]+/g, ' ')
+            //     //   return this.V.replace(/[,;|\s]+/g, ' ')
             //     // }
             //   }, [evt.target.result])
             //   .then(result => {
@@ -623,10 +624,10 @@
       removeRepeat () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type, o) => {
-            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && V.match(/[,;]+/g)) {
-              R = removeDuplicate(V.replace(/ +/g, ''), /[,;\s]+/, ',', o, 2)
+            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
+              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s]+/, ',', o, 2)
             } else {
-              R = removeDuplicate(V.trim(), /[,;\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
+              R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
           }, [this.V, this.type, this.o])
           .then(result => {
@@ -638,10 +639,10 @@
           return this.V
         }
         let R = null
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;]+/g)) {
-          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',', this.o, 2)
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|]+/g)) {
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s]+/, ',', this.o, 2)
         } else {
-          R = removeDuplicate(this.V.trim(), /[,;\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
+          R = removeDuplicate(this.V.trim(), /[,;|\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
         }
         if (R.has) this.V = R.s
         return R.has

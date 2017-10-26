@@ -1070,6 +1070,12 @@ let SSC = {
   */
   '-4-1-1' ({nsl, psl}) {
     return C(nsl[0], 1) *  C(psl, 2)
+  },
+  /*
+    斗牛
+  */
+  '-5-1-1' ({nsl}) {
+    return C(nsl[0], 1)
   }
 }
 let SSL = {
