@@ -349,7 +349,7 @@ export default {
         max-width 2.7rem
       &.hide-icon
         .submenu
-          max-width 1.2rem
+          max-width 1.5rem
           dd
             background none
             height auto
