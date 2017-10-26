@@ -120,11 +120,15 @@ export default {
       setTimeout(() => {
         if (this.me.amoney !== am) {
           this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
-          this.order(true)
+          setTimeout(() => {
+            this.order(true)
+          }, 100)
         } else {
           setTimeout(() => {
             this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
-            this.order(true)
+            setTimeout(() => {
+              this.order(true)
+            }, 100)
           }, 300)
         }
         // this.order(true)
