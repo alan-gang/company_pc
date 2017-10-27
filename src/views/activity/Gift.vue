@@ -84,14 +84,15 @@ export default {
     checkinNow (t) {
       if (t.enable !== '1') return
       // this.$http.get(api.getCheckToday).then(({data}) => {
-      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday).then(({data}) => {
+      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday, {entry: t.activityId}).then(({data}) => {
         if (data.success === 1) {
           t.get = true
+          this.$message.success(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到成功！'))
         } else {
-          this.$message.error({target: this.$el, message: data.msg || '签到失败！'})
+          this.$message.error(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到失败！'))
         }
       }).catch(rep => {
-        this.$message.error({target: this.$el, message: '签到失败！'})
+        this.$message.error('签到失败！')
       })
     },
     // // 注册

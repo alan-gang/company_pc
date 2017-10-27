@@ -19,22 +19,30 @@
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
 
-            dl.submenu(v-if=" menu.hideIcon ")
+            dl.submenu.hover-show-ssubmenu(v-if=" menu.hideIcon ")
               dt
                 span.title {{ '所有游戏' }}
-
-              el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
-                dd(style="max-width: 1rem" slot="reference")
+              dd(v-for="(group, iii) in menu.groups")
                   span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
-                slot
-                  dl.submenu(style="min-width: 1.2rem")
-                    dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
-                      .ds-button(style="position: relative; ") {{ item.title }}
-                    dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
-                      .ds-button(style="position: relative; ") {{ iitem.title }}
+                  .ssubmenu.el-popover.footer-popover.font-white(v-bind:class="{toolong: (group.items.length > 2) && ((group.items.length + (iii || menu.groups[1].items.filter(function(x){return !x.removed}).length)) > 9) }")
+                     dl.submenu
+                       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+                         .ds-button(style="position: relative; ") {{ item.title }}
+                       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+                         .ds-button(style="position: relative; ") {{ iitem.title }}
+
+              // el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
+              //   dd(style="max-width: 1rem" slot="reference")
+              //     span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
+              //   slot
+              //     dl.submenu(style="min-width: 1.2rem")
+              //       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+              //         .ds-button(style="position: relative; ") {{ item.title }}
+              //       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+              //         .ds-button(style="position: relative; ") {{ iitem.title }}
 
              
-              span.ds-button.text-button.light(style="float: left; margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
+              span.ds-button.text-button.light(style="margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
               
               
             .ds-button.text-button.light(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
@@ -348,13 +356,35 @@ export default {
       .submenu
         max-width 2.7rem
       &.hide-icon
-        .submenu
+        padding 0
+        & > .submenu
           max-width 1.5rem
-          dd
+          margin .15rem 0
+          & >dd
+            padding 0 .2rem
+            margin 0
             background none
             height auto
       
     .submenu
+      &.hover-show-ssubmenu
+        .ssubmenu
+          .submenu
+            margin .15rem 0
+            float none
+            min-width 1.5rem
+          max-width 3rem
+          &.toolong
+            top -1.5rem
+          padding 0
+          position absolute
+          left 100%
+          top -.15rem
+          display none
+        & > dd
+          position relative
+          &:hover .ssubmenu
+            display block
       float left
       display inline-block
       margin 0 .1rem

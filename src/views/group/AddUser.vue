@@ -113,7 +113,10 @@
       },
       p () {
         setTimeout(() => {
-          this.p = parseFloat((Math.floor(this.p * 100) / 100).toFixed(2))
+          let i = (this.p + '').lastIndexOf('.')
+          if (i !== -1 && (this.p + '').slice(i).length > 3) {
+            this.p = parseFloat((Math.floor(this.p * 100) / 100).toFixed(2))
+          }
         })
       }
     },

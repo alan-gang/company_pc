@@ -368,7 +368,10 @@
     watch: {
       point () {
         setTimeout(() => {
-          this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(2))
+          let i = (this.point + '').lastIndexOf('.')
+          if (i !== -1 && (this.point + '').slice(i).length > 3) {
+            this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(2))
+          }
         })
       }
     },
