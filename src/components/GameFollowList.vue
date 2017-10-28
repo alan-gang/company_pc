@@ -57,7 +57,7 @@
     data () {
       return {
         nper: 5,
-        npers: [5, 10, 15, 20, 25, 30],
+        npers: [5, 10, 15, 20, 25, 30, 50, 100, 120],
         times: 1,
         xtimes: 2,
         get: 50,
