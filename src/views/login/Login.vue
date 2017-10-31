@@ -25,6 +25,7 @@
       .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
         .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
           p(style="color: #349dbd; margin: .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
+          p(style="color: red; margin: 0 .15rem") safari及其它浏览器请至“偏好设置” -> “隐私”中允许第三方cookie
           div(style="display: inline-block; margin: 0 auto; padding: .1rem .1rem .05rem .1rem; border-radius: 5px; background: rgba(255, 255, 255, .5)")
             img(src="../../assets/1.png")
           p(style="color: #349dbd; margin: .15rem") 第二步： 点击"隐私“选项卡，将隐私策略调整到”低“
@@ -50,6 +51,7 @@
         pwd: '',
         over: false,
         overt: 0
+        // safari: window.userPlatInfo.browser === 'safari'
       }
     },
     computed: {
@@ -306,7 +308,15 @@
   .forget
     float right
     .con
+      text-align left
       display none
+      z-index 1
+    @media screen and (max-height: 800px)
+      .con
+        padding .15rem !important
+        img
+          width 4rem
+    
     &:hover
     &.over
       .con

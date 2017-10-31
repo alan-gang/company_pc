@@ -126,7 +126,10 @@
               },
               O: this
             })
-          } else this.$message.warning(data.msg || '注册失败!')
+          } else {
+            this.$message.warning(data.msg || '注册失败!')
+            this._getVerifyImage()
+          }
         }, (rep) => {
           // error
           this.$message.warning('注册失败!')

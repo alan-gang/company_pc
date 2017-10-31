@@ -22,7 +22,7 @@
       <!-- 下单 -->
       GameOrderBar.inner-bar(v-if="ns.length > 0" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
       <!-- 投注单 -->
-      GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder")
+      GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder" ref="orders")
       <!-- 追号栏 -->
       transition(name="slide-left" appear=true key="follow")
         GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
@@ -272,7 +272,13 @@ export default {
       }
     },
     'follow.show' () {
-      if (this.follow.show) this.__getTraceIssueList()
+      if (this.follow.show) {
+        this.__getTraceIssueList()
+        // auto scroll to just can see orders
+        setTimeout(() => {
+          this.$refs.GC.scrollTop = (util.getOffset(this.$refs.orders.$el, 1).top || this.$refs.GC.scrollTop)
+        }, 0)
+      }
     }
   },
   created () {

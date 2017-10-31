@@ -983,6 +983,7 @@ export default {
   @import './night.stylus'
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
+  @import './chat.wap.stylus'
   // @import './pad.stylus'
   // @import './phone.stylus'
   // @import './chat.night.stylus'
