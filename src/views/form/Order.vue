@@ -317,6 +317,7 @@
         preOptions: {},
         // modal
         show: false,
+        fullCode: '获取失败...',
         type: 0,
         row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
@@ -330,7 +331,7 @@
         return digitUppercase(this.money)
       },
       codePosition () {
-        return this.row.position ? (this.row.code + '[' + this.row.position + ']') : this.row.code
+        return this.row.position ? (this.fullCode || this.row.code + '[' + this.row.position + ']') : this.fullCode || this.row.code
       }
       // Cdata () {
       //   // if (this.data.length <= this.pageSize) return this.data
@@ -340,6 +341,9 @@
       // }
     },
     watch: {
+      show () {
+        if (!this.show) this.fullCode = '获取失败...'
+      },
       '$route': 'openRoute',
       gameid () {
         this.getMethods()
@@ -548,6 +552,7 @@
             row.poolCode = data.poolCode
             row.poolBonus = data.poolBonus
             row.poolIsGetPrize = data.poolIsGetPrize
+            this.fullCode = data.code
             setTimeout(() => {
               loading.text = '详情加载成功!'
             }, 500)

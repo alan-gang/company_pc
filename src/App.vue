@@ -975,7 +975,9 @@ export default {
     background url($ASSETS/bg.jpg) center center no-repeat
   }
 </style>
-
+<style lang="less">
+  // @import url('./chat.wap.less');
+</style>
 <style lang="stylus">
   @import './var.stylus'
   @import './path.stylus'
@@ -983,7 +985,8 @@ export default {
   @import './night.stylus'
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
-  @import './chat.wap.stylus'
+  // @import './chat.wap.stylus'
+  // @import './chat.wap.iphone.less'
   // @import './pad.stylus'
   // @import './phone.stylus'
   // @import './chat.night.stylus'

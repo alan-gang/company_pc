@@ -184,7 +184,10 @@ export default function (VueRoter) {
   // 匹配后
   router.afterEach(r => {
     clearTimeout(t)
-    window.NProgress.done()
+    setTimeout(() => {
+      window.NProgress.done()
+    }, 300)
+    // window.NProgress.done()
     // router.app.$Progress.finish()
     // block8/3 console.log('after:', r)
   })

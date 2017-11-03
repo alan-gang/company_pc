@@ -58,12 +58,12 @@
     <!-- <script type="text/javascript" src="/static/chat/js/stranger.all.min.js"></script> -->
     
 
-    <link rel="stylesheet" href="/static/chat/css/index.css?v=20170dsa412543">
+    <link rel="stylesheet" href="/static/chat/css/index.css?v=20171102">
     <!-- chat  -->
     <div data-ng-app="custom-service" id="custom-service ng-cloak" >
      <div data-ng-controller="MainCtrl">
        <!-- <link rel="stylesheet" data-ng-href="{{ css }}"> -->
-       <div class="dialog-container  animation opacity-0 wap"  data-ng-hide="close" data-ng-class="{'opacity-0': !open,  heart: !stranger, stranger: !!stranger}">
+       <div class="dialog-container  animation opacity-0 iphone"  data-ng-hide="close" data-ng-class="{'opacity-0': !open}">
 
            <!-- 侧栏 -->
            <!-- <div class="toolbar vertical"> -->
@@ -71,13 +71,13 @@
            <!-- andriod -->
            <div class="toolbar horizonal">
                <div class="left">
-                   <span class="icon-box" data-ng-click="showRight = false; isChat = 0" data-ng-class="{on: isChat == 0}"  title="对话列表"><label class="icon chat-list" data-ng-class="{on: isChat == 0}"></label></span>
-                   <span class="icon-box" data-ng-click="showRight = false; isChat = 1" data-ng-class="{on: isChat == 1}" title="联系人列表"><label class="icon contact-list" data-ng-class="{on: isChat == 1}" ></label></span>
+                   <span class="switch-button" data-ng-click="showRight = false; isChat = 0" data-ng-class="{on: isChat == 0}"  title="对话列表">&nbsp;消息&nbsp;</label></span>
+                   <span class="switch-button" data-ng-click="showRight = false; isChat = 1" data-ng-class="{on: isChat == 1}" title="联系人列表">联系人</span>
                    
-                   <span class="icon-box" data-ng-click="showRight = false; isChat =2" data-ng-class="{on: isChat == 2}" title="我的个人信息"><label class="icon myInformation" data-ng-class="{on: isChat == 2}" ></label></span>
+                   <!-- <span class="icon-box" data-ng-click="showRight = false; isChat =2" data-ng-class="{on: isChat == 2}" title="我的个人信息"><label class="icon myInformation" data-ng-class="{on: isChat == 2}" ></label></span> -->
                     
                    <!-- andriod -->
-                   <span class="my-minisize" data-ng-click=" open = false ">—</span>
+                   <!-- <span class="my-minisize" data-ng-click=" open = false ">—</span> -->
 
                </div>
 
@@ -94,25 +94,31 @@
                    <!-- 对话列表页 -->
                    <div class="first-page page on">
 
-                       <ul class="chat-list" >
-                           <li class="item"  data-ng-repeat="contact in contacts | filter:hasLengthOrExist | orderBy: '-activeLevel' | orderBy: 'staticLevel' " data-ng-class="{selected: contact.selected}" data-ng-click="$parent.newAction = ''; $parent.showRight = true; $parent.openChat( contact.id, contact)">
+                       <ul class="chat-list" data-ng-init=" showDeleteIndex = -1 ">
+                           <li class="item"  data-ng-repeat="contact in contacts | filter:hasLengthOrExist | orderBy: '-activeLevel' | orderBy: 'staticLevel' " data-ng-class="{selected: contact.selected, showhide: showDeleteIndex === $index}" data-ng-click="showDeleteIndex !== -1 ? showDeleteIndex = -1 : ($parent.newAction = '' || (($parent.showRight = true) && $parent.openChat( contact.id, contact)))" data-ng-swipe-left="!contact.noDelete && (showDeleteIndex = $index); $event.stopPropagation();">
                                    <label for="" class="icon avatar" data-ng-class="[contact.img, contact.stat == 1 ? 'online': 'offline' ]"></label>
                                    <i class="icon"  data-ng-show="contact.state.indexOf('og') != -1 " data-ng-class="{online: contact.state == 'online', leave: contact.state != 'offline' }"></i>
                                    <label for="" class="ellipsis text-with-icon">{{contact.nickname || contact.text || '陌生人'}}</label>
                                    <label for="" class="ellipsis last-message" data-ng-if="  contact.messages[0] &&  contact.messages[ contact.messages.length - 1 ].type == 'text' "  ng-bind-html="parseEmoticon(contact.messages[ contact.messages.length - 1 ].content) | stopwords | trust"
                                    >  </label>
 
-                                    <label for="" class="ellipsis last-message" data-ng-if="  contact.messages[0] &&  contact.messages[ contact.messages.length - 1 ].type == 'image' " > 图片：{{ contact.messages[ contact.messages.length - 1 ].content[0].name }} </label>
+                                    <label for="" class="ellipsis last-message" data-ng-if="  contact.messages[0] &&  contact.messages[ contact.messages.length - 1 ].type == 'image' " > 图片：{{ contact.messages[ contact.messages.length - 1 ].content[0].name }}  </label>
 
 
                                      <label for="" class="ellipsis last-message" data-ng-if="  contact.messages[0] &&  contact.messages[ contact.messages.length - 1 ].type == 'file' " > 文件：{{ contact.messages[ contact.messages.length - 1 ].content[0].name }} </label>
 
 
 
-                                   <label for="" class="badge" data-ng-if="!contact.noDelete" >
+                                   <!-- <label for="" class="badge" data-ng-if="!contact.noDelete" >
                                      <span data-ng-show="contact.length && contact.length > 0 " data-ng-class=" { wide: contact.length > 9 } " >{{contact.length}}</span>
                                      <b class="icon delete effect-red" data-ng-click="deleteContact(contact)"></b>
-                                   </label>     
+                                   </label> -->
+
+                                   <div class="hide-buttons" data-ng-click="deleteContact(contact)">
+                                      <div class="hide-button danger">删除</div> 
+                                   </div>
+    
+
                            </li>
                        </ul>
                    </div>
@@ -641,7 +647,6 @@
        </audio> -->
      </div>
     </div>
-
     <script>
       // <!-- 用户配置 -->
       window.chatConfig ={

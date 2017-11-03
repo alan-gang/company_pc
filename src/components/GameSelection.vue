@@ -407,7 +407,7 @@
       value () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type) => {
-            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
               return V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
             } else {
               return V.replace(/[,;|\s]+/g, ' ')
@@ -624,10 +624,10 @@
       removeRepeat () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type, o) => {
-            if ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
               R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s]+/, ',', o, 2)
             } else {
-              R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
+              R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
           }, [this.V, this.type, this.o])
           .then(result => {
