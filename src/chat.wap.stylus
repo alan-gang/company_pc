@@ -44,13 +44,13 @@ html body .msg-modal-box
       right: 0;
       width: 100%;
     .center .right .input-area .emotion-box
-      right 60px
-      left auto
+      right: 60px;
+      left: auto;
     .center .right .message-box
       position absolute
       left: 0;
-      right: 0
-      top: 0
+      right: 0;
+      top: 45px;
       bottom: 45px;
       height: auto;
     // 表情

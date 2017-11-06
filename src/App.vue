@@ -976,7 +976,7 @@ export default {
   }
 </style>
 <style lang="less">
-  // @import url('./chat.wap.less');
+  @import url('./chat.wap.less');
 </style>
 <style lang="stylus">
   @import './var.stylus'
