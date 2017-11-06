@@ -11,6 +11,9 @@
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 礼品中心
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 已领取的礼品
       .gift-list(v-if="tabIndex === 1")
+
+        .empty(v-if=" tickets.length === 0 ") 暂无可领取的礼品
+
         .ticket(:class=" [ ticketType[0] ] " v-for=" t in tickets ")
           h1
             span ￥
@@ -22,7 +25,7 @@
             .ds-button.primary(v-if="!t.get" @click="getNow(t)") 立即领取
             .ds-button.cancel.disabled(v-if="t.get") 已领取
           div(v-if="t.activityType === 3")
-            .ds-button(v-if="!t.get" v-bind:class="{ primary: t.enable === '1', 'cancel disabled': t.enable !== '1' }") 签到
+            .ds-button(@click="checkinNow(t)" v-if="!t.get" v-bind:class="{ primary: t.enable === '1', 'cancel disabled': t.enable !== '1' }") 签到
               p.error.text-ellipsis(v-if="t.msg") ({{ t.msg }})
               p.days(v-if="t.isContinue === '1' ") 已连续签到 
                 span {{ t.days }} 天
@@ -61,7 +64,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary]
     }
   },
   watch: {
@@ -77,6 +80,21 @@ export default {
     this.getAllEnablePrize()
   },
   methods: {
+    // 今日签到
+    checkinNow (t) {
+      if (t.enable !== '1') return
+      // this.$http.get(api.getCheckToday).then(({data}) => {
+      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday, {entry: t.activityId}).then(({data}) => {
+        if (data.success === 1) {
+          t.get = true
+          this.$message.success(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到成功！'))
+        } else {
+          this.$message.error(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到失败！'))
+        }
+      }).catch(rep => {
+        this.$message.error('签到失败！')
+      })
+    },
     // // 注册
     // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doRegist&entry=1
     // doRegist: '/activity.do?method=doRegist',
@@ -99,6 +117,7 @@ export default {
     // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
     // doSave: '/activity.do?method=doSave',
     getNow (t) {
+      if (!this.actions[t.activityType - 1]) return
       this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
         // success
         if (data.success === 1) {
@@ -167,13 +186,13 @@ export default {
     text-align center
     .gift-list
       display inline-block
-      max-width 11rem
+      max-width 12rem
     .ticket
       position relative
       radius()
       float left
       min-height 1.06rem
-      width 2rem
+      width 3rem
       padding .05rem 0
       padding-left 1.16rem
       padding-right 1.16rem

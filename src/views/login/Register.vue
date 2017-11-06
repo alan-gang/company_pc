@@ -1,5 +1,5 @@
 <template lang="jade">
-  .login-register
+  .login-register(:class="{tsfl: isGet }")
     div.form-item
       label.item.ds-input 帐号:
         input(v-model="account" placeholder="请输入帐号")
@@ -37,7 +37,8 @@
       return {
         account: '',
         name: '',
-        tag: ''
+        tag: '',
+        isGet: false
       }
     },
     computed: {
@@ -71,6 +72,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
+            this.isGet = true
             window.accessAngular.setUser({
               id: data.strangerId,
               key: data.token,
@@ -79,7 +81,7 @@
               toId: data.userId
             })
             window.accessAngular.isStranger(true)
-            window.accessAngular.connect()
+            window.accessAngular.connect(true)
           } else this.$message.warning(data.msg || '暂时无法与上级聊天， 请重新刷新!')
         }, (rep) => {
           // error
@@ -89,7 +91,7 @@
       // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
       autoRegist () {
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
-        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符, 必须包含数字和字母!'})
+        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
         if (!this.name) return this.$message.warning({target: this.$el, message: '请输入昵称！'})
         if (!Validate.nickName(this.name)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
         if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码！'})
@@ -124,7 +126,10 @@
               },
               O: this
             })
-          } else this.$message.warning(data.msg || '注册失败!')
+          } else {
+            this.$message.warning(data.msg || '注册失败!')
+            this._getVerifyImage()
+          }
         }, (rep) => {
           // error
           this.$message.warning('注册失败!')
@@ -139,7 +144,14 @@
   W = 2.7rem
   H = 1.8rem
   .login-register
-    background url(../../assets/banner.png) 55% top no-repeat
+    @media screen and (max-width: 1440px) and (max-height: 1366px)
+      &.tsfl
+        transform translateX(-2rem)
+    @media screen and (max-width: 800px) and (max-height: 1366px)
+      &.tsfl
+        transform translateY(-2rem)
+
+    background url(../../assets/banner.png) 48.2% .53rem no-repeat
     padding-top 4rem
     position relative
     top -1.5rem

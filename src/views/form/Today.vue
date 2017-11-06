@@ -66,8 +66,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.todayReport, {
-          // startDay: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : '',
-          // endDay: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''
+          // startDay: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : '',
+          // endDay: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''
           // endDay: '20170525'
           // startDay: '20170525',
         }).then(({data}) => {

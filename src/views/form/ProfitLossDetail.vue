@@ -24,11 +24,13 @@
           el-table-column(prop="userPoint" label="返点级别" width="80" )
             template(scope="scope")
               span {{ scope.row.userPoint }}
+          el-table-column(prop="salaryAmount" label="工资总额" width="100" )
           el-table-column(prop="saveAmount" label="充值总额" width="100" )
           el-table-column(prop="withdrawAmount" label="提款总额" width="100" )
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
+          el-table-column(prop="rewardsAmount" label="活动" width="100")
           el-table-column(prop="profitAmount" label="盈亏结算" width="100" v-bind:sortable="true")
         
         el-table.header-bold.nopadding(:data="total" row-class-name="text-danger" v-on:row-click="setSelected" style="" v-if="total[0]")
@@ -36,20 +38,21 @@
           el-table-column(prop="userName" label="" width="100")
           el-table-column(prop="day" label="" width="100")
           el-table-column(prop="userPoint" label="" width="80" )
-            
-          el-table-column(prop="totalSsave" label="" width="100" )
-          el-table-column(prop="totalWithdraw" label="" width="100" )
+          el-table-column(prop="salaryAmount" width="100" )
             template(scope="scope")
               span(style="color: #666; position: absolute; left: -.4rem") 合计:
-              | {{ scope.row. totalWithdraw}}
+              | {{ scope.row. totalSalary}}
+          el-table-column(prop="totalSave" label="" width="100" )
+          el-table-column(prop="totalWithdraw" label="" width="100" )
           el-table-column(prop="totalBuy" label="" width="100" )
           el-table-column(prop="totalPoint" label="" width="100" )
           el-table-column(prop="totalPrize" label="" width="100" )
+          el-table-column(prop="totalReward" label="" width="100" )
           el-table-column(prop="totalSettle" label="" width="100" )
 </template>
 
 <script>
-  import { dateTimeFormat, dateFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
@@ -86,21 +89,33 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
         data: [{}],
         userId: '',
         total: []
       }
     },
+    watch: {
+      '$route': 'openRoute'
+    },
     computed: {
     },
     mounted () {
-      let {stEt, userId} = this.$route.query
-      if (stEt) this.stEt = decodeURIComponent(stEt).split('|')
+      let {st, et, userId} = this.$route.query
+      // if (st) this.stEt[0] = new Date(Number(st))
+      // if (et) this.stEt[1] = new Date(Number(et))
+      if (st && et) this.stEt = [new Date(Number(st)), new Date(Number(et))]
       if (userId) this.userId = userId
       this.profitDetail()
     },
     methods: {
+      openRoute ({path, query: {st, et, userId}}) {
+        // if (st) this.stEt[0] = new Date(Number(st))
+        // if (et) this.stEt[1] = new Date(Number(et))
+        if (st && et) this.stEt = [new Date(Number(st)), new Date(Number(et))]
+        if (userId) this.userId = userId
+        this.profitDetail()
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -117,8 +132,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.profitDetail, {
-          startDay: dateFormat(new Date(this.stEt[0]).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat(new Date(this.stEt[1]).getTime()).replace(/[-]/g, ''),
+          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
           destUserId: this.userId
         }).then(({data}) => {
           // success

@@ -22,6 +22,14 @@
       
 
       .form(v-if=" type !== 2 ")
+
+        .notice(style="margin: 0 0 .2rem 0" v-if="type > 2")
+          span.title 温馨提示：
+          p.content
+            | 如果充值失败请多次尝试，或使用
+            span.text-danger 快捷支付
+            | 的方式进行充值。 
+
         .item(style="line-height: .5rem") 支付方式：
             .banks
                 label.ds-radio-label( v-if=" type > 2")
@@ -60,7 +68,7 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        .notice(style="margin: .2rem 0")
+        .notice(style="margin: 0 0 .2rem 0")
           span.title 温馨提示：
           p.content
             | 一般情况
@@ -260,7 +268,7 @@ export default {
       // avaibleBanks: [],
       selectBank: {},
       showAllBank: false,
-      amount: '',
+      amount: 0,
       min: 0,
       max: 0,
       data: [],
@@ -334,6 +342,16 @@ export default {
     // }
   },
   watch: {
+    amount () {
+      if (typeof this.amount === 'number') {
+        setTimeout(() => {
+          (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+        }, 300)
+        // setTimeout(() => {
+        //   this.amount = parseFloat(this.amount) || 0
+        // }, 300)
+      }
+    },
     pt_ () {
       if (this.pt_ === this.time_) {
         let t = setInterval(() => {

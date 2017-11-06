@@ -22,14 +22,26 @@
         .list(v-if="list && list[0]" )
 
           el-row.list-title
-            el-col(:span="8") 首存金额
-            el-col(:span="5" style="text-align: right") 现金礼包
-            el-col(:span="8" style="text-align: right") 累计投注额标准
+            el-col(:span="8") {{ '首存金额'}}
+            el-col(:span="5" style="text-align: right") {{ '现金礼包'}} 
+            el-col(:span="8" style="text-align: right") {{ '累计投注额标准'}}  
 
           el-row.list-item(v-for=" l in list " )
             el-col(:span="8") {{ l.minSaveAmount }}-- {{ l.maxSaveAmount }}
             el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
             el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
+
+        .list(v-if="list9 && list9[0]" )
+
+          el-row.list-title
+            el-col(:span="8") {{ '名次' }}
+            el-col(:span="5" style="text-align: right") {{ '金额' }} 
+            // el-col(:span="8" style="text-align: right") {{ '预算' }}  
+
+          el-row.list-item(v-for=" l in list9 " )
+            el-col(:span="8") {{ l.levelName }}
+            el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
+            // el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
 
         // 签到
         .list(v-if="expand && expand[0]" )
@@ -63,7 +75,10 @@ export default {
       et: '',
       content: '',
       rule: '',
-      enable: 1
+      enable: 1,
+      list: [],
+      expand: [],
+      list9: []
     }
   },
   computed: {
@@ -115,7 +130,11 @@ export default {
           this.et = data.endDate
           this.content = data.content
           this.rule = data.ruleDesc
-          this.list = data.saveDetail || []
+          if (String(this.idt) === String(9)) {
+            this.list9 = data.saveDetail || []
+          } else {
+            this.list = data.saveDetail || []
+          }
           this.expand = data.expand || []
           data.msg && this.$message.info(data.msg || this.message)
         } else this.$message.error(data.msg || '活动详情加载失败！')

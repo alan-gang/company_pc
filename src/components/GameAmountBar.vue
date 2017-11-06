@@ -10,7 +10,7 @@
 
 
 
-    el-col.right(:span="16")
+    el-col.right(:span="16" style="line-height: .4rem; padding: .05rem 0 .1rem 0 ")
       | 总计 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;&nbsp;总计&nbsp;&nbsp;
@@ -21,26 +21,39 @@
       
 
       
-
-      el-popover(placement="top-start" trigger="hover" v-bind:popper-class="'popover-instruction font-white popover-pot'")
+      .ds-checkbox-label(style="margin-right: 0" v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ")
+        .ds-checkbox
+        | 奖池抽奖
+      el-popover(placement="top" trigger="click" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
-          .ds-checkbox-label(v-bind:class="{active: pot}" @click=" togglePot ").ds-icon-text-question
-            .ds-checkbox
-            | 奖池抽奖
-          // .ds-button.danger.bold(@click="book") ? 奖池投注
+          span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
         slot
           p(style="line-height: .25rem")
-              span.label.font-gold 玩法说明：
-              | 每周一期，每注投注金额为1元，投注号码为随注单生成的3位随机数，每周六晚8:30开奖，开奖结果以周六晚的体彩排列三开奖结果为准，如三号全中为一等奖，中后两位为二等奖，中最后一位为三等奖。
+              span.label.font-gold 奖池说明：
+              | 每周一期，每一次抽奖机会金额为1元，抽奖编码为随注单生成的4位随机数，每周六晚8:30开奖，开奖结果以周六晚的体彩排列五开奖结果的后四位为准，四号全中且顺序一致为一等奖，
+              | 四号全中顺序不一致为二等奖。
+              | 中后3个号顺序不限，为特别奖，奖金188元，
+              | 中后2个号顺序不限，为好运奖，奖金18元，
+              | 中后一个号为贡献奖，奖金5元
           p(style="line-height: .25rem")
-              span.label.font-gold 派奖说明：
-              | 各奖级奖金总额为：一等级中奖金额占奖池总金额的40%，二等奖占奖池总金额30%，三等奖占奖池总金额20%。同一个奖级如多人中奖，平均分配该奖级所有奖金。
+              span.label.font-gold 奖金分配：
+              | 一等奖中奖金额占奖池总金额的70%，二等奖占奖池总金额30%。
+              | 同一个奖级如多人中奖，平均分配该奖级所有奖金，特别奖，好运奖，贡献奖，
+              | 为单独所有不会与其他人共享，当期剩余的未派发的奖金自动滚入下一期。
       
-      .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle")
+      .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle" style="margin-right: 0")
         .ds-checkbox
         | 使用优惠券
 
-      .ds-button.danger.bold(@click="book") 投注
+      label(style="display: inline-block" v-if="!show") 起始期：
+        el-select(v-model="nper" style="position: relative; top: -0.01rem")
+          el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
+
+      .ds-button.danger.bold(@click.self="book") 投注
+        // span(v-if="!show")
+        //   |  起始期：
+        //   el-select(v-model="nper" style="position: relative; top: -0.01rem")
+        //     el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
 
 
 
@@ -57,15 +70,24 @@ export default {
     pay: Number,
     // 优惠券
     checked: Boolean,
-    pot: Boolean
+    pot: [Boolean, Number],
+    issues: Array,
+    CNPER: String
   },
   data () {
     return {
+      nper: ''
     }
   },
   computed: {
   },
   mounted () {
+    this.nper = (this.issues[0] || {}).issue
+  },
+  watch: {
+    issues () {
+      this.nper = (this.issues[0] || {}).issue
+    }
   },
   methods: {
     showFollow () {
@@ -78,7 +100,7 @@ export default {
       this.$emit('toggle-pot')
     },
     book () {
-      this.$emit('book', this.pot)
+      this.$emit('book', this.pot, this.nper)
     }
   },
   components: {
@@ -95,6 +117,11 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .amout-bar
+    margin: 0 auto;
+    max-width: 9.3rem;
+    left: 0;
+    right: 0;
+    z-index 9999
     position absolute
     bottom 0
     border-bottom-right-radius .05rem

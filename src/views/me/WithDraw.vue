@@ -13,7 +13,7 @@
 
       .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow")
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
@@ -36,9 +36,9 @@
             |  次，今天您已经发起了 
             span.text-danger {{ times }}
             |  次提现申请。
-            br
-            | 每天的提现处理时间为：
-            span.text-danger 早上 10:00 至 次日凌晨 2:00
+            // br
+            // | 每天的提现处理时间为：
+            // span.text-danger 早上 10:00 至 次日凌晨 2:00
             br
             | 新绑定的提款银行卡需要绑定时间超过 
             span.text-danger 6
@@ -67,7 +67,7 @@
             | 元)
 
           p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            el-input-number(v-model="money" v-bind:max="max" v-bind:min="min" controls=false)
+            el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
           .buttons(style="margin-left: .98rem; padding: .2rem 0")
@@ -75,7 +75,11 @@
 
       
       .bank-form(v-if="tabIndex === 1 && stepIndex === 2")
-        
+        p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 
+          // |您正在增加 
+          // span.text-blue {{ me.name }}
+          // |  帐号的银行卡
+          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
         .form
           p.item 实扣金额：&nbsp;&nbsp;&nbsp;
             span.amount {{ money }}
@@ -93,7 +97,7 @@
             .ds-button.primary.large(@click="doWithDraw") 提交
 
 
-      form(v-if="tabIndex === 2 && stepIndex === 1")
+      form(v-if="tabIndex === 2")
 
         // label.item 充值时间 
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
@@ -154,7 +158,7 @@ export default {
       data: [{}],
       S: ['未处理', '失败', '成功'],
       V: ['未审核', '审核通过', '审核失败'],
-      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
+      checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0
     }
   },
@@ -173,6 +177,16 @@ export default {
     }
   },
   watch: {
+    money () {
+      if (typeof this.money === 'number') {
+        setTimeout(() => {
+          (this.money + '') !== (this.money.toFixed(2)) && (this.money = (this.money.toFixed(2)))
+        }, 300)
+        // setTimeout(() => {
+        //   this.amount = parseFloat(this.amount) || 0
+        // }, 300)
+      }
+    },
     selectBank () {
       // this.selectBank.apiName && this.getWithdrawByApi()
       if (!this.selectBank.apiName) {
@@ -325,6 +339,8 @@ export default {
       })
     },
     showWithDraw () {
+      if (this.selectBank.entry === undefined) return this.$message.warning({target: this.$el, message: '您还未选择银行卡。'})
+      if (this.money === 0) return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
       this.$http.post(api.showWithDraw, {userBankId: this.selectBank.entry, amount: this.money}).then(({data}) => {
         if (data.success === 1) {
           this.get = data.realmoney

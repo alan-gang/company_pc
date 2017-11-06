@@ -24,7 +24,8 @@
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m") 试玩登录
       .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
         .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
-          p(style="color: #349dbd; margin: .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
+          p(style="color: red; margin: 0 .15rem") safari及其它浏览器请至“偏好设置” -> “隐私”中允许第三方cookie
+          p(style="color: #349dbd; margin: 0 .15rem") 第一步： 点击浏览器右上角的设置图标，选择“Internet选项“
           div(style="display: inline-block; margin: 0 auto; padding: .1rem .1rem .05rem .1rem; border-radius: 5px; background: rgba(255, 255, 255, .5)")
             img(src="../../assets/1.png")
           p(style="color: #349dbd; margin: .15rem") 第二步： 点击"隐私“选项卡，将隐私策略调整到”低“
@@ -50,6 +51,7 @@
         pwd: '',
         over: false,
         overt: 0
+        // safari: window.userPlatInfo.browser === 'safari'
       }
     },
     computed: {
@@ -74,33 +76,53 @@
       }
     },
     activated () {
+      // let {un_, pwd} = this.$route.query
+      // if (un_) this.un_ = un_
+      // if (pwd) this.pwd = pwd
+      // if (un_ && pwd) {
+      //   setTimeout(() => {
+      //     this.$el.querySelector('.ds-icon-edit input').focus()
+      //   }, 0)
+      //   this._getVerifyImage()
+      // } else {
+      //   setTimeout(() => {
+      //     this.$el.querySelector('.ds-icon-user input').focus()
+      //   }, 0)
+      //   this.tryLogin()
+      // }
     },
     methods: {
       loginSuccess (data) {
-        this.$emit('update-user', {login: true,
-          name: data.nickName,
-          pwd: data.hasLogPwd === '1',
-          cashPwd: data.hasSecurityPwd === '1',
-          type: data.identity,
-          account: data.userName,
-          shareCycle: data.shareCycle,
-          role: data.roleId,
-          hasBankCard: data.hasBankCard === '1',
-          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-          cbsafe: !!data.isOpenKey,
-          safeCheck: data.verifyType,
-          isVip: data.isVip === '1'
-        })
-        this.$router.push('/')
-        window.accessAngular.setUser({
-          id: data.userId,
-          key: data.token,
-          pltCd: data.platId,
-          socketUrl: data.platUrl
-        })
-        window.accessAngular.isStranger(false)
-        // window.accessAngular.connect()
-        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        // call app.vue loginsuccess
+        this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
+
+        // this.__setCall({fn: '__getUserFund', callId: undefined})
+        // this.__setCall({fn: '__getUserPrefence', callId: undefined})
+        // this.$emit('update-user', {login: true,
+        //   name: data.nickName,
+        //   pwd: data.hasLogPwd === '1',
+        //   cashPwd: data.hasSecurityPwd === '1',
+        //   type: data.identity,
+        //   account: data.userName,
+        //   shareCycle: data.shareCycle,
+        //   role: data.roleId,
+        //   hasBankCard: data.hasBankCard === '1',
+        //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+        //   cbsafe: !!data.isOpenKey,
+        //   safeCheck: data.verifyType,
+        //   isVip: data.isVip === '1'
+        // })
+        // this.$router.push('/help/6-2-1')
+        // window.accessAngular.setUser({
+        //   id: data.userId,
+        //   key: data.token,
+        //   pltCd: data.platId,
+        //   socketUrl: data.platUrl
+        // })
+        // window.accessAngular.isStranger(false)
+        // // window.accessAngular.connect()
+        // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        // window.localStorage.setItem('api', api.api)
       },
       login () {
         if (this.hasEmpty()) {
@@ -114,7 +136,9 @@
               if (data.success === 1) {
                 this.loginSuccess(data)
               } else {
-                this.$message.error('用户名或密码错误！')
+                this.$message.error(data.msg || '用户名或密码错误！')
+                this.code_ = ''
+                this.pwd = ''
                 this._getVerifyImage()
               }
             }, (rep) => {
@@ -130,6 +154,7 @@
       },
       getGreetingMsg () {
         this.regard = false
+        if (!this.un_) return false
         this.$http.get(api.getGreetingMsg, {
           userName: this.un_
         }).then(({data}) => {
@@ -283,7 +308,15 @@
   .forget
     float right
     .con
+      text-align left
       display none
+      z-index 1
+    @media screen and (max-height: 800px)
+      .con
+        padding .15rem !important
+        img
+          width 4rem
+    
     &:hover
     &.over
       .con

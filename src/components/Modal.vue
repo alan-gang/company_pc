@@ -93,12 +93,12 @@
         this.$destroy()
       },
       _ok () {
-        if (typeof this.ok === 'function') this.ok.call(this.O) !== false && this._close()
-        else this._close()
+        if (typeof this.ok === 'function') this.ok.call(this.O) !== false && this._close(true)
+        else this._close(true)
       },
       _cancel (i) {
-        if (typeof this.cancel === 'function') this.cancel.call(this.O, i) !== false && this._close()
-        else this._close()
+        if (typeof this.cancel === 'function') this.cancel.call(this.O, i) !== false && this._close(false)
+        else this._close(false)
       },
       btnClick (i) {
         if (i === 0) this._ok()

@@ -5,69 +5,71 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    div(style="text-align: center")
-      .ds-button-group
-        .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 ") 全部游戏
-        .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 快速转帐
-        .ds-button.text-button(:class="{ selected: type === 3 }" @click=" type = 3 ") 我的收藏
-    
-    .scroll-content.game-store(:class="{ collected: type === 3 }" v-if="type !== 2")
-      // put top to fixed it
-      .filter-fixed(v-if="type === 1")
-        .search-bar
-          input.ds-input(v-model="search" style="width: 1.8rem; margin-right: .1rem" placeholder="请输入您要搜索的游戏")
-          span.ds-button.primary(@click="searchNow") 搜索
-        
-        .game-platform.notice(style="margin-top: .12rem")
-          span.title 游戏平台：&nbsp;&nbsp;
-          .content
-            .ds-button-group
-              .ds-button.x-small.text-button(:class="{ selected: cp === i }" @click=" cp = i " v-for=" (p, i) in platforms ") {{ p }}
+    .ds-icon-cooking.text-black
+    // 暂时改为正在研发
+    div(style="display:none")
+      div(style="text-align: center")
+        .ds-button-group
+          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 ") 全部游戏
+          .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 快速转帐
+          .ds-button.text-button(:class="{ selected: type === 3 }" @click=" type = 3 ") 我的收藏
+      .scroll-content.game-store(:class="{ collected: type === 3 }" v-if="type !== 2")
+        // put top to fixed it
+        .filter-fixed(v-if="type === 1")
+          .search-bar
+            input.ds-input(v-model="search" style="width: 1.8rem; margin-right: .1rem" placeholder="请输入您要搜索的游戏")
+            span.ds-button.primary(@click="searchNow") 搜索
+          
+          .game-platform.notice(style="margin-top: .12rem")
+            span.title 游戏平台：&nbsp;&nbsp;
+            .content
+              .ds-button-group
+                .ds-button.x-small.text-button(:class="{ selected: cp === i }" @click=" cp = i " v-for=" (p, i) in platforms ") {{ p }}
 
-        .game-type.notice
-          span.title 游戏类型：&nbsp;&nbsp;
-          .content
-            .ds-button-group
-              .ds-button.x-small.text-button(:class="{ selected: ct === i }" @click=" ct = i " v-for=" (g, i) in gameTypes ") {{ g }}
+          .game-type.notice
+            span.title 游戏类型：&nbsp;&nbsp;
+            .content
+              .ds-button-group
+                .ds-button.x-small.text-button(:class="{ selected: ct === i }" @click=" ct = i " v-for=" (g, i) in gameTypes ") {{ g }}
 
-        .game-route.notice
-          span.title 赔钱线数：&nbsp;&nbsp;
-          .content
-            .ds-button-group
-              .ds-button.x-small.text-button(:class="{ selected: cr === i }" @click=" cr = i " v-for=" (r, i) in gameRoutes ") {{ r }}
+          .game-route.notice
+            span.title 赔钱线数：&nbsp;&nbsp;
+            .content
+              .ds-button-group
+                .ds-button.x-small.text-button(:class="{ selected: cr === i }" @click=" cr = i " v-for=" (r, i) in gameRoutes ") {{ r }}
 
-        .game-style.notice
-          span.title 游戏风格：&nbsp;&nbsp;
-          .content
-            .ds-button-group
-              .ds-button.x-small.text-button(:class="{ selected: cs === i }" @click=" cs = i " v-for=" (s, i) in gameStyles ") {{ s }}
+          .game-style.notice
+            span.title 游戏风格：&nbsp;&nbsp;
+            .content
+              .ds-button-group
+                .ds-button.x-small.text-button(:class="{ selected: cs === i }" @click=" cs = i " v-for=" (s, i) in gameStyles ") {{ s }}
 
-      .game(v-for=" game in GAMES ")
-        img(src="../../assets/game/new/lhgimg.png")
-        .el-icon-star-on.my-star(:class="{ on: game.star }" @click=" game.star = !game.star " )
-        .info
-          .left(style="display: inline-block")
-            p.title.text-black {{ game.title }}
-            p.desc {{ game.desc }}
-          span.right.amount(style="float: right") {{ game.score }}
-        .buttons
-          .ds-button.outline 试玩
-          .ds-button.primary(style="float: right") 进入游戏
+        .game(v-for=" game in GAMES ")
+          img(src="../../assets/game/new/lhgimg.png")
+          .el-icon-star-on.my-star(:class="{ on: game.star }" @click=" game.star = !game.star " )
+          .info
+            .left(style="display: inline-block")
+              p.title.text-black {{ game.title }}
+              p.desc {{ game.desc }}
+            span.right.amount(style="float: right") {{ game.score }}
+          .buttons
+            .ds-button.outline 试玩
+            .ds-button.primary(style="float: right") 进入游戏
 
-      p.text-999(v-if=" !GAMES[0] " style="text-align: center;") 您还没有收藏游戏哦。
-    .scroll-content.transfer(v-if=" type === 2 ")
-      p
-        el-select(style="width: 1.5rem" v-model="sa")
-          el-option(v-for="(sa, index) in sas" v-bind:label=" sa " v-bind:value=" index ") 
-        span.text-blue.to 转至
-        el-select(style="width: 1.5rem" v-model="ta")
-          el-option(v-for="(ta, index) in tas" v-bind:label=" ta " v-bind:value=" index ") 
-      br
-      p
-        el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem")
-      br
-      p
-        span.ds-button.primary 确认转入
+        p.text-999(v-if=" !GAMES[0] " style="text-align: center;") 您还没有收藏游戏哦。
+      .scroll-content.transfer(v-if=" type === 2 ")
+        p
+          el-select(style="width: 1.5rem" v-model="sa")
+            el-option(v-for="(sa, index) in sas" v-bind:label=" sa " v-bind:value=" index ") 
+          span.text-blue.to 转至
+          el-select(style="width: 1.5rem" v-model="ta")
+            el-option(v-for="(ta, index) in tas" v-bind:label=" ta " v-bind:value=" index ") 
+        br
+        p
+          el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem")
+        br
+        p
+          span.ds-button.primary 确认转入
 
 
 </template>

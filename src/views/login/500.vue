@@ -1,5 +1,5 @@
 <template lang="jade">
-  ._404
+  ._500
     h1 500
     p 非常抱歉，服务器暂时出现了问题，请稍后重试哦！
     .buttons
@@ -10,7 +10,7 @@
 
 <style lang="stylus">
 
-  ._404 + .download
+  ._500 + .download
     display none
     
 </style>
@@ -19,7 +19,7 @@
 <style lang="stylus" scoped>
 
   @import '../../var.stylus'
-  ._404.part
+  ._500.part
     
     width 2.5rem
     height 3rem
@@ -27,7 +27,7 @@
     margin-top .8rem
     padding-top .5rem
     color #fff
-    background url(../../assets/404/404.png) left top no-repeat
+    background url(../../assets/404/500.png) left top no-repeat
     font-shadow()
     h1 
       font-size .72rem

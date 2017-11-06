@@ -17,21 +17,27 @@
 
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
          
-          el-table-column(prop="days" label="日期" width="100" )
-          el-table-column(prop="buyamount" label="团队总销量" width="100" )
-          el-table-column(prop="profitamount" label="团队总亏损" width="100" )
-          el-table-column(prop="salarylevel" label="工资标准" width="100" )
-          el-table-column(prop="booksalary" label="应发日工资" width="100" )
-          el-table-column(prop="subsalary" label="应发下级日工资" width="100" )
-          el-table-column(prop="salary" label="实发日工资" width="100" )
-          el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
+          // el-table-column(prop="date" label="日期" width="100" )
+          // el-table-column(prop="buyamount" label="团队总销量" width="100" )
+          // el-table-column(prop="profitamount" label="团队总亏损" width="100" )
+          // el-table-column(prop="salarylevel" label="工资标准" width="100" )
+          // el-table-column(prop="booksalary" label="应发日工资" width="100" )
+          // el-table-column(prop="subsalary" label="应发下级日工资" width="100" )
+          // el-table-column(prop="salary" label="实发日工资" width="100" )
+          // el-table-column(prop="gettime" label="领取时间" width="100"  v-bind:sortable="true")
+
+          el-table-column(prop="daySalary" label="日工资" width="200" )
+          el-table-column(prop="salaryLevel" label="日工资级别" width="200" )
+          // el-table-column(prop="activitUser" label="活跃用户数" width="200"  )
+          el-table-column(prop="buyAmount" label="团队销量" width="200"  )
+          el-table-column(prop="date" label="日期")
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
 </template>
 
 <script>
-  import { dateTimeFormat, dateFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
@@ -69,7 +75,7 @@
             return time.getTime() > Date.now() || time.getTime() < (Date.now() - 3600 * 1000 * 24 * 30)
           }
         },
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 1), dateTimeFormat(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 1), new Date(new Date().getTime())],
         data: [{}],
         pageSize: 20,
         total: 0,
@@ -95,8 +101,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.daySalaryRepor, {
-          startDate: dateFormat(new Date(this.stEt[0]).getTime()).replace(/[-]/g, ''),
-          endDate: dateFormat(new Date(this.stEt[1]).getTime()).replace(/[-]/g, ''),
+          startDate: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDate: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
           page: page !== undefined ? page : this.currentPage,
           pageSize: this.pageSize
         }).then(({data}) => {
@@ -104,7 +110,7 @@
           if (data.success === 1) {
             typeof fn === 'function' && fn()
             this.total = data.totalSize || this.data.length
-            this.data = data.allDate
+            this.data = data.recordList
             // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'

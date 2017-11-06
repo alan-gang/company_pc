@@ -821,7 +821,7 @@ let SSC = {
   C(n, 2)
   */
   '0-2-4' ({nsl}) {
-    return C(nsl, 2)
+    return C(nsl[0], 2)
   },
 
   /* ..............五星............... */
@@ -1064,6 +1064,18 @@ let SSC = {
   */
   '-2-2-5' ({nsl}) {
     return C(nsl[0], 5)
+  },
+  /*
+    龙虎
+  */
+  '-4-1-1' ({nsl, psl}) {
+    return C(nsl[0], 1) *  C(psl, 2)
+  },
+  /*
+    斗牛
+  */
+  '-5-1-1' ({nsl}) {
+    return C(nsl[0], 1)
   }
 }
 let SSL = {
@@ -1300,6 +1312,10 @@ let G115 = {
    // '猜中位',
   '-2-1-2-115' ({nsl}) {
     return C(nsl[0], 1)
+  },
+   // '龙虎',
+  '-3-1-3-115' ({nsl, psl}) {
+    return C(nsl[0], 1) * C(psl, 2)
   }
 }
 let KL8 = {
@@ -1357,6 +1373,11 @@ let PK10 = {
   '-1-1-2-PK10' ({nsl, r}) {
     return nsl[0] * nsl[1] - r
   },
+  // title: '猜冠亚军单式
+  '-1-1-8-PK10' ({value}) {
+    // return [N(value, 5).length, N(value, 5)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
+  },
   // title: '猜前三名
   '-1-1-3-PK10' ({ns}) {
     let n = 0
@@ -1402,12 +1423,17 @@ let PK10 = {
   // title: '龙虎
   '-1-1-6-PK10' ({nsl}) {
     return C(nsl[0], 1)
+  },
+  // title: '定位胆
+  '-1-1-7-PK10' ({nsl}) {
+    return A(nsl)
   }
 }
 let K3 = {
   // title: '二同复选'
   '2-1-1-K3' ({nsl}) {
-    return C(nsl[0], 1)
+    // return C(nsl[0], 1)
+    return C(nsl[0], 1) * 5
   },
   // title: '二同单选'
   '2-1-2-K3' ({nsl, r}) {
@@ -1451,7 +1477,8 @@ let K3 = {
   },
   // title: '猜1个号就中奖'
   '0-1-2-K3' ({nsl}) {
-    return C(nsl[0], 1) * 21
+    // return C(nsl[0], 1) * 21
+    return C(nsl[0], 1)
   }
 }
 module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3)

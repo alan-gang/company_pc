@@ -11,13 +11,16 @@
     // pages
     keep-alive
       transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages")
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
       
     // Chat
+    // Print
+    Print(:data="printData" v-if="showPrint")
+
 
 </template>
 
@@ -25,6 +28,7 @@
 // import util from './util'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
+import Print from './components/Print'
 // import Chat from './components/Chat'
 import base from './components/base'
 import store from './store'
@@ -35,9 +39,12 @@ export default {
   mixins: [base],
   data () {
     return {
+      showPrint: false,
+      printData: {},
+      collapseFooter: false,
       // skin: 'day',
       loop: true,
-      maxPages: 10,
+      maxPages: 5,
       state: store.state,
       tabs: [],
       menus: [
@@ -49,13 +56,16 @@ export default {
             {
               items: [
                 {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
-                {id: '5-2-1', title: '亿元豪送', url: 'ForRegister'},
-                {id: '5-2-2', title: '新用户有礼', url: 'ForNewUser'},
-                {id: '5-2-3', title: '全民签到', url: 'ForAll'},
-                {id: '5-2-4', title: '充值送', url: 'ForTopup'},
-                {id: '5-2-5', title: '首提大返利', url: 'ForWithdraw'},
-                {id: '5-2-6', title: '充值送', url: 'ForTopupA'},
-                {id: '5-2-7', title: '最新活动', url: 'ForOther'}
+                {id: '5-2-1', position: {width: '7.6rem'}, title: '亿元豪送', url: 'ForRegister'},
+                {id: '5-2-2', position: {width: '7.6rem'}, title: '新用户有礼', url: 'ForNewUser'},
+                {id: '5-2-3', position: {width: '7.6rem'}, title: '全民签到', url: 'ForAll'},
+                {id: '5-2-4', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopup'},
+                {id: '5-2-5', position: {width: '7.6rem'}, title: '首提大返利', url: 'ForWithdraw'},
+                {id: '5-2-6', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopupA'},
+                {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
+                {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
+                {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '直属总代日工资增加1w20', url: 'Salary'}
               ]
             }
           ]
@@ -64,6 +74,7 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
+          size: 'full',
           groups: [
             {
               items: [
@@ -105,7 +116,7 @@ export default {
               items: [
                 {
                   id: '3-3-2',
-                  menuid: '29',
+                  // menuid: '29',
                   title: '分红详情',
                   url: 'StockDetail',
                   position: {
@@ -121,11 +132,13 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
+          size: 'full',
           groups: [
             {
               items: [
                 {
                   id: '4-5-4',
+                  menuid: '59',
                   title: '个人盈亏明细',
                   url: 'ProfitLossDetail'
                 }
@@ -146,6 +159,8 @@ export default {
           class: 'ds-icon-game',
           title: '游戏',
           url: 'game',
+          hideIcon: false,
+          // size: 'full',
           groups: [
             {
               title: '时时彩',
@@ -155,11 +170,11 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '8', title: '重庆时时彩', gameid: 1},
-                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '16', title: '新疆时时彩', gameid: 3},
-                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '15', title: '天津时时彩', gameid: 4},
-                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '10', title: '北京时时彩', gameid: 17},
-                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '13', title: '台湾时时彩', gameid: 20}
+                {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
+                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', gameid: 4},
+                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
+                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20}
               ]
             },
             {
@@ -167,12 +182,12 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '9', title: '快投30秒', gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '18', title: '快投1分彩', gameid: 12},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '14', title: '快投2分秒', gameid: 21},
-                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '11', title: '韩国1.5分彩', gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '12', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '17', title: '腾讯分分彩', gameid: 2}
+                {class: 'ds-icon-game-cb30', id: '1-2-1', menuid: '13', title: '快投30秒', gameid: 16},
+                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', gameid: 12},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', gameid: 21},
+                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
+                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19},
+                {class: 'ds-icon-game-ffctx', id: '1-2-6', menuid: '8', title: '腾讯分分彩', gameid: 2}
               ]
             },
             {
@@ -182,11 +197,11 @@ export default {
               url: 'G115',
               // width: '1.8rem',
               items: [
-                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '76', title: '广东十一选五', gameid: 8},
-                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '79', title: '江西十一选五', gameid: 7},
-                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '75', title: '湖北十一选五', gameid: 22},
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '73', title: '十一运夺金', gameid: 6},
-                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '74', title: '快投11选5', gameid: 11}
+                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', gameid: 8},
+                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '江西11选5', gameid: 7},
+                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', gameid: 22},
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', gameid: 11}
               ]
             },
             {
@@ -198,7 +213,7 @@ export default {
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', gameid: 24},
                 {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', gameid: 25},
                 {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', gameid: 26},
-                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '81', title: '快投快三', gameid: 15}
+                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', gameid: 15}
               ]
             },
             {
@@ -207,11 +222,12 @@ export default {
               // class: 'ds-icon-item',
               // url: 'K3',
               items: [
-                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '80', title: '北京PK10', gameid: 13},
-                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '61', title: '福彩3D', gameid: 9},
-                {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '60', title: '排列三、五', gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '62', title: '排列五', gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '19', title: '快投3D', gameid: 14}
+                {url: 'PK10', class: 'ds-icon-game-bjpk10', id: '1-5-1', menuid: '18', title: '北京PK10', gameid: 13},
+                {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', gameid: 27},
+                {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
+                {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
+                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14}
               ]
             },
             {
@@ -293,16 +309,11 @@ export default {
                   menuid: '38',
                   title: '用户列表',
                   url: 'UserList',
+                  size: 'full',
                   position: {
                     width: '11rem'
                   }
-                }
-              ]
-            },
-            {
-              id: '3-2',
-              title: '开户中心',
-              items: [
+                },
                 {
                   id: '3-2-1',
                   menuid: '42',
@@ -314,9 +325,33 @@ export default {
                   menuid: '43',
                   title: '推广设置',
                   url: 'Ad'
+                },
+                {
+                  id: '3-2-3',
+                  menuid: '93',
+                  title: '设置日工资',
+                  url: 'SetDaySalary'
                 }
               ]
             },
+            // {
+            //   id: '3-2',
+            //   title: '开户中心',
+            //   items: [
+            //     {
+            //       id: '3-2-1',
+            //       menuid: '42',
+            //       title: '增加用户',
+            //       url: 'AddUser'
+            //     },
+            //     {
+            //       id: '3-2-2',
+            //       menuid: '43',
+            //       title: '推广设置',
+            //       url: 'Ad'
+            //     }
+            //   ]
+            // },
             {
               id: '3-3',
               title: '契约分红',
@@ -345,6 +380,7 @@ export default {
                 },
                 {
                   id: '3-3-4',
+                  menuid: '88',
                   title: '契约详情',
                   url: 'ContractDetail',
                   position: {
@@ -383,10 +419,11 @@ export default {
           title: '报表统计',
           menuid: '5',
           url: 'form',
+          size: 'full',
           groups: [
             {
               id: '4-1',
-              title: '投注记录',
+              title: '游戏记录',
               items: [
                 {
                   id: '4-1-1',
@@ -396,13 +433,7 @@ export default {
                   position: {
                     width: '13rem'
                   }
-                }
-              ]
-            },
-            {
-              id: '4-2',
-              title: '追号记录',
-              items: [
+                },
                 {
                   id: '4-2-1',
                   menuid: '53',
@@ -411,17 +442,50 @@ export default {
                   position: {
                     width: '12rem'
                   }
+                },
+                {
+                  id: '4-1-2',
+                  menuid: '94',
+                  title: '我的奖池号',
+                  url: 'LuckyPool',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '89',
+                  title: '走势图',
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
-                // {
-                //   id: '4-2-2',
-                //   title: '追号记录详情',
-                //   url: 'FollowDetail',
-                //   position: {
-                //     width: '10rem'
-                //   }
-                // }
               ]
             },
+            // {
+            //   id: '4-2',
+            //   title: '追号记录',
+            //   items: [
+            //     {
+            //       id: '4-2-1',
+            //       menuid: '53',
+            //       title: '追号记录列表',
+            //       url: 'Follow',
+            //       position: {
+            //         width: '12rem'
+            //       }
+            //     }
+            //     // {
+            //     //   id: '4-2-2',
+            //     //   title: '追号记录详情',
+            //     //   url: 'FollowDetail',
+            //     //   position: {
+            //     //     width: '10rem'
+            //     //   }
+            //     // }
+            //   ]
+            // },
             // @TODO @next
             // {
             //   id: '4-3',
@@ -435,22 +499,28 @@ export default {
             //     }
             //   ]
             // },
+            // {
+            //   id: '4-4',
+            //   title: '今日报表',
+            //   items: [
+            //     {
+            //       id: '4-4-1',
+            //       menuid: '57',
+            //       title: '今日报表列表',
+            //       url: 'Today'
+            //     }
+            //   ]
+            // },
             {
-              id: '4-4',
-              title: '今日报表',
+              id: '4-5',
+              title: '游戏报表',
               items: [
                 {
                   id: '4-4-1',
                   menuid: '57',
                   title: '今日报表列表',
                   url: 'Today'
-                }
-              ]
-            },
-            {
-              id: '4-5',
-              title: '盈亏报表',
-              items: [
+                },
                 {
                   id: '4-5-1',
                   menuid: '58',
@@ -470,15 +540,6 @@ export default {
                     width: '12rem'
                   },
                   url: 'Account'
-                },
-                {
-                  id: '4-5-3',
-                  menuid: '89',
-                  title: '走势图',
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
                 },
                 {
                   id: '4-5-5',
@@ -630,6 +691,14 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    __print (data) {
+      this.printData = data
+      this.showPrint = true
+    },
+    __unprint () {
+      this.printData = {}
+      this.showPrint = false
+    },
     tryLogin () {
       let M = this.$modal.warn({
         content: '授权登录中...',
@@ -657,30 +726,41 @@ export default {
       }).finally(() => {
       })
     },
+    __loginSuccess (data) {
+      this.loginSuccess(data)
+    },
     loginSuccess (data) {
-      this.setUser({login: true,
-        name: data.nickName,
-        pwd: data.hasLogPwd === '1',
-        cashPwd: data.hasSecurityPwd === '1',
-        type: data.identity,
-        account: data.userName,
-        shareCycle: data.shareCycle,
-        role: data.roleId,
-        hasBankCard: data.hasBankCard === '1',
-        guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-        cbsafe: !!data.isOpenKey,
-        safeCheck: data.verifyType
+      // this.__setCall({fn: '__getUserFund', callId: undefined})
+      // setTimeout(this.getUserPrefence, 1000)
+      this.getUserPrefence(() => {
+        // this.getUserPrefence()
+        this.__getUserFund()
+        this.setUser({login: true,
+          name: data.nickName,
+          pwd: data.hasLogPwd === '1',
+          cashPwd: data.hasSecurityPwd === '1',
+          type: data.identity,
+          account: data.userName,
+          shareCycle: data.shareCycle,
+          role: data.roleId,
+          hasBankCard: data.hasBankCard === '1',
+          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          cbsafe: !!data.isOpenKey,
+          safeCheck: data.verifyType
+        })
+        // this.$router.push('/')
+        this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
+        window.accessAngular.setUser({
+          id: data.userId,
+          key: data.token,
+          pltCd: data.platId,
+          socketUrl: data.platUrl
+        })
+        window.accessAngular.isStranger(false)
+        // window.accessAngular.connect()
+        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        window.localStorage.setItem('api', api.api)
       })
-      // this.$router.push('/')
-      window.accessAngular.setUser({
-        id: data.userId,
-        key: data.token,
-        pltCd: data.platId,
-        socketUrl: data.platUrl
-      })
-      window.accessAngular.isStranger(false)
-      // window.accessAngular.connect()
-      setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -727,8 +807,8 @@ export default {
               // pre activated
               prev: 0,
               star: false,
-              defaultSize: '',
-              size: '',
+              defaultSize: m.size || i.size || g.size || '',
+              size: m.size || i.size || g.size || '',
               url: g.url || '',
               href: i.href || ('/' + m.url + '/' + i.id),
               // class: g.class || '',
@@ -744,10 +824,15 @@ export default {
       }, [])
     },
     openTab (url, same) {
+      // some url likes /form/4-2-1 !== page.id != 4-2-1
+      if (url && url.indexOf('/') !== -1) url = url.slice(url.lastIndexOf('/') + 1)
+      // console.log(this.$route.params.url === url, url, '|||||')
       if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
+      // console.log('openAnotherPage', url)
+      if (url === '/') return this.$router.push('/')
       if (this.tabs.length < this.maxPages || this.loop || this.tabs.find(t => t.id === url)) this.state.pages.find(p => p.id === url) && this.$router.push(this.state.pages.find(p => p.id === url).href)
       // else {
       //   this.$modal.warn({
@@ -757,10 +842,12 @@ export default {
       // }
     },
     closeTab (url, nurl) {
+      // console.log('closeTab', url)
+      // console.log(this.tabs.length, nurl, this.prev)
       this.updatePage(url, {opened: false, position: null})
       this.$nextTick(() => {
         // after close open the pre one
-        if (nurl) {
+        if (nurl && nurl !== '/') {
           this.openTab(nurl)
         } else if (this.tabs.length === 0) {
           setTimeout(() => {
@@ -771,7 +858,9 @@ export default {
               }
             })
           }, 100)
-        } else this.$router.push(this.prev.href)
+        } else {
+          !this.currentab[0] && this.openTab(this.prev.href === '/' && this.ctabs.length > 0 ? this.ctabs[0].href : this.prev.href)
+        }
       })
     },
     // setMenus (menus) {
@@ -791,17 +880,30 @@ export default {
     __logoutChat () {
       window.accessAngular.close('您已退出聊天系统！')
     },
+    __getUserPrefence () {
+      this.getUserPrefence()
+    },
     // 5、查询菜单、桌面、收藏夹 PC接口
-    getUserPrefence () {
+    getUserPrefence (fn) {
+      let M = this.$modal.warn({
+        content: '获取权限信息中...',
+        btn: [],
+        close () {
+          M = null
+        },
+        O: this
+      })
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
+          this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
           this.setPages(this._getPages())
           this.tabs.forEach((t, i) => {
             if (!this.state.pages.find(x => x.id === t.id)) {
               this.tabs.splice(i, 1)
             } else {
+              // console.log(t.id)
               this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
             }
           })
@@ -813,9 +915,12 @@ export default {
             //   store.actions.updatePage(d.menuId + '', {desk: true})
             // })
           })
+          typeof fn === 'function' && fn()
+          M._close()
         }
       }, (rep) => {
         // error
+        M._close()
       })
     },
     // 6、用户资金信息  ALL
@@ -832,13 +937,16 @@ export default {
   },
   components: {
     dsHeader,
-    dsFooter
+    dsFooter,
+    Print
     // Chat
   }
 }
 </script>
 <style lang="stylus">
   @import './var.stylus'
+  @import './path.stylus'
+  // @import './chat.stranger.phone.stylus'
   html
     height 100%
     width 100%
@@ -846,7 +954,7 @@ export default {
     overflow hidden
     min-height 600px
     min-width 800px
-    font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
+    font-family Arial, Helvetica, sans-serif, 'Microsoft YaHei'
   
   body
     height 100%
@@ -867,12 +975,20 @@ export default {
     background url($ASSETS/bg.jpg) center center no-repeat
   }
 </style>
-
+<style lang="less">
+  @import url('./chat.wap.less');
+</style>
 <style lang="stylus">
   @import './var.stylus'
+  @import './path.stylus'
   @import './main.stylus'
   @import './night.stylus'
-  @import './1600.stylus'
+  @import './1280X800.stylus'
+  @import './chat.stranger.1366.stylus'
+  // @import './chat.wap.stylus'
+  // @import './chat.wap.iphone.less'
+  // @import './pad.stylus'
+  // @import './phone.stylus'
   // @import './chat.night.stylus'
   
   
@@ -880,12 +996,23 @@ export default {
   header
     position absolute
     top 0
-    right: 0
-    left: 0
+    // right: 1.2rem
+    max-width "calc(100% - %s)" % 1.5rem
+    left 0
+    right 0
     height HH
     z-index 1
     & + .scroll-content
       top HH
+    // &:after
+    //   content ''
+    //   position absolute
+    //   left 0 
+    //   right -1.5rem
+    //   top 0
+    //   bottom 0
+    //   background-color rgba(55,255,255,.1)
+    //   z-index -9999
   footer
     position absolute
     bottom 0
@@ -905,9 +1032,10 @@ export default {
     // radius(x = .05rem)
     // &.has-header
     //   top HH
-    &.has-footer
+    &.has-footer:not(.collapse-footer)
       bottom FH
-      @media(max-width: 1362px)
+      // @media(max-width: 1362px)
+      @media(max-width: 1500px)
         bottom 2*FH
       @media(max-width: 862px)
         bottom 3*FH 

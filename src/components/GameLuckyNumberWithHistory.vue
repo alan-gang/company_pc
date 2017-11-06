@@ -1,32 +1,38 @@
 <template lang="jade">
   el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
-    el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
-      span(slot="reference")
-        el-col.left(:span="onlyNumber ? 24: 20")
-          span.NPER {{ NPER }} 
-          | 期 &nbsp;
-          .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
-            //.the-number {{ n }}
-            .the-number(v-for=" (xx, nn ) in Array(100) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
+    
+    el-col.left(:span="onlyNumber ? 24 : longNumbers ? 20 : 18")
+      el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
+        span(slot="reference")
+          div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码")
+            span.NPER {{ NPER }} 
+            | 期 &nbsp;
+            .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
+              //.the-number {{ n }}
+              //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
+              //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
+              .the-number(v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
 
-          span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
-            span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
-              span.the-number {{ n | padStart(2, 0) }}
-            
-          // Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value=" n ")
+            span.number-array(v-if = " isArray " v-for=" ns in lucknumbers " )
+              span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
+                // span.the-number {{ n | padStart(2, 0) }}
+                .the-number(v-for=" (xx, nn ) in Array(81) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn | padStart(2, 0) }}
 
-          .number(v-if="isDice" v-for=" (n, i) in lucknumbers " style="background: none; overflow: hidden; border-radius: 0; vertical-align: middle; top: 0;" )
-            Dice.dead(style="display: block; position: relative; left: -.05rem; top: -.05rem; " v-for=" (xx, nn ) in Array(6) " v-bind:value=" nn + 1 " v-bind:style=" {transform: 'translateY(' + (-100 * (n - 1))  + '%) scaleX(0.8076923076923077) scaleY(0.8076923076923077)' , transition: 'transform ' + (1 + (1 * i)) + 's ease' } ")
+              
+            // Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value=" n ")
+
+            .number(v-if="isDice" v-for=" (n, i) in lucknumbers " style="background: none; overflow: hidden; border-radius: 0; vertical-align: middle; top: 0; box-shadow: none;" )
+              Dice.dead(style="display: block; position: relative; left: -.05rem; top: -.05rem; " v-for=" (xx, nn ) in Array(6) " v-bind:value=" nn + 1 " v-bind:style=" {transform: 'translateY(' + (-100 * (n - 1))  + '%) scaleX(0.8076923076923077) scaleY(0.8076923076923077)' , transition: 'transform ' + (1 + (1 * i)) + 's ease' } ")
 
 
-          span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
-      slot
-        GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+        slot
+          GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
 
-    el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
+    el-col.right(:span=" longNumbers ? 4 : 6" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击刷新
         br
-      | 已开
+      | 已派奖
       span.PNPER {{ PNPER }}
       | 期，总共
       span.FNPER {{ FNPER }}
@@ -54,6 +60,7 @@ export default {
   },
   data () {
     return {
+      // delay: 1000,
       my: [2, 2, 2]
     }
   },
@@ -92,7 +99,7 @@ export default {
 
   body
     .popover-luckynumber
-      transform translateX(.4rem) translateY(.6rem)
+      transform translateX(-.1rem) translateY(.2rem)
       padding 0
       width auto    
      

@@ -1,7 +1,7 @@
 <template lang="jade">
 
   transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({},  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         .move-bar(slot="movebar")
@@ -36,6 +36,7 @@ import Bank from './me/Bank'
 
 // group
 import UserList from './group/UserList'
+import SetDaySalary from './group/SetDaySalary'
 import AddUser from './group/AddUser'
 import Ad from './group/Ad'
 import Contract from './group/Contract'
@@ -51,6 +52,7 @@ import Follow from './form/Follow'
 import FollowDetail from './form/FollowDetail'
 import FollowOrder from './form/FollowOrder'
 import Order from './form/Order'
+import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
@@ -77,6 +79,9 @@ import ForTopup from './activity/ForTopup'
 import ForTopupA from './activity/ForTopupA'
 import ForWithdraw from './activity/ForWithdraw'
 import ForOther from './activity/ForOther'
+import FindMe from './activity/FindMe'
+import Fight from './activity/Fight'
+import Salary from './activity/Salary'
 // 下载
 import Download from './download/Download'
 
@@ -101,6 +106,7 @@ export default {
     Bank,
     // group
     UserList,
+    SetDaySalary,
     AddUser,
     Ad,
     Contract,
@@ -115,6 +121,7 @@ export default {
     FollowDetail,
     FollowOrder,
     Order,
+    LuckyPool,
     ProfitLoss,
     ProfitLossDetail,
     Today,
@@ -138,17 +145,21 @@ export default {
     ForTopupA,
     ForWithdraw,
     ForOther,
+    FindMe,
+    Fight,
+    Salary,
     // 下载
     Download
   },
   name: 'Pages',
   mixins: [base],
-  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition'],
+  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money'],
   data () {
     return {
       hasHeader: true,
       hasFooter: true,
       // 可打开的最大的页数
+      // H: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem',
       pageSizes: {
         full: {
           top: 0,
@@ -167,7 +178,7 @@ export default {
           top: '15%',
           left: '25%',
           width: '9.3rem',
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         static: {
           top: 0,
@@ -181,84 +192,84 @@ export default {
       // 没有记录过位置的窗口将自动分配位置
       PPP: [
         {
-          top: 'calc(10% + 0.15rem)',
+          top: document.body.clientHeight < 900 ? '0.36rem' : 'calc(10% + 0.15rem)',
           left: 'calc(20% + 0.15rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 0.5rem)',
+          top: document.body.clientHeight < 900 ? '0.5rem' : 'calc(10% + 0.5rem)',
           left: 'calc(20% + 0.5rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 0.85rem)',
+          top: document.body.clientHeight < 900 ? '0.85rem' : 'calc(10% + 0.85rem)',
           left: 'calc(20% + 0.85rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 1.2rem)',
+          top: document.body.clientHeight < 900 ? '1.2rem' : 'calc(10% + 1.2rem)',
           left: 'calc(20% + 1.2rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 1.55rem)',
+          top: document.body.clientHeight < 900 ? '1.55rem' : 'calc(10% + 1.55rem)',
           left: 'calc(20% + 1.55rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 1.9rem)',
+          top: document.body.clientHeight < 900 ? '1.9rem' : 'calc(10% + 1.9rem)',
           left: 'calc(20% + 1.9rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 2.25rem)',
+          top: document.body.clientHeight < 900 ? '2.25rem' : 'calc(10% + 2.25rem)',
           left: 'calc(20% + 2.25rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 2.6rem)',
+          top: document.body.clientHeight < 900 ? '2.6rem' : 'calc(10% + 2.6rem)',
           left: 'calc(20% + 2.6rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 2.95rem)',
+          top: document.body.clientHeight < 900 ? '2.95rem' : 'calc(10% + 2.95rem)',
           left: 'calc(20% + 2.95rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         },
         {
-          top: 'calc(10% + 3.3rem)',
+          top: document.body.clientHeight < 900 ? '3.3rem' : 'calc(10% + 3.3rem)',
           left: 'calc(20% + 3.3rem)',
           width: '9.3rem',
           // width: '50%',
           // height: '50%'
-          height: '6.4rem'
+          height: (window.document.body.clientHeight || 800) >= 720 ? '6.4rem' : '5.8rem'
         }
       ]
       // PPP: [
@@ -359,7 +370,7 @@ export default {
       if (url) this.openAPage(url)
     },
     openAPage (url) {
-      if (this.pages.length === this.maxPages) {
+      if (this.pages.length === this.maxPages && !(this.pages.find(p => p.id === url))) {
         if (!this.loop) return false
         else if (this.curl !== url) {
           this.$emit('close-tab', this.furl, url)
@@ -377,7 +388,7 @@ export default {
       if (page.size !== 'full') this.setDefaultPosition(page)
       // console.log('minusnow', page.size, page.url, page.id)
       this.updatePage(page.id, {size: 'minus'}, page)
-      this.prehref && this.$router.push(this.prehref)
+      if (page.opened && page.active) this.prehref && this.$router.push(this.prehref)
     },
     close (url, nurl) {
       this.$emit('close-tab', url, nurl)
@@ -434,7 +445,7 @@ export default {
     moveable: {
       // inserted () {
       // },
-      update (el, binding, vnode) {
+      inserted (el, binding, vnode) {
         let canMove = false
         let wantMove = false
         let {top, left, width, height} = util.getOffset(el, 0)
@@ -446,8 +457,9 @@ export default {
         let dy = 0
         util.addEvent('click', target, (evt) => {
           if (wantMove) {
-            evt.preventDefault()
-            evt.stopPropagation()
+            // 移动时， 窗口不上浮为当前活动窗口
+            // evt.preventDefault()
+            // evt.stopPropagation()
             wantMove = false
           }
         })
@@ -479,7 +491,7 @@ export default {
           if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
           if (dx < 0 && left <= 15) dx = 0
           if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
-          if (dy < 0 && top <= 15) dy = 0
+          if (dy < 0 && top <= (15 + 36)) dy = 0
           if (dx === 0 && dy === 0) return
           left += dx
           el.style.left = left + 'px'
@@ -509,7 +521,7 @@ export default {
       }
     },
     resizeable: {
-      update (el, binding) {
+      inserted (el, binding) {
         let canResizeX = false
         let canResizeY = false
         let {top, left, width, height} = util.getOffset(el, 0)
@@ -521,12 +533,14 @@ export default {
         let dx = 0
         let dy = 0
         util.addEvent('click', targetX, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
+          // 窗口不上浮为当前活动窗口
+          // evt.preventDefault()
+          // evt.stopPropagation()
         })
         util.addEvent('click', targetY, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
+          // 窗口不上浮为当前活动窗口
+          // evt.preventDefault()
+          // evt.stopPropagation()
         })
         // X
         util.addEvent('mousedown', targetX, (evt) => {
@@ -635,7 +649,53 @@ export default {
 </script>
 
 <style lang="stylus">
-  // @media(max-width: 1024px)
+  @import '../var.stylus'
+  .dialog-page.active .tool-bar
+    background-color WHITE
+  .page .dialog-page.full
+    background rgba(0,0,0,0)
+    &:after
+      content ''
+      position absolute
+      top .36rem
+      left 0 
+      right 0
+      bottom 0
+      background-color #ededed
+      z-index -1
+    // & > div:not(.tool-bar):not(.move-bar):not(.resize-x):not(.resize-y):not(.modal):not([class*='el-'])
+    //   background-color #ededed
+    & > .tool-bar
+      background rgba(0,0,0,0)
+      .title
+        display none
+      .el-button-group 
+        background-color #668ccb
+        .el-button
+          color WHITE
+          .full 
+            border-color WHITE
+          
+          &:hover
+            background-color rgba(255, 255, 255, .2)
+            color WHITE
+            .full
+              border-color WHITE
+            &.close
+              background-color DANGER
+          
+      
+  @media(max-width: 1024px)
+    .page .dialog-page
+      top 0 !important
+      left 0 !important
+      width 100% !important
+      height 100% !important
+      border-radius 0 !important
+      .tool-bar
+        background none
+        .title
+          display none
   //   html
   //     overflow auto
   //     font-size 80px
@@ -750,12 +810,14 @@ export default {
       
   .page
     overflow hidden
+    perspective 100px
+    top 0
   .dialog-page
     // &>.scroll-content
     //   left 50%
     //   transform translateX(-50%)
     position absolute !important
-    min-width 5.4rem
+    min-width 5.8rem
     min-height 4rem
     overflow visible
     z-index 0
@@ -778,11 +840,11 @@ export default {
       // &[v-align=bottom]
       //   transform perspective(1rem) rotateY(1deg) translate3D(3rem, 2rem, -.8rem)
     &.active
-      transform rotateY(0)
+      transform none
       // shadow(0 0 .1rem .1rem #fff)
       
       // transition-duration .5s
-      z-index 1
+      z-index 9999 !important
       
     &[class*=-enter]
     &[class*=-leave]
@@ -794,7 +856,7 @@ export default {
       // opacity 0
       // transform perspective(500px) translateZ(-5000px)
       opacity .2
-      transform perspective(500px) translateZ(-1000px)
+      transform perspective(100px) translateZ(-1000px)
       // shadow(0 0 5rem 5rem #333)
     
 
@@ -807,6 +869,7 @@ export default {
     
     &.full
       // shadow(0 0 5rem 2rem #333)
+      radius(0)
       .move-bar
         cursor default
         &:hover

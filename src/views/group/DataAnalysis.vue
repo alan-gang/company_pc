@@ -57,13 +57,13 @@
 <script>
   import store from '../../store'
   import { digitUppercase } from '../../util/Number'
-  import { dateFormat, dateTimeFormat } from '../../util/Date'
+  import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   export default {
     data () {
       return {
         me: store.state.user,
-        st: dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24),
+        st: new Date(new Date().getTime() - 3600 * 1000 * 24),
         options: {
           disabledDate (time) {
             return time.getTime() > (Date.now() - 24 * 3600 * 1000)
@@ -89,7 +89,7 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.getTeamTodayData, {
-          startDay: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''
+          startDay: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''
         }).then(({data}) => {
           // success
           if (data.success === 1) {

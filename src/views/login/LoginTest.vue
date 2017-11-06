@@ -3,7 +3,7 @@
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
-        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer}")
+        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index {{ index + 1 }}
           |  线 
@@ -14,7 +14,7 @@
             |  毫秒
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // el-col(:span="8" v-for=" (r, index) in serverList "  @click.native="switchCS(r)" v-if="!server")
-      //   .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: r === cs}")
+      //   .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: (r === cs || (r === 'www.' + cs))}")
       //     p {{ r }}
       //     span.route-index {{ index + 1 }}
       //     |  线 
@@ -87,7 +87,7 @@
     },
     watch: {
       fastServer () {
-        if (!this.server) api.api = this.fastServer
+        if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // this.cs = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -97,6 +97,7 @@
       this.auto = this.$route.query.auto
       this.getEnableLines()
       this.currentServer = this.server ? api.api : window.location.origin
+      // this.currentServer = this.server ? api.api : 'http://game.com:8080'
       // cookie.set('mySession', 'xxsffe-fe-s-f-esf-se-fe-s-f', {domain: ''})
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // this.cs = api.api
@@ -142,6 +143,9 @@
           if (rep.status !== 0) {
             this.$set(this[timeList], i, '> 10000')
             this.$set(this[timeList + 'Value'], i, 0)
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.replace('www.', '')) {
+              window.localStorage.removeItem('api')
+            }
           }
         }).finally((rep) => {
           // console.log('final', rep)
@@ -267,13 +271,17 @@
         top 0
         width 2rem
         text-align center
-        padding .05rem 0
+        padding 0.05rem 0
         font-shadow()
         transform rotateZ(42deg) translateY(-160%)  translateX(30%) 
-      &:before
-        left 0
-        right auto
-        transform rotateZ(-42deg) translateY(-160%)  translateX(-30%) 
+      &.fast.current
+        &:before
+          padding .1rem 0 0.05rem 0
+          transform rotateZ(42deg) translateY(-190%)  translateX(30%) 
+        &:after
+          transform rotateZ(42deg) translateY(-110%)  translateX(30%) 
+          
+        
         
       &.fast:after
         content '最快'
@@ -284,7 +292,7 @@
       &.current:before
         content '当前'
         bg-gradient(180deg, #1ab8f3, #1a9ff3)
-        transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
+        // transform rotateZ(-42deg) translateY(-215%) translateX(-32%)
         
         
       

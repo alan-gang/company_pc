@@ -49,23 +49,23 @@
         //           span(:class="[ scope.row.numbers && scope.row.numbers[i + k*12].class ]") {{ scope.row.numbers ? scope.row.numbers[i + k*12].n: 0 }}
 
         el-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName")
-          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="100" align="center" class-name="bg-white")
-          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" width="100" align="center" class-name="bg-white")
+          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="80" align="center" class-name="bg-white")
+          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" width="80" align="center" class-name="bg-white")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" v-bind:class-name=" k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger' ")
-            el-table-column(:resizable=" resizable " align="center" width="30" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
+            el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
               template(scope="scope")
                 div
                   span(:class="{ball: i === parseInt(scope.row.code.split(',')[k]), danger: k % 2 !== 0  }" v-show=" i === parseInt(scope.row.code.split(',')[k]) || shown ") {{ i === parseInt(scope.row.code.split(',')[k]) ? i : scope.row.misseddata[k] && scope.row.misseddata[k]['d' + i] || ''}}
 
         
-        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 200px; top: 70px" v-show="polyline")
+        svg(width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" v-bind:style="svgstyle" v-show="polyline")
           polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#1a9ff3' : '#ff5f6a' " )
           // polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#89d2ff' : '#ff7f8a' " )
 
         el-table.nopadding.header-bold.has-border(:data="fData" border v-bind:row-class-name="tableRowClassName"  v-bind:show-header="false" style="position: relative; top: -5px;")
-          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="200" align="center")
+          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="160" align="center")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" )
-            el-table-column(:resizable=" resizable " align="center" width="30" v-for="(n, i) in P.numbers" v-bind:label="n+'' ")
+            el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' ")
               template(scope="scope")
                 div
                   span(v-if="!scope.row.total") {{ scope.row.numbers ? scope.row.numbers[k*12 + i].n || '' : '' }}
@@ -76,7 +76,8 @@
 
 <script>
 import api from '../../http/api'
-import { dateTimeFormat, dateFormat } from '../../util/Date'
+import util from '../../util'
+import { dateFormat } from '../../util/Date'
 import store from '../../store'
 export default {
   data () {
@@ -85,9 +86,9 @@ export default {
       // dateFormat: dateFormat,
       size: 100,
       st: '',
-      td: dateTimeFormat(new Date().getTime()),
-      yd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 1000),
-      lyd: dateTimeFormat((new Date().getTime()) - 3600 * 24 * 2 * 1000),
+      td: new Date(new Date().getTime()),
+      yd: new Date((new Date().getTime()) - 3600 * 24 * 1000),
+      lyd: new Date((new Date().getTime()) - 3600 * 24 * 2 * 1000),
       resizable: false,
       gameList: [],
       game: {lotteryId: 0},
@@ -123,7 +124,7 @@ export default {
           return time.getTime() > Date.now()
         }
       },
-      stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
+      stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
       PS: [
         {title: '第一位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
         {title: '第二位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
@@ -142,7 +143,8 @@ export default {
         {issue: '最大遗漏值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))},
         {issue: '最大连出值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))}
       ],
-      lines: []
+      lines: [],
+      x: 1
     }
   },
   watch: {
@@ -162,6 +164,13 @@ export default {
   computed: {
     gameid () {
       return this.game.lotteryId
+    },
+    svgstyle () {
+      return {
+        position: 'absolute',
+        left: 165 + 'px',
+        top: 69 * this.x + 'px'
+      }
     }
     // Cdata () {
     //   return this.myData.map(c => {
@@ -210,10 +219,44 @@ export default {
     // })
   },
   mounted () {
+    util.addEvent('resize', window, () => {
+      !((this.W > 900) === (window.document.body.clientHeight > 900)) && this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
+    })
     this.getLotterys()
     this.$route.query.gameid && (this.game.lotteryId = this.$route.query.gameid)
   },
   methods: {
+    draw (x) {
+      this.x = x
+      this.lines = []
+      // console.log(this.fData[0].numbers[10].n, '*************************')
+      this.myData.forEach((d, j) => {
+        d.code.split(',').forEach((s, i) => {
+          !this.lines[i] && (this.lines[i] = '')
+          // width height 30*30
+          // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+          // width height 25*25
+          this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 * x + (j - 1) / (j + 1)) * j + 15 * x) + ' '
+          // 总出现
+          // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
+          // if (i === 1) {
+          //   console.log(s, i * 12 + parseInt(s), this.fData[0].numbers[i * 12 + parseInt(s)].n)
+          // }
+          // this.fData[0].numbers[i * 12 + parseInt(s)].n += 1
+          // // 最大连出值
+          // if (this.fData[3].numbers[i * 12 + parseInt(s)].i === j - 1) {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].temp += 1
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].i = j
+          // } else {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].temp = 1
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].i = j
+          // }
+          // if (this.fData[3].numbers[i * 12 + parseInt(s)].temp > this.fData[3].numbers[i * 12 + parseInt(s)].n) {
+          //   this.fData[3].numbers[i * 12 + parseInt(s)].n = this.fData[3].numbers[i * 12 + parseInt(s)].temp
+          // }
+        })
+      })
+    },
     openRoute ({path, query: {gameid}}) {
       if (path !== '/form/4-5-3') return false
       if (gameid) {
@@ -248,7 +291,7 @@ export default {
         text: '数据查询中...',
         target: this.$el
       }, 10000, '数据查询超时...')
-      this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat(new Date(this.st).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
+      this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
         // success
         if (data.success === 1) {
           this.fData[0].numbers = Array(60).fill(0).map(n => (n = {n: 0}))
@@ -275,10 +318,14 @@ export default {
           this.myData = data.items
           this.lines = []
           // console.log(this.fData[0].numbers[10].n, '*************************')
+          this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
           this.myData.forEach((d, j) => {
             d.code.split(',').forEach((s, i) => {
-              !this.lines[i] && (this.lines[i] = '')
-              this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+              // !this.lines[i] && (this.lines[i] = '')
+              // width height 30*30
+              // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
+              // width height 25*25
+              // this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 + (j - 1) / (j + 1)) * j + 15) + ' '
               // 总出现
               // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
               // if (i === 1) {
@@ -351,6 +398,8 @@ export default {
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   H = 1rem
+  .el-table
+    font-size .1rem
   .scroll-content
     overflow-x auto
     top TH * 4
@@ -364,7 +413,6 @@ export default {
   .trend-chart
     padding 0 PWX 
     text-align center
-    
     .chart
       // min-width 14.4rem
       .el-row

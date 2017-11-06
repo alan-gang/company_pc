@@ -39,13 +39,17 @@ export default {
         // success
         if (data.success > 0) {
           this.$emit('update-user', {
-            login: true,
-            name: data.nickName,
-            isTry: true,
-            guide: data.isTry !== '1'
+            // login: true,
+            // name: data.nickName,
+            isTry: true
+            // guide: data.isTry !== '1'
           })
-          this.$router.push('/')
-        } else this.$message.error('试玩登陆失败!')
+          // this.$router.push('/')
+          this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
+        } else {
+          this.$message.error('试玩登陆失败!')
+          this._getVerifyImage()
+        }
       }, (rep) => {
         // error
       })

@@ -53,7 +53,7 @@
 
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="followList()") 搜索
-          .ds-button.cancel.large(@click="clear") 清空
+          .ds-button.cancel.large(@click="clear(true)") 清空
 
         el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
@@ -73,6 +73,8 @@
           el-table-column(prop="lotteryName" label="游戏" width="100" )
 
           el-table-column(prop="methodName" label="玩法" min-width="100" )
+            template(scope="scope")
+              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
 
           el-table-column(prop="beginIssue" label="开始期数" width="100" )
 
@@ -205,9 +207,9 @@
       stEt: {
         deep: true,
         handler () {
-          if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       }
@@ -276,7 +278,7 @@
           this.currentPage = cp
         })
       },
-      clear () {
+      clear (a) {
         // this.st = ''
         // this.et = ''
         this.stEt = this.defaultStEt
@@ -289,6 +291,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
+        a && this.followList()
       },
       cancel () {
         let loading = this.$loading({
@@ -321,9 +324,9 @@
             // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-            beginDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+            beginDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
             // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-            endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+            endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
             // stat: this.status,
             isFree: this.isFree,
             userName: this.name,

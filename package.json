@@ -5,7 +5,9 @@
   "author": "joey",
   "private": true,
   "scripts": {
+    "dsm-dev": "node build/dsm-dev-server.js",
     "dev": "node build/dev-server.js",
+    "dsm-build": "node build/dsm-build.js",
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
@@ -14,10 +16,13 @@
   },
   "dependencies": {
     "element-ui": "^1.2.9",
+    "lodash": "^4.17.4",
+    "simple-web-worker": "^1.2.0",
     "vue": "^2.0.1",
     "vue-awesome-swiper": "^2.4.2",
     "vue-clipboard2": "0.0.6",
-    "vue-echarts-v3": "^1.0.3"
+    "vue-echarts-v3": "^1.0.3",
+    "vue-worker": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",

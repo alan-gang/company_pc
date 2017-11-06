@@ -1,6 +1,6 @@
 <template lang="jade">
 
-    el-row.row
+    el-row.row(:class="{pd25: isDice}")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
       el-col(:span="24")
@@ -21,7 +21,7 @@
   import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
   export default {
-    props: ['row', 'titleSpan', 'gameid'],
+    props: ['row', 'rowIndex', 'titleSpan', 'gameid'],
     data () {
       return {
         // 显示遗漏号码
@@ -168,6 +168,15 @@
       all (signal) {
         this.numbers.forEach(n => this.select(n, signal))
       },
+      // 随机选择一个号码
+      __random ({continuee, rowIndex}) {
+        if (!continuee) this.clear()
+        if (rowIndex === undefined || this.rowIndex === rowIndex) {
+          setTimeout(() => {
+            this.toggle(this.numbers[parseInt(Math.random() * this.numbers.length)])
+          }, 50 * this.rowIndex)
+        }
+      },
       small (signal) {
         this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
       },
@@ -211,9 +220,12 @@
 <style lang="stylus" scoped>
   @import '../var.stylus'
     .el-row
+      
       &.row
         padding 0 .2rem
         margin .05rem 0
+        &.pd25
+          padding-bottom .25rem
       width 100%
       &:hover
         .title
@@ -301,7 +313,6 @@
           width  3 * GCH
         &.dice
           margin-right .1rem
-          padding-bottom .25rem
           .the-number
             display none
           .after
@@ -503,8 +514,8 @@
 </style>
 
 <style lang="stylus">
-  @import '../var.stylus'
-   .dice
+@import '../var.stylus'
+    .dices:not(.has-3)  
       .dice
         transition: color 0.25s
         color #666

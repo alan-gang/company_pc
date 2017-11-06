@@ -11,9 +11,9 @@
         
       Dice.dead(v-if="isDice" v-for=" n in lucknumbers " v-bind:value="n")
 
-      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击可刷新
+      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
-      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击可刷新
+      span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击刷新
         br
       | 已开
       span.PNPER {{ PNPER }}

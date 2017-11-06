@@ -111,6 +111,17 @@ export default {
               ]
             }
           ]
+        },
+        {
+          title: '龙虎',
+          groups: [
+            {
+              // title: '五位',
+              items: [
+                {id: '-3-1-3-115', title: '龙虎', description: '根据选择的位置比较第一位号码与第二位号码的大小， 大则为：龙， 小则为：虎', example: '龙[第一位，第二位]，开奖号码08 07 * * *，即中龙虎'}
+              ]
+            }
+          ]
         }
       ],
       getTitle () {
@@ -127,6 +138,8 @@ export default {
             return '任选'
           case '-2':
             return '趣味'
+          case '-3':
+            return '龙虎'
         }
       },
       gameType: 'G115',

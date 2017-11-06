@@ -377,11 +377,13 @@ export default {
     newCashPwdAgain () {
       this.newPwdAgain = this.newPwdAgain.trim()
     },
-    q1 () {
+    q1 (n, o) {
       this.q1 && (this.q1.disabled = true)
+      if (o) o.disabled = false
     },
-    q2 () {
+    q2 (n, o) {
       this.q2 && (this.q2.disabled = true)
+      if (o) o.disabled = false
     },
     a1_ () {
       this.a1_ = this.a1_.trim()
@@ -507,8 +509,8 @@ export default {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
-              this.__setCall({fn: '__logout'})
-            }, 3000)
+              this.__setCall({fn: '__logout', args: undefined, callId: undefined})
+            }, 1500)
           } else {
             this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
             this.clearPwd()
@@ -524,7 +526,7 @@ export default {
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
-        if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
+        if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
         this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd}).then(({data}) => {
           if (data.success === 1) {
@@ -533,7 +535,7 @@ export default {
             this.$message.success({target: this.$el, message: message})
             if (!this.me.cashPwd) store.actions.setUser({cashPwd: true})
           } else {
-            this.$message.error({target: this.$el, message: '旧密码错误！'})
+            this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
             this.clearCashPwd()
           }
         }, (rep) => {

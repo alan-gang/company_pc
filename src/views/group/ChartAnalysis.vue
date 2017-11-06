@@ -95,11 +95,11 @@
         url: [api.teamStatistic, api.getTeamSale, api.getTeamProfit],
         timeType: 1,
         stEt: [
-          [new Date().getTime() - 3600 * 1000 * 24 * 7, new Date().getTime()],
-          [new Date().getTime() - 3600 * 1000 * 24 * 30, new Date().getTime()],
-          [new Date().getTime() - 3600 * 1000 * 24 * 90, new Date().getTime()],
-          [new Date().getTime() - 3600 * 1000 * 24 * 180, new Date().getTime()],
-          [new Date().getTime() - 3600 * 1000 * 24 * 364, new Date().getTime()]
+          [new Date().getTime() - 3600 * 1000 * 24 * (7 + 1), new Date().getTime() - 3600 * 1000 * 24],
+          [new Date().getTime() - 3600 * 1000 * 24 * (30 + 1), new Date().getTime() - 3600 * 1000 * 24],
+          [new Date().getTime() - 3600 * 1000 * 24 * (90 + 1), new Date().getTime() - 3600 * 1000 * 24],
+          [new Date().getTime() - 3600 * 1000 * 24 * (180 + 1), new Date().getTime() - 3600 * 1000 * 24],
+          [new Date().getTime() - 3600 * 1000 * 24 * (364 + 1), new Date().getTime() - 3600 * 1000 * 24]
         ],
         // loading: true,
         line: {

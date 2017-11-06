@@ -7,13 +7,13 @@
 
     el-col.left(:span="16")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
-      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times" v-bind:max="MAXTIMES") 
+      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
       span.bei &nbsp;倍
       .ds-button-group
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}") {{c.title}}
       
-      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P")
+      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)")
       span.p(v-if="P") {{ ps}} - {{ prize }}
 
     el-col.right(:span="8")
@@ -23,6 +23,10 @@
       span.pay {{ pay }}
       |  元
       .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+      .buttons
+        .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
+        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
 
 
 
@@ -40,7 +44,7 @@ export default {
       XM: 100,
       XMM: 0,
       S: 100,
-      MAXTIMES: 10000,
+      // MAXTIMES: 1000000000,
       cIndex: 0,
       currencies: [
         {title: '元', value: 1, model: 1},
@@ -95,7 +99,7 @@ export default {
   mounted () {
     // console.log('new orderbar, point:', this.point)
     this.t = this.times
-    this.p = this.point * 10000
+    this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
     this.cIndex = this.currency.model - 1
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
@@ -105,33 +109,57 @@ export default {
     setTimes (t) {
       this.$emit('set-times', t)
     },
-    order () {
-      if (this.n > (this.P.maxCount || 1) || this.n < (this.P.minCount || 0)) {
-        if (this.n > (this.P.maxCount || 1)) {
-          return this.$modal.warn({
-            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
-            btn: ['确定'],
-            target: this.$el.parentNode
-          })
-        } else if (this.me.minOrderPop) {
-          return this.$modal.question({
-            content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金限制为最高3万',
-            btn: ['继续购买', '再来几注', '不再提醒'],
-            target: this.$el.parentNode,
-            O: this,
-            ok () {
-              this.$emit('order')
-            },
-            cancel (i) {
-              if (i === 2) {
-                this.$emit('order')
-                store.actions.setUser({minOrderPop: false})
-              }
-            }
-          })
+    quickbook () {
+      this.$emit('quickbook')
+    },
+    sh () {
+      // 如果是梭哈， 改变模式为厘， 全部余额投注到上面
+      this.cIndex = 3
+      let am = this.me.amoney
+      this.__setCall({fn: '__getUserFund', callId: undefined})
+      setTimeout(() => {
+        if (this.me.amoney !== am) {
+          this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
+          setTimeout(() => {
+            this.order(true)
+          }, 100)
+        } else {
+          setTimeout(() => {
+            this.t = Math.max(Math.floor(this.me.amoney / (this.pay / this.t)), 1)
+            setTimeout(() => {
+              this.order(true)
+            }, 100)
+          }, 300)
         }
+        // this.order(true)
+      }, 0)
+    },
+    order (quick) {
+      if (this.P.maxCount && (this.n > this.P.maxCount)) {
+        return this.$modal.warn({
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
+          btn: ['确定'],
+          target: this.$el.parentNode
+        })
+      } else if (this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
+        return this.$modal.question({
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金最高限制为元3万，角3千， 分3百，厘30',
+          btn: ['继续购买', '再来几注', '不再提醒'],
+          target: this.$el.parentNode,
+          O: this,
+          ok () {
+            // store.actions.setUser({minOrderPop: false})
+            this.$emit(quick ? 'quickbook' : 'order')
+          },
+          cancel (i) {
+            if (i === 2) {
+              store.actions.setUser({minOrderPop: false})
+              this.$emit(quick ? 'quickbook' : 'order')
+            }
+          }
+        })
       }
-      this.$emit('order')
+      this.$emit(quick ? 'quickbook' : 'order')
     }
   },
   components: {
@@ -163,14 +191,34 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .el-row
+    transition height .5s linear
+    overflow hidden
+    &.opacity-0 
+      height 0
+    &.opacity-1
+      height .5rem
+      
     width 100%
     // color #666
-    background-color #fff
+    background #fff
     &.fixed
       position absolute
       bottom 0
+      margin: 0 auto;
+      max-width: 9.3rem;
+      left: 0;
+      right: 0;
       border-bottom-right-radius .05rem
       border-bottom-left-radius .05rem
+      .left
+        padding: 0.08rem 0px 0.07rem;
+      .right
+        line-height: .4rem; padding: 0.08rem 0px 0.07rem;
+        & > .primary
+          display none
+        .buttons
+          position: relative; top: -.08rem
+        
     .el-row
       width 100%
   .el-col
@@ -205,7 +253,7 @@ export default {
     overflow visible
     .ds-button
       position relative
-      top -.01rem
+      top -.02rem
       // color #666
       text-shadow none
       radius(0)

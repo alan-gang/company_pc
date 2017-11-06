@@ -1,12 +1,10 @@
-$ASSETS = 'assets'
-$VASSETS = '../assets'
-$CASSETS = '../assets'
-// @import '../../src/var.stylus'
+
+// @import '../DSM/src/var.stylus'
 /*
  * heights widths define
  */
 // header heights
-HH = .3rem
+HH = .36rem
 // footer heights
 FH = .68rem
 // toolbar heights

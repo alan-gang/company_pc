@@ -1,6 +1,6 @@
 <template lang="jade">
   header.font-light
-    .tab(v-for=" tab in tabs" v-bind:class="[{active: tab.active}, tab.menuClass + '-small']" @click.self="openTab(tab.id)") 
+    .tab(v-for=" (tab, i) in tabs" v-bind:class="[{active: tab.active, first: i === 0}, tab.menuClass + '-small']" @click.self="openTab(tab.id)") 
       | {{ tab.title }}
       i.el-icon-close( @click.stop="closeTab(tab.id)")
     
@@ -8,6 +8,7 @@
       dl.submenu.font-white
         dd(v-for="i in starTabs" v-bind:class="[ i.menuClass + '-small']" @click="openTab(i.id)") {{ i.title }}
           i.el-icon-delete2(@click.stop="unStar(i)")
+
     .tab.my-collect.el-icon-star-on(v-popover:collect="collect") 
       | 我的收藏
       
@@ -73,7 +74,7 @@ export default {
   H = .3rem
   .el-popover.collect
     font-size .12rem
-    transform translateX(.05rem) translateY(-.12rem)
+    transform translateX(-.05rem) translateY(-.14rem)
     padding PW 0
     min-width 1.6rem
     radius(0)
@@ -98,8 +99,10 @@ export default {
   @import '../var.stylus'
   header
     font-size .12rem
-    background-color rgba(255, 255, 255, .1)
+    // background-color rgba(255, 255, 255, .1)
   .tab
+    &.first
+      margin-left 1.6rem
     float left
     min-width 1.6rem
     line-height: HH
@@ -107,7 +110,7 @@ export default {
     box-sizing border-box
     background-color rgba(0,0,0,.4)
     font-shadow()
-    cursor pointer
+    cursor default
     &[class*=ds-icon-]
       background-position .1rem center
     &:hover
@@ -131,7 +134,7 @@ export default {
         background-color rgba(0,0,0, .6)
         
       position relative
-      top .02rem
+      top .05rem
       left .05rem
       font-size .1rem
       text-shadow none
@@ -139,7 +142,9 @@ export default {
   
   &.my-collect
     position absolute
-    right 0
+    left 0 
+    float none
+    margin-left 0
     &:before
       font-size .16rem
       line-height .16rem

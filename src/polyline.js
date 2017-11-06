@@ -131,3 +131,24 @@ if (!Array.prototype.findIndex) {
     }
   });
 }
+
+window.newDate =  (time) => {
+  if (time instanceof Date) return time
+  let date = new Date()
+  if (typeof time === 'string') {
+    let timea = time.split(/[-\/:\s]/g)
+    if (timea[1]) timea[1] = parseInt(timea[1] - 1) + ''
+    time = timea
+  }
+  // if (typeof time !== 'number') {
+  //   return time
+  // }
+  if (typeof time === 'number') {
+    date = new Date(time)
+  }
+  if (typeof time === 'array') {
+    date = new Date(timea[0] || '', timea[1] || '', timea[2] || '', timea[3] || '', timea[4] || '', timea[5] || '')
+  }
+  // console.log(time, date, '???')
+  return date
+}

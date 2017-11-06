@@ -1,12 +1,12 @@
 <template lang="jade">
   el-row.game-info
 
-    el-col.left(:span="18")
+    el-col.left(:span="19")
       span.title {{ CNPER }}
       | &nbsp;&nbsp;期
       span.ds-icon-clock {{ showTime }}
 
-      el-popover(placement="bottom-start" trigger="hover" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
+      el-popover(placement="bottom-start" trigger="click" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
         span(slot="reference")
           span.ds-button.instruction.primary(ref="instruction") ? {{ type.title }}
         slot
@@ -19,9 +19,12 @@
 
       
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
+      .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
 
-    el-col.right(:span="6")
+    el-col.right(:span="5")
       el-button-group.right
+        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
+
         el-popover(placement="bottom-start" trigger="hover"  v-bind:popper-class="'popover-orderlist'" ref="MO")
           span(slot="reference")
             router-link.ds-button.text-button(:to=" {path: '/form/4-1-1', query: { gameid:  gameid}} " @click.native.stop="" @mouseover.native="Orderlist") 投注记录
@@ -39,8 +42,11 @@
 
               el-table-column(prop="totalPrice" label="总金额" width="80")
                 template(scope="scope")
-                  span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
-                  span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+                  span {{ scope.row.totalPrice }}
+
+              el-table-column(class-name="pr2" prop="bonus" label="奖金" width="60" align="right")
+                template(scope="scope")
+                  span {{ scope.row.bonus }}
 
               el-table-column(label="状态" width="70")
                 template(scope="scope")
@@ -48,9 +54,10 @@
               
               el-table-column(label="操作" wdith="50")
                 template(scope="scope")
-                  div(v-if="!scope.row.last")
-                    .ds-button.text-button.blue(v-if="scope.row.stat === 0 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
-        router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
+                  div
+                    .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
+                    .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
+
 
         
 </template>
@@ -58,13 +65,15 @@
 <script>
 import util from '../util'
 import api from '../http/api'
+import M from '../util/M'
 export default {
   props: {
     // NPER: Number,
     CNPER: String,
     timeout: Number,
     type: Object,
-    gameid: Number
+    gameid: Number,
+    gameType: String
     // title: String
   },
   data () {
@@ -73,12 +82,22 @@ export default {
       time: 0,
       interval: 0,
       Cdata: [],
-      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单']
+      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+      t: 0
     }
   },
   computed: {
+    idType () {
+      return this.gameType === 'SSL' ? '-' + this.gameType : ''
+    },
+    methodidtype () {
+      return M[this.type.id + this.idType].split(':')[1]
+    },
     showTime () {
       return util.timeFormat(this.time)
+    },
+    callId () {
+      return this.gameid + '|' + this.type.id
     }
   },
   mounted () {
@@ -91,6 +110,13 @@ export default {
     // this.Orderlist()
   },
   watch: {
+    t () {
+      if (this.t !== 0) {
+        setTimeout(() => {
+          this.t = 0
+        }, this.t)
+      }
+    },
     // type () {
     //   if (!this.$refs.instruction.style.transform) {
     //     this.$refs.instruction.style.transform = 'perspective(100px) translateZ(30px)'
@@ -121,6 +147,28 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    callPrint (row) {
+      this.__setCall({
+        fn: '__print',
+        args: {
+          // '注单编号': row.projectId,
+          // '用户': row.userName,
+          '投注时间': row.writeTime,
+          '游戏': row.lotteryName,
+          '玩法': row.methodName,
+          '期号': row.issue,
+          // '投注内容': row.code,
+          // '投注位置': row.position,
+          '投注内容': row.code + (row.position ? '[' + row.position + ']' : ''),
+          // '倍数': row.multiple,
+          // '模式': row.modes,
+          '总金额': row.totalPrice + '元'
+          // '奖金': row.bonus,
+          // '开奖号码': row.prizeCode
+        },
+        callId: undefined
+      })
+    },
     ableRowClassName (row, index) {
       if (row.selected) return 'selected-row'
     },
@@ -129,7 +177,7 @@ export default {
       // row.selected = !row.selected
     },
     Orderlist () {
-      this.$http.post(api.Orderlist, {
+      this.$http.mypost(api.Orderlist, {
         scope: 0,
         lotteryId: this.gameid,
         page: 1,
@@ -176,7 +224,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .popover-orderlist
-    width 5.5rem
+    width 6.1rem
     background-color #ff
     border 1px solid #ccc
     shadow(0 0 10px rgba(0,0,0,.3))
@@ -216,8 +264,12 @@ export default {
   F = .3rem
   .game-info
     &.fixed
+      box-shadow 0 2px 20px rgba(0,0,0,.2)
       z-index 1
       overflow-x hidden
+    &.my-hide
+      opacity 0
+      
     background-color: #ededed;
     // height GH
     line-height GH

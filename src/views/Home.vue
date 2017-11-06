@@ -30,7 +30,7 @@
 
             // v-bind:class="{'with-icon': group.withIcon}"          
             dl.submenu(v-for="group in canCollectMenus[activeIndex].groups" v-if="!group.hide")
-              dt {{ group.title }}
+              dt(v-if="group.items.filter(function(x){return !x.removed})[0]") {{ group.title }}
               // v-bind:class="[item.class || group.class]"
               dd(v-for="item in group.items"  @click="collectsIds.indexOf(item.id) === -1 && addPrefence(item)" v-if="item.title && item.menuid && !item.removed" v-bind:class="[{disabled: collectsIds.indexOf(item.id) !== -1 }]") 
                 | {{ item.title }}
@@ -89,11 +89,12 @@ export default {
     this.$emit('get-userfund')
     this.rewardNotices()
     this.sysNotices()
+    // 如果需要保持原桌面
     if (!this.$route.query.keep || !this.me.collects[0]) {
       this.getUserPrefence()
-      setTimeout(() => {
-        this.$emit('get-menus')
-      }, 1000)
+      // setTimeout(() => {
+      //   this.$emit('get-menus')
+      // }, 1000)
     } else this.collects = this.me.collects
     this.switchI()
     this.__setCall({fn: '__showPool', callId: undefined})
@@ -208,6 +209,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
+  @import '../path.stylus'
   WW = 7rem
   WH = 5rem
   IH = .36rem
@@ -326,7 +328,7 @@ export default {
         radius()
         padding-top H - 2*PW
         background-color rgba(255, 255, 255, .2)
-        box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+        // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         background-position 50% 35% 
         cursor pointer
         // &:not(:first-child)
@@ -378,6 +380,7 @@ export default {
       radius(50%)
       transform perspective(500px) translateZ(-77px)
       &:hover
+        text-decoration none
         background-color rgba(0,0,0, .6)
         color #fff
       

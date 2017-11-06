@@ -10,14 +10,17 @@
       .cashpwd-form.form(v-if="stepIndex === -1" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow()")
+
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendMail() : sendSms() "  v-bind:class="{ disabled: me.safeCheck === 1 ? et_ : pt_ }" v-bind:disabled="(me.safeCheck === 1 ? et_ : pt_) > 0") 
-              span(v-if="!(me.safeCheck === 1 ? et_ : pt_)") 发送验证码
-              span.text-black(v-if="(me.safeCheck === 1 ? et_ : pt_)") {{ (me.safeCheck === 1 ? et_ : pt_) }} 
+            button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+              span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
+              span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
                 span.text-999 秒后可重新发送
         p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+
+
 
         .buttons(style="margin-left: .85rem; padding: .2rem 0")
           .ds-button.primary.large(@click="checkNow") 确认
@@ -265,7 +268,8 @@ export default {
 
       bs: ['01 添加新银行卡信息', '02 核对信息', '03 完成'],
       bi: 0,
-      checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
+      // checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
+      checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth]
     }
   },
   watch: {
@@ -302,8 +306,8 @@ export default {
     //   {id: 1, class: 'zggsh', cardNo: 112132484244, bindTime: '1990-02-02 12:56:05', text: '中国工商银行'},
     //   {id: 1, class: 'zggsh', cardNo: 112132484244, bindTime: '1990-02-02 12:56:05', text: '中国工商银行'}
     // ]
-    this.getBankList(this.getUserBankCards)
-    this.getProvices()
+    // this.getBankList(this.getUserBankCards)
+    // this.getProvices()
   },
   methods: {
     sendSms () {
@@ -454,7 +458,7 @@ export default {
         if (data.success === 1) {
           // this.$message.success({target: this.$el, message: '银行绑定成功！'})
           this.$modal.success({
-            content: '恭喜您，绑定成功！',
+            content: data.msg || '恭喜您，绑定成功！',
             target: this.$el,
             btn: ['确定'],
             close () {
@@ -535,6 +539,8 @@ export default {
       this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           if (this.stepIndex === -1) {
+            this.getBankList(this.getUserBankCards)
+            this.getProvices()
             // if (this.me.safeCheck) {
               // return this.checkSafeCode()
             // } else this.stepIndex++

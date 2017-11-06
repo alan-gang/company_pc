@@ -1,6 +1,8 @@
 let api = 'http://192.168.169.44:19901/cagamesclient'
+// let api = window.localStorage.getItem('api') || 'https://api.cb868.net:1888/cagamesclient'
+// let api = 'http://13.113.163.174:1888/cagamesclient'
 // online new
-// let api = 'http://119.9.91.210:1888/cagamesclient/'
+// let api = 'http://119.9.91.210:1888/cagamesclient'
 // online
 // let api = 'http://119.9.117.58:9901/cagamesclient/'
 // steven
@@ -312,6 +314,11 @@ let Me = {
 }
 
 let Group = {
+  setSalary: '/team/setDaySalary.do?method=setSalary',
+  subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
+  // 团队余额
+  // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
+  getTeamBalance: '/team/useList.do?method=getTeamBalance',
   // 设置日工资：
   // http://192.168.169.161:8080/cagamesclient/team/useList.do?method=setSubDaySalary&destUserId=51&daySalary=50
   setSubDaySalary: '/team/useList.do?method=setSubDaySalary',
@@ -420,6 +427,8 @@ let Group = {
 }
 
 let Form = {
+  poolIssue: '/report/buyReport.do?method=poolIssue',
+  poolList: '/report/buyReport.do?method=poolList',
   // 查询日工资（数据要分页）
   // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
   daySalaryRepor: '/report/daySalaryRepor.do?method=list',
@@ -481,10 +490,13 @@ let Help = {
   getHelpTag: '/help.do?method=getHelpTag',
   // 意见反馈
   // http://192.168.169.161:8080/cagamesclient//help/feeback.do?method=add&title=xxx&content=xxxxx&priority=1
-  addFeedback: '/help/feeback.do?method=add'
+  addFeedback: '/help/feeback.do?method=add',
+  // /cagamesclient/help/feeback.do?method=list&page=1&pageSize=10
+  getFeedbackList: '/help/feeback.do?method=list'
 }
 
 let Activity = {
+  getRewardSalary: '/activity.do?method=getRewardSalary',
   // 活动首页展示页
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=getAllActivityList
   getAllActivityList: '/activity.do?method=getAllActivityList',
@@ -540,7 +552,7 @@ let Download = {
   chat_ios: '/help/download.do?method=getApp&type=chat_ios',
   // win客户端下载
   // http://192.168.169.161:8080/cagamesclient/help/download.do?method=getWinClient
-  getWinClient: '/help/download.do?method=getWinClient'
+  getWinClient: '/help/download.do?method=goFir'
 }
 
 let API = Object.assign(Login, Game, Me, Group, Form, Help, Activity, Download)

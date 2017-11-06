@@ -1,14 +1,14 @@
 <template lang="jade">
-  footer
-    el-row
+  footer(ref="myFooter")
+    el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
           .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
           router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
           slot
-            dl.submenu(v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+            dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
-                span.title(v-if="group.title")  {{ group.title }}
+                span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
               dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
                 .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
@@ -18,6 +18,34 @@
               dd.inner-submenu(v-if="!item.title" v-for="item in group.items" )
                 dl
                   dd( v-for="i in item"  @click="open(i, index)") {{ i.title }}
+
+            dl.submenu.hover-show-ssubmenu(v-if=" menu.hideIcon ")
+              dt
+                span.title {{ '所有游戏' }}
+              dd(v-for="(group, iii) in menu.groups")
+                  span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
+                  .ssubmenu.el-popover.footer-popover.font-white(v-bind:class="{toolong: (group.items.length > 2) && ((group.items.length + (iii || menu.groups[1].items.filter(function(x){return !x.removed}).length)) > 9) }")
+                     dl.submenu
+                       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+                         .ds-button(style="position: relative; ") {{ item.title }}
+                       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+                         .ds-button(style="position: relative; ") {{ iitem.title }}
+
+              // el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
+              //   dd(style="max-width: 1rem" slot="reference")
+              //     span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
+              //   slot
+              //     dl.submenu(style="min-width: 1.2rem")
+              //       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+              //         .ds-button(style="position: relative; ") {{ item.title }}
+              //       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+              //         .ds-button(style="position: relative; ") {{ iitem.title }}
+
+             
+              span.ds-button.text-button.light(style="margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
+              
+              
+            .ds-button.text-button.light(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
 
 
       el-col.info(:span="10" v-bind:offset="4")
@@ -50,19 +78,24 @@
         span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-if="!isTry") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
-        span.ds-button.danger(@click="doRecharge" v-if="!isTry") 充值
-        span.ds-button.primary(@click="withDraw" v-if="!isTry") 提现
+        span.ds-button.danger(@click="doRecharge" v-if="!isTry && me.canTopUp") 充值
+        span.ds-button.primary(@click="withDraw" v-if="!isTry && me.canWithDraw") 提现
 
         .switch-box.ds-icon-day-model(:class=" { no: !day} ")
           el-switch(v-model="day" on-text="日" off-text="夜" on-color="#ccc" off-color="#13ce66" v-bind:width="W")
 
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
-    router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="")
-    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .65rem; z-index: 0; background-size: 80%" v-show="showPool")
+    router-link.logo.ds-icon-logo-middle(:to="' /home '" @click.native.stop="" style="z-index: 2")
+
+    .logo(style="cursor: pointer; user-select: none;")
+      .text-white.hide(style="position: relative; top: .9rem;font-size: .16rem" @click.stop="collapseFooter") 隐 藏 菜 单
+      .text-white.show(style="position: relative; top: -.45rem;font-size: .16rem" @click.stop="collapseFooter") 显 示 菜 单
+
+    .logo.ds-icon-pot(style="width: auto; width: 507px; height: 204px; top: -1.5rem; padding-top: .725rem; z-index: 0; background-size: 80%" v-show="showPool")
       div(style="padding: 0 .3rem; display: inline-block")
-        p.font-white(style="font-size: .18rem") 平台奖池累计：
-          span.amount.font-gold(style="font-size: .45rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{ EM }}
+        p.text-white(style="font-size: .16rem") 平台奖池累计：
+          span.amount.text-gold(style="font-size: .4rem; font-family: Roboto; font-weight: 700; color: #ffea00; margin-top: .2rem; vertical-align: sub") {{ EM }}
       // div(style="padding: 0 .3rem; display: inline-block")
       //   p.font-white(style="font-size: .12rem") 参与人次
       //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
@@ -89,6 +122,7 @@ export default {
       model: store.state.user.model,
       isTry: store.state.user.isTry,
       login: store.state.user.login,
+      me: store.state.user,
       modal: false,
       shows: {},
       more: false,
@@ -110,7 +144,7 @@ export default {
   mounted () {
     if (this.login) {
       this.pricePot()
-      this.timeout = setInterval(this.pricePot, 30000)
+      this.timeout = setInterval(this.pricePot, 60000)
     }
     this.initShows()
     this.setFarChat()
@@ -140,7 +174,7 @@ export default {
       return this.menus.filter(m => !m.removed).length
     },
     EM () {
-      return numberWithCommas(this.pricePotAmount)
+      return numberWithCommas(this.pricePotAmount || 0)
     }
   },
   watch: {
@@ -166,6 +200,20 @@ export default {
     this.setFarChat()
   },
   methods: {
+    dododo (menu) {
+      menu.hideIcon = !menu.hideIcon
+      this.$refs.game[0].$refs.popper.style.transform = menu.hideIcon ? (!menu.hideIconOnHover ? 'translateY(2.73rem)' : 'translateY(0.05rem)') : menu.hideIconOnHover ? 'translateY(-2.73rem)' : 'translateY(0.05rem)'
+      return true
+    },
+    collapseFooter () {
+      this.$emit('collapse-footer')
+      if (this.$refs.myFooter.className.indexOf('collapse-footer') !== -1) {
+        setTimeout(this.getPos, 0)
+        setTimeout(this.getPos, 50)
+        setTimeout(this.getPos, 100)
+        setTimeout(this.getPos, 500)
+      }
+    },
     __showPool () {
       this.showPool = true
     },
@@ -225,6 +273,7 @@ export default {
     },
     mouseover (menu) {
       if (menu.url === 'game') {
+        menu.hideIconOnHover = menu.hideIcon
         this.__setCall({
           fn: '__guideStep'
         })
@@ -295,6 +344,8 @@ export default {
   .el-popover .popper__arrow
     display none
   .footer-popover
+    &.sst
+      transform translateY(-0.2rem) translateX(0.22rem)
     &.left-menus
       text-align center
     background rgba(49,41,84, .95)
@@ -304,8 +355,36 @@ export default {
       max-width 8.7rem
       .submenu
         max-width 2.7rem
+      &.hide-icon
+        padding 0
+        & > .submenu
+          max-width 1.5rem
+          margin .15rem 0
+          & >dd
+            padding 0 .2rem
+            margin 0
+            background none
+            height auto
       
     .submenu
+      &.hover-show-ssubmenu
+        .ssubmenu
+          .submenu
+            margin .15rem 0
+            float none
+            min-width 1.5rem
+          max-width 3rem
+          &.toolong
+            top -1.5rem
+          padding 0
+          position absolute
+          left 100%
+          top -.15rem
+          display none
+        & > dd
+          position relative
+          &:hover .ssubmenu
+            display block
       float left
       display inline-block
       margin 0 .1rem
@@ -433,9 +512,21 @@ export default {
     
 </style>
 <style lang="stylus" scoped>
+  .ds-button
+    box-shadow none
   @import '../var.stylus'
-  
+  .logo .show
+    display none
   footer
+    &.collapse-footer
+      .el-row
+      .ds-icon-pot
+      .logo .hide
+        display none
+      .logo .show
+        display block
+        
+      
     // height FH
     text-align center
     bg-gradient(180deg, rgba(255, 255, 255, .1) 20%, rgba(0, 0, 0, .1))
@@ -452,7 +543,8 @@ export default {
       z-index 1
     
     .amount
-      font-gradient(180deg, #fff, #ffd800 60%)
+      font-gradient(180deg, #fff 10%, #ffd800)
+      text-shadow none
       
   .el-row
     text-align left
@@ -499,7 +591,7 @@ export default {
         box-sizing border-box
         background-color 
         z-index -1
-        box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+        // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         radius(50%)
   
   NW = .26rem
@@ -522,6 +614,8 @@ export default {
       padding-left FW + .03rem
       margin-right 2*PW
     .collapse
+      &:hover
+        text-decoration none
       margin-right 2*PW
       &:before
         font-size .08rem

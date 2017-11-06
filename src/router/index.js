@@ -14,6 +14,7 @@ import store from '../store'
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
 const C500 = r => require.ensure([], () => r(require('../views/login/500')), 'login-part')
+const C503 = r => require.ensure([], () => r(require('../views/login/503')), 'login-part')
 const Forbidden = r => require.ensure([], () => r(require('../views/login/Forbidden')), 'login-part')
 const Register = r => require.ensure([], () => r(require('../views/login/Register')), 'login-part')
 const LoginTest = r => require.ensure([], () => r(require('../views/login/LoginTest')), 'login-part')
@@ -62,6 +63,7 @@ export default function (VueRoter) {
           // { path: '404', component: require('../views/login/404') },
           { path: '404', component: C404 },
           { path: '500', component: C500 },
+          { path: '503', component: C503 },
           { path: 'forbidden', component: Forbidden },
           // { path: 'forbidden', component: require('../views/login/Forbidden') },
           { path: 'register', component: Register },
@@ -145,11 +147,14 @@ export default function (VueRoter) {
       }
     }
   })
+  let t = 0
   // 匹配前
   router.beforeEach((to, from, next) => {
     // console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
-    window.NProgress.start()
+    t = setTimeout(() => {
+      window.NProgress.start()
+    }, 300)
     // 如果需要登录，而当前没有登录， 先测试有没有登录
     if (to.meta.login && store.state.user.login === false) {
       next({path: '/login'})
@@ -178,7 +183,11 @@ export default function (VueRoter) {
 
   // 匹配后
   router.afterEach(r => {
-    window.NProgress.done()
+    clearTimeout(t)
+    setTimeout(() => {
+      window.NProgress.done()
+    }, 300)
+    // window.NProgress.done()
     // router.app.$Progress.finish()
     // block8/3 console.log('after:', r)
   })

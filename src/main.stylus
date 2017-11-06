@@ -1,6 +1,10 @@
 @import './var.stylus'
 @import './ie.stylus'
 
+
+.el-tooltip__popper
+  word-break break-all
+  max-width 50%
 /*
  *common css define
  */
@@ -11,6 +15,9 @@ h1, h2, h3, h4, h5, p, dl, dd, dt
   margin 0
 input
   outline none
+pre
+  white-space pre-wrap
+  word-break break-all
 .pl1
   padding-left .1rem
 .pl2
@@ -32,38 +39,9 @@ input
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee
   color #333
-  
-@import './var.stylus'
-@import './ie.stylus'
-
-/*
- *common css define
- */
-a
-  text-decoration none
-  color #666
-h1, h2, h3, h4, h5, p, dl, dd, dt
-  margin 0
-input
-  outline none
-.pl1
-  padding-left .1rem
-.pl2
-  padding-left .2rem
-
-.pr1
-  padding-right .1rem
-.pr2
-  padding-right .2rem
-.pointer
-  cursor pointer
-::-webkit-input-placeholder
-:-ms-placeholder
-::-moz-placeholder
-:-ms-input-placeholder
-::-webkit-input-placeholder
-    color #999 
-
+.modal .box-wrapper .box
+  max-height 6rem
+  overflow-y auto
 
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee
@@ -99,11 +77,11 @@ input
   .cell
     .ball
       display inline-block
-      width .24rem
-      height .24rem
+      width .2rem
+      height .2rem
       background-color BLUE
       color #fff
-      line-height .24rem
+      line-height .2rem
       radius(50%)
       &.danger
         background-color DANGER
@@ -407,8 +385,9 @@ input
       .cell
         line-height x
 
-  // .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
-  //   color #333
+  .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
+    color inherit
+    background-color inherit
     
   .el-table::before
   .el-table::after
@@ -704,8 +683,8 @@ input
   .ds-icon-success-large
     background url($ASSETS/success-large.png) center top no-repeat
   .ds-icon-logo-middle
-    // background url($ASSETS/logo-middle.png) center top no-repeat 
     background url($ASSETS/cb_logo.png) center top no-repeat 
+    // background url($ASSETS/logo-middle.png) center top no-repeat 
   .ds-icon-pot
     background url($ASSETS/pot.png) center top no-repeat
   
@@ -998,8 +977,15 @@ input
   // QR
   .ds-icon-QR
     // background url(http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr) left top no-repeat
-    background-size 140px 140px
+    background-size 140px 140px !important
   
+  .ds-icon-cooking
+    background url($ASSETS/404/cooking.png) center no-repeat   
+    height 3rem
+    line-height 4.5rem
+    text-align center
+    &:after
+      content '正在研发中...'
   // Stock
   .ds-icon-stock-wait
     background url($ASSETS/stock-wait.png) right top no-repeat   
@@ -1299,6 +1285,8 @@ input
     background-color transparent
     box-shadow none
     text-shadow none
+    &:not(.el-icon-close):hover
+      text-decoration underline
   &.light
     color LIGHT
     &:not(.disabled):hover
@@ -1355,6 +1343,10 @@ input
     &.secondary
       color LIGHT
       bg-gradient(180deg, #f1f1f1, #e6e6e6)
+    &.danger
+      color DANGER
+      background-color transparent
+      border .01rem solid DANGER
 
   &.isworking
     // font-size .18rem
@@ -1390,13 +1382,14 @@ input
     box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
     box-sizing border-box
     overflow visible
-    .ds-button
+    .ds-button:not(.el-icon-close)
       position relative
       color #666
       text-shadow none
       radius(0)
       &:hover
         color BLUE
+        text-decoration none
       &:last-child
         border-top-right-radius .05rem
         border-bottom-right-radius .05rem

@@ -8,8 +8,8 @@
     .scroll-content.function-help
       .content
         .item(v-for="(g, index) in notices") 
-          .step.text-666(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
-            .time.text-666 {{ g.sendTime }}
+          .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
+            .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -24,7 +24,7 @@
     data () {
       return {
         notices: [],
-        openIndex: -1,
+        openIndex: 0,
         pageSize: 20,
         total: 0,
         currentPage: 1,
@@ -61,7 +61,7 @@
           if (data.success) {
             this.notices = data.sysNotices || []
             typeof fn === 'function' && fn()
-            this.total = data.totalSize || this.data.length
+            this.total = data.totalSize || this.notices.length
           }
         }, (rep) => {
           // error
@@ -92,11 +92,10 @@
       color #999
     .content
       text-align left
-      pre
-        white-space pre-wrap
-        word-break break-all
+      
       .item
         margin PW 0
+        padding-bottom .2rem
       .step
         position relative
         top -.02rem
@@ -104,6 +103,7 @@
         font-weight bold
         cursor pointer
       .value
+        margin-top 0
         line-height .22rem
 </style>
 <style lang="stylus">

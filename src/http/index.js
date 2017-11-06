@@ -13,10 +13,73 @@ export default (Vue) => {
   //     if (data && data.success === -2) console.log('no Authorization')
   //   })
   // })
+  let THROTTLE = {
+    xhr: {
+      then: function (s, e) {
+        e && e()
+        return THROTTLE.xhr
+      },
+      finally: function (f) {
+        f && f()
+        return THROTTLE.xhr
+      },
+      catch: function (f) {
+        f && f()
+        return THROTTLE.xhr
+      }
+    }
+  }
+  Vue.http.throttle_get = (api, args) => {
+    if (THROTTLE[api]) {
+      return THROTTLE.xhr
+    } else {
+      THROTTLE[api] = true
+      setTimeout(() => {
+        THROTTLE[api] = false
+      }, 2000)
+      return Vue.http.myget(api, args)
+    }
+  }
+  Vue.http.throttle_post = (api, args) => {
+    if (THROTTLE[api]) {
+      return THROTTLE.xhr
+    } else {
+      THROTTLE[api] = true
+      setTimeout(() => {
+        THROTTLE[api] = false
+      }, 2000)
+      return Vue.http.mypost(api, args)
+    }
+  }
+
+  ['get', 'post'].forEach(m => {
+    Vue.http['my' + m] = Vue.http[m]
+    Object.defineProperty(Vue.http, m, {
+      get: function () {
+        // console.log(this['throttle_' + m], '??????', m, this.throttle_post)
+        return this['throttle_' + m]
+      }
+    })
+  })
   let M = null
+  // let throttle = {}
   Vue.http.interceptors.push(() => {
     return {
       request (req) {
+        // if (throttle[req.url]) {
+        //   try {
+        //     // req.abort()
+        //     req.cancel()
+        //   } catch (e) {
+        //     console.log('cancel repeat request faild !!!!!')
+        //     req.url = ''
+        //   }
+        // } else {
+        //   throttle[req.url] = true
+        //   setTimeout(() => {
+        //     throttle[req.url] = false
+        //   }, 2000)
+        // }
         return req
       },
       response (rep) {
@@ -25,7 +88,7 @@ export default (Vue) => {
         if (rep.data && rep.data.success === -1 && !M) {
           // if (store.state.user.login) {
           store.state.user.login = false
-          M = this.$modal.warn({
+          this && this.$modal && (M = this.$modal.warn({
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
             close () {
@@ -33,7 +96,7 @@ export default (Vue) => {
               this.__setCall({fn: '__logout', args: undefined, callId: undefined})
             },
             O: this
-          })
+          }))
           // }
         } else if (rep.data && rep.data.success === -3) {
           // M = this.$modal.warn({

@@ -1,15 +1,17 @@
 <template lang="jade">
-  .order-list
-    el-table.ghost(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
-      el-table-column(label="玩法、投注号码" width="200" show-overflow-tooltip=true)
-        template(scope="scope") {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
+  .order-list(style="position: relative;")
+    span(style="background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
+    el-table.ghost.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
+      el-table-column(:render-header="renderHeader" label="玩法、投注号码" width="150" show-overflow-tooltip=true)
+        template(scope="scope") 
+          span {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
-      el-table-column(prop="$" label="模式" width="80")
-      el-table-column(prop="n" label="注数" width="100" align="right")
+      el-table-column(prop="$" label="模式" width="60")
+      el-table-column(prop="n" label="注数" width="80" align="right")
       el-table-column(prop="times" label="倍投" width="80" align="right")
       el-table-column(prop="pay" label="金额" width="120" align="right" inline-template)
         span {{ row.pay ? row.pay.toFixed(3) : row.pay }}
-      el-table-column(prop="bonus" label="奖金" width="120" align="right")
+      el-table-column(prop="bonus" label="奖金" width="100" align="right")
       el-table-column(prop="point" label="返点" width="100" align="right")
       el-table-column(inline-template label="清除全部" min-width="60" class-name="actions" align="center")
         .ds-button.text-button(@click="remove($index)") 
@@ -41,6 +43,20 @@
       }
     },
     methods: {
+      renderHeader (createElement, { column }) {
+        return createElement(
+          'div',
+          [
+            column.label
+            // createElement('span', {
+            //   attrs: {
+            //     style: 'background: red; color: #fff; border-radius: 50%; display: inline-block; width: .2rem; height: .2rem; text-align: center; position: absolute; left: 0;top: -.02rem'
+            //   }
+            // },
+            // [this.data.length])
+          ]
+        )
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -63,6 +79,7 @@
 <style lang="stylus">
   H = 1.6rem
   .order-list
+    
     .el-table
     // width "calc(100% - %s)" % s
       .el-table__body-wrapper
@@ -73,6 +90,9 @@
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  .order-list
+    padding-top .1rem
+    // border-top 1px solid #ddd
   .ds-button
     text-shadow none
     vertical-align middle

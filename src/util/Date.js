@@ -1,4 +1,6 @@
 import { padStart } from './base'
+
+
 // 'hh-mm-ss' seconds
 let timeFormat = (time) => {
   if (typeof time !== 'number') {
@@ -21,19 +23,13 @@ let timeFormat = (time) => {
 
 // YYYY-MM-DD hh:mm:ss
 let dateTimeFormat = (time) => {
-  if (typeof time !== 'number') {
-    return time
-  }
-  let date = new Date(time)
+  let date = window.newDate(time)
   return date.getFullYear() + '-' + padStart(date.getMonth() + 1, 2, 0) + '-' + padStart(date.getDate(), 2, 0) + ' ' + padStart(date.getHours(), 2, 0) + ':' + padStart(date.getMinutes(), 2, 0) + ':' + padStart(date.getSeconds(), 2, 0)
 }
 //170202
-let dateFormat = (time, six) => {
-  if (typeof time !== 'number') {
-    return time
-  }
-  let date = new Date(time)
-  return (six ? (date.getFullYear() + '').slice(2) : date.getFullYear()) + '-' + padStart(date.getMonth() + 1, 2, 0) + '-' + padStart(date.getDate(), 2, 0) 
+let dateFormat = (time, six, splitor) => {
+  let date = window.newDate(time)
+  return (six ? (date.getFullYear() + '').slice(2) : date.getFullYear()) + (splitor || '-') + padStart(date.getMonth() + 1, 2, 0) + (splitor || '-') + padStart(date.getDate(), 2, 0) 
 }
 module.exports = {
   timeFormat,

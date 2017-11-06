@@ -264,7 +264,7 @@ export default {
       // 设置
       if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
       if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
-      if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
+      if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
       // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
       this.$http.post(api.changSecurePwd, {newPwd: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
@@ -274,7 +274,7 @@ export default {
           if (!this.me.cashPwd) store.actions.setUser({cashPwd: true})
           this.step++
         } else {
-          // this.$message.error({target: this.$el, message: '旧密码错误！'})
+          this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
           this.clearPwd()
         }
       }, (rep) => {
@@ -334,7 +334,7 @@ export default {
         if (data.success === 1) {
           // this.$message.success({target: this.$el, message: '银行绑定成功！'})
           this.$modal.success({
-            content: '恭喜您，绑定成功！',
+            content: data.msg || '恭喜您，绑定成功！',
             target: this.$el,
             btn: ['继续绑定', '下一步'],
             ok () {
@@ -370,6 +370,7 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  @import '../../DSM/src/var.stylus'
   .item
     margin PW 0
   .box
@@ -519,11 +520,14 @@ export default {
         width 0
         vertical-align middle
         display inline-block
-    .box
-      position relative
-      text-align left
-      display inline-block
-      vertical-align middle
+      .box
+        position relative
+        text-align left
+        display inline-block
+        vertical-align middle
+        max-height initial
+        overflow-y initial
+      
 </style>
 
 

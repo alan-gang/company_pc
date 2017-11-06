@@ -53,7 +53,7 @@
 
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
-          .ds-button.cancel.large(@click="clear") 清空
+          .ds-button.cancel.large(@click="clear(true)") 清空
 
         el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
@@ -72,7 +72,9 @@
 
           el-table-column(prop="lotteryName" label="游戏" width="100")
 
-          el-table-column(prop="methodName" label="玩法" width="100")
+          el-table-column(prop="methodName" label="玩法" width="150")
+            template(scope="scope")
+              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
           el-table-column(prop="issue" label="期号" width="100")
 
@@ -116,7 +118,7 @@
           el-table-column(class-name="pr2" label="奖池号" width="100" align="center")
             template(scope="scope")
               div(v-if="!scope.row.last")
-                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolcode }}
+                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolCode }}
                 span.text-grey(v-if="!scope.row.isJoinPool") 未参与
          
           el-table-column(label="状态" width="60")
@@ -128,6 +130,7 @@
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
         
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -143,13 +146,13 @@
               el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 游戏用户：
                 span.text-black {{ row.nickName }}
-              el-col(:span="5")
+              el-col(:span="6")
                 游戏：
                 span.text-black {{ row.lotteryName }}
-              el-col(:span="5")
+              el-col(:span="6")
                 span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
                     span.text-black {{ row.prizeCode  }}
                 el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
@@ -162,47 +165,48 @@
                 span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 注单编号：
                 span.text-black {{ row.projectId }}
-              el-col(:span="5")
+              el-col(:span="6")
                 玩法：
-                span.text-black {{ row.methodName }}
-              el-col(:span="5")
+                span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+              el-col(:span="6")
                 注单状态：
                 span.text-black {{ STATUS[row.stat] }}
 
               el-col(:span="6")
                 倍数模式：
-                span.text-black {{ row.multiple }}
+                span.text-black {{ row.multiple }} 
+                  span ({{ MODES[row.modes - 1] }})
 
             
             el-row
-              el-col(:span="8")
+              el-col(:span="6")
                 投单时间：
                 span.text-black {{ row.writeTime }}
-              el-col(:span="5")
+              el-col(:span="6")
                 奖期：
                 span.text-black {{ row.issue }}
-              el-col(:span="5")
+              el-col(:span="6")
                 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              el-col(:span="6")
+              el-col(:span="6" v-if="row.userPoint")
                 动态奖金返点：
                 span.text-black {{ row.userPoint }}
 
             el-row(v-if="row.isJoinPool")
 
-              el-col(:span="8")
+              el-col(:span="6")
                 奖池期号：
                 span.text-black {{ row.poolIssue}}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 奖池状态：
                 span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
 
-              el-col(:span="5")
+              el-col(:span="6")
                 奖池号码：
                 span.text-black {{ row.poolCode }}
               
@@ -213,11 +217,11 @@
 
             p.textarea-label
               span.label 投注内容：
-              el-input.font-12(disabled v-model="row.code" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+              el-input.font-12(disabled v-model=" codePosition " type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
 
             p 可能中奖的情况：
             
-            el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0;" max-height="200")
+            el-table.header-bold.nopadding.vtop(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
               el-table-column(prop="projectid" label="编号" width="160" )
 
@@ -231,7 +235,7 @@
 
               el-table-column(label="奖级" width="80" align="right")
                 template(scope="scope")
-                  span {{ scope.row.level }} 等奖
+                  span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
               el-table-column(prop="prize" label="奖金"  align="right")
 
@@ -313,6 +317,7 @@
         preOptions: {},
         // modal
         show: false,
+        fullCode: '获取失败...',
         type: 0,
         row: {prizeCode: ''},
         modalTitles: ['投注详情', '发起跟单', '撤销'],
@@ -324,6 +329,9 @@
     computed: {
       textMoney () {
         return digitUppercase(this.money)
+      },
+      codePosition () {
+        return this.row.position ? (this.fullCode || this.row.code + '[' + this.row.position + ']') : this.fullCode || this.row.code
       }
       // Cdata () {
       //   // if (this.data.length <= this.pageSize) return this.data
@@ -333,6 +341,9 @@
       // }
     },
     watch: {
+      show () {
+        if (!this.show) this.fullCode = '获取失败...'
+      },
       '$route': 'openRoute',
       gameid () {
         this.getMethods()
@@ -341,9 +352,9 @@
       stEt: {
         deep: true,
         handler () {
-          if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && new Date(this.stEt[0]).getTime() === new Date(this.stEt[1]).getTime()) {
-            this.stEt[1] = dateTimeFormat(new Date(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000)
+          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
       }
@@ -354,6 +365,28 @@
       this.Orderlist()
     },
     methods: {
+      callPrint (row) {
+        this.__setCall({
+          fn: '__print',
+          args: {
+            // '注单编号': row.projectId,
+            // '用户': row.userName,
+            '投注时间': row.writeTime,
+            '游戏': row.lotteryName,
+            '玩法': row.methodName,
+            '期号': row.issue,
+            // '投注内容': row.code,
+            // '投注位置': row.position,
+            '投注内容': row.code + (row.position ? '[' + row.position + ']' : ''),
+            // '倍数': row.multiple,
+            // '模式': row.modes,
+            '总金额': row.totalPrice + '元'
+            // '奖金': row.bonus,
+            // '开奖号码': row.prizeCode
+          },
+          callId: undefined
+        })
+      },
       openRoute ({path, query: {gameid}}) {
         if (path !== '/form/4-1-1') return false
         if (gameid && gameid !== this.gameid) {
@@ -411,7 +444,7 @@
           this.currentPage = cp
         })
       },
-      clear () {
+      clear (a) {
         // this.st = ''
         // this.et = ''
         this.stEt = this.defaultStEt
@@ -424,6 +457,7 @@
         this.id = ''
         this.name = ''
         this.zone = ''
+        a && this.Orderlist()
       },
       cancel () {
         let loading = this.$loading({
@@ -459,9 +493,9 @@
           this.preOptions = {
             projectId: this.id,
             // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-            beginDate: this.stEt[0] ? dateTimeFormat(new Date(this.stEt[0]).getTime()).replace(/[\s:-]*/g, '') : '',
+            beginDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
             // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-            endDate: this.stEt[1] ? dateTimeFormat(new Date(this.stEt[1]).getTime()).replace(/[\s:-]*/g, '') : '',
+            endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
             stat: this.status,
             isFree: this.isFree,
             userName: this.name,
@@ -483,6 +517,9 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            // data.recordList.forEach(d => {
+            //   d.code = '177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755'
+            // })
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
             this.summary()
@@ -515,6 +552,7 @@
             row.poolCode = data.poolCode
             row.poolBonus = data.poolBonus
             row.poolIsGetPrize = data.poolIsGetPrize
+            this.fullCode = data.code
             setTimeout(() => {
               loading.text = '详情加载成功!'
             }, 500)
@@ -584,6 +622,11 @@
   // http://192.168.169.44:9901/cagamesclient/report/OrderReport.do?method=getLotterys
   // getLotterys: api + 'report/OrderReport.do?method=getLotterys',
 </script>
+<style lang="stylus">
+  .vtop table td
+    vertical-align top
+
+</style>
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
@@ -692,7 +735,7 @@
       vertical-align middle
       background-color #ededed
       font-size .12rem
-      width 7rem
+      width 9rem
       radius()
     .content
       margin 0 .2rem

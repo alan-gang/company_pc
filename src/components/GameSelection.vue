@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection
     transition-group(name="slide" appear=true tag="div")
-      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row"  v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
+      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select")
 
     transition(name="slide-down" appear=true)
       .f(v-if="rows.length === 0")
@@ -23,11 +23,11 @@
 
 
     transition(name="slide-down" appear=true)
-      el-row.pos(v-if="show")
+      el-row.pos(v-if="show[0]")
         el-col(v-bind:span="13")
           label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
             span.ds-checkbox 
-            | {{ p.title }}
+            | {{ p.title[show[1]] }}
         el-col.notice(:span="11")
           | 温馨提示：你选择了 
           span.count {{ psl }}
@@ -163,6 +163,9 @@
           ** 趣味[后二大小单双]
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
+          {ids: '-4-1-1:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+          {ids: '-5-1-1', title: '斗牛', class: 'default square', values: [{selected: false, title: '牛一', value: '1'}, {selected: false, title: '牛二', value: '2'}, {selected: false, title: '牛三', value: '3'}, {selected: false, title: '牛四', value: '4'}, {selected: false, title: '牛五', value: '5'}, {selected: false, title: '牛六', value: '6'}, {selected: false, title: '牛七', value: '7'}, {selected: false, title: '牛八', value: '8'}, {selected: false, title: '牛九', value: '9'}, {selected: false, title: '牛牛', value: '10'}, {selected: false, title: '没牛', value: '11'}], buttons: ['全', '大', '小', '奇', '偶', '清']},
+
           /***
           ** 趣味[猜遗漏]
           ***/
@@ -193,6 +196,7 @@
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '0单5双', value: '1'}, {selected: false, title: '5单0双', value: '2'}, {selected: false, title: '1单4双', value: '3'}, {selected: false, title: '4单1双', value: '4'}, {selected: false, title: '2单3双', value: '5'}, {selected: false, title: '3单2双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-3-1-3-115:1', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
 
           // =========================================================PK10========================================================
           /***
@@ -204,14 +208,25 @@
           {ids: '-1-1-4-PK10, -1-1-5-PK10', class: 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-5-PK10', class: 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-6-PK10:1', class: 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
+          // {ids: '-1-1-7-PK10:1', class: 'ds-icon-PK10', title: '定位胆', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第一名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第二名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第三名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第六名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第七名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第八名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第九名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-1-7-PK10', class: 'ds-icon-PK10', title: '第十名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           // =========================================================KL8========================================================
           /***
           **
           ***/
           {ids: '-1-1-1-KL8, -1-1-2-KL8:8, -1-1-3-KL8:8, -1-1-4-KL8:8, -1-1-5-KL8:8, -1-1-6-KL8:8, -1-1-7-KL8:8', min: 1, max: 80, l: 2, buttons: ['全:1', '大:1', '小:1', '奇:1', '偶:1', '质:1', '合:1', '清'], btnClass: 'block'},
-          {ids: '0-1-1-KL8', class: 'default square', title: '上下盘', values: [{selected: false, title: '上盘', value: '1'}, {selected: false, title: '下盘', value: '2'}]},
-          {ids: '0-1-2-KL8', class: 'default square', title: '奇偶盘', values: [{selected: false, title: '奇盘', value: '1'}, {selected: false, title: '偶盘', value: '2'}]},
+          {ids: '0-1-1-KL8', class: 'default square', title: '上下盘', values: [{selected: false, title: '上盘', value: '1'}, {selected: false, title: '下盘', value: '2'}, {selected: false, title: '和盘', value: '3'}]},
+          {ids: '0-1-2-KL8', class: 'default square', title: '奇偶盘', values: [{selected: false, title: '奇盘', value: '1'}, {selected: false, title: '偶盘', value: '2'}, {selected: false, title: '和盘', value: '3'}]},
           {ids: '0-1-3-KL8', class: 'default square', title: '大小单双', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}]},
           {ids: '0-1-4-KL8', class: 'default square', title: '五行', values: [{selected: false, title: '金', value: '1'}, {selected: false, title: '木', value: '2'}, {selected: false, title: '水', value: '3'}, {selected: false, title: '火', value: '4'}, {selected: false, title: '土', value: '5'}]},
 
@@ -240,27 +255,27 @@
         // 位置选择
         positions: [
           {
-            title: '万位',
+            title: ['万位', '第一位'],
             value: 5,
             selected: false
           },
           {
-            title: '千位',
+            title: ['千位', '第二位'],
             value: 4,
             selected: true
           },
           {
-            title: '百位',
+            title: ['百位', '第三位'],
             value: 3,
             selected: true
           },
           {
-            title: '十位',
+            title: ['十位', '第四位'],
             value: 2,
             selected: true
           },
           {
-            title: '个位',
+            title: ['个位', '第五位'],
             value: 1,
             selected: true
           }
@@ -268,13 +283,13 @@
         // 要显示pos的玩法集
         allChecks: [
           // 最少2个位置
-          {ids: '-1-1-2, -1-1-3, -1-1-4', min: 2},
+          {ids: '-1-1-2, -1-1-3, -1-1-4, -4-1-1, -3-1-3-115', min: 2},
           // 最少3个位置
           {ids: '-1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7', min: 3},
           // 最少4个位置
           {ids: '-1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6', min: 4}
         ],
-        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6',
+        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1, -3-1-3-115,',
         // 号码集
         ns: [],
         // 号码的文字表示集
@@ -288,6 +303,10 @@
     computed: {
       callId () {
         return this.gameid + '|' + this.type.id
+      },
+      // 根据玩法确定是否为组选
+      o () {
+        return ['+3-2-2', '+3-2-4', '+3-2-5', '3-2-2', '3-2-4', '3-2-5', '-3-2-2', '-3-2-4', '-3-2-5', '2-2-2', '2-4-2', '-1-1-4', '-1-2-4', '-1-2-6', '-1-2-7', '-3-2-2-SSL', '-3-2-4-SSL', '-3-2-5-SSL', '2-2-2-SSL-SSL', '2-4-2-SSL', '3-1-4-115', '2-1-4-115', '-1-2-2-115', '-1-2-3-115', '-1-2-4-115', '-1-2-5-115', '-1-2-6-115', '-1-2-7-115', '-1-2-8-115'].indexOf(this.type.id) !== -1
       },
       // 根据玩法确定是与其它行不能重复
       nr () {
@@ -307,7 +326,9 @@
       },
       // 显示位置选择
       show () {
-        return this.ids.match(new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g'))
+        // console.log(this.type.id, this.type.id.match(/^[+-]/), ('\\' + this.type.id + '(:\\d)*,'), '[^+-]' + this.type.id + '(:\\d)*,')
+        // return this.ids.match(new RegExp('[^+-]*' + (this.type.id.match(/^[+-]/) ? ('\\' + this.type.id) : this.type.id), 'g'))
+        return [this.ids.match(new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g')), this.type.id === '-3-1-3-115' ? 1 : 0]
       },
       // 位置集合
       ps () {
@@ -346,7 +367,7 @@
           nsl: this.nsl,
           ps: this.ps,
           psl: this.psl,
-          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' '),
+          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
           r: this.r
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败
@@ -376,27 +397,48 @@
       // 当输入型时， 注数的分隔符
       // has ,; ? ,; : ' '
       // separator () {
-      //   return this.V.match(/[,;]/g) ? /[,;]+/g : /[\s]+/g
+      //   return this.V.match(/[,;|]/g) ? /[,;|]+/g : /[\s]+/g
       // },
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       value () {
+        if (this.V.length > 10000) {
+          this.$worker.run((V, type) => {
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+              return V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+            } else {
+              return V.replace(/[,;|\s]+/g, ' ')
+            }
+          }, [this.V, this.type])
+          .then(result => {
+            this.value = result
+          })
+          .catch(e => {
+            // console.error(e)
+          })
+          return this.V
+        }
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if (this.type.id.indexOf('-115') !== -1 && (this.V.match(/[,;]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-          return this.V.replace(/ +/g, '').replace(/[,;\s]+/g, ' ')
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+          return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
         } else {
-          return this.V.replace(/[,;\s]+/g, ' ')
+          return this.V.replace(/[,;|\s]+/g, ' ')
         }
       },
       // test () {
-      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ')
       // },
       // testV () {
-      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length
+      //   return this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ').split(' ').length
       // },
       // // 无效号码提醒
       hasUnable () {
-        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ').split(' ').length !== (typeof this.no === 'object' ? this.no[1].length : this.no)
+        return this.rows.length[0] || !this.value.replace(/\s+/g, '') ? false : this.value.trim().replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ').split(' ').length !== (typeof this.no === 'object' ? this.no[1].length : this.no)
       }
     },
     watch: {
@@ -420,15 +462,34 @@
       },
       // 传递value值到父
       // value () {
-      //   this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;\s]+/g, ' ')
+      //   this.value = this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' ')
       //   this.removeRepeat()
       //   // this.$emit('set-nsns', this.value ? this.value.trim().replace(/\s{1,}/g, '|') : '')
       // },
       // C2
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       V (n, o) {
         // console.log(o, '=>', n)
         setTimeout(() => {
-          this.V = this.V.replace(/[^0-9,;\s]+/g, '').replace(/([,;]){2,}/g, '$1')
+          if (this.V.length > 10000) {
+            this.$worker.run((V) => {
+              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
+            }, [this.V])
+            .then(result => {
+              this.V = result
+              this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
+              // this.value = result
+            })
+            .catch(e => {
+              // console.error(e)
+            })
+            return this.V
+          }
+          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
       },
@@ -459,6 +520,18 @@
       this.$emit('set-ps', this.ps)
     },
     methods: {
+      // 随机选择一个号码
+      __random ({continuee}) {
+        if (!continuee) {
+          let t = setInterval(() => {
+            if (this.n === 0) {
+              let m = Math.min.apply(Math, this.nsl)
+              let i = this.nsl.lastIndexOf(m)
+              this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i}})
+            } else clearInterval(t)
+          }, 500)
+        }
+      },
       __clearValue () {
         this.V = ''
         this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = '')
@@ -486,12 +559,46 @@
         let files = evt.target.files
         Array.from(files).forEach(f => {
           if (f.type.indexOf(allowedFiles) !== -1) {
+            // this.$worker.run((arg) => {
+            //   console.log('Z!!Z!')
+            //   // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //   //   return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+            //   // } else {
+            //   //   return this.V.replace(/[,;|\s]+/g, ' ')
+            //   // }
+            // }, ['hello'])
+            // .then(result => {
+            //   console.log(result, '???')
+            //   // this.value = result
+            // })
+            // .catch(e => {
+            //   // console.error(e)
+            // })
+
             let reader = new window.FileReader()
             // reader.onerror = this.error
             // reader.onprogress = this.progress
             // reader.onabort = this.abort
             // reader.onloadstart = this.loadstart
             reader.onload = this.load
+            // reader.onload = (evt) => {
+            //   console.log(evt.target.result)
+            //   this.$worker.run((arg) => {
+            //     console.log('Z!!Z!')
+            //     // if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            //     //   return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+            //     // } else {
+            //     //   return this.V.replace(/[,;|\s]+/g, ' ')
+            //     // }
+            //   }, [evt.target.result])
+            //   .then(result => {
+            //     console.log(result, '???')
+            //     // this.value = result
+            //   })
+            //   .catch(e => {
+            //     // console.error(e)
+            //   })
+            // }
             reader.readAsText(f, 'utf-8')
           }
         })
@@ -500,7 +607,6 @@
       load (evt) {
         // console.log(evt.target.result)
         this.V += this.V ? ',' + evt.target.result : evt.target.result
-        // .replace(/\s+/g, ' ')
       },
       // __removeRepeat () {
       //   if (this.removeRepeat()) {
@@ -511,12 +617,32 @@
       //   }
       //   this.__setCall({fn: '__order'})
       // },
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
+      // ****************************************************************************************************************************this.V
       removeRepeat () {
+        if (this.V.length > 10000) {
+          this.$worker.run((V, type, o) => {
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
+              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s]+/, ',', o, 2)
+            } else {
+              R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) ? 2 : 1))
+            }
+          }, [this.V, this.type, this.o])
+          .then(result => {
+            if (result.has) this.V = result.s
+          })
+          .catch(e => {
+            // console.error(e)
+          })
+          return this.V
+        }
         let R = null
-        if (this.type.id.indexOf('-115') !== -1 && this.V.match(/[,;]+/g)) {
-          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;\s]+/, ',')
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|]+/g)) {
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s]+/, ',', this.o, 2)
         } else {
-          R = removeDuplicate(this.V, /[,;\s]+/)
+          R = removeDuplicate(this.V.trim(), /[,;|\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
         }
         if (R.has) this.V = R.s
         return R.has
