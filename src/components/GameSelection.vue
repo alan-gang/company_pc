@@ -544,7 +544,7 @@
               let i = this.nsl.lastIndexOf(m)
               this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i}})
             } else clearInterval(t)
-          }, 0)
+          }, 500)
         }
       },
       __clearValue () {
