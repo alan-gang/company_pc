@@ -173,7 +173,8 @@ export default {
                 {class: 'ds-icon-game-chq', id: '1-1-1', menuid: '11', title: '重庆时时彩', gameid: 1},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', gameid: 4},
-                {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
+                // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
+                {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20}
               ]
             },

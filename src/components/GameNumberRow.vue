@@ -14,7 +14,7 @@
                 span.after(v-if="after") 18
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click="click(btn)" v-bind:class="{selected: btnIndex === index}") {{ btn.split(':')[0] }}
+            .ds-button(v-for="(btn, index) in row.buttons" @click="btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: btnIndex === index, 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
 
 </template>
 <script>
@@ -68,7 +68,15 @@
       },
       // 根据玩法确定至多可以选择多少个号码
       sl () {
-        return this.row.id.split(':')[1]
+        return parseInt(this.row.id.split(':')[1])
+      },
+      btnStatus () {
+        let o = {}
+        let a = ['全:1', '大:0.5', '小:0.5', '奇:0.5', '偶:0.5', '质', '合', '清']
+        a.forEach(n => {
+          o[n.split(':')[0]] = !this.sl ? true : (this.numbers.length * (parseFloat(n.split(':')[1]) || 0)) < this.sl
+        })
+        return o
       }
     },
     watch: {
@@ -383,6 +391,7 @@
         color #666
         box-shadow none
         text-shadow none
+        
           
         &:hover
           color WHITE
@@ -394,6 +403,8 @@
           background-color DANGER
           shadow()
           font-shadow()
+        &.disabled
+          opacity .5
     
     // https://codepen.io/giana/pen/yYBpVY
     .circle:not(.dice):not(.square):not(.ds-icon-PK10)

@@ -520,6 +520,21 @@
       this.$emit('set-ps', this.ps)
     },
     methods: {
+      // 动态改变type.id， 加上:5表示每行最多可以选择5个号码, 设置NumberRow.sl
+      /*
+       * @params n {number}:
+      */
+      __setRowsSl (n) {
+        setTimeout(() => {
+          if (this.rows) {
+            this.rows.forEach(r => {
+              r.ids = (' ' + r.ids + ',').replace(
+                new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g'), ' ' + (n ? (this.type.id + ':' + n) : ' ' + this.type.id) + ','
+              )
+            })
+          }
+        }, 300)
+      },
       // 随机选择一个号码
       __random ({continuee}) {
         if (!continuee) {
@@ -529,7 +544,7 @@
               let i = this.nsl.lastIndexOf(m)
               this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i}})
             } else clearInterval(t)
-          }, 500)
+          }, 0)
         }
       },
       __clearValue () {

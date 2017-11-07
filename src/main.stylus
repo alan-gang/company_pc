@@ -629,6 +629,11 @@ pre
   .ds-icon-game-bjssc
       background url($ASSETS/game/new/xxc_bj.png) center no-repeat
       
+  .ds-icon-game-hlffc
+      background url($ASSETS/game/new/ffc_hl.png) center no-repeat
+
+  
+      
   .ds-icon-game-twssc
       background url($ASSETS/game/new/xxc_tw.png) center no-repeat
       

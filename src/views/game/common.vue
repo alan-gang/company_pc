@@ -212,6 +212,13 @@ export default {
     }
   },
   watch: {
+    methodid () {
+      this.__setCall({
+        fn: '__setRowsSl',
+        args: (this.PS.find(p => {
+          return (p.methodid + '') === this.methodid
+        }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}).singleRowMaxLen})
+    },
     n (n, o) {
       clearTimeout(this.wnt)
       if (this.ns.length === 0) return (this.wn = 0)
