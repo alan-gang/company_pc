@@ -662,7 +662,7 @@ pre
   .ds-icon-game-lhc
       background url($ASSETS/game/new/qt_lhc.png) center no-repeat
         
-  [class*="ds-icon-game-"]
+  [class*="dis-icon-game-"]
   &[class*="middle"]
     background-size .7rem .7rem
   .submenu [class*="ds-icon-game-"]
