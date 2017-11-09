@@ -687,7 +687,7 @@ export default {
                 }) || {}).text
               })
             })
-            this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
+            if (data[m.split(':')[0]] && data[m.split(':')[0]][0]) this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
           })
           // 在线支付
           // data.online.forEach(f => {
