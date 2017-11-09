@@ -112,7 +112,18 @@ export default {
     quickbook () {
       this.$emit('quickbook')
     },
-    sh () {
+    sh (force) {
+      // 提示是否真的要清空余额
+      if (!force) {
+        return this.$modal.question({
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">您确定要“<span class="text-danger">使用所有余额</span>”来购买此注单吗？</div>',
+          target: this.$el.parentNode,
+          O: this,
+          ok () {
+            this.sh(true)
+          }
+        })
+      }
       // 如果是梭哈， 改变模式为厘， 全部余额投注到上面
       this.cIndex = 3
       let am = this.me.amoney
