@@ -658,10 +658,27 @@ pre
         
   .ds-icon-game-tw5
       background url($ASSETS/game/21_big.png) center no-repeat
+      
+  .ds-icon-game-lhc
+      background url($ASSETS/game/new/qt_lhc.png) center no-repeat
         
-  [class*="dis-icon-game-"]
-  [class*="middle"]
+  [class*="ds-icon-game-"]
+  &[class*="middle"]
     background-size .7rem .7rem
+  .submenu [class*="ds-icon-game-"]
+    &.sign:after
+      content ''
+      position absolute
+      top .05rem
+      left .05rem
+      width .3rem
+      height .3rem
+    &.hot:after
+      background url($ASSETS/game/new/icon_hot.png) center no-repeat
+    &.new:after
+      background url($ASSETS/game/new/icon_new.png) center no-repeat
+
+       
       
       
   .ds-icon-notice
@@ -973,7 +990,10 @@ pre
     
     &.nbyh
       background url($ASSETS/bankcard/nbyh.jpg) #fff .1rem center no-repeat
-      
+    
+    &.kj
+      background url($ASSETS/bankcard/bank_kj.jpg) #fff .1rem center no-repeat
+
 
   // me/Bank.vue
   .ds-icon-right-arrow

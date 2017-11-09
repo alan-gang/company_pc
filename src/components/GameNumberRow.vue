@@ -7,11 +7,20 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col.circle(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': after }, row.class || 'default', ]" @click.native=" toggle(n) ") 
+              el-col.circle(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': n.after !== null }, row.class || 'default', n.class]" @mouseover.native=" isCode && hover($event) " @mouseleave.native=" isCode && leaveSelect(n) " @click.native=" !isCode && toggle(n) ") 
+                // 正常的显示
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
+                span.after(v-if=" n.after !== null ") {{ n.after }}
+                
+                // 选码还得有输入框
+                el-input-number.code-input.times.my-center(v-bind:id=" $index " v-model=" n.times " v-if=" isCode ")
+                .code-input-value(v-if="isCode && n.selected") {{ n.times }}
+
+
+
+                // 筛子
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
 
-                span.after(v-if="after") 18
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
             .ds-button(v-for="(btn, index) in row.buttons" @click="btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: btnIndex === index, 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
@@ -32,7 +41,13 @@
         // sl: 2,
         // last selected number
         lsn: null,
-        __unselectFromSelf: false
+        __unselectFromSelf: false,
+        // 不同的码有不同的色彩
+        codeClass: {
+          '1,2,7,8,12,13,15,18,23,24,29,30,34,35,40,45,46,': 'danger',
+          '3,4,9,10,14,20,25,26,31,36,37,41,42,47,48,': 'blue',
+          '5,6,11,16,17,21,22,27,28,32,33,38,39,43,44,49,': 'green'
+        }
       }
     },
     computed: {
@@ -62,6 +77,9 @@
       // },
       isDice () {
         return this.row.class ? this.row.class.indexOf('dice') !== -1 : false
+      },
+      isCode () {
+        return this.row.class ? this.row.class.indexOf('code') !== -1 : false
       },
       showTitle () {
         return !this.isDice
@@ -102,13 +120,27 @@
       this.updateNumbers()
     },
     methods: {
+      hover (e) {
+      },
+      // 暂时只对码生效
+      leaveSelect (n, e) {
+        if ((n.times > 0 && !n.selected) || (n.times < 0 && n.selected)) {
+          this.toggle(n)
+        }
+      },
       updateNumbers () {
         this.numbers = this.row.values || Array(this.row.max - this.row.min + 1).fill(0).map((n, index) => {
           return (n = {
             selected: false,
             signal: false,
             value: this.row.min + index,
-            title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0')
+            title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0'),
+            // 单个号码样式
+            class: this.isCode ? this.codeClass[this.row.min + index + ''] : '',
+            // 单个号码的倍数
+            times: 0,
+            // 赔率
+            after: this.row.afters ? this.row.afters[index] : null
           })
         })
       },
@@ -325,6 +357,34 @@
             display none
           .after
             line-height .25rem
+        &.code
+          radius(50%)
+          height  2 * GCH
+          line-height 1.5 * GCH
+          transition all linear .2s
+          .code-input-value
+          .code-input
+            width 100%
+            position absolute
+            bottom 30%
+            left 0
+            z-index 1
+            opacity 0
+            transition all linear .2s
+            input
+              text-align center
+          .after
+            bottom 0.5 * GCH
+          &:hover
+            line-height GCH
+            .after
+              bottom 0.2 * GCH
+            .code-input
+              opacity 1
+            .code-input-value
+              display none
+          
+          
             
             
          
@@ -363,7 +423,7 @@
         
           
           
-      .el-col.has-after
+      .el-col.has-after:not(.code)
         line-height .7 * GCH
       .after
         position absolute
@@ -374,6 +434,7 @@
         font-size .14rem
         font-weight normal
         color #666
+        transition all linear .2s
 
     // 按钮区
     .action-buttons

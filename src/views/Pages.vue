@@ -15,6 +15,7 @@
 import api from '../http/api'
 import base from 'components/base'
 import ToolBar from 'components/ToolBar'
+import util from '../util'
 // game
 import SSC from './game/SSC'
 import SSL from './game/SSL'
@@ -24,7 +25,7 @@ import PK10 from './game/PK10'
 import KL8 from './game/KL8'
 import K3 from './game/K3'
 import LHG from './game/LHG'
-import util from '../util'
+import HC6 from './game/HC6'
 
 // me
 import Me from './me/Me'
@@ -97,6 +98,7 @@ export default {
     KL8,
     K3,
     LHG,
+    HC6,
     // me
     Me,
     SafeCenter,

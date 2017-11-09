@@ -246,7 +246,8 @@
           {ids: '+3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: 1}]},
           // {ids: '+3-1-2-K3', title: '通选', values: [{selected: false, title: '全', value: '1,2,3|2,3,4|3,4,5|4,5,6'}]},
           {ids: '+3-1-1-K3', class: 'dice double-width', title: '三连号', values: [{selected: false, title: '123', dots: [1, 2, 3], value: '1'}, {selected: false, title: '234', dots: [2, 3, 4], value: '2'}, {selected: false, title: '345', dots: [3, 4, 5], value: '3'}, {selected: false, title: '456', dots: [4, 5, 6], value: '4'}]},
-          {ids: '0-1-2-K3:1', class: 'dice', title: '1个号中奖', values: [{selected: false, dots: [1], value: 1}, {selected: false, dots: [2], value: 2}, {selected: false, dots: [3], value: 3}, {selected: false, dots: [4], value: 4}, {selected: false, dots: [5], value: 5}, {selected: false, dots: [6], value: 6}]}
+          {ids: '0-1-2-K3:1', class: 'dice', title: '1个号中奖', values: [{selected: false, dots: [1], value: 1}, {selected: false, dots: [2], value: 2}, {selected: false, dots: [3], value: 3}, {selected: false, dots: [4], value: 4}, {selected: false, dots: [5], value: 5}, {selected: false, dots: [6], value: 6}]},
+          {ids: '1-1-1-HC6', class: 'code double-width', title: '正码', min: 1, max: 49, l: 2, afters: Array(49).fill(0).map(n => (n = 47))}
 
         ],
         V: '',

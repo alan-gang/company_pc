@@ -1481,4 +1481,19 @@ let K3 = {
     return C(nsl[0], 1)
   }
 }
-module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3)
+let HC6 = {
+  // 特码
+  '1-1-1-HC6' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // 正码
+  '1-1-2-HC6' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  // 正码特
+  '1-1-3-HC6' ({nsl}) {
+    return C(nsl[0], 1)
+  }
+}
+
+module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3, HC6)

@@ -9,10 +9,16 @@
 
       .tab(style="text-align: center")
         .ds-button-group
+          // 无多通道
           .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
-          .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 快捷支付
-          .ds-button.text-button(v-for=" (bb, i) in merNoBankList " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb) " ) {{ bb.text }}
+          // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
+          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
+        
+        .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
+          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }") 
+            span.ds-radio.white
+            | {{ r.tongdName }}
 
       // .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
       //   p 资金密码：
@@ -27,17 +33,18 @@
           span.title 温馨提示：
           p.content
             | 如果充值失败请多次尝试，或使用
-            span.text-danger 快捷支付
-            | 的方式进行充值。 
+            span.text-danger 在线支付
+            | 的方式进行充值。手续费为：
+            span.text-danger(style="font-size: 14px") {{ selectBank.custFee }}‰
 
         .item(style="line-height: .5rem") 支付方式：
             .banks
-                label.ds-radio-label( v-if=" type > 2")
+                label.ds-radio-label( v-if=" type > 2 && epay[type - 3].title !== '在线支付'")
                   // span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
                   span.ds-icon-bank-card.selected(v-bind:class=" [ selectBank.class ] ")
 
-                div(v-if=" (type === 0 || type === 1) ")
-                  label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank")
+                div(v-if=" (type === 0 || epay[type - 3].title === '在线支付' ) ")
+                  label.ds-radio-label(v-for="bank in banksO " @click="selectBank = bank")
                     span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
                     span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.bankCode === bank.bankCode } ] ")
 
@@ -300,7 +307,10 @@ export default {
       Qr: '',
       bankList: [],
       merBankList: [],
-      merNoBankList: []
+      merNoBankList: [],
+      // 非银行转帐类
+      epay: [],
+      radioIndex: 0
     }
   },
   computed: {
@@ -316,7 +326,7 @@ export default {
       }
     },
     avaibleBanks () {
-      return [this.bankList, this.merBankList][this.type] || []
+      return [this.bankList, (this.epay[this.type - 3] || {more: [{channelCodes: []}]}).more[this.radioIndex].channelCodes || []][Math.min(this.type, 1)]
     },
     // Cdata () {
     //   if (this.data.length <= this.pageSize) return this.data
@@ -374,9 +384,10 @@ export default {
       // this.max = 0
       // this.min = 0
       this.amount = 0
+      this.radioIndex = 0
       // if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
-      if (this.type < 2) this.selectBank = {}
+      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付')) this.selectBank = {}
       // if (this.type > 2) this.selectBank = this.otherPay
     },
     Ctime () {
@@ -395,7 +406,8 @@ export default {
     // this.TopUpGetBankList()
     // this.qryRecharge()
     // this.getEnableSaveType()
-    this.saveAmountRange()
+    // this.saveAmountRange()
+    this.saveRanges()
   },
   methods: {
     // checkSecurityPwd () {
@@ -639,10 +651,97 @@ export default {
         this.type = 2
       })
     },
+    saveRanges (fn) {
+      this.$http.get(api.saveRanges).then(({data}) => {
+        if (data.success === 1) {
+          // 网银转帐
+          data.bankList.forEach(b => {
+            b.class = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).class
+            b.text = (BANKS.find(bb => {
+              return b.bankCode === bb.apiName
+            }) || {}).text
+          })
+          this.bankList = data.bankList || []
+          // data.merBankList.forEach(b => {
+          //   b.class = (BANKS.find(bb => {
+          //     return b.bankCode === bb.apiName
+          //   }) || {}).class
+          //   b.text = (BANKS.find(bb => {
+          //     return b.bankCode === bb.apiName
+          //   }) || {}).text
+          // })
+          // this.merBankList = data.merBankList || []
+          this.epay = []
+          // 在线支付 快捷支付 QQ 微信
+          let epays = ['online:在线支付', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付']
+          epays.forEach(m => {
+            data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
+              f.channelCodes.forEach(b => {
+                b.class = (BANKS.find(bb => {
+                  return b.bankCode === bb.apiName
+                }) || {}).class
+                b.text = (BANKS.find(bb => {
+                  return b.bankCode === bb.apiName
+                }) || {}).text
+              })
+            })
+            this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
+          })
+          // 在线支付
+          // data.online.forEach(f => {
+          //   b.channelCodes.forEach(b => {
+          //     b.class = (BANKS.find(bb => {
+          //       return b.bankCode === bb.apiName
+          //     }) || {}).class
+          //     b.text = (BANKS.find(bb => {
+          //       return b.bankCode === bb.apiName
+          //     }) || {}).text
+          //   })
+          // })
+          // this.online = data.online || []
+
+          // // 在线支付
+          // data.online.forEach(f => {
+          //   b.channelCodes.forEach(b => {
+          //     b.class = (BANKS.find(bb => {
+          //       return b.bankCode === bb.apiName
+          //     }) || {}).class
+          //     b.text = (BANKS.find(bb => {
+          //       return b.bankCode === bb.apiName
+          //     }) || {}).text
+          //   })
+          // })
+          // this.online = data.online || []
+
+          // data.merNoBankList.forEach(b => {
+          //   b.class = (BANKS.find(bb => {
+          //     return b.bankCode === bb.apiName
+          //   }) || {}).class
+          //   b.text = (BANKS.find(bb => {
+          //     return b.bankCode === bb.apiName
+          //   }) || {}).text
+          // })
+
+          this.merNoBankList = data.merNoBankList || []
+          if (!this.bankList[0]) this.type = 3
+          else return false
+          if (!this.epay[0]) this.type = 2
+          // this.max = data.max
+          // this.min = data.min
+        } else {
+          this.type = 2
+        }
+      }).catch(rpe => {
+        this.type = 2
+      })
+    },
     commit (fn) {
       this.Qr = ''
       this.$http.get(api.commit, {
         saveType: Math.min(this.type, 1),
+        merType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tongdCode : '',
         bankCode: this.selectBank.bankCode,
         amount: this.amount
       }).then(({data}) => {
@@ -750,6 +849,11 @@ export default {
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   
+  .ds-radio-label
+    color #999
+  .ds-radio-label.active
+    color BLUE
+
   .form
     font-size .14rem
   .item

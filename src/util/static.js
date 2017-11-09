@@ -26,7 +26,8 @@ const BANKS = [
   {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'},
   {apiName: 'chbh', class: 'bhyh', text: '渤海银行'},
   {apiName: 'njbc', class: 'njyh', text: '南京银行'},
-  {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'}
+  {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'},
+  {apiName: 'kj', class: 'kj', text: '快捷支付'}
 ]
 
 const PROVINCES = [
