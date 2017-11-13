@@ -1,11 +1,28 @@
 <template lang="jade">
-  el-row
+  el-row(v-bind:class="['game-' + gameType]")
+
+
+
+    el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow" v-bind:popper-class="'popover-blue popover-times ' + (fts.length > 0 ? true : false)")
+      dl.submenu
+        dd(v-for="i in fts" @click="(ftshow = false) || (ft = i)") {{ i }}
+    
+    
+
+
 
     el-popover(ref="times" placement="top" v-bind:offset="0" trigger="click" v-model="show" v-bind:popper-class="'popover-blue popover-times ' + (ts.length > 0 ? true : false)")
       dl.submenu
         dd(v-for="i in tss" @click="(show = false) || (t = i)") {{ i }}
+    
 
-    el-col.left(:span="16")
+    el-col.left(:span="8" v-show="HC6")
+        | 快速金额
+        el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft") 
+
+
+
+    el-col.left(:span="16" v-show="!HC6")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
       el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times") 
       .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
@@ -16,14 +33,15 @@
       el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)")
       span.p(v-if="P") {{ ps}} - {{ prize }}
 
-    el-col.right(:span="8")
+    el-col.right(:span=" HC6 ? 16 : 8 ")
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay }}
       |  元
-      .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
-      .buttons
+      .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
+      .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
+      .buttons(v-show="!HC6")
         .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
@@ -36,7 +54,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P'],
+  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType'],
   data () {
     return {
       me: store.state.user,
@@ -55,12 +73,22 @@ export default {
       p: 0,
       ts: [1, 3, 5, 10, 20, 50],
       show: false,
-      t: 1
+      t: 1,
+      // 快速金额
+      ft: 0,
+      fts: [0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
+      ftshow: false
     }
   },
   computed: {
+    HC6 () {
+      return this.gameType === 'HC6'
+    },
     tss () {
       return this.ts.reverse()
+    },
+    ftss () {
+      return this.fts.reverse()
     },
     max () {
       return Math.floor(this.P.maxpoint * 10000) || 800
@@ -94,6 +122,11 @@ export default {
     // p changing or prize changing need update point and bonus in game/common.vue
     prize () {
       this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
+    },
+    ft () {
+      if (this.ft >= 0) {
+        this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+      }
     }
   },
   mounted () {
@@ -219,6 +252,7 @@ export default {
       max-width: 9.3rem;
       left: 0;
       right: 0;
+      z-index: 1;
       border-bottom-right-radius .05rem
       border-bottom-left-radius .05rem
       .left
@@ -292,5 +326,5 @@ export default {
   .p
     padding 0 PW
     color BLUE
-    
+  
 </style>

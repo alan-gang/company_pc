@@ -20,7 +20,7 @@
       transition(name="slide" appear=true)
         GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
-      GameOrderBar.inner-bar(v-if="ns.length > 0" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+      GameOrderBar.inner-bar(v-bind:game-type="gameType"   v-if="ns.length > 0" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
       <!-- 投注单 -->
       GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder" ref="orders")
       <!-- 追号栏 -->
@@ -37,7 +37,7 @@
     <!-- 总计栏 -->
     GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
-    GameOrderBar.fixed.inner-bar( v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+    GameOrderBar.fixed.inner-bar(v-bind:game-type="gameType"   v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
     <!-- 历史开奖信息 -->
     // GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
@@ -105,6 +105,8 @@ export default {
       nsns: [],
       // 投注号码文字表示
       nsnsTitle: '',
+      // 投注号码倍数表示
+      nsnsTimes: '',
       // 倍数
       times: 1,
       // 金额单位
@@ -167,7 +169,7 @@ export default {
       return this.page.gameid + '|' + this.type.id
     },
     pay () {
-      return Number((this.n * this.times * this.currency.value * 2).toFixed(3))
+      return this.gameType === 'HC6' ? (this.nsnsTimes.split(',').reduce((p, n) => { return (p += parseFloat(n)) }, 0) || 0).toFixed(3) : Number((this.n * this.times * this.currency.value * 2).toFixed(3))
     },
     // CNPER () {
     //   return this.NPER + 1
@@ -490,6 +492,35 @@ export default {
         text: '投注中...',
         target: this.$el
       }, 10000, '投注超时...')
+      let items = []
+      if (this.gameType === 'HC6') {
+        this.nsns.split(',').forEach((n, i) => {
+          items.push({
+            methodid: parseInt(this.methodid), // 玩法编号
+            type: parseInt(this.methodidtype),
+            pos: this._getPsstring(),
+            codes: n,
+            count: 1,
+            times: (this.nsnsTimes.split(',') || [])[i] || 0,
+            money: 1,
+            mode: 1,
+            userpoint: this.point
+          })
+        })
+      } else {
+        items.push({
+          methodid: parseInt(this.methodid), // 玩法编号
+          type: parseInt(this.methodidtype),
+          pos: this._getPsstring(),
+          codes: this._getCodes(),
+          count: this.n,
+          times: this.times,
+          money: this.pay,
+          mode: this.currency.model,
+          userpoint: this.point
+        })
+      }
+
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
@@ -497,19 +528,7 @@ export default {
         totalmoney: this.pay, // 总投注金额
         type: 1, // 类型：1-投注；2-追号
         isusefree: 0, // 是否使用优惠券，0-否，1-是
-        items: JSON.stringify([
-          {
-            methodid: parseInt(this.methodid), // 玩法编号
-            type: parseInt(this.methodidtype),
-            pos: this._getPsstring(),
-            codes: this._getCodes(),
-            count: this.n,
-            times: this.times,
-            money: this.pay,
-            mode: this.currency.model,
-            userpoint: this.point
-          }
-        ]),
+        items: JSON.stringify(items),
         trace: '',
         isJoinPool: 0
       }).then(({data}) => {
@@ -615,9 +634,10 @@ export default {
       this.hasUnable = hasUnable
     },
     // 当前注的号码
-    setNsns (nsns, nsnsTitle) {
+    setNsns (nsns, nsnsTitle, nsnsTimes) {
       this.nsns = nsns
       this.nsnsTitle = nsnsTitle
+      this.nsnsTimes = nsnsTimes
     },
     // 当前注的位置
     setPs (ps) {

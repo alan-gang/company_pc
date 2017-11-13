@@ -176,7 +176,7 @@ export default {
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '10000', title: '六合彩', gameid: 10000}
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '73', title: '六合彩', gameid: 10000}
               ]
             },
             {

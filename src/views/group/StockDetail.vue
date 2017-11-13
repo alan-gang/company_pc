@@ -17,7 +17,7 @@
         p.item 发放方式：{{ STYPE[stock.sendType] }}
 
         // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元
-        .item.text-danger(style="display: inline-block; margin: 0") 累计盈亏 {{ stock.profitAmount }} 万，需发放 {{ stock.bouns }} 元
+        .item.text-danger(style="display: inline-block; margin: 0") 累计盈亏 {{ stock.profitAmount }}，需发放 {{ stock.bouns }} 元
           // p.text-green(style="text-align: right; margin: .05rem 0") 分红已发放 100000 元
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
 

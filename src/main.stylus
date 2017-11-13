@@ -533,8 +533,12 @@ pre
 /*
  *icons class define
  */
+  
+  .ds-icon-rmb-sign
+      background url($ASSETS/icon_rmb.png) left center no-repeat
+    
   // game icons
-  .ds-icon-game-lhg00
+  .ds-icon-game-lhg0010
       background url($ASSETS/game/new/lhg00.png) center no-repeat
 
 
@@ -669,13 +673,14 @@ pre
     &.sign:after
       content ''
       position absolute
-      top .05rem
-      left .05rem
-      width .3rem
-      height .3rem
+      top 0
+      left 0
+      width .4rem
+      height .4rem
     &.hot:after
       background url($ASSETS/game/new/icon_hot.png) center no-repeat
     &.new:after
+      left .07rem
       background url($ASSETS/game/new/icon_new.png) center no-repeat
 
        

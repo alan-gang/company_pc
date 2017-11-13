@@ -7,16 +7,13 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col.circle(:span="2" v-for=" n in numbers " v-bind:class="[{ selected: n.selected, signal: n.signal, 'has-after': n.after !== null }, row.class || 'default', n.class]" @mouseover.native=" isCode && hover($event) " @mouseleave.native=" isCode && leaveSelect(n) " @click.native=" !isCode && toggle(n) ") 
+              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after !== null }, row.class || 'default', n.class]" @mouseover.native=" isCode && hover(index) " @mouseleave.native=" isCode && leaveSelect(index) " @click.native=" !isCode && toggle(n) "  @keyup.tab.native.stop=" isCode && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
                 // 正常的显示
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
                 span.after(v-if=" n.after !== null ") {{ n.after }}
-                
+                                  
                 // 选码还得有输入框
-                el-input-number.code-input.times.my-center(v-bind:id=" $index " v-model=" n.times " v-if=" isCode ")
-                .code-input-value(v-if="isCode && n.selected") {{ n.times }}
-
-
+                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000")
 
                 // 筛子
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
@@ -43,11 +40,9 @@
         lsn: null,
         __unselectFromSelf: false,
         // 不同的码有不同的色彩
-        codeClass: {
-          '1,2,7,8,12,13,15,18,23,24,29,30,34,35,40,45,46,': 'danger',
-          '3,4,9,10,14,20,25,26,31,36,37,41,42,47,48,': 'blue',
-          '5,6,11,16,17,21,22,27,28,32,33,38,39,43,44,49,': 'green'
-        }
+        defaultTimes: 0,
+        codeClass:
+          '1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:danger,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
       }
     },
     computed: {
@@ -68,6 +63,12 @@
       nsTitle () {
         return this.numbers.filter(n => n.selected && typeof n.title === 'string').map(n => {
           return (n = n.title)
+        })
+      },
+      // 选号的号码倍数集
+      nsTimes () {
+        return this.numbers.filter(n => n.selected && n.times > 0).map(n => {
+          return (n = n.times)
         })
       },
       // nsValue () {
@@ -101,6 +102,7 @@
       ns () {
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
+        this.row.nsTimes = this.nsTimes.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },
@@ -120,13 +122,25 @@
       this.updateNumbers()
     },
     methods: {
-      hover (e) {
+      __setDefaultTimes (n) {
+        this.defaultTimes = n || 0
+      },
+      hover (index) {
+        let n = this.numbers[index]
+        n.hover = true
+        if (!n.times) n.times = this.defaultTimes
+        setTimeout(() => {
+          this.$el.querySelector('[id="' + index + '"]').querySelector('input').focus()
+        }, 0)
       },
       // 暂时只对码生效
-      leaveSelect (n, e) {
-        if ((n.times > 0 && !n.selected) || (n.times < 0 && n.selected)) {
+      leaveSelect (index) {
+        let n = this.numbers[index]
+        this.numbers[index].hover = false
+        if ((n.times > 0 && !n.selected) || (n.times <= 0 && n.selected)) {
           this.toggle(n)
         }
+        return true
       },
       updateNumbers () {
         this.numbers = this.row.values || Array(this.row.max - this.row.min + 1).fill(0).map((n, index) => {
@@ -136,11 +150,12 @@
             value: this.row.min + index,
             title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0'),
             // 单个号码样式
-            class: this.isCode ? this.codeClass[this.row.min + index + ''] : '',
+            class: this.isCode && this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
             // 单个号码的倍数
             times: 0,
             // 赔率
-            after: this.row.afters ? this.row.afters[index] : null
+            after: this.row.afters ? 'x' + this.row.afters[index] : null,
+            hover: false
           })
         })
       },
@@ -174,6 +189,10 @@
       },
       toggle (n) {
         n.selected = !n.selected
+        // 加上号码的倍数
+        if (!n.selected) n.times = 0
+        if (n.selected && !n.times) n.times = this.defaultTimes || 2
+
         if (this.sl && this.ns.length > parseInt(this.sl)) {
           this.lsn && this.lsn.selected && (this.lsn.selected = false)
         }
@@ -192,6 +211,8 @@
       unSelect (n, i) {
         if (i) n.signal = false
         else n.selected = false
+        // 清除号码的倍数
+        if (n.times) n.times = 0
       },
       __unselectSelectedNumber (value) {
         // block8/3 console.log('i get recieve unSelect a ball', value)
@@ -257,6 +278,27 @@
   }
 </script>
 
+<style lang="stylus">
+  .code-input.times.my-center 
+    input
+      padding 0 .15rem
+      font-size .2rem
+      color #ff0
+  .el-col.circle:not(.hover) .code-input.times.my-center 
+    input
+      font-size .16rem
+  // .selected:not(:hover)
+  .el-col.circle
+    .code-input
+      opacity 1
+      box-shadow none
+      input
+        box-shadow none
+        border none
+        background-color rgba(0,0,0,0)
+        
+</style>
+
 <style lang="stylus" scoped>
   @import '../var.stylus'
     .el-row
@@ -314,6 +356,7 @@
       &.has-btn
         padding-right 2rem
       .el-col
+        overflow
         width GCH
         position relative
         text-align center
@@ -358,31 +401,67 @@
           .after
             line-height .25rem
         &.code
+          &.danger
+            color DANGER
+            // &:hover
+            &.hover
+            &.selected
+              background-color DANGER
+          &.blue
+            color BLUE
+            // &:hover
+            &.hover
+            &.selected
+              background-color BLUE
+          &.green
+            color CODEGREEN
+            // &:hover
+            &.hover
+            &.selected
+              background-color CODEGREEN
+            
           radius(50%)
           height  2 * GCH
           line-height 1.5 * GCH
           transition all linear .2s
-          .code-input-value
+          
           .code-input
             width 100%
             position absolute
-            bottom 30%
+            top .75 * GCH
             left 0
             z-index 1
             opacity 0
             transition all linear .2s
-            input
-              text-align center
           .after
             bottom 0.5 * GCH
-          &:hover
+
+          // &:hover
+          &.hover
+            opacity .5
+            .code-input
+              background-color rgba(0,0,0,.2) 
+              
+          
+          &.selected    
+          &.hover
+            color #fff
             line-height GCH
             .after
               bottom 0.2 * GCH
+              color #fff
+              opacity .6
             .code-input
               opacity 1
-            .code-input-value
-              display none
+          
+          // &.selected:not(.hover)
+          //   line-height 2 * GCH
+          //   .code-input
+          //     top .2 * GCH
+          
+          
+
+          
           
           
             

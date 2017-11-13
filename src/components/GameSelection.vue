@@ -295,6 +295,8 @@
         ns: [],
         // 号码的文字表示集
         nsTitle: [],
+        // 号码的倍数集
+        nsTimes: [],
         // 导入文件
         upload: true,
         titleSpan: 0,
@@ -372,7 +374,7 @@
           r: this.r
         }) : 0
         // 1、  所有单式，输入一个正确投注后在输入一个不正确投注，报投注失败
-        typeof x === 'object' && typeof x[1] === 'object' && this.$emit('set-nsns', x[1].join('|'), this.nsTitle.join(','))
+        typeof x === 'object' && typeof x[1] === 'object' && this.$emit('set-nsns', x[1].join('|'), this.nsTitle.join(','), this.nsTimes.join(','))
         // return typeof x === 'object' ? x[0] : x
         return x
         // return N[this.type.id] ? N[this.type.id]({
@@ -510,7 +512,7 @@
           if (this.rows[i].join) this.ns[i] = ns.join(this.rows[i].join || ',')
         })
         // fixed 当只有有join的时候才需要forEach *****
-        this.$emit('set-nsns', this.ns.join('|'), this.nsTitle.join(','))
+        this.$emit('set-nsns', this.ns.join('|'), this.nsTitle.join(','), this.nsTimes.join(','))
       },
       ps () {
         this.$emit('set-ps', this.ps)
@@ -559,6 +561,9 @@
         })
         this.nsTitle = this.rows.filter(x => x.nsTitle).map(r => {
           return (r = r.nsTitle || '')
+        })
+        this.nsTimes = this.rows.filter(x => x.nsTimes).map(r => {
+          return (r = r.nsTimes || '')
         })
       },
       // on number row selecting
