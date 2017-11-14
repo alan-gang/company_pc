@@ -87,7 +87,12 @@
     },
     watch: {
       fastServer () {
-        if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
+        // if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
+        if (!this.server) {
+          setTimeout(() => {
+            if (!store.state.user.login) api.api = this.fastServer
+          }, 3000)
+        }
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // this.cs = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

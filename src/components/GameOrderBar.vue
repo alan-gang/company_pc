@@ -139,6 +139,11 @@ export default {
     // }, 0)
   },
   methods: {
+    __setFt () {
+      if (this.ft >= 0) {
+        this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+      }
+    },
     setTimes (t) {
       this.$emit('set-times', t)
     },

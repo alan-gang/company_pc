@@ -189,7 +189,8 @@
         // 分红状态
         STATUS: [
           {id: '0', title: '未发放', class: 'waiting-pay'},
-          {id: 1, title: '已发放', class: 'paid'}
+          {id: 1, title: '已发放', class: 'paid'},
+          {id: 2, title: '待确认', class: 'wait'}
           // {id: 2, title: '已发放', class: 'paid'},
           // {id: 3, title: '平台外已发放', class: 'paid-out'}
         ],
@@ -262,6 +263,9 @@
           path: '/group/3-3-2',
           query: {id: id, self: !this.type}
         })
+      },
+      __bonus () {
+        this.bonus()
       },
       bonus () {
         let loading = this.$loading({

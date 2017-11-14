@@ -595,6 +595,9 @@ export default {
       setTimeout(() => {
         this.__setCall({fn: '__clearValue'})
       }, 0)
+      setTimeout(() => {
+        this.__setCall({fn: '__setFt', callId: undefined})
+      }, 100)
     },
     toggleChecked () {
       this.checked = !this.checked
