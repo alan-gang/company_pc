@@ -665,6 +665,9 @@ pre
       
   .ds-icon-game-lhc
       background url($ASSETS/game/new/qt_lhc.png) center no-repeat
+  .ds-icon-game-ffcqq
+      background url($ASSETS/game/new/ffc_qq.png) center no-repeat
+
         
   [class*="dis-icon-game-"]
   &[class*="middle"]

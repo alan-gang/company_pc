@@ -176,6 +176,8 @@ export default {
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', gameid: 2},
+                {class: 'ds-icon-game-ffcqq sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29},
                 {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
             },
@@ -188,8 +190,7 @@ export default {
                 {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', gameid: 12},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-2-6', menuid: '8', title: '腾讯分分彩', gameid: 2}
+                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19}
               ]
             },
             {
