@@ -16,24 +16,25 @@
         dd(v-for="i in tss" @click="(show = false) || (t = i)") {{ i }}
     
 
-    el-col.left(:span="8" v-show="HC6")
-        | 快速金额
-        el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft") 
+    // el-col.left(:span="4" v-show="HC6")
+        
 
 
 
-    el-col.left(:span="16" v-show="!HC6")
-      .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }") 一
-      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="1" v-popover:times="times") 
-      .ds-button.xx-small.outline.plus(size="mini" @click="t++") 十
-      span.bei &nbsp;倍
+    el-col.left(:span="16")
+      span(v-show="HC6") 快速金额
+      el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
+      .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
+      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="0" v-popover:times="times" v-show="!HC6") 
+      .ds-button.xx-small.outline.plus(size="mini" @click="t++" v-show="!HC6") 十
+      span.bei(v-show="!HC6") &nbsp;倍
       .ds-button-group
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}") {{c.title}}
       
-      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)")
-      span.p(v-if="P") {{ ps}} - {{ prize }}
+      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
+      span.p(v-if="P" v-show="!HC6") {{ ps}} - {{ prize }}
 
-    el-col.right(:span=" HC6 ? 16 : 8 ")
+    el-col.right(:span=" 8 ")
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
@@ -54,7 +55,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType'],
+  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type'],
   data () {
     return {
       me: store.state.user,
@@ -117,13 +118,14 @@ export default {
       this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     },
     t () {
-      this.setTimes(this.t)
+      this.setTimes(parseInt(this.t))
     },
     // p changing or prize changing need update point and bonus in game/common.vue
     prize () {
       this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     },
     ft () {
+      this.t = this.ft
       if (this.ft >= 0) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})
       }
@@ -134,6 +136,7 @@ export default {
     this.t = this.times
     this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
     this.cIndex = this.currency.model - 1
+    if (this.HC6) this.t = 0
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
     // }, 0)
@@ -184,13 +187,13 @@ export default {
       }, 0)
     },
     order (quick) {
-      if (this.P.maxCount && (this.n > this.P.maxCount)) {
+      if (!this.type.mutilpOrderPerRow && !this.type.mutilRowPerOrder && this.P.maxCount && (this.n > this.P.maxCount)) {
         return this.$modal.warn({
           content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案最多投注量：<span class="text-danger">' + this.P.maxCount + '</span> 注',
           btn: ['确定'],
           target: this.$el.parentNode
         })
-      } else if (this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
+      } else if (!this.type.mutilpOrderPerRow && !this.type.mutilRowPerOrder && this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
         return this.$modal.question({
           content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金最高限制为元3万，角3千， 分3百，厘30',
           btn: ['继续购买', '再来几注', '不再提醒'],

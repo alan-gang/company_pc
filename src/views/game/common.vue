@@ -37,7 +37,7 @@
     <!-- 总计栏 -->
     GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
-    GameOrderBar.fixed.inner-bar(v-bind:game-type="gameType"   v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+    GameOrderBar.fixed.inner-bar(v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
     <!-- 历史开奖信息 -->
     // GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
@@ -165,17 +165,20 @@ export default {
     }
   },
   computed: {
+    pricePerOrder () {
+      return this.gameType === 'HC6' ? 1 : 2
+    },
     callId () {
       return this.page.gameid + '|' + this.type.id
     },
     pay () {
-      return this.gameType === 'HC6' ? (this.nsnsTimes.split(',').reduce((p, n) => { return (p += parseFloat(n)) }, 0) || 0).toFixed(3) : Number((this.n * this.times * this.currency.value * 2).toFixed(3))
+      return this.nsnsTimes ? ((this.nsnsTimes.split(',').reduce((p, n) => { return (p += parseFloat(n)) }, 0) || 0) * this.currency.value).toFixed(3) : Number((this.n * this.times * this.currency.value * this.pricePerOrder).toFixed(3))
     },
     // CNPER () {
     //   return this.NPER + 1
     // },
     canOrder () {
-      return this.n && (this.ns.length < 10)
+      return this.n && (this.ns.length < 10) && this.pay > 0
     },
     // 已投注注数
     N () {
@@ -288,6 +291,9 @@ export default {
           this.$refs.GC.scrollTop = (util.getOffset(this.$refs.orders.$el, 1).top || this.$refs.GC.scrollTop)
         }, 0)
       }
+    },
+    P () {
+      this.__setCall({fn: '__setAfters', args: this.P.maxprize})
     }
   },
   created () {
@@ -493,7 +499,7 @@ export default {
         target: this.$el
       }, 10000, '投注超时...')
       let items = []
-      if (this.gameType === 'HC6') {
+      if (this.type.mutilpOrderPerRow) {
         this.nsns.split(',').forEach((n, i) => {
           items.push({
             methodid: parseInt(this.methodid), // 玩法编号
@@ -502,8 +508,8 @@ export default {
             codes: n,
             count: 1,
             times: (this.nsnsTimes.split(',') || [])[i] || 0,
-            money: 1,
-            mode: 1,
+            money: ((this.nsnsTimes.split(',') || [])[i] || 0) * this.currency.value,
+            mode: this.currency.model,
             userpoint: this.point
           })
         })
@@ -520,11 +526,10 @@ export default {
           userpoint: this.point
         })
       }
-
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
-        totalnums: this.N, // 总注数
+        totalnums: this.n, // 总注数
         totalmoney: this.pay, // 总投注金额
         type: 1, // 类型：1-投注；2-追号
         isusefree: 0, // 是否使用优惠券，0-否，1-是
@@ -558,7 +563,7 @@ export default {
           // data.failItems.split(',').map(i => parseInt(i)).sort((a, b) => b - a).forEach(i => {
           //   this.ns.splice(i, 1)
           // })
-          loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
+          loading.text = data.msg || '投注失败！'
           // if (parseInt(data.msg)) {
           //   data.msg.split(',').map(i => parseInt(i)).forEach(i => {
           //     temp.push(this.ns[i - 1])
@@ -571,10 +576,6 @@ export default {
           //     btn: ['确定']
           //   })
           // }
-          this.__loading({
-            text: '投注失败！',
-            target: this.$el
-          }, 1000)
         }
       }, (rep) => {
         loading.text = '投注失败！'
@@ -638,7 +639,7 @@ export default {
     },
     // 当前注的号码
     setNsns (nsns, nsnsTitle, nsnsTimes) {
-      this.nsns = nsns
+      this.nsns = nsns.replace(/[,]+/g, ',').replace(/^[,]+/g, '').replace(/[,]+$/g, '')
       this.nsnsTitle = nsnsTitle
       this.nsnsTimes = nsnsTimes
     },
@@ -788,7 +789,7 @@ export default {
       return psstring ? psstring.slice(0, psstring.length - 1) : ''
     },
     _getCodes () {
-      return this.nsns
+      return this.nsns.replace(/[,]+/g, ',').replace(/^[,]+/g, '').replace(/[,]+$/g, '')
     },
     removeOrder (index) {
       if (index === undefined) this.ns = []

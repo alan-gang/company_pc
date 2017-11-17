@@ -7,16 +7,30 @@
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
-              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after !== null }, row.class || 'default', n.class]" @mouseover.native=" isCode && hover(index) " @mouseleave.native=" isCode && leaveSelect(index) " @click.native=" !isCode && toggle(n) "  @keyup.tab.native.stop=" isCode && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
+              // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
+              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
                 // 正常的显示
+                span.after(v-if=" n.after ") {{ n.after }}
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
-                span.after(v-if=" n.after !== null ") {{ n.after }}
-                                  
+
                 // 选码还得有输入框
-                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000")
+                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1")
 
                 // 筛子
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
+                
+                el-row(:span="24" v-if=" n.numbers ")
+                  
+                  el-col.circle.default(:span="2" v-for=" (nn, ii) in n.numbers " v-bind:class="[{ selected: n.selected }, nn.split(':')[1], n.class ]")
+                    span.the-number.circle(v-bind:class="{ selected: n.selected}") {{ nn.split(':')[0] }}
+
+                  // checkbox
+                  span.ds-checkbox-label(style="margin: .05rem 0 0 .1rem" v-bind:class="{active: n.selected}" @click=" n.selected = !n.selected " v-if=" n.checkbox ")
+                    .ds-checkbox( @click=" n.selected = !n.selected ")
+                  // input
+                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem")
+
+
 
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
@@ -26,6 +40,7 @@
 <script>
   import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
+  import { getNumberOfAnimal } from '../util/Number'
   export default {
     props: ['row', 'rowIndex', 'titleSpan', 'gameid'],
     data () {
@@ -82,8 +97,11 @@
       isCode () {
         return this.row.class ? this.row.class.indexOf('code') !== -1 : false
       },
+      isNA () {
+        return this.row.class ? this.row.class.indexOf('number-array') !== -1 : false
+      },
       showTitle () {
-        return !this.isDice
+        return !this.isDice && !this.isNA
       },
       // 根据玩法确定至多可以选择多少个号码
       sl () {
@@ -91,7 +109,7 @@
       },
       btnStatus () {
         let o = {}
-        let a = ['全:1', '大:0.5', '小:0.5', '奇:0.5', '偶:0.5', '质', '合', '清']
+        let a = ['全:1', '大:0.5', '小:0.5', '奇:0.5', '偶:0.5', '质', '合', '清', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土']
         a.forEach(n => {
           o[n.split(':')[0]] = !this.sl ? true : (this.numbers.length * (parseFloat(n.split(':')[1]) || 0)) < this.sl
         })
@@ -99,6 +117,13 @@
       }
     },
     watch: {
+      nsTimes () {
+        this.row.ns = this.ns
+        this.row.nsTitle = this.nsTitle.join(',')
+        this.row.nsTimes = this.nsTimes.join(',')
+        this.$emit('numbers-change')
+        this.btnIndex = this.getBtnIndex()
+      },
       ns () {
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
@@ -125,13 +150,22 @@
       __setDefaultTimes (n) {
         this.defaultTimes = n || 0
       },
-      hover (index) {
+      leave (index) {
         let n = this.numbers[index]
+        n.hover = false
+        if (n.selected && n.times <= 0) n.selected = false
+        return true
+      },
+      hover (index) {
+        let n = this.numbers[index] || this.numbers[0]
+        if (n.hover) return true
+        if (!n) return
         n.hover = true
-        if (!n.times) n.times = this.defaultTimes
+        if (!n.selected) n.times = this.defaultTimes
         setTimeout(() => {
-          this.$el.querySelector('[id="' + index + '"]').querySelector('input').focus()
+          this.$el.querySelector('[id="' + index + '"]') && this.$el.querySelector('[id="' + index + '"]').querySelector('input').focus()
         }, 0)
+        return true
       },
       // 暂时只对码生效
       leaveSelect (index) {
@@ -141,6 +175,9 @@
           this.toggle(n)
         }
         return true
+      },
+      __updateNumberRow () {
+        this.updateNumbers()
       },
       updateNumbers () {
         this.numbers = this.row.values || Array(this.row.max - this.row.min + 1).fill(0).map((n, index) => {
@@ -152,9 +189,9 @@
             // 单个号码样式
             class: this.isCode && this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
             // 单个号码的倍数
-            times: 0,
+            times: this.row.times,
             // 赔率
-            after: this.row.afters ? 'x' + this.row.afters[index] : null,
+            after: this.row.afters ? this.row.afters[index] : null,
             hover: false
           })
         })
@@ -185,14 +222,34 @@
           case '清':
             this.clear(btn.split(':')[1])
             break
+          case '鼠':
+          case '牛':
+          case '虎':
+          case '兔':
+          case '龙':
+          case '蛇':
+          case '马':
+          case '羊':
+          case '猴':
+          case '鸡':
+          case '狗':
+          case '猪':
+          case '金':
+          case '木':
+          case '水':
+          case '火':
+          case '土':
+            this.clear() && getNumberOfAnimal(btn.split(':')[0]).forEach(n => this.select(this.numbers[n - 1]))
         }
       },
       toggle (n) {
+        if (!n) return false
         n.selected = !n.selected
         // 加上号码的倍数
-        if (!n.selected) n.times = 0
-        if (n.selected && !n.times) n.times = this.defaultTimes || 2
-
+        if (n.times !== undefined) {
+          n.times = Math.ceil(n.times)
+          if (n.selected && !n.times) n.times = this.defaultTimes || 2
+        }
         if (this.sl && this.ns.length > parseInt(this.sl)) {
           this.lsn && this.lsn.selected && (this.lsn.selected = false)
         }
@@ -234,7 +291,7 @@
         if (!continuee) this.clear()
         if (rowIndex === undefined || this.rowIndex === rowIndex) {
           setTimeout(() => {
-            this.toggle(this.numbers[parseInt(Math.random() * this.numbers.length)])
+            this.toggle(this.numbers[parseInt(Math.random() * (this.numbers.length === 1 ? Math.random() * 10 : this.numbers.length))])
           }, 50 * this.rowIndex)
         }
       },
@@ -252,6 +309,7 @@
       },
       clear (signal) {
         this.numbers.forEach(n => this.unSelect(n, signal))
+        return true
       },
       prime (signal) {
         this.numbers.forEach(n => isPrime(n.value) ? this.select(n, signal) : this.unSelect(n, signal))
@@ -279,6 +337,9 @@
 </script>
 
 <style lang="stylus">
+  .number-array.selected .code-input
+    input
+      color #b30000
   .code-input.times.my-center 
     input
       padding 0 .15rem
@@ -296,13 +357,17 @@
         box-shadow none
         border none
         background-color rgba(0,0,0,0)
+          
+        
         
 </style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
     .el-row
-      
+      &.half-row
+        width 50%
+        display inline-block
       &.row
         padding 0 .2rem
         margin .05rem 0
@@ -357,7 +422,7 @@
         padding-right 2rem
       .el-col
         overflow
-        width GCH
+        line-height GCH
         position relative
         text-align center
         radius()
@@ -458,7 +523,42 @@
           //   line-height 2 * GCH
           //   .code-input
           //     top .2 * GCH
+        
+        &.number-array
+          width 100%
+          color #fff
+          padding-left .5rem
           
+          .el-row
+            text-align left
+            margin .1rem 0
+          .after
+            top .18rem
+            bottom auto
+            left 0
+            right auto
+            color DANGER
+            font-size .2rem
+          .el-col.o0
+            opacity 0
+          .el-col.danger
+            background-color DANGER
+          .el-col.green
+            background-color CODEGREEN
+          .el-col.blue
+            background-color BLUE
+          
+          .small-circle
+            font-size .14rem
+            min-height .32rem
+            width .32rem
+            height .32rem
+            line-height .32rem
+          .code-input
+            border-bottom 1px solid #ccc
+            &:hover
+              background-color #fff
+              
           
 
           
@@ -547,7 +647,7 @@
           opacity .5
     
     // https://codepen.io/giana/pen/yYBpVY
-    .circle:not(.dice):not(.square):not(.ds-icon-PK10)
+    .circle:not(.dice):not(.square):not(.ds-icon-PK10):not(.number-array)
       &::before,
       &::after
         top: 0;

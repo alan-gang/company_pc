@@ -8,7 +8,8 @@
     .scroll-content.function-help
       .content
         .item(v-for="(g, index) in notices") 
-          .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") {{ g.subject }}
+          .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
+            span {{ g.subject }}
             .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
@@ -94,6 +95,7 @@
       text-align left
       
       .item
+            
         margin PW 0
         padding-bottom .2rem
       .step
@@ -102,6 +104,10 @@
         font-size .18rem
         font-weight bold
         cursor pointer
+        &.text-black span
+          font-family Roboto
+          // font-size 0.72rem
+          font-gradient()
       .value
         margin-top 0
         line-height .22rem

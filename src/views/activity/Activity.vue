@@ -52,7 +52,7 @@
           // success
           if (data.success === 1) {
             this.activities = data.activityList || []
-            // this.activities = [{activityType: 1}, {activityType: 2}, {activityType: 3}, {activityType: 8}, {activityType: 4}, {activityType: 5}, {activityType: 6}, {activityType: 9}]
+            // this.activities = [{activityType: 1}, {activityType: 2}, {activityType: 3}, {activityType: 8}, {activityType: 4}, {activityType: 5}, {activityType: 6}, {activityType: 9}, {activityType: 10}]
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

@@ -65,7 +65,7 @@ export default {
                 {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
                 {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
                 {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
-                {id: '5-2-10', position: {width: '7.6rem'}, title: '直属总代日工资增加1w20', url: 'Salary'}
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'}
               ]
             }
           ]
