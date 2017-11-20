@@ -353,7 +353,6 @@
           let matchid = ((' ' + row.ids + ',').match(
             new RegExp(this.type.id.match(/^[+-]/) ? ('\\' + this.type.id + '(:\\d)*,') : '[^+-]' + this.type.id + '(:\\d)*,', 'g')
           ) || [])[0]
-          console.log(matchid, '???')
           if (matchid) {
             this.$set(row, 'id', matchid)
             // this.$set(row, 'index', index)

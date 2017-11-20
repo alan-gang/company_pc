@@ -389,7 +389,7 @@ export default {
       display inline-block
       margin 0 .1rem
       dt
-        font-size .18rem
+        font-size .14rem
         color BLUE
         font-shadow()
         padding PW 0 .18rem 0

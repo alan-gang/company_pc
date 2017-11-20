@@ -61,6 +61,7 @@
           // success
           if (data.success) {
             this.notices = data.sysNotices || []
+            // this.notices = [{subject: '快投30秒 (1711201201) 期199000'}]
             typeof fn === 'function' && fn()
             this.total = data.totalSize || this.notices.length
           }
@@ -105,9 +106,12 @@
         font-weight bold
         cursor pointer
         &.text-black span
-          font-family Roboto
+          // font-family Roboto
           // font-size 0.72rem
-          font-gradient()
+          // font-gradient()
+          background linear-gradient(90deg, #ff3350, #1a9ff3)
+          -webkit-background-clip text
+          -webkit-text-fill-color transparent
       .value
         margin-top 0
         line-height .22rem
@@ -115,4 +119,4 @@
 <style lang="stylus">
   .night .function-help .item:hover .text-666
     color #fff
-</style>
+</style> 
