@@ -101,7 +101,8 @@ let Login = {
   resetPwd: '/login/forgetPwd.do?method=resetPwd',
   // 获取所有线路域名
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=getEnableLines
-  getEnableLines: '/login/lineTest.do?method=getEnableLines',
+  // getEnableLines: '/login/lineTest.do?method=getEnableLines',
+  getEnableLines: '/login/lineTest.do?method=getNewEnableLines',
   // 测试线路
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
   lineTest: '/login/lineTest.do?method=lineTest',

@@ -1,14 +1,14 @@
 <template lang="jade">
   .lefter.ds-gm-icon-logo
     Menus(:menus="menus").scroll-content
-    Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout")
+    Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout" v-if="!hideme")
 </template>
 
 <script>
 import Menus from 'mycomponents/Menus'
 import Meinfo from 'mycomponents/Meinfo'
 export default {
-  props: ['menus', 'name', 'money', 'free'],
+  props: ['menus', 'name', 'money', 'free', 'hideme'],
   data () {
     return {
     }
@@ -30,9 +30,16 @@ export default {
   @import '../../../src/var.stylus'
   TH = 1rem
   .lefter
+    right auto
+    width LW
+    z-index 1
     background-color rgba(104,104,200, .15)
     .scroll-content
       top TH
       bottom BH
+    
+    &.in-classic
+      bottom 0
+      background none
     
 </style>

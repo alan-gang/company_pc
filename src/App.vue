@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  #app(:class=" [state.user.model, 'app'] ")
+  #app(:class=" [state.user.mode, state.user.model, 'app'] ")
     
     // vue-progress-bar
     
@@ -21,11 +21,16 @@
     // Print
     Print(:data="printData" v-if="showPrint")
 
+    // lefter
+    // transition(name="slide-left" appear=true)
+    //   dsLefter.scroll-content.in-classic(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' " v-on:logout="logout" v-bind:hideme="true")
+
 
 </template>
 
 <script>
 // import util from './util'
+import dsLefter from 'mycomponents/Lefter'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
 import Print from './components/Print'
@@ -749,7 +754,8 @@ export default {
           hasBankCard: data.hasBankCard === '1',
           guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
           cbsafe: !!data.isOpenKey,
-          safeCheck: data.verifyType
+          safeCheck: data.verifyType,
+          vip: data.isVip
         })
         // this.$router.push('/')
         this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
@@ -943,7 +949,8 @@ export default {
   components: {
     dsHeader,
     dsFooter,
-    Print
+    Print,
+    dsLefter
     // Chat
   }
 }
@@ -988,6 +995,7 @@ export default {
   @import './path.stylus'
   @import './main.stylus'
   @import './night.stylus'
+  // @import './classic.stylus'
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
   // @import './chat.wap.stylus'

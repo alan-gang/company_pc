@@ -791,14 +791,21 @@ pre
     background url($ASSETS/m.png) left center no-repeat
     position relative
     &.vip:after
+      font-size .08rem
       position absolute
-      left .2rem
-      top -.03rem
-      content ''
+      left .18rem
+      top -.07rem
+      content  'vip'attr(level)
+      // content attr('level')
       display inline-block
-      width .26rem
+      width .36rem
       height .16rem
-      background url($ASSETS/vip.png) center no-repeat
+      line-height .15rem
+      color #fff
+      text-align center
+      bg-gradient(180deg, #d0b968, #baa148)
+      // radius(1px)
+      // background url($ASSETS/vip.png) center no-repeat
 
   .ds-icon-money
     background url($ASSETS/$.png) left center no-repeat
