@@ -148,7 +148,7 @@
             el-row
               el-col(:span="6")
                 游戏用户：
-                span.text-black {{ row.nickName }}
+                span.text-black {{ row.userName }}
               el-col(:span="6")
                 游戏：
                 span.text-black {{ row.lotteryName }}
@@ -412,7 +412,7 @@
           last: true,
           difMoney: this.amount[0].difMoney,
           entry: '小结：',
-          nickName: '本页变动金额',
+          userName: '本页变动金额',
           times: '',
           title: '',
           lotteryName: '',

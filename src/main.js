@@ -1,9 +1,9 @@
 
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
-Vue.config.devtools = false
-Vue.config.silent = true
-Vue.config.productionTip = false
+// Vue.config.devtools = false
+// Vue.config.silent = true
+// Vue.config.productionTip = false
 import './polyline'
 
 import config from './config'
@@ -104,10 +104,10 @@ ________________s$$$$$$$$$$$$$$8$$$$$$$s_____s$$$s_$$__$$_____________
 ________s898989898988$$$$$$$$$$9s$s__s$$$$$$s___$$s_$s$$$_____________
 _____s$$$$$s$$$$$$$$$$$$$$s____8$s$$$$$$$$$$$$$s____$$$$s_____________
 ___s$$$$__s$$$$$$$$$s_____s$$$$$s$$$$$$$$$$$$$$$$$s__$$$______________
-___s$___$$$$$$______s$$$$$$$s_s$$$$$$$$$$$$$$$$$$$$$____$$$___________`)
-console.log(`______s$$$s___s$$$$$$$$$$$___$$$$%c` + String.fromCharCode.apply(String, p), 'color: transparent; font-weight: bold;border: 2px solid currentColor; padding: 2px', '$$$$$$$$$$$s$$$$$$$$_________')
-console.log(`_____$$$__s$$$$$$$__$$$$$%c` + String.fromCharCode.apply(String, pp), 'color: transparent; font-weight: bold;border: 2px solid currentColor; padding: 2px', '$$$$$s$s$_$$$$$$$$$$$$_______')
-console.log(`____$$$_$$$$$$i$$$$$s_$$__$$$$$$$$$$$$$$$$$$$ss$$$s$$$$$$$$s$$________
+___s$___$$$$$$______s$$$$$$$s_s$$$$$$$$$$$$$$$$$$$$$____$$$___________
+______s$$$s___s$$$$$$$$$$$___$$$$$$$$$$$$$$$s$$____$$$$$$$$$__________
+_____$$$__s$$$$$$$__$$$$$$$$$$s$s$_$$$$$$$$$$$$______$$$$$$$$_________
+____$$$_$$$$$$i$$$$$s_$$__$$$$$$$$$$$$$$$$$$$ss$$$s$$$$$$$$s$$________
 ___$$__$$$__s$$$$ss__$$_$$$$88888$$$$99$$$$$s$$$$$_$$$$e$$s$__________
 __$$_s$$___$$$$s_$$_$$s$$$$$88888$$$$99$$$$s$$$$$s_$$$$$$s$___________
 _s$s$$$___$$$$_s$$__$$__$$$$88888$$$$99$$$_$$$$$$$_s_$$$______________
@@ -145,8 +145,10 @@ __________________________88__$$s_____________________________________`)
 console.log(`======================================================================`)
 console.log(`%cpowerd by vue cmeateye!`, 'color: pink;')
 console.log(`======================================================================`)
-// Object.defineProperty(window, 'author', {
-//   get: function () {
-//     return 'tel: ' + String.fromCharCode.apply(String, p.concat(pp))
-//   }
-// })
+Object.defineProperty(window, 'author', {
+  get: function () {
+    return 'tel: ' + String.fromCharCode.apply(String, p.concat(pp))
+  }
+})
+// console.log(`` + String.fromCharCode.apply(String, p), 'color: transparent; font-weight: bold;border: 2px solid currentColor; padding: 2px', '')
+// console.log(`_____$$$__s$$$$$$$__$$$$$%c` + String.fromCharCode.apply(String, pp), 'color: transparent; font-weight: bold;border: 2px solid currentColor; padding: 2px', '')

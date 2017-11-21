@@ -29,7 +29,7 @@
       .ds-button.xx-small.outline.plus(size="mini" @click="t++" v-show="!HC6") 十
       span.bei(v-show="!HC6") &nbsp;倍
       .ds-button-group
-        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}") {{c.title}}
+        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
       
       el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
       span.p(v-if="P" v-show="!HC6") {{ ps}} - {{ prize }}
