@@ -252,9 +252,17 @@ body.classic
     bottom 0
     &>.inner-bar
       display none
+    
+
+
     .game-content.scroll-content
       bottom 0 !important
       padding-bottom 0
+      
+      .inner-order-bar
+      .inner-amount-bar
+        display block !important
+
       // max-height 100%
     .game-recent-order
       position relative
@@ -278,6 +286,7 @@ body.classic
       top 0
     &.game-page
       width 10rem !important
+      min-width 980px important
       background none
       box-shadow none
       .ds-icon-cooking 
@@ -300,12 +309,13 @@ body.classic
       .game-recent-order
         display block
         @media(max-height: 900px)
-          display none
+          // display none
 
       .game-content
       .inner-bar
+      .game-info
         max-width 10rem !important
-        
+        min-width 980px !important
         .game-info .left
           .ds-button
             &:first-child

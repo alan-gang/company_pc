@@ -34,10 +34,10 @@
       <!-- 追号记录 -->
       // GameFollowHistory
 
-      GameOrderBar.fixed.inner-bar(v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+      GameOrderBar.fixed.inner-bar.inner-order-bar(v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" style="display: none")
       
       <!-- 总计栏 -->
-      GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+      GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0" style="display: none")
 
       GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
 
@@ -335,7 +335,7 @@ export default {
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.post(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
@@ -368,7 +368,7 @@ export default {
     },
     // 获得当前正在进行的奖期信息
     __getIssue () {
-      this.$http.post(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) {
           // 当前期
@@ -394,7 +394,7 @@ export default {
     },
     // 获得该游戏所有返点信息
     getUserpoint () {
-      this.$http.post(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) this.PS = data.items
       }, (rep) => {
@@ -402,7 +402,7 @@ export default {
       })
     },
     __getTraceIssueList () {
-      this.$http.post(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) {
           // data.items.forEach(d => (d.selected = false))
