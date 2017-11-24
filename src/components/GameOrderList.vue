@@ -85,6 +85,10 @@
       .el-table__body-wrapper
         // padding-right .3rem
         max-height H
+    
+    
+    
+</style>
       
 </style>
 

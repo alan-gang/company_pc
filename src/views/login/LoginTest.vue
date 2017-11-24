@@ -152,7 +152,7 @@
           if (rep.status !== 0) {
             this.$set(this[timeList], i, '> 10000')
             this.$set(this[timeList + 'Value'], i, 0)
-            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.replace('www.', '')) {
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.line.replace('www.', '')) {
               window.localStorage.removeItem('api')
             }
           }

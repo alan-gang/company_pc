@@ -23,7 +23,7 @@ const modal = (options = {}) => {
   options.target.appendChild(instance.$el)
   return instance
 }
-['confirm', 'question', 'warn', 'success', 'redpocket'].forEach(m => {
+['confirm', 'question', 'warn', 'success', 'redpocket', 'info'].forEach(m => {
   modal[m] = (options = {}) => {
     return modal(Object.assign(options, {type: m}))
   }

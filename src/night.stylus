@@ -7,7 +7,7 @@ body.night
   .el-popover.footer-popover
     background-color #16161d
     
-.app.night
+#app.night
   // icon
   
   // common
@@ -64,6 +64,22 @@ body.night
   // 1. change background of dialog-page
   .dialog-page
     background-color #333
+    
+    // ========================== new version fixed
+    &.game-page .ds-icon-cooking 
+      background-color #333
+      
+    .game-recent-order
+      background-color #333
+    &.game-page .game-content
+      background-color #333
+      .menu .title.selected
+      .menu .row
+        background-color #444
+        .ds-button.selected
+          color #fff
+    
+        
     &.full
       &:after
         background-color #333
@@ -205,12 +221,14 @@ body.night
   
   // 4. change input of dialog-page
   .dialog-page
+    
     input
       color #aaa
       background-color #444
       border border
       &:hover
         border-color BLUE
+        
   
   // 5. change ds-group of dialog-page
   .dialog-page

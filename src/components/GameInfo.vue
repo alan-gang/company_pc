@@ -9,16 +9,26 @@
       el-popover(placement="bottom-start" trigger="click" v-model="more" v-bind:popper-class="'popover-instruction font-white'" )
         span(slot="reference")
           span.ds-button.instruction.primary(ref="instruction") ? {{ type.title }}
+          .ds-button.outline.recent-codes(ref="instruction" style="display: none") ? 玩法说明
         slot
             p(style="line-height: .25rem")
-              span.label.font-gold 玩法说明：
+              span.label.text-blue.text-bold 玩法说明：
               {{ type.description || '暂无' }}
             p(style="line-height: .25rem")
-              span.label.font-gold 中奖举例：
+              span.label.text-blue.text-bold 中奖举例：
               {{ type.example || '暂无' }}
 
       
       router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
+
+      
+      el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist m popover-luckynumber'" ref="MO" v-if="!nopopper")
+        span(slot="reference")
+          .ds-button.outline.recent-codes(style="margin-left: .05rem;padding: 0 .15rem; display: none") 近期开奖
+          
+        slot
+          GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-if="allLuckyNumbers")
+
       .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
 
     el-col.right(:span="5")
@@ -66,6 +76,7 @@
 import util from '../util'
 import api from '../http/api'
 import M from '../util/M'
+import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
   props: {
     // NPER: Number,
@@ -73,7 +84,8 @@ export default {
     timeout: Number,
     type: Object,
     gameid: Number,
-    gameType: String
+    gameType: String,
+    allLuckyNumbers: Array
     // title: String
   },
   data () {
@@ -227,6 +239,7 @@ export default {
     }
   },
   components: {
+    GameLuckyNumberHistory
   }
 }
 </script>
@@ -238,25 +251,31 @@ export default {
     background-color #ff
     border 1px solid #ccc
     shadow(0 0 10px rgba(0,0,0,.3))
+    &.m
+      transform translateY(0rem) translateX(.05rem)
     
   .popover-instruction
     // display none
     // top 100%
     transition none
     max-width 4.5rem
-    transform translateX(.2rem) translateY(-.1rem)
+    transform translateX(.2rem) translateY(0rem)
     padding PW .2rem 0 .2rem
     text-align left
-    background-color rgba(22, 113, 188, .95)
+    // background-color rgba(22, 113, 188, .95)
     box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
-    radius()
+    
+    background-color #ff
+    border 1px solid #ccc
+    shadow(0 0 10px rgba(0,0,0,.3))
+    color #666
+    text-shadow none
     border-top-left-radius 0
     z-index 1
     cursor text
     user-select text
-    
+    radius()
     p
-      
       min-width 3.6rem
       padding-left .75rem
       margin 0 0 PW 0

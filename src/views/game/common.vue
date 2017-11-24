@@ -13,7 +13,7 @@
       <!-- 开奖信息 -->
       GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
       <!-- 游戏信息 -->
-      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid")
+      GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -34,6 +34,13 @@
       <!-- 追号记录 -->
       // GameFollowHistory
 
+      GameOrderBar.fixed.inner-bar(v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+      
+      <!-- 总计栏 -->
+      GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+
+      GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
+
     <!-- 总计栏 -->
     GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
@@ -41,6 +48,9 @@
 
     <!-- 历史开奖信息 -->
     // GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class=" {show: showLuckyNumberHistory} ")
+
+    // 最近投注
+    // GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
 
 </template>
 <script>
@@ -55,6 +65,7 @@ import GameOrderList from 'components/GameOrderList'
 import GameAmountBar from 'components/GameAmountBar'
 import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
+import GameRecentOrder from 'components/GameRecentOrder'
 import api from '../../http/api'
 import M from '../../util/M'
 import util from '../../util'
@@ -447,6 +458,9 @@ export default {
           // this.__setCall({fn: '__getOrderList'})
           // this.__setCall({fn: '__getFollowList'})
           this.__setCall({fn: '__getUserFund', callId: undefined})
+          setTimeout(() => {
+            this.__setCall({fn: '__orderlist'})
+          }, 200)
           this.ns = []
           this.follow.items = []
         } else {
@@ -548,6 +562,10 @@ export default {
           setTimeout(() => {
             this.__setCall({fn: '__getUserFund', callId: undefined})
           }, 200)
+          setTimeout(() => {
+            this.__setCall({fn: '__orderlist'})
+          }, 400)
+
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
@@ -819,7 +837,8 @@ export default {
     GameAmountBar,
     GameFollowbar,
     GameFollowList,
-    GameLuckyNumberHistory
+    GameLuckyNumberHistory,
+    GameRecentOrder
     // GameOrderHistory,
     // GameFollowHistory
   }

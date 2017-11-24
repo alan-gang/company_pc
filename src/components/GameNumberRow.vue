@@ -14,7 +14,7 @@
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
 
                 // 选码还得有输入框
-                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1")
+                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1" @click.native.stop=" !row.noClick && !n.selected && toggle(n) ")
 
                 // 筛子
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
@@ -469,19 +469,19 @@
           &.danger
             color DANGER
             // &:hover
-            &.hover
+            // &.hover
             &.selected
               background-color DANGER
           &.blue
             color BLUE
             // &:hover
-            &.hover
+            // &.hover
             &.selected
               background-color BLUE
           &.green
             color CODEGREEN
             // &:hover
-            &.hover
+            // &.hover
             &.selected
               background-color CODEGREEN
             
@@ -503,13 +503,22 @@
 
           // &:hover
           &.hover
-            opacity .5
+            // opacity .5
             .code-input
               background-color rgba(0,0,0,.2) 
               
           
-          &.selected    
           &.hover
+            // color #fff
+            line-height GCH
+            .after
+              bottom 0.2 * GCH
+              // color #fff
+              // opacity .6
+            .code-input
+              opacity 1
+              
+          &.selected    
             color #fff
             line-height GCH
             .after

@@ -529,6 +529,8 @@ pre
   color #999
 .text-orange
   color ORANGE
+.text-bold
+  font-weight bold
     
 
 /*
@@ -537,9 +539,13 @@ pre
   
   .ds-icon-rmb-sign
       background url($ASSETS/icon_rmb.png) left center no-repeat
+      // input
+      //   color GOLD !important
+      //   border none !important
+      //   background none !important
     
   // game icons
-  .ds-icon-game-lhg0010
+  .ds-icon-game-lhg00
       background url($ASSETS/game/new/lhg00.png) center no-repeat
 
 

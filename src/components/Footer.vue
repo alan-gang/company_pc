@@ -2,9 +2,9 @@
   footer(ref="myFooter")
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
-          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" v-bind:placement=" mode ? 'top' : 'bottom' " trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ")
+          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title ")
           slot
             dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
@@ -83,9 +83,9 @@
 
         .switch-box.ds-icon-day-model(:class=" { no: !day} " style="margin-right: .05rem")
           el-switch(v-model="day" on-text="日" off-text="夜" on-color="#ccc" off-color="#13ce66" v-bind:width="W")
-        
-        // .switch-box(style="display: inline-block")
-        //   el-switch(v-model="mode" on-text="时尚" off-text="经典" on-color="#ccc" off-color="#13ce66" v-bind:width="60")
+        // classic use
+        .switch-box(style="display: inline-block")
+          el-switch(v-model="mode" on-text="时尚" off-text="经典" on-color="#ccc" off-color="#13ce66" v-bind:width="60")
 
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
@@ -186,10 +186,18 @@ export default {
     },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
-      document.body.className = this.day ? 'day' : 'night'
+      document.body.className = document.body.className.replace('day', '').replace('night', '')
+      document.body.className += ' ' + (this.day ? 'day' : 'night')
     },
     mode () {
       store.actions.setUser({mode: this.mode ? 'fashion' : 'classic'})
+      document.body.className = document.body.className.replace('fashion', '').replace('classic', '')
+      document.body.className += ' ' + (this.mode ? 'fashion' : 'classic')
+      this.getPos()
+      setTimeout(this.getPos, 0)
+      setTimeout(this.getPos, 50)
+      setTimeout(this.getPos, 100)
+      setTimeout(this.getPos, 500)
       // document.body.className = this.mode ? 'classic' : 'fashion'
     },
     more () {
@@ -377,11 +385,15 @@ export default {
     .submenu
       &.hover-show-ssubmenu
         .ssubmenu
+          max-width 3rem
+          
           .submenu
             margin .15rem 0
             float none
             min-width 1.5rem
-          max-width 3rem
+            width auto 
+            background none
+            box-shadow none !important
           &.toolong
             top -1.5rem
           padding 0
@@ -389,9 +401,12 @@ export default {
           left 100%
           top -.15rem
           display none
+          // .ds-button
+          //   line-height initial
         & > dd
           position relative
           &:hover .ssubmenu
+          // .ssubmenu
             display block
       float left
       display inline-block

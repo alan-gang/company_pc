@@ -1,5 +1,5 @@
 <template lang="jade">
-  .lefter.ds-gm-icon-logo
+  .lefter.ds-gm-icon-logo(:class= "[ menus[0].url ]")
     Menus(:menus="menus").scroll-content
     Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout" v-if="!hideme")
 </template>
@@ -38,8 +38,6 @@ export default {
       top TH
       bottom BH
     
-    &.in-classic
-      bottom 0
-      background none
+    
     
 </style>
