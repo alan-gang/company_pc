@@ -134,6 +134,7 @@ export default {
           class: 'ds-icon-gift',
           hide: true,
           url: 'activity',
+          mi: 10,
           groups: [
             {
               title: '活动中心',
@@ -836,7 +837,7 @@ export default {
             }
             i.menuClass = g.class || m.class
             i = Object.assign({}, {
-              mi: mi,
+              mi: m.mi || mi,
               opened: false,
               active: false,
               // pre activated

@@ -119,8 +119,8 @@ body.classic
       display block
       left 0
       transform none
-      background-size 90%
-      background-position 0 .05rem
+      width 1.5rem
+      background url($ASSETS/old_logo.png) center center no-repeat 
       @media(max-width: 1500px)
         display none
     .el-col-offset-4
@@ -136,7 +136,7 @@ body.classic
         float left
       
     .menu
-      margin-left 1.8rem
+      margin-left 1.5rem
       @media(max-width: 1500px)
         margin-left 0
     .logo.ds-icon-pot
@@ -154,7 +154,8 @@ body.classic
       &:after
         content attr(mytitle)
         color #fff
-        line-height FH
+        // line-height FH
+        padding-top 0.25rem
         // background none
         text-align center
         position absolute
