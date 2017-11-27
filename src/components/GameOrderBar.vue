@@ -105,7 +105,10 @@ export default {
       return (this.p / 100).toFixed(2) + '%'
     },
     prize () {
-      return ((this.P.maxprize - (this.p - this.min) * (this.P.maxprize - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
+      return ((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
+    },
+    MAX () {
+      return this.P.maxprize - parseFloat((this.P.scale * this.P.minpoint * 100).toFixed(3))
     }
   },
   watch: {

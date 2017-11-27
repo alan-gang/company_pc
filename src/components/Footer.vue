@@ -51,7 +51,7 @@
       el-col.info(:span="10" v-bind:offset="4")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            span.name.ds-icon-m.font-light(v-show="!hide" v-bind:class="{vip: !!vip}" v-bind:level = " vip ") {{ name }}
+            span.name.ds-icon-m.font-light.vip(v-show="!hide" v-bind:class="{vip: !!vip}" v-bind:level = " vip ") {{ name }}
             span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
             // span.free.ds-icon-free.font-light(v-show="!hide" ) {{ free || '0.000' }}
           slot
