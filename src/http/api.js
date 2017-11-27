@@ -1,5 +1,5 @@
-// let api = 'http://192.168.169.44:19901/cagamesclient'
-let api = window.localStorage.getItem('api') || 'https://api.cb868.net:1888/cagamesclient'
+let api = 'http://192.168.169.44:19901/cagamesclient'
+// let api = window.localStorage.getItem('api') || 'https://api.cb868.net:1888/cagamesclient'
 // let api = 'http://13.113.163.174:1888/cagamesclient'
 // online new
 // let api = 'http://119.9.91.210:1888/cagamesclient'
