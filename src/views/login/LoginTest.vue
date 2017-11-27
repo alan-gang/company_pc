@@ -2,8 +2,8 @@
   .login-test
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
-      el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r)")
-        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.replace('www.', '') === currentServer.replace('www.', '') }")
+      el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r.line)")
+        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index {{ index + 1 }}
           |  线 
@@ -39,6 +39,7 @@
     },
     data () {
       return {
+        api: api.api,
         frontList: [],
         frontTimeList: [],
         frontTimeListValue: [],
@@ -87,7 +88,12 @@
     },
     watch: {
       fastServer () {
-        if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
+        // if (!this.server && !window.localStorage.getItem('api')) api.api = this.fastServer
+        if (!this.server) {
+          // setTimeout(() => {
+          //   if (!store.state.user.login) api.api = this.fastServer
+          // }, 3000)
+        }
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // this.cs = this.fastServer
         // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -119,6 +125,9 @@
         // this.frontList = ['http://www.baidu.com']
         !this.server && this.frontList.forEach((url, i) => {
           this.testAline(url, i, 'frontTimeList')
+          if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
+            api.api = (this.serverList.find(n => n.group === url.group) || {line: ''}).line || api.api
+          }
         })
         // let SESSION = cookie.get('SESSION', {domain: Url.extractHostname(api.api)})
         // console.log(Url.extractHostname(api.api), SESSION)
@@ -133,7 +142,7 @@
       },
       testAline (url, i, timeList) {
         const st = new Date().getTime()
-        this.$http.jsonp(url).then((rep) => {
+        this.$http.jsonp(url.line).then((rep) => {
         }, (rep) => {
           // block8/3 console.log('success testing', rep)
           const et = new Date().getTime()
@@ -143,7 +152,7 @@
           if (rep.status !== 0) {
             this.$set(this[timeList], i, '> 10000')
             this.$set(this[timeList + 'Value'], i, 0)
-            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.replace('www.', '')) {
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.line.replace('www.', '')) {
               window.localStorage.removeItem('api')
             }
           }

@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  #app(:class=" [state.user.model, 'app'] ")
+  #app(:class=" [state.user.mode, state.user.model, 'app'] ")
     
     // vue-progress-bar
     
@@ -21,11 +21,16 @@
     // Print
     Print(:data="printData" v-if="showPrint")
 
+    // lefter
+    transition(name="slide-left" appear=true)
+      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
+
 
 </template>
 
 <script>
 // import util from './util'
+import dsLefter from 'mycomponents/Lefter'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
 import Print from './components/Print'
@@ -46,30 +51,9 @@ export default {
       loop: true,
       maxPages: 5,
       state: store.state,
+      Me: store.state.user,
       tabs: [],
       menus: [
-        {
-          class: 'ds-icon-gift',
-          hide: true,
-          url: 'activity',
-          groups: [
-            {
-              items: [
-                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
-                {id: '5-2-1', position: {width: '7.6rem'}, title: '亿元豪送', url: 'ForRegister'},
-                {id: '5-2-2', position: {width: '7.6rem'}, title: '新用户有礼', url: 'ForNewUser'},
-                {id: '5-2-3', position: {width: '7.6rem'}, title: '全民签到', url: 'ForAll'},
-                {id: '5-2-4', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopup'},
-                {id: '5-2-5', position: {width: '7.6rem'}, title: '首提大返利', url: 'ForWithdraw'},
-                {id: '5-2-6', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopupA'},
-                {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
-                {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
-                {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
-                {id: '5-2-10', position: {width: '7.6rem'}, title: '直属总代日工资增加1w20', url: 'Salary'}
-              ]
-            }
-          ]
-        },
         {
           class: 'ds-icon-record',
           hide: true,
@@ -86,22 +70,6 @@ export default {
                   position: {
                     width: '10rem'
                   }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          class: 'ds-icon-download',
-          hide: true,
-          url: 'download',
-          groups: [
-            {
-              items: [
-                {
-                  id: '7-1-1',
-                  title: '下载中心',
-                  url: 'Download'
                 }
               ]
             }
@@ -147,10 +115,50 @@ export default {
           ]
         },
         {
+          class: 'ds-icon-download',
+          hide: true,
+          url: 'download',
+          groups: [
+            {
+              items: [
+                {
+                  id: '7-1-1',
+                  title: '下载中心',
+                  url: 'Download'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          class: 'ds-icon-gift',
+          hide: true,
+          url: 'activity',
+          mi: 10,
+          groups: [
+            {
+              title: '活动中心',
+              items: [
+                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
+                {id: '5-2-1', position: {width: '7.6rem'}, title: '亿元豪送', url: 'ForRegister'},
+                {id: '5-2-2', position: {width: '7.6rem'}, title: '新用户有礼', url: 'ForNewUser'},
+                {id: '5-2-3', position: {width: '7.6rem'}, title: '全民签到', url: 'ForAll'},
+                {id: '5-2-4', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopup'},
+                {id: '5-2-5', position: {width: '7.6rem'}, title: '首提大返利', url: 'ForWithdraw'},
+                {id: '5-2-6', position: {width: '7.6rem'}, title: '充值送', url: 'ForTopupA'},
+                {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
+                {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
+                {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'}
+              ]
+            }
+          ]
+        },
+        {
           id: 0,
           class: 'ds-icon-home',
           href: '/home',
-          titl: '首页',
+          title: '首页',
           menuid: '1'
         },
         {
@@ -176,7 +184,9 @@ export default {
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '73', title: '六合彩', gameid: 10000}
+                {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', gameid: 2},
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29},
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
             },
             {
@@ -188,8 +198,7 @@ export default {
                 {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', gameid: 12},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-2-6', menuid: '8', title: '腾讯分分彩', gameid: 2}
+                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19}
               ]
             },
             {
@@ -248,7 +257,7 @@ export default {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
-          title: '',
+          title: '个人',
           url: 'me',
           groups: [
             {
@@ -298,7 +307,7 @@ export default {
         {
           id: 3,
           class: 'ds-icon-group',
-          title: '团队管理',
+          title: '团队',
           menuid: '4',
           url: 'group',
           groups: [
@@ -418,7 +427,7 @@ export default {
         {
           id: 4,
           class: 'ds-icon-record',
-          title: '报表统计',
+          title: '报表',
           menuid: '5',
           url: 'form',
           size: 'full',
@@ -556,7 +565,7 @@ export default {
         {
           id: 5,
           class: 'ds-icon-gift',
-          title: '活动中心',
+          title: '活动',
           // href: '/activity/5-1-1',
           url: 'activity',
           menuid: '6',
@@ -573,7 +582,7 @@ export default {
         {
           id: 6,
           class: 'ds-icon-help',
-          title: '帮助中心',
+          title: '帮助',
           url: 'help',
           menuid: '7',
           groups: [
@@ -635,7 +644,8 @@ export default {
           url: 'chat'
         }
       ],
-      menuids: ''
+      menuids: '',
+      activeMenu: []
     }
   },
   computed: {
@@ -659,9 +669,30 @@ export default {
         if (t.prev > prev.prev && t.id !== (this.currentab[0] || {}).id && t.size !== 'minus') prev = t
       })
       return prev
+    },
+    mi () {
+      return (this.currentab[0] || {mi: -1}).mi
     }
   },
   watch: {
+    mi () {
+      setTimeout(() => {
+        if (this.mi > 2 || this.mi < 0) {
+          this.activeMenu = [this.menus[this.mi]][0] ? [this.menus[this.mi]] : []
+        }
+      }, this.mi ? 0 : 500)
+    },
+    'Me': {
+      deep: true,
+      handler () {
+        if (this.Me.mode === 'classic') {
+          this.maxPages = 1
+          this.ctabs.forEach(t => {
+            if (t.opened && !t.active) t.opened = false
+          })
+        } else this.maxPages = 5
+      }
+    },
     menus () {
       this.setPages(this._getPages())
     },
@@ -702,7 +733,7 @@ export default {
       this.showPrint = false
     },
     tryLogin () {
-      let M = this.$modal.warn({
+      let M = this.$modal.info({
         content: '授权登录中...',
         btn: [],
         close () {
@@ -716,6 +747,7 @@ export default {
           setTimeout(() => {
             this.loginSuccess(data)
             M.type = 'success'
+            M.content = '登录成功！'
           }, 500)
           setTimeout(M._close, 1000)
         } else {
@@ -748,7 +780,8 @@ export default {
           hasBankCard: data.hasBankCard === '1',
           guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
           cbsafe: !!data.isOpenKey,
-          safeCheck: data.verifyType
+          safeCheck: data.verifyType,
+          vip: data.isVip
         })
         // this.$router.push('/')
         this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
@@ -804,6 +837,7 @@ export default {
             }
             i.menuClass = g.class || m.class
             i = Object.assign({}, {
+              mi: m.mi || mi,
               opened: false,
               active: false,
               // pre activated
@@ -887,7 +921,7 @@ export default {
     },
     // 5、查询菜单、桌面、收藏夹 PC接口
     getUserPrefence (fn) {
-      let M = this.$modal.warn({
+      let M = this.$modal.info({
         content: '获取权限信息中...',
         btn: [],
         close () {
@@ -919,6 +953,8 @@ export default {
           })
           typeof fn === 'function' && fn()
           M._close()
+        } else {
+          M._close()
         }
       }, (rep) => {
         // error
@@ -940,7 +976,8 @@ export default {
   components: {
     dsHeader,
     dsFooter,
-    Print
+    Print,
+    dsLefter
     // Chat
   }
 }
@@ -984,6 +1021,7 @@ export default {
   @import './var.stylus'
   @import './path.stylus'
   @import './main.stylus'
+  @import './classic.stylus'
   @import './night.stylus'
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'

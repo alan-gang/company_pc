@@ -2,9 +2,9 @@
   footer(ref="myFooter")
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top" trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false)" offset="0" v-model="shows[index]" v-show="!menu.hide") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)")
-          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="")
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" v-bind:placement=" mode ? 'top' : 'bottom' " trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
+          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ")
+          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title ")
           slot
             dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
@@ -51,20 +51,20 @@
       el-col.info(:span="10" v-bind:offset="4")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            span.name.ds-icon-m.font-light(v-show="!hide" v-bind:class="{vip: vip}") {{ name }}
+            span.name.ds-icon-m.font-light.vip(v-show="!hide" v-bind:class="{vip: !!vip}" v-bind:level = " vip ") {{ name }}
             span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
             // span.free.ds-icon-free.font-light(v-show="!hide" ) {{ free || '0.000' }}
           slot
             dl
               dd(style="padding-bottom: .1rem")
                 el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
-                  button.ds-button.primary(slot="reference" @click="checkinNow") 签到
+                  button.ds-button.primary.full(slot="reference" @click="checkinNow") 签到
                   slot 
                     p 已连续签到
                       span.font-blue {{ checkDays }}天
                       |，今日
                       span.font-gold +{{ prizeAmount }}金币
-                .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
+                // .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
               dd 
@@ -81,8 +81,11 @@
         span.ds-button.danger(@click="doRecharge" v-if="!isTry && me.canTopUp") 充值
         span.ds-button.primary(@click="withDraw" v-if="!isTry && me.canWithDraw") 提现
 
-        .switch-box.ds-icon-day-model(:class=" { no: !day} ")
+        .switch-box.ds-icon-day-model(:class=" { no: !day} " style="margin-right: .05rem")
           el-switch(v-model="day" on-text="日" off-text="夜" on-color="#ccc" off-color="#13ce66" v-bind:width="W")
+        // classic use
+        .switch-box(style="display: inline-block")
+          el-switch(v-model="mode" on-text="时尚" off-text="经典" on-color="#ccc" off-color="#13ce66" v-bind:width="60")
 
         span.ds-icon-full-screen(:class=" { no: full } " @click="fullScreen")
 
@@ -131,6 +134,7 @@ export default {
       // name: '一介草民',
       hide: false,
       day: true,
+      mode: true,
       W: 48,
       full: false,
       checkDays: 0,
@@ -182,7 +186,19 @@ export default {
     },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
-      document.body.className = this.day ? 'day' : 'night'
+      document.body.className = document.body.className.replace('day', '').replace('night', '')
+      document.body.className += ' ' + (this.day ? 'day' : 'night')
+    },
+    mode () {
+      store.actions.setUser({mode: this.mode ? 'fashion' : 'classic'})
+      document.body.className = document.body.className.replace('fashion', '').replace('classic', '')
+      document.body.className += ' ' + (this.mode ? 'fashion' : 'classic')
+      this.getPos()
+      setTimeout(this.getPos, 0)
+      setTimeout(this.getPos, 50)
+      setTimeout(this.getPos, 100)
+      setTimeout(this.getPos, 500)
+      // document.body.className = this.mode ? 'classic' : 'fashion'
     },
     more () {
       this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
@@ -369,11 +385,15 @@ export default {
     .submenu
       &.hover-show-ssubmenu
         .ssubmenu
+          max-width 3rem
+          
           .submenu
             margin .15rem 0
             float none
             min-width 1.5rem
-          max-width 3rem
+            width auto 
+            background none
+            box-shadow none !important
           &.toolong
             top -1.5rem
           padding 0
@@ -381,15 +401,18 @@ export default {
           left 100%
           top -.15rem
           display none
+          // .ds-button
+          //   line-height initial
         & > dd
           position relative
           &:hover .ssubmenu
+          // .ssubmenu
             display block
       float left
       display inline-block
       margin 0 .1rem
       dt
-        font-size .18rem
+        font-size .14rem
         color BLUE
         font-shadow()
         padding PW 0 .18rem 0
@@ -450,7 +473,7 @@ export default {
           margin -.1rem 0 .2rem -.1rem
           float left
           transition all linear .2s // @static 2
-          // transform perspective(100px) translateZ(-30px)
+          transform perspective(100px) translateZ(0)
           background-size .7rem .7rem
           
           &:hover

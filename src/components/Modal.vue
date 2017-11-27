@@ -54,8 +54,7 @@
           confirm: 'default',
           question: 'ds-icon-question-large',
           warn: 'ds-icon-notice-large',
-          success: 'ds-icon-success-large',
-          redpocket: 'ds-icon-redpocket'
+          success: 'ds-icon-success-large'
         },
         btnClass: {
           confirm: ['primary', 'cancel'],
@@ -240,8 +239,12 @@
         padding 0
         margin .3rem 0 .4rem 0 
     
-      
-    
+  .modal.info
+    .content 
+      font-size .18rem
+      text-align center
+    .footer-bar
+      padding 0.25rem
     
 </style>
 

@@ -1,0 +1,412 @@
+// import this file to show night-model
+@import './var.stylus'
+body.classic
+  .footer-popover
+      &.more
+        transform translateY(.25rem)
+       
+
+      // &.game.hide-icon-hover
+      //   transform translateY(.05rem) translateX(-3rem) !important
+      // &.game.hide-icon.hide-icon-hover
+      //   transform translateY(0) translateX(-55%) !important
+      
+      // &.game.hio
+      //   transform translateY(.05rem) translateX(.05rem) !important
+         
+        
+        
+      .submenu.hover-show-ssubmenu
+        // transform translateX(300%) !important
+        .ssubmenu
+          left 155%
+        
+          
+        
+      @media(max-width: 3000px)
+        &:not(.game):not(.more)
+          transform translateX(-55%) !important
+          
+        &.game
+          transform translateY(0)
+          // 图->
+          &.hide-icon
+            transform translateX(155%) !important
+            &.hio
+              transform translateX(-55%) !important
+          
+          &:not(.hide-icon)
+            transform translateY(0) !important
+            &.hio
+              transform translateY(0) translateX(-3rem) !important
+            
+      
+      @media(max-width: 1500px)
+        &:not(.game):not(.more)
+          transform translateX(-55%) !important
+          
+        &.game
+          transform translateY(0)
+          // 图->
+          &.hide-icon
+            transform translateX(30%) !important
+            &.hio
+              transform translateX(-55%) !important
+          
+          &:not(.hide-icon)
+            transform translateY(0) !important
+            &.hio
+              transform translateY(0) translateX(-1.2rem) !important
+          
+          
+      @media(max-height: 900px)
+        &:not(.game):not(.more)
+          transform translateX(55%) !important
+        
+        &.game
+          transform translateY(0)
+          // 图->
+          &.hide-icon
+            transform translateX(40%) !important
+            &.hio
+              transform translateX(55%) !important
+          
+          &:not(.hide-icon)
+            transform translateY(0) !important
+            &.hio
+              transform translateY(0rem) translateX(.65rem) !important
+        
+
+        .submenu.hover-show-ssubmenu
+          // transform translateX(300%) !important
+          .ssubmenu
+            left 45%
+          
+      // @media(max-width: 1400px)
+      //   &:not(.game)
+      //     transform translateX(55%)
+      
+#app.classic
+  & ~ [data-ng-app]
+    .custom-service-box
+      width 68px !important
+      height 68px !important
+      right 0 !important
+      left auto !important
+      top auto !important
+      bottom PW
+      .icon.custom-service
+        background-size auto
+      &:after
+        display inline-block
+        width 100%
+        content '联系客服'
+        text-align center
+        color #fff
+      .message-cut
+        right 50px
+  .home.page ~ .lefter
+    display none
+  // footer go top
+  footer
+    background none
+    top 0
+    bottom auto
+    overflow hidden
+    .logo
+      display none
+    .logo.ds-icon-logo-middle
+      display block
+      left 0
+      transform none
+      width 1.5rem
+      background url($ASSETS/old_logo.png) center center no-repeat 
+      @media(max-width: 1500px)
+        display none
+    .el-col-offset-4
+      float right
+      margin-left 0
+    @media(max-width: 1900px)
+      .menu
+        width 6rem
+    @media(max-width: 1500px)
+      .menu
+      .info
+        width 50%
+        float left
+      
+    .menu
+      margin-left 1.5rem
+      @media(max-width: 1500px)
+        margin-left 0
+    .logo.ds-icon-pot
+      display inline-block
+      position fixed
+      bottom 2 * PW !important
+      top auto !important
+      height auto !important
+    .ds-icon-chat-middle
+      display none
+    .icon-button
+      background none
+      width .68rem
+      height .68rem
+      &:after
+        content attr(mytitle)
+        color #fff
+        // line-height FH
+        padding-top 0.25rem
+        // background none
+        text-align center
+        position absolute
+        left 0
+        right 0
+        top 0 
+        bottom 0
+    
+  
+  .lefter
+    &.game
+      left 50%
+      transform translateX(-7rem)
+      .el-menu-item-group__title
+        display none
+      
+      .el-menu
+        .el-menu-item.ds-button
+          color rgba(255, 255, 255, .7)
+          &.is-active
+            color #fff
+          &.notis-active
+            color rgba(255, 255, 255, .7)
+          // padding-left .5rem !important
+          &:before
+            display none
+            
+        .el-menu-item.ds-button
+          &.sign:before
+            display block
+            content ''
+            position absolute
+            top -.07rem
+            left -.05rem
+            width .4rem
+            height .4rem
+          &.hot:before
+            background url($ASSETS/inner_hot.png) center no-repeat
+          &.new:before
+            left -.05rem
+            top -.05rem
+            background url($ASSETS/inner_new.png) center no-repeat
+          
+      
+        
+      
+    @media(max-width: 1190px)
+      display none
+    width 1.8rem
+    bottom PWX
+    top FH + PW
+    background none
+    z-index 0
+    .el-menu
+      top 0
+      bottom 0
+      padding-left .5rem
+      background none
+      ul
+        margin .15rem 0
+      .el-menu-item-group__title
+        position relative
+        left -.1rem
+      .el-menu-item.ds-button
+       
+        height .3rem
+        color #fff
+        text-align left
+        box-shadow none
+        position relative
+        padding-left .3rem !important
+        &:hover
+          background rgba(0,0,0,.2)
+          
+        &.is-active
+          background BLUE
+        &.notis-active
+          background none
+
+        &:before
+          content '.'
+          font-size .5rem
+          position absolute
+          left .1rem
+          top -.15rem
+        
+        
+      
+
+  // no header tabs
+  header
+    display none
+  .dialog-container
+    top FH
+    bottom 0 !important
+    @media(max-width: 1190px)
+      top 2*FH
+  
+  // test
+  .dialog-page.game-page
+    bottom 0
+    &>.inner-bar
+      display none
+    
+
+
+    .game-content.scroll-content
+      bottom 0 !important
+      padding-bottom 0
+      
+      .inner-order-bar
+      .inner-amount-bar
+        display block !important
+
+      // max-height 100%
+    .game-recent-order
+      position relative
+      top 0
+      height auto
+      max-height 4rem
+    
+    .inner-bar.opacity-0
+      height .5rem
+    
+    .fixed.inner-bar
+    .amout-bar
+      margin-top .2rem
+      bottom 0
+      position relative
+
+  // no toolbar
+  .dialog-page
+    .me-sideview
+      radius()
+      top 0
+    &.game-page
+      width 10rem !important
+      min-width 980px important
+      background none
+      box-shadow none
+      .ds-icon-cooking 
+          background-color #ededed
+          radius()
+      .game-content
+        bottom 2rem !important
+        @media(max-height: 900px)
+          bottom 0 !important
+        
+        background #ededed
+        radius()
+        shadow()
+      
+      .fixed.inner-bar
+      .amout-bar
+        // bottom 2rem
+        @media(max-height: 900px)
+          bottom 0
+      .game-recent-order
+        display block
+        @media(max-height: 900px)
+          // display none
+
+      .game-content
+      .inner-bar
+      .game-info
+        max-width 10rem !important
+        min-width 980px !important
+        .game-info .left
+          .ds-button
+            &:first-child
+              display none
+            &:nth-child(2)
+              display inline-block !important
+          
+          .recent-codes
+            display inline-block !important
+          
+        
+      .menu
+        & > div:first-child
+          padding-left 0
+          
+        height auto
+        .row
+          display block
+        dd
+          padding 0
+          width .7rem
+          radius 0
+          text-align center
+          text-shadow none
+          box-shadow none
+          border-top 2px solid rgba(0,0,0,0)
+          &:hover
+            background #f7f7f7
+            color BLUE
+          .submenu-group
+            display none
+          &.selected
+            background #fff
+            color BLUE
+            border-color BLUE
+           
+        
+          
+      
+
+    .modal
+    .el-loading-mask
+      radius()
+      top 0
+    transition none
+    // if not game default to full
+    .lucky-numbers
+      radius()
+      border-bottom-left-radius 0
+      border-bottom-right-radius 0
+    // &:not(.game-page)
+    &.group-page
+    // &.me-page
+    &.full
+      left 2rem !important
+      right 4 * PWX
+      top PWX
+      bottom PWX        
+      width auto !important
+      background #ededed
+      radius()
+      transform none
+      @media(max-width: 1190px)
+        left PW !important
+        right PW !important
+        
+      & > div:first-child
+        radius()
+      &:after
+        radius()
+        top 0
+        
+    // default
+    top PW !important
+    bottom PW !important
+    height auto !important
+    left 50% !important
+    transform translateX(-50%)
+    
+    &>.tool-bar
+    &>.move-bar
+    &>.resize-x
+    &>.resize-y
+      display none
+    & > .scroll-content:not(.trend-chart)
+      top 0
+      

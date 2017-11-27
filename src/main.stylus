@@ -22,7 +22,8 @@ pre
   padding-left .1rem
 .pl2
   padding-left .2rem
-
+.pl3
+  padding-left .3rem
 .pr1
   padding-right .1rem
 .pr2
@@ -528,6 +529,8 @@ pre
   color #999
 .text-orange
   color ORANGE
+.text-bold
+  font-weight bold
     
 
 /*
@@ -536,9 +539,13 @@ pre
   
   .ds-icon-rmb-sign
       background url($ASSETS/icon_rmb.png) left center no-repeat
+      // input
+      //   color GOLD !important
+      //   border none !important
+      //   background none !important
     
   // game icons
-  .ds-icon-game-lhg0010
+  .ds-icon-game-lhg00
       background url($ASSETS/game/new/lhg00.png) center no-repeat
 
 
@@ -665,6 +672,9 @@ pre
       
   .ds-icon-game-lhc
       background url($ASSETS/game/new/qt_lhc.png) center no-repeat
+  .ds-icon-game-ffcqq
+      background url($ASSETS/game/new/ffc_qq.png) center no-repeat
+
         
   [class*="dis-icon-game-"]
   &[class*="middle"]
@@ -787,14 +797,23 @@ pre
     background url($ASSETS/m.png) left center no-repeat
     position relative
     &.vip:after
+      font-size .08rem
       position absolute
-      left .2rem
-      top -.03rem
-      content ''
+      left .18rem
+      top -.07rem
+      content  'vip'attr(level)
+      // content attr('level')
       display inline-block
-      width .26rem
+      width .36rem
       height .16rem
-      background url($ASSETS/vip.png) center no-repeat
+      font-size 10px
+      // line-height .15rem
+      line-height 1.2
+      color #fff
+      text-align center
+      bg-gradient(180deg, #d0b968, #baa148)
+      // radius(1px)
+      // background url($ASSETS/vip.png) center no-repeat
 
   .ds-icon-money
     background url($ASSETS/$.png) left center no-repeat
@@ -997,6 +1016,9 @@ pre
       background url($ASSETS/bankcard/nbyh.jpg) #fff .1rem center no-repeat
     
     &.kj
+      background url($ASSETS/bankcard/bank_kj.jpg) #fff .1rem center no-repeat
+    
+    &.jd
       background url($ASSETS/bankcard/bank_kj.jpg) #fff .1rem center no-repeat
 
 

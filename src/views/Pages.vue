@@ -372,7 +372,7 @@ export default {
       if (url) this.openAPage(url)
     },
     openAPage (url) {
-      if (this.pages.length === this.maxPages && !(this.pages.find(p => p.id === url))) {
+      if (this.pages.length >= this.maxPages && !(this.pages.find(p => p.id === url))) {
         if (!this.loop) return false
         else if (this.curl !== url) {
           this.$emit('close-tab', this.furl, url)

@@ -12,7 +12,7 @@
             |  元
         el-col(:span="12")
           .ds-button.small.stick 系统公告
-          span(v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
+          router-link.text-light(:to=" '/help/6-2-1' " v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
           
       el-row.collects.font-white(:gutter="0")
         el-col(:span="5" v-for=" (c, index) in collects " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native="!c.title ? (adding = true) && (addIndex = index) : openTab(c.id) ") {{ c.title }}

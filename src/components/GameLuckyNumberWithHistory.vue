@@ -2,16 +2,25 @@
   el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
     
     el-col.left(:span="onlyNumber ? 24 : longNumbers ? 20 : 18")
+      
       el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
         span(slot="reference")
           div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码")
             span.NPER {{ NPER }} 
             | 期 &nbsp;
+
+            // 按钮区
+            .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
+              .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " type = 1 ") 号码
+              .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " type = 2 ") 生肖
+              .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " type = 3 ") 五行
+              .ds-button.x-small(:class=" { primary: type === 4 , 'text-button' : type !== 4  } "  @click.stop= " type = 4 ") 单双
+
             .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
               //.the-number {{ n }}
-              //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
-              //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
-              .the-number(v-for=" (xx, nn ) in Array(15) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? n : nn }}
+              //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
+              //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
+              .the-number(v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
 
             span.number-array(v-if = " isArray " v-for=" ns in lucknumbers " )
               span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
@@ -41,6 +50,7 @@
 
 <script>
 import Dice from './Dice'
+import { getAnimalOfNumber } from '../util/Number'
 import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
   props: {
@@ -61,7 +71,8 @@ export default {
   data () {
     return {
       // delay: 1000,
-      my: [2, 2, 2]
+      my: [2, 2, 2],
+      type: 1
     }
   },
   computed: {
@@ -76,6 +87,17 @@ export default {
     },
     longNumbers () {
       return !this.isDice && this.isArray
+    },
+    displayLuckNumbers () {
+      return this.lucknumbers.map(n => {
+        if (typeof n === 'object' && n[0] !== undefined) {
+          return n.map(nn => {
+            return getAnimalOfNumber(nn)[this.type - 2] || nn
+          })
+        } else {
+          return getAnimalOfNumber(n)[this.type - 2] || n
+        }
+      })
     }
   },
   watch: {

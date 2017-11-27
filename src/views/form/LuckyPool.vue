@@ -544,7 +544,7 @@
         this.$http.get(api.poolIssue).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.issueList = data.issueList
+            this.issueList = data.issueList || []
           } else {
             this.issueList = []
             this.issue = ''

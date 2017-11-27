@@ -945,10 +945,10 @@ export default {
     min-width 8.5rem
     
      
-  .lefter
-    right auto
-    width LW
-    z-index 1
+  // .lefter
+  //   right auto
+  //   width LW
+  //   z-index 1
   
     // z-index 1
   .scroll-content

@@ -1482,7 +1482,7 @@ let K3 = {
   }
 }
 let HC6 = {
-  // 特码
+   // 特码
   '1-1-1-HC6' ({nsl}) {
     return C(nsl[0], 1)
   },
@@ -1490,9 +1490,25 @@ let HC6 = {
   '1-1-2-HC6' ({nsl}) {
     return C(nsl[0], 1)
   },
-  // 正码特
+  // 特肖
   '1-1-3-HC6' ({nsl}) {
-    return C(nsl[0], 1)
+    return A(nsl)
+  },
+  // 2连肖
+  '2-1-1-HC6' ({nsl}) {
+    return C(A(nsl), 2)
+  },
+  // 3连肖
+  '2-1-2-HC6' ({nsl}) {
+    return C(A(nsl), 3)
+  },
+  // 4连肖
+  '2-1-3-HC6' ({nsl}) {
+    return C(A(nsl), 4)
+  },
+  // 波色
+  '3-1-1-HC6' ({nsl}) {
+    return A(nsl)
   }
 }
 

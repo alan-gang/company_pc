@@ -29,14 +29,14 @@
           span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
         slot
           p(style="line-height: .25rem")
-              span.label.font-gold 奖池说明：
+              span.label.text-blue.text-bold 奖池说明：
               | 每周一期，每一次抽奖机会金额为1元，抽奖编码为随注单生成的4位随机数，每周六晚8:30开奖，开奖结果以周六晚的体彩排列五开奖结果的后四位为准，四号全中且顺序一致为一等奖，
               | 四号全中顺序不一致为二等奖。
               | 中后3个号顺序不限，为特别奖，奖金188元，
               | 中后2个号顺序不限，为好运奖，奖金18元，
               | 中后一个号为贡献奖，奖金5元
           p(style="line-height: .25rem")
-              span.label.font-gold 奖金分配：
+              span.label.text-blue.text-bold 奖金分配：
               | 一等奖中奖金额占奖池总金额的70%，二等奖占奖池总金额30%。
               | 同一个奖级如多人中奖，平均分配该奖级所有奖金，特别奖，好运奖，贡献奖，
               | 为单独所有不会与其他人共享，当期剩余的未派发的奖金自动滚入下一期。

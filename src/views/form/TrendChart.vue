@@ -20,6 +20,10 @@
             .ds-checkbox-label(:class="{ active: shown }" @click=" shown = !shown")
               .ds-checkbox
               |  遗漏
+            // | &nbsp;&nbsp;
+            // .ds-checkbox-label(:class="{ active: quick }" @click=" quick = !quick")
+            //   .ds-checkbox
+            //   |  简易
             .ds-button.text-button.blue(@click="size = 30") 最近30期
             .ds-button.text-button.blue(@click="size = 50") 最近50期
             .ds-button.text-button.blue(@click=" size = 100 ") 最近100期
@@ -35,10 +39,16 @@
             .ds-button.primary 搜索
 
     .trend-chart.scroll-content
-
+      
+      // quick
+      .quick(v-show="quick")
+        el-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName" stripe max-height="8rem")
+          el-table-column(prop="belongdate" label="时间" width="180" align="center" class-name="bg-white")
+          el-table-column(prop="issue" label="期号" width="80" align="center" class-name="bg-white")
+          el-table-column(prop="code" label="开奖号码" align="center" class-name="bg-white")
       
 
-      .chart(style="position: relative; display: inline-block;")
+      .chart(style="position: relative; display: inline-block;" v-show="!quick")
 
         // el-table.nopadding.header-bold.has-border(:data="data" border v-bind:row-class-name="tableRowClassName")
         //   el-table-column(prop="issue" label="期号" width="100" align="center" class-name="bg-white")
@@ -50,7 +60,7 @@
 
         el-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName")
           el-table-column(:resizable=" resizable " prop="issue" label="期号" width="80" align="center" class-name="bg-white")
-          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" width="80" align="center" class-name="bg-white")
+          el-table-column(:resizable=" resizable " prop="code" label="开奖号码" v-bind:width="pl > 5 ? 140 : 80" align="center" class-name="bg-white")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" v-bind:class-name=" k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger' ")
             el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' " v-bind:class-name=" (k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger')")
               template(scope="scope")
@@ -63,14 +73,14 @@
           // polyline(fill="none"  v-for="(l, i) in lines" v-bind:points="l" v-bind:stroke="i % 2 === 0 ? '#89d2ff' : '#ff7f8a' " )
 
         el-table.nopadding.header-bold.has-border(:data="fData" border v-bind:row-class-name="tableRowClassName"  v-bind:show-header="false" style="position: relative; top: -5px;")
-          el-table-column(:resizable=" resizable " prop="issue" label="期号" width="160" align="center")
+          el-table-column(:resizable=" resizable " prop="issue" label="期号" v-bind:width="pl > 5 ? 220 : 160" align="center")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" )
             el-table-column(:resizable=" resizable " align="center" width="25" v-for="(n, i) in P.numbers" v-bind:label="n+'' ")
               template(scope="scope")
                 div
                   span(v-if="!scope.row.total") {{ scope.row.numbers ? scope.row.numbers[k*12 + i].n || '' : '' }}
                   span(v-if="scope.row.total") {{ scope.row.numbers ? (scope.row.numbers[k*12 + i].n / scope.row.total) > 0 ? (scope.row.numbers[k*12 + i].n / scope.row.total).toFixed(0) : '' : '' }}
-
+                  // span(v-if="scope.row.total") {{ scope.row.numbers.length }} {{ k * 12 + i }} 
     // .result(style="position: absolute; bottom: -5px; left: .2rem; right: .2rem; overflow: hidden")
 </template>
 
@@ -84,6 +94,7 @@ export default {
     return {
       // dateTimeFormat: dateTimeFormat,
       // dateFormat: dateFormat,
+      quick: false,
       size: 100,
       st: '',
       td: new Date(new Date().getTime()),
@@ -125,23 +136,29 @@ export default {
         }
       },
       stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
-      PS: [
+      PPS: [
         {title: '第一位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
         {title: '第二位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
         {title: '第三位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
         {title: '第四位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
-        {title: '第五位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
+        {title: '第五位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+        {title: '第六位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+        {title: '第七位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+        {title: '第八位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+        {title: '第九位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+        {title: '第十位', numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
       ],
+      pl: 5,
       // line 遗漏
       type: 0,
       // data: [
       // ],
       myData: [],
       fData: [
-        {issue: '出现总次数', myClass: 'bg-white border-top', numbers: Array(60).fill(0).map(n => (n = {n: 0}))},
-        {total: 1, issue: '平均遗漏值', myClass: 'bg-white ', numbers: Array(60).fill(0).map(n => (n = {n: 0}))},
-        {issue: '最大遗漏值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))},
-        {issue: '最大连出值', myClass: 'bg-white', numbers: Array(60).fill(0).map(n => (n = {n: 0}))}
+        {issue: '出现总次数', myClass: 'bg-white border-top', numbers: Array(120).fill(0).map(n => (n = {n: 0}))},
+        {total: 1, issue: '平均遗漏值', myClass: 'bg-white ', numbers: Array(120).fill(0).map(n => (n = {n: 0}))},
+        {issue: '最大遗漏值', myClass: 'bg-white', numbers: Array(120).fill(0).map(n => (n = {n: 0}))},
+        {issue: '最大连出值', myClass: 'bg-white', numbers: Array(120).fill(0).map(n => (n = {n: 0}))}
       ],
       lines: [],
       x: 1
@@ -162,13 +179,16 @@ export default {
     }
   },
   computed: {
+    PS () {
+      return this.PPS.slice(0, this.pl)
+    },
     gameid () {
       return this.game.lotteryId
     },
     svgstyle () {
       return {
         position: 'absolute',
-        left: 165 + 'px',
+        left: (this.pl > 5 ? 225 : 165) + 'px',
         top: 69 * this.x + 'px'
       }
     }
@@ -294,10 +314,11 @@ export default {
       this.$http.get(api.trendData, {id: this.gameid, size: this.st ? '' : this.size, date: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''}).then(({data}) => {
         // success
         if (data.success === 1) {
-          this.fData[0].numbers = Array(60).fill(0).map(n => (n = {n: 0}))
-          this.fData[1].numbers = Array(60).fill(0).map(n => (n = {n: 0}))
-          this.fData[2].numbers = Array(60).fill(0).map(n => (n = {n: 0}))
-          this.fData[3].numbers = Array(60).fill(0).map(n => (n = {n: 0}))
+          if (data.items[0] && data.items[0].code) this.pl = Math.max(data.items[0].code.split(',').length, this.pl)
+          this.fData[0].numbers = Array(120).fill(0).map(n => (n = {n: 0}))
+          this.fData[1].numbers = Array(120).fill(0).map(n => (n = {n: 0}))
+          this.fData[2].numbers = Array(120).fill(0).map(n => (n = {n: 0}))
+          this.fData[3].numbers = Array(120).fill(0).map(n => (n = {n: 0}))
           data.items.forEach(d => {
             d.misseddata = JSON.parse(d.misseddata)
             d.myClass = 'text-bbb'

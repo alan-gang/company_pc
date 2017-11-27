@@ -22,12 +22,12 @@
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && stock.isDone === 0  ")
-          // button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
-          // button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
-          button.ds-button.large.bold.primary(@click="paid") 发放分红
+           button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
+           button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
+          //button.ds-button.large.bold.primary(@click="paid") 发放分红
 
-        // .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 1  ")
-        //   button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
+        .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
+          button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
 
 
       
@@ -45,7 +45,8 @@
         // 分红状态
         STATUS: [
           {id: 0, title: '未发放', class: 'waiting-pay'},
-          {id: 1, title: '已发放', class: 'paid'}
+          {id: 1, title: '已发放', class: 'paid'},
+          {id: 2, title: '待确认', class: 'wait'}
           // {id: 2, title: '已发放', class: 'paid'},
           // {id: 3, title: '平台外已发放', class: 'paid-out'}
         ],
@@ -138,40 +139,59 @@
               modal.btn = ['确认发放']
               return false
             } else if (modal.btn[0] === '确认发放') {
-              this.paraentCheckBonus(modal)
+              this.paraentCheckBonus(modal, 0)
               return false
             }
           },
           close () {
             if (modal.btn[0] === '已发放') {
               this.qryBonusById(this.$route.query.id || '')
+              this.__setCall({fn: '__bonus', callId: undefined})
             }
           }
         })
       },
       paidOut () {
+        // 免责声明
+        // let modal = this.$modal.redpocket({
+        //   target: this.$el,
+        //   content: '<h2 class="title">免责声明</h2><p class="content" style="text-align: left;">我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭</p>',
+        //   btn: ['我知道了，下一步'],
+        //   O: this,
+        //   ok () {
+        //     if (modal.btn[0] === '我知道了，下一步') {
+        //       modal.content = '<p style="min-height: 64px"></p><h2 class="title"> 已在平台外发放？</h2>'
+        //       modal.btn = ['是的', '还没']
+        //       return false
+        //     } else {
+        //       this.paraentCheckBonus(modal, 1)
+        //     }
+        //   }
+        // })
         let modal = this.$modal.redpocket({
           target: this.$el,
-          content: '<h2 class="title">免责声明</h2><p class="content" style="text-align: left;">我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭我今天没有吃饭</p>',
-          btn: ['我知道了，下一步'],
+          content: '<p style="min-height: 64px"></p><h2 class="title"> 已在平台外发放？</h2>',
+          btn: ['是的', '还没'],
           O: this,
           ok () {
-            if (modal.btn[0] === '我知道了，下一步') {
-              modal.content = '<p style="min-height: 64px"></p><h2 class="title"> 已在平台外发放？</h2>'
-              modal.btn = ['是的', '还没']
-              return false
-            } else {
-              this.paraentCheckBonus(2)
+            this.paraentCheckBonus(modal, 1)
+            return false
+          },
+          close () {
+            if (modal.btn[0] === '已发放') {
+              this.qryBonusById(this.$route.query.id || '')
+              this.__setCall({fn: '__bonus', callId: undefined})
             }
           }
         })
       },
       // 上级确认奖金
       // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=paraentCheckBonus&bonusId=1&sendType=1
-      paraentCheckBonus (modal) {
+      paraentCheckBonus (modal, type) {
         this.$http.get(api.paraentCheckBonus, {
-          bonusId: this.stock.id
+          bonusId: this.stock.id,
           // sendType: type
+          chanelType: type
         }).then(({data}) => {
           if (data.success === 1) {
             // if (type === 1) {
@@ -183,8 +203,11 @@
               //   btn: ['确定']
               // })
           } else {
-            modal.content = '<p class="ds-icon-notice-large" style="min-height: 64px"></p><h2 class="title" style="margin-top: .1rem">发放失败！</h2> '
+            modal.content = '<p class="ds-icon-notice-large" style="min-height: 64px"></p><h2 class="title" style="margin-top: .1rem">' + (data.msg || '发放失败！') + '</h2> '
             modal.btn = ['确定']
+          }
+          modal.ok = () => {
+            return true
           }
         }, (rep) => {
           // error
@@ -202,6 +225,13 @@
               btn: ['确定']
             })
             this.qryBonusById(this.stock.id)
+            this.__setCall({fn: '__bonus', callId: undefined})
+          } else {
+            this.$modal.warn({
+              target: this.$el,
+              content: data.msg || '收到分红确认失败！',
+              btn: ['确定']
+            })
           }
         }, (rep) => {
           // error
