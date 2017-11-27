@@ -12,7 +12,7 @@
           // 无多通道
           .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
           // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
-          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
+          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
         
         .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
@@ -675,7 +675,7 @@ export default {
           // this.merBankList = data.merBankList || []
           this.epay = []
           // 在线支付 快捷支付 QQ 微信
-          let epays = ['online:在线支付', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付']
+          let epays = ['online:在线支付', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付']
           epays.forEach(m => {
             data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
               f.channelCodes.forEach(b => {

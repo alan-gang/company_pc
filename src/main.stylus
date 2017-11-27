@@ -1017,6 +1017,9 @@ pre
     
     &.kj
       background url($ASSETS/bankcard/bank_kj.jpg) #fff .1rem center no-repeat
+    
+    &.jd
+      background url($ASSETS/bankcard/bank_jd.jpg) #fff .1rem center no-repeat
 
 
   // me/Bank.vue
