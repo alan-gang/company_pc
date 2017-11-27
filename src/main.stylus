@@ -806,7 +806,9 @@ pre
       display inline-block
       width .36rem
       height .16rem
-      line-height .15rem
+      font-size 10px
+      // line-height .15rem
+      line-height 1.2
       color #fff
       text-align center
       bg-gradient(180deg, #d0b968, #baa148)
