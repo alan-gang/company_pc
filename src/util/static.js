@@ -28,7 +28,7 @@ const BANKS = [
   {apiName: 'njbc', class: 'njyh', text: '南京银行'},
   {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'},
   {apiName: 'kj', class: 'kj', text: '快捷支付'},
-  {apiName: 'jd', class: 'jd', text: '京东扫码'}
+  {apiName: 'jd', class: 'jd', text: '京东支付'}
 ]
 
 const PROVINCES = [
