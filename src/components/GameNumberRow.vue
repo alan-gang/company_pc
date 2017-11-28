@@ -1,6 +1,5 @@
 <template lang="jade">
-
-    el-row.row(:class="{pd25: isDice}")
+    el-row.row(:class="{pd25: isDice}" style="clear: both")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
       el-col(:span="24")
