@@ -1,7 +1,7 @@
 <template lang="jade">
   el-row.game-info
 
-    el-col.left(:span="20")
+    el-col.left(:span="19")
       span.title {{ CNPER }}
       | &nbsp;&nbsp;期
       span.ds-icon-clock {{ showTime }}
@@ -31,7 +31,7 @@
 
       .ds-button.outline(v-if="methodidtype === '1' " style="margin-left: .05rem;padding: 0 .15rem" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
 
-    el-col.right(:span="4")
+    el-col.right(:span="5")
       el-button-group.right
         router-link.ds-button.text-button(:to=" {path: '/form/4-2-1', query: { gameid:  gameid}} " @click.native.stop="") 追号记录
 
@@ -320,6 +320,7 @@ export default {
       
   .left
     min-width 6rem
+    width 80%
     .title
       padding-left .8rem
       font-size F
@@ -355,6 +356,7 @@ export default {
           display block
     
   .right
+    width 20%
     min-width 1.5rem
     text-align right
     .text-button
