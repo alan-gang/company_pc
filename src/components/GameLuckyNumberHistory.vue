@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-luck-number-history(:class=" {empty: allLuckyNumbers.length === 0} ")
     <!-- 开奖信息 -->
-    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
+    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true") 
 
 </template>
 
@@ -17,12 +17,22 @@ export default {
   data () {
     return {
       // data: []
+      t: 0
     }
   },
   computed: {
   },
   mounted () {
+    // this.t = setInterval(() => {
+    //   this.$el.style.clear = 'both'
+    //   setTimeout(() => {
+    //     this.$el.style.clear = ''
+    //   }, 3000)
+    // }, 1000)
     // this.__recentlyCode()
+  },
+  beforeDestroy () {
+    // clearInterval(this.t)
   },
   methods: {
     // 获得所有分页奖期信息
