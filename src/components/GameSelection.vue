@@ -443,8 +443,8 @@
       value () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type) => {
-            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
-              return V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|\n]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+              return V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
             } else {
               return V.replace(/[,;|\s]+/g, ' ')
             }
@@ -460,8 +460,8 @@
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-          return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|\n]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+          return this.V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
         } else {
           return this.V.replace(/[,;|\s]+/g, ' ')
         }
@@ -513,7 +513,7 @@
         setTimeout(() => {
           if (this.V.length > 10000) {
             this.$worker.run((V) => {
-              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
+              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|\n]){2,}/g, '$1')
             }, [this.V])
             .then(result => {
               this.V = result
@@ -525,7 +525,7 @@
             })
             return this.V
           }
-          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
+          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|\n]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
       },
@@ -695,8 +695,8 @@
       removeRepeat () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type, o) => {
-            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
-              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s]+/, ',', o, 2)
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|\n]+/g)) {
+              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s\n]+/, ',', o, 2)
             } else {
               R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
@@ -710,8 +710,8 @@
           return this.V
         }
         let R = null
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|]+/g)) {
-          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s]+/, ',', this.o, 2)
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|\n]+/g)) {
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s\n]+/, ',', this.o, 2)
         } else {
           R = removeDuplicate(this.V.trim(), /[,;|\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
         }
