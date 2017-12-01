@@ -106,6 +106,7 @@ body.classic
       .message-cut
         right 50px
   .home.page ~ .lefter
+  .login.page ~ .lefter
     display none
   // footer go top
   footer

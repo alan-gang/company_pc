@@ -76,7 +76,7 @@ export default {
       show: false,
       t: 1,
       // 快速金额
-      ft: 0,
+      ft: 2,
       fts: [0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
       ftshow: false
     }
@@ -128,6 +128,9 @@ export default {
       this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
     },
     ft () {
+      setTimeout(() => {
+        this.ft = parseInt(this.ft)
+      }, 0)
       this.t = this.ft
       if (this.ft >= 0) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})
@@ -146,7 +149,7 @@ export default {
   },
   methods: {
     __setFt () {
-      if (this.ft >= 0) {
+      if (this.ft >= 0 && (!(this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display) || ((this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display !== 'none')) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})
       }
     },
