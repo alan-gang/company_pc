@@ -320,6 +320,7 @@ export default {
       
   .left
     min-width 6rem
+    width 80%
     .title
       padding-left .8rem
       font-size F
@@ -355,6 +356,7 @@ export default {
           display block
     
   .right
+    width 20%
     min-width 1.5rem
     text-align right
     .text-button

@@ -106,6 +106,7 @@ body.classic
       .message-cut
         right 50px
   .home.page ~ .lefter
+  .login.page ~ .lefter
     display none
   // footer go top
   footer
@@ -227,7 +228,7 @@ body.classic
         box-shadow none
         position relative
         padding-left .3rem !important
-        &:hover
+        &.notis-active:hover
           background rgba(0,0,0,.2)
           
         &.is-active
@@ -376,6 +377,8 @@ body.classic
     // &:not(.game-page)
     &.group-page
     // &.me-page
+    &:not(.full):not(.game-page)
+       width 9.3rem !important
     &.full
       left 2rem !important
       right 4 * PWX

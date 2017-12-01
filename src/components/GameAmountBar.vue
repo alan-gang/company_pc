@@ -45,7 +45,7 @@
         .ds-checkbox
         | 使用优惠券
 
-      label(style="display: inline-block" v-if="!show") 起始期：
+      label.text-666(style="display: inline-block" v-if="!show") &nbsp;&nbsp;起始期：
         el-select(v-model="nper" style="position: relative; top: -0.01rem")
           el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
 

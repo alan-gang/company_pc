@@ -8,7 +8,7 @@
     dd.ds-button.positive.full.bold.login(@click="login") 登录
 
     dd.actions
-      router-link.back.ds-button.text-button.light.small(:to="'/login'" @click.native.stop="") 
+      router-link.back.ds-button.text-button.light.small(:to="'/login/login'" @click.native.stop="") 
         | <返回登录
 </template>
 

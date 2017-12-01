@@ -251,29 +251,29 @@
           {ids: '1-1-1-HC6', class: 'code double-width', title: '特码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '1-1-2-HC6', class: 'code double-width', title: '正码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{selected: false, title: '10, 22, 34, 46', numbers: ['10:blue', '22:green', '34:danger', '46:danger', '-1:o0'], checkbox: true, after: 47.7, value: 1}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{selected: false, title: '9, 21, 33, 45', numbers: ['9:blue', '21:green', '33:green', '45:danger', '-1:o0'], checkbox: true, after: 47.7, value: 7}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{selected: false, title: '8, 20, 32, 44', numbers: ['8:danger', '20:blue', '32:green', '44:green', '-1:o0'], checkbox: true, after: 47.7, value: 2}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{selected: false, title: '7, 19, 31, 43', numbers: ['7:danger', '19:danger', '31:blue', '43:green', '-1:o0'], checkbox: true, after: 47.7, value: 8}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '龙', rowClass: 'half-row', values: [{selected: false, title: '6, 18, 30, 42', numbers: ['6:green', '18:danger', '30:danger', '42:blue', '-1:o0'], checkbox: true, after: 47.7, value: 3}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '蛇', rowClass: 'half-row', values: [{selected: false, title: '5, 17, 29, 41', numbers: ['5:danger', '17:green', '29:danger', '41:blue', '-1:o0'], checkbox: true, after: 47.7, value: 9}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '马', rowClass: 'half-row', values: [{selected: false, title: '4, 16, 28, 40', numbers: ['4:blue', '16:green', '28:green', '40:danger', '-1:o0'], checkbox: true, after: 47.7, value: 4}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '羊', rowClass: 'half-row', values: [{selected: false, title: '3, 15, 27, 39', numbers: ['3:blue', '15:blue', '27:green', '39:green', '-1:o0'], checkbox: true, after: 47.7, value: 10}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '猴', rowClass: 'half-row', values: [{selected: false, title: '2, 14, 26, 38', numbers: ['2:danger', '14:blue', '26:blue', '38:green', '-1:o0'], checkbox: true, after: 47.7, value: 5}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '鸡', rowClass: 'half-row', values: [{selected: false, title: '1, 13, 25, 37, 49', numbers: ['1:danger', '13:danger', '25:blue', '37:blue', '49:green'], checkbox: true, after: 47.7, value: 11}]},
-          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '狗', rowClass: 'half-row', values: [{selected: false, title: '12, 24, 36, 48', numbers: ['12:danger', '24:danger', '36:blue', '48:blue', '-1:o0'], checkbox: true, after: 47.7, value: 6}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{selected: false, title: '9, 21, 33, 45', numbers: ['9:blue', '21:green', '33:green', '45:danger', '-1:o0'], checkbox: true, after: 47.7, value: 2}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{selected: false, title: '8, 20, 32, 44', numbers: ['8:danger', '20:blue', '32:green', '44:green', '-1:o0'], checkbox: true, after: 47.7, value: 3}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{selected: false, title: '7, 19, 31, 43', numbers: ['7:danger', '19:danger', '31:blue', '43:green', '-1:o0'], checkbox: true, after: 47.7, value: 4}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '龙', rowClass: 'half-row', values: [{selected: false, title: '6, 18, 30, 42', numbers: ['6:green', '18:danger', '30:danger', '42:blue', '-1:o0'], checkbox: true, after: 47.7, value: 5}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '蛇', rowClass: 'half-row', values: [{selected: false, title: '5, 17, 29, 41', numbers: ['5:danger', '17:green', '29:danger', '41:blue', '-1:o0'], checkbox: true, after: 47.7, value: 6}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '马', rowClass: 'half-row', values: [{selected: false, title: '4, 16, 28, 40', numbers: ['4:blue', '16:green', '28:green', '40:danger', '-1:o0'], checkbox: true, after: 47.7, value: 7}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '羊', rowClass: 'half-row', values: [{selected: false, title: '3, 15, 27, 39', numbers: ['3:blue', '15:blue', '27:green', '39:green', '-1:o0'], checkbox: true, after: 47.7, value: 8}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '猴', rowClass: 'half-row', values: [{selected: false, title: '2, 14, 26, 38', numbers: ['2:danger', '14:blue', '26:blue', '38:green', '-1:o0'], checkbox: true, after: 47.7, value: 9}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '鸡', rowClass: 'half-row', values: [{selected: false, title: '1, 13, 25, 37, 49', numbers: ['1:danger', '13:danger', '25:blue', '37:blue', '49:green'], checkbox: true, after: 47.7, value: 10}]},
+          {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '狗', rowClass: 'half-row', values: [{selected: false, title: '12, 24, 36, 48', numbers: ['12:danger', '24:danger', '36:blue', '48:blue', '-1:o0'], checkbox: true, after: 47.7, value: 11}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, ', class: 'number-array full-width', title: '猪', rowClass: 'half-row', values: [{selected: false, title: '11, 23, 35, 47', numbers: ['11:blue', '23:blue', '35:green', '47:green', '-1:o0'], checkbox: true, after: 47.7, value: 12}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{selected: false, title: '10, 22, 34, 46', numbers: ['10:blue', '22:green', '34:danger', '46:danger', '-1:o0'], input: true, after: 47.7, value: 1}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{selected: false, title: '9, 21, 33, 45', numbers: ['9:blue', '21:green', '33:green', '45:danger', '-1:o0'], input: true, after: 47.7, value: 7}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{selected: false, title: '8, 20, 32, 44', numbers: ['8:danger', '20:blue', '32:green', '44:green', '-1:o0'], input: true, after: 47.7, value: 2}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{selected: false, title: '7, 19, 31, 43', numbers: ['7:danger', '19:danger', '31:blue', '43:green', '-1:o0'], input: true, after: 47.7, value: 8}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '龙', rowClass: 'half-row', values: [{selected: false, title: '6, 18, 30, 42', numbers: ['6:green', '18:danger', '30:danger', '42:blue', '-1:o0'], input: true, after: 47.7, value: 3}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '蛇', rowClass: 'half-row', values: [{selected: false, title: '5, 17, 29, 41', numbers: ['5:danger', '17:green', '29:danger', '41:blue', '-1:o0'], input: true, after: 47.7, value: 9}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '马', rowClass: 'half-row', values: [{selected: false, title: '4, 16, 28, 40', numbers: ['4:blue', '16:green', '28:green', '40:danger', '-1:o0'], input: true, after: 47.7, value: 4}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '羊', rowClass: 'half-row', values: [{selected: false, title: '3, 15, 27, 39', numbers: ['3:blue', '15:blue', '27:green', '39:green', '-1:o0'], input: true, after: 47.7, value: 10}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '猴', rowClass: 'half-row', values: [{selected: false, title: '2, 14, 26, 38', numbers: ['2:danger', '14:blue', '26:blue', '38:green', '-1:o0'], input: true, after: 47.7, value: 5}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '鸡', rowClass: 'half-row', values: [{selected: false, title: '1, 13, 25, 37, 49', numbers: ['1:danger', '13:danger', '25:blue', '37:blue', '49:green'], input: true, after: 47.7, value: 11}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '狗', rowClass: 'half-row', values: [{selected: false, title: '12, 24, 36, 48', numbers: ['12:danger', '24:danger', '36:blue', '48:blue', '-1:o0'], input: true, after: 47.7, value: 6}]},
-          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '猪', rowClass: 'half-row', values: [{selected: false, title: '11, 23, 35, 47', numbers: ['11:blue', '23:blue', '35:green', '47:green', '-1:o0'], input: true, after: 47.7, value: 12}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{selected: false, title: '10, 22, 34, 46', numbers: ['10:blue', '22:green', '34:danger', '46:danger', '-1:o0'], input: true, times: 0, after: 47.7, value: 1}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{selected: false, title: '9, 21, 33, 45', numbers: ['9:blue', '21:green', '33:green', '45:danger', '-1:o0'], input: true, times: 0, after: 47.7, value: 2}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{selected: false, title: '8, 20, 32, 44', numbers: ['8:danger', '20:blue', '32:green', '44:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 3}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{selected: false, title: '7, 19, 31, 43', numbers: ['7:danger', '19:danger', '31:blue', '43:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 4}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '龙', rowClass: 'half-row', values: [{selected: false, title: '6, 18, 30, 42', numbers: ['6:green', '18:danger', '30:danger', '42:blue', '-1:o0'], input: true, times: 0, after: 47.7, value: 5}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '蛇', rowClass: 'half-row', values: [{selected: false, title: '5, 17, 29, 41', numbers: ['5:danger', '17:green', '29:danger', '41:blue', '-1:o0'], input: true, times: 0, after: 47.7, value: 6}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '马', rowClass: 'half-row', values: [{selected: false, title: '4, 16, 28, 40', numbers: ['4:blue', '16:green', '28:green', '40:danger', '-1:o0'], input: true, times: 0, after: 47.7, value: 7}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '羊', rowClass: 'half-row', values: [{selected: false, title: '3, 15, 27, 39', numbers: ['3:blue', '15:blue', '27:green', '39:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 8}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '猴', rowClass: 'half-row', values: [{selected: false, title: '2, 14, 26, 38', numbers: ['2:danger', '14:blue', '26:blue', '38:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 9}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '鸡', rowClass: 'half-row', values: [{selected: false, title: '1, 13, 25, 37, 49', numbers: ['1:danger', '13:danger', '25:blue', '37:blue', '49:green'], input: true, times: 0, after: 47.7, value: 10}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '狗', rowClass: 'half-row', values: [{selected: false, title: '12, 24, 36, 48', numbers: ['12:danger', '24:danger', '36:blue', '48:blue', '-1:o0'], input: true, times: 0, after: 47.7, value: 11}]},
+          {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '猪', rowClass: 'half-row', values: [{selected: false, title: '11, 23, 35, 47', numbers: ['11:blue', '23:blue', '35:green', '47:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 12}]},
           {ids: '3-1-1-HC6', class: 'number-array full-width', title: '红波', hover: true, values: [{class: 'small-circle', selected: false, title: '1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46', numbers: ['1:danger', '2:danger', '7:danger', '8:danger', '12:danger', '13:danger', '18:danger', '19:danger', '23:danger', '24:danger', '29:danger', '30:danger', '34:danger', '35:danger', '40:danger', '45:danger', '46:danger'], input: true, times: 0, after: 47.7, value: 1}]},
           {ids: '3-1-1-HC6', class: 'number-array full-width', title: '蓝波', hover: true, values: [{class: 'small-circle', selected: false, title: '3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48', numbers: ['3:blue', '4:blue', '9:blue', '10:blue', '14:blue', '15:blue', '20:blue', '25:blue', '26:blue', '31:blue', '36:blue', '37:blue', '41:blue', '42:blue', '47:blue', '48:blue', '-1:o0'], input: true, times: 0, after: 47.7, value: 2}]},
           {ids: '3-1-1-HC6', class: 'number-array full-width', title: '绿波', hover: true, values: [{class: 'small-circle', selected: false, title: '5,6,11,16,17,21,22,27,28,32,33,38,39,43,44,49', numbers: ['5:green', '6:green', '11:green', '16:green', '17:green', '21:green', '22:green', '27:green', '28:green', '32:green', '33:green', '38:green', '39:green', '43:green', '44:green', '49:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 3}]}
@@ -443,8 +443,8 @@
       value () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type) => {
-            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
-              return V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|\n]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+              return V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
             } else {
               return V.replace(/[,;|\s]+/g, ' ')
             }
@@ -460,8 +460,8 @@
         // C2
         // 如果是115
         // if there is no 010203 6 numbers together, take it as special
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-          return this.V.replace(/ +/g, '').replace(/[,;|\s]+/g, ' ')
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|\n]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+          return this.V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
         } else {
           return this.V.replace(/[,;|\s]+/g, ' ')
         }
@@ -513,7 +513,7 @@
         setTimeout(() => {
           if (this.V.length > 10000) {
             this.$worker.run((V) => {
-              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
+              return V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|\n]){2,}/g, '$1')
             }, [this.V])
             .then(result => {
               this.V = result
@@ -525,7 +525,7 @@
             })
             return this.V
           }
-          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|]){2,}/g, '$1')
+          this.V = this.V.replace(/[^0-9,;|\s]+/g, '').replace(/([,;|\n]){2,}/g, '$1')
           this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = this.V)
         }, 0)
       },
@@ -695,8 +695,8 @@
       removeRepeat () {
         if (this.V.length > 10000) {
           this.$worker.run((V, type, o) => {
-            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|]+/g)) {
-              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s]+/, ',', o, 2)
+            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|\n]+/g)) {
+              R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s\n]+/, ',', o, 2)
             } else {
               R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
@@ -710,8 +710,8 @@
           return this.V
         }
         let R = null
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|]+/g)) {
-          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s]+/, ',', this.o, 2)
+        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && this.V.match(/[,;|\n]+/g)) {
+          R = removeDuplicate(this.V.replace(/ +/g, ''), /[,;|\s\n]+/, ',', this.o, 2)
         } else {
           R = removeDuplicate(this.V.trim(), /[,;|\s]+/, null, this.o, ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) ? 2 : 1))
         }

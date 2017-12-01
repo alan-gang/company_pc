@@ -1,6 +1,5 @@
 <template lang="jade">
-
-    el-row.row(:class="{pd25: isDice}")
+    el-row.row(:class="{pd25: isDice}" style="clear: both")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
       el-col(:span="24")
@@ -28,7 +27,7 @@
                   span.ds-checkbox-label(style="margin: .05rem 0 0 .1rem" v-bind:class="{active: n.selected}" @click=" n.selected = !n.selected " v-if=" n.checkbox ")
                     .ds-checkbox( @click=" n.selected = !n.selected ")
                   // input
-                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem")
+                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) ")
 
 
 
@@ -57,7 +56,7 @@
         // 不同的码有不同的色彩
         defaultTimes: 0,
         codeClass:
-          '1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:danger,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
+          ',1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:blue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
       }
     },
     computed: {
@@ -187,7 +186,7 @@
             value: this.row.min + index,
             title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0'),
             // 单个号码样式
-            class: this.isCode && this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(this.row.min + index + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
+            class: this.isCode && this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
             // 单个号码的倍数
             times: this.row.times,
             // 赔率
@@ -249,6 +248,7 @@
         if (n.times !== undefined) {
           n.times = Math.ceil(n.times)
           if (n.selected && !n.times) n.times = this.defaultTimes || 2
+          if (!n.selected) n.times = 0
         }
         if (this.sl && this.ns.length > parseInt(this.sl)) {
           this.lsn && this.lsn.selected && (this.lsn.selected = false)

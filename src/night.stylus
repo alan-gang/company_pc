@@ -215,7 +215,7 @@ body.night
         &:hover
           color BLUE-HOVER
       &.ds-icon-polyline
-        background url($ASSETS/polyline-night.png) .08rem center no-repeat
+        background url($ASSETS/polyline-night.png) .08rem center no-repeat #444
         
         
   

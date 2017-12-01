@@ -239,8 +239,8 @@ export default {
     pricePot () {
       this.$http.get(api.pricePot).then(({data}) => {
         if (data.success === 1) {
-          this.pricePotAmount = data.amount
-          this.pricePotCount = data.count
+          this.pricePotAmount = data.amount || 0
+          this.pricePotCount = data.count || 0
           // }
         } else {
           this.$message.error({target: this.$el, message: data.msg || '奖池信息获取失败！'})

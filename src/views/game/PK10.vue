@@ -68,8 +68,8 @@ export default {
             return '猜三四名'
           case '-1-1-4':
             return '猜三四名'
-          // case '-1-1-5':
-          //   return '猜冠亚军'
+          case '-1-1-8':
+            return '猜冠亚军'
           case '-1-1-6':
             return '趣味龙虎'
           case '-1-1-7':
