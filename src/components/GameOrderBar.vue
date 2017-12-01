@@ -142,7 +142,7 @@ export default {
     this.t = this.times
     this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
     this.cIndex = this.currency.model - 1
-    if (this.HC6) this.t = 0
+    if (this.HC6) this.t = this.ft
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
     // }, 0)
