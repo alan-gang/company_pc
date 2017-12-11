@@ -1,5 +1,9 @@
 @import './var.stylus'
 @import '../../src/main.stylus'
 @import '../../src/night.stylus'
+@import '../../src/classic.stylus'
 
-    
+body.nds    
+// icon
+  .ds-icon-logo
+    background url(./assets/logo.png) center top no-repeat 

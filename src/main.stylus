@@ -831,16 +831,16 @@ pre
     background url($ASSETS/polyline.png) .08rem center no-repeat
   
   // 115
-  .ds-icon-G115-1
-    background url($ASSETS/qiu01.png) center no-repeat
-  .ds-icon-G115-2
-    background url($ASSETS/qiu02.png) center no-repeat
-  .ds-icon-G115-3
-    background url($ASSETS/qiu03.png) center no-repeat
-  .ds-icon-G115-4
-    background url($ASSETS/qiu04.png) center no-repeat
-  .ds-icon-G115-5
-    background url($ASSETS/qiu05.png) center no-repeat
+  // .ds-icon-G115-1
+  //   background url($ASSETS/qiu01.png) center no-repeat
+  // .ds-icon-G115-2
+  //   background url($ASSETS/qiu02.png) center no-repeat
+  // .ds-icon-G115-3
+  //   background url($ASSETS/qiu03.png) center no-repeat
+  // .ds-icon-G115-4
+  //   background url($ASSETS/qiu04.png) center no-repeat
+  // .ds-icon-G115-5
+  //   background url($ASSETS/qiu05.png) center no-repeat
 
   // PK10
   .ds-icon-PK10

@@ -177,6 +177,7 @@ let Game = {
 }
 
 let Me = {
+  transAmount: '/person/recharge.do?method=transAmount',
   // 今日提款次数
   // http://192.168.169.44:9901/cagamesclient/person/withDraw.do?method=withdrawTimes
   withdrawTimes: '/person/withDraw.do?method=withdrawTimes',

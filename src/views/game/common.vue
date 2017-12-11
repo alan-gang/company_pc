@@ -183,7 +183,7 @@ export default {
       return this.page.gameid + '|' + this.type.id
     },
     pay () {
-      return this.nsnsTimes ? ((this.nsnsTimes.split(',').reduce((p, n) => { return (p += parseFloat(n)) }, 0) || 0) * this.currency.value).toFixed(3) : Number((this.n * this.times * this.currency.value * this.pricePerOrder).toFixed(3))
+      return this.nsnsTimes ? ((this.nsnsTimes.split(',').reduce((p, n) => { return (p += parseFloat(n)) }, 0) || 0) * this.currency.value) : Number((this.n * this.times * this.currency.value * this.pricePerOrder))
     },
     // CNPER () {
     //   return this.NPER + 1

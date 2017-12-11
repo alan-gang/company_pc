@@ -5,16 +5,16 @@
       
       el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
         span(slot="reference")
-          div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码")
+          div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码" @click=" __setCall({fn: '__setLuckNumberType', args: type}) ")
             span.NPER {{ NPER }} 
             | 期 &nbsp;
 
             // 按钮区
             .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
-              .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " type = 1 ") 号码
-              .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " type = 2 ") 生肖
-              .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " type = 3 ") 五行
-              .ds-button.x-small(:class=" { primary: type === 4 , 'text-button' : type !== 4  } "  @click.stop= " type = 4 ") 单双
+              .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 1)})") 号码
+              .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 2)})") 生肖
+              .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 3)})") 五行
+              .ds-button.x-small(:class=" { primary: type === 4 , 'text-button' : type !== 4  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 4)})") 单双
 
             .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
               //.the-number {{ n }}
@@ -76,6 +76,9 @@ export default {
     }
   },
   computed: {
+    callId () {
+      return this.gameid
+    },
     isDice () {
       return this.gameType === 'K3'
     },
@@ -131,6 +134,43 @@ export default {
   @import '../var.stylus'
   W = .42rem
   w = .26rem
+  .lucky-numbers:not(.game-HC6) 
+    .number
+      box-shadow none
+      &:nth-child(2)
+        background-color #ff7c7c
+      &:nth-child(3)
+        background-color #ff9844
+      &:nth-child(4)
+        background-color #eac600
+      &:nth-child(5)
+        background-color #abe300
+      &:nth-child(6)
+        background-color #4dc4ff
+      
+      &:nth-child(7)
+        background-color #ff7c7c
+      &:nth-child(8)
+        background-color #ff9844
+      &:nth-child(9)
+        background-color #eac600
+      &:nth-child(10)
+        background-color #abe300
+      &:nth-child(11)
+        background-color #4dc4ff
+    
+    .number-array .number
+      &:nth-child(1)
+        background-color #ff7c7c
+      &:nth-child(2)
+        background-color #ff9844
+      &:nth-child(3)
+        background-color #eac600
+      &:nth-child(4)
+        background-color #abe300
+      &:nth-child(5)
+        background-color #4dc4ff
+      
   .lucky-numbers
     
       
@@ -157,6 +197,9 @@ export default {
       background-color DANGER
       radius(50%)
       box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+      
+      
+      
     .number-array 
       & + .number-array 
         margin-left PWX - .03rem
@@ -178,8 +221,8 @@ export default {
     // 115
     &.game-G115
       .number
-        color #333
-        background-color rgba(0,0,0,0)
+        // color #333
+        // background-color rgba(0,0,0,0)
     
     // PK10
     &.game-PK10

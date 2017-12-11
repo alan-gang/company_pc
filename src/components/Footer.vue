@@ -68,11 +68,15 @@
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
               dd 
-                span.money.ds-icon-money.font-gold(v-show="!hide") {{ money || '0.000' }}
+                span.money.ds-icon-money.font-gold(v-show="!hide") 
+                  span.text-light 主: 
+                  span {{ money || '0.000' }} 
+                span.font-light 特: {{ smoney || '0.000' }}
               dd
                 span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
               dd(style="padding-top: .1rem")
-                .ds-button.cancel.full(@click="logout") 安全退出
+                .ds-button.primary(@click=" transfer = true ") 特殊金额转换
+                .ds-button.cancel(@click="logout" style="margin-left: .1rem" ) 安全退出
 
 
         span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-if="!isTry") 
@@ -106,6 +110,29 @@
     
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
+
+
+    el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
+      p
+        span.text-black.text-bold 特殊金额&nbsp;&nbsp;
+        span.text-blue.to 转至
+        span.text-black.text-bold &nbsp;&nbsp;可用余额
+      br
+      p 特殊帐户余额： 
+        | {{ me.smoney }}
+      br
+      p
+        el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
+        span.text-999  &nbsp;&nbsp;输入金额
+      br
+      p
+        el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
+      br
+      p
+        span.ds-button.primary(@click="transferNow") 确认转入
+
+
+      
 </template>
 
 <script>
@@ -116,7 +143,7 @@ import { numberWithCommas } from '../util/Number'
 import util from '../util'
 import store from '../store'
 export default {
-  props: ['menus', 'name', 'money', 'free', 'vip'],
+  props: ['menus', 'name', 'money', 'smoney', 'free', 'vip'],
   components: {
     LoginTest
   },
@@ -131,6 +158,8 @@ export default {
       more: false,
       checkin: false,
       router: false,
+      transfer: false,
+      tmodal: true,
       // name: '一介草民',
       hide: false,
       day: true,
@@ -142,7 +171,9 @@ export default {
       timeout: 0,
       pricePotAmount: 0,
       pricePotCount: 0,
-      showPool: false
+      showPool: false,
+      m: '',
+      cpwd: ''
     }
   },
   mounted () {
@@ -182,6 +213,10 @@ export default {
     }
   },
   watch: {
+    transfer () {
+      this.cpwd = ''
+      this.m = 0
+    },
     showPool () {
     },
     day () {
@@ -216,6 +251,24 @@ export default {
     this.setFarChat()
   },
   methods: {
+    // &amount=100&securityPwd=123456a
+    transferNow () {
+      if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.m > this.me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
+      this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
+        if (data.success === 1) {
+          this.cpwd = ''
+          this.m = 0
+          this.$message.success({target: this.$el, message: data.msg || '特殊金额转换成功！'})
+          this.transfer = false
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '特殊金额转换失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
     dododo (menu) {
       menu.hideIcon = !menu.hideIcon
       this.$refs.game[0].$refs.popper.style.transform = menu.hideIcon ? (!menu.hideIconOnHover ? 'translateY(2.73rem)' : 'translateY(0.05rem)') : menu.hideIconOnHover ? 'translateY(-2.73rem)' : 'translateY(0.05rem)'
@@ -354,6 +407,8 @@ export default {
 }
 </script>
 <style lang="stylus">
+
+    
   @import '../var.stylus'
   H = .44rem
   W = .32rem
@@ -532,7 +587,19 @@ export default {
       padding .5rem
     .login-test .routers
       padding 0
-    
+  
+  .dialog-transfer
+    width auto
+    text-align left
+    background-color #ededed
+    // padding .2rem .4rem
+    .el-dialog__body
+      padding 4 * PWX 8 * PWX
+    .text-black
+      font-size .18rem
+    .to
+      padding PWX PW
+      background url(../assets/game/new/to.png) center bottom .1rem no-repeat
 </style>
 <style lang="stylus" scoped>
   .ds-button
@@ -648,5 +715,7 @@ export default {
       padding 0
     .logout
       margin-left .1rem
+  
+
   
 </style>

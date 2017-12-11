@@ -103,7 +103,10 @@
               span(v-if="!scope.row.last") {{ scope.row.expenditure }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(prop="balance" label="余额" width="100" align="right")
+          el-table-column(prop="balance" label="主帐户余额" width="100" align="right")
+          
+          el-table-column(prop="speBalance"  label="特殊余额" width="100" align="right")
+
 
           el-table-column(label="备注" align="center")
             template(scope="scope")

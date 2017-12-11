@@ -595,7 +595,10 @@
             if (this.n === 0) {
               let m = Math.min.apply(Math, this.nsl)
               let i = this.nsl.lastIndexOf(m)
-              this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i}})
+              let timeout = 0
+              // if all rows.length === 1, we should trigger selected one by one
+              if (this.rows.every(r => r.values && r.values.length === 1)) (timeout = 10) && (i = parseInt(Math.random() * this.rows.length))
+              this.__setCall({fn: '__random', args: {continuee: true, rowIndex: i, timeout: timeout}})
             } else clearInterval(t)
           }, 500)
         }

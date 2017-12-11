@@ -36,7 +36,7 @@ export default (Vue) => {
       THROTTLE[api] = true
       setTimeout(() => {
         THROTTLE[api] = false
-      }, 2000)
+      }, 1000)
       return Vue.http.myget(api, args)
     }
   }
@@ -47,7 +47,7 @@ export default (Vue) => {
       THROTTLE[api] = true
       setTimeout(() => {
         THROTTLE[api] = false
-      }, 2000)
+      }, 1000)
       return Vue.http.mypost(api, args)
     }
   }

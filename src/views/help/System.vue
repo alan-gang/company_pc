@@ -6,14 +6,29 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.function-help
+
+      // 新
+      // .content.scroll-content(style="width: 4rem;")
+      //   .item(v-for="(g, index) in notices") 
+      //     .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
+      //       span {{ g.subject }}
+      //       .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
+      //     // pre.value(v-show=" openIndex === index ") {{ g.content }}
+
+      // .detial.scroll-content(style="left: 4rem" v-if="cg")
+      //   .step.text-666
+      //     span {{ cg.subject }}
+      //     .time.text-666 {{ cg.sendTime }}
+      //   pre.value {{ cg.content }}
+      
       .content
         .item(v-for="(g, index) in notices") 
           .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
             span {{ g.subject }}
             .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
-          pre.value(v-show=" openIndex === index ") {{ g.content }}
+           pre.value(v-show=" openIndex === index ") {{ g.content }}
          
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
         p.class(v-if=" notices.length === 0 ") 暂无任何公告!
     
@@ -33,6 +48,9 @@
       }
     },
     computed: {
+      cg () {
+        return this.notices[this.openIndex]
+      }
     },
     mounted () {
       this.sysNotices()

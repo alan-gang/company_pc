@@ -33,7 +33,7 @@
 
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click="btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: btnIndex === index, 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
+            .ds-button(v-for="(btn, index) in row.buttons" @click="btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
 
 </template>
 <script>
@@ -287,12 +287,19 @@
         this.numbers.forEach(n => this.select(n, signal))
       },
       // 随机选择一个号码
-      __random ({continuee, rowIndex}) {
+      __random ({continuee, rowIndex, timeout}) {
         if (!continuee) this.clear()
+        // if every rows length equal 1, jump to random select row by row
+        if (!continuee && this.numbers.length === 1) return false
         if (rowIndex === undefined || this.rowIndex === rowIndex) {
+          // if (this.numbers.length === 1) {
+          //   // if all rows length === 1 tigger one by on if N still  === 0
+          //   if
+          // } else {
           setTimeout(() => {
-            this.toggle(this.numbers[parseInt(Math.random() * (this.numbers.length === 1 ? Math.random() * 10 : this.numbers.length))])
-          }, 50 * this.rowIndex)
+            this.toggle(this.numbers[parseInt(Math.random() * this.numbers.length)])
+          }, timeout || (50 * Math.min(this.rowIndex, 8)))
+          // }
         }
       },
       small (signal) {
@@ -633,10 +640,10 @@
         text-align right
         
       .ds-button
-        width .26rem
-        line-height .26rem
+        width .3rem
+        line-height .3rem
         padding 0 
-        margin 0 .05rem
+        // margin 0 .05rem
         color #666
         box-shadow none
         text-shadow none

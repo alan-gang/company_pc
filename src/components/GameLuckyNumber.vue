@@ -1,10 +1,10 @@
 <template lang="jade">
   el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
-    el-col.left(:span="onlyNumber ? 24: 20" v-bind:class="{ bf: onlyNumber }" )
+    el-col.left(:span="onlyNumber ? 24: 20")
       span.NPER {{ NPER }} 
       | 期 &nbsp;
       span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
-        span.the-number {{ n }}
+        span.the-number {{ displayLuckNumbers[i] }}
       span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
         span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
           span.the-number {{ n | padStart(2, 0) }}
@@ -28,6 +28,8 @@
 
 <script>
 import Dice from './Dice'
+import { getAnimalOfNumber } from '../util/Number'
+// import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
   props: {
     NPER: String,
@@ -44,9 +46,13 @@ export default {
   },
   data () {
     return {
+      type: 1
     }
   },
   computed: {
+    callId () {
+      return this.gameid
+    },
     isDice () {
       return this.gameType === 'K3'
     },
@@ -58,11 +64,25 @@ export default {
     },
     longNumbers () {
       return !this.isDice && this.isArray
+    },
+    displayLuckNumbers () {
+      return this.lucknumbers.map(n => {
+        if (typeof n === 'object' && n[0] !== undefined) {
+          return n.map(nn => {
+            return getAnimalOfNumber(nn)[this.type - 2] || nn
+          })
+        } else {
+          return getAnimalOfNumber(n)[this.type - 2] || n
+        }
+      })
     }
   },
   methods: {
     fresh () {
       this.__setCall({fn: '__recentlyCode'})
+    },
+    __setLuckNumberType (type) {
+      this.type = type
     }
   },
   components: {
@@ -75,6 +95,43 @@ export default {
   @import '../var.stylus'
   W = .42rem
   w = .26rem
+  .lucky-numbers:not(.game-HC6) 
+    .number
+      box-shadow none
+      &:nth-child(2)
+        background-color #ff7c7c
+      &:nth-child(3)
+        background-color #ff9844
+      &:nth-child(4)
+        background-color #eac600
+      &:nth-child(5)
+        background-color #abe300
+      &:nth-child(6)
+        background-color #4dc4ff
+      
+      &:nth-child(7)
+        background-color #ff7c7c
+      &:nth-child(8)
+        background-color #ff9844
+      &:nth-child(9)
+        background-color #eac600
+      &:nth-child(10)
+        background-color #abe300
+      &:nth-child(11)
+        background-color #4dc4ff
+    
+    .number-array .number
+      &:nth-child(1)
+        background-color #ff7c7c
+      &:nth-child(2)
+        background-color #ff9844
+      &:nth-child(3)
+        background-color #eac600
+      &:nth-child(4)
+        background-color #abe300
+      &:nth-child(5)
+        background-color #4dc4ff
+    
   .lucky-numbers
     
       
@@ -100,6 +157,9 @@ export default {
       background-color DANGER
       radius(50%)
       box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+      
+      
+        
     .number-array 
       & + .number-array 
         margin-left PWX - .03rem
@@ -121,8 +181,8 @@ export default {
     // 115
     &.game-G115
       .number
-        color #333
-        background-color rgba(0,0,0,0)
+        // color #333
+        // background-color rgba(0,0,0,0)
         
     
     // PK10

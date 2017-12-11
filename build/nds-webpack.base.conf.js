@@ -23,10 +23,16 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
+      // from base DS
       'vue$': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
+      // from DSM
+      'mysrc': path.resolve(__dirname, '../DSM/src'),
+      'myassets': path.resolve(__dirname, '../DSM/src/assets'),
+      'mycomponents': path.resolve(__dirname, '../DSM/src/components'),
+      // from NDS
       'nds-src': path.resolve(__dirname, '../NDS/src'),
       'nds-assets': path.resolve(__dirname, '../NDS/src/assets'),
       'nds-components': path.resolve(__dirname, '../NDS/src/components')

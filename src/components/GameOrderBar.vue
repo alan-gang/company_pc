@@ -38,7 +38,7 @@
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
-      span.pay {{ pay }}
+      span.pay {{ pay.toFixed(3) }}
       |  元
       .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
       .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
@@ -77,7 +77,7 @@ export default {
       t: 1,
       // 快速金额
       ft: 2,
-      fts: [0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
+      fts: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
       ftshow: false
     }
   },

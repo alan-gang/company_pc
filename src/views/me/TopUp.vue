@@ -60,6 +60,8 @@
               | 最高：
               span.min.text-danger  {{ max }} 
               | 元)
+        
+
         .buttons(style="margin-left: .85rem; padding-top: .05rem")
             .ds-button.primary.large(@click="topUpNow") 确认
 

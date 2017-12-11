@@ -12,6 +12,8 @@ let store = {
       type: '',
       money: '',
       amoney: '',
+      // 特殊金额
+      smoney: '',
       free: '',
       // safeCenter
       email: '',
@@ -65,6 +67,7 @@ let store = {
         type: '',
         money: '',
         amoney: '',
+        smoney: '',
         free: '',
         // safeCenter
         email: '',

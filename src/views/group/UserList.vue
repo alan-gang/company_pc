@@ -58,7 +58,9 @@
 
           // el-table-column(v-if="showSalary" prop="loseSalary"  label="未中奖工资" width="100" align="right")
 
-          el-table-column(prop="teamBalance"  label="可用余额" width="120" align="right")
+          el-table-column(prop="teamBalance"  label="主帐户余额" width="120" align="right")
+
+          el-table-column(prop="speBalance"  label="特殊余额" width="120" align="right")
 
           el-table-column(prop="userPoint"  label="返点级别" align="right" width="100")
 
@@ -99,7 +101,9 @@
             |  进行充值
             span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
 
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 资金密码：&nbsp;&nbsp;&nbsp;
+          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 
+            
+            |资金密码：&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
             span(v-if=" me.safeCheck ")
               br
@@ -117,13 +121,22 @@
             span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
 
 
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 充值金额：
-            el-input-number.large(style="width: 2.2rem" v-model="money") 
+          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 
+            | 代充来源：&nbsp;&nbsp;&nbsp;
+            el-select(v-model=" mtype " style="width: 2.2rem; position: relative; top: -.01rem")
+              el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
+            br
+            br
+            | 可用余额：&nbsp;&nbsp;&nbsp;&nbsp;{{ mtype ? me.smoney : me.amoney }}
+            br
+            br
+            |充值金额：&nbsp;&nbsp;&nbsp;
+            el-input-number.large(style="width: 2.2rem" v-model="money" @keyup.enter.native=" checkTopup ") 
             span.text-money  {{ textMoney }}
             span.text-999(v-if=" topUpMax || topUpMin ")  ({{ topUpMin }} - {{ topUpMax }}元)
 
             <br>
-            span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem" @click=" checkTopup") 下一步
+            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click=" checkTopup") 下一步
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 2") 充值金额：
             span.amount {{ money }}
@@ -357,7 +370,9 @@
         // checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth],
         checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
         topUpMax: '',
-        topUpMin: ''
+        topUpMin: '',
+        moneyTypes: ['可用余额', '特殊金额'],
+        mtype: 0
       }
     },
     computed: {
@@ -383,7 +398,7 @@
         if (this.id === row.userId) return 'text-danger'
       },
       checkTopup () {
-        if ((this.topUpMax || this.topUpMin) && (this.money <= this.topUpMax && this.money >= this.topUpMin) || !(this.topUpMax || this.topUpMin)) {
+        if ((this.money <= (this.mtype ? this.me.smoney : this.me.amoney)) && (this.topUpMax || this.topUpMin) && (this.money <= this.topUpMax && this.money >= this.topUpMin) || !(this.topUpMax || this.topUpMin)) {
           this.topUpIndex++
         } else {
           this.$message.warning({target: this.$el, message: '您输入的金额过小或过大！'})
@@ -591,7 +606,8 @@
         }, 10000, '充值超时...')
         this.$http.get(api.recharge, {
           destId: this.user.userId,
-          amount: this.money
+          amount: this.money,
+          isSpe: this.mtype
         }).then(({data}) => {
           // success
           if (data.success === 1) {

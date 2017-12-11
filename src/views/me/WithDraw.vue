@@ -45,7 +45,7 @@
             |  小时才能正常提款
         .form
           p.item 可提现金额：&nbsp;&nbsp;
-            span.amount {{ me.amoney }}
+            span.amount {{ mtype ? me.smoney : me.amoney }}
 
           .item(style="line-height: .5rem") 收款银行卡：
             p.banks
@@ -69,6 +69,10 @@
           p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
+
+          .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            el-select(v-model=" mtype " style="width: 1.8rem; position: relative; top: -.01rem")
+                el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
 
           .buttons(style="margin-left: .98rem; padding: .2rem 0")
             .ds-button.primary.large(@click="showWithDraw") 确认
@@ -159,7 +163,9 @@ export default {
       S: ['未处理', '失败', '成功'],
       V: ['未审核', '审核通过', '审核失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
-      times: 0
+      times: 0,
+      moneyTypes: ['可用余额', '特殊金额'],
+      mtype: 0
     }
   },
   computed: {
@@ -353,7 +359,7 @@ export default {
       })
     },
     doWithDraw () {
-      this.$http.post(api.doWithDraw, {userBankId: this.selectBank.entry, amount: this.money}).then(({data}) => {
+      this.$http.post(api.doWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
         if (data.success === 1) {
           this.$modal.success({
             content: '恭喜您，提交成功！',

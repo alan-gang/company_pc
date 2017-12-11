@@ -15,7 +15,7 @@
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
+      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney"  v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
       
     // Chat
     // Print
@@ -23,7 +23,7 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
+      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
 
 </template>
@@ -370,6 +370,7 @@ export default {
                 {
                   id: '3-3-1',
                   menuid: '45',
+                  size: 'full',
                   title: '分红列表',
                   url: 'Stock'
                 },
@@ -966,7 +967,8 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable})
+          console.log(data)
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable, smoney: data.specialBalance})
         }
       }, (rep) => {
         // error
