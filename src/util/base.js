@@ -22,7 +22,11 @@ function C (n, m) {
   else if (m === 1) return n
   else return parseInt(permutationChoice(n, m) / factorial(m))
 }
-
+/**
+ * [factorial description]
+ * @param  {[type]} n [description]
+ * @return {[type]}   [description]
+ */
 function factorial (n) {
   // console.log(n)
   if (n === 0) return 1
