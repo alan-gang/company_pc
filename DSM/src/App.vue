@@ -19,7 +19,7 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsLefter.scroll-content(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney"  v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
     // Print
     Print(:data="printData" v-if="showPrint")
 </template>
@@ -840,15 +840,29 @@ export default {
         if (data.success === 1) {
           this.menuids = data.menuList
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          this.setPages(this._getPages())
+           // this.setPages(
+          let pages = this._getPages()
+          let x = []
           this.tabs.forEach((t, i) => {
-            if (!this.state.pages.find(x => x.id === t.id)) {
-              this.tabs.splice(i, 1)
+            if (!pages.find(x => x.id === t.id)) {
+              // this.tabs.splice(i, 1)
             } else {
-              console.log(t.id)
-              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              // console.log(t.id)
+              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
+          this.tabs = x
+          this.setPages(pages)  
+          // this.setPages(this._getPages())
+          // this.tabs.forEach((t, i) => {
+          //   if (!this.state.pages.find(x => x.id === t.id)) {
+          //     this.tabs.splice(i, 1)
+          //   } else {
+          //     console.log(t.id)
+          //     this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+          //   }
+          // })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})
@@ -870,7 +884,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance, smoney: data.specialBalance})
         }
       }, (rep) => {
         // error

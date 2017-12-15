@@ -1,5 +1,26 @@
 <template lang="jade">
   footer(ref="myFooter")
+    
+    el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
+      p
+        span.text-black.text-bold 特殊金额&nbsp;&nbsp;
+        span.text-blue.to 转至
+        span.text-black.text-bold &nbsp;&nbsp;可用余额
+      br
+      p 特殊帐户余额： 
+        | {{ me.smoney }}
+      br
+      p
+        el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
+        span.text-999  &nbsp;&nbsp;输入金额
+      br
+      p
+        el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
+      br
+      p
+        span.ds-button.primary(@click="transferNow") 确认转入
+
+
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(:ref="menu.url" v-for=" (menu, index) in menus" v-bind:placement=" mode ? 'top' : 'bottom' " trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
@@ -68,7 +89,7 @@
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
               dd 
-                span.money.ds-icon-money.font-gold(v-show="!hide") 
+                span.money.ds-icon-money.font-gold
                   span.text-light 主: 
                   span {{ money || '0.000' }} 
                 span.font-light 特: {{ smoney || '0.000' }}
@@ -112,24 +133,7 @@
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
 
 
-    el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
-      p
-        span.text-black.text-bold 特殊金额&nbsp;&nbsp;
-        span.text-blue.to 转至
-        span.text-black.text-bold &nbsp;&nbsp;可用余额
-      br
-      p 特殊帐户余额： 
-        | {{ me.smoney }}
-      br
-      p
-        el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
-        span.text-999  &nbsp;&nbsp;输入金额
-      br
-      p
-        el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
-      br
-      p
-        span.ds-button.primary(@click="transferNow") 确认转入
+    
 
 
       
@@ -190,9 +194,8 @@ export default {
     util.addEvent('resize', window, () => {
       this.getPos()
     })
-    if (this.model === 'day') this.day = true
-    if (this.model === 'night') this.day = false
-    document.body.className = this.day ? 'day' : 'night'
+    this.day = (this.model === 'day')
+    this.mode = (this.me.mode !== 'classic')
     if (!window.screenTop && !window.screenY) this.full = false
     else this.full = true
     // this.$emit('set-Model', this.day ? 'day' : 'night')
@@ -221,13 +224,11 @@ export default {
     },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
-      document.body.className = document.body.className.replace('day', '').replace('night', '')
-      document.body.className += ' ' + (this.day ? 'day' : 'night')
+      document.body.className = this.me.css
     },
     mode () {
       store.actions.setUser({mode: this.mode ? 'fashion' : 'classic'})
-      document.body.className = document.body.className.replace('fashion', '').replace('classic', '')
-      document.body.className += ' ' + (this.mode ? 'fashion' : 'classic')
+      document.body.className = this.me.css
       this.getPos()
       setTimeout(this.getPos, 0)
       setTimeout(this.getPos, 50)
@@ -588,6 +589,9 @@ export default {
     .login-test .routers
       padding 0
   
+  footer > .el-dialog__wrapper:first-child
+    background rgba(0,0,0,.5)
+    
   .dialog-transfer
     width auto
     text-align left

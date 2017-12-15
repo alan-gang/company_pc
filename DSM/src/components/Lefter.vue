@@ -1,14 +1,14 @@
 <template lang="jade">
   .lefter.ds-gm-icon-logo(:class= "[ menus[0].url ]")
+    Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout" v-if="!hideme" v-bind:smoney="smoney")
     Menus(:menus="menus").scroll-content
-    Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout" v-if="!hideme")
 </template>
 
 <script>
 import Menus from 'mycomponents/Menus'
 import Meinfo from 'mycomponents/Meinfo'
 export default {
-  props: ['menus', 'name', 'money', 'free', 'hideme'],
+  props: ['menus', 'name', 'money', 'smoney', 'free', 'hideme'],
   data () {
     return {
     }

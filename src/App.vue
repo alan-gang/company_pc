@@ -185,8 +185,7 @@ export default {
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
                 {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', gameid: 2},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29}
               ]
             },
             {
@@ -238,7 +237,8 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
                 {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14}
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14},
+                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
             },
             {
@@ -935,15 +935,20 @@ export default {
         if (data.success === 1) {
           this.menuids = data.menuList
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          this.setPages(this._getPages())
+          // this.setPages(
+          let pages = this._getPages()
+          let x = []
           this.tabs.forEach((t, i) => {
-            if (!this.state.pages.find(x => x.id === t.id)) {
-              this.tabs.splice(i, 1)
+            if (!pages.find(x => x.id === t.id)) {
+              // this.tabs.splice(i, 1)
             } else {
               // console.log(t.id)
-              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
+          this.tabs = x
+          this.setPages(pages)
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})

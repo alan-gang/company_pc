@@ -22,6 +22,7 @@
 
     dd.actions
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m") 试玩登录
+      router-link.back-router.ds-button.text-button.light.small(:to="'/login'" @click.native.stop="" style="float: left") 切换线路
       .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
         .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
           p(style="color: red; margin: 0 .15rem") safari及其它浏览器请至“偏好设置” -> “隐私”中允许第三方cookie

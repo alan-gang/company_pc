@@ -54,7 +54,8 @@
           confirm: 'default',
           question: 'ds-icon-question-large',
           warn: 'ds-icon-notice-large',
-          success: 'ds-icon-success-large'
+          success: 'ds-icon-success-large',
+          redpocket: 'ds-icon-redpocket'
         },
         btnClass: {
           confirm: ['primary', 'cancel'],

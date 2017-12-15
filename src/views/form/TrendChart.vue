@@ -431,6 +431,10 @@ export default {
     padding-left .8rem
     .text-button
       padding 0 .05rem
+    
+    @media (max-width: 1200px)
+      .right
+        width 100%
   .trend-chart
     padding 0 PWX 
     text-align center

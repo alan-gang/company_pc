@@ -1,5 +1,8 @@
 <template lang="jade">
-footer(:class="{'hide-info': hide}")
+footer(:class="{'hide-info': hide, 'shorter' : isTry || (!me.canTopUp && !me.canWithDraw)}")
+  
+  .el-icon-caret-left.text-999(style="display: none; position: absolute; right: 0; top : 300%; padding: .1rem; z-index: 1; cursor: pointer" @click=" __setCall({fn: '__toggleLefter', callId: undefined}) ")
+
   el-popover.footer-more(placement="right-end" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
     dl(slot="reference")
       dd.taller
@@ -16,7 +19,7 @@ footer(:class="{'hide-info': hide}")
 
     slot
       dl
-        dd(style="padding-bottom: .1rem")
+        // dd(style="padding-bottom: .1rem")
           el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
             // button.ds-button.primary(slot="reference" @click="checkinNow") 签到
             slot 
@@ -24,15 +27,19 @@ footer(:class="{'hide-info': hide}")
                 span.font-blue {{ checkDays }}天
                 |，今日
                 span.font-gold +{{ prizeAmount }}金币
-          .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
+          // .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
         dd
           span.name.ds-icon-m.font-light {{ name }}
-        dd 
-          span.money.ds-icon-money.font-gold {{ money || '0.000' }}
+        dd
+          span.money.ds-icon-money.font-gold
+            span.text-light 主: 
+            span {{ money || '0.000' }} 
+          span.font-light 特: {{ smoney || '0.000' }} 
         dd
           span.free.ds-icon-free.font-light {{ free || '0.000' }}
         dd(style="padding-top: .1rem")
-          .ds-button.cancel.full(@click="logout") 安全退出
+          .ds-button.primary(@click=" transfer = true ") 特殊金额转换
+          .ds-button.cancel(@click="logout" style="margin-left: .1rem" ) 安全退出
 
 
   .buttons
@@ -43,6 +50,25 @@ footer(:class="{'hide-info': hide}")
   el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
     LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
 
+  el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
+    p
+      span.text-black.text-bold 特殊金额&nbsp;&nbsp;
+      span.text-blue.to 转至
+      span.text-black.text-bold &nbsp;&nbsp;可用余额
+    br
+    p 特殊帐户余额： 
+      | {{ me.smoney }}
+    br
+    p
+      el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
+      span.text-999  &nbsp;&nbsp;输入金额
+    br
+    p
+      el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
+    br
+    p
+      span.ds-button.primary(@click="transferNow") 确认转入
+
 </template>
 
 <script>
@@ -52,7 +78,7 @@ import { toggleFullScreen } from 'src/util/Dom'
 import util from 'src/util'
 import store from 'src/store'
 export default {
-  props: ['menus', 'name', 'money', 'free'],
+  props: ['menus', 'name', 'money', 'smoney', 'free'],
   components: {
     LoginTest
   },
@@ -67,6 +93,8 @@ export default {
       more: false,
       checkin: false,
       router: false,
+      transfer: false,
+      tmodal: true,
       // name: '一介草民',
       hide: false,
       day: true,
@@ -76,7 +104,9 @@ export default {
       prizeAmount: 0.00,
       timeout: 0,
       pricePotAmount: 0,
-      pricePotCount: 0
+      pricePotCount: 0,
+      m: '',
+      cpwd: ''
     }
   },
   mounted () {
@@ -118,6 +148,10 @@ export default {
     }
   },
   watch: {
+    transfer () {
+      this.cpwd = ''
+      this.m = 0
+    },
     day () {
       store.actions.setUser({model: this.day ? 'day' : 'night'})
       // document.body.className = this.day ? 'day' : 'night'
@@ -132,6 +166,23 @@ export default {
     this.setFarChat({})
   },
   methods: {
+    transferNow () {
+      if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.m > this.me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
+      this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
+        if (data.success === 1) {
+          this.cpwd = ''
+          this.m = 0
+          this.$message.success({target: this.$el, message: data.msg || '特殊金额转换成功！'})
+          this.transfer = false
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || '特殊金额转换失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
     pricePot () {
       this.$http.get(api.pricePot).then(({data}) => {
         if (data.success === 1) {
@@ -368,6 +419,8 @@ export default {
   @import '../../../src/var.stylus'
   
   footer
+    .el-dialog__wrapper
+      background rgba(0,0,0,.5)
     min-width auto
     height BH
     padding .2rem 0rem .2rem .2rem
@@ -375,7 +428,8 @@ export default {
     &.hide-info
       height .755*BH
     // text-align center
- 
+    .el-icon-caret-left:hover
+      color #ccc
   NW = .26rem
   MW = .26rem
   FW = .26rem

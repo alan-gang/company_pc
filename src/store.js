@@ -2,6 +2,7 @@ import { dateTimeFormat } from './util/Date'
 let prevIndex = 0
 let store = {
   state: {
+
     hasHeader: false,
     hasFooter: false,
     user: {
@@ -38,7 +39,8 @@ let store = {
       minOrderPop: true,
       isVip: false,
       canTopUp: true,
-      canWithDraw: true
+      canWithDraw: true,
+      platform: 'cb'
     },
     pages: []
   },
@@ -91,7 +93,8 @@ let store = {
         minOrderPop: true,
         isVip: false,
         canTopUp: true,
-        canWithDraw: true
+        canWithDraw: true,
+        platform: 'cb'
       }
       Object.assign(store.state.user, user)
     },
@@ -153,6 +156,14 @@ Object.defineProperty(store.state.user, 'email', {
   },
   set: function (v) {
     this._email = v
+  }
+})
+Object.defineProperty(store.state.user, 'css', {
+  get: function () {
+    return this.platform + ' ' + this.mode + ' ' + this.model
+  },
+  set: function (v) {
+    this._css = v
   }
 })
 export default store

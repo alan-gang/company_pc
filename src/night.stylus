@@ -78,6 +78,8 @@ body.night
         background-color #444
         .ds-button.selected
           color #fff
+      .menu dd.title:hover
+        background rgba(0,0,0,.2)
     
         
     &.full
