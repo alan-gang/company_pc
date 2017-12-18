@@ -742,7 +742,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate).then(({data}) => {
+      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {

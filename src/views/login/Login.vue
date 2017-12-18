@@ -130,9 +130,8 @@
           this.$message.warning('输入值不能为空')
         } else {
           // launchFullScreen(document.body)
-          // let loading = this.$loading('登录中...')
           this._checkVerifyCode(() => {
-            this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web'}).then(({data}) => {
+            this.$http.post(api.validate, {userName: this.un_, userPwd: this.pwd, verifyCode: this.code_, channelType: 'web', timeout: 5000}).then(({data}) => {
               // success
               if (data.success === 1) {
                 this.loginSuccess(data)
@@ -144,8 +143,8 @@
               }
             }, (rep) => {
               // error
+              this.$message.error('登录失败！')
             }).finally(() => {
-              // loading.close()
             })
           })
         }

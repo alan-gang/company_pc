@@ -1,7 +1,6 @@
 <template lang="jade">
 
-  div#app(:class=" ['app', state.user.model] ")
-
+  div#app(:class=" ['app', state.user.css] ")
     // header
     // transition(name="slide-up" appear=true)
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
@@ -635,7 +634,8 @@ export default {
   mounted () {
     window.NProgress.done()
     api.suffix = '&isTop=1'
-    this.setUser({model: 'night'})
+    this.setUser({model: 'night', platform: 'dsm'})
+    document.body.className = this.state.user.css
     this.setPages(this._getPages())
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
@@ -657,7 +657,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate).then(({data}) => {
+      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -814,6 +814,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
+      this.setUser({model: 'night', platform: 'dsm'})
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()
@@ -853,7 +854,7 @@ export default {
             }
           })
           this.tabs = x
-          this.setPages(pages)  
+          this.setPages(pages)
           // this.setPages(this._getPages())
           // this.tabs.forEach((t, i) => {
           //   if (!this.state.pages.find(x => x.id === t.id)) {

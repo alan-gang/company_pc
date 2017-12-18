@@ -760,7 +760,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate).then(({data}) => {
+      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -780,6 +780,7 @@ export default {
       })
     },
     __loginSuccess (data) {
+      // this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
       this.loginSuccess(data)
     },
     loginSuccess (data) {
@@ -928,6 +929,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
+      this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()

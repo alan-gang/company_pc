@@ -25,10 +25,10 @@ export default {
   computed: {
   },
   mounted () {
-    document.body.className = 'login'
+    document.body.className += ' login'
   },
   beforeDestroy () {
-    document.body.className = ''
+    document.body.className = document.body.className.replace('login', '')
   },
   methods: {
   },

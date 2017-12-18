@@ -782,7 +782,7 @@
 
 <style lang="stylus">
 @import '../var.stylus'
-    .dices:not(.has-3)  
+    .dices
       .dice
         transition: color 0.25s
         color #666

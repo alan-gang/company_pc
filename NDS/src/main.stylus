@@ -4,10 +4,13 @@
 @import '../../src/classic.stylus'
 
 body.nds
-  .game-selection
+  #app .game-selection
     .circle
       // background rgba(255, 255, 255, .9)
       // color #666
+      .dices.selected .dice .side
+      &.default.selected
+        background #ff7e00
   .all-rights
     text-shadow none
     color #efefef
@@ -99,18 +102,19 @@ body.nds
         
       bottom 0
       .el-menu
-        top 1.2rem
+        top 1.3rem
         padding-left 0
         .ds-button
           // color rgba(255, 255, 255, .8) !important
         
         & > div > .ds-button.full
           display block !important
-          margin-top PWX
+          margin-top .05rem
           box-shadow none
           background #1b234d
           text-align left
           padding-left 3*PW
+          radius(0)
           &.game-myicon
             background url(./assets/game-center.png) PWX center no-repeat #1b234d
           
@@ -136,8 +140,41 @@ body.nds
       background #dedede
       top 1rem
       .dialog-page
+        GBG = #48525c
+        BARGB = #343d46
+        BTNBG = #5b646d
+        &.game-page .game-info
+          background-color GBG
+          .ds-button:not(.text-button):not(.instruction)
+            background-color BTNBG
         &.game-page .game-content
-          background #48525c
+          background-color GBG
+          .game-recent-order
+          .game-info
+          .menu
+            background-color GBG
+          .lucky-numbers
+          .menu .row
+          .inner-bar
+            background BARGB
+            
+            &:not(.amout-bar) .left .ds-button
+            input
+            .ds-checkbox
+              background-color BTNBG
+              &.selected
+                background-color BLUE
+          .follow-list input
+          .follow-list .el-checkbox__inner
+            background-color BTNBG
+            &.selected
+              background-color BLUE
+              
+          .game-info .ds-button:not(.text-button)
+            background-color BTNBG
+          
+
+
         top 0 !important
         bottom 0 !important
         box-shadow none

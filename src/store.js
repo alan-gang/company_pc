@@ -160,7 +160,7 @@ Object.defineProperty(store.state.user, 'email', {
 })
 Object.defineProperty(store.state.user, 'css', {
   get: function () {
-    return this.platform + ' ' + this.mode + ' ' + this.model
+    return this.platform + ' ' + this.mode + ' ' + this.model + ' ' + (this.isVip ? 'vip' : '')
   },
   set: function (v) {
     this._css = v

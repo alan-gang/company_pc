@@ -120,6 +120,10 @@ body.night
       background-color #e25d5d
     .dice .side
       bg-gradient(180deg, #555, #444)
+    .dice.selected .side
+      background DANGER
+      .dot
+        background #fff 
     .activity-center .section:hover
       background-color #444
     .gift-center
@@ -164,13 +168,13 @@ body.night
       &.amout-bar
         color #ccc
         .ds-button
-          background-color #444
-          &.danger
-            color DANGER
-            border 1px solid DANGER
-          &.primary
-            color BLUE
-            border 1px solid BLUE
+          // background-color #444
+          // &.danger
+          //   color DANGER
+          //   border 1px solid DANGER
+          // &.primary
+          //   color BLUE
+          //   border 1px solid BLUE
             
     .follow-list .form
       color #aaa
@@ -211,7 +215,8 @@ body.night
         &.light:hover
           color #ccc
       &.disabled
-        background #666
+        // background #666
+        // opacity .8
       &.blue
         color BLUE
         &:hover

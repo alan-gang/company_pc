@@ -1,7 +1,7 @@
 <template lang="jade">
 footer(:class="{'hide-info': hide, 'shorter' : isTry || (!me.canTopUp && !me.canWithDraw)}")
   
-  .el-icon-caret-left.text-999(style="display: none; position: absolute; right: 0; top : 300%; padding: .1rem; z-index: 1; cursor: pointer" @click=" __setCall({fn: '__toggleLefter', callId: undefined}) ")
+  .el-icon-caret-left.text-666(style="display: none; position: absolute; right: 0; top : 300%; padding: .1rem; z-index: 1; cursor: pointer" @click=" __setCall({fn: '__toggleLefter', callId: undefined}) ")
 
   el-popover.footer-more(placement="right-end" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
     dl(slot="reference")
@@ -57,7 +57,7 @@ footer(:class="{'hide-info': hide, 'shorter' : isTry || (!me.canTopUp && !me.can
       span.text-black.text-bold &nbsp;&nbsp;可用余额
     br
     p 特殊帐户余额： 
-      | {{ me.smoney }}
+      | {{ me.smoney || '0.000' }} 
     br
     p
       el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
@@ -429,7 +429,7 @@ export default {
       height .755*BH
     // text-align center
     .el-icon-caret-left:hover
-      color #ccc
+      color #999
   NW = .26rem
   MW = .26rem
   FW = .26rem
