@@ -13,7 +13,7 @@
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
 
                 // 选码还得有输入框
-                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1" @click.native.stop=" !row.noClick && !n.selected && toggle(n) ")
+                el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @change.native="ntimeChange(n) ")
 
                 // 筛子
                 Dices(v-if="isDice" v-bind:value="n.dots" v-bind:class=" { selected: n.selected} ")
@@ -27,7 +27,7 @@
                   span.ds-checkbox-label(style="margin: .05rem 0 0 .1rem" v-bind:class="{active: n.selected}" @click=" n.selected = !n.selected " v-if=" n.checkbox ")
                     .ds-checkbox( @click=" n.selected = !n.selected ")
                   // input
-                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) ")
+                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @mouseleave.native="ntimeChange(n) ")
 
 
 
@@ -146,6 +146,9 @@
       this.updateNumbers()
     },
     methods: {
+      ntimeChange (n) {
+        n.times = Math.ceil(n.times)
+      },
       __setDefaultTimes (n) {
         this.defaultTimes = n || 0
       },

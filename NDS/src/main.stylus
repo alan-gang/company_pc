@@ -50,7 +50,7 @@ body.nds
     & ~ [data-ng-app]
       .custom-service-box
         &:after
-          color #401
+          color GREEN
     // icon
     .ds-icon-logo
     .ds-icon-logo-middle
@@ -129,9 +129,9 @@ body.nds
         height auto
       footer.hide-info + ul
       footer.shorter + ul
-        top .8rem
+        top .9rem
       footer.hide-info.shorter + ul
-        top .3rem
+        top .5rem
     
     .dialog-container
       &.has-lefter
