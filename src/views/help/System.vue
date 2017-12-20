@@ -26,7 +26,7 @@
           .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
             span {{ g.subject }}
             .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
-           pre.value(v-show=" openIndex === index ") {{ g.content }}
+           pre.value(v-bind:class=" { expand: openIndex === index } ") {{ g.content }}
          
          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -133,6 +133,13 @@
       .value
         margin-top 0
         line-height .22rem
+        overflow hidden
+        transition max-height 1s ease-in
+        max-height 0
+        &.expand
+          transition max-height .3s ease-in
+          max-height 5rem
+          
 </style>
 <style lang="stylus">
   .night .function-help .item:hover .text-666

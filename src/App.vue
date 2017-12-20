@@ -1008,17 +1008,17 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) 0 0 no-repeat
     // background-size cover
   
   body:fullscreen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) 0 0 no-repeat
   }
   body:full-screen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) 0 0 no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url($ASSETS/bg.jpg) 0 0 no-repeat
   }
 </style>
 <style lang="less">
