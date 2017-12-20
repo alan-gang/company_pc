@@ -49,9 +49,12 @@ export default {
         } else {
           this.$message.error('试玩登陆失败!')
           this._getVerifyImage()
+          this.code_ = 0
         }
       }, (rep) => {
         // error
+        this.code_ = 0
+        this.$message.error('试玩登陆失败!')
       })
       // launchFullScreen(document.body)
     }
