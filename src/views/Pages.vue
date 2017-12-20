@@ -735,7 +735,7 @@ export default {
 </style>
 
 <style lang="stylus">
-  .dialog-page.game-page.page-1-5-1.full
+  // .dialog-page.game-page.page-1-5-1.full
   .dialog-page.game-page.page-1-1-6.full
       .game-content
       .inner-bar
