@@ -65,7 +65,7 @@
     },
     computed: {
       // apiBonusDetail () {
-      //   return this.me.role < 4 ? api.topBonuDetail + '&issue=' : api.qryBonusById + '&bonusId='
+      //   return this.me.role <= 2 ? api.topBonuDetail + '&issue=' : api.qryBonusById + '&bonusId='
       // }
     },
     watch: {
@@ -114,7 +114,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.stock = (this.self && this.me.role < 4) ? data.topDetailList : data
+            this.stock = (this.self && this.me.role <= 2) ? data.topDetailList : data
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

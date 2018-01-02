@@ -11,7 +11,7 @@
       .form
 
         div(style="text-align: center; min-height: .2rem" )
-          .ds-button-group(v-if="me.role > 2")
+          .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
         label.item 分红发放日期范围 
@@ -28,7 +28,7 @@
 
         .ds-button.primary.large.bold(@click="bonus") 搜索
 
-        el-table.header-bold.nopadding(:data="bonusList" v-bind:row-class-name="tableRowClassName" max-height="400" v-show=" !(type === 0 && me.role < 4)")
+        el-table.header-bold.nopadding(:data="bonusList" v-bind:row-class-name="tableRowClassName" max-height="400" v-show=" !(type === 0 && me.role <= 2)")
 
           el-table-column(prop="userName" label="用户名" width="80" v-if="type === 1")
 
@@ -58,7 +58,7 @@
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goStockDetail(scope.row.id)") 查看详情
 
 
-        el-table.header-bold.nopadding(:data="topBonuList" max-height="400" v-on:expand="expand" v-show=" (type === 0 && me.role < 4)")
+        el-table.header-bold.nopadding(:data="topBonuList" max-height="400" v-on:expand="expand" v-show=" (type === 0 && me.role <= 2)")
 
           // el-table-column(type="expand")
           //   template(scope="scope")
@@ -202,7 +202,7 @@
     },
     computed: {
       apiBonus () {
-        return this.me.role < 4 ? [api.topBonus, api.mySubBouns][this.type] : [api.myBonus, api.mySubBouns][this.type]
+        return this.me.role <= 2 ? [api.topBonus, api.mySubBouns][this.type] : [api.myBonus, api.mySubBouns][this.type]
       }
     },
     watch: {
