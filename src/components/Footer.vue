@@ -24,8 +24,8 @@
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
         el-popover(:ref="menu.url" v-for=" (menu, index) in menus" v-bind:placement=" mode ? 'top' : 'bottom' " trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
-          .icon-button(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ")
-          router-link.icon-button(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title ")
+          .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") 
+          router-link.icon-button.after-title(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle")
           slot
             dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
@@ -604,8 +604,36 @@ export default {
     .to
       padding PWX PW
       background url(../assets/game/new/to.png) center bottom .1rem no-repeat
+  
+
+
+#app:not(.classic)
+  & ~ [data-ng-app]
+    .custom-service-box
+      .custom-service
+        top 0rem
+      &:after
+        position absolute
+        top -.25rem
+        left .2rem
+        color rgba(255, 255, 255, .7)
+        content '客服'
+
+        font-size .14rem
+        
 </style>
 <style lang="stylus" scoped>
+  .after-title
+    // background-position bottom center
+    &:after
+      content attr(mytitle)
+      position absolute
+      top -.25rem
+      left 0 
+      right 0
+      color rgba(255, 255, 255, .7)
+      text-align center
+
   .ds-button
     box-shadow none
   @import '../var.stylus'
@@ -644,7 +672,7 @@ export default {
     text-align left
     z-index 1
     padding 0 .3rem 0 .1rem
-    overflow hidden
+    // overflow hidden
     .el-col
       &:first-child
         // margin-right .5rem

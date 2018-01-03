@@ -740,7 +740,7 @@ export default {
       .game-content
       .inner-bar
         max-width 100%
-        color red
+        // color red
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>

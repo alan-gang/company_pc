@@ -3,8 +3,8 @@
   html
     font-size 90px
     [data-ng-app=custom-service] .custom-service-box
-        width 50px
-        height 50px
+        // width 50px
+        // height 50px
         cursor pointer
     [data-ng-app=custom-service] .icon.custom-service.load
         cursor pointer

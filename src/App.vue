@@ -641,6 +641,7 @@ export default {
         },
         {
           id: 8,
+          mytitle: '客服',
           class: 'ds-icon-chat',
           url: 'chat'
         }
@@ -1048,7 +1049,7 @@ export default {
     left 0
     right 0
     height HH
-    z-index 1
+    z-index 3
     & + .scroll-content
       top HH
     // &:after
@@ -1067,6 +1068,11 @@ export default {
     right 0
     min-width 8.5rem
     // z-index 1
+      
+  #app:not(.classic) .dialog-container
+    z-index 2
+
+
   .scroll-content
     position absolute
     left 0

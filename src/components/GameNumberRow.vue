@@ -24,10 +24,10 @@
                     span.the-number.circle(v-bind:class="{ selected: n.selected}") {{ nn.split(':')[0] }}
 
                   // checkbox
-                  span.ds-checkbox-label(style="margin: .05rem 0 0 .1rem" v-bind:class="{active: n.selected}" @click=" n.selected = !n.selected " v-if=" n.checkbox ")
+                  span.ds-checkbox-label(style="margin: 0 0 0 .1rem" v-bind:class="{active: n.selected}" @click=" n.selected = !n.selected " v-if=" n.checkbox ")
                     .ds-checkbox( @click=" n.selected = !n.selected ")
                   // input
-                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times " v-if=" n.input " v-bind:max="10000" style="margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @mouseleave.native="ntimeChange(n) ")
+                  el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times "  v-if=" n.input " v-bind:max="10000" style="width: .7rem; margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @mouseleave.native="ntimeChange(n) ")
 
 
 
@@ -378,6 +378,7 @@
       &.half-row
         width 50%
         display inline-block
+        margin 0 !important
       &.row
         padding 0 .2rem
         margin .05rem 0
@@ -467,6 +468,10 @@
         // dice dice dice
         &.double-width
           width  2 * GCH
+        &.double-width.circle
+          width  1.8 * GCH
+          height 1.8 * GCH
+        
         &.third-width
           width  3 * GCH
         &.dice
@@ -503,7 +508,7 @@
           .code-input
             width 100%
             position absolute
-            top .75 * GCH
+            top .65 * GCH
             left 0
             z-index 1
             opacity 0
@@ -561,18 +566,42 @@
           .el-col.o0
             opacity 0
           .el-col.danger
-            background-color DANGER
+            // background-color DANGER
+            background-color inherit
+            border 1px solid DANGER
+            color DANGER
+            &.selected
+              color #fff
+              background-color DANGER
+              border none
           .el-col.green
-            background-color CODEGREEN
+            // background-color CODEGREEN
+            background-color inherit
+            border 1px solid CODEGREEN
+            color CODEGREEN
+            &.selected
+              color #fff
+              background-color CODEGREEN
+              border none
+              
           .el-col.blue
-            background-color BLUE
+            // background-color BLUE
+            background-color inherit
+            border 1px solid BLUE
+            color BLUE
+            &.selected
+              color #fff
+              background-color BLUE
+              border none
           
           .small-circle
+            margin 0 2px
             font-size .14rem
             min-height .32rem
             width .32rem
             height .32rem
             line-height .32rem
+            
           .code-input
             border-bottom 1px solid #ccc
             &:hover
