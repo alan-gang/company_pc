@@ -734,6 +734,14 @@ export default {
   //     top 0 !important
 </style>
 
+<style lang="stylus">
+  // .dialog-page.game-page.page-1-5-1.full
+  .dialog-page.game-page.page-1-1-6.full
+      .game-content
+      .inner-bar
+        max-width 100%
+        // color red
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../var.stylus'
@@ -878,7 +886,6 @@ export default {
           height TH
           top 0
           z-index 0
-    
     
       
 </style>

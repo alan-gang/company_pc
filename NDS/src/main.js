@@ -1,9 +1,9 @@
 
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
-Vue.config.devtools = false
-Vue.config.silent = true
-Vue.config.productionTip = false
+// Vue.config.devtools = false
+// Vue.config.silent = true
+// Vue.config.productionTip = false
 import '../../src/polyline'
 
 import config from '../../src/config'
@@ -64,7 +64,7 @@ filter(Vue)
 
 // Router
 import VueRoter from 'vue-router'
-import routerConfig from '../../src/router'
+import routerConfig from './router'
 Vue.use(VueRoter)
 let router = routerConfig(VueRoter)
 

@@ -3,7 +3,210 @@
 @import '../../src/night.stylus'
 @import '../../src/classic.stylus'
 
-body.nds    
-// icon
-  .ds-icon-logo
-    background url(./assets/logo.png) center top no-repeat 
+body.nds
+  #app .game-selection
+    .circle
+      // background rgba(255, 255, 255, .9)
+      // color #666
+      .dices.selected .dice .side
+      &.default.selected
+        background #ff7e00
+  .all-rights
+    text-shadow none
+    color #efefef
+          
+  &:after
+    content ''
+    position absolute
+    left 0
+    top 0
+    width 2rem
+    height .6rem
+    background url(./assets/logo.png) center center no-repeat 
+  
+  &.classic.day .footer-popover.el-popover
+    
+    &.more
+      transform translateX(PW) translateY(2*PW) !important
+      
+    
+    transform translateX(50%) !important
+    
+    @media(max-width: 2600px)
+      transform translateX(-50%) !important 
+      
+    @media(max-width: 2200px)
+      transform translateX(-50%) !important
+      
+    @media(max-width: 1850px)
+      transform translateX(50%) !important
+    
+    @media(max-width: 1600px)
+      transform translateX(-50%) !important
+
+  
+  #app
+        
+    & ~ [data-ng-app]
+      .custom-service-box
+        &:after
+          color GREEN
+    // icon
+    .ds-icon-logo
+    .ds-icon-logo-middle
+      display none !important
+      background url(./assets/logo.png) center top no-repeat 
+
+    // over write
+    // hide footer
+    footer 
+      background #1e4ba6
+      .info
+        display none
+      .menu
+        text-align center
+        width 100% !important
+        margin-left 0
+    
+
+    // lefter
+    @media (max-width: 1190px)
+      .lefter
+        display block
+    .lefter
+      transform translateX(-100%) !important
+      overflow visible
+      footer
+        overflow visible
+      &.show-lefter
+        transform none !important
+        .el-icon-caret-left
+          transform none
+          &:first-child
+            right 0rem !important
+      .el-icon-caret-left
+        display inline-block !important
+        transform rotateZ(180deg)
+        &:first-child
+          right -.2rem !important
+        
+      top .68rem
+      background #313a64
+      .el-dialog__wrapper
+        background rgba(0,0,0,.5)
+      &.game
+        left 0
+        transform none
+        .el-menu-item-group__title
+           // display block
+        
+      bottom 0
+      .el-menu
+        top 1.3rem
+        padding-left 0
+        .ds-button
+          // color rgba(255, 255, 255, .8) !important
+        
+        & > div > .ds-button.full
+          display block !important
+          margin-top .05rem
+          box-shadow none
+          background #1b234d
+          text-align left
+          padding-left 3*PW
+          radius(0)
+          &.game-myicon
+            background url(./assets/game-center.png) PWX center no-repeat #1b234d
+          
+          &.form-myicon
+            background url(./assets/clock.png) PWX center no-repeat #1b234d
+          
+        div > li
+          padding-left PW
+      footer
+        background #313a64
+        padding 0 0 PW PW
+        height auto
+      footer.hide-info + ul
+      footer.shorter + ul
+        top .9rem
+      footer.hide-info.shorter + ul
+        top .5rem
+    
+    .dialog-container
+      &.has-lefter
+        left 1.8rem
+      left 0
+      background #dedede
+      top 1rem
+      .dialog-page
+        GBG = #48525c
+        BARGB = #343d46
+        BTNBG = #5b646d
+        &.game-page .game-info
+          background-color GBG
+          .ds-button:not(.text-button):not(.instruction)
+            background-color BTNBG
+        &.game-page .game-content
+          background-color GBG
+          .game-recent-order
+          .game-info
+          .menu
+            background-color GBG
+          .lucky-numbers
+          .menu .row
+          .inner-bar
+            background BARGB
+            
+            &:not(.amout-bar) .left .ds-button
+            input
+            .ds-checkbox
+              background-color BTNBG
+              &.selected
+                background-color BLUE
+          .follow-list input
+          .follow-list .el-checkbox__inner
+            background-color BTNBG
+            &.selected
+              background-color BLUE
+              
+          .game-info .ds-button:not(.text-button)
+            background-color BTNBG
+          
+
+
+        top 0 !important
+        bottom 0 !important
+        box-shadow none
+        &.full
+          left 0 !important
+          right 0 !important
+          bottom 0 !important
+          top 0 !important
+        
+      
+     
+
+     .login-test
+      .routers
+        width 10rem
+        .el-col-8
+          width 50%
+      .col-content
+        height 1rem
+        .signal-bar
+          position relative
+          line-height 1.3rem
+          top .1rem
+          margin-left PWX
+          display inline-block
+        
+        .timer
+          position absolute
+          right PWX
+          top 0
+          line-height 1.3rem
+          .time
+            font-size .2rem
+          
+       

@@ -497,14 +497,14 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 500)
       })
     },
     quickbook () {
-      if (this.pay > this.money) {
+      if (this.pay > (this.checked ? this.free : this.money)) {
         return this.$modal.warn({
           target: this.$el,
-          content: '余额不足, 请充值。',
+          content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
           btn: ['确定']
         })
       }
@@ -605,7 +605,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 500)
       })
     },
     setType (type) {
@@ -855,8 +855,8 @@ export default {
     top TH + GH
   .game-content
     top TH
-    // bottom GAH * 2
-    padding-bottom GAH * 2
+    bottom GAH * 2
+    // padding-bottom GAH * 2
     max-width 9.3rem
     // max-height "calc(100% - %s)" % (TH + GAH)
     margin 0 auto

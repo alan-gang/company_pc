@@ -15,6 +15,9 @@ export default (Vue) => {
   // })
   let THROTTLE = {
     xhr: {
+      defaultArgs: {
+        timeout: 10000
+      },
       then: function (s, e) {
         e && e()
         return THROTTLE.xhr

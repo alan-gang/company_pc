@@ -63,7 +63,7 @@
     },
     computed: {
       apiContractDetail () {
-        return (this.me.role < 4 && this.self) ? api.topContract : api.qryContractById
+        return (this.me.role <= 2 && this.self) ? api.topContract : api.qryContractById
       }
     },
     watch: {

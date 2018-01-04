@@ -3,8 +3,9 @@
     el-col.left(:span="onlyNumber ? 24: 20")
       span.NPER {{ NPER }} 
       | 期 &nbsp;
-      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
-        span.the-number {{ displayLuckNumbers[i] }}
+      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class=" ['ds-icon-' + gameType + '-' +  (i + 1), gameType === 'HC6' ? getColorOfNumber(n) : '' ]") 
+        span.the-number(:class="") {{ displayLuckNumbers[i] }}
+
       span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
         span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) ") 
           span.the-number {{ n | padStart(2, 0) }}
@@ -28,7 +29,7 @@
 
 <script>
 import Dice from './Dice'
-import { getAnimalOfNumber } from '../util/Number'
+import { getAnimalOfNumber, getColorOfNumber } from '../util/Number'
 // import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
   props: {
@@ -46,7 +47,8 @@ export default {
   },
   data () {
     return {
-      type: 1
+      type: 1,
+      getColorOfNumber: getColorOfNumber
     }
   },
   computed: {
@@ -91,10 +93,23 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+  @import '../var.stylus'
+  .lucky-numbers.game-HC6
+    .number.danger
+      background-color DANGER
+    .number.green
+      background-color GREEN
+    .number.blue
+      background-color BLUE
+</style>
+
+
 <style lang="stylus" scoped>
   @import '../var.stylus'
   W = .42rem
   w = .26rem
+
   .lucky-numbers:not(.game-HC6) 
     .number
       box-shadow none

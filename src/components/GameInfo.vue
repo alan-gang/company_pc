@@ -19,12 +19,12 @@
               {{ type.example || '暂无' }}
 
       
-      router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="") 走势图
+      router-link.ds-icon-polyline.ds-button.outline.small(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="" v-if=" !HC6 ") 走势图
 
       
       el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist m popover-luckynumber'" ref="MO" v-if="!nopopper")
         span(slot="reference")
-          .ds-button.outline.recent-codes(style="margin-left: .05rem;padding: 0 .15rem; display: none") 近期开奖
+          .ds-button.outline.recent-codes(style="margin-left: .05rem;padding: 0 .15rem; display: none" v-bind:class="{ show: HC6 }") 近期开奖
           
         slot
           GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-if="allLuckyNumbers")
@@ -99,6 +99,9 @@ export default {
     }
   },
   computed: {
+    HC6 () {
+      return this.gameType === 'HC6'
+    },
     idType () {
       return this.gameType === 'SSL' ? '-' + this.gameType : ''
     },
@@ -290,6 +293,9 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  .recent-codes.show
+    display inline-block !important
+    
   F = .3rem
   .game-info
     &.fixed

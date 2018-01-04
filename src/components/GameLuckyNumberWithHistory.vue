@@ -20,7 +20,7 @@
               //.the-number {{ n }}
               //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
               //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
-              .the-number(v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
+              .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
 
             span.number-array(v-if = " isArray " v-for=" ns in lucknumbers " )
               span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
@@ -50,7 +50,7 @@
 
 <script>
 import Dice from './Dice'
-import { getAnimalOfNumber } from '../util/Number'
+import { getAnimalOfNumber, getColorOfNumber } from '../util/Number'
 import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
   props: {
@@ -72,7 +72,8 @@ export default {
     return {
       // delay: 1000,
       my: [2, 2, 2],
-      type: 1
+      type: 1,
+      getColorOfNumber: getColorOfNumber
     }
   },
   computed: {
@@ -134,6 +135,14 @@ export default {
   @import '../var.stylus'
   W = .42rem
   w = .26rem
+  .lucky-numbers.game-HC6
+    .the-number.HC6-danger
+      background-color DANGER
+    .the-number.HC6-green
+      background-color GREEN
+    .the-number.HC6-blue
+      background-color BLUE
+      
   .lucky-numbers:not(.game-HC6) 
     .number
       box-shadow none

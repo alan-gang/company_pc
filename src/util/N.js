@@ -1494,6 +1494,10 @@ let HC6 = {
   '1-1-3-HC6' ({nsl}) {
     return A(nsl)
   },
+  // 一肖
+  '2-1-4-HC6' ({nsl}) {
+    return C(A(nsl), 1)
+  },
   // 2连肖
   '2-1-1-HC6' ({nsl}) {
     return C(A(nsl), 2)
@@ -1509,6 +1513,38 @@ let HC6 = {
   // 波色
   '3-1-1-HC6' ({nsl}) {
     return A(nsl)
+  },
+  // '正一码'
+  '4-1-1-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正二码'
+  '4-1-2-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正三码'
+  '4-1-3-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正四码'
+  '4-1-4-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正五码'
+  '4-1-5-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正六码'
+  '4-1-6-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '特码'
+  '4-1-7-HC6' ({nsl}) {
+    return C(nsl, 1)
+  },
+  // '正特和值'
+  '4-1-8-HC6' ({nsl}) {
+    return C(nsl, 1)
   }
 }
 

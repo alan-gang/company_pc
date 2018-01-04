@@ -1,17 +1,20 @@
 <template lang="jade">
 
-  #app(:class=" [state.user.mode, state.user.model, 'app'] ")
-    
+  #app(:class=" [state.user.css, 'app'] ")
     // vue-progress-bar
     
     // header
     transition(name="slide-up" appear=true)
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
+
     
     // pages
     keep-alive
       transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-lefter': showLefter, 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+
+    ScrollInfo(:class="{ 'has-lefter': showLefter }")
+
 
     // footer
     transition(name="slide-down" appear=true)
@@ -23,7 +26,7 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
+      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:class="{ 'show-lefter': showLefter }" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout")
 
 
 </template>
@@ -34,6 +37,7 @@ import dsLefter from 'mycomponents/Lefter'
 import dsHeader from 'components/Header'
 import dsFooter from 'components/Footer'
 import Print from 'components/Print'
+import ScrollInfo from 'nds-components/ScrollInfo'
 // import Chat from 'components/Chat'
 import base from 'components/base'
 import store from 'src/store'
@@ -44,6 +48,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      showLefter: true,
       showPrint: false,
       printData: {},
       collapseFooter: false,
@@ -165,8 +170,9 @@ export default {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
-          title: '游戏',
+          title: '游戏中心',
           url: 'game',
+          hide: true,
           hideIcon: false,
           // size: 'full',
           groups: [
@@ -185,8 +191,7 @@ export default {
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
                 {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', gameid: 2},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29}
               ]
             },
             {
@@ -238,7 +243,8 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
                 {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14}
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14},
+                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
             },
             {
@@ -644,8 +650,8 @@ export default {
           url: 'chat'
         }
       ],
-      menuids: '',
-      activeMenu: []
+      menuids: ''
+      // activeMenu: []
     }
   },
   computed: {
@@ -672,13 +678,22 @@ export default {
     },
     mi () {
       return (this.currentab[0] || {mi: -1}).mi
+    },
+    activeMenu () {
+      return [this.menus[6], this.menus[9]]
     }
   },
   watch: {
     mi () {
+      // this.activeMenu = []
       setTimeout(() => {
         if (this.mi > 2 || this.mi < 0) {
-          this.activeMenu = [this.menus[this.mi]][0] ? [this.menus[this.mi]] : []
+          // this.activeMenu = [this.menus[6], this.menus[9]]
+          if (this.mi === 6) {
+            this.setUser({model: 'night'})
+          } else {
+            this.setUser({model: 'day'})
+          }
         }
       }, this.mi ? 0 : 500)
     },
@@ -717,6 +732,7 @@ export default {
     // '$route': 'openRoute'
   },
   mounted () {
+    this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
@@ -724,6 +740,9 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    __toggleLefter () {
+      this.showLefter = !this.showLefter
+    },
     __print (data) {
       this.printData = data
       this.showPrint = true
@@ -741,7 +760,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate).then(({data}) => {
+      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -761,6 +780,7 @@ export default {
       })
     },
     __loginSuccess (data) {
+      // this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
       this.loginSuccess(data)
     },
     loginSuccess (data) {
@@ -769,7 +789,11 @@ export default {
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()
-        this.setUser({login: true,
+        this.setUser({
+          mode: 'classic',
+          paltform: 'nds',
+          model: 'day',
+          login: true,
           name: data.nickName,
           pwd: data.hasLogPwd === '1',
           cashPwd: data.hasSecurityPwd === '1',
@@ -778,7 +802,8 @@ export default {
           shareCycle: data.shareCycle,
           role: data.roleId,
           hasBankCard: data.hasBankCard === '1',
-          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          isTry: data.isTry === '1',
+          guide: data.isTry !== '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType,
           vip: data.isVip
@@ -905,6 +930,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
+      this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()
@@ -934,15 +960,29 @@ export default {
         if (data.success === 1) {
           this.menuids = data.menuList
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          this.setPages(this._getPages())
+           // this.setPages(
+          let pages = this._getPages()
+          let x = []
           this.tabs.forEach((t, i) => {
-            if (!this.state.pages.find(x => x.id === t.id)) {
-              this.tabs.splice(i, 1)
+            if (!pages.find(x => x.id === t.id)) {
+              // this.tabs.splice(i, 1)
             } else {
               // console.log(t.id)
-              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
+          this.tabs = x
+          this.setPages(pages)
+          // this.setPages(this._getPages())
+          // this.tabs.forEach((t, i) => {
+          //   if (!this.state.pages.find(x => x.id === t.id)) {
+          //     this.tabs.splice(i, 1)
+          //   } else {
+          //     // console.log(t.id)
+          //     this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+          //   }
+          // })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})
@@ -977,7 +1017,8 @@ export default {
     dsHeader,
     dsFooter,
     Print,
-    dsLefter
+    dsLefter,
+    ScrollInfo
     // Chat
   }
 }
@@ -1001,7 +1042,7 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(./assets/header-bg.jpg) repeat
+    background url(./assets/bg.jpg) center center repeat
     // background url($ASSETS/bg.jpg) center center no-repeat
     // background-size cover
   
@@ -1080,6 +1121,17 @@ export default {
         bottom 2*FH
       @media(max-width: 862px)
         bottom 3*FH 
+  .page.home + .scroll-info
+  .page.login + .scroll-info
+    display none
+  .scroll-info
+    position absolute
+    top .68rem
+    left 0
+    right 0
+    &.has-lefter
+      left 1.8rem
+      
     
       
 

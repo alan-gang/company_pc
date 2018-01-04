@@ -1,7 +1,6 @@
 <template lang="jade">
 
-  div#app(:class=" ['app', state.user.model] ")
-
+  div#app(:class=" ['app', state.user.css] ")
     // header
     // transition(name="slide-up" appear=true)
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
@@ -19,7 +18,7 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
+      dsLefter.scroll-content(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney"  v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
     // Print
     Print(:data="printData" v-if="showPrint")
 </template>
@@ -635,7 +634,8 @@ export default {
   mounted () {
     window.NProgress.done()
     api.suffix = '&isTop=1'
-    this.setUser({model: 'night'})
+    this.setUser({model: 'night', platform: 'dsm'})
+    document.body.className = this.state.user.css
     this.setPages(this._getPages())
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
@@ -657,7 +657,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate).then(({data}) => {
+      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -693,7 +693,8 @@ export default {
           shareCycle: data.shareCycle,
           role: data.roleId,
           hasBankCard: data.hasBankCard === '1',
-          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          isTry: data.isTry === '1',
+          guide: data.isTry !== '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType
         })
@@ -814,6 +815,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
+      this.setUser({model: 'night', platform: 'dsm'})
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()
@@ -840,15 +842,29 @@ export default {
         if (data.success === 1) {
           this.menuids = data.menuList
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          this.setPages(this._getPages())
+           // this.setPages(
+          let pages = this._getPages()
+          let x = []
           this.tabs.forEach((t, i) => {
-            if (!this.state.pages.find(x => x.id === t.id)) {
-              this.tabs.splice(i, 1)
+            if (!pages.find(x => x.id === t.id)) {
+              // this.tabs.splice(i, 1)
             } else {
-              console.log(t.id)
-              this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              // console.log(t.id)
+              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
+          this.tabs = x
+          this.setPages(pages)
+          // this.setPages(this._getPages())
+          // this.tabs.forEach((t, i) => {
+          //   if (!this.state.pages.find(x => x.id === t.id)) {
+          //     this.tabs.splice(i, 1)
+          //   } else {
+          //     console.log(t.id)
+          //     this.tabs.splice(i, 1, Object.assign(this.state.pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
+          //   }
+          // })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})
@@ -870,7 +886,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance, smoney: data.specialBalance})
         }
       }, (rep) => {
         // error

@@ -21,7 +21,7 @@
 
 
 
-    el-col.left(:span="16")
+    el-col.left(:span="15")
       span(v-show="HC6") 快速金额
       el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
@@ -34,18 +34,18 @@
       el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
       span.p(v-if="P" v-show="!HC6") {{ ps}} - {{ prize }}
 
-    el-col.right(:span=" 8 ")
+    el-col.right(:span=" 9 ")
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay.toFixed(3) }}
       |  元
-      .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
+      .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
       .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
-        .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+        .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
-        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
+        .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
 
 
 
@@ -331,7 +331,7 @@ export default {
     text-align right
     .ds-button
       vertical-align middle
-      margin-left PW
+      margin-left 0.05rem
   
   .count
   .pay
