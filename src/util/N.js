@@ -1395,6 +1395,10 @@ let PK10 = {
     })
     return n
   },
+  // title: '猜三四名复式'
+  '-1-2-1-PK10' ({nsl, r}) {
+    return nsl[0] * nsl[1] - r
+  },
   // title: '猜前四名
   '-1-1-4-PK10' ({ns}) {
     let n = 0
