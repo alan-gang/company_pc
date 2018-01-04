@@ -1378,6 +1378,11 @@ let PK10 = {
     // return [N(value, 5).length, N(value, 5)]
     return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
+  // title: '猜三四名单式'
+  '-1-1-9-PK10' ({value}) {
+    // return [N(value, 5).length, N(value, 5)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
+  },
   // title: '猜前三名
   '-1-1-3-PK10' ({ns}) {
     let n = 0
