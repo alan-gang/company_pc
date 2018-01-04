@@ -293,8 +293,9 @@ body.classic:not(.nds)
       radius()
       top 0
     &.game-page
+      left 52% !important
       width 10rem !important
-      min-width 980px important
+      min-width 980px !important
       background none
       box-shadow none
       .ds-icon-cooking 

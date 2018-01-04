@@ -468,18 +468,19 @@
         // dice dice dice
         &.double-width
           width  2 * GCH
-        &.double-width.circle
-          width  1.8 * GCH
-          height 1.8 * GCH
         
         &.third-width
           width  3 * GCH
+          
         &.dice
           margin-right .1rem
           .the-number
             display none
           .after
             line-height .25rem
+        &.width1-8.code
+          width  1.8 * GCH
+          height 1.8 * GCH
         &.code
           &.danger
             color DANGER
