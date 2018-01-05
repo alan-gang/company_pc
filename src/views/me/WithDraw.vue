@@ -113,21 +113,24 @@
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
         el-table.header-bold.margin(:data="data" style="margin: .2rem")
-          el-table-column(prop="acceptTime" label="提现时间" width="180")
+          el-table-column(prop="acceptTime" label="提现时间" width="160")
 
-          el-table-column(prop="bankName" label="银行" width="150")
+          el-table-column(prop="bankName" label="银行" width="140")
             template(scope="scope")
               .ds-icon-bank-card.static(v-bind:class=" [ scope.row.class ] " style="margin: 0")
 
-          el-table-column(prop="realMoney" label="金额" width="150" align="right")
+          el-table-column(prop="realMoney" label="金额" width="140" align="right")
 
-          el-table-column(prop="transferFee" label="手续费" width="150" align="right")
+          el-table-column(prop="transferFee" label="手续费" width="100" align="right")
 
           el-table-column(label="" align="right" width="50")
 
-          el-table-column(label="状态")
+          el-table-column(label="状态" width="100")
             template(scope="scope")
               span(:class=" scope.row.statusV.indexOf('失败') !== -1 ? 'text-danger' : 'text-green' " v-if="scope.row.statusV") {{ scope.row.statusV }}
+
+          el-table-column(label="失败原因" prop="description" show-overflow-tooltip=true)
+              
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 </template>
