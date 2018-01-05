@@ -483,7 +483,8 @@
           height 1.8 * GCH
         &.code
           &.danger
-            color DANGER
+            &:not(.default-color)
+              color DANGER
             // &:hover
             // &.hover
             &.selected
@@ -536,7 +537,9 @@
               
           &.selected    
             color #fff
-            line-height GCH
+            line-height .9 * GCH
+            &:not(.has-after)
+              line-height 2GCH
             .after
               bottom 0.2 * GCH
               color #fff

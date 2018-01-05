@@ -20,7 +20,9 @@
         p.item 发放方式：{{ STYPE[c.sendType] }}
 
         p.item(v-for="(l, i) in  (c.bonusRules || c.topRuleList)") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[ l.ruletype || l.ruleType || 0 ].title }}
-          span.text-danger  {{ l.sales }}万
+          span.text-danger  {{ l.sales }}万，
+          活跃人数
+          span.text-danger {{ l.actUser }}人
           | ，分红比例
           span.text-danger  {{ l.bounsRate }}%
 

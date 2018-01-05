@@ -134,9 +134,12 @@
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
-            span.text-black  万，分红比例 
-            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="99")
+            span.text-black &nbsp;万，活跃人数&nbsp;
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+            span.text-black  人，分红比例 
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="25")
             |  %
+
 
           .buttons.item.block(style="padding-left: .55rem")
             .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 11")
@@ -289,16 +292,16 @@
         TYPE: [{id: 0, title: '销售'}, {id: 1, title: '亏损'}],
         r: {id: 0, title: '销售'},
         RULES: [
-          {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则三', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则四', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则五', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则六', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0},
-          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0}
+          {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
         ],
         ruleLength: 3
       }
@@ -312,7 +315,8 @@
           return {
             ruletype: n.ruletype,
             sales: n.sales,
-            bounsRate: n.bounsRate
+            bounsRate: n.bounsRate,
+            actUser: n.actUser
           }
         })
       },
