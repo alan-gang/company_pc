@@ -185,7 +185,8 @@ body.nds
           top 0 !important
         
       
-     
+     .login .try.ds-button
+       display none
 
      .login-test
       .routers

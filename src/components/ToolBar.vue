@@ -2,6 +2,7 @@
   .tool-bar
     span.title {{ title }}
     el-button-group
+      .el-button.ds-icon-volume(:class=" { off: !volume } " @click="v")
       el-button.my-star(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
       .el-button(@click.stop="minus")
         .el-icon-minus
@@ -14,7 +15,7 @@
 
 <script>
 export default {
-  props: ['title', 'star', 'menuid'],
+  props: ['title', 'star', 'menuid', 'volume'],
   data () {
     return {
     }
@@ -36,12 +37,21 @@ export default {
     },
     close () {
       this.$emit('close')
+    },
+    v () {
+      this.$emit('volume')
     }
   },
   components: {
   }
 }
 </script>
+<style lang="stylus">
+  .dialog-page:not(.game-page) .tool-bar .ds-icon-volume
+    display none
+  .dialog-page.game-page .move-bar
+     right 1.75rem
+</style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'

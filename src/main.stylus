@@ -539,6 +539,11 @@ pre
  *icons class define
  */
   
+  .ds-icon-volume
+    background url($ASSETS/v.png) center no-repeat
+    &.off
+      background url($ASSETS/vn1.png) center no-repeat
+
   .ds-icon-rmb-sign
       background url($ASSETS/icon_rmb.png) left center no-repeat
       // input

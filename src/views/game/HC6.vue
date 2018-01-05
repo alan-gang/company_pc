@@ -41,7 +41,7 @@ export default {
               items: [
                 {mutilpOrderPerRow: true, id: '4-1-1-HC6', title: '正一码', description: '对开奖号码的第一位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第一位为小或者双，即中大小单双。'},
                 {mutilpOrderPerRow: true, id: '4-1-2-HC6', title: '正二码', description: '对开奖号码的第二位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第二位为小或者双，即中大小单双。'},
-                {mutilpOrderPerRow: true, id: '4-1-3-HC6', title: '正三码', description: '对开奖号码的三位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第三位为小或者双，即中大小单双。'},
+                {mutilpOrderPerRow: true, id: '4-1-3-HC6', title: '正三码', description: '对开奖号码的第三位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第三位为小或者双，即中大小单双。'},
                 {mutilpOrderPerRow: true, id: '4-1-4-HC6', title: '正四码', description: '对开奖号码的第四位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第四位为小或者双，即中大小单双。'},
                 {mutilpOrderPerRow: true, id: '4-1-5-HC6', title: '正五码', description: '对开奖号码的第五位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第五位为小或者双，即中大小单双。'},
                 {mutilpOrderPerRow: true, id: '4-1-6-HC6', title: '正六码', description: '对开奖号码的第六位形态(大/小/单/双)进行购买，所选形态与开奖号码对应位置的形态相同，即为中奖。', example: '投注方案：小双；开奖号码第六位为小或者双，即中大小单双。'},

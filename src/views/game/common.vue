@@ -354,6 +354,7 @@ export default {
             this.overtime = false
             this.NPER = lst.issue + ''
             this.lucknumbers = lst.lucknumbers
+            this.page.volume && this.__setCall({fn: '__music', callId: undefined})
           }
           this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {

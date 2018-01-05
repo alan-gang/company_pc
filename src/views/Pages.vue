@@ -7,7 +7,7 @@
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
-        ToolBar(slot="toolbar" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid")
+        ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)")
 
 </template>
 
@@ -400,6 +400,9 @@ export default {
     star (page) {
       if (!page.star) this.addPrefence(page)
       else this.delPrefence(page)
+    },
+    volume (page) {
+      page.volume = !page.volume
     },
     addPrefence (page) {
       this.$http.get(api.addPrefence, {

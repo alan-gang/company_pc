@@ -8,14 +8,15 @@
 
     .scroll-content.vip-introduction
       pre
-        p.text-bold.text-center 畅博娱乐VIP制度
+        p.text-bold.text-black.text-center 畅博娱乐VIP制度
         br
 
         | 高额存提通道√      专属VIP客服√      稳定游戏专线√      专属定制活动√      问题优先处理√  
 
         br
         br
-        p.text-bold 畅博VIP至尊特权
+        br
+        p.text-bold.text-black 畅博VIP至尊特权
         br
         | 特权待遇  VIP1          VIP2           VIP3           VIP4         VIP5
         | 专属客服   √            √             √             √           √
@@ -23,48 +24,161 @@
         | 优先特权   √            √             √             √           √
         br
         br
-        p.text-bold充提特权（优先处理，充值次数不限，提款次数最多5次）
+        br
+        p.text-bold.text-black 充提特权（优先处理，充值次数不限，提款次数最多5次）
         br 
-        | VIP1      充值单笔最低100元,单笔最高10万元; 提款单笔最低100元, 单笔最高8万元
-        | VIP1      充值单笔最低100元,单笔最高20万元; 提款单笔最低100元, 单笔最高10万元
-        | VIP1      充值单笔最低100元,单笔最高30万元; 提款单笔最低100元, 单笔最高15万元
-        | VIP1      充值单笔最低100元,单笔最高40万元; 提款单笔最低100元, 单笔最高15万元
-        | VIP1      充值单笔最低100元,单笔最高50万元; 提款单笔最低100元, 单笔最高15万元
+        p VIP1      充值单笔最低
+            span.text-bold 100元
+            |,单笔最高
+            span.text-bold 10万元
+            |; 提款单笔最低
+            span.text-bold 100元
+            |, 单笔最高
+            span.text-bold 8万元
+        p VIP2      充值单笔最低
+            span.text-bold 100元
+            |,单笔最高
+            span.text-bold 20万元
+            |; 提款单笔最低
+            span.text-bold 100元
+            |, 单笔最高
+            span.text-bold 15万元
+        p VIP3      充值单笔最低
+            span.text-bold 100元
+            |,单笔最高
+            span.text-bold 30万元
+            |; 提款单笔最低
+            span.text-bold 100元
+            |, 单笔最高
+            span.text-bold 15万元
+        p VIP4      充值单笔最低
+            span.text-bold 100元
+            |,单笔最高
+            span.text-bold 40万元
+            |; 提款单笔最低
+            span.text-bold 100元
+            |, 单笔最高
+            span.text-bold 15万元
+        p VIP5      充值单笔最低
+            span.text-bold 100元
+            |,单笔最高
+            span.text-bold 40万元
+            |; 提款单笔最低
+            span.text-bold 100元
+            |, 单笔最高
+            span.text-bold 15万元    
+
+        // p VIP1      充值单笔最低100元,单笔最高20万元; 提款单笔最低100元, 单笔最高10万元
+        // p VIP1      充值单笔最低100元,单笔最高30万元; 提款单笔最低100元, 单笔最高15万元
+        // p VIP1      充值单笔最低100元,单笔最高40万元; 提款单笔最低100元, 单笔最高15万元
+        // p VIP1      充值单笔最低100元,单笔最高50万元; 提款单笔最低100元, 单笔最高15万元
         br
         br        
   
    
 
       
-        p.text-bold 畅博VIP晋升途径一
+        p.text-bold.text-black 畅博VIP晋升途径一
         br
         | VIP等级     提出VIP申请前7日内             提出VIP申请前15日内            提出VIP申请前30日内 
-        | VIP1      完成10万存款及20万投注额      完成15万存款及30万投注额       完成20万存款及50万投注额
-        | VIP2      完成15万存款及30万投注额      完成25万存款及50万投注额       完成30万存款及75万投注额
-        | VIP3      完成20万存款及40万投注额      完成35万存款及70万投注额       完成40万存款及100万投注额
-        | VIP4      完成25万存款及50万投注额      完成45万存款及90万投注额       完成50万存款及125万投注额
-        | VIP5      完成30万存款及60万投注额      完成55万存款及110万投注额      完成60万存款及150万投注额
+        p VIP1      完成
+            span.text-bold 10万
+            | 存款及
+            span.text-bold 20万
+            | 投注额      完成
+            span.text-bold 15万
+            | 存款及
+            span.text-bold 30万
+            |投注额       完成
+            span.text-bold 20万
+            | 存款及
+            span.text-bold 50万
+            | 投注额
+        p VIP2      完成
+            span.text-bold 15万
+            | 存款及
+            span.text-bold 30万
+            | 投注额      完成
+            span.text-bold 25万
+            | 存款及
+            span.text-bold 50万
+            |投注额       完成
+            span.text-bold 30万
+            | 存款及
+            span.text-bold 75万
+            | 投注额
+        p VIP3      完成
+            span.text-bold 20万
+            | 存款及
+            span.text-bold 40万
+            | 投注额      完成
+            span.text-bold 35万
+            | 存款及
+            span.text-bold 70万
+            |投注额       完成
+            span.text-bold 40万
+            | 存款及
+            span.text-bold 100万
+            | 投注额
+        p VIP4      完成
+            span.text-bold 25万
+            | 存款及
+            span.text-bold 50万
+            | 投注额      完成
+            span.text-bold 45万
+            | 存款及
+            span.text-bold 90万
+            |投注额       完成
+            span.text-bold 50万
+            | 存款及
+            span.text-bold 125万
+            | 投注额
+        p VIP5      完成
+            span.text-bold 30万
+            | 存款及
+            span.text-bold 60万
+            | 投注额      完成
+            span.text-bold 55万
+            | 存款及
+            span.text-bold 110万
+            |投注额      完成
+            span.text-bold 60万
+            | 存款及
+            span.text-bold 150万
+            | 投注额
         br
         br
 
-        p.text-bold 畅博VIP晋升途径二
+        p.text-bold.text-black 畅博VIP晋升途径二
         br
         | 由VIP会员或直属及以上直接推荐，推荐人与被推荐人不能共用同一账户、同一IP以及同一姓名银行卡信息。
         br
         br
+        br
 
-        p.text-bold 保级条件
+        p.text-bold.text-black 保级条件
         br 
-        | VIP1      一个月内完成40万投注额
-        | VIP2      一个月内完成60万投注额
-        | VIP3      一个月内完成80万投注额
-        | VIP4      一个月内完成100万投注额
-        | VIP5      一个月内完成120万投注额
+        p VIP1      一个月内完成
+            span.text-bold 40
+            | 万投注额
+        p VIP2      一个月内完成
+            span.text-bold 60
+            | 万投注额
+        p VIP3      一个月内完成
+            span.text-bold 80
+            | 万投注额
+        p VIP4      一个月内完成
+            span.text-bold 100
+            | 万投注额
+        p VIP5      一个月内完成
+            span.text-bold 120
+            | 万投注额
         br
         br
         p.text-grey
           | 注：所有VIP会员的保级考核从成为VIP所在月份的下一个月开始进行统计；每个月前两个工作日内完成VIP资格更新。
           | 例：玩家在11月10日申请VIP并成功晋升，则11月10日 至 11月31日期间均可享受VIP特权；12月1日至12月31日开始针对该会员进行VIP保级考核；1月1日至1月2日完成所有VIP资格更新。
+        br
         br
         p.text-bold 常见问题：
         br
