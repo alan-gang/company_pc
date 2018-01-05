@@ -531,6 +531,8 @@ pre
   color ORANGE
 .text-bold
   font-weight bold
+.text-center
+  text-align center
     
 
 /*

@@ -67,6 +67,7 @@ import FunctionHelp from './help/FunctionHelp'
 import QuestionHelp from './help/QuestionHelp'
 import System from './help/System'
 import Feedback from './help/Feedback'
+import VIP from './help/VIP'
 
 // 活动中心
 import Activity from './activity/Activity'
@@ -136,6 +137,7 @@ export default {
     QuestionHelp,
     System,
     Feedback,
+    VIP,
     // 活动
     Activity,
     Gift,

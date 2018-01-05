@@ -608,6 +608,11 @@ export default {
                   title: '常见问题',
                   url: 'QuestionHelp',
                   menuid: '70'
+                },
+                {
+                  id: '6-1-4',
+                  title: 'VIP介绍',
+                  url: 'VIP'
                 }
               ]
             },
