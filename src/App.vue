@@ -793,7 +793,7 @@ export default {
           role: data.roleId,
           hasBankCard: data.hasBankCard === '1',
           isTry: data.isTry === '1',
-          guide: data.isTry !== '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType,
           vip: data.isVip
