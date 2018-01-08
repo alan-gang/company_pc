@@ -32,9 +32,11 @@
 
           el-table-column(prop="userName" label="用户名" width="80" v-if="type === 1")
 
+          el-table-column(prop="issue" label="分紅期号" width="140" )
+
           el-table-column(prop="expireTm" label="契约结束时间" width="140" )
 
-          el-table-column(prop="beginTm" label="契约开始时间" width="140" )
+          // el-table-column(prop="beginTm" label="契约开始时间" width="140" )
 
           el-table-column(label="累计销量" width="100" align="right")
             template(scope="scope")
@@ -46,6 +48,9 @@
             template(scope="scope")
               // span {{ scope.row.ruleType === 1 ? scope.row.sales : '--' }}
               span {{ scope.row.profitAmount }}
+          
+          el-table-column(prop="actUser" label="活跃人數" width="80"  align="right")
+
 
           el-table-column(prop="bouns" label="理论分红金额" width="120" align="right")
 
@@ -89,6 +94,7 @@
           el-table-column(prop="monthlyProfit" label="本期盈亏额" width="140" )
           el-table-column(prop="bookProfit" label="理论盈亏" width="140" )
           el-table-column(prop="totalProfit" label="总盈亏" width="140" )
+          el-table-column(prop="actUser" label="活跃人數" width="80")
           el-table-column(prop="shareBook" label="理论分红金额" width="140" )
           el-table-column(prop="shareAmount" label="分红金额" width="140" )
           // el-table-column(label="奖金类型" align="center" width="80")

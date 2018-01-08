@@ -8,7 +8,7 @@
 
     .scroll-content.vip-introduction
       pre
-        p.text-bold.text-black.text-center 畅博娱乐VIP制度
+        p.text-bold.text-black.text-center(style="font-size: .16rem") 畅博娱乐VIP制度
         br
 
         | 高额存提通道√      专属VIP客服√      稳定游戏专线√      专属定制活动√      问题优先处理√  
@@ -216,6 +216,6 @@
   .vip-introduction
     top TH
     padding PWX
-    font-size .16rem
+    font-size .14rem
   
 </style>
