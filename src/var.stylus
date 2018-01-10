@@ -41,6 +41,8 @@ CH = .29rem
 BMH = .5rem
 // mid margin bottom
 MMH = .5rem
+// righter width
+RW = .7rem
 
 
 

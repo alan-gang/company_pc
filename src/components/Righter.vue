@@ -1,0 +1,196 @@
+<template lang="jade">
+  .righter
+    .ds-icon-skins
+      .expand-left.skins  &nbsp;&nbsp;可选皮肤
+        br
+        .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
+    .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
+      .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
+    .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
+      .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
+    .ds-icon-
+      .expand-left 联系客服
+
+</template>
+
+<script>
+  import store from '../store'
+  export default {
+    data () {
+      return {
+        Me: store.state.user,
+        store: store,
+        skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
+      }
+    },
+    watch: {
+      Me: {
+        deep: true,
+        handler () {
+          document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
+          document.body.className = this.Me.css
+        }
+      }
+    },
+    methods: {
+    }
+  }
+</script>
+
+<style lang="stylus">
+  @import '../var.stylus'
+  body.cb
+    
+    footer 
+      .switch-box
+        display none !important
+      .ds-icon-full-screen
+        margin-left .2rem
+    #app ~ [data-ng-app] .custom-service-box 
+      .message-cut
+        top -1rem
+        right 1rem
+      .badge
+        left 8px
+        
+      left auto !important
+      right 0 !important
+      top 50% !important
+      z-index 5
+      border-radius 0 !important
+      padding 0
+      height RW !important
+      width RW !important
+      // &:hover
+      //   background-color rgba(49,41,84, .95)
+      //   &:after
+      //     width 1.07rem
+      &:after
+        position absolute
+        display none
+        left auto !important
+        top 0 !important
+        right 100% !important
+        height RW !important
+        line-height RW !important
+        width 0
+        text-align center
+        content '联系客服' !important
+        color #fff !important
+        background-color rgba(49,41,84, .95)
+        transition all ease .3s
+        font-size .14rem
+        
+        overflow hidden
+      .icon.custom-service
+        width RW
+        height RW
+        margin 0
+        background-image url(../assets/righter/04.png) !important
+        background-position center
+        cursor pointer !important
+        &:hover
+          background-color rgba(49,41,84, .95)
+          background url(../assets/righter/04.png) center no-repeat rgba(49,41,84, .95)
+          &:after
+            width 1.11rem
+        &:after
+          position absolute
+          display inline-block
+          left auto !important
+          top  0 !important
+          right RW !important
+          height RW
+          line-height RW
+          width 0
+          text-align center
+          content '联系客服' !important
+          color #fff !important
+          background-color rgba(49,41,84, .95)
+          transition all ease .3s
+          font-size .14rem
+          overflow hidden
+          
+        
+      
+
+</style>
+
+<style lang="stylus" scoped>
+  @import '../var.stylus'
+  .righter
+    position fixed
+    top 50%
+    right 0
+    width RW
+    transform translateY(-75%)
+    background-color rgba(0,0,0,.2)
+    color #fff
+    // padding PWX
+    radius()
+    z-index 4
+    & > [class*=ds-icon]
+      height RW
+      cursor pointer 
+      &:hover 
+        background-color rgba(49,41,84, .95)
+        .expand-left
+          width 1.5 * RW
+          &.skins
+            transform translateX(0)
+            width 3.45rem
+            
+            
+            
+    .expand-left
+      &.skins
+        width 3.45rem
+        height auto  
+        padding .2rem
+        text-align left
+        line-height .3rem
+        transform translateX(130%)
+     
+        
+      width 0
+      position absolute
+      right RW
+      height RW
+      line-height RW
+      text-align center
+      background-color rgba(49,41,84, .95)
+      z-index -1
+      transition all ease .3s
+      overflow hidden
+        
+      .skin
+        position relative
+        width 1rem
+        height .9* RW
+        radius()
+        background-size cover !important
+        display inline-block
+        margin .075rem
+        float left
+        cursor pointer
+        &.checked
+          &:after
+            content ''
+            position absolute
+            left 0
+            right 0
+            width 100%
+            height 100%
+            background url(../assets/righter/gou01.png) center no-repeat
+            
+        &:not(.checked):hover
+          &:after
+            content ''
+            position absolute
+            left 0
+            right 0
+            width 100%
+            height 100%
+            background url(../assets/righter/gou02.png) center no-repeat
+            
+</style>

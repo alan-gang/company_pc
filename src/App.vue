@@ -11,7 +11,7 @@
     // pages
     keep-alive
       transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
     // footer
     transition(name="slide-down" appear=true)
@@ -25,6 +25,12 @@
     transition(name="slide-left" appear=true)
       dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
+    // righter
+    transition(name="slide-right" appear=true)
+      dsRighter(v-if="state.hasFooter")
+
+
+
 
 
 
@@ -33,6 +39,7 @@
 <script>
 // import util from './util'
 import dsLefter from 'mycomponents/Lefter'
+import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
 import dsFooter from './components/Footer'
 import Print from './components/Print'
@@ -645,13 +652,13 @@ export default {
           class: 'ds-icon-download',
           href: '/download/7-1-1',
           title: '下载'
-        },
-        {
-          id: 8,
-          mytitle: '客服',
-          class: 'ds-icon-chat',
-          url: 'chat'
         }
+        // {
+        //   id: 8,
+        //   mytitle: '客服',
+        //   class: 'ds-icon-chat',
+        //   url: 'chat'
+        // }
       ],
       menuids: '',
       activeMenu: [],
@@ -920,6 +927,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
+      document.body.className = this.Me.css
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()
@@ -998,7 +1006,8 @@ export default {
     dsHeader,
     dsFooter,
     Print,
-    dsLefter
+    dsLefter,
+    dsRighter
     // Chat
   }
 }
@@ -1022,18 +1031,19 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url($ASSETS/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) 0 0 no-repeat
     // background-size cover
   
   body:fullscreen #app > * {
-    background url($ASSETS/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) 0 0 no-repeat
   }
   body:full-screen #app > * {
-    background url($ASSETS/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) 0 0 no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url($ASSETS/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) 0 0 no-repeat
   }
+  
 </style>
 <style lang="less">
   @import url('./chat.wap.less');

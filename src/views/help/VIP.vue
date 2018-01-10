@@ -1,3 +1,5 @@
+
+
 <template lang="jade">
   .help-page
     slot(name="cover")
@@ -42,7 +44,7 @@
             |; 提款单笔最低
             span.text-bold 100元
             |, 单笔最高
-            span.text-bold 15万元
+            span.text-bold 10万元
         p VIP3      充值单笔最低
             span.text-bold 100元
             |,单笔最高
@@ -62,7 +64,7 @@
         p VIP5      充值单笔最低
             span.text-bold 100元
             |,单笔最高
-            span.text-bold 40万元
+            span.text-bold 50万元
             |; 提款单笔最低
             span.text-bold 100元
             |, 单笔最高

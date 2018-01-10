@@ -539,10 +539,28 @@ pre
  *icons class define
  */
   
+  .ds-icon-skins
+    background url($ASSETS/righter/01.png) center no-repeat
+
+  .ds-icon-classic
+    background url($ASSETS/righter/02_jing.png) center no-repeat
+    // opacity .8
+    &.off
+      background url($ASSETS/righter/02_shang.png) center no-repeat
+
+  .ds-icon-day
+    background url($ASSETS/righter/03_ri.png) center no-repeat
+    // opacity .8
+    &.off
+      background url($ASSETS/righter/03_ye.png) center no-repeat
+      
+
   .ds-icon-volume
     background url($ASSETS/v.png) center no-repeat
+    // opacity .8
     &.off
       background url($ASSETS/vn1.png) center no-repeat
+      opacity .30
 
   .ds-icon-rmb-sign
       background url($ASSETS/icon_rmb.png) left center no-repeat

@@ -126,6 +126,8 @@
         !this.server && this.frontList.forEach((url, i) => {
           this.testAline(url, i, 'frontTimeList')
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
+            // if get tapi don't change again
+            if (window.localStorage.getItem('tapi')) return false
             api.api = (this.serverList.find(n => n.group === url.group) || {line: ''}).line || api.api
           }
         })

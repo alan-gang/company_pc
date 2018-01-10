@@ -40,7 +40,8 @@ let store = {
       isVip: false,
       canTopUp: true,
       canWithDraw: true,
-      platform: 'cb'
+      platform: 'cb',
+      skin: 0
     },
     pages: []
   },
@@ -69,6 +70,7 @@ let store = {
         type: '',
         money: '',
         amoney: '',
+        // 特殊金额
         smoney: '',
         free: '',
         // safeCenter
@@ -83,11 +85,12 @@ let store = {
         safeScore: '',
         location: '',
         lastLoginTime: '',
+        // 1. 招商总代 2： 直属总代 3.一般总代 4： 普通代理 5： 试玩用户
         role: '',
         isTry: '',
         guide: false,
-        user: 'day',
-        mode: 'fashion',
+        // model: 'day',
+        // mode: 'fashion',
         shareCycle: 0,
         collects: [],
         minOrderPop: true,
@@ -95,6 +98,7 @@ let store = {
         canTopUp: true,
         canWithDraw: true,
         platform: 'cb'
+        // skin: 0
       }
       Object.assign(store.state.user, user)
     },

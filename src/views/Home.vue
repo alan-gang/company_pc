@@ -327,7 +327,7 @@ export default {
         overflow hidden
         radius()
         padding-top H - 2*PW
-        background-color rgba(255, 255, 255, .2)
+        background-color rgba(0, 0, 0, .2)
         // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         background-position 50% 35% 
         cursor pointer
@@ -360,9 +360,11 @@ export default {
           
   .stick
     margin-right .1rem
-    background rgba(255, 255, 255, .2)
+    background rgba(0, 0, 0, .2)
     box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .3)
     cursor default
+    shadow(none)
+    
   .delete-bar
     display none
     position absolute
