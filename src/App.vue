@@ -1031,17 +1031,47 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(/static/skins/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
+    background-size 100% 100% !important
+    transition background linear .5s
+    &.skin-new-year 
+      #app.classic .lefter.game .game
+        background-color rgba(0,0,0, .7)
+        
+      .page.home > .container
+        margin-top 18%
+        @media(max-height: 768px)
+            margin-top 10%
+      .page.login > .logo
+        margin-top 17%
+        @media(max-height: 768px)
+          margin-top 12%
+      
+            
+      @media(max-height: 1200px)
+        background-size 130% 130% !important
+      @media(max-height: 900px)
+        background-size 140% 140% !important
+      @media(max-width: 1366px)
+        background-size 160% 160% !important
+      @media(max-height: 768px)
+        background-size 160% 160% !important
+      @media(max-width: 1280px)
+        background-size 170% 170% !important
+      @media(max-width: 1200px)
+        background-size 200% 170% !important
+        // background-position 200% 200% !important
+      
     // background-size cover
   
   body:fullscreen #app > * {
-    background url(/static/skins/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   body:full-screen #app > * {
-    background url(/static/skins/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url(/static/skins/bg.jpg) 0 0 no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   
 </style>

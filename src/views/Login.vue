@@ -44,6 +44,7 @@ export default {
     font-shadow()
     .logo
       margin-top .85rem
+      transition margin-top linear .5s
     .part
       margin 0 auto
       margin-bottom .3rem

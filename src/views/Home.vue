@@ -1,18 +1,18 @@
 <template lang="jade">
   section.home
     .container
-      el-row.font-light.public(:gutter="0")
+      el-row.text-white.public(:gutter="0")
         el-col(:span="12")
           .ds-button.small.stick 中奖公告
           span(v-for=" (msg, ii) in msgs " v-show="ii === j")
             | {{ msg.cnName }} ({{ msg.issue }}) 期 
-            span.userName.font-blue {{ msg.nickName }}
+            span.userName.text-blue {{ msg.nickName }}
             |  喜中 
-            span.money.font-danger {{ msg.amount }}
+            span.money.text-danger {{ msg.amount }}
             |  元
         el-col(:span="12")
           .ds-button.small.stick 系统公告
-          router-link.text-light(:to=" '/help/6-2-1' " v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
+          router-link.text-white(:to=" '/help/6-2-1' " v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
           
       el-row.collects.font-white(:gutter="0")
         el-col(:span="5" v-for=" (c, index) in collects " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native="!c.title ? (adding = true) && (addIndex = index) : openTab(c.id) ") {{ c.title }}
@@ -307,8 +307,9 @@ export default {
     min-width 6rem
     margin 0 auto
     margin-top 10%
+    transition margin-top linear .5s
     @media(max-height: 768px)
-        margin-top 0
+        margin-top 5%
     .public
       .el-col
         min-width 2*W

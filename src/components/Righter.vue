@@ -3,7 +3,7 @@
     .ds-icon-skins
       .expand-left.skins  &nbsp;&nbsp;可选皮肤
         br
-        .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
+        .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' center no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
     .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
@@ -20,6 +20,7 @@
       return {
         Me: store.state.user,
         store: store,
+        // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg', '/static/skins/bg_09.jpg']
         skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
     },
@@ -27,7 +28,7 @@
       Me: {
         deep: true,
         handler () {
-          document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
+          document.body.style.background = 'url(' + this.skins[this.Me.skin] + ') center no-repeat'
           document.body.className = this.Me.css
         }
       }
