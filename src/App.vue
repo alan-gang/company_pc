@@ -938,6 +938,7 @@ export default {
     },
     __logoutChat () {
       window.accessAngular.close('您已退出聊天系统！')
+      // document.querySelector('.custom-service-box') && (document.querySelector('.custom-service-box').className += 'opacity-0')
     },
     __getUserPrefence () {
       this.getUserPrefence()
@@ -994,7 +995,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          console.log(data)
+          // console.log(data)
           this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable, smoney: data.specialBalance})
         }
       }, (rep) => {

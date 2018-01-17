@@ -65,10 +65,12 @@ export default (Vue) => {
     })
   })
   let M = null
+  let VM = null
   // let throttle = {}
   Vue.http.interceptors.push(() => {
     return {
       request (req) {
+        if (this && this.$modal) VM = this
         // if (throttle[req.url]) {
         //   try {
         //     // req.abort()
@@ -86,19 +88,18 @@ export default (Vue) => {
         return req
       },
       response (rep) {
-        // console.log(rep, '?????')
         // 用户过期
         if (rep.data && rep.data.success === -1 && !M) {
           // if (store.state.user.login) {
           store.state.user.login = false
-          this && this.$modal && (M = this.$modal.warn({
+          VM && (M = VM.$modal.warn({
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
             close () {
               M = null
-              this.__setCall({fn: '__logout', args: undefined, callId: undefined})
+              VM.__setCall({fn: '__logout', args: undefined, callId: undefined})
             },
-            O: this
+            O: VM
           }))
           // }
         } else if (rep.data && rep.data.success === -3) {

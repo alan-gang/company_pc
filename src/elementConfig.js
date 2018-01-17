@@ -49,8 +49,8 @@ import {
   // Badge,
   // Card,
   // Rate,
-  // Steps,
-  // Step,
+  Steps,
+  Step,
   // Carousel,
   // Scrollbar,
   // CarouselItem,
@@ -112,8 +112,8 @@ export default (Vue) => {
   // Vue.use(Badge)
   // Vue.use(Card)
   // Vue.use(Rate)
-  // Vue.use(Steps)
-  // Vue.use(Step)
+  Vue.use(Steps)
+  Vue.use(Step)
   // Vue.use(Carousel)
   // Vue.use(Scrollbar)
   // Vue.use(CarouselItem)

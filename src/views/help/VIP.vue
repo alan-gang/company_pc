@@ -36,7 +36,7 @@
             |; 提款单笔最低
             span.text-bold 100元
             |, 单笔最高
-            span.text-bold 8万元
+            span.text-bold 6万元
         p VIP2      充值单笔最低
             span.text-bold 100元
             |,单笔最高

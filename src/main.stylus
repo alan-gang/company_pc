@@ -147,7 +147,46 @@ pre
  .el-message
    position absolute
 
+// el-step
+.el-step__line-inner
+  border-width 2px !important
+.el-step__line.is-horizontal
+  height 5px !important
+  
+// success
+.el-step__description
+  color GREY !important
 
+.el-step__head.is-text.is-success
+  // color GREEN
+  border-color GREEN
+  background-color GREEN
+.el-step__title.is-success
+  color GREEN
+
+
+// error
+.el-step__head.error
+  .el-step__line-inner
+    border-color #bfcbd9
+
+  .el-step__icon .el-icon-circle-close
+    font-size 31px
+    color DANGER
+// error text
+.el-step__title.error 
+  color DANGER
+  font-weight bold
+  
+
+// process
+.el-step__head.is-process.is-text
+  background-color GREEN
+  border-color GREEN
+  .el-step__line-inner
+    border-color #bfcbd9
+  
+  
 /*
  *rewrite el-dialog
  */

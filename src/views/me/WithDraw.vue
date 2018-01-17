@@ -113,6 +113,18 @@
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
         el-table.header-bold.margin(:data="data" style="margin: .2rem")
+          
+          el-table-column(type="expand")
+            // template(slot-scope="props")
+            template(scope="scope")
+              el-steps(:active="scope.row.step" finish-status="success" align-center space="2.15rem" style="margin-left: .3rem")
+
+                el-step(v-bind:icon=" (scope.row.step === 1 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 1 ? SSS[scope.row.result] : ( scope.row.step > 1 ? 'success' : 'wait') " v-bind:title=" '提现申请' + (scope.row.step === 1 ? SS[scope.row.result] : '')  " description="  "  )
+                el-step(v-bind:el-icon=" (scope.row.step === 2 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 2 ? SSS[scope.row.result] : ( scope.row.step > 2 ? 'success' : 'wait') " v-bind:title=" '风控审核' + (scope.row.step === 2 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step > 2 ? scope.row.step2Time : '' ")
+                el-step(v-bind:el-icon=" (scope.row.step === 3 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 3 ? SSS[scope.row.result] : ( scope.row.step > 3 ? 'success' : 'wait') " v-bind:title=" '出款' + (scope.row.step === 3 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step > 3 ? scope.row.step3Time : '' ")
+                el-step(v-bind:el-icon=" (scope.row.step === 4 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 4 ? SSS[scope.row.result] : ( scope.row.step >= 4 ? 'success' : 'wait') " v-bind:title=" '完成' + (scope.row.step === 4 ? SS[scope.row.result] : '')  " description="")
+              
+
           el-table-column(prop="acceptTime" label="提现时间" width="160")
 
           el-table-column(prop="bankName" label="银行" width="140")
@@ -130,7 +142,8 @@
               span(:class=" scope.row.statusV.indexOf('失败') !== -1 ? 'text-danger' : 'text-green' " v-if="scope.row.statusV") {{ scope.row.statusV }}
 
           el-table-column(label="失败原因" prop="description" show-overflow-tooltip=true)
-              
+          
+          
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 </template>
@@ -163,8 +176,10 @@ export default {
       total: 0,
       currentPage: 1,
       data: [{}],
-      S: ['未处理', '失败', '成功'],
-      V: ['未审核', '审核通过', '审核失败'],
+      SSS: ['process', 'success', 'error'],
+      SS: ['中...', '成功', '失败'],
+      S: ['出款中', '出款失败', '成功'],
+      V: ['审核中', '审核通过', '审核失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
       moneyTypes: ['可用余额', '特殊金额'],
