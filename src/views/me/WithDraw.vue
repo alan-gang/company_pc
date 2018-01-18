@@ -112,7 +112,8 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        el-table.header-bold.margin(:data="data" style="margin: .2rem")
+        el-table.header-bold.margin(:data="data" style="margin: .2rem"  v-bind:row-key="getRowKeys"
+        v-bind:expand-row-keys="expands")
           
           el-table-column(type="expand")
             // template(slot-scope="props")
@@ -120,8 +121,8 @@
               el-steps(:active="scope.row.step" finish-status="success" align-center space="2.15rem" style="margin-left: .3rem")
 
                 el-step(v-bind:icon=" (scope.row.step === 1 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 1 ? SSS[scope.row.result] : ( scope.row.step > 1 ? 'success' : 'wait') " v-bind:title=" '提现申请' + (scope.row.step === 1 ? SS[scope.row.result] : '')  " description="  "  )
-                el-step(v-bind:el-icon=" (scope.row.step === 2 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 2 ? SSS[scope.row.result] : ( scope.row.step > 2 ? 'success' : 'wait') " v-bind:title=" '风控审核' + (scope.row.step === 2 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step > 2 ? scope.row.step2Time : '' ")
-                el-step(v-bind:el-icon=" (scope.row.step === 3 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 3 ? SSS[scope.row.result] : ( scope.row.step > 3 ? 'success' : 'wait') " v-bind:title=" '出款' + (scope.row.step === 3 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step > 3 ? scope.row.step3Time : '' ")
+                el-step(v-bind:el-icon=" (scope.row.step === 2 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 2 ? SSS[scope.row.result] : ( scope.row.step > 2 ? 'success' : 'wait') " v-bind:title=" '风控审核' + (scope.row.step === 2 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step >= 2 ? scope.row.step2Time : '' ")
+                el-step(v-bind:el-icon=" (scope.row.step === 3 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 3 ? SSS[scope.row.result] : ( scope.row.step > 3 ? 'success' : 'wait') " v-bind:title=" '出款' + (scope.row.step === 3 ? SS[scope.row.result] : '')  " v-bind:description=" scope.row.step >= 3 ? scope.row.step3Time : '' ")
                 el-step(v-bind:el-icon=" (scope.row.step === 4 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 4 ? SSS[scope.row.result] : ( scope.row.step >= 4 ? 'success' : 'wait') " v-bind:title=" '完成' + (scope.row.step === 4 ? SS[scope.row.result] : '')  " description="")
               
 
@@ -146,6 +147,7 @@
           
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
 </template>
 
 <script>
@@ -183,7 +185,13 @@ export default {
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
       moneyTypes: ['可用余额', '特殊金额'],
-      mtype: 0
+      mtype: 0,
+      // 获取row的key值
+      getRowKeys (row) {
+        return row.index
+      },
+      // 要展开的行，数值的元素是row的key值
+      expands: []
     }
   },
   computed: {
@@ -231,7 +239,14 @@ export default {
       }
     }
   },
+  mounted () {
+  },
   methods: {
+    // ec (row, expandedRows) {
+    //   console.log(row, expandedRows, '???')
+    //   expandedRows.splice(0, expandedRows.length)
+    //   expandedRows.push(row)
+    // },
     sendSms () {
       this.$http.post(api.person_sendSms, {}).then(({data}) => {
         if (data.success === 1) {
@@ -266,13 +281,16 @@ export default {
       }).then(({data}) => {
         if (data.success === 1) {
           this.data = data.withdrawData || []
-          this.data.forEach(c => {
+          this.data.forEach((c, i) => {
+            c.index = i
             c.cardNo = '*****' + c.cardNo.slice(-4)
             c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
             c.class = (BANKS.find(b => b.apiName === c.apiName) || {})['class']
           })
           typeof fn === 'function' && fn()
           this.total = data.totalSize || this.data.length
+          // 在这里你想初始化的时候展开哪一行都可以了
+          this.expands.push(0)
         }
       }).catch(rpe => {
       })
