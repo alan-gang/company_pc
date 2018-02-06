@@ -22,14 +22,14 @@
         .list(v-if="list && list[0]" )
 
           el-row.list-title
-            el-col(:span="8") {{ '首存金额'}}
-            el-col(:span="5" style="text-align: right") {{ '现金礼包'}} 
-            el-col(:span="8" style="text-align: right") {{ '累计投注额标准'}}  
+            el-col(:span="8") {{ th1[Math.max(10, idt) - 10].split(':')[1] }}
+            el-col(:span="5" style="text-align: right") {{ th2[Math.max(10, idt) - 10].split(':')[1] }} 
+            el-col(:span="8" style="text-align: right") {{ th3[Math.max(10, idt) - 10].split(':')[1] }}  
 
           el-row.list-item(v-for=" l in list " )
-            el-col(:span="8") {{ l.minSaveAmount }}-- {{ l.maxSaveAmount }}
-            el-col(:span="5" style="text-align: right") {{ l.prizeAmount }}
-            el-col(:span="8" style="text-align: right") {{ l.buyAmount }}
+            el-col(:span="8") {{ l.minSaveAmount }} {{ l[th1[Math.max(10, idt) - 10].split(':')[0]] }}
+            el-col(:span="5" style="text-align: right") {{ l[th2[Math.max(10, idt) - 10].split(':')[0]] }}
+            el-col(:span="8" style="text-align: right") {{ l[th3[Math.max(10, idt) - 10].split(':')[0]] }}
 
         .list(v-if="list9 && list9[0]" )
 
@@ -78,7 +78,10 @@ export default {
       enable: 1,
       list: [],
       expand: [],
-      list9: []
+      list9: [],
+      th1: ['maxSaveAmount:首存金额', 'buyAmount:当日销量', 'level:关卡'],
+      th2: ['prizeAmount:现金礼包', 'prizeAmount:销量返利（元）', 'buyAmount:投注量要求'],
+      th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励']
     }
   },
   computed: {

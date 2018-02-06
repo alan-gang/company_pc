@@ -51,9 +51,9 @@ import {
   // Rate,
   // Steps,
   // Step,
-  // Carousel,
+  Carousel,
   // Scrollbar,
-  // CarouselItem,
+  CarouselItem,
   // Collapse,
   // CollapseItem,
   // Cascader,
@@ -114,9 +114,9 @@ export default (Vue) => {
   // Vue.use(Rate)
   // Vue.use(Steps)
   // Vue.use(Step)
-  // Vue.use(Carousel)
+  Vue.use(Carousel)
   // Vue.use(Scrollbar)
-  // Vue.use(CarouselItem)
+  Vue.use(CarouselItem)
   // Vue.use(Collapse)
   // Vue.use(CollapseItem)
   // Vue.use(Cascader)

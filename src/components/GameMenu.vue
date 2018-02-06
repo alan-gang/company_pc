@@ -36,7 +36,6 @@
         this.$emit('type', item)
       },
       setMenu (m) {
-        console.log(m)
         if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0]) this.$emit('type', m.groups[0].items[0])
       }
     }

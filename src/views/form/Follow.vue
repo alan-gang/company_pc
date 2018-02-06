@@ -54,7 +54,9 @@
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="followList()") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
-
+      
+      .table-list(style="padding: .15rem .2rem ")
+      
         el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
           el-table-column(label="追号编号" width="100" )
@@ -245,7 +247,7 @@
           last: true,
           difMoney: this.amount[0].difMoney,
           entry: '小结：',
-          nickName: '本页变动金额',
+          userName: '本页变动金额',
           times: '',
           title: '',
           lotteryName: '',

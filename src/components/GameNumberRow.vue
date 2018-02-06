@@ -483,12 +483,14 @@
           height 1.8 * GCH
         &.code
           &.danger
-            &:not(.default-color)
+            &:not(.default-color):not(.selected)
               color DANGER
             // &:hover
             // &.hover
             &.selected
               background-color DANGER
+              // color DANGER
+              
           &.blue
             color BLUE
             // &:hover

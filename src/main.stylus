@@ -607,7 +607,22 @@ pre
       //   color GOLD !important
       //   border none !important
       //   background none !important
-    
+  
+  // VR game
+  .ds-icon-game-vr
+    background url($ASSETS/VR/vr_90.png) center no-repeat
+  .ds-icon-game-vr2
+    background url($ASSETS/VR/vr_wf.png) center no-repeat
+  .ds-icon-game-vr3
+    background url($ASSETS/VR/vr_sf.png) center no-repeat
+  .ds-icon-game-vr4
+    background url($ASSETS/VR/vr_sc.png) center no-repeat
+  .ds-icon-game-vr5
+    background url($ASSETS/VR/vr_yt.png) center no-repeat
+  .ds-icon-game-vr6
+    background url($ASSETS/VR/vr_bjl.png) center no-repeat
+  .ds-icon-game-vr7
+    background url($ASSETS/VR/vr_lhc.png) center no-repeat
   // game icons
   .ds-icon-game-lhg00
       background url($ASSETS/game/new/lhg00.png) center no-repeat

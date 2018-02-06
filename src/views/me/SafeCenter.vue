@@ -837,3 +837,28 @@ export default {
   .buttons
     padding-top .05rem
 </style>
+
+
+<style lang="stylus" scoped>
+// to imitate the old ds
+  @import '../../var.stylus'
+  body.nds
+    .safe-detail-info.scroll-content
+      // position relative
+      left 0
+      top 1.5rem !important
+      .el-row
+        &:before
+          content ''
+          position absolute
+          top 0
+          left 0
+          // z-index 1
+          height 3px
+          width 0
+          background-color BLUE
+          transition width linear .2s
+        &.expand:before
+          width 100%
+        
+</style>

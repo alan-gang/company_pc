@@ -11,7 +11,7 @@
         .ds-button.x-small.text-button(v-bind:class="{selected: type === 1}" @click="type = 1") 我要反馈
         .ds-button.x-small.text-button(v-bind:class="{selected: type === 2}" @click="type = 2") 我的反馈
 
-    .scroll-content.feedback-help(style="top: 1rem")
+    .scroll-content.feedback-help(style="top: .82rem")
 
       div(v-if="type === 1")
         label.item
@@ -132,7 +132,7 @@
   @import '../../var.stylus'
   .feedback-help
     top TH
-    padding 2*PW 2*PWX
+    padding 0*PW 2*PWX
     .item
       position relative
       display block

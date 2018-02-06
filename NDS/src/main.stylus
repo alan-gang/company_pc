@@ -3,6 +3,8 @@
 @import '../../src/night.stylus'
 @import '../../src/classic.stylus'
 
+.logo-pray-frame
+  background url(assets/prey-logo.png) center right no-repeat
 body.nds
   #app .game-selection
     .circle
@@ -81,12 +83,18 @@ body.nds
       &.show-lefter
         transform none !important
         .el-icon-caret-left
+          background #888
           transform none
           &:first-child
-            right 0rem !important
+            right 0.1rem !important
       .el-icon-caret-left
         display inline-block !important
         transform rotateZ(180deg)
+        background #888
+        color #333
+        &:hover
+          background #999
+          
         &:first-child
           right -.2rem !important
         
@@ -102,10 +110,12 @@ body.nds
         
       bottom 0
       .el-menu
-        top 1.3rem
+        top 1.6rem
         padding-left 0
         .ds-button
-          // color rgba(255, 255, 255, .8) !important
+          // color rgba(255, 255, 255, .6) !important
+          &:hover
+            color rgba(255, 255, 255, 1) !important
         
         & > div > .ds-button.full
           display block !important
@@ -122,14 +132,19 @@ body.nds
             background url(./assets/clock.png) PWX center no-repeat #1b234d
           
         div > li
-          padding-left PW
+          // padding-left PW
+          .ds-button.el-menu-item
+            padding-left 3*PW !important
+            border-bottom 1px solid #555
+            &:before
+              left .1rem !important
       footer
         background #313a64
         padding 0 0 PW PW
         height auto
       footer.hide-info + ul
       footer.shorter + ul
-        top .9rem
+        top .45rem
       footer.hide-info.shorter + ul
         top .5rem
     
@@ -179,8 +194,8 @@ body.nds
         bottom 0 !important
         box-shadow none
         &.full
-          left 0 !important
-          right 0 !important
+          left 2*PW !important
+          right 2*PW !important
           bottom 0 !important
           top 0 !important
         
@@ -211,3 +226,136 @@ body.nds
             font-size .2rem
           
        
+
+  // rewrite table
+  #app .dialog-container 
+    background-color #e1eaf0
+    .dialog-page:not(.game-page)
+      top PW !important
+      background-color #e1eaf0
+      
+  .dialog-page:not(.game-page)
+    background-color #e1eaf0
+    .scroll-content
+      & > *
+        &:not(.ds-button-group):not(.filters)
+          background-color #fff
+        &:not(class*='ds-icon')
+          // background-color #fff
+          padding-left PWX
+          padding-right PWX
+        &:last-child
+          padding-bottom PWX
+    
+      &.me-topup .form 
+        padding 0 PWX PWX PWX
+        .item:first-child
+          margin-top 0
+        
+    &.group-page .scroll-content
+      // .el-table
+        // background #f8f8f8f8
+        // padding PW
+        // background-color #fff
+    
+  .dialog-page:not(.game-page):not(.trend-chart-page)
+    table thead
+      background-color #e1eaf0
+      tr th
+        padding .05rem 0
+    table tbody tr td
+      border-bottom 1px solid #ddd !important
+  .ds-button
+  .ds-button-group
+  .el-input
+  .el-select
+  .ds-input
+  .el-input__inner
+    border-radius 0 !important
+    box-shadow none !important
+  
+  #app.classic footer .icon-button
+    width .8rem
+  
+
+  .el-table__empty-block
+    height 0
+    background none
+  .el-table__empty-text
+    position static
+  #app .dialog-container .dialog-page.help-page
+    // .scroll-content
+    // background-color #fff !important
+  #app .dialog-container .dialog-page:not(.game-page) .scroll-content
+    &:not(.me-topup)
+      .notice
+        margin-top 0 !important
+        margin-bottom .3rem !important
+        position relative
+        top .2rem
+    .bonus-table
+      margin-top .2rem !important
+      max-width 10rem !important
+    .cashpwd-form.form
+      margin 0
+      padding 0 PWX
+    &.function-help 
+    &.play-help 
+      padding 0 PWX
+      // pre
+      .content
+        padding PWX
+    
+    &.vip-introduction
+
+      padding 0 PWX
+      pre
+      .content
+        padding PWX
+        
+    &.feedback-help
+      &>:first-child
+        padding PWX
+    &.contract .c
+      padding PWX
+      background-position right .2rem top .2rem
+
+    &.gift-center .gift-list
+      display block
+      padding PW
+      & > .ticket
+        float none
+    &.activity-center
+      .banner
+        width 48%
+        margin 0.5*PW 1%
+        
+    .table-list
+      margin-top PW
+      p:first-child
+        margin-top 0 !important
+    // &:before
+    //   position absolute
+    //   content ''
+    //   height PW
+    //   left 0
+    //   right 0
+    //   bottom .4rem
+    //   z-index 1
+    //   background inherit
+      
+    &:after
+      margin-top PWX
+      position relative
+      display block
+      content '浏览器建议：首选IE 11浏览器，其次为火狐浏览器。'
+      height .8rem
+      line-height .8rem
+      padding 0 .3rem
+      color #999
+      border 1px solid #d0dae4
+      background url(assets/prey-logo.png) center right .2rem no-repeat #ebf0f5
+      text-align left
+  
+  .modal .box-wrapper .box
+    radius(0)

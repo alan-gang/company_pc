@@ -14,7 +14,9 @@
         
         .buttons(style="margin-left: .9rem")
           .ds-button.primary.large.bold(@click="profitDetail") 搜索
-
+      
+      .table-list(style="padding: .15rem .2rem ")
+      
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
 
           el-table-column(prop="userName" label="用户名" width="100")

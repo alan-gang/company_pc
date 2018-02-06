@@ -1,4 +1,18 @@
-let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.44:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
+// let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
+let api = 'http://192.168.169.46:9901/cagamesclient'
+let env = 'dev'
+// 外网生产地址
+if (window.location.host.indexOf('.net') !== -1) {
+  env = 'pro'
+  api = 'https://api.cb868.net:1888/cagamesclient'
+// 外网测试环境
+} else if (window.location.host.indexOf('.go') !== -1) {
+  env = 'odev'
+  api = 'http://112.199.101.98:9901/cagamesclient'
+}
+window.env = env
+api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api
+
 // window.localStorage.setItem('tapi', 'http://192.168.169.44:19901/cagamesclient')
 // dev
 // let api = 'http://112.199.101.98:19901/cagamesclient'
@@ -14,6 +28,13 @@ let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('ap
 // let api = 'http://192.168.169.161:8080/cagamesclient/'
 // let api = 'http://192.168.169.111:8080/cagamesclient/'
 let Login = {
+  // open a third part pages
+  loginVr: '/ext/vr.do?method=loginVr',
+  // record
+  VROrderlist: '/ext/vr.do?method=bet',
+  VRFollowlist: '/ext/vr.do?method=schedule',
+  // VR打赏
+  VRdonate: '/ext/vr.do?method=donate',
   // 约定
   // 成功默认返回：{"success":true}
   // 失败默认返回：{"success":false}

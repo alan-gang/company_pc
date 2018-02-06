@@ -632,6 +632,21 @@ export default {
     // '$route': 'openRoute'
   },
   mounted () {
+    let ndsapi = 'http://192.168.169.49:9901/dscagamesclient'
+    let env = 'dev'
+    // 外网生产地址
+    if (window.location.host.indexOf('.net') !== -1) {
+      env = 'pro'
+      ndsapi = 'https://api.cb868.net:1888/dscagamesclient'
+    // 外网测试环境
+    } else if (window.location.host.indexOf('.go') !== -1) {
+      env = 'odev'
+      ndsapi = 'http://112.199.101.98:9901/dscagamesclient'
+    }
+    window.env = env
+    ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi
+    api.api = ndsapi
+    //
     window.NProgress.done()
     api.suffix = '&isTop=1'
     this.setUser({model: 'night', platform: 'dsm'})
@@ -921,16 +936,16 @@ export default {
     bg-gradient(180deg, #181d31, #2d2d45, #444059)
     background-size cover
     &.login
-      background url($ASSETS/bg.jpg) center center no-repeat
+      background url(/static/skins/bg.jpg) center center no-repeat
   
   body:fullscreen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url(/static/skins/bg.jpg) center center no-repeat
   }
   body:full-screen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url(/static/skins/bg.jpg) center center no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url($ASSETS/bg.jpg) center center no-repeat
+    background url(/static/skins/bg.jpg) center center no-repeat
   }
 </style>
 

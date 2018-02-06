@@ -32,22 +32,43 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-let getAnimalOfNumber = (n) => {
+let getAnimalOfNumber = (n, ii) => {
     let nn = ['无', '无', '无']
     n = parseInt(n)
     if (typeof n !== 'number') return nn
-    if ([10, 22, 34, 46].indexOf(n) !== -1) nn = ['鼠', '水']
-    if ([9, 21, 33, 45].indexOf(n) !== -1) nn = ['牛', '土']
-    if ([8, 20, 32, 44].indexOf(n) !== -1) nn = ['虎', '木']
-    if ([7, 19, 31, 43].indexOf(n) !== -1) nn = ['兔', '木']
-    if ([6, 18, 30, 42].indexOf(n) !== -1) nn = ['龙', '土']
-    if ([5, 17, 29, 41].indexOf(n) !== -1) nn = ['蛇', '火']
-    if ([4, 16, 28, 40].indexOf(n) !== -1) nn = ['马', '火']
-    if ([3, 15, 27, 39].indexOf(n) !== -1) nn = ['羊', '土']
-    if ([2, 14, 26, 38].indexOf(n) !== -1) nn = ['猴', '金']
-    if ([1, 13, 25, 37, 49].indexOf(n) !== -1) nn = ['鸡', '金']
-    if ([12, 24, 36, 48].indexOf(n) !== -1) nn = ['狗', '土']
-    if ([11, 23, 35, 47].indexOf(n) !== -1) nn = ['猪', '水']
+    // if ([10, 22, 34, 46].indexOf(n) !== -1) nn = ['鼠', '水']
+    // if ([9, 21, 33, 45].indexOf(n) !== -1) nn = ['牛', '土']
+    // if ([8, 20, 32, 44].indexOf(n) !== -1) nn = ['虎', '木']
+    // if ([7, 19, 31, 43].indexOf(n) !== -1) nn = ['兔', '木']
+    // if ([6, 18, 30, 42].indexOf(n) !== -1) nn = ['龙', '土']
+    // if ([5, 17, 29, 41].indexOf(n) !== -1) nn = ['蛇', '火']
+    // if ([4, 16, 28, 40].indexOf(n) !== -1) nn = ['马', '火']
+    // if ([3, 15, 27, 39].indexOf(n) !== -1) nn = ['羊', '土']
+    // if ([2, 14, 26, 38].indexOf(n) !== -1) nn = ['猴', '金']
+    // if ([1, 13, 25, 37, 49].indexOf(n) !== -1) nn = ['鸡', '金']
+    // if ([12, 24, 36, 48].indexOf(n) !== -1) nn = ['狗', '土']
+    // if ([11, 23, 35, 47].indexOf(n) !== -1) nn = ['猪', '水']
+    let index = 0
+    let indexString = [['鼠', '水']].concat([['牛', '土']]).concat([['虎', '木']]).concat([['兔', '木']]).concat([['龙', '土']]).concat([['蛇', '火']]).concat([['马', '火']]).concat([['羊', '土']]).concat([['猴', '金']]).concat([['鸡', '金']]).concat([['狗', '土']]).concat([['猪', '水']])
+    if ([10, 22, 34, 46].indexOf(n) !== -1) index = 0
+    if ([9, 21, 33, 45].indexOf(n) !== -1) index = 1
+    if ([8, 20, 32, 44].indexOf(n) !== -1) index = 2
+    if ([7, 19, 31, 43].indexOf(n) !== -1) index = 3
+    if ([6, 18, 30, 42].indexOf(n) !== -1) index = 4
+    if ([5, 17, 29, 41].indexOf(n) !== -1) index = 5
+    if ([4, 16, 28, 40].indexOf(n) !== -1) index = 6
+    if ([3, 15, 27, 39].indexOf(n) !== -1) index = 7
+    if ([2, 14, 26, 38].indexOf(n) !== -1) index = 8
+    if ([1, 13, 25, 37, 49].indexOf(n) !== -1) index = 9
+    if ([12, 24, 36, 48].indexOf(n) !== -1) index = 10
+    if ([11, 23, 35, 47].indexOf(n) !== -1) index = 11
+    if (window.newDate().getTime() >= 1518710400000) {
+      if (index < 12) {
+        index++
+        if (index === 12) index = 0
+       }
+    }
+    nn = indexString[index]
     if ((n % 2) === 0) nn.push('双')
     else nn.push('单')
     return nn
@@ -57,6 +78,12 @@ let getNumberOfAnimal = (s) => {
     let a = []
     let index = -1
     if (typeof n !== 'string' && (index = '鼠牛虎兔龙蛇马羊猴鸡狗猪金木水火土'.indexOf(s)) === -1 ) return a
+    if (window.newDate().getTime() >= 1518710400000) {
+      if (index < 12) {
+        index--
+        if (index === -1) index = 11
+       }
+    }
     if (index === 0 ) a = [10, 22, 34, 46]
     if (index === 1 ) a = [9, 21, 33, 45]
     if (index === 2 ) a = [8, 20, 32, 44]
@@ -69,11 +96,18 @@ let getNumberOfAnimal = (s) => {
     if (index === 9 ) a = [1, 13, 25, 37, 49]
     if (index === 10 ) a = [12, 24, 36, 48]
     if (index === 11 ) a = [11, 23, 35, 47]
-    if (index === 12 ) a = [2, 14, 26, 38, 1, 13, 25, 37, 49]
-    if (index === 13 ) a = [8, 20, 32, 44, 7, 19, 31, 43]
-    if (index === 14 ) a = [10, 22, 34, 46, 11, 23, 35, 47]
-    if (index === 15 ) a = [5, 17, 29, 41, 4, 16, 28, 40]
-    if (index === 16 ) a = [9, 21, 33, 45, 6, 18, 30, 42, 3, 15, 27, 39, 12, 24, 36, 48]
+    // ...
+    if (index === 12 ) return getNumberOfAnimal('猴').concat(getNumberOfAnimal('鸡'))
+    if (index === 13 ) return getNumberOfAnimal('虎').concat(getNumberOfAnimal('兔'))
+    if (index === 14 ) return getNumberOfAnimal('鼠').concat(getNumberOfAnimal('猪'))
+    if (index === 15 ) return getNumberOfAnimal('蛇').concat(getNumberOfAnimal('马'))
+    if (index === 16 ) return getNumberOfAnimal('牛').concat(getNumberOfAnimal('龙')).concat(getNumberOfAnimal('羊')).concat(getNumberOfAnimal('狗'))
+
+    // if (index === 12 ) a = [2, 14, 26, 38, 1, 13, 25, 37, 49]
+    // if (index === 13 ) a = [8, 20, 32, 44, 7, 19, 31, 43]
+    // if (index === 14 ) a = [10, 22, 34, 46, 11, 23, 35, 47]
+    // if (index === 15 ) a = [5, 17, 29, 41, 4, 16, 28, 40]
+    // if (index === 16 ) a = [9, 21, 33, 45, 6, 18, 30, 42, 3, 15, 27, 39, 12, 24, 36, 48]
     return a.sort()
 }
 
@@ -83,10 +117,15 @@ let getColorOfNumber = (n) => {
     n = Math.max(n, 1)
     return codeClass.match(new RegExp(',' + (n) + '' + ':\\w+', 'g'))[0].split(':')[1]
 }
+let getColorsOfNumberArray = (a, s) => {
+  if (!(typeof a === 'object' && a[0])) return s
+  return [a[0] + ':' + getColorOfNumber(a.shift())].concat(getColorsOfNumberArray(a, s || (a.length === 4 ? [] : ['-1:o0'])))
+}
 module.exports = {
   digitUppercase,
   numberWithCommas,
   getAnimalOfNumber,
   getNumberOfAnimal,
-  getColorOfNumber
+  getColorOfNumber,
+  getColorsOfNumberArray
 }

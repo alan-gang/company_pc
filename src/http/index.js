@@ -91,11 +91,11 @@ export default (Vue) => {
         // 用户过期
         if (rep.data && rep.data.success === -1 && !M) {
           // if (store.state.user.login) {
-          store.state.user.login = false
           VM && (M = VM.$modal.warn({
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
             close () {
+              store.state.user.login = false
               M = null
               VM.__setCall({fn: '__logout', args: undefined, callId: undefined})
             },

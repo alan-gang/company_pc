@@ -37,8 +37,8 @@
           .ds-button.primary.large.bold(@click="searNow") 搜索
           .ds-button.primary.large.bold(style="float: right" @click.stop="addUserNow") 增加用户
           .ds-button.cancel.large(@click="clear") 清空
-
-        p(style="margin: .3rem 0 .15rem 0")
+      .table-list(style="padding: .15rem .2rem " v-if="stepIndex === 0")
+        p(style="margin: .3rem 0 .15rem 0" )
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 

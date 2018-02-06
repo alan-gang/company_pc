@@ -13,12 +13,12 @@
       transition(name="fade" appear=true)
         router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-lefter': showLefter, 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
-    ScrollInfo(:class="{ 'has-lefter': showLefter }")
+    ScrollInfo(:class="{ 'has-lefter': showLefter }" v-if="displayScrollInfo")
 
 
     // footer
     transition(name="slide-down" appear=true)
-      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter")
+      dsFooter(:menus="menus" v-bind:class="{'collapse-footer': collapseFooter}" v-bind:vip="state.user.vip" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout" v-on:collapse-footer="collapseFooter = !collapseFooter" v-show="displayFooter")
       
     // Chat
     // Print
@@ -26,14 +26,15 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:class="{ 'show-lefter': showLefter }" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout")
+      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:class="{ 'show-lefter': showLefter }" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if=" state.user.login && state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-show="displayLefter")
 
-
+    // dsBottom
 </template>
 
 <script>
 // import util from './util'
-import dsLefter from 'mycomponents/Lefter'
+import dsLefter from 'nds-components/Lefter'
+import dsBottom from 'nds-components/Bottom'
 import dsHeader from 'components/Header'
 import dsFooter from 'components/Footer'
 import Print from 'components/Print'
@@ -48,6 +49,9 @@ export default {
   mixins: [base],
   data () {
     return {
+      displayFooter: true,
+      displayScrollInfo: false,
+      displayLefter: true,
       showLefter: true,
       showPrint: false,
       printData: {},
@@ -167,6 +171,23 @@ export default {
           menuid: '1'
         },
         {
+          id: 5,
+          class: 'ds-icon-gift',
+          title: '活动',
+          // href: '/activity/5-1-1',
+          url: 'activity',
+          menuid: '6',
+          groups: [
+            {
+              title: '活动中心',
+              items: [
+                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
+                {id: '5-1-2', menuid: '72', title: '礼品箱', url: 'Gift'}
+              ]
+            }
+          ]
+        },
+        {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
@@ -263,19 +284,19 @@ export default {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
-          title: '个人',
+          title: '帐户管理',
           url: 'me',
           groups: [
             {
               id: '2-1',
               title: '个人中心',
               items: [
-                {
-                  id: '2-1-1',
-                  menuid: '20',
-                  title: '个人信息',
-                  url: 'Me'
-                },
+                // {
+                //   id: '2-1-1',
+                //   menuid: '20',
+                //   title: '个人信息',
+                //   url: 'Me'
+                // },
                 {
                   id: '2-2-1',
                   menuid: '87',
@@ -313,7 +334,7 @@ export default {
         {
           id: 3,
           class: 'ds-icon-group',
-          title: '团队',
+          title: '用户管理',
           menuid: '4',
           url: 'group',
           groups: [
@@ -406,34 +427,34 @@ export default {
                   }
                 }
               ]
-            },
-            {
-              id: '3-4',
-              title: '团队统计',
-              items: [
-                {
-                  id: '3-4-1',
-                  menuid: '47',
-                  title: '团队数据统计',
-                  url: 'DataAnalysis'
-                },
-                {
-                  id: '3-4-2',
-                  menuid: '48',
-                  title: '团队图表分析',
-                  url: 'ChartAnalysis',
-                  position: {
-                    'min-width': '9.5rem'
-                  }
-                }
-              ]
             }
+            // {
+            //   id: '3-4',
+            //   title: '团队统计',
+            //   items: [
+            //     {
+            //       id: '3-4-1',
+            //       menuid: '47',
+            //       title: '团队数据统计',
+            //       url: 'DataAnalysis'
+            //     },
+            //     {
+            //       id: '3-4-2',
+            //       menuid: '48',
+            //       title: '团队图表分析',
+            //       url: 'ChartAnalysis',
+            //       position: {
+            //         'min-width': '9.5rem'
+            //       }
+            //     }
+            //   ]
+            // }
           ]
         },
         {
           id: 4,
           class: 'ds-icon-record',
-          title: '报表',
+          title: '报表管理',
           menuid: '5',
           url: 'form',
           size: 'full',
@@ -441,6 +462,7 @@ export default {
             {
               id: '4-1',
               title: '游戏记录',
+              footer: false,
               items: [
                 {
                   id: '4-1-1',
@@ -569,26 +591,9 @@ export default {
           ]
         },
         {
-          id: 5,
-          class: 'ds-icon-gift',
-          title: '活动',
-          // href: '/activity/5-1-1',
-          url: 'activity',
-          menuid: '6',
-          groups: [
-            {
-              title: '活动中心',
-              items: [
-                {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
-                {id: '5-1-2', menuid: '72', title: '礼品箱', url: 'Gift'}
-              ]
-            }
-          ]
-        },
-        {
           id: 6,
           class: 'ds-icon-help',
-          title: '帮助',
+          title: '帮助中心',
           url: 'help',
           menuid: '7',
           groups: [
@@ -647,7 +652,7 @@ export default {
           id: 7,
           class: 'ds-icon-download',
           href: '/download/7-1-1',
-          title: '下载'
+          title: '下载中心'
         },
         {
           id: 8,
@@ -685,7 +690,7 @@ export default {
       return (this.currentab[0] || {mi: -1}).mi
     },
     activeMenu () {
-      return [this.menus[6], this.menus[9]]
+      return [this.menus[7], this.menus[10]]
     }
   },
   watch: {
@@ -694,7 +699,7 @@ export default {
       setTimeout(() => {
         if (this.mi > 2 || this.mi < 0) {
           // this.activeMenu = [this.menus[6], this.menus[9]]
-          if (this.mi === 6) {
+          if (this.mi === 7) {
             this.setUser({model: 'night'})
           } else {
             this.setUser({model: 'day'})
@@ -737,11 +742,35 @@ export default {
     // '$route': 'openRoute'
   },
   mounted () {
+    let ndsapi = 'http://192.168.169.49:9901/dscagamesclient'
+    let env = 'dev'
+    // 外网生产地址
+    if (window.location.host.indexOf('.net') !== -1) {
+      env = 'pro'
+      ndsapi = 'https://api.cb868.net:1888/dscagamesclient'
+    // 外网测试环境
+    } else if (window.location.host.indexOf('.go') !== -1) {
+      env = 'odev'
+      ndsapi = 'http://112.199.101.98:9901/dscagamesclient'
+    }
+    window.env = env
+    ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi
+    api.api = ndsapi
     this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
     // console.log(this.$router)
+    // no need login
+    if (window.location.hash.startsWith('#/form/4-5-3')) {
+      this.displayLefter = false
+      this.showLefter = false
+      this.displayScrollInfo = false
+      this.displayFooter = false
+      this.menuids = Array(100).fill(0).map((n, i) => { return (n = i) }).join(',')
+      this.setPages(this._getPages())
+      return false
+    }
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
@@ -789,6 +818,7 @@ export default {
       this.loginSuccess(data)
     },
     loginSuccess (data) {
+      this.displayScrollInfo = true
       // this.__setCall({fn: '__getUserFund', callId: undefined})
       // setTimeout(this.getUserPrefence, 1000)
       this.getUserPrefence(() => {
@@ -813,8 +843,8 @@ export default {
           safeCheck: data.verifyType,
           vip: data.isVip
         })
-        // this.$router.push('/')
-        this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
+        this.$router.push('/')
+        // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
           id: data.userId,
           key: data.token,
@@ -825,6 +855,12 @@ export default {
         // window.accessAngular.connect()
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
+
+        this.$modal.warn({
+          title: '特别提醒',
+          content: '本娱乐平台充值卡号会频繁更换！请务必要复制最新收款卡信息！如果汇款到非最新收款卡而导致的损失，本平台一律不负责！',
+          btn: ['知道了']
+        })
       })
     },
     // openRoute ({path}) {
@@ -1023,7 +1059,8 @@ export default {
     dsFooter,
     Print,
     dsLefter,
-    ScrollInfo
+    ScrollInfo,
+    dsBottom
     // Chat
   }
 }
@@ -1047,9 +1084,9 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(./assets/bg.jpg) center center repeat
+    background url(./assets/bg.jpg) center center no-repeat
     // background url($ASSETS/bg.jpg) center center no-repeat
-    // background-size cover
+    background-size cover
   
   body:fullscreen #app > * {
     // background url($ASSETS/bg.jpg) center center no-repeat

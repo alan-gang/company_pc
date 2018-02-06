@@ -50,9 +50,12 @@ import ChartAnalysis from './group/ChartAnalysis'
 // Form
 import Account from './form/Account'
 import Follow from './form/Follow'
+import VRFollow from './form/VRFollow'
 import FollowDetail from './form/FollowDetail'
 import FollowOrder from './form/FollowOrder'
 import Order from './form/Order'
+import VROrder from './form/VROrder'
+import VRTip from './form/VRTip'
 import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
@@ -84,6 +87,8 @@ import ForOther from './activity/ForOther'
 import FindMe from './activity/FindMe'
 import Fight from './activity/Fight'
 import Salary from './activity/Salary'
+import HC6E from './activity/HC6E'
+import NewYear from './activity/NewYear'
 // 下载
 import Download from './download/Download'
 
@@ -121,9 +126,12 @@ export default {
     // form
     Account,
     Follow,
+    VRFollow,
     FollowDetail,
     FollowOrder,
     Order,
+    VROrder,
+    VRTip,
     LuckyPool,
     ProfitLoss,
     ProfitLossDetail,
@@ -152,6 +160,8 @@ export default {
     FindMe,
     Fight,
     Salary,
+    HC6E,
+    NewYear,
     // 下载
     Download
   },

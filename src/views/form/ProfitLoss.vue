@@ -15,10 +15,12 @@
         .buttons(style="margin-left: .9rem")
           .ds-button.primary.large.bold(@click="profitList()") 搜索
         
+      
+      .table-list(style="padding: .15rem .2rem ")
         p(style="margin: .3rem 0 .15rem 0")
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
-
+      
         el-table.header-bold.nopadding(:data="data" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
 
           el-table-column(prop="userName" label="用户名" width="100" v-bind:sortable="true")

@@ -10,9 +10,11 @@
         .ds-button-group
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 礼品中心
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 已领取的礼品
+      
+      .empty(v-if=" tabIndex === 1 && tickets.length === 0 " style="padding: .15rem") 暂无可领取的礼品
+      
       .gift-list(v-if="tabIndex === 1")
 
-        .empty(v-if=" tickets.length === 0 ") 暂无可领取的礼品
 
         .ticket(:class=" [ ticketType[0] ] " v-for=" t in tickets ")
           h1
@@ -31,24 +33,25 @@
                 span {{ t.days }} 天
             .ds-button.cancel.disabled(v-if="t.get") 已签到
 
-      
-      el-table.header-bold.margin(:data="data" v-bind:row-class-name="tableRowClassName" v-if="tabIndex === 2")
+      .table-list(style="padding: .15rem .2rem " v-if="tabIndex === 2")
+    
+        el-table.header-bold.margin(:data="data" v-bind:row-class-name="tableRowClassName" )
 
-        el-table-column(prop="cnname" label="礼品" align="left")
-          template(scope="scope") 
-            div.ds-icon-activity-ticket.small {{ scope.row.amount + (scope.row.isFree ? '元优惠券' : '元礼金') }}
-              br
-              | {{ scope.row.activityName }}
+          el-table-column(prop="cnname" label="礼品" align="left")
+            template(scope="scope") 
+              div.ds-icon-activity-ticket.small {{ scope.row.amount + (scope.row.isFree ? '元优惠券' : '元礼金') }}
+                br
+                | {{ scope.row.activityName }}
 
-        el-table-column(prop="prizeDate" label="领取时间" width="150")
+          el-table-column(prop="prizeDate" label="领取时间" width="150")
 
-        // el-table-column(prop="taskprice" label="数量" width="100" align="right")
+          // el-table-column(prop="taskprice" label="数量" width="100" align="right")
 
-        el-table-column(width="20")
+          el-table-column(width="20")
 
-        el-table-column(label="状态" width="80" align="left")
-          template(scope="scope") 
-            span.text-green {{ '已领取' }}
+          el-table-column(label="状态" width="80" align="left")
+            template(scope="scope") 
+              span.text-green {{ '已领取' }}
 
     
 </template>
@@ -64,7 +67,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary, api.getRewardSalary, api.getRewardSalary]
     }
   },
   watch: {

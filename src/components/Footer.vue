@@ -27,10 +27,10 @@
           .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") 
           router-link.icon-button.after-title(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle")
           slot
-            dl.submenu(v-if=" !menu.hideIcon" v-for="group in menu.groups" v-bind:class="[menu.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+            dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class]" @click="open(item, index)" v-if="item.title && !item.removed") 
+              dd(v-for="item in group.items" v-bind:class="[item.class]" @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed") 
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
                 .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                   span.text-gold {{ item.pretitle }}
@@ -47,9 +47,9 @@
                   span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
                   .ssubmenu.el-popover.footer-popover.font-white(v-bind:class="{toolong: (group.items.length > 2) && ((group.items.length + (iii || menu.groups[1].items.filter(function(x){return !x.removed}).length)) > 9) }")
                      dl.submenu
-                       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+                       dd(v-for="item in group.items"   @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed") 
                          .ds-button(style="position: relative; ") {{ item.title }}
-                       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
+                       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @mouseover="over(item)"  @click="open(iitem, index)")
                          .ds-button(style="position: relative; ") {{ iitem.title }}
 
               // el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
@@ -66,7 +66,7 @@
               span.ds-button.text-button.light(style="margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
               
               
-            .ds-button.text-button.light(style="float: left; margin-top: .75rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
+            .ds-button.text-button.light.pattern(style="float: right; margin-top: -.35rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
 
 
       el-col.info(:span="10" v-bind:offset="4")
@@ -133,7 +133,11 @@
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
 
 
-    
+    // a submit form
+    form(id="TheForm" method="post" action="" target="TheWindow")
+      input(type="hidden" name="data" value="")
+      input(type="hidden" name="version" value="")
+      input(type="hidden" name="id" value="")
 
 
       
@@ -177,7 +181,13 @@ export default {
       pricePotCount: 0,
       showPool: false,
       m: '',
-      cpwd: ''
+      cpwd: '',
+      formData: {
+        // data: '',
+        // version: 0,
+        // id: '',
+        // vrurl: ''
+      }
     }
   },
   mounted () {
@@ -199,6 +209,11 @@ export default {
     if (!window.screenTop && !window.screenY) this.full = false
     else this.full = true
     // this.$emit('set-Model', this.day ? 'day' : 'night')
+    this.openExternal(1)
+    this.openExternal(2)
+    this.openExternal(11)
+    this.openExternal(13)
+    this.openExternal(15)
   },
   activated () {
     this.setFarChat()
@@ -252,6 +267,31 @@ export default {
     this.setFarChat()
   },
   methods: {
+    openExternal (fn) {
+      this.formData = {}
+      this.$http.mypost(api.loginVr, {channelId: fn || 12}).then(({data}) => {
+        //
+        this.formData[fn] = data
+        // if (data.success === 1) {
+        //   // this.openWindowWithPost(data)
+        //   this.formData[fn] = data
+        // } else {
+        //   // this.$message.error({target: this.$el, message: data.msg || '第三方游戏获取失败！'})
+        // }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '第三方游戏获取失败！'})
+      })
+    },
+    openWindowWithPost ({data, version, id, vrurl, msg}) {
+      if (!data) return this.$message.error({target: this.$el, message: msg || '第三方游戏获取失败！'})
+      let f = document.getElementById('TheForm')
+      f.data.value = data
+      f.version.value = version
+      f.id.value = id
+      f.action = vrurl
+      window.open('', 'TheWindow')
+      f.submit()
+    },
     // &amount=100&securityPwd=123456a
     transferNow () {
       if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
@@ -363,6 +403,11 @@ export default {
     openPage (url) {
       this.$emit('open-page', url)
     },
+    over (item) {
+      if (item.fn) {
+        // return this.openExternal(item.fn)
+      }
+    },
     open (item, index) {
       this.__setCall({
         fn: '__closeGuide'
@@ -371,7 +416,11 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
+
       if (item.id) {
+        if (item.fn) {
+          return this.openWindowWithPost(this.formData[item.fn] || {})
+        }
         setTimeout(() => {
           this.shows[index] = false
           this.openPage(item.id)
@@ -427,6 +476,9 @@ export default {
       max-width 8.7rem
       .submenu
         max-width 2.7rem
+        &.LHG + .pattern
+          margin-top .7rem !important
+          float left !important
       &.hide-icon
         padding 0
         & > .submenu

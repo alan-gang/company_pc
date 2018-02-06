@@ -33,7 +33,9 @@
           {href: '/activity/5-2-7', src: '/static/activity/activity7.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
           {href: '/activity/5-2-8', src: '/static/activity/activity8.jpg', title: '大家来找茬', describe: '只要你敢找茬，我保证不拍屎你'},
           {href: '/activity/5-2-9', src: '/static/activity/activity9.jpg', title: '王者争霸赛', describe: '王者争霸赛，注册就送2万体验币'},
-          {href: '/activity/5-2-10', src: '/static/activity/activity10.jpg', title: '直属总代日工资增加1w20', describe: '开业活动：直属总代日工资增加1w2'}
+          {href: '/activity/5-2-10', src: '/static/activity/activity10.jpg', title: '直属总代日工资增加1w20', describe: '开业活动：直属总代日工资增加1w2'},
+          {href: '/activity/5-2-11', src: '/static/activity/activity11.jpg', title: '六合彩专属活动', describe: '六合彩专属鸿运金！投注就送20000'},
+          {href: '/activity/5-2-12', src: '/static/activity/activity12.jpg', title: '迎新春闯关活动', describe: '天天畅博 全民闯关'}
         ],
         activities: [
         ]

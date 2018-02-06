@@ -112,3 +112,34 @@
       
     
 </style>
+
+
+<style lang="stylus" scoped>
+// to imitate the old ds
+  @import '../var.stylus'
+  body.nds
+    .me-sideview
+      position relative
+      width auto
+      height 1.6rem
+      // background none 
+      // color #666
+      // text-shadow none
+      padding 0 .2rem 
+      .ds-icon-me-avatar
+        display inline-block
+        width 1rem
+        float left
+      .account
+        display none
+      .icons
+        padding-left .3rem
+      .safe
+        padding-top .5rem
+      .safe-score
+      .location
+        position relative
+        top -1rem
+        text-align right
+        // float right
+</style>

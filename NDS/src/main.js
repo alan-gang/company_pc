@@ -1,4 +1,4 @@
-
+window.pn = '东森'
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
 // Vue.config.devtools = false
@@ -42,7 +42,7 @@ Vue.use({
 // window._ = _
 
 // 饿了么
-import elementConfig from '../../src/elementConfig'
+import elementConfig from './elementConfig'
 elementConfig(Vue)
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'

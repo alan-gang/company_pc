@@ -63,7 +63,9 @@
         .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="list") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
-
+      
+      .table-list(style="padding: .15rem .2rem ")
+      
         el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected"  style="margin-top: .1rem")
 
           el-table-column(prop="entry" label="帐变编号" width="80" )

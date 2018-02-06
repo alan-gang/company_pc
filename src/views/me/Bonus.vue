@@ -25,20 +25,20 @@
 
         .ds-button-group
           .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.cnName }}
+      .table-list(style="padding: .15rem")
+        el-table.header-bold.bonus-table(:data="data" v-bind:row-class-name="tableRowClassName" style="max-width: 8rem; margin: 0 auto; padding: 0rem 0")
+          el-table-column(prop="methodName" label="玩法" width="200" )
+          el-table-column(label="奖级" width="200")
+            template(scope="scope") 
+              .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l }}
 
-      el-table.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" style="width: 8rem; margin: 0 auto")
-        el-table-column(prop="methodName" label="玩法" width="200" )
-        el-table-column(label="奖级" width="200")
-          template(scope="scope") 
-            .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l }}
+          el-table-column(label="奖金" align="right")
+            template(scope="scope") 
+              .level(v-for=" p in ((scope.row.prize + '').split(',')) ") {{ p  }}
 
-        el-table-column(label="奖金" width="100" align="right")
-          template(scope="scope") 
-            .level(v-for=" p in ((scope.row.prize + '').split(',')) ") {{ p  }}
-
-        // el-table-column(prop="userPoint" label="返点" width="150" align="right")
-        // el-table-column(prop="status" label="状态" align="center" width="150")
-          template(scope="scope") {{ scope.row.isClose === 0 ? '使用中' : '已关闭' }}
+          // el-table-column(prop="userPoint" label="返点" width="150" align="right")
+          // el-table-column(prop="status" label="状态" align="center" width="150")
+          //   template(scope="scope") {{ scope.row.isClose === 0 ? '使用中' : '已关闭' }}
 
 
 
@@ -129,4 +129,17 @@ export default {
       .th .cell
         font-weight bold
 
+</style>
+
+
+<style lang="stylus" scoped>
+// to imitate the old ds
+  @import '../../var.stylus'
+  body.nds
+    .info
+      padding .1rem
+      background #fff
+    .ds-button-group
+      margin .2rem 0
+      
 </style>

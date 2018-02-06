@@ -158,7 +158,9 @@ export default {
                 {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
                 {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
                 {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
-                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'}
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'},
+                {id: '5-2-11', position: {width: '7.6rem'}, title: '六合彩专属', url: 'HC6E'},
+                {id: '5-2-12', position: {width: '7.6rem'}, title: '迎新春闯关', url: 'NewYear'}
               ]
             }
           ]
@@ -251,13 +253,27 @@ export default {
               ]
             },
             {
+              title: 'VR游戏',
+              hide: true,
+              url: 'VR',
+              items: [
+                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR金星1.5分彩', fn: window.env !== 'pro' ? 1 : 0},
+                // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
+                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: window.env !== 'pro' ? 11 : 0},
+                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: window.env !== 'pro' ? 2 : 0},
+                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: window.env !== 'pro' ? 13 : 0},
+                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR彩票百家乐', fn: window.env !== 'pro' ? 15 : 0}
+                // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
+              ]
+            },
+            {
               title: '老虎机',
               hide: true,
               url: 'LHG',
               items: [
-                {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
-                {class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
-                {class: 'ds-icon-game-lhg00', title: 'more'}
+                {menuid: '!98', class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
+                {menuid: '!98', class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
+                {menuid: '!98', class: 'ds-icon-game-lhg00', title: 'more'}
               ]
             }
           ]
@@ -481,6 +497,33 @@ export default {
                     width: '16.3rem'
                   },
                   url: 'TrendChart'
+                },
+                {
+                  id: '4-1-7',
+                  menuid: '98',
+                  title: 'VR投注记录列表',
+                  url: 'VROrder',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
+                  id: '4-1-8',
+                  menuid: '98',
+                  title: 'VR追号记录列表',
+                  url: 'VRFollow',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-1-9',
+                  menuid: '98',
+                  title: 'VR打赏列表',
+                  url: 'VRTip',
+                  position: {
+                    width: '12rem'
+                  }
                 }
               ]
             },
@@ -742,8 +785,12 @@ export default {
   },
   methods: {
     __music () {
-      if (!this.audio) this.audio = new window.Audio('/static/media/open1.mp3')
+      if (!this.audio) this.audio = new window.Audio('/static/media/24_Ctu.mp3')
       this.audio.paused && this.audio.play()
+      // setTimeout(() => {
+      //   this.audio.pause()
+      //   this.audio.currentTime = 0
+      // }, 500)
     },
     __print (data) {
       this.printData = data
@@ -829,7 +876,7 @@ export default {
       // console.log('menus changed!!! or Menu need reauthority')
       return this.menus.reduce((p, m, mi) => {
         // delete un authority
-        if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {
+        if (this.menuids && m.menuid && this.menuids.indexOf(',' + m.menuid) === -1) {
           // this.menus.splice(mi, 1)
           this.$set(m, 'removed', true)
           return p
@@ -839,7 +886,7 @@ export default {
         m.groups = m.groups || []
         return m.groups.reduce((p, g, gi) => {
           // delete un authority
-          if (m.removed || (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1)) {
+          if (m.removed || (this.menuids && g.menuid && this.menuids.indexOf(',' + g.menuid) === -1)) {
             // m.groups.splice(gi, 1)
             this.$set(g, 'removed', true)
             return p
@@ -850,7 +897,7 @@ export default {
           // if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
-            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1)) {
+            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid) === -1)) {
               // g.items.splice(ii, 1)
               this.$set(i, 'removed', true)
               return p
@@ -956,7 +1003,10 @@ export default {
       this.$http.get(api.getUserPrefence).then(({data}) => {
         // success
         if (data.success === 1) {
-          this.menuids = data.menuList
+          this.menuids = ',' + data.menuList
+          if (this.menuids.indexOf(',98') === -1) {
+            this.menuids += ',!98'
+          }
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
           // this.setPages(
           let pages = this._getPages()
@@ -1032,7 +1082,7 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/bg_09.jpg) center no-repeat
     background-size 100% 100% !important
     transition background linear .5s
     &.skin-new-year 
@@ -1066,13 +1116,13 @@ export default {
     // background-size cover
   
   body:fullscreen #app > * {
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/bg_09.jpg) center no-repeat
   }
   body:full-screen #app > * {
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/bg_09.jpg) center no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/bg_09.jpg) center no-repeat
   }
   
 </style>

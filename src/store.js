@@ -41,7 +41,7 @@ let store = {
       canTopUp: true,
       canWithDraw: true,
       platform: 'cb',
-      skin: 0
+      skin: 9
     },
     pages: []
   },

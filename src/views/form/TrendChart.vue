@@ -293,7 +293,7 @@ export default {
         if (data.success === 1) {
           data.lotteryList.forEach(d => {
             d.class = (store.state.pages.find(p => p.gameid === d.lotteryId) || {}).class
-            if (this.gameid && this.gameid === d.lotteryId) {
+            if (this.gameid && (this.gameid + '') === (d.lotteryId + '')) {
               this.game = d
             }
           })
