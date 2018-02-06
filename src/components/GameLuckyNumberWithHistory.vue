@@ -12,8 +12,8 @@
             // 按钮区
             .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
               .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 1)})") 号码
-              .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 2)})") 生肖
-              .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 3)})") 五行
+              // .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 2)})") 生肖
+              // .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 3)})") 五行
               .ds-button.x-small(:class=" { primary: type === 4 , 'text-button' : type !== 4  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 4)})") 单双
 
             .number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
