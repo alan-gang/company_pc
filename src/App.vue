@@ -257,12 +257,12 @@ export default {
               hide: true,
               url: 'VR',
               items: [
-                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR金星1.5分彩', fn: window.env !== 'pro' ? 1 : 0},
+                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR金星1.5分彩', fn: 1},
                 // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: window.env !== 'pro' ? 11 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: window.env !== 'pro' ? 2 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: window.env !== 'pro' ? 13 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR彩票百家乐', fn: window.env !== 'pro' ? 15 : 0}
+                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: 11},
+                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: 2},
+                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: 13},
+                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR彩票百家乐', fn: 15}
                 // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
               ]
             },
