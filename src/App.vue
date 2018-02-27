@@ -254,7 +254,7 @@ export default {
             },
             {
               title: 'VR游戏',
-              hide: true,
+              // hide: true,
               url: 'VR',
               items: [
                 {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR金星1.5分彩', fn: 1},

@@ -427,6 +427,9 @@ export default {
         }, 0)
       }
     },
+    __openWindowWithPost (fn) {
+      return this.openWindowWithPost(this.formData[fn] || {})
+    },
     logout () {
       this.$emit('logout')
     },

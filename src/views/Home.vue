@@ -116,6 +116,8 @@ export default {
       }, 5000)
     },
     openTab (id) {
+      let fn = (this.pages.find(p => p.id === id && p.fn) || {}).fn
+      if (fn) return this.__setCall({fn: '__openWindowWithPost', args: fn})
       this.$emit('open-tab', id)
     },
     // addPrefence: api + 'home/userMenus.do?method=addPrefence&menuId=1&userId=1&isDesk=1&sort=1',
@@ -210,7 +212,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   @import '../path.stylus'
-  WW = 7rem
+  WW = 8rem
   WH = 5rem
   IH = .36rem
   
