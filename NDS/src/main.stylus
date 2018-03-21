@@ -77,6 +77,9 @@
 .logo-pray-frame
   background url(assets/prey-logo.png) center right no-repeat
 body.nds
+  .login-register
+    background url(./assets/x.png) center top no-repeat 
+    
   .popover-luckynumber
     display none
   .game-side-buttons

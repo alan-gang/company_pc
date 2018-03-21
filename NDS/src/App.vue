@@ -920,7 +920,7 @@ export default {
       // console.log('menus changed!!! or Menu need reauthority')
       return this.menus.reduce((p, m, mi) => {
         // delete un authority
-        if (this.menuids && m.menuid && this.menuids.indexOf(m.menuid) === -1) {
+        if (this.menuids && m.menuid && this.menuids.indexOf(',' + m.menuid + ',') === -1) {
           // this.menus.splice(mi, 1)
           this.$set(m, 'removed', true)
           return p
@@ -930,7 +930,7 @@ export default {
         m.groups = m.groups || []
         return m.groups.reduce((p, g, gi) => {
           // delete un authority
-          if (m.removed || (this.menuids && g.menuid && this.menuids.indexOf(g.menuid) === -1)) {
+          if (m.removed || (this.menuids && g.menuid && this.menuids.indexOf(',' + g.menuid + ',') === -1)) {
             // m.groups.splice(gi, 1)
             this.$set(g, 'removed', true)
             return p
@@ -941,7 +941,7 @@ export default {
           // if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
-            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(i.menuid) === -1)) {
+            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid + ',') === -1)) {
               // g.items.splice(ii, 1)
               this.$set(i, 'removed', true)
               return p
@@ -1052,6 +1052,10 @@ export default {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
+          this.menuids = ',' + data.menuList + ','
+          if (this.menuids.indexOf(',98') === -1) {
+            this.menuids += ',!98,'
+          }
           this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
            // this.setPages(
           let pages = this._getPages()
