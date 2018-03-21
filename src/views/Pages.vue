@@ -58,6 +58,7 @@ import VROrder from './form/VROrder'
 import VRTip from './form/VRTip'
 import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
+import MyProfitLoss from './form/MyProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
 import DaySalary from './form/DaySalary'
@@ -89,6 +90,7 @@ import Fight from './activity/Fight'
 import Salary from './activity/Salary'
 import HC6E from './activity/HC6E'
 import NewYear from './activity/NewYear'
+import NewSalary from './activity/NewSalary'
 // 下载
 import Download from './download/Download'
 
@@ -134,6 +136,7 @@ export default {
     VRTip,
     LuckyPool,
     ProfitLoss,
+    MyProfitLoss,
     ProfitLossDetail,
     Today,
     DaySalary,
@@ -162,6 +165,7 @@ export default {
     Salary,
     HC6E,
     NewYear,
+    NewSalary,
     // 下载
     Download
   },

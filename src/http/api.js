@@ -353,6 +353,7 @@ let Group = {
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=createQr
   // 二维码
   createQr: '/team/createAccount.do?method=createQr',
+  // showSpreadLinks: '/team/createAccount.do?method=showSpreadLinks',
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
@@ -455,6 +456,7 @@ let Group = {
 }
 
 let Form = {
+  personList: '/report/profit.do?method=personList',
   poolIssue: '/report/buyReport.do?method=poolIssue',
   poolList: '/report/buyReport.do?method=poolList',
   // 查询日工资（数据要分页）
@@ -524,6 +526,7 @@ let Help = {
 }
 
 let Activity = {
+  getDayReward: '/activity.do?method=getDayReward',
   getRewardSalary: '/activity.do?method=getRewardSalary',
   // 活动首页展示页
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=getAllActivityList

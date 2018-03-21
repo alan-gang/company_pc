@@ -1,7 +1,7 @@
 
 
 <template lang="jade">
-  .help-page
+  .help-page.vip-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -203,13 +203,28 @@
         br 
         | (5. 每月审核，是以个人充值量和投注量为标准，还是以团队充值量和投注量为审核标准?
         | 答：对于VIP账户，平台统一以个人的充值量和投注量为标准进行相关审核。
-
-
-
-
     
+    // iframe(src="http://www.ds998.net/home/login/vip.html#vip_3" width="100%" height="100%;" sandbox="" style=" position: absolute; top: -70px; overflow-x: hidden" v-if="platform === 'ds' " ref="IF")
+
 </template>
 
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  mounted () {
+    // window.ifif = this.$refs.IF
+    // this.$refs.IF.onload = () => {
+    //   console.log(this.$refs.IF.querySelector('#header_wrap2'))
+    //   setTimeout(() => {
+    //     this.$refs.IF.querySelector('#header_wrap2').style.display = 'none'
+    //   }, 3000)
+    // }
+  }
+}
+</script>
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
@@ -219,5 +234,7 @@
     top TH
     padding PWX
     font-size .14rem
+  .iframe #header_wrap2
+      display none
   
 </style>

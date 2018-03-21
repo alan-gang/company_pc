@@ -25,7 +25,7 @@
         .item(v-for="(g, index) in notices") 
           .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
             span {{ g.subject }}
-            .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
+            .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ platform === 'ds' ? g.sendTime.split(' ')[0] : g.sendTime }}
            pre.value(v-bind:class=" { expand: openIndex === index } ") {{ g.content }}
          
          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")

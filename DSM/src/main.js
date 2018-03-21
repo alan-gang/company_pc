@@ -1,7 +1,7 @@
 import Vue from 'vue'
-// Vue.config.devtools = false
-// Vue.config.silent = true
-// Vue.config.productionTip = false
+Vue.config.devtools = false
+Vue.config.silent = true
+Vue.config.productionTip = false
 import 'src/polyline'
 
 import config from 'src/config'

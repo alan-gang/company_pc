@@ -42,8 +42,8 @@
           input.ds-input.larget(v-model="account")
           span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符）
         p(style="padding: .05rem .4rem") 登录密码： &nbsp;&nbsp;
-          input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123qwe' } ")
-          span(style="color: #999; font-size: .12rem")（登录密码默认为：123qwe）
+          input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === (this.platform === 'ds' ? '123456a' : '123qwe') } ")
+          span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ this.platform === 'ds' ? '123456a' : '123qwe'}} )
  
      
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
@@ -93,6 +93,7 @@
         // 调点
         PS: [{}],
         account: '',
+        // defaultPwd: this.platform === 'ds' ? '123456a' : '123qwe',
         pwd: '123qwe',
         range: {
           min: 0.00,
@@ -121,6 +122,7 @@
       }
     },
     mounted () {
+      this.pwd = (this.platform === 'ds' ? '123456a' : '123qwe')
       this.showRegistUser()
     },
     methods: {
@@ -134,7 +136,7 @@
           if (data.success === 1) {
             this.$message.success(data.msg || '开户成功！')
             this.account = ''
-            this.pwd = '123qwe'
+            this.pwd = (this.platform === 'ds' ? '123456a' : '123qwe')
             // this.point = ''
             this.u = {}
             this.showRegistUser()

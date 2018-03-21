@@ -62,7 +62,7 @@
           el-table-column(label="追号编号" width="100" )
             template(scope="scope")
               div
-                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click.stop="goFollowDetail(scope.row.taskId)") {{ scope.row.taskId }}
+                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click.stop=" platform === 'ds' ? (showFollow = scope.row.taskId) : goFollowDetail(scope.row.taskId)  ") {{ scope.row.taskId }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
           el-table-column(prop="userName" label="用户" width="80")
@@ -106,15 +106,29 @@
          
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+      
 
+    .modal(v-show="showFollow" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+          .tool-bar
+            span.title 追号详情
+            el-button-group
+              el-button.close(icon="close" @click="showFollow = ''")
+          Follow.followDetail-page(v-bind:id=" showFollow " style="min-height: 5.7rem")
 </template>
 
 <script>
+  import Follow from './FollowDetail'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
   export default {
+    components: {
+      Follow
+    },
     data () {
       return {
         pickerOptions: {
@@ -186,7 +200,8 @@
         u: {},
         user: {name: 'it001', game: '美国时时彩'},
         amount: [{}],
-        Cdata: []
+        Cdata: [],
+        showFollow: ''
       }
     },
     computed: {
@@ -429,5 +444,115 @@
   .el-select
     position relative
     top .01rem
+
+</style>
+
+
+<style lang="stylus" scoped>
+
+  @import '../../var.stylus'
+
+  bg = #d8d8d8
+  bg-hover = #ececec
+  bg-active = #e2e2e2
+  .tool-bar
+    height TH
+    line-height TH 
+    background-color bg
+    font-size .12rem
+    border-top-right-radius .05rem
+    border-top-left-radius .05rem
+    overflow hidden
+    background-position .2rem center
+
+  .title
+    color #333
+    font-weight bold
+    padding-left .2rem
+
+  .el-button-group
+    float right
+    height 100%
+    .el-button
+      font-size .12rem
+      color GREY
+      border none
+      height 100%
+      width TH
+      padding 0
+      background-color transparent
+      &:hover
+        background-color bg-hover
+      &:active
+        background-color bg-active
+      &:first-child
+        font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
+
+  .modal 
+    position absolute
+    top TH
+    bottom 0
+    left 0
+    right 0
+    text-align center
+    z-index 9999
+    
+    .mask
+      position absolute
+      left 0
+      top 0
+      width 100%
+      height 100%
+      opacity .5
+      background #000
+      z-index 9998
+    .box-wrapper
+      position absolute
+      top 0
+      bottom 0
+      left 0
+      right 0
+      text-align center
+      z-index 9999
+      &:after
+        content ''
+        height 100%
+        width 0
+        vertical-align middle
+        display inline-block
+    .box
+      position relative
+      text-align left
+      display inline-block
+      vertical-align middle
+      background-color #ededed
+      font-size .12rem
+      width 9rem
+      radius()
+    .content
+      margin 0 .2rem
+      .el-row
+        margin PW 0
+        word-wrap break-word
+      .textarea-label
+        position relative
+        margin .3rem .3rem .3rem 0
+        .label
+          position absolute
+          left 0
+          top .05rem
+        .el-textarea
+          display inline-bock
+          vertical-align top
+          padding-left .6rem 
+          .textarea
+            font-size .12rem
 
 </style>

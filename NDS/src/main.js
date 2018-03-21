@@ -1,9 +1,9 @@
-window.pn = '东森'
+window.platform = 'ds'
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
-// Vue.config.devtools = false
-// Vue.config.silent = true
-// Vue.config.productionTip = false
+Vue.config.devtools = false
+Vue.config.silent = true
+Vue.config.productionTip = false
 import '../../src/polyline'
 
 import config from '../../src/config'

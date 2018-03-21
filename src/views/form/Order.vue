@@ -117,7 +117,7 @@
                 span.text-danger(v-if="scope.row.isusefree") 是
                 span.text-grey(v-if="!scope.row.isusefree") 否
           
-          el-table-column(class-name="pr2" label="奖池号" width="100" align="center")
+          el-table-column(class-name="pr2" label="奖池号" width="100" align="center" v-if="platform !== 'ds' ")
             template(scope="scope")
               div(v-if="!scope.row.last")
                 span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolCode }}
@@ -131,8 +131,9 @@
               div(v-if="!scope.row.last")
                 // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
                 .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
-                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
+                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" platform === 'ds' ? (showFollow = scope.row.taskId) : goFollowDetail(scope.row.taskId) ") 追号详情
+                // .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = true ") 追号详情
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) " v-if="platform !== 'ds' ") 打印
         
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -243,21 +244,33 @@
 
             .buttons(style="margin: .3rem; text-align: center")
               .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel()") 确认撤销
+              .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel()") 确认撤单
 
-
-
+    
+    .modal(v-show="showFollow" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+          .tool-bar
+            span.title 追号详情
+            el-button-group
+              el-button.close(icon="close" @click="showFollow = ''")
+          Follow.followDetail-page(v-bind:id=" showFollow " style="min-height: 5.7rem")
 
       
 </template>
 
 <script>
+  import Follow from './FollowDetail'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   // import util from '../../util'
   export default {
+    components: {
+      Follow
+    },
     data () {
       return {
         ACCOUNT: store.state.user.account,
@@ -322,10 +335,11 @@
         fullCode: '获取失败...',
         type: 0,
         row: {prizeCode: ''},
-        modalTitles: ['投注详情', '发起跟单', '撤销'],
+        modalTitles: ['投注详情', '发起跟单', '撤单'],
         expandList: [],
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
-        Cdata: []
+        Cdata: [],
+        showFollow: ''
       }
     },
     computed: {

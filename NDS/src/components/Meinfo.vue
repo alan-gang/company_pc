@@ -5,17 +5,18 @@ footer(:class="{'hide-info': hide, 'shorter' : isTry || (!me.canTopUp && !me.can
 
   .el-icon-caret-right.text-666.height(style="" @click=" hide = !hide ")
 
-  dl(v-if="!hide")
+  dl(v-if="!hide" @mouseover=" more = true " @mouseleave=" more = false ")
     dd
       span.name.ds-icon-m.font-light {{ name }}
     dd
       span.money.ds-icon-money.font-gold
-        span.text-light 主: 
+        span.text-light 主：
         span {{ parseFloat(money || 0).toFixed(2) }}
-      br
-      span.font-light &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;特: {{ parseFloat(smoney || 0).toFixed(2) }} 
+    dd.ds-icon-t
+      span.font-light &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 特：
+      span.font-gold {{ parseFloat(smoney || 0).toFixed(2) }}
     dd
-      span.free.ds-icon-free.font-light {{ parseFloat(free || 0).toFixed(2) }}
+      span.free.ds-icon-free.font-light 券：{{ parseFloat(free || 0).toFixed(2) }}
   
 
   .buttons(style="padding: .05rem 0")
@@ -296,7 +297,7 @@ export default {
     background #888
     color #333
     transform rotateZ(-90deg)
-    position: absolute; right: .95rem; top : 1.4rem; padding: .1rem 0; z-index: 1; cursor: pointer
+    position: absolute; right: .95rem; top : 1.46rem; padding: .1rem 0; z-index: 1; cursor: pointer
     &:hover
       background #999
   .hide-info 

@@ -17,18 +17,18 @@
 
         .item.block
           | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          span.amount.gradient {{ data.totalAmount }}
+          span.amount.gradient {{ numberWithCommas(data.totalAmount) }}
           span.text-black  元 
           span.text-money  &nbsp;{{ textMoney }}
 
         .item.block
           | 今日参与游戏： 
-          span.amount {{ data.buyAmount }}
+          span.amount {{ numberWithCommas(data.buyAmount) }}
           span.text-black 元 
 
         .item.block
           | 今日中奖：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          span.amount {{ data.prizeAmount }}
+          span.amount {{ numberWithCommas(data.prizeAmount) }}
           span.text-black 元 
         
 
@@ -40,12 +40,13 @@
 
 <script>
   import store from '../../store'
-  import { digitUppercase } from '../../util/Number'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
   // import { dateFormat, dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   export default {
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         me: store.state.user,
         data: {}
         // st: dateTimeFormat(new Date().getTime())

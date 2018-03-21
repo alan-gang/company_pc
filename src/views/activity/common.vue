@@ -1,5 +1,5 @@
 <template lang="jade">
-  .activity-page
+  .activity-page.activity-item-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -18,6 +18,20 @@
       .info
         .title 活动规则
         pre.content {{ rule }}
+
+        .list(v-if="list13 && list13[0]" )
+
+          el-row.list-title
+            el-col(:span="6") {{ '团队日量要求' }}
+            el-col(:span="6") {{ '团队活跃用户' }} 
+            el-col(:span="6" style="text-align: right") {{ '日工资比例' }}  
+            el-col(:span="6" style="text-align: right") {{ '工资上限' }}  
+
+          el-row.list-item(v-for=" l in list13 " )
+            el-col(:span="6") {{ l.expandName }}
+            el-col(:span="6") {{ l.expandValue === 0 ? '无要求' : l.expandValue}}
+            el-col(:span="6" style="text-align: right") {{ l.expandPrize }} 
+            el-col(:span="6" style="text-align: right") {{ l.maxPrize }}  
 
         .list(v-if="list && list[0]" )
 
@@ -79,9 +93,11 @@ export default {
       list: [],
       expand: [],
       list9: [],
+      list13: [],
       th1: ['maxSaveAmount:首存金额', 'buyAmount:当日销量', 'level:关卡'],
       th2: ['prizeAmount:现金礼包', 'prizeAmount:销量返利（元）', 'buyAmount:投注量要求'],
-      th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励']
+      th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励'],
+      th4: ['expandName:团队日量要求', 'expandPrize:团队活跃用户', 'expandValue:日工资比例', 'maxPrize:工资上限']
     }
   },
   computed: {
@@ -128,6 +144,10 @@ export default {
       this.$http.get(api.getActivityDetail, {entry: this.id}).then(({data}) => {
         // success
         if (data.success === 1) {
+          if (String(this.idt) === String(13)) {
+            this.list13 = data.expand
+            data.expand = []
+          }
           this.enable = data.enable
           this.st = data.beginDate
           this.et = data.endDate

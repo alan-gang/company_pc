@@ -15,6 +15,7 @@
       .ds-button.bold.tall.high-positive._3rem.oval(@click="autoRegist") 立即注册
       br
       router-link.ds-button.text-button.light(:to=" '/login' " style="margin-top: .1rem" @click.native.stop="") 我要登录
+      a.ds-button.text-button.light(target="_blank" href="http://www.ds998.net" style="margin-top: .1rem" @click.native.stop="" v-if=" platform === 'ds' ") 浏览官网
 
 
 
@@ -105,7 +106,7 @@
           if (data.success === 1) {
             this.$modal.success({
               // target: this.$el,
-              content: '恭喜你注册成功，你的密码为：123qwe',
+              content: '恭喜你注册成功，你的密码为：' + (this.platform === 'ds' ? '123456a' : '123qwe'),
               btn: ['马上登录'],
               ok () {
                 this.__setCall({
@@ -119,7 +120,7 @@
                     path: '/login/login',
                     query: {
                       un_: this.account,
-                      pwd: '123qwe'
+                      pwd: (this.platform === 'ds' ? '123456a' : '123qwe')
                     }
                   })
                 }, 200)

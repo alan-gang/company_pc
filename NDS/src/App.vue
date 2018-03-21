@@ -158,7 +158,10 @@ export default {
                 {id: '5-2-7', position: {width: '7.6rem'}, title: '最新活动', url: 'ForOther'},
                 {id: '5-2-8', position: {width: '7.6rem'}, title: '大家来找茬', url: 'FindMe'},
                 {id: '5-2-9', position: {width: '7.6rem'}, title: '王者争霸赛', url: 'Fight'},
-                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'}
+                {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'},
+                {id: '5-2-11', position: {width: '7.6rem'}, title: '六合彩专属', url: 'HC6E'},
+                {id: '5-2-12', position: {width: '7.6rem'}, title: '迎新春闯关', url: 'NewYear'},
+                {id: '5-2-13', position: {width: '7.6rem'}, title: '全新日工资', url: 'NewSalary'}
               ]
             }
           ]
@@ -221,8 +224,8 @@ export default {
               // width: '8rem',
               items: [
                 {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', gameid: 12},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', gameid: 21},
+                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '欢乐分分彩', gameid: 12},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
                 {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19}
               ]
@@ -235,10 +238,10 @@ export default {
               // width: '1.8rem',
               items: [
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', gameid: 8},
-                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '江西11选5', gameid: 7},
+                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', gameid: 7},
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', gameid: 22},
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', gameid: 6},
-                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', gameid: 11}
+                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '十一运夺金', gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
             },
             {
@@ -267,24 +270,24 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14},
                 {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
-            },
-            {
-              title: '老虎机',
-              hide: true,
-              url: 'LHG',
-              items: [
-                {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
-                {class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
-                {class: 'ds-icon-game-lhg00', title: 'more'}
-              ]
             }
+            // {
+            //   title: '老虎机',
+            //   hide: true,
+            //   url: 'LHG',
+            //   items: [
+            //     {class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
+            //     {class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
+            //     {class: 'ds-icon-game-lhg00', title: 'more'}
+            //   ]
+            // }
           ]
         },
         {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
-          title: '帐户管理',
+          title: '账户管理',
           url: 'me',
           groups: [
             {
@@ -313,12 +316,14 @@ export default {
                   id: '2-4-1',
                   menuid: '30',
                   title: '充值申请',
+                  hide: true,
                   url: 'TopUp'
                 },
                 {
                   id: '2-5-1',
                   menuid: '32',
                   title: '提现申请',
+                  hide: true,
                   url: 'WithDraw'
                 },
                 {
@@ -326,6 +331,12 @@ export default {
                   menuid: '34',
                   title: '我的银行卡',
                   url: 'Bank'
+                },
+                {
+                  id: '4-5-5',
+                  menuid: '78',
+                  title: '我的工资',
+                  url: 'DaySalary'
                 }
               ]
             }
@@ -398,7 +409,21 @@ export default {
                   id: '3-3-1',
                   menuid: '45',
                   title: '分红列表',
-                  url: 'Stock'
+                  url: 'Stock',
+                  size: 'full',
+                  position: {
+                    width: '11rem'
+                  }
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '64',
+                  title: '分红列表',
+                  url: 'Stock',
+                  size: 'full',
+                  position: {
+                    width: '11rem'
+                  }
                 },
                 // {
                 //   id: '3-3-2',
@@ -557,13 +582,13 @@ export default {
                 {
                   id: '4-4-1',
                   menuid: '57',
-                  title: '今日报表列表',
+                  title: '今日报表',
                   url: 'Today'
                 },
                 {
                   id: '4-5-1',
                   menuid: '58',
-                  title: '盈亏报表列表',
+                  title: '盈亏报表',
                   url: 'ProfitLoss'
                 },
                 // {
@@ -581,11 +606,29 @@ export default {
                   url: 'Account'
                 },
                 {
-                  id: '4-5-5',
-                  menuid: '78',
-                  title: '我的日工资详情',
-                  url: 'DaySalary'
+                  id: '4-5-6',
+                  menuid: '99',
+                  title: '报表查询',
+                  position: {
+                    width: '12rem'
+                  },
+                  url: 'MyProfitLoss'
+                },
+                {
+                  id: '3-4-2',
+                  menuid: '48',
+                  title: '团队图表分析',
+                  url: 'ChartAnalysis',
+                  position: {
+                    'min-width': '9.5rem'
+                  }
                 }
+                // {
+                //   id: '4-5-5',
+                //   menuid: '78',
+                //   title: '我的日工资详情',
+                //   url: 'DaySalary'
+                // }
               ]
             }
           ]
@@ -623,6 +666,13 @@ export default {
                   id: '6-1-4',
                   title: 'VIP介绍',
                   url: 'VIP'
+                },
+                {
+                  id: '6-2-1',
+                  title: '系统公告',
+                  menuid: '90',
+                  url: 'System'
+                  // menuid: '68'
                 }
               ]
             },
@@ -631,13 +681,6 @@ export default {
               title: '系统',
               // hide: true,
               items: [
-                {
-                  id: '6-2-1',
-                  title: '系统公告',
-                  menuid: '90',
-                  url: 'System'
-                  // menuid: '68'
-                },
                 {
                   id: '6-2-2',
                   title: '意见反馈',
@@ -742,7 +785,11 @@ export default {
     // '$route': 'openRoute'
   },
   mounted () {
-    let ndsapi = 'http://192.168.169.49:9901/dscagamesclient'
+    // nds 外网测试环境
+    // http://58.71.87.90
+    // let ndsapi = 'http://58.71.87.90:9901/dscagamesclient'
+    // 外网
+    let ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
     let env = 'dev'
     // 外网生产地址
     if (window.location.host.indexOf('.net') !== -1) {
@@ -973,7 +1020,12 @@ export default {
       this.setUser()
       this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
       cookie.remove('JSESSIONID')
-      if (!args) this.$router.push('/login')
+      if (!args) {
+        // go to login page will fire try login immediately.
+        setTimeout(() => {
+          this.$router.push('/login/login')
+        }, 0)
+      }
       if (args && args.fn) args.fn()
       this.__logoutChat()
     },
@@ -1084,9 +1136,14 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(./assets/bg.jpg) center center no-repeat
+    background-image url(./assets/bg.jpg)
+    // background url(./assets/bg.jpg) center center no-repeat
     // background url($ASSETS/bg.jpg) center center no-repeat
-    background-size cover
+    // background-size cover
+    // -webkit-background-size cover
+    // -moz-background-size cover
+    // -o-background-size cover
+    // background-size cover
   
   body:fullscreen #app > * {
     // background url($ASSETS/bg.jpg) center center no-repeat

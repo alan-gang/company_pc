@@ -29,6 +29,7 @@ var digitUppercase = function (n) {
         .replace(/^整$/, '零元整')
 }
 function numberWithCommas(x) {
+    if (x === undefined) return ''
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -121,11 +122,37 @@ let getColorsOfNumberArray = (a, s) => {
   if (!(typeof a === 'object' && a[0])) return s
   return [a[0] + ':' + getColorOfNumber(a.shift())].concat(getColorsOfNumberArray(a, s || (a.length === 4 ? [] : ['-1:o0'])))
 }
+
+/**
+ * [get a times array base on profit rate.]
+ * @param  {[type]} m [min times]
+ * @param  {[type]} r [rate]
+ * @param  {[type]} l [length of array to return]
+ * @return {[type]}   [description]
+ */
+let getTimesArray = (min, rate, len, capital, reward) => {
+  let temp = new Array(len).fill(0)
+  let result = []
+  temp.every((n, i) => {
+    let T = result.reduce((a, b) => a + b, 0)
+    let N = Math.ceil((T * capital + T * capital * rate) / (reward - capital - rate * capital))
+    // console.log(N, (T * capital + T * capital * rate) / (reward - capital - rate * capital))
+    if (reward - capital - rate * capital < 0) {
+      return false
+    } else {
+      result[i] = Math.max(N, min)
+      return true
+    }
+  })
+  return result
+}
+// console.log(getTimesArray(1, 1.5, 15, 128, 1920), '???')
 module.exports = {
   digitUppercase,
   numberWithCommas,
   getAnimalOfNumber,
   getNumberOfAnimal,
   getColorOfNumber,
-  getColorsOfNumberArray
+  getColorsOfNumberArray,
+  getTimesArray
 }

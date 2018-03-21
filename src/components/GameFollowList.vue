@@ -3,7 +3,7 @@
     .ds-button-group
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 同倍追号
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 翻倍追号
-        // .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3") 利润率追号
+        .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3" v-if="nsl === 1") 利润率追号
     .form
       | 追号期数：
       el-select(v-model="nper")
@@ -14,11 +14,11 @@
       span(v-if="tabIndex == 2") &nbsp;&nbsp;&nbsp;&nbsp;倍数 
         span(style="font-size: 9px") X&nbsp;&nbsp;
         el-input-number.center.times( v-model="xtimes" v-bind:min="1" v-bind:max="100")
-      span(v-if="tabIndex === 3")
+      span(v-if="tabIndex === 3 && nsl === 1")
         | &nbsp;&nbsp;最低收益：
         el-input-number.center.get(v-model="get")
         |  %
-    el-table.ghost(:data="data" max-height="500" min-width="400" @selection-change="getSelection")
+    el-table.ghost(:data="data" max-height="350" min-width="400" @selection-change="getSelection" ref="multipleTable")
 
       el-table-column(width="80"  type="selection")
 
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+  import {getTimesArray} from '../util/Number'
   export default {
     props: {
       // 当前起始期数
@@ -48,6 +49,8 @@
       // 当前期数
       CNPER: String,
       pay: Number,
+      ns: Array,
+      nsl: Number,
       // type: Number,
       // t: Number,
       // point: Number,
@@ -62,7 +65,8 @@
         xtimes: 2,
         get: 50,
         tabIndex: 1,
-        selection: []
+        selection: [],
+        ta: []
       }
     },
     computed: {
@@ -86,7 +90,7 @@
           // return iii
           return (iii = {
             issue: iii.issue,
-            times: this.tabIndex === 2 ? this.times * Math.pow(this.xtimes, index) : this.times,
+            times: this.tabIndex === 3 ? this.ta[index] || 0 : this.tabIndex === 2 ? this.times * Math.pow(this.xtimes, index) : this.times,
             saleend: iii.saleend
           })
         })
@@ -105,11 +109,22 @@
       // this.get = this.point
     },
     watch: {
+      data () {
+        setTimeout(() => {
+          this.selectAll()
+        }, 100)
+      },
       PAY () {
         this.$emit('set-follow', {NPER: this.selection.length, pay: this.PAY})
       },
       tabIndex () {
         this.$emit('set-follow', {type: this.tabIndex})
+        this.setTa()
+      },
+      nsl () {
+        if (this.nsl !== 1 && this.tabIndex === 3) {
+          this.tabIndex = 1
+        }
       },
       xtimes () {
         setTimeout(() => {
@@ -121,16 +136,41 @@
           this.times = Math.floor(this.times)
           this.$emit('set-follow', {t: this.times})
         })
+        this.setTa()
       },
       get () {
         if (this.tabIndex === 3 && this.get > 0) this.adjustList()
         this.$emit('set-follow', {point: this.get / 100})
+        this.setTa()
       },
       selection () {
         this.$emit('set-follow', {items: this.selection})
+      },
+      nper () {
+        this.setTa()
       }
     },
     methods: {
+      selectAll () {
+        this.data.forEach(row => {
+          // console.log('rowowowo')
+          this.$refs.multipleTable.toggleRowSelection(row, true)
+        })
+      },
+      setTa () {
+        if (this.tabIndex === 3) {
+          // let getTimesArray = (min, rate, len, capital, reward) => {
+          let ta = getTimesArray(this.times, this.get / 100, this.nper, this.pay, (this.ns[0] || {}).bonus)
+          this.ta = ta.length === this.nper ? ta : []
+          if (this.ta.length !== this.nper) {
+            this.$modal.warn({
+              content: '无法达到该利润率',
+              btn: ['确定'],
+              target: this.$el.parentNode
+            })
+          }
+        }
+      },
       getSelection (selection) {
         this.selection = selection.slice()
       },

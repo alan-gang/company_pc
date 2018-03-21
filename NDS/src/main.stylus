@@ -3,9 +3,200 @@
 @import '../../src/night.stylus'
 @import '../../src/classic.stylus'
 
+.el-message
+  bottom .5rem
+  top auto
+
+.ds-icon-download-logo
+  background url(./assets/ds-logo.png) .3rem .3rem no-repeat 
+  
+.ds-icon-t
+  background url(assets/t.png) left center no-repeat
+  background-size .24rem
+
+// game icon 
+.ds-icon-game-chq
+  background url(assets/game/cqssc.png) center no-repeat
+  &.new-game-info
+    // background-size 1.19rem
+    background url(assets/game/cqssc1.png) center no-repeat
+    
+.ds-icon-game-xj
+  background url(assets/game/xjssc.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/xjssc1.png) center no-repeat
+.ds-icon-game-tj
+  background url(assets/game/tjssc.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/tjssc1.png) center no-repeat
+.ds-icon-game-cb60
+  background url(assets/game/hlffc.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/hlffc1.png) center no-repeat
+.ds-icon-game-cb120
+  background url(assets/game/xfsf.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/xfsf1.png) center no-repeat
+.ds-icon-game-gd
+  background url(assets/game/gd115.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/gd1151.png) center no-repeat
+.ds-icon-game-jx115
+  background url(assets/game/jx115.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/jx1151.png) center no-repeat
+.ds-icon-game-11ydj
+  background url(assets/game/sd115.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/sd1151.png) center no-repeat
+.ds-icon-game-pl35
+  background url(assets/game/p3p5.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/p3p51.png) center no-repeat
+.ds-icon-game-fc
+  background url(assets/game/fucai3d.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/fucai3d1.png) center no-repeat
+.ds-icon-game-bjpk10
+  background url(assets/game/fucai3d.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/fucai3d1.png) center no-repeat
+.ds-icon-game-kt115 
+  background url(assets/game/120s.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/120s1.png) center no-repeat
+.ds-icon-game-jsK3 
+  background url(assets/game/k3.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/k31.png) center no-repeat
+.ds-icon-game-bjpk10  
+  background url(assets/game/pk10.png) center no-repeat
+  &.new-game-info
+    background url(assets/game/pk101.png) center no-repeat
+  
 .logo-pray-frame
   background url(assets/prey-logo.png) center right no-repeat
 body.nds
+  .popover-luckynumber
+    display none
+  .game-side-buttons
+    display block !important    
+  .new-game-info
+    .game-luck-number-history
+      position absolute
+      top .5rem
+      right 0
+      padding 0
+      width 2.8rem
+      height .9rem
+      overflow hidden
+      &.expand
+        height 5rem
+        background #343d46 !important
+        overflow auto
+        
+      .lucky-numbers
+        padding 0 .05rem
+        background none !important
+        
+      .NPER
+        font-size .14rem
+      
+      .lucky-numbers
+        
+        & > .left
+          min-width 2.6rem
+          line-height .3rem
+          height .3rem
+        
+        &.long
+          & > .left
+            min-width 2.6rem
+            line-height .3rem
+            height .6rem
+          
+        &.game-K3
+          .dice
+            transform perspective(100px) translateZ(-100px)
+            &:nth-child(2)
+            &:nth-child(3)
+            &:nth-child(4)
+              margin-left -.15rem
+              
+              // margin-left -.1rem
+            
+            // margin-top .10rem
+          // .the-number 
+          .side
+            background #fff !important
+            
+        &:not(.game-K3)
+          .the-number
+          .number
+            width: 0.20rem;
+            height: 0.20rem;
+            line-height: 0.20rem;
+            font-size: .12rem
+          .number
+            color #ccc
+            background: none !important
+            border 1px solid #ccc
+        
+      
+  .game-content > .lucky-numbers
+    position absolute
+    top .5rem
+    left 3.4rem
+    line-height .3rem
+    z-index 1
+    background none !important
+    & > .left 
+      width 3.5rem
+      min-width 3rem
+      & > span > span > div
+        width 3.5rem
+    .NPER
+    .qi
+    & > .right
+    .timeout
+      display none
+    &.game-K3
+      .number
+        transform perspective(100px) translateZ(25px)
+        margin-top .10rem
+        &:not(:nth-child(3))
+          margin-left .20rem
+      // .the-number 
+      .side
+        background #fff !important
+        
+    &.long
+      .left > span > span > div
+        width 2.5rem
+      .number
+        margin-top .05rem
+        background-color #ff7e00
+        
+      .the-number
+        // margin-top .08rem
+        
+        background-color #ff7e00
+        
+    &:not(.long):not(.game-K3)
+      .number
+      .the-number
+        background-color #ff7e00
+        width: 0.60rem;
+        height: 0.60rem;
+        line-height: 0.60rem;
+        font-size: .3rem
+   
+    // display none
+  .game-info
+    display none
+    &.new-game-info
+      display block
+      
   #app .game-selection
     .circle
       // background rgba(255, 255, 255, .9)
@@ -27,7 +218,8 @@ body.nds
     background url(./assets/logo.png) center center no-repeat 
   
   &.classic.day .footer-popover.el-popover
-    
+    .submenu dt
+      display none
     &.more
       transform translateX(PW) translateY(2*PW) !important
       
@@ -110,6 +302,8 @@ body.nds
         
       bottom 0
       .el-menu
+        ul
+          margin 0
         top 1.6rem
         padding-left 0
         .ds-button
@@ -155,14 +349,42 @@ body.nds
       background #dedede
       top 1rem
       .dialog-page
+        .followDetail-page-content
+          bottom .6rem
+          &:after
+            display none
+          
+        .followDetail-page
+          .mask
+            background #666
+          // position static
+          .buttons
+            bottom 0
+            // position static !important
+          
+            
         GBG = #48525c
         BARGB = #343d46
         BTNBG = #5b646d
+        // &.game-page 
+        // &.game-page .game-content
+        //   width 12rem !important
+        //   max-width 12rem !important
+        &.trend-chart-page .game-info
+          padding-left 1rem
         &.game-page .game-info
+          .left .title
+            padding-left 1rem
           background-color GBG
           .ds-button:not(.text-button):not(.instruction)
             background-color BTNBG
         &.game-page .game-content
+          .pay + .ds-checkbox-label
+          .pay + .ds-checkbox-label + span
+            display none
+            
+          // overflow-x visible
+          // overflow-y auto
           background-color GBG
           .game-recent-order
           .game-info
@@ -234,7 +456,10 @@ body.nds
       top PW !important
       background-color #e1eaf0
       
-  .dialog-page:not(.game-page)
+  .dialog-page.activity-item-page
+    .scroll-content
+      bottom auto
+  .dialog-page:not(.game-page):not(.activity-item-page)
     background-color #e1eaf0
     .scroll-content
       & > *
@@ -283,7 +508,9 @@ body.nds
     background none
   .el-table__empty-text
     position static
-  #app .dialog-container .dialog-page.help-page
+  #app .dialog-container .dialog-page.help-page.vip-page
+    width 12rem !important
+    
     // .scroll-content
     // background-color #fff !important
   #app .dialog-container .dialog-page:not(.game-page) .scroll-content

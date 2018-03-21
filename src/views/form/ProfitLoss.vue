@@ -29,13 +29,36 @@
   
           el-table-column(prop="userPoint" label="返点级别" width="100" )
           el-table-column(prop="salaryAmount" label="工资总额" width="100" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.salaryAmount) }}
+
           el-table-column(prop="saveAmount" label="充值总额" width="100" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.saveAmount) }}
+
           el-table-column(prop="withdrawAmount" label="提款总额" width="100" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.withdrawAmount) }}
+
+
           el-table-column(prop="buyAmount" label="投注总额" width="100" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.buyAmount) }}
+
           el-table-column(prop="pointAmount" label="返点总额" width="100" )
+
+
           el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.prizeAmount) }}
+
           el-table-column(prop="rewardsAmount" label="活动" width="100")
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.rewardsAmount) }}
+
           el-table-column(prop="profitAmount" label="盈亏结算" width="100"  v-bind:sortable="true")
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.profitAmount) }}
 
           // el-table-column(prop="userName" label="用户名" width="100" sortable="true")
           // el-table-column(prop="buy" label="投注总额" width="100" )
@@ -51,12 +74,14 @@
 </template>
 
 <script>
+  import { numberWithCommas } from '../../util/Number'
   import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         me: store.state.user,
         clearableOnTime: false,
         pickerOptions: {

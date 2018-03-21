@@ -39,15 +39,16 @@
           el-select(v-model="p")
             el-option(v-for="P in PS" v-bind:label="P" v-bind:value="P")
        
-        p(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 自动注册地址： &nbsp;
-          span.text-blue(style="display: inline-block") {{ url }} 
+        div(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 
+          span(style="position: absolute; line-height: 2") 自动注册地址： &nbsp;
+          div.text-blue(style="display: block; margin-left: 1rem" v-for=" url in urls ") {{ url }} 
             span.ds-button.text-button.green(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError") 复制注册地址
            
         div.buttons(style="padding: .1rem 2.03rem")
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
 
-        div(style="padding: .4rem 2.03rem")
-          .QR.ds-icon-QR(:style="myQR")
+        div(style="padding: .4rem 1.9rem;")
+          .QR.ds-icon-QR(:style="QR" v-for=" QR in QRS ")
             p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
 
         
@@ -63,7 +64,8 @@
         // 调点
         PS: [],
         p: 0,
-        url: '',
+        urls: [],
+        qrs: [],
         userPoint: 0,
         autoRegistMinPoint: 6.5
       }
@@ -76,10 +78,23 @@
           width: '1.4rem',
           textAlign: 'center'
         }
+      },
+      QRS () {
+        return this.qrs.map(q => {
+          return (q = {
+            background: 'url(' + 'data:image/png;base64,' + q + ') left top no-repeat',
+            height: '1.96rem',
+            width: '1.4rem',
+            margin: '.15rem',
+            textAlign: 'center',
+            display: 'inline-block'
+          })
+        })
       }
     },
     mounted () {
       this.showSpreadLinks()
+      this.getQR()
       // this.createQr()
     },
     methods: {
@@ -103,6 +118,17 @@
       //     this.$message.error('二维码获取失败！')
       //   })
       // },
+      getQR () {
+        this.$http.get(api.createQr).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.qrs = data.qrStr
+          } else this.$message.error(data.msg || '二维码获取失败！')
+        }, (rep) => {
+          // error
+          this.$message.error('二维码获取失败！')
+        })
+      },
       showSpreadLinks () {
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
@@ -110,7 +136,7 @@
             // block8/3 console.log(data.userPoint, data.range)
             this.userPoint = data.userPoint
             this.autoRegistMinPoint = data.autoRegistMinPoint
-            this.url = data.url
+            this.urls = data.url
             this.p = (data.autoPoint <= data.range.min ? data.range.min : data.autoPoint >= data.range.max ? data.range.max : data.autoPoint).toFixed(1)
             for (let i = data.range.min; i <= data.range.max; i += 0.1) {
               if (i !== data.range.min) this.PS.push((Math.round(i * 10) / 10).toFixed(1))

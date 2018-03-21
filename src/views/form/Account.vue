@@ -97,17 +97,21 @@
 
           el-table-column(prop="income" label="收入" width="100" align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.income }}
-              span.text-green(v-if="scope.row.last") {{ scope.row.income }}
+              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.income) }}
+              span.text-green(v-if="scope.row.last") {{ numberWithCommas(scope.row.income) }}
 
           el-table-column(prop="expenditure" label="支出" width="100" align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.expenditure }}
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.expenditure) }}
+              span.text-danger(v-if="scope.row.last") {{ numberWithCommas(scope.row.expenditure) }}
 
           el-table-column(prop="balance" label="主帐户余额" width="100" align="right")
+            template(scope="scope")
+              span{{ numberWithCommas(scope.row.balance) }}
           
           el-table-column(prop="speBalance"  label="特殊余额" width="100" align="right")
+            template(scope="scope")
+              span{{ numberWithCommas(scope.row.speBalance) }}
 
 
           el-table-column(label="备注" align="center")
@@ -138,13 +142,14 @@
 </template>
 
 <script>
-  import { digitUppercase } from '../../util/Number'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
   export default {
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         clearableOnTime: false,
         pickerOptions: {
           shortcuts: [{
@@ -252,6 +257,9 @@
       this.getLotterys()
       this.getOrderType()
       this.list()
+      if (this.platform === 'ds') {
+        this.ISFREE.splice(2)
+      }
     },
     methods: {
       detectDate (v) {

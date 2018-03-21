@@ -36,6 +36,11 @@
             span.text-danger 在线支付
             | 的方式进行充值。手续费为：
             span.text-danger(style="font-size: 14px") {{ selectBank.custFee }}‰
+            br
+            | 为了提高
+            span.text-danger(style="font-size: 14px") 微信
+            |充值成功率，充值金额需为
+            span.text-danger(style="font-size: 14px") 小数
 
         .item(style="line-height: .5rem") 支付方式：
             .banks
@@ -357,7 +362,7 @@ export default {
     amount () {
       if (typeof this.amount === 'number') {
         setTimeout(() => {
-          (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+          typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
         }, 300)
         // setTimeout(() => {
         //   this.amount = parseFloat(this.amount) || 0
@@ -741,6 +746,16 @@ export default {
     },
     commit (fn) {
       this.Qr = ''
+      if (this.selectBank.class === 'wepay' && (this.amount + '').indexOf('.') === -1) {
+        return this.$modal.warn({
+          content: '为了提高微信充值成功率，充值金额需为小数！',
+          btn: ['确定']
+        })
+      }
+      let loading = this.$loading({
+        text: '充值申请中...',
+        target: this.$el
+      }, 10000, '充值申请超时...')
       this.$http.get(api.commit, {
         saveType: Math.min(this.type, 1),
         merType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tongdCode : '',
@@ -807,6 +822,10 @@ export default {
           this.$message.error({message: data.msg || '充值请求提交失败， 请重试！'})
         }
       }).catch(rpe => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 500)
       })
     },
     topUpNow () {

@@ -30,7 +30,7 @@
             dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class]" @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed") 
+              dd(v-for="item in group.items" v-bind:class="[item.class]" @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
                 .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                   span.text-gold {{ item.pretitle }}
@@ -209,11 +209,14 @@ export default {
     if (!window.screenTop && !window.screenY) this.full = false
     else this.full = true
     // this.$emit('set-Model', this.day ? 'day' : 'night')
-    this.openExternal(1)
-    this.openExternal(2)
-    this.openExternal(11)
-    this.openExternal(13)
-    this.openExternal(15)
+    // VRVRVR
+    if (this.platform !== 'ds') {
+      this.openExternal(1)
+      this.openExternal(2)
+      this.openExternal(11)
+      this.openExternal(13)
+      this.openExternal(15)
+    }
   },
   activated () {
     this.setFarChat()

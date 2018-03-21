@@ -67,7 +67,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary, api.getRewardSalary, api.getRewardSalary]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary, api.getRewardSalary, api.getRewardSalary, api.getDayReward]
     }
   },
   watch: {

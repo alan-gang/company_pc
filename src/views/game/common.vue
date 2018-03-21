@@ -9,11 +9,18 @@
 
     <!-- 游戏信息 -->
     GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
+    
+    GameSideButtons(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:type="type" style="display: none")
+
     .game-content.scroll-content(ref="GC" v-on:scroll="scrollHander")
       <!-- 开奖信息 -->
       GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
       <!-- 游戏信息 -->
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+
+      <!-- 东森专用 -->
+      NewGameInfo(v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
@@ -28,7 +35,7 @@
         GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
       <!-- 追号单 -->
       transition(name="slide-left" appear=true key="follow")
-        GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues")
+        GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues" v-bind:ns="ns" v-bind:nsl="ns.length")
       <!-- 下单记录 -->
       // GameOrderHistory
       <!-- 追号记录 -->
@@ -57,7 +64,9 @@
 import GameLuckyNumber from 'components/GameLuckyNumber'
 import GameLuckyNumberWithHistory from 'components/GameLuckyNumberWithHistory'
 import GameLuckyNumberHistory from 'components/GameLuckyNumberHistory'
+import GameSideButtons from 'components/GameSideButtons'
 import GameInfo from 'components/GameInfo'
+import NewGameInfo from 'components/NewGameInfo'
 import GameMenu from 'components/GameMenu'
 import GameSelection from 'components/GameSelection'
 import GameOrderBar from 'components/GameOrderBar'
@@ -299,7 +308,7 @@ export default {
         this.__getTraceIssueList()
         // auto scroll to just can see orders
         setTimeout(() => {
-          this.$refs.GC.scrollTop = (util.getOffset(this.$refs.orders.$el, 1).top || this.$refs.GC.scrollTop)
+          if (this.platform !== 'ds') this.$refs.GC.scrollTop = (util.getOffset(this.$refs.orders.$el, 1).top || this.$refs.GC.scrollTop)
         }, 0)
       }
     },
@@ -830,7 +839,9 @@ export default {
   components: {
     GameLuckyNumber,
     GameLuckyNumberWithHistory,
+    GameSideButtons,
     GameInfo,
+    NewGameInfo,
     GameMenu,
     GameSelection,
     GameOrderBar,

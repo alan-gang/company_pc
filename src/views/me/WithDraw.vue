@@ -212,7 +212,7 @@ export default {
     money () {
       if (typeof this.money === 'number') {
         setTimeout(() => {
-          (this.money + '') !== (this.money.toFixed(2)) && (this.money = (this.money.toFixed(2)))
+          typeof this.money === 'number' && (this.money + '') !== (this.money.toFixed(2)) && (this.money = (this.money.toFixed(2)))
         }, 300)
         // setTimeout(() => {
         //   this.amount = parseFloat(this.amount) || 0

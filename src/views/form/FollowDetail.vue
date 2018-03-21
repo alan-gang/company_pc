@@ -76,8 +76,8 @@
         el-col(:span="6")
         el-col(:span="6")
 
-    .scroll-content.info(style="top: 2.1rem")
-      el-table.header-bold.nopadding(:data="detail.taskDetailsList" max-height="600" @selection-change="handleSelectionChange")
+    .followDetail-page-content.scroll-content.info(style="top: 2.1rem")
+      el-table.header-bold.nopadding(:data="detail.taskDetailsList" v-bind:max-height="platform === 'ds' ? 250 : 600" @selection-change="handleSelectionChange")
 
         el-table-column(width="80" label="选择")
           template(scope="scope")
@@ -188,7 +188,7 @@
 
             // .buttons(style="margin: .3rem; text-align: center")
             //   .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-            //   .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤销
+            //   .ds-button.primary.large.bold(v-if="type === 2" @click="cancel") 确认撤单
 
 </template>
 
@@ -198,6 +198,7 @@
   import api from '../../http/api'
   // import util from '../../util'
   export default {
+    props: ['id'],
     data () {
       return {
         ACCOUNT: store.state.user.account,
@@ -219,10 +220,13 @@
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
-      '$route': 'openRoute'
+      '$route': 'openRoute',
+      id () {
+        this.id && this.followDetail(this.id)
+      }
     },
     mounted () {
-      if (this.$route.query.id) this.followDetail(this.$route.query.id)
+      if (this.$route.query.id || this.id) this.followDetail(this.$route.query.id || this.id)
       else this.$emit('close', '4-2-2')
     },
     methods: {

@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row.lucky-numbers(v-bind:class="['game-' + gameType]")
+  el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10}]")
     
     el-col.left(:span="onlyNumber ? 24 : longNumbers ? 20 : 18")
       
@@ -7,7 +7,7 @@
         span(slot="reference")
           div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码" @click=" __setCall({fn: '__setLuckNumberType', args: type}) ")
             span.NPER {{ NPER }} 
-            | 期 &nbsp;
+            span.qi | 期 &nbsp;
 
             // 按钮区
             .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
@@ -88,6 +88,9 @@ export default {
     },
     isArray () {
       return !this.isDice && typeof this.lucknumbers[0] === 'object'
+    },
+    Numbers10 () {
+      return !this.isDice && this.lucknumbers.length > 5
     },
     longNumbers () {
       return !this.isDice && this.isArray

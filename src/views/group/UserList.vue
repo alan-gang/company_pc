@@ -40,7 +40,7 @@
       .table-list(style="padding: .15rem .2rem " v-if="stepIndex === 0")
         p(style="margin: .3rem 0 .15rem 0" )
           el-breadcrumb(separator=">")
-            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
+            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '我的用户' : B.userName }}
 
         el-table.header-bold.nopadding(:data="data"  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName")
 
@@ -103,7 +103,7 @@
 
           p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 
             
-            |资金密码：&nbsp;&nbsp;&nbsp;
+            | 资金密码：&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
             span(v-if=" me.safeCheck ")
               br
@@ -337,7 +337,7 @@
         // btos: false,
         // 面包
         BL: [
-          {title: '自己'},
+          {title: '我的用户'},
           {}
         ],
         data: [{}],

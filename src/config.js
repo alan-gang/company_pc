@@ -7,7 +7,8 @@ export default (Vue) => {
   Vue.mixin({
     data () {
       return {
-        call: call
+        call: call,
+        platform: window.platform
       }
     },
     watch: {

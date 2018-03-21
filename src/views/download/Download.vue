@@ -64,6 +64,11 @@
       }
     },
     mounted () {
+      if (this.platform === 'ds') {
+        this.downloads[0].intro = '信誉品牌，值得您的拥有！'
+        this.downloads[2].title = '易迅通'
+        this.downloads[2].title = '最安全的客服聊天系统'
+      }
       this.getWinClient()
     },
     methods: {

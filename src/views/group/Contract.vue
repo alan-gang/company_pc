@@ -62,7 +62,7 @@
               br
               | 2. 
               span.text-danger [手动发放]
-              | 即每次发分红的时候需要您进入团队管理的
+              | 即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
               span.text-danger 分红列表-分红详情
               | 中进行点击确认发放
               br
@@ -356,6 +356,12 @@
     },
     mounted () {
       this.contract()
+      if (this.platform === 'ds') {
+        const end = new Date()
+        const start = new Date()
+        end.setTime(end.getTime() + 3600 * 1000 * 24 * 360 * 10)
+        this.stEtA = [start, end]
+      }
     },
     methods: {
       goContractDetail (id) {

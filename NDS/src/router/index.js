@@ -138,7 +138,7 @@ export default function (VueRoter) {
       },
       {
         path: '*',
-        redirect: '/'
+        redirect: '/login/login'
       }
     ],
     scrollBehavior (to, from, savedPosition) {
@@ -168,12 +168,12 @@ export default function (VueRoter) {
     }, 300)
     // 如果需要登录，而当前没有登录， 先测试有没有登录
     if (to.meta.login && store.state.user.login === false) {
-      next({path: '/login'})
+      next({path: '/login/login'})
     // 如果不要登录， 而当前登录了, 跳到大厅
     } else if (to.meta.login && store.state.user.login === null) {
       let t = setInterval(() => {
         if (store.state.user.login === false) {
-          next({path: '/login'})
+          next({path: '/login/login'})
           clearInterval(t)
         }
         if (store.state.user.login === true) {
