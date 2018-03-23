@@ -8,7 +8,7 @@
         template(slot="title") {{ g.title }}
         el-menu-item(v-for="(item, iii) in g.items" v-bind:index=" '/' + m.url + '/' + item.id") {{ item.title }}
 
-    div(v-for="(m, i) in menus"  v-if="menus.length < 3" v-bind:class=" [ menus[0].url ] ")
+    div(v-for="(m, i) in menus"  v-if="menus.length < 3 && !m.removed" v-bind:class=" [ menus[0].url ] ")
       .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]") {{ m.title !== '报表管理' ? m.title : '游戏记录' }}
       el-menu-item-group(v-for="(g, ii) in m.groups" v-if="g.items.filter(function(x){return !x.removed})[0]")
           template(slot="title") {{ g.title }}

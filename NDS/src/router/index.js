@@ -138,7 +138,7 @@ export default function (VueRoter) {
       },
       {
         path: '*',
-        redirect: '/login/login'
+        redirect: '/'
       }
     ],
     scrollBehavior (to, from, savedPosition) {

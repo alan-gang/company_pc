@@ -787,18 +787,18 @@ export default {
   mounted () {
     // nds 外网测试环境
     // http://58.71.87.90
-    // let ndsapi = 'http://58.71.87.90:9901/dscagamesclient'
+    let ndsapi = 'http://58.71.87.90:9901/dscagamesclient'
     // 外网
-    let ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
+    // let ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
     let env = 'dev'
     // 外网生产地址
     if (window.location.host.indexOf('.net') !== -1) {
       env = 'pro'
-      ndsapi = 'https://api.cb868.net:1888/dscagamesclient'
+      ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
     // 外网测试环境
     } else if (window.location.host.indexOf('.go') !== -1) {
       env = 'odev'
-      ndsapi = 'http://112.199.101.98:9901/dscagamesclient'
+      ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
     }
     window.env = env
     ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi

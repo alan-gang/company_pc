@@ -30,7 +30,10 @@ var digitUppercase = function (n) {
 }
 function numberWithCommas(x) {
     if (x === undefined) return ''
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let parts = x.toString().split('.')
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return parts.join('.')
+    // return x.toString().split('.')x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 let getAnimalOfNumber = (n, ii) => {

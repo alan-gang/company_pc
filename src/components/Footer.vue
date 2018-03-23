@@ -23,7 +23,11 @@
 
     el-row(v-show="!hideAll")
       el-col.menu(:span="10" v-bind:offset="0")
-        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" v-bind:placement=" mode ? 'top' : 'bottom' " trigger="hover" options="{ removeOnDestroy: true }" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
+
+        // v-bind:placement=" mode ? 'top' : 'bottom' "
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="click" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
+
+
           .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") 
           router-link.icon-button.after-title(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle")
           slot
@@ -472,11 +476,11 @@ export default {
     display none
   .footer-popover
     &.sst
-      transform translateY(-0.2rem) translateX(0.22rem)
+      // transform translateY(-0.2rem) translateX(0.22rem)
     &.left-menus
       text-align center
     background rgba(49,41,84, .95)
-    transform translateY(.05rem)
+    // transform translateY(.05rem)
     padding PW
     &.game
       max-width 8.7rem

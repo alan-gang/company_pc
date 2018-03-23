@@ -356,12 +356,12 @@
     },
     mounted () {
       this.contract()
-      if (this.platform === 'ds') {
-        const end = new Date()
-        const start = new Date()
-        end.setTime(end.getTime() + 3600 * 1000 * 24 * 360 * 10)
-        this.stEtA = [start, end]
-      }
+      // if (this.platform === 'ds') {
+      const end = new Date()
+      const start = new Date()
+      end.setTime(end.getTime() + 3600 * 1000 * 24 * 360 * 10)
+      this.stEtA = [start, end]
+      // }
     },
     methods: {
       goContractDetail (id) {

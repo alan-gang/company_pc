@@ -223,23 +223,23 @@ body.nds
   &.classic.day .footer-popover.el-popover
     .submenu dt
       display none
-    &.more
-      transform translateX(PW) translateY(2*PW) !important
+    // &.more
+    //   transform translateX(PW) translateY(2*PW) !important
       
     
-    transform translateX(50%) !important
+    // transform translateX(50%) !important
     
-    @media(max-width: 2600px)
-      transform translateX(-50%) !important 
+    // @media(max-width: 2600px)
+    //   transform translateX(-50%) !important 
       
-    @media(max-width: 2200px)
-      transform translateX(-50%) !important
+    // @media(max-width: 2319px)
+    //   transform translateX(50%) !important
       
-    @media(max-width: 1850px)
-      transform translateX(50%) !important
+    // @media(max-width: 2158px)
+    //   transform translateX(50%) !important
     
-    @media(max-width: 1600px)
-      transform translateX(-50%) !important
+    // @media(max-width: 1600px)
+    //   transform translateX(-50%) !important
 
   
   #app

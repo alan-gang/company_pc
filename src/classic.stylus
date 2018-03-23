@@ -1,6 +1,6 @@
 // import this file to show night-model
 @import './var.stylus'
-body.classic:not(.nds)
+body.classic
   .footer-popover
       &.more
         transform translateY(.25rem)
@@ -21,66 +21,88 @@ body.classic:not(.nds)
         .ssubmenu
           left 155%
         
-          
-        
-      @media(max-width: 3000px)
-        &:not(.game):not(.more)
+      
+      &:not(.more)
           transform translateX(-55%) !important
-          
-        &.game
-          transform translateY(0)
-          // 图->
+        &.game  
+          transform translateX(-25%) !important
           &.hide-icon
-            transform translateX(155%) !important
+            transform translateX(-55%) !important
             &.hio
               transform translateX(-55%) !important
+              
           
-          &:not(.hide-icon)
-            transform translateY(0) !important
-            &.hio
-              transform translateY(0) translateX(-3rem) !important
+        // &.game
+        //   transform translateY(0)
+        //   // 图->
+        //   &.hide-icon
+        //     transform translateX(155%) !important
+        //     &.hio
+        //       transform translateX(-55%) !important
+          
+        //   &:not(.hide-icon)
+        //     transform translateY(0) !important
+        //     &.hio
+        //       transform translateY(0) translateX(-3rem) !important   
+        
+      // @media(max-width: 3000px)
+      //   &:not(.game):not(.more)
+      //     transform translateX(-55%) !important
+          
+      //   &.game
+      //     transform translateY(0)
+      //     // 图->
+      //     &.hide-icon
+      //       transform translateX(155%) !important
+      //       &.hio
+      //         transform translateX(-55%) !important
+          
+      //     &:not(.hide-icon)
+      //       transform translateY(0) !important
+      //       &.hio
+      //         transform translateY(0) translateX(-3rem) !important
             
       
-      @media(max-width: 1500px)
-        &:not(.game):not(.more)
-          transform translateX(-55%) !important
+      // @media(max-width: 1500px)
+      //   &:not(.game):not(.more)
+      //     transform translateX(-55%) !important
           
-        &.game
-          transform translateY(0)
-          // 图->
-          &.hide-icon
-            transform translateX(30%) !important
-            &.hio
-              transform translateX(-55%) !important
+      //   &.game
+      //     transform translateY(0)
+      //     // 图->
+      //     &.hide-icon
+      //       transform translateX(30%) !important
+      //       &.hio
+      //         transform translateX(-55%) !important
           
-          &:not(.hide-icon)
-            transform translateY(0) !important
-            &.hio
-              transform translateY(0) translateX(-1.2rem) !important
+      //     &:not(.hide-icon)
+      //       transform translateY(0) !important
+      //       &.hio
+      //         transform translateY(0) translateX(-1.2rem) !important
           
           
-      @media(max-height: 900px)
-        &:not(.game):not(.more)
-          transform translateX(55%) !important
+      // @media(max-height: 900px)
+      //   &:not(.game):not(.more)
+      //     transform translateX(55%) !important
         
-        &.game
-          transform translateY(0)
-          // 图->
-          &.hide-icon
-            transform translateX(40%) !important
-            &.hio
-              transform translateX(55%) !important
+      //   &.game
+      //     transform translateY(0)
+      //     // 图->
+      //     &.hide-icon
+      //       transform translateX(40%) !important
+      //       &.hio
+      //         transform translateX(55%) !important
           
-          &:not(.hide-icon)
-            transform translateY(0) !important
-            &.hio
-              transform translateY(0rem) translateX(.65rem) !important
+      //     &:not(.hide-icon)
+      //       transform translateY(0) !important
+      //       &.hio
+      //         transform translateY(0rem) translateX(.65rem) !important
         
 
-        .submenu.hover-show-ssubmenu
-          // transform translateX(300%) !important
-          .ssubmenu
-            left 45%
+      //   .submenu.hover-show-ssubmenu
+      //     // transform translateX(300%) !important
+      //     .ssubmenu
+      //       left 45%
           
       // @media(max-width: 1400px)
       //   &:not(.game)
