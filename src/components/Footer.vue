@@ -25,7 +25,7 @@
       el-col.menu(:span="10" v-bind:offset="0")
 
         // v-bind:placement=" mode ? 'top' : 'bottom' "
-        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="click" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " offset="0" v-model="shows[index]" v-show="!menu.hide") 
 
 
           .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") 

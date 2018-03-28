@@ -1090,7 +1090,7 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(/static/skins/bg_09.jpg) center no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
     background-size 100% 100% !important
     transition background linear .5s
     &.skin-new-year 
@@ -1124,13 +1124,13 @@ export default {
     // background-size cover
   
   body:fullscreen #app > * {
-    background url(/static/skins/bg_09.jpg) center no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   body:full-screen #app > * {
-    background url(/static/skins/bg_09.jpg) center no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   body:-moz-full-screen #app > * {
-    background url(/static/skins/bg_09.jpg) center no-repeat
+    background url(/static/skins/bg.jpg) center no-repeat
   }
   
 </style>

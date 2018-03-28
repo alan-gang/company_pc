@@ -41,7 +41,7 @@ let store = {
       canTopUp: true,
       canWithDraw: true,
       platform: 'cb',
-      skin: 9
+      skin: 0
     },
     pages: []
   },
@@ -97,8 +97,8 @@ let store = {
         isVip: false,
         canTopUp: true,
         canWithDraw: true,
-        platform: 'cb'
-        // skin: 0
+        platform: 'cb',
+        skin: 0
       }
       Object.assign(store.state.user, user)
     },
