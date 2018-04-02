@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   @import '../var.stylus'
   .popover-orderlist
     width 6.1rem
