@@ -57,6 +57,7 @@
                     span.ds-radio.white(style="opacity: 0")
                     span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 3" @click="showAllBank = true")  更多银行
         
+
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
           span(style="padding: 0 .2rem") 充值限额：(单笔充值限额：最低：
@@ -659,7 +660,7 @@ export default {
       })
     },
     saveRanges (fn) {
-      this.$http.get(api.saveRanges).then(({data}) => {
+      this.$http.get(api.saveRanges, {chanType: 'web'}).then(({data}) => {
         if (data.success === 1) {
           // 网银转帐
           data.bankList.forEach(b => {
@@ -682,7 +683,7 @@ export default {
           // this.merBankList = data.merBankList || []
           this.epay = []
           // 在线支付 快捷支付 QQ 微信
-          let epays = ['online:在线支付', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付']
+          let epays = ['online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付']
           epays.forEach(m => {
             data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
               f.channelCodes.forEach(b => {
@@ -757,6 +758,7 @@ export default {
         target: this.$el
       }, 10000, '充值申请超时...')
       this.$http.get(api.commit, {
+        chanType: 'web',
         saveType: Math.min(this.type, 1),
         merType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tongdCode : '',
         bankCode: this.selectBank.bankCode,

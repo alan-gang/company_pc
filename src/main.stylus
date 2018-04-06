@@ -1094,9 +1094,12 @@ pre
     &.nbyh
       background url($ASSETS/bankcard/nbyh.jpg) #fff .1rem center no-repeat
     
-    &.kj
+    &.fast
       background url($ASSETS/bankcard/bank_kj.jpg) #fff .1rem center no-repeat
     
+    &.unionpay
+      background url($ASSETS/bankcard/bank_yl.jpg) #fff .1rem center no-repeat
+      
     &.jd
       background url($ASSETS/bankcard/bank_jd.jpg) #fff .1rem center no-repeat
 

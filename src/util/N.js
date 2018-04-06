@@ -1439,6 +1439,11 @@ let PK10 = {
     })
     return n
   },
+   // title: '猜前五名单式
+  '-1-2-4-PK10' ({value}) {
+    // return [N(value, 5).length, N(value, 5)]
+    return [N(value, 10, 1, 2, 10, 1).length, N(value, 10, 1, 2, 10, 1)]
+  },
   // title: '龙虎
   '-1-1-6-PK10' ({nsl}) {
     return C(nsl[0], 1)
