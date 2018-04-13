@@ -126,6 +126,7 @@ export default {
         if (data.success === 1) {
           this.$message.success(data.msg || '礼品领取成功！')
           this.$set(t, 'get', true)
+          this.__setCall({fn: '__getUserFund', callId: undefined})
         } else this.$message.error(data.msg || '礼品领取失败！')
       }, (data) => {
         // error

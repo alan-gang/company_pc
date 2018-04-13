@@ -286,7 +286,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       OrderDetail (id) {
@@ -308,7 +308,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       }
       // 追号列表

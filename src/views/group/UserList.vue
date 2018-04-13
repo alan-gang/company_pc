@@ -96,7 +96,7 @@
       // 充值
       transition-group(name="slide" appear=true tag="div")
         div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
-          p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
             |  进行充值
             span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
@@ -146,7 +146,7 @@
             span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="recharge") 确认
 
         div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
-          p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
             |  调整工资级别
             span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
@@ -165,7 +165,7 @@
         // 升点、降点
         div(key="3" v-if="stepIndex === 1 && stepType === 'point' ")
 
-          p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
             |  进行调点
             span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
@@ -250,7 +250,7 @@
         
         // 开户额
         div(key="4" v-if="stepIndex === 1 && stepType === 'open' ")
-          p.title.text-black(style="margin: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
               span.text-blue {{ user.userName }}
               |  调整开户额
               span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
@@ -384,8 +384,8 @@
       point () {
         setTimeout(() => {
           let i = (this.point + '').lastIndexOf('.')
-          if (i !== -1 && (this.point + '').slice(i).length > 3) {
-            this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(2))
+          if (i !== -1 && (this.point + '').slice(i).length > 2) {
+            this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(1))
           }
         })
       }
@@ -487,7 +487,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       clear () {
@@ -580,7 +580,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       checkSecurityPwd () {
@@ -622,7 +622,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=showAdjustInfo&destUserId=5

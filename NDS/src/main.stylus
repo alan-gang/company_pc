@@ -16,63 +16,104 @@
 
 // game icon 
 .ds-icon-game-chq
-  background url(assets/game/cqssc.png) center no-repeat
+  background-size 90px !important
+  // background url(assets/game/cqssc.png) center no-repeat
+  background url(assets/game/cqssc1.png) center no-repeat
   &.new-game-info
+    background-size auto !important
     // background-size 1.19rem
-    background url(assets/game/cqssc1.png) center no-repeat
     
 .ds-icon-game-xj
-  background url(assets/game/xjssc.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/xjssc1.png) center no-repeat
+  // background url(assets/game/xjssc.png) center no-repeat
   &.new-game-info
-    background url(assets/game/xjssc1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-tj
-  background url(assets/game/tjssc.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/tjssc1.png) center no-repeat
+  // background url(assets/game/tjssc.png) center no-repeat
   &.new-game-info
-    background url(assets/game/tjssc1.png) center no-repeat
-.ds-icon-game-cb60
-  background url(assets/game/hlffc.png) center no-repeat
+    background-size auto !important
+.ds-icon-game-hlffc
+  background-size 90px !important
+  background url(assets/game/hlffc1.png) center no-repeat
+  // background url(assets/game/hlffc.png) center no-repeat
   &.new-game-info
-    background url(assets/game/hlffc1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-cb120
-  background url(assets/game/xfsf.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/xfsf1.png) center no-repeat
+  // background url(assets/game/xfsf.png) center no-repeat
   &.new-game-info
-    background url(assets/game/xfsf1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-gd
-  background url(assets/game/gd115.png) center no-repeat
+  background-size 80px !important
+  background url(assets/game/gd1151.png) center no-repeat
+  // background url(assets/game/gd115.png) center no-repeat
   &.new-game-info
-    background url(assets/game/gd1151.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-jx115
-  background url(assets/game/jx115.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/jx1151.png) center no-repeat
+  // background url(assets/game/jx115.png) center no-repeat
   &.new-game-info
-    background url(assets/game/jx1151.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-11ydj
-  background url(assets/game/sd115.png) center no-repeat
+  background-size 70px !important
+  background url(assets/game/sd1151.png) center no-repeat
+  // background url(assets/game/sd115.png) center no-repeat
   &.new-game-info
-    background url(assets/game/sd1151.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-pl35
-  background url(assets/game/p3p5.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/p3p51.png) center no-repeat
+  // background url(assets/game/p3p5.png) center no-repeat
   &.new-game-info
-    background url(assets/game/p3p51.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-fc
-  background url(assets/game/fucai3d.png) center no-repeat
+  background-size 70px !important
+  background url(assets/game/fucai3d1.png) center no-repeat
+  // background url(assets/game/fucai3d.png) center no-repeat
   &.new-game-info
-    background url(assets/game/fucai3d1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-bjpk10
-  background url(assets/game/fucai3d.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/fucai3d1.png) center no-repeat
+  // background url(assets/game/fucai3d.png) center no-repeat
   &.new-game-info
-    background url(assets/game/fucai3d1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-kt115 
-  background url(assets/game/120s.png) center no-repeat
+  background-size 80px !important
+  background url(assets/game/120s1.png) center no-repeat
+  // background url(assets/game/120s.png) center no-repeat
   &.new-game-info
-    background url(assets/game/120s1.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-jsK3 
-  background url(assets/game/k3.png) center no-repeat
+  background-size 80px !important
+  background url(assets/game/k31.png) center no-repeat
+  // background url(assets/game/k3.png) center no-repeat
   &.new-game-info
-    background url(assets/game/k31.png) center no-repeat
+    background-size auto !important
 .ds-icon-game-bjpk10  
-  background url(assets/game/pk10.png) center no-repeat
+  background-size 90px !important
+  background url(assets/game/pk101.png) center no-repeat
+  // background url(assets/game/pk10.png) center no-repeat
   &.new-game-info
-    background url(assets/game/pk101.png) center no-repeat
+    background-size auto !important
+.ds-icon-game-lhc
+  background-size 70px !important
+  // background url(assets/game/h6.png) center no-repeat
+  background url(assets/game/h6.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+.ds-icon-game-ffctx
+  background-size 90px !important
+  // background url(assets/game/txffc.png) center no-repeat
+  background url(assets/game/txffc.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+
   
 .logo-pray-frame
   background url(assets/prey-logo.png) center right no-repeat
@@ -199,6 +240,8 @@ body.nds
     display none
     &.new-game-info
       display block
+  .trend-chart-page .game-info
+    display block
       
   #app .game-selection
     .circle
@@ -223,23 +266,29 @@ body.nds
   &.classic.day .footer-popover.el-popover
     .submenu dt
       display none
-    // &.more
-    //   transform translateX(PW) translateY(2*PW) !important
+    &.more
+      transform translateY(.25rem)
+     
+
+    // &.game.hide-icon-hover
+    //   transform translateY(.05rem) translateX(-3rem) !important
+    // &.game.hide-icon.hide-icon-hover
+    //   transform translateY(0) translateX(-55%) !important
+    
+    // &.game.hio
+    //   transform translateY(.05rem) translateX(.05rem) !important
+       
+      
+      
+    .submenu.hover-show-ssubmenu
+      // transform translateX(300%) !important
+      .ssubmenu
+        left 155%
       
     
-    // transform translateX(50%) !important
-    
-    // @media(max-width: 2600px)
-    //   transform translateX(-50%) !important 
-      
-    // @media(max-width: 2319px)
-    //   transform translateX(50%) !important
-      
-    // @media(max-width: 2158px)
-    //   transform translateX(50%) !important
-    
-    // @media(max-width: 1600px)
-    //   transform translateX(-50%) !important
+    &:not(.more)
+        transform translateY(-.12rem) translateX(-25%) !important
+
 
   
   #app
@@ -461,7 +510,7 @@ body.nds
       
   .dialog-page.activity-item-page
     .scroll-content
-      bottom auto
+      // bottom auto
   .dialog-page:not(.game-page):not(.activity-item-page)
     background-color #e1eaf0
     .scroll-content

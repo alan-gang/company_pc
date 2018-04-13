@@ -104,7 +104,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=qryContractById&contractId=12

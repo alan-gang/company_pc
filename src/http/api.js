@@ -28,6 +28,8 @@ api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') 
 // let api = 'http://192.168.169.161:8080/cagamesclient/'
 // let api = 'http://192.168.169.111:8080/cagamesclient/'
 let Login = {
+  // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
+  tryLoginFromUrl: '/login/login.do?method=dsLog',
   // open a third part pages
   loginVr: '/ext/vr.do?method=loginVr',
   // record

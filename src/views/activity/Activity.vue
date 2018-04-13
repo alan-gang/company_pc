@@ -26,7 +26,7 @@
         sources: [
           {href: '/activity/5-2-1', src: '/static/activity/activity1.jpg', title: '注册就送', describe: '全新的游戏体验，来玩就送'},
           {href: '/activity/5-2-2', src: '/static/activity/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
-          {href: '/activity/5-2-3', src: '/static/activity/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'},
+          {href: '/activity/5-2-3', src: window.platform === 'ds' ? '/static/activity/nds/activity1.jpg' : '/static/activity/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'},
           {href: '/activity/5-2-4', src: '/static/activity/activity4.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
           {href: '/activity/5-2-5', src: '/static/activity/activity5.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
           {href: '/activity/5-2-6', src: '/static/activity/activity4.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
@@ -66,7 +66,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       }
     }

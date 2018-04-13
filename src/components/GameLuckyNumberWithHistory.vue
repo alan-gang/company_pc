@@ -7,10 +7,10 @@
         span(slot="reference")
           div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码" @click=" __setCall({fn: '__setLuckNumberType', args: type}) ")
             span.NPER {{ NPER }} 
-            span.qi | 期 &nbsp;
+            span.qi 期 &nbsp;
 
             // 按钮区
-            .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
+            // .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
               .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 1)})") 号码
               // .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 2)})") 生肖
               // .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 3)})") 五行
@@ -21,6 +21,13 @@
               //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
               //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
               .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
+
+            // 按钮区
+            .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
+              .ds-button.x-small(:class=" { primary: type === 1 , 'text-button' : type !== 1  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 1)})" style="margin: 0") 号码
+              .ds-button.x-small(:class=" { primary: type === 2 , 'text-button' : type !== 2  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 2)})" style="margin: 0") 生肖
+              .ds-button.x-small(:class=" { primary: type === 3 , 'text-button' : type !== 3  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 3)})" style="margin: 0") 五行
+              // .ds-button.x-small(:class=" { primary: type === 4 , 'text-button' : type !== 4  } "  @click.stop= " __setCall({fn: '__setLuckNumberType', args: (type = 4)})" style="margin: 0") 单双
 
             span.number-array(v-if = " isArray " v-for=" ns in lucknumbers " )
               span.number(v-for=" (n, i) in ns " v-bind:class="'ds-icon-' + gameType + '-' +  (i + 1) " style="overflow: hidden;") 
@@ -36,7 +43,7 @@
 
         slot
           GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers" )
-      span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
+      // span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
 
     el-col.right(:span=" longNumbers ? 4 : 6" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
       span.timeout(v-if="longNumbers" @click="fresh") &nbsp;开奖中，点击刷新

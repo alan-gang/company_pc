@@ -28,6 +28,10 @@ pre
   padding-right .1rem
 .pr2
   padding-right .2rem
+.content-width
+  position relative
+  width CTW
+  margin 0 auto
 .pointer
   cursor pointer
 ::-webkit-input-placeholder

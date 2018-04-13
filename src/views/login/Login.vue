@@ -61,10 +61,12 @@
       }
     },
     mounted () {
-      let {un_, pwd} = this.$route.query
+      let {un_, pwd, userId, sessionKey} = this.$route.query
       if (un_) this.un_ = un_
       if (pwd) this.pwd = pwd
-      if (un_ && pwd) {
+      if (userId && sessionKey) {
+        this.tryLoginFromUrl(userId, sessionKey)
+      } else if (un_ && pwd) {
         setTimeout(() => {
           this.$el.querySelector('.ds-icon-edit input').focus()
         }, 0)
@@ -73,7 +75,7 @@
         setTimeout(() => {
           this.$el.querySelector('.ds-icon-user input').focus()
         }, 0)
-        this.tryLogin()
+        this.tryLogin(userId, sessionKey)
       }
     },
     activated () {
@@ -178,6 +180,45 @@
         //     withCredentials: true
         //   }
         // })
+      },
+      tryLoginFromUrl (userId, sessionKey) {
+        // userId=4&sessionKey=123456
+        this.$http.get(api.tryLoginFromUrl, {userId: userId, sessionKey: sessionKey}).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.loginSuccess(data)
+            // this.$emit('update-user', {login: true,
+            //   name: data.nickName,
+            //   pwd: data.hasLogPwd === '1',
+            //   cashPwd: data.hasSecurityPwd === '1',
+            //   hasBankCard: data.hasBankCard === '1',
+            //   shareCycle: data.shareCycle,
+            //   type: data.identity,
+            //   account: data.userName,
+            //   role: data.roleId,
+            //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
+            //   // guide: true
+            // })
+            // this.$router.push('/')
+            // window.accessAngular.setUser({
+            //   id: data.userId,
+            //   key: data.token,
+            //   pltCd: data.platId,
+            //   socketUrl: data.platUrl
+            // })
+            // window.accessAngular.isStranger(false)
+            // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+          } else {
+            this._getVerifyImage()
+            // loading.text = '自动登录失败'
+          }
+        }, (rep) => {
+          this._getVerifyImage()
+          // loading.text = '自动登录失败'
+          // error
+        }).finally(() => {
+          // loading.close()
+        })
       },
       tryLogin () {
         // try login

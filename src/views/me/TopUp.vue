@@ -37,10 +37,8 @@
             | 的方式进行充值。手续费为：
             span.text-danger(style="font-size: 14px") {{ selectBank.custFee }}‰
             br
-            | 为了提高
-            span.text-danger(style="font-size: 14px") 微信
-            |充值成功率，充值金额需为
-            span.text-danger(style="font-size: 14px") 小数
+            | 为了提高充值成功率，如果充值金额为整数，使用某些充值方式时，系统会自动将充值金额随机增加
+            span.text-danger(style="font-size: 14px") 0.01-0.09
 
         .item(style="line-height: .5rem") 支付方式：
             .banks
@@ -747,12 +745,12 @@ export default {
     },
     commit (fn) {
       this.Qr = ''
-      if (this.selectBank.class === 'wepay' && (this.amount + '').indexOf('.') === -1) {
-        return this.$modal.warn({
-          content: '为了提高微信充值成功率，充值金额需为小数！',
-          btn: ['确定']
-        })
-      }
+      // if (this.selectBank.class === 'wepay' && (this.amount + '').indexOf('.') === -1) {
+      //   return this.$modal.warn({
+      //     content: '为了提高微信充值成功率，充值金额需为小数！',
+      //     btn: ['确定']
+      //   })
+      // }
       let loading = this.$loading({
         text: '充值申请中...',
         target: this.$el
@@ -893,7 +891,7 @@ export default {
     .content
       display inline-block
       margin 0
-      line-height .25rem
+      // line-height .25rem
       vertical-align top
       
   .scroll-content

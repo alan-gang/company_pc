@@ -180,7 +180,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       clear () {
@@ -245,7 +245,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       }
       // goBonus () {

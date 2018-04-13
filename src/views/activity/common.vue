@@ -129,8 +129,10 @@ export default {
   },
   mounted () {
     // block8/3 console.log(this.$route.query.id, '???')
-    if (this.$route.query.id) this.id = this.$route.query.id
-    this.__getActivityDetail()
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id
+      this.__getActivityDetail()
+    }
   },
   methods: {
     // 根据活动id查询活动详情

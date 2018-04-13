@@ -9,9 +9,8 @@
 
     
     // pages
-    keep-alive
-      transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-lefter': showLefter, 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+    transition(name="fade" appear=true)
+      router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-lefter': showLefter, 'has-header': state.hasHeader, 'has-footer': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
     ScrollInfo(:class="{ 'has-lefter': showLefter }" v-if="displayScrollInfo")
 
@@ -212,10 +211,10 @@ export default {
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', gameid: 4},
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', gameid: 17},
-                {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', gameid: 17},
+                {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', gameid: 20},
                 {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', gameid: 2},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', gameid: 29}
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', title: '腾讯分分彩', menuid: '96', gameid: 29}
               ]
             },
             {
@@ -223,8 +222,8 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '欢乐分分彩', gameid: 12},
+                {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', gameid: 34},
+                // {class: 'ds-icon-game-cb60 sign hot', id: '1-2-2', menuid: '79', title: '欢乐分分彩', gameid: 17},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', gameid: 18},
                 {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', gameid: 19}
@@ -241,7 +240,7 @@ export default {
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', gameid: 7},
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', gameid: 22},
                 {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '十一运夺金', gameid: 6},
-                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
+                {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
             },
             {
@@ -253,7 +252,7 @@ export default {
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', gameid: 24},
                 {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', gameid: 25},
                 {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', gameid: 26},
-                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', gameid: 15}
+                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', gameid: 33}
               ]
             },
             {
@@ -266,9 +265,9 @@ export default {
                 {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 14},
-                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
+                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', gameid: 30},
+                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', gameid: 32},
+                {url: 'HC6', class: 'ds-icon-game-lhc sign hot', id: '1-1-6', menuid: '95', title: '六合彩', gameid: 28}
               ]
             }
             // {
@@ -585,12 +584,6 @@ export default {
                   title: '今日报表',
                   url: 'Today'
                 },
-                {
-                  id: '4-5-1',
-                  menuid: '58',
-                  title: '盈亏报表',
-                  url: 'ProfitLoss'
-                },
                 // {
                 //   id: '4-5-4',
                 //   title: '个人盈亏明细',
@@ -608,11 +601,17 @@ export default {
                 {
                   id: '4-5-6',
                   menuid: '99',
-                  title: '报表查询',
+                  title: '个人盈亏',
                   position: {
                     width: '12rem'
                   },
                   url: 'MyProfitLoss'
+                },
+                {
+                  id: '4-5-1',
+                  menuid: '58',
+                  title: '团队盈亏',
+                  url: 'ProfitLoss'
                 },
                 {
                   id: '3-4-2',
@@ -903,10 +902,28 @@ export default {
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
 
-        this.$modal.warn({
+        let modal = this.$modal.warn({
           title: '特别提醒',
-          content: '本娱乐平台充值卡号会频繁更换！请务必要复制最新收款卡信息！如果汇款到非最新收款卡而导致的损失，本平台一律不负责！',
-          btn: ['知道了']
+          content: '欢迎体验东森新系统，现在是体验阶段，不开放充值和提现，我们已经为你发放了2万元的体验金，您可以尽情体验，同时新系统提供完善的移动APP下载。',
+          btn: ['知道了'],
+          ok () {
+            if (!(data.hasSecurityPwd === '1') && modal.btn[0] === '知道了') {
+              modal.btn = ['立即前往设置']
+              modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
+              return false
+            }
+          },
+          close () {
+            if (!(data.hasSecurityPwd === '1') && modal.btn[0] === '知道了') {
+              modal.btn = ['立即前往设置']
+              modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
+              return false
+            }
+            if (modal.btn[0] === '立即前往设置') {
+              this.$router.push('/me/2-2-1')
+            }
+          },
+          O: this
         })
       })
     },

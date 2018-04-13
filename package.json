@@ -5,13 +5,19 @@
   "author": "joey",
   "private": true,
   "scripts": {
+    "ncb-dev": "node build/ncb-dev-server.js",
+    "ncb-build": "node build/ncb-build.js",
+
     "gj-dev": "node build/gj-dev-server.js",
     "gj-build": "node build/gj-build.js",
+
     "nds-dev": "node build/nds-dev-server.js",
     "nds-build": "node build/nds-build.js",
+    
     "dsm-dev": "node build/dsm-dev-server.js",
-    "dev": "node build/dev-server.js",
     "dsm-build": "node build/dsm-build.js",
+    
+    "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",

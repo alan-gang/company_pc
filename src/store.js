@@ -154,14 +154,14 @@ Object.defineProperty(store.state.user, 'phone', {
     this._phone = v
   }
 })
-Object.defineProperty(store.state.user, 'email', {
-  get: function () {
-    return this._email ? this._email.slice(0, 1) + '*****' + this._email.match(/@.*$/)[0] : ''
-  },
-  set: function (v) {
-    this._email = v
-  }
-})
+// Object.defineProperty(store.state.user, 'email', {
+//   get: function () {
+//     return this._email ? this._email.slice(0, 1) + '*****' + this._email.match(/@.*$/)[0] : ''
+//   },
+//   set: function (v) {
+//     this._email = v
+//   }
+// })
 Object.defineProperty(store.state.user, 'css', {
   get: function () {
     return this.platform + ' ' + this.mode + ' ' + this.model + ' ' + (this.isVip ? 'vip' : '') + ' skin-' + (this.skin === 9 ? 'new-year' : this.skin)

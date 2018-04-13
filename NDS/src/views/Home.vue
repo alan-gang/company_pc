@@ -54,19 +54,9 @@
         currentPage: 1,
         preOptions: {},
         sources: [
-          {href: '/activity/5-2-1', src: '/static/activity/activity1.jpg', title: '注册就送', describe: '全新的游戏体验，来玩就送'},
-          {href: '/activity/5-2-2', src: '/static/activity/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
-          {href: '/activity/5-2-3', src: '/static/activity/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'},
-          {href: '/activity/5-2-4', src: '/static/activity/activity4.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
-          {href: '/activity/5-2-5', src: '/static/activity/activity5.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
-          {href: '/activity/5-2-6', src: '/static/activity/activity4.jpg', title: '首提大返利', describe: '首次成功提现，即送18元大礼金'},
-          {href: '/activity/5-2-7', src: '/static/activity/activity7.jpg', title: '充值送好礼', describe: '我们一直在送礼，一直在等你'},
-          {href: '/activity/5-2-8', src: '/static/activity/activity8.jpg', title: '大家来找茬', describe: '只要你敢找茬，我保证不拍屎你'},
-          {href: '/activity/5-2-9', src: '/static/activity/activity9.jpg', title: '王者争霸赛', describe: '王者争霸赛，注册就送2万体验币'},
-          {href: '/activity/5-2-10', src: '/static/activity/activity10.jpg', title: '直属总代日工资增加1w20', describe: '开业活动：直属总代日工资增加1w2'},
-          {href: '/activity/5-2-11', src: '/static/activity/activity11.jpg', title: '六合彩专属活动', describe: '六合彩专属鸿运金！投注就送20000'},
-          {href: '/activity/5-2-12', src: '/static/activity/activity12.jpg', title: '迎新春闯关活动', describe: '天天畅博全民闯关'},
-          {href: '/activity/5-2-13', src: '/static/activity/activity13.jpg', title: '全新日工资', describe: '上班工资每月发，平台工资天天领'}
+          {href: '/activity/5-2-1', src: '/static/activity/nds/activity1.jpg', title: '注册就送', describe: '全新的游戏体验，来玩就送'},
+          {href: '/activity/5-2-2', src: '/static/activity/nds/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
+          {href: '/activity/5-2-3', src: '/static/activity/nds/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'}
         ]
       }
     },

@@ -237,6 +237,11 @@ export default {
     }
   },
   watch: {
+    overtime () {
+      setTimeout(() => {
+        this.__setCall({fn: '__orderlist'})
+      }, 300)
+    },
     methodid () {
       this.__setCall({
         fn: '__setRowsSl',

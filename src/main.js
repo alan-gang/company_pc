@@ -1,9 +1,9 @@
 
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
-Vue.config.devtools = false
-Vue.config.silent = true
-Vue.config.productionTip = false
+// Vue.config.devtools = false
+// Vue.config.silent = true
+// Vue.config.productionTip = false
 import './polyline'
 
 import config from './config'
@@ -63,10 +63,10 @@ import filter from './filter'
 filter(Vue)
 
 // Router
-import VueRoter from 'vue-router'
-import routerConfig from './router'
-Vue.use(VueRoter)
-let router = routerConfig(VueRoter)
+import VueRouter from 'vue-router'
+import routerConfig from './router/index'
+Vue.use(VueRouter)
+let router = routerConfig(VueRouter)
 
 // Touch
 // import VueTouch from 'vue-touch'

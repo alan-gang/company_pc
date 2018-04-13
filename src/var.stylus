@@ -44,6 +44,8 @@ MMH = .5rem
 // righter width
 RW = .7rem
 
+// content-width
+CTW = 9rem
 
 
 

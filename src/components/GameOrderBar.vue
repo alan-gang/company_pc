@@ -201,7 +201,7 @@ export default {
         })
       } else if (!this.type.mutilpOrderPerRow && !this.type.mutilRowPerOrder && this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
         return this.$modal.question({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，最高奖金3万(腾讯为1万),不区分投注模式(圆角分厘)',
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，最高奖金3万(快频游戏为1万)',
           btn: ['继续购买', '再来几注', '不再提醒'],
           target: this.$el.parentNode,
           O: this,

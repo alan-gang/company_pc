@@ -31,7 +31,7 @@
         .notice
           span.title 温馨提示：
           p.content
-            | 每天限提 
+            | 每天可成功提款 
             span.text-danger 5
             |  次，今天您已经发起了 
             span.text-danger {{ times }}

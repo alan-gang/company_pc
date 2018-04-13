@@ -1,3 +1,8 @@
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function(search, pos) {
+    return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+  };
+}
 if (!Array.prototype.fill) {
   Object.defineProperty(Array.prototype, 'fill', {
     value: function(value) {

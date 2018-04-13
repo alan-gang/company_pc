@@ -8,7 +8,7 @@
     .me-detail-info.scroll-content
       .base-info
         div.info
-          label(style="margin: 0 .2rem") 帐号
+          label(style="margin: 0 .2rem") 帐号：
             span.account {{ account }}
           label(style="margin: 0 .2rem") 昵称：
             span.account {{ name }}

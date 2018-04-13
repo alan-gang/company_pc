@@ -459,7 +459,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       // poolIssue: '/report/buyReport.do?method=poolIssue',
@@ -506,7 +506,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       // 根据投注号Id查询投注详情
@@ -538,7 +538,7 @@
         }).finally(() => {
           setTimeout(() => {
             loading.close()
-          }, 1000)
+          }, 100)
         })
       },
       // poolIssue: '/report/buyReport.do?method=poolIssue',
