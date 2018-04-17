@@ -71,11 +71,15 @@
               | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
               span.text-danger 手动执行
               br
-              | 4. 契约执行周期为：每月
+              | 4. 契约执行周期为：[按月]
+              span.text-danger 1号
+              | ；[按半月]
               span.text-danger 1号
               | 和
               span.text-danger 16号
-              
+              |；[按周]
+              span.text-danger 周一
+
 
         p.title.text-black
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
@@ -356,6 +360,7 @@
     },
     mounted () {
       this.contract()
+      this.getSysContractRange()
       // if (this.platform === 'ds') {
       const end = new Date()
       const start = new Date()
@@ -364,6 +369,15 @@
       // }
     },
     methods: {
+      getSysContractRange () {
+        this.$http.get(api.getSysContractRange).then(({data}) => {
+          // success
+          if (data.success === 1) {
+          }
+        }, (rep) => {
+          // error
+        })
+      },
       goContractDetail (id) {
         this.$router.push({
           path: '/group/3-3-4',

@@ -64,7 +64,7 @@ filter(Vue)
 
 // Router
 import VueRouter from 'vue-router'
-import routerConfig from './router/index'
+import routerConfig from './router/index.v2'
 Vue.use(VueRouter)
 let router = routerConfig(VueRouter)
 
@@ -74,7 +74,7 @@ let router = routerConfig(VueRouter)
 import Modal from './service/Modal'
 Vue.use(Modal)
 
-import App from './App'
+import App from './App.v2'
 /* eslint-disable no-new */
 // new Vue({
 //   // el: '#app',

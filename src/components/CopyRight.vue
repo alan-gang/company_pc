@@ -1,5 +1,5 @@
 <template lang="jade">
-  footer
+  .new-footer
     el-row.content-width
       el-col.l(:span="14")
         | ©2018-2019 畅博娱乐 版权所有 all right reserved
@@ -20,7 +20,7 @@
 <style lang="stylus">
   @import '../var.stylus'
   @import '../path.stylus'
-  footer
+  .new-footer
     padding PW
     background-color rgba(0,0,0, .5)
     color #ccc

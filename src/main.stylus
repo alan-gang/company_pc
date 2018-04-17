@@ -1346,6 +1346,15 @@ pre
     border-bottom-left-radius 10% 50%
     border-bottom-right-radius 10% 50%
   
+  &.card
+    radius(0)
+    color #666
+    background-color #fff
+    &:not(.disabled):hover
+      background-color #e8f6ff
+    // &:not(.disabled):active
+    //   background-color BLUE-ACTIVE 
+  
   &.primary
     background-color BLUE
     &:not(.disabled):hover
