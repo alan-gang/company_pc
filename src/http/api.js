@@ -344,7 +344,7 @@ let Me = {
 }
 
 let Group = {
-  getSysContractRange: 't/team/contractBonus.do?method=getSysContractRange',
+  getSysContractRange: '/team/contractBonus.do?method=getSysContractRange',
   setSalary: '/team/setDaySalary.do?method=setSalary',
   subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
   // 团队余额

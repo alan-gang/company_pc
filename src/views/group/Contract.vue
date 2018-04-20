@@ -102,7 +102,11 @@
           p.item.block
              span.text-danger *
              | 发放周期：
-             span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+             
+             el-select(v-model=" SV " style="width: .7rem" placeholder="无")
+              el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
+
+             // span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
 
           p.item.block
             span.text-danger *
@@ -272,7 +276,9 @@
         stEt: ['', ''],
         stEtA: ['', ''],
         me: store.state.user,
-        time: ['', '月', '半月', '周'],
+        time: ['月', '半月', '周'],
+        sendCycle: [],
+        SV: '',
         type: 0,
         // st: '',
         // et: '',
@@ -373,6 +379,7 @@
         this.$http.get(api.getSysContractRange).then(({data}) => {
           // success
           if (data.success === 1) {
+            this.sendCycle = data.sendCycle.split(',')
           }
         }, (rep) => {
           // error
@@ -433,6 +440,9 @@
         if (!this.stEtA[0] || !this.stEtA[1]) {
           return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
         }
+        if (!this.SV) {
+          return this.$message.warning({target: this.$el, message: '请选择发放周期！'})
+        }
         if (!this.dataRules[0]) {
           return this.$message.warning({target: this.$el, message: '请至少设置一条契约规则！'})
         }
@@ -448,6 +458,7 @@
           expireTm: dateTimeFormat((window.newDate(this.stEtA[1])).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
+          sendCycle: parseInt(this.SV),
           // sharecycle: this.AT,
           // bonusRuleList: JSON.stringify(data)
           bonusRuleList: JSON.stringify(this.dataRules)

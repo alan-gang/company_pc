@@ -6,17 +6,17 @@
         span.text-black.text-bold 特殊金额&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;可用余额
-      br
+      // br
       p 特殊帐户余额： 
         | {{ Me.smoney || '0.000' }}
-      br
+      // br
       p
         el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
         span.text-999  &nbsp;&nbsp;输入金额
-      br
+      // br
       p
         el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
-      br
+      // br
       p
         span.ds-button.primary(@click="transferNow") 确认转入
 

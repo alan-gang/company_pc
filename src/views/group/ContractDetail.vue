@@ -16,7 +16,7 @@
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.userName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}
         p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
-        p.item 发放周期：按{{ TIME[c.shareCycle] }}
+        p.item 发放周期：按{{ TIME[c.sendCycle] }}
         p.item 发放方式：{{ STYPE[c.sendType] }}
 
         p.item(v-for="(l, i) in  (c.bonusRules || c.topRuleList)") {{ RULES[i] }}： &nbsp;&nbsp;&nbsp;累计{{ TYPE[ l.ruletype || l.ruleType || 0 ].title }}

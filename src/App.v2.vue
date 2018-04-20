@@ -1,20 +1,20 @@
 <template lang="jade">
 
-  #app(:class=" [state.user.mode, state.user.model, 'app'] ")
+  #app(:class=" [state.user.mode, state.user.model, 'app', {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }] ")
     
     
     // pages
     keep-alive
       transition(name="fade" appear=true)
-        router-view.scroll-content.page(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter, 'collapse-footer': collapseFooter }" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+        router-view.scroll-content.page.collapse-footer(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter}" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
       
     // Print
     Print(:data="printData" v-if="showPrint")
 
     // lefter
-    transition(name="slide-left" appear=true)
-      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
+    
+    dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode.indexOf('classic') !== -1 && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
     // righter
     transition(name="slide-right" appear=true)
@@ -49,7 +49,7 @@ export default {
       collapseFooter: false,
       // skin: 'day',
       loop: true,
-      maxPages: 5,
+      maxPages: 1,
       state: store.state,
       Me: store.state.user,
       tabs: [],
@@ -58,7 +58,7 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
-          size: 'full',
+          // size: 'full',
           groups: [
             {
               items: [
@@ -100,7 +100,7 @@ export default {
           class: 'ds-icon-record',
           hide: true,
           url: 'form',
-          size: 'full',
+          // size: 'full',
           groups: [
             {
               items: [
@@ -337,7 +337,7 @@ export default {
                   menuid: '38',
                   title: '用户列表',
                   url: 'UserList',
-                  size: 'full',
+                  // size: 'full',
                   position: {
                     width: '11rem'
                   }
@@ -387,14 +387,14 @@ export default {
                 {
                   id: '3-3-1',
                   menuid: '45',
-                  size: 'full',
+                  // size: 'full',
                   title: '分红列表',
                   url: 'Stock'
                 },
                 {
                   id: '3-3-1',
                   menuid: '64',
-                  size: 'full',
+                  // size: 'full',
                   title: '分红列表',
                   url: 'Stock'
                 },
@@ -455,7 +455,7 @@ export default {
           title: '报表',
           menuid: '5',
           url: 'form',
-          size: 'full',
+          // size: 'full',
           groups: [
             {
               id: '4-1',
@@ -736,15 +736,22 @@ export default {
   watch: {
     mi () {
       setTimeout(() => {
-        if (this.mi > 2 || this.mi < 0) {
-          this.activeMenu = [this.menus[this.mi]][0] ? [this.menus[this.mi]] : []
+        if (this.mi < 0) {
+          this.activeMenu = []
         }
-      }, this.mi ? 0 : 500)
+        if (this.mi > 2) {
+          if (this.mi === 6) {
+            this.activeMenu = [this.menus[this.mi]]
+          } else {
+            this.activeMenu = [this.menus[7], this.menus[8], this.menus[9], this.menus[10], this.menus[11]]
+          }
+        }
+      }, this.mi ? 0 : 50)
     },
     'Me': {
       deep: true,
       handler () {
-        if (this.Me.mode === 'classic') {
+        if (this.Me.mode.indexOf('classic') !== -1) {
           this.maxPages = 1
           this.ctabs.forEach(t => {
             if (t.opened && !t.active) t.opened = false
@@ -771,11 +778,12 @@ export default {
         })
         this.tabs = this.tabs.filter(t => t.opened && !t.removed)
       }
-    }
+    },
     // // 如果路由有变化，会再次执行该方法
-    // '$route': 'openRoute'
+    '$route': 'openRoute'
   },
   mounted () {
+    this.setUser({mode: 'classic v2'})
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
@@ -783,6 +791,9 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    openRoute ({path, params: {url}}) {
+      if (!url) store.actions.updateAllPages({active: false})
+    },
     __music () {
       if (!this.audio) this.audio = new window.Audio('/static/media/24_Ctu.mp3')
       this.audio.paused && this.audio.play()
@@ -851,8 +862,8 @@ export default {
           safeCheck: data.verifyType,
           vip: data.isVip
         })
-        // this.$router.push('/')
-        this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
+        this.$router.push('/')
+        // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
           id: data.userId,
           key: data.token,
@@ -1136,6 +1147,7 @@ export default {
   @import './night.stylus'
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
+  @import './classic.v2.stylus'
   // @import './chat.wap.stylus'
   // @import './chat.wap.iphone.less'
   // @import './pad.stylus'
@@ -1189,12 +1201,12 @@ export default {
     // &.has-header
     //   top HH
     &.has-footer:not(.collapse-footer)
-      bottom FH
+      // bottom FH
       // @media(max-width: 1362px)
       @media(max-width: 1500px)
-        bottom 2*FH
+        // bottom 2*FH
       @media(max-width: 862px)
-        bottom 3*FH 
+        // bottom 3*FH 
     
       
 

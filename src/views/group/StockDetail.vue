@@ -13,7 +13,7 @@
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.userName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
         p.item 本期时间：{{ stock.times }}
-        p.item 发放周期：按{{ TIME[stock.shareCycle] }} 
+        p.item 发放周期：按{{ TIME[stock.sendCycle] }} 
         p.item 发放方式：{{ STYPE[stock.sendType] }}
 
         // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元

@@ -36,7 +36,6 @@ export default {
   watch: {
   },
   mounted () {
-    console.log(this.menus)
     this.initShows()
   },
   methods: {
@@ -67,19 +66,17 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-
       if (item.id) {
         if (item.fn) {
-          return this.openWindowWithPost(this.formData[item.fn] || {})
+          return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
+          // return this.openWindowWithPost(this.formData[item.fn] || {})
+        } else {
+          setTimeout(() => {
+            this.shows[index] = false
+            this.openPage(item.id)
+          }, 0)
         }
-        setTimeout(() => {
-          this.shows[index] = false
-          this.openPage(item.id)
-        }, 0)
       }
-    },
-    __openWindowWithPost (fn) {
-      return this.openWindowWithPost(this.formData[fn] || {})
     },
     openPage (url) {
       this.$emit('open-page', url)
@@ -95,6 +92,9 @@ export default {
     radius(0)
     &.menu
       max-width auto
+      transform: translateY(-0.12rem) translateX(-1.25rem)
+      .popper__arrow
+        transform: translateX(1.25rem)
       
     .submenu
     .submenu.game

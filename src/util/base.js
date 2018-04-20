@@ -1,3 +1,37 @@
+// function P (name) {
+//   console.log('createP')
+//   this.name = name
+// }
+// P.prototype.hello = function () {
+//   console.log(this.name)
+// }
+// function  M (name) {
+//   P.call(this, name)
+//   this.child = 'x'
+// }
+
+// function inherit (M, P) {
+//   function F(){}
+//   F.prototype = P.prototype
+//   var pro = new F()
+//   pro.constructor = M
+//   M.prototype = pro
+//   // var pro = object(P.prototype)
+//   // pro.constructor = M
+//   // M.prototype = pro
+// }
+
+// function object (o) {
+//   function F(){}
+//   F.prototype = o
+//   return new F()
+// }
+
+// inherit(M, P)
+// var p = new P('man')
+// p.hello()
+// var m = new M('father')
+// m.hello()
 
 /**
  * 排列

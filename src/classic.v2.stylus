@@ -1,0 +1,352 @@
+@import './var.stylus'
+H = 1.04rem
+#app.classic.v2 .new-home
+  .dialog-container
+    background-color #ededed
+    position fixed
+    top H
+    left 0.5*H
+    right 0.8*H
+    bottom H !important
+    .dialog-page
+      radius(0)
+      top 0 !important
+      shadow(none)
+      
+
+#app.classic.v2 .righter
+  transform translateY(-66%)
+  .ds-icon-classic
+    display none
+#app.classic.v2 .lefter
+  top 1.05rem
+  z-index 9999
+  .el-menu
+    padding-left PW
+#app.classic.v2.game .lefter
+  background-color rgba(0,0,0, .3)
+#app.classic.v2:not(.game) .lefter
+  // @media(max-width: 1190px)
+    // display block  
+  top H
+  left 0.5*H
+  right 0.5*H
+  bottom H !important
+  left 0.5*H
+  color #666
+  background-color #dfdfdf
+  .el-menu
+    padding-left 0
+  // el-menu
+  .el-menu
+    radius(0)
+    // margin .1rem 0
+    background-color rgba(0,0,0,0)
+    // color #9da4cb
+    .el-submenu__title
+      height .4rem
+      line-height .4rem
+      color #333
+      background-color #ccc
+      &:hover
+        background-color #ccc
+    .el-menu-item
+      color #666
+      height .4rem
+      line-height .4rem
+      &:before
+        // content ''
+        display inline-block
+        width 5px
+        height 5px
+        radius(50%)
+        background-color #9da4cb
+        vertical-align middle
+        margin 0 .08rem
+      &:hover
+      &.is-active
+        // color BLUE
+        // background-color rgba(0, 0, 0, 0)
+        color #fff
+        background-color BLUE
+        &:before
+          background-color BLUE
+        
+    .el-menu-item-group
+        // background-color rgba(0, 0, 0, .3)
+    
+    .el-submenu
+      margin .05rem 0
+      &.is-opened
+        .el-submenu__title
+          // color #fff
+          // background-color rgba(255, 255, 255, .08)
+          font-weight bold
+          
+  .el-submenu .el-menu
+    margin .05rem 0 0 0
+    background-color rgba(0,0,0,0)
+
+  .el-menu-item-group__title
+    display none
+    // &:before
+    //   content ''
+    //   display inline-block
+    //   width 2px
+    //   height 20px
+    //   background-color #9da4cb
+    //   vertical-align middle
+    //   margin 0 .08rem
+      
+  // icons
+  .ds-gm-icon-logo
+    background url(../../DSM/src/assets/logo.png) center .3rem no-repeat
+  .ds-icon-me-menu
+    display inline-block
+    width .26rem
+    height .26rem
+    vertical-align middle
+    margin-right PW
+    shadow(0 0 2px rgba(0,0,0,.2) )
+    background url(../../DSM/src/assets/icon_01.png) center no-repeat
+  .ds-icon-group-menu
+    display inline-block
+    width .26rem
+    height .26rem
+    vertical-align middle
+    margin-right PW
+    shadow(0 0 2px rgba(0,0,0,.2) )
+    background url(../../DSM/src/assets/icon_02.png) center no-repeat
+  .ds-icon-record-menu
+    display inline-block
+    width .26rem
+    height .26rem
+    vertical-align middle
+    margin-right PW
+    shadow(0 0 2px rgba(0,0,0,.2) )
+    background url(../../DSM/src/assets/icon_03.png) center no-repeat
+  .ds-icon-gift-menu
+    display inline-block
+    width .26rem
+    height .26rem
+    vertical-align middle
+    margin-right PW
+    shadow(0 0 2px rgba(0,0,0,.2) )
+    background url(assets/gift.png) center no-repeat
+    background-size .26rem .26rem
+  .ds-icon-help-menu
+    display inline-block
+    width .26rem
+    height .26rem
+    vertical-align middle
+    margin-right PW
+    shadow(0 0 2px rgba(0,0,0,.2) )
+    background url(assets/help.png) center no-repeat
+    background-size .26rem .26rem
+
+#app.classic.v2:not(.game) .new-home
+  .dialog-container 
+    shadow(0 0 1rem 1rem rgba(0,0,0,.5))
+    .dialog-page
+      width auto !important
+      right 0 !important
+      left 1.8rem !important
+      bottom 0 !important
+      transform none
+      @media(max-width: 1190px)
+        left 0 !important
+      .tool-bar
+        display block
+        .el-button-group>*:not(.close)
+          display none
+      &:not(.trend-chart-page)>.scroll-content
+        top .3rem !important
+    
+#app.classic.v2.game .new-home
+  .dialog-container
+    top H
+    left 0
+    right 0
+    bottom PW !important
+    background none
+    .dialog-page
+      background none !important
+      .game-content
+        background none
+        shadow(none)
+        .inner-bar
+          margin-top 0 !important
+        .game-recent-order
+          margin-top .1rem
+        &>*:not(.new-game-info):not(.modal)
+          radius(0)
+          background #ededed
+        .order-list .el-table
+        .follow-list .el-table
+          padding-bottom .1rem
+          margin-bottom .1rem
+        // .new-game-info
+          
+        // &:after
+        //   z-index -1
+        //   content ''
+        //   position absolute
+        //   top 1.45rem
+        //   left 0
+        //   right 0
+        //   bottom 0
+        //   background #ededed
+    
+  & > .ad
+  & > .our-game
+  & > .new-footer
+    display none  
+
+#app.classic.v2.game.night .new-home .game-content
+  &>*:not(.new-game-info):not(.modal):not(.lucky-numbers)
+    background #333 !important
+
+body.classic.v2.night .footer-popover
+    background-color rgba(200, 200, 200, 1)
+#app.classic.v2:not(.game).night .lefter
+  .el-menu
+    background-color #666
+    .el-submenu__title
+      background-color #444
+      color #ccc
+    .el-menu-item
+      color #ccc
+      &:hover
+      &.is-active
+        // color BLUE
+        // background-color rgba(0, 0, 0, 0)
+        color #fff
+        background-color BLUE  
+    
+    
+
+
+body
+  .popover-luckynumber
+    display none
+  .game-side-buttons
+    display block !important    
+  .new-game-info
+    .game-luck-number-history
+      position absolute
+      top .5rem
+      right 0
+      padding 0
+      width 2.8rem
+      height .9rem
+      overflow hidden
+      &.expand
+        height 5rem
+        background #343d46 !important
+        overflow auto
+        
+      .lucky-numbers
+        padding 0 .05rem
+        background none !important
+        
+      .NPER
+        font-size .14rem
+      
+      .lucky-numbers
+        
+        & > .left
+          min-width 2.6rem
+          line-height .3rem
+          height .3rem
+        
+        &.long
+          & > .left
+            min-width 2.6rem
+            line-height .3rem
+            height .6rem
+          
+        &.game-K3
+          .dice
+            transform perspective(100px) translateZ(-100px)
+            &:nth-child(2)
+            &:nth-child(3)
+            &:nth-child(4)
+              margin-left -.15rem
+              
+              // margin-left -.1rem
+            
+            // margin-top .10rem
+          // .the-number 
+          .side
+            background #fff !important
+            
+        &:not(.game-K3)
+          .the-number
+          .number
+            width: 0.20rem;
+            height: 0.20rem;
+            line-height: 0.20rem;
+            font-size: .12rem
+          .number
+            color #ccc
+            background: none !important
+            border 1px solid #ccc
+  
+
+
+  .game-content > .lucky-numbers
+    position absolute
+    top .5rem
+    left 3.4rem
+    line-height .3rem
+    z-index 1
+    background none !important
+    & > .left 
+      width 3.5rem
+      min-width 3rem
+      & > span > span > div
+        width 3.5rem
+    .NPER
+    .qi
+    & > .right
+    .timeout
+      display none
+    &.game-K3
+      .number
+        transform perspective(100px) translateZ(25px)
+        margin-top .10rem
+        &:not(:nth-child(3))
+          margin-left .20rem
+      // .the-number 
+      .side
+        background #fff !important
+        
+    &.long
+      .left > span > span > div
+        width 2.5rem
+      .number
+        margin-top .05rem
+        background-color #ff7e00
+        
+      .the-number
+        // margin-top .08rem
+        
+        background-color #ff7e00
+        
+    &:not(.long):not(.game-K3)
+      .number
+      .the-number
+        background-color #ff7e00
+        width: 0.60rem;
+        height: 0.60rem;
+        line-height: 0.60rem;
+        font-size: .3rem
+   
+    // display none
+  .game-info
+    display none
+    &.new-game-info
+      display block !important
+      background-color rgba(0,0,0, .2)
+  .trend-chart-page .game-info
+    display block

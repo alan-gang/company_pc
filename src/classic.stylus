@@ -1,6 +1,6 @@
 // import this file to show night-model
 @import './var.stylus'
-body.classic
+body.classic:not(.v2)
   .footer-popover
       &.more
         transform translateY(.25rem)

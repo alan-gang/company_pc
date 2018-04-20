@@ -4,7 +4,7 @@
       .expand-left.skins  &nbsp;&nbsp;可选皮肤
         br
         .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' center no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
-    .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
+    .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic v2' : 'fashion' }) ")
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
       .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
