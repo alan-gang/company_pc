@@ -11,6 +11,14 @@
 
         label.item 帐变时间范围 
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+
+
+        label.item 范围 
+          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
+            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
+
+        label.item 用户名 
+          input.ds-input.small(v-model="name" style="width: 1rem")
         
         .buttons(style="margin-left: .9rem")
           .ds-button.primary.large.bold(@click="profitList()") 搜索
@@ -119,7 +127,10 @@
         BL: [
           {title: '自己'},
           {}
-        ]
+        ],
+        ZONES: ['直接下级', '所有下级'],
+        zone: '',
+        name: ''
       }
     },
     computed: {
@@ -179,7 +190,9 @@
         this.$http.get(api.profitList, {
           startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
           endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
-          userId: id || this.BL[this.BL.length - 2].userId
+          userId: id || this.BL[this.BL.length - 2].userId,
+          parentId: !id && this.zone !== '' ? this.zone + 1 : '',
+          userName: id ? '' : this.name
           // userId: id || ''
         }).then(({data}) => {
           // success

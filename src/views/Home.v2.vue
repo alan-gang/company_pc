@@ -66,7 +66,7 @@ export default {
         {href: '/activity/5-2-2', src: '/static/activity/nds/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
         {href: '/activity/5-2-3', src: '/static/activity/nds/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'}
       ],
-      topgames: [{class: 'ds-icon-game-chq', id: '1-1-1', title: '时时彩', descr: '最受彩民认可的游戏'}, {class: 'ds-icon-game-cb30', id: '1-2-1', title: '快投30秒', descr: '开奖最快的游戏'}, {class: 'ds-icon-game-gd', id: '1-3-1', title: '广东11选5', descr: '一款权威的官彩游戏'}, {class: 'ds-icon-game-ahK3', id: '1-4-1', title: '安徽快三'}, {class: 'ds-icon-game-bjpk10', id: '1-5-1', title: '北京PK10'}, {class: 'ds-icon-game-lhc', id: '1-1-6', title: '六合彩'}, {class: 'ds-icon-game-ffctx', id: '1-1-7', title: '腾讯分分彩'}, {class: 'ds-icon-game-fc', id: '1-5-1', title: '福彩3D'}],
+      topgames: [{class: 'ds-icon-game-chq', id: '1-1-1', title: '时时彩', descr: '最受彩民认可的游戏'}, {class: 'ds-icon-game-cb30', id: '1-2-1', title: '快投30秒', descr: '开奖最快的游戏'}, {class: 'ds-icon-game-gd', id: '1-3-1', title: '广东11选5', descr: '一款权威的官彩游戏'}, {class: 'ds-icon-game-ahK3', id: '1-4-1', title: '安徽快三'}, {class: 'ds-icon-game-bjpk10', id: '1-5-1', title: '北京PK10'}, {class: 'ds-icon-game-lhc', id: '1-1-6', title: '六合彩'}, {class: 'ds-icon-game-ffctx', id: '1-1-7', title: '腾讯分分彩'}, {class: 'ds-icon-game-fc', id: '1-5-2', title: '福彩3D'}],
       formData: {
         // data: '',
         // version: 0,

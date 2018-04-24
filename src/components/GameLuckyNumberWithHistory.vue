@@ -5,7 +5,7 @@
       
       el-popover(placement="bottom-start"   v-bind:popper-class="'popover-orderlist popover-luckynumber'" ref="MO" v-if="!nopopper")
         span(slot="reference")
-          div(style="display: inline-block; cursor: pointer" title="点击查看最近开奖号码" @click=" __setCall({fn: '__setLuckNumberType', args: type}) ")
+          div(style="display: inline-block; cursor: pointer" @click=" __setCall({fn: '__setLuckNumberType', args: type}) ")
             span.NPER {{ NPER }} 
             span.qi 期 &nbsp;
 

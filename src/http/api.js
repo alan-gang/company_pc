@@ -1,5 +1,7 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
 let api = 'http://192.168.169.46:9901/cagamesclient'
+// jork
+// let api = 'http://192.168.169.46:9901/cagamesclient'
 let env = 'dev'
 // 外网生产地址
 if (window.location.host.indexOf('.net') !== -1) {

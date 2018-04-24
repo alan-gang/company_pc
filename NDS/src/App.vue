@@ -793,11 +793,11 @@ export default {
     // 外网生产地址
     if (window.location.host.indexOf('.net') !== -1) {
       env = 'pro'
-      ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
+      ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
     // 外网测试环境
     } else if (window.location.host.indexOf('.go') !== -1) {
       env = 'odev'
-      ndsapi = 'https://api.ds98.net:1888/dscagamesclient'
+      ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
     }
     window.env = env
     ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi
