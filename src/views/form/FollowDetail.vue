@@ -91,7 +91,7 @@
             span {{ scope.row.multiple + '倍' }}
         el-table-column( label="追号状态" )
           template(scope="scope")
-            span(:class="{ 'text-green': scope.row.status === 0, 'text-danger': scope.row.status === 2, 'text-grey': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
+            span(:class="{ 'text-green': scope.row.status === 0, 'text-danger': scope.row.status === 2, 'text-grey': scope.row.status === 1}") {{ STATUSS[scope.row.status] }}
 
         el-table-column(prop="userpoint" label="注单详情")
           template(scope="scope")
@@ -203,8 +203,8 @@
       return {
         ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
-        // STATUS: ['进行中', '已完成', '已取消'],
-        STATUS: ['未生成', '已生成', '已取消'],
+        STATUS: ['进行中', '已完成', '已取消'],
+        STATUSS: ['未生成', '已生成', '已取消'],
         ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         show: false,
         detail: {},

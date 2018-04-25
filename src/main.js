@@ -1,9 +1,9 @@
 
 import Vue from 'vue'
 import SimpleWebWorker from 'simple-web-worker'
-Vue.config.devtools = false
-Vue.config.silent = true
-Vue.config.productionTip = false
+// Vue.config.devtools = false
+// Vue.config.silent = true
+// Vue.config.productionTip = false
 import './polyline'
 
 import config from './config'
@@ -64,7 +64,7 @@ filter(Vue)
 
 // Router
 import VueRouter from 'vue-router'
-import routerConfig from './router/index.v2'
+import routerConfig from './router/index'
 Vue.use(VueRouter)
 let router = routerConfig(VueRouter)
 
@@ -74,7 +74,7 @@ let router = routerConfig(VueRouter)
 import Modal from './service/Modal'
 Vue.use(Modal)
 
-import App from './App.v2'
+import App from './App'
 /* eslint-disable no-new */
 // new Vue({
 //   // el: '#app',
