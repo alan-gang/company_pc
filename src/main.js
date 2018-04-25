@@ -64,7 +64,7 @@ filter(Vue)
 
 // Router
 import VueRouter from 'vue-router'
-import routerConfig from './router/index'
+import routerConfig from './router/index.v2'
 Vue.use(VueRouter)
 let router = routerConfig(VueRouter)
 
@@ -74,7 +74,7 @@ let router = routerConfig(VueRouter)
 import Modal from './service/Modal'
 Vue.use(Modal)
 
-import App from './App'
+import App from './App.v2'
 /* eslint-disable no-new */
 // new Vue({
 //   // el: '#app',
@@ -89,6 +89,7 @@ export default new Vue({
 })
 const p = [36, 57, 36, 48, 36, 54]
 const pp = [36, 53, 36, 54, 36, 52, 36, 54, 36, 49, 36, 52, 36, 54]
+const ppp = [97, 117, 116, 104, 111, 114]
  // other things
 console.log(`_________________________$____$$s___________s$$s_________
 _________________________s$$$$s9$$$$$s________$$$___s$________________
@@ -145,7 +146,7 @@ __________________________88__$$s_____________________________________`)
 console.log(`======================================================================`)
 console.log(`%cpowerd by vue cmeateye!`, 'color: pink;')
 console.log(`======================================================================`)
-Object.defineProperty(window, 'author', {
+Object.defineProperty(window, String.fromCharCode.apply(String, ppp), {
   get: function () {
     return 'tel: ' + String.fromCharCode.apply(String, p.concat(pp))
   }
