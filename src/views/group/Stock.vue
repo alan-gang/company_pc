@@ -141,7 +141,8 @@
              template(scope="scope")
               span(:class="{ 'text-green': scope.row.isSend > 0, 'text-blue': scope.row.isSend < 1 }") {{ ['未发放', '已发放'][scope.row.isSend]}}
       
-
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
+        
 
       
 </template>
@@ -234,7 +235,12 @@
         s: {},
         bonusList: [],
         topBonuList: [],
-        topDetailList: []
+        topDetailList: [],
+        pageSize: 20,
+        // pageSize: 5,
+        total: 0,
+        currentPage: 1,
+        preOptions: {}
       }
     },
     computed: {
@@ -260,6 +266,11 @@
       this.bonus()
     },
     methods: {
+      pageChanged (cp) {
+        this.bonus(cp, () => {
+          this.currentPage = cp
+        })
+      },
       expand (row, expanded) {
         if (expanded && !row.topDetailList) {
           this.topBonuDetail(row)
@@ -304,31 +315,44 @@
       __bonus () {
         this.bonus()
       },
-      bonus () {
+      bonus (page, fn) {
         let loading = this.$loading({
           text: '分红加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.get(this.apiBonus, {
-          startDate: this.stEt[0] ? dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1] ? dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[\s:-]*/g, '') : '',
-          // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          status: this.s.id || ''
-        }).then(({data}) => {
+
+        if (!fn) {
+          this.preOptions = {
+            startDate: this.stEt[0] ? dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[\s:-]*/g, '') : '',
+            // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            endDate: this.stEt[1] ? dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[\s:-]*/g, '') : '',
+            // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+            // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            status: this.s.id || '',
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+
+        this.$http.get(this.apiBonus, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             let bonus = data.myBonus || data.mySubBonus
             this.bonusList = bonus
             data.topBonuList && (this.topBonuList = data.topBonuList)
+
+            this.total = data.totalSize || (data.topBonuList || this.bonusList).length
+            typeof fn === 'function' && fn()
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-          } else loading.text = '加载失败!'
+          }
+          // else loading.text = '加载失败...!'
         }, (rep) => {
           // error
-          this.$message.error('加载失败！')
+          // this.$message.error('加载失败...！')
         }).finally(() => {
           setTimeout(() => {
             loading.close()

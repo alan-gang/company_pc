@@ -168,7 +168,7 @@ H = 1.04rem
         display block
         .el-button-group>*:not(.close)
           display none
-      &:not(.trend-chart-page)>.scroll-content
+      &:not(.trend-chart-page)>.scroll-content:not(.followDetail-page-content)
         top .3rem !important
     
 #app.classic.v2.game .new-home

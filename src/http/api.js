@@ -6,14 +6,16 @@ let env = 'dev'
 // 外网生产地址
 if (window.location.host.indexOf('.net') !== -1) {
   env = 'pro'
-  api = 'https://api.cb868.net:1888/cagamesclient'
+  // api = 'https://api.cb868.net:1888/cagamesclient'
+  api = 'https://api.' + window.location.host.replace('www.', '') + ':1888/cagamesclient'
 // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
   api = 'http://112.199.101.98:9901/cagamesclient'
 }
 window.env = env
-api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api
+// api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api
+api = window.localStorage.getItem('tapi') || api
 
 // window.localStorage.setItem('tapi', 'http://192.168.169.44:19901/cagamesclient')
 // dev

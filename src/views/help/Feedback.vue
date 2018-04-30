@@ -5,13 +5,15 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    div(style="text-align: center;")
-
-      .ds-button-group
-        .ds-button.x-small.text-button(v-bind:class="{selected: type === 1}" @click="type = 1") 我要反馈
-        .ds-button.x-small.text-button(v-bind:class="{selected: type === 2}" @click="type = 2") 我的反馈
+    
 
     .scroll-content.feedback-help(style="top: .82rem")
+
+      div(style="text-align: center;")
+
+        .ds-button-group
+          .ds-button.x-small.text-button(v-bind:class="{selected: type === 1}" @click="type = 1") 我要反馈
+          .ds-button.x-small.text-button(v-bind:class="{selected: type === 2}" @click="type = 2") 我的反馈
 
       div(v-if="type === 1")
         label.item

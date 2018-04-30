@@ -44,7 +44,7 @@
         .form
           .buttons(style="float: right; padding: .2rem 0")
             button.ds-button.primary.large(@click="(type = 'bind') &&  stepIndex++" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 增加银行卡
-            button.ds-button.cancel.large(@click=" (type = 'lock') &&  stepIndex++" v-bind:disabled="!!locked || !myBanks[0]" v-bind:class="{ disabled: !!locked || !myBanks[0] }") 锁定全部银行卡
+            button.ds-button.cancel.large(@click=" (type = 'lock') &&  stepIndex++" v-bind:disabled="!!locked || !myBanks[0]" v-bind:class="{ disabled: !!locked || !myBanks[0] }") {{ locked ? '已锁定' : '锁定全部银行卡' }}
 
         el-table.header-bold.margin(:data="myBanks" style="margin: .2rem")
           el-table-column(label="银行名称")
@@ -411,6 +411,14 @@ export default {
             c.cardNo = '*****' + c.cardNo.slice(-4)
             c.class = BANKS.find(b => b.apiName === c.apiName)['class']
           })
+          // if (this.locked) {
+          //   this.$modal.warn({
+          //     content: '您的银行卡已经被锁定，请联系客服!',
+          //     target: this.$el,
+          //     btn: [],
+          //     O: this
+          //   })
+          // }
         }
       }).catch(rep => {
       })

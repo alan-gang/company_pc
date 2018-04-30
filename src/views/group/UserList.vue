@@ -92,6 +92,8 @@
               .ds-button.text-button.blue(style="padding: 0 .05rem; vertical-align: top;" @click="getTeamBalance(scope.row)") 团队余额
                 div(v-if="scope.row.showTeanBalance")
                  span.text-danger {{ scope.row.myTeamBalance }}
+        
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
       // 充值
       transition-group(name="slide" appear=true tag="div")
@@ -266,7 +268,7 @@
 
             el-table.header-bold.margin(:data="openUserData" style="margin: .2rem auto; width: 6rem")
 
-              el-table-column(prop="name" label="开户级别" align="center" width="120")
+              el-table-column(prop="name" label="开户级别" align="center" width="120" v-if=" platform !== 'ds' ")
 
               el-table-column(prop="src" label="我的剩余开户额" width="150" align="right")
 
@@ -341,6 +343,11 @@
           {}
         ],
         data: [{}],
+        pageSize: 20,
+        // pageSize: 10,
+        total: 0,
+        currentPage: 1,
+        preOptions: {},
         // 下级
         user: { account: 'xxxx', name: 'xxxxx', point: 7.5 },
         cpwd: '',
@@ -388,12 +395,20 @@
             this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(1))
           }
         })
+      },
+      stepIndex () {
+        if (this.stepIndex === 0) this.getUserList()
       }
     },
     mounted () {
       this.getUserList()
     },
     methods: {
+      pageChanged (cp) {
+        this.getUserList('', cp, () => {
+          this.currentPage = cp
+        })
+      },
       tableRowClassName (row) {
         if (this.id === row.userId) return 'text-danger'
       },
@@ -479,7 +494,6 @@
               loading.text = '工资调整成功!'
               this.stepIndex = 0
               this.topUpIndex = 0
-              this.getUserList()
             }, 100)
           } else loading.text = data.msg || '工资调整失败!'
         }, (rep) => {
@@ -526,20 +540,29 @@
       addUserNow () {
         this.$router.push('/group/3-2-1')
       },
-      getUserList (id) {
+      getUserList (id, page, fn) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
         let loading = this.$loading({
           text: '用户列表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.post(api.getUserList, {
-          userId: id || this.BL[this.BL.length - 1].id,
-          userName: this.name,
-          minPoint: this.minPoint,
-          maxPoint: this.maxPoint,
-          minBalance: this.minMoney || '',
-          maxBalance: this.maxMoney || ''
-        }).then(({data}) => {
+
+        if (!fn) {
+          this.preOptions = {
+            userId: id || this.BL[this.BL.length - 1].id,
+            userName: this.name,
+            minPoint: this.minPoint,
+            maxPoint: this.maxPoint,
+            minBalance: this.minMoney || '',
+            maxBalance: this.maxMoney || '',
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+
+        this.$http.post(api.getUserList, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -574,6 +597,9 @@
               o.myTeamBalance = '获取中...'
               return o
             })
+            this.total = data.totalSize || this.data.length
+            typeof fn === 'function' && fn()
+            // this.data = data.recordList
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error
@@ -662,6 +688,7 @@
           // success
           if (data.success === 1) {
             this.$message.success('调点成功！')
+            this.stepIndex = 0
           } else this.$message.error(data.msg || '调点失败！')
         }, (rep) => {
           // error
@@ -703,6 +730,7 @@
           if (data.success === 1) {
             this.showUserAddCount()
             this.$message.success('开户额调整成功！')
+            this.stepIndex = 0
           } else this.$message.error(data.msg || '开户额调整失败！')
         }, (rep) => {
           // error

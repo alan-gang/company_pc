@@ -23,11 +23,11 @@
 
          
           el-table-column(prop="date" label="日期" width="100" v-if=" this.platform === 'ds' ")
-          el-table-column(prop="buyamount" label="团队销量" width="100"  v-if=" this.platform === 'ds' ")
+          el-table-column(prop="buyAmount" label="团队销量" width="100"  v-if=" this.platform === 'ds' ")
           el-table-column(prop="activitUser" label="活跃人数" width="200"   v-if=" this.platform === 'ds' ")
-          el-table-column(prop="salarylevel" label="工资标准" width="100"  v-if=" this.platform === 'ds' ")
-          el-table-column(prop="subsalary" label="下级工资总额" width="100"  v-if=" this.platform === 'ds' ")
-          el-table-column(prop="salary" label="我的工资"  v-if=" this.platform === 'ds' ")
+          el-table-column(prop="salaryLevel" label="工资标准" width="100"  v-if=" this.platform === 'ds' ")
+          el-table-column(prop="subSalary" label="下级工资总额" width="100"  v-if=" this.platform === 'ds' ")
+          el-table-column(prop="daySalary" label="我的工资"  v-if=" this.platform === 'ds' ")
 
           // el-table-column(prop="profitamount" label="团队总亏损" width="100" )
           // el-table-column(prop="booksalary" label="应发日工资" width="100" )
