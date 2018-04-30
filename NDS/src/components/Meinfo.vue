@@ -37,7 +37,7 @@ footer(:class="{'hide-info': hide, 'shorter' : isTry || (!me.canTopUp && !me.can
       span.text-black.text-bold &nbsp;&nbsp;可用余额
     br
     p 特殊帐户余额： 
-      | {{ me.smoney || '0.000' }} 
+      | {{ smoney || '0.00' }} 
     br
     p
       el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")

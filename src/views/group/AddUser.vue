@@ -51,7 +51,7 @@
         p(style="padding: .1rem .4rem" v-if="PS[0]") 剩余开户额：
           label(style="display: inline-block")
             span(style="margin: 0 .15rem " v-for="P in PS")
-              span.text-blue [{{ P.point }}]:
+              span.text-blue(v-if=" platform !== 'ds' ") [{{ P.point }}]:
               span.text-danger  {{ P.count }}个
 
         p(style="padding: 0rem .4rem") 您的返点级别：
@@ -140,6 +140,7 @@
             // this.point = ''
             this.u = {}
             this.showRegistUser()
+            this.$router.push('/group/3-1-1')
           } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
           // error

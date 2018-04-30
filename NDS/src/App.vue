@@ -25,7 +25,7 @@
 
     // lefter
     transition(name="slide-left" appear=true)
-      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:class="{ 'show-lefter': showLefter }" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if=" state.user.login && state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-show="displayLefter")
+      dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:class="{ 'show-lefter': showLefter }" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if=" state.user.login && state.user.mode === 'classic' && activeMenu[0] " v-on:logout="logout" v-show="displayLefter")
 
     // dsBottom
 </template>
@@ -793,7 +793,8 @@ export default {
     // 外网生产地址
     if (window.location.host.indexOf('.net') !== -1) {
       env = 'pro'
-      ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
+      // ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
+      ndsapi = 'https://api.' + window.location.host.replace('www.', '') + ':1888/cagamesclient'
     // 外网测试环境
     } else if (window.location.host.indexOf('.go') !== -1) {
       env = 'odev'
@@ -904,7 +905,7 @@ export default {
 
         let modal = this.$modal.warn({
           title: '特别提醒',
-          content: '欢迎体验东森新系统，现在是体验阶段，不开放充值和提现，我们已经为你发放了2万元的体验金，您可以尽情体验，同时新系统提供完善的移动APP下载。',
+          content: '<p class="text-green" style="color: green;">东森新系统欢迎您，我们已经正式上线，已开放充值和提款功能，请下载最新客户端和移动APP，开始新的体验吧</p>',
           btn: ['知道了'],
           ok () {
             if (!(data.hasSecurityPwd === '1') && modal.btn[0] === '知道了') {
@@ -1120,7 +1121,7 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable})
+          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable, smoney: data.specialBalance})
         }
       }, (rep) => {
         // error

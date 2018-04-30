@@ -475,7 +475,7 @@ body.nds
         
       
      .login .try.ds-button
-       display none
+       // display none
 
      .login-test
       .routers
@@ -627,7 +627,7 @@ body.nds
       margin-top PWX
       position relative
       display block
-      content '浏览器建议：首选IE 11浏览器，其次为火狐浏览器。'
+      content '浏览器建议：首选谷歌浏览器，其次为火狐浏览器。'
       height .8rem
       line-height .8rem
       padding 0 .3rem

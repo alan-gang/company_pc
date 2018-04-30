@@ -23,8 +23,6 @@
 
 
 
-
-
 </template>
 
 <script>
@@ -1055,7 +1053,6 @@ export default {
       this.$http.get(api.getUserFund).then(({data}) => {
         // success
         if (data.success) {
-          // console.log(data)
           this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeAvaiable, smoney: data.specialBalance})
         }
       }, (rep) => {

@@ -60,7 +60,10 @@
           el-table-column(label="操作" align="center")
             template(scope="scope")
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" scope.row.canWrite !== '0' " @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && (((o = scope.row.salary) && false) || ((teamSales = scope.row.teamSales / 10000) && false) || ( activityCount = scope.row.activityCount ))   ") 设置日工资
+        
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
+        
       // 充值
       transition-group(name="slide" appear=true tag="div")
         div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
@@ -69,6 +72,19 @@
             |  设置日工资
             span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
           
+          .notice(style="margin: .2rem; margin-bottom: .1rem" v-if=" platform === 'ds' ")
+            span.title 工资说明：
+            p.content
+              | 1：工资分为基础工资和考核工资。
+              br
+              | 2：【基础工资】：由上级设置，为固定值，比如1万20，结合销量和活跃人数的设置为标准。
+              br
+              | 3：【考核工资】：平台统一工资考核标准，根据团队日量和团队活跃用户综合考核工资标准。考核标准查看活动页面
+              br
+              | 4：&nbsp;实际工资标准为：按照考核工资和基础工资的最大值发放。
+              br
+              | 5：&nbsp;例，您的基础工资为1万20，当日你的考核工资为1万30，那当日工资=团队日量*1万30。例，您的基础工资为1万30，当日你的考核工资为1万10，那当日工资=团队日量*1万30。
+
           p(style="padding-left: 30%; margin-top: .7rem")
             span.text-danger *
             日工资：&nbsp;&nbsp;
@@ -138,6 +154,11 @@
           {title: '自己'}
         ],
         data: [{}],
+        pageSize: 20,
+        // pageSize: 5,
+        total: 0,
+        currentPage: 1,
+        preOptions: {},
         // 下级
         user: { account: 'xxxx', name: 'xxxxx', point: 7.5 },
         teamSales: 0,
@@ -153,6 +174,11 @@
       this.subSalaryList()
     },
     methods: {
+      pageChanged (cp) {
+        this.subSalaryList(cp, () => {
+          this.currentPage = cp
+        })
+      },
       // &salary=20&teamSale=200&actvityCount=0&userId=7
       // 设置日工资：
       setSalary () {
@@ -215,20 +241,25 @@
       // addUserNow () {
       //   this.$router.push('/group/3-2-1')
       // },
-      subSalaryList () {
+      subSalaryList (page, fn) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=subSalaryList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
         let loading = this.$loading({
           text: '用户列表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.post(api.subSalaryList, {
-          userId: this.BL[this.BL.length - 1].id,
-          userName: this.name
-          // minPoint: this.minPoint,
-          // maxPoint: this.maxPoint,
-          // minBalance: this.minMoney || '',
-          // maxBalance: this.maxMoney || ''
-        }).then(({data}) => {
+
+        if (!fn) {
+          this.preOptions = {
+            userId: this.BL[this.BL.length - 1].id,
+            userName: this.name,
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+
+        this.$http.post(api.subSalaryList, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -238,6 +269,8 @@
             data.salaryList[0] && (this.BL.length === 1) && (data.salaryList[0].self = true)
             this.data = data.salaryList || []
             this.OL = data.salaryComb || []
+            this.total = data.totalSize || this.data.length
+            typeof fn === 'function' && fn()
             // this.OOL = data.winSlaryData
           } else loading.text = '加载失败!'
         }, (rep) => {

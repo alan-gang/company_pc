@@ -45,7 +45,9 @@
               .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" goContractDetail(scope.row.id) ") 查看详情
               .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
               .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
-      
+        
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
+
 
       div(v-if="stepIndex === 1 ")
 
@@ -145,12 +147,12 @@
             span.text-black &nbsp;万，活跃人数&nbsp;
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
             span.text-black  人，分红比例 
-            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="25")
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
             |  %
 
 
           .buttons.item.block(style="padding-left: .55rem")
-            .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 11")
+            .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 21")
               span.text-black &nbsp;再加一行
 
             .ds-button.x-small.text-button.el-icon-minus.blue(@click=" ruleLength-- " v-if="ruleLength > 3 ")
@@ -291,7 +293,11 @@
         ],
         s: {},
         data: [],
-
+        pageSize: 20,
+        // pageSize: 5,
+        total: 0,
+        currentPage: 1,
+        preOptions: {},
         stepIndex: 0,
         user: {},
         // st1: '',
@@ -311,7 +317,27 @@
           {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
           {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
           {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
+          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则三十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
         ],
         ruleLength: 3
       }
@@ -375,6 +401,11 @@
       // }
     },
     methods: {
+      pageChanged (cp) {
+        this.contract(cp, () => {
+          this.currentPage = cp
+        })
+      },
       getSysContractRange () {
         this.$http.get(api.getSysContractRange).then(({data}) => {
           // success
@@ -391,20 +422,29 @@
           query: {id: id, self: !this.type}
         })
       },
-      contract () {
+      contract (page, fn) {
         let loading = this.$loading({
           text: '契约列表加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.get(this.type === 0 ? api.queryMyContract : api.mySubContract, {
-          // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          startDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
-          // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          status: this.s.id || ''
-        }).then(({data}) => {
+
+        if (!fn) {
+          this.preOptions = {
+            // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+            startDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
+            // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
+            // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
+            // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+            status: this.s.id || '',
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+
+        this.$http.get(this.type === 0 ? api.queryMyContract : api.mySubContract, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             // data.mySubContract && data.mySubContract.forEach(c => {
@@ -415,6 +455,8 @@
             //   }
             // })
             this.data = data.contractList || data.mySubContract
+            this.total = data.totalSize || this.data.length
+            typeof fn === 'function' && fn()
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

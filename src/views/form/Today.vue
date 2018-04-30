@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .stock-list.scroll-content
 
-      .form
+      .form(:class=" { smaller: platform === 'ds' } ")
 
         p.item.block(style="margin: .3rem 0 .15rem 0")
           | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -114,5 +114,6 @@
     font-size 0.72rem
     &.gradient
       font-gradient()
-
+  .form.smaller .amount
+    font-size 0.5rem
 </style>
