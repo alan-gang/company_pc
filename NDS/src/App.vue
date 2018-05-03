@@ -794,14 +794,18 @@ export default {
     if (window.location.host.indexOf('.net') !== -1) {
       env = 'pro'
       // ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
-      ndsapi = 'https://api.' + window.location.host.replace('www.', '') + ':1888/cagamesclient'
+      ndsapi = 'https://api.' + window.location.host.replace('www.', '') + ':1888/dscagamesclient'
     // 外网测试环境
     } else if (window.location.host.indexOf('.go') !== -1) {
       env = 'odev'
-      ndsapi = 'https://api.dsn88.net:1888/dscagamesclient'
+      ndsapi = 'https://api.dsn96.net:1888/dscagamesclient'
+    } else if (window.location.host.match(/^\d{1,3}/)) {
+      env = 'pro'
+      ndsapi = 'https://api.dsn96.net:1888/dscagamesclient'
     }
     window.env = env
-    ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi
+    // ndsapi = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || ndsapi
+    ndsapi = window.localStorage.getItem('tapi') || ndsapi
     api.api = ndsapi
     this.setUser({mode: 'classic', platform: 'nds', model: 'day'})
     // 登录isTop = 1
@@ -821,6 +825,9 @@ export default {
     if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
   },
   methods: {
+    __back () {
+      window.history.back()
+    },
     __toggleLefter () {
       this.showLefter = !this.showLefter
     },

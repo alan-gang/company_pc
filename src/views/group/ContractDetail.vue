@@ -11,7 +11,9 @@
         div(style="width: 0; height: 100%; vertical-align: middle; display: inline-block")
       
       div.c(v-for=" (c, ci) in contracts "  v-bind:class=" ['ds-icon-stock-' + STATUS[c.stat].class ] ")
-        
+        p.title.text-black(v-if=" platform === 'ds' ") 
+          span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
+          
         h2.text-black(style="margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.userName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}

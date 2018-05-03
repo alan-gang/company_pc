@@ -7,8 +7,9 @@
     slot(name="toolbar")
     
     .contract.scroll-content(:class="{ center: !stock }")
-
-      div(v-if="stock" style="margin: .3rem" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
+      div(v-if="stock" style="margin: .3rem;" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
+        p.title.text-black(v-if=" platform === 'ds' ") 
+          span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
         h2.text-black(style="margin: .3rem 0; text-align: center") 分红详情
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.userName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 

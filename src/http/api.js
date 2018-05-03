@@ -12,6 +12,9 @@ if (window.location.host.indexOf('.net') !== -1) {
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
   api = 'http://112.199.101.98:9901/cagamesclient'
+} else if (window.location.host.match(/^\d{1,3}/)) {
+  env = 'pro'
+  api = 'https://api.cb868.net:1888/cagamesclient'
 }
 window.env = env
 // api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api
