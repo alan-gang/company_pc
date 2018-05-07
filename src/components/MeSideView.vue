@@ -118,6 +118,7 @@
 // to imitate the old ds
   @import '../var.stylus'
   body.nds
+  body.cb.v2 .safe-detail-page
     .me-sideview
       position relative
       width auto

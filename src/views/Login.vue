@@ -49,6 +49,7 @@ export default {
       margin 0 auto
       margin-bottom .3rem
     .login-form
+      
     .try-form
       max-width 3.5rem
       min-width 3.5rem
@@ -62,6 +63,5 @@ export default {
       
     
 </style>
-
 
 

@@ -80,11 +80,11 @@ export default {
   watch: {
   },
   mounted () {
-    this.openExternal(1)
-    this.openExternal(2)
-    this.openExternal(11)
-    this.openExternal(13)
-    this.openExternal(15)
+    // this.openExternal(1)
+    // this.openExternal(2)
+    // this.openExternal(11)
+    // this.openExternal(13)
+    // this.openExternal(15)
   },
   beforeDestroy () {
   },
@@ -106,10 +106,30 @@ export default {
       })
     },
     openExternal (fn) {
+      if (fn > 200) return this.openBG(fn)
       // this.formData = {}
-      this.$http.mypost(api.loginVr, {channelId: fn || 12}).then(({data}) => {
+      this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
         //
         this.formData[fn] = data
+        this.__openWindowWithPost(fn)
+        // if (data.success === 1) {
+        //   // this.openWindowWithPost(data)
+        //   this.formData[fn] = data
+        // } else {
+        //   // this.$message.error({target: this.$el, message: data.msg || '第三方游戏获取失败！'})
+        // }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '第三方游戏获取失败！'})
+      })
+    },
+    openBG (fn) {
+      // this.formData = {}
+      this.$http.get(api.gameUrl, {gameid: fn || 201}).then(({data}) => {
+        //
+        if (data.success) {
+          this.formData[fn] = data.url
+          this.__openWindowWithPost(fn)
+        }
         // if (data.success === 1) {
         //   // this.openWindowWithPost(data)
         //   this.formData[fn] = data
@@ -131,7 +151,8 @@ export default {
       f.submit()
     },
     __openWindowWithPost (fn) {
-      return this.openWindowWithPost(this.formData[fn] || {})
+      if (typeof this.formData[fn] === 'string') return window.open(this.formData[fn])
+      return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     }
   },
   components: {
@@ -155,7 +176,7 @@ export default {
       width 100%
       height 100%
 
-  W = 1.95rem
+  W = 2.45rem
   H = 1.5rem
   .top-games
     margin PW 0

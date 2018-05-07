@@ -15,5 +15,9 @@
   .ds-icon-logo
     // background url($CASSETS/logo.png) center center no-repea0t
     background url($CASSETS/cb_logo.png) center center no-repeat
-    
+
+  #app.cb.v2
+    .ds-icon-logo
+    // background url($CASSETS/logo.png) center center no-repea0t
+      background url($CASSETS/v2/logo.png) center center no-repeat
 </style>

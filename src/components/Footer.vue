@@ -652,6 +652,7 @@ export default {
       padding 0
   
   footer > .el-dialog__wrapper:first-child
+  .new-home .el-dialog__wrapper
     background rgba(0,0,0,.5)
     
   .dialog-transfer
@@ -660,7 +661,7 @@ export default {
     background-color #ededed
     // padding .2rem .4rem
     .el-dialog__body
-      padding 4 * PWX 8 * PWX
+      padding 2 * PWX 8 * PWX
     .text-black
       font-size .18rem
     .to

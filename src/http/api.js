@@ -35,10 +35,28 @@ api = window.localStorage.getItem('tapi') || api
 // let api = 'http://192.168.169.161:8080/cagamesclient/'
 // let api = 'http://192.168.169.111:8080/cagamesclient/'
 let Login = {
+
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
   tryLoginFromUrl: '/login/login.do?method=dsLog',
-  // open a third part pages
+  // open a third part pages ============================================VR======================================
   loginVr: '/ext/vr.do?method=loginVr',
+  // open a third part pages ============================================BG======================================
+  // BG转账记录
+  queryBalanceTransfer: '/ext/bg.do?method=queryBalanceTransfer',
+  // 登出
+  BGlogout: '/ext/bg.do?method=logout',
+  // BG游戏地址接口
+  // gameUrl: 'cagamesclient/ext/bg.do?method=gameUrl&gameid=201',
+  gameUrl: '/ext/bg.do?method=gameUrl',
+  // 转款到BG
+  // transferToBG: '/ext/bg.do?method=transferToBG&amount=100',
+  transferToBG: '/ext/bg.do?method=transferToBG',
+  // 从BG取款
+  // withdrawFromBG: '/ext/bg.do?method=withdrawFromBG&amount=100',
+  withdrawFromBG: '/ext/bg.do?method=withdrawFromBG',
+  // BG余额查询
+  // getBalance: '/ext/bg.do?method=getBalance',
+  getBalance: '/ext/bg.do?method=getBalance',
   // record
   VROrderlist: '/ext/vr.do?method=bet',
   VRFollowlist: '/ext/vr.do?method=schedule',

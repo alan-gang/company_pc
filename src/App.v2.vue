@@ -1,6 +1,6 @@
 <template lang="jade">
 
-  #app(:class=" [state.user.mode, state.user.model, 'app', {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }] ")
+  #app(:class=" [state.user.css, 'app', {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }] ")
     
     
     // pages
@@ -163,10 +163,16 @@ export default {
           menuid: '1'
         },
         {
+          menuid: '98',
+          title: '真人娱乐',
+          big: true,
+          info: {menuid: '98', class: 'ds-icon-game-bg1 ', id: '9-9-9', title: 'BG真人娱乐大厅', descrb: '真人娱乐场，美女如云', fn: 201}
+        },
+        {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
-          title: '游戏',
+          title: '彩票游戏',
           url: 'game',
           hideIcon: false,
           // size: 'full',
@@ -269,6 +275,18 @@ export default {
           ]
         },
         {
+          menuid: '98',
+          title: '电子游戏',
+          big: true,
+          info: {menuid: '98', class: 'ds-icon-game-bg2 ', id: '9-9-9', title: '电子游戏', descrb: '经典游戏，火热开奖', fn: 203}
+        },
+        {
+          menuid: '98',
+          title: '扑鱼达人',
+          big: true,
+          info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '扑鱼达人', descrb: '一炮万金，畅快秒杀', fn: 202}
+        },
+        {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
@@ -314,6 +332,12 @@ export default {
                   menuid: '34',
                   title: '我的银行卡',
                   url: 'Bank'
+                },
+                {
+                  id: '2-7-1',
+                  // menuid: '34',
+                  title: 'BG转帐记录',
+                  url: 'BGTransaction'
                 }
               ]
             }
@@ -738,10 +762,10 @@ export default {
           this.activeMenu = []
         }
         if (this.mi > 2) {
-          if (this.mi === 6) {
+          if (this.mi === 7) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[7], this.menus[8], this.menus[9], this.menus[10], this.menus[11]]
+            this.activeMenu = [this.menus[7 + 3], this.menus[8 + 3], this.menus[9 + 3], this.menus[10 + 3], this.menus[11 + 3]]
           }
         }
       }, this.mi ? 0 : 50)

@@ -168,7 +168,7 @@ H = 1.04rem
         display block
         .el-button-group>*:not(.close)
           display none
-      &:not(.trend-chart-page)>.scroll-content:not(.followDetail-page-content)
+      &:not(.trend-chart-page)>.scroll-content:not(.followDetail-page-content):not(.safe-detail-info)
         top .3rem !important
     
 #app.classic.v2.game .new-home
@@ -399,12 +399,12 @@ body
     &.game-PK10
     &.game-HC6
       top .4rem
-    
-    .qi~.number
-        background-color #fff !important
-      .the-number
-        color #666 !important
-        background-color #fff !important
+    &:not(.game-K3)
+      .qi~.number
+          background-color #fff !important
+        .the-number
+          color #666 !important
+          background-color #fff !important
   .game-page .game-side-buttons
     top -.25rem
     &>.ds-button:not(.recent-codes)

@@ -796,6 +796,16 @@ pre
     background url($ASSETS/pwd.png) PW center no-repeat
   .ds-icon-edit
     background url($ASSETS/edit.png) PW center no-repeat
+  
+  #app.cb.v2 .login-form,
+  #app.cb.v2 .try-form
+    .ds-icon-user
+      background url($ASSETS/v2/1.png) PW center no-repeat #fff !important
+    .ds-icon-pwd
+      background url($ASSETS/v2/2.png) PW center no-repeat #fff !important
+    .ds-icon-edit
+      background url($ASSETS/v2/3.png) PW center no-repeat #fff !important
+
   .ds-icon-code
     background url($ASSETS/code.png) center no-repeat
   .ds-icon-success
@@ -900,6 +910,9 @@ pre
 
   .ds-icon-money
     background url($ASSETS/$.png) left center no-repeat
+    
+  .ds-icon-bg-money
+    background url($ASSETS/v2/bg_logo.png) left center no-repeat
 
   .ds-icon-free
     background url($ASSETS/$-red.png) left center no-repeat

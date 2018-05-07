@@ -1,5 +1,4 @@
 <template lang="jade">
-
   dl.forget-form
     dt 找回登录密码
       
@@ -103,6 +102,7 @@ import xhr from 'components/xhr'
 import store from '../../store'
 import Validate from '../../util/Validate'
 import api from '../../http/api'
+
 export default {
   name: 'Forget',
   mixins: [xhr],

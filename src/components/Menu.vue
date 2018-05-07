@@ -1,13 +1,21 @@
 <template lang="jade">
   section.menu.content-width
-    el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
+    el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
 
 
           .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
+            .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
+            
 
           router-link.icon-button.after-title(:to="menu.href"   slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle") {{ menu.title }}
 
+
           slot
+            .info(v-if=" menu.big " v-bind:class=" [ menu.info.class ] ")
+              h3 {{ menu.info.title }}
+              h4 {{ menu.info.descrb }}
+              .ds-button.primary(@click="open(menu.info)") 点击进入
+
             dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
@@ -153,7 +161,22 @@ export default {
           content '新'
           background BLUE
           
-
+  
+  .footer-popover
+    .info
+      padding 2*PW
+      padding-left 2rem
+      text-align right
+      line-height .45rem
+      h4
+        color #999
+    
+    .ds-icon-game-bg1
+      background url(../assets/v2/001.png) .2rem center no-repeat
+    .ds-icon-game-bg2
+      background url(../assets/v2/002.png) .2rem center no-repeat
+    .ds-icon-game-bg3
+      background url(../assets/v2/003.png) .2rem center no-repeat
 </style>
 
 <style lang="stylus" scoped>
@@ -167,7 +190,7 @@ export default {
     .icon-button
       position relative
       display inline-block
-      width FH
+      padding 0 .1rem
       height FH
       line-height FH
       color #fff

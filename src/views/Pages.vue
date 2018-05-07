@@ -34,6 +34,7 @@ import Bonus from './me/Bonus'
 import TopUp from './me/TopUp'
 import WithDraw from './me/WithDraw'
 import Bank from './me/Bank'
+import BGTransaction from './me/BGTransaction'
 
 // group
 import UserList from './group/UserList'
@@ -114,6 +115,7 @@ export default {
     WithDraw,
     TopUp,
     Bank,
+    BGTransaction,
     // group
     UserList,
     SetDaySalary,

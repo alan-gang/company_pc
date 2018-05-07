@@ -1,5 +1,7 @@
 <template lang="jade">
-  dl.login-form
+.login-form
+  SlidePics(v-if=" platform !== 'ds' ")
+  dl
     
     dt.ds-icon-notice(:class="{ h0: !this.regard }")
       | 问候语：
@@ -7,6 +9,8 @@
 
     // dt.ds-icon-notice(v-if="notice") {{ notice }}
       
+    dt.dd(v-if=" platform !== 'ds' ")
+      用户登录
 
     dd.ds-icon-user
       input( v-model="un_" @change="getGreetingMsg" autofocus)
@@ -41,11 +45,14 @@
   import api from '../../http/api'
   import xhr from 'components/xhr'
   // import { launchFullScreen } from '../../util/Dom'
-
+  import SlidePics from 'components/SlidePics'
   export default {
     name: 'Login',
     mixins: [xhr],
     props: ['m'],
+    components: {
+      SlidePics
+    },
     data () {
       return {
         regard: false,
@@ -281,6 +288,10 @@
   @import '../../var.stylus'
   
   .login-form
+    & > *
+        display inline-block
+        vertical-align middle
+        // margin 0 .1rem
     .ds-icon-notice
       padding .08rem PW
       padding-left PW + .08rem + .16rem
@@ -366,4 +377,47 @@
   .ds-icon-pwd
   .ds-icon-edit
     background-position PW .18rem
+</style>
+
+<style lang="stylus">
+  @import '../../var.stylus'
+  #app.cb.v2
+    .login-form
+      margin-top .5rem
+      max-width 9rem
+      min-width 9rem
+      dt
+        text-shadow none
+        color GREEN
+        border none
+      .dd
+        color #666
+        background #eee
+        radius()
+      dd.actions>*
+        color #666
+    .try-form
+    .login-form
+      dl
+        background #eee
+        radius()
+      .dd
+        background #eee
+        height .3rem
+        line-height .3rem
+        text-shadow none
+        margin .1rem PW
+      dd.ds-button
+        margin 0 PW
+        width auto
+        display block
+      
+        
+      dd:not(.ds-button):not(.actions)
+        color #666
+        background #fff
+        radius()
+        margin .1rem PW
+        input
+          color #666
 </style>

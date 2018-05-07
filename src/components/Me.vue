@@ -16,9 +16,35 @@
       // br
       p
         el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
+      p(style="padding-top: .1rem")
+        span.ds-button.primary(@click="transferNow") 确认转入
+
+
+    el-dialog(title="BG金额转换" v-model="transferBG" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
+      
+      .ds-button-group(style="margin-left: 0")
+        .ds-button.text-button(:class=" { selected: bg === 0 } " @click=" bg = 0 ") BG转至余额
+        .ds-button.text-button(:class=" { selected: bg === 1 } " @click=" bg = 1 ") 余额转至BG
+
+      p
+        span.text-black.text-bold {{ bg !== 0 ? '可用余额' : 'BG余额' }}&nbsp;&nbsp;
+        span.text-blue.to 转至
+        span.text-black.text-bold &nbsp;&nbsp;{{ bg === 0 ? '可用余额' : 'BG余额' }}
+      // br
+      p 可用余额： 
+        | {{ Me.amoney || '0.000' }}
+      p BG余额： 
+        | {{ Me.bgmoney || '0.000' }}
       // br
       p
-        span.ds-button.primary(@click="transferNow") 确认转入
+        el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
+        span.text-999  &nbsp;&nbsp;输入金额
+      // br
+      p
+        el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNowBG")
+      // br
+      p(style="padding-top: .1rem")
+        span.ds-button.primary(@click="transferNowBG") 确认转入
 
     el-row.content-width
       el-col.l(:span="10")
@@ -49,12 +75,17 @@
                   span 主: 
                   span {{ Me.amoney || '0.000' }} 
                 span 特: {{ Me.smoney || '0.000' }}
+                span.ds-button.text-button.blue(@click=" transfer = true ") 转入
               dd
                 span.free.ds-icon-free {{ Me.free || '0.000' }}
+              dd
+                span.money.ds-icon-bg-money
+                    {{ Me.bgmoney || '0.000' }}
+                span.ds-button.text-button.blue(@click=" transferBG = true ") 转入
 
               dd(style="padding-top: .1rem")
-                .ds-button.primary(@click=" transfer = true ") 特殊金额转换
-                .ds-button.danger(@click="logout" style="margin-left: .1rem" ) 安全退出
+                // .ds-button.primary(@click=" transfer = true ") 特殊金额转换
+                .ds-button.danger.full(@click="logout" ) 安全退出
 
         
         router-link.topup(:to=" '/me/2-4-1' " v-if="!Me.isTry && Me.canTopUp") 充值
@@ -79,7 +110,9 @@ export default {
       transfer: false,
       modal: false,
       cwd: '',
-      m: ''
+      m: '',
+      transferBG: false,
+      bg: 0
     }
   },
   watch: {
@@ -88,18 +121,34 @@ export default {
       this.m = 0
     },
     more () {
+      this.getBalance()
       this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
+    }
+  },
+  computed: {
+    bgAPI () {
+      return [api.withdrawFromBG, api.transferToBG][this.bg]
     }
   },
   mounted () {
     this.sysNotices()
     this.switchI()
+    this.getBalance()
   },
   methods: {
+    getBalance () {
+      this.$http.get(api.getBalance).then(({data}) => {
+        if (data.success === 1) {
+          store.actions.setUser({bgmoney: data.amount || 0})
+        }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
     transferNow () {
       if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.m > this.me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
+      if (this.m > this.Me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -111,6 +160,25 @@ export default {
         }
       }).catch(rep => {
         this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
+    transferNowBG () {
+      if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
+      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.bg === 0 && (this.m > this.Me.bgmoney)) return this.$message.warning({target: this.$el, message: 'BG余额不足！'})
+      else if (this.bg !== 0 && (this.m > this.Me.amoney)) return this.$message.warning({target: this.$el, message: '可用余额不足！'})
+      this.$http.get(this.bgAPI, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
+        if (data.success === 1) {
+          // this.cpwd = ''
+          // this.m = 0
+          this.$message.success({target: this.$el, message: data.msg || 'BG余额转换成功！'})
+          this.transfer = false
+          this.getBalance()
+        } else {
+          this.$message.error({target: this.$el, message: data.msg || 'BG余额转换失败！'})
+        }
+      }).catch(rep => {
+        this.$message.error({target: this.$el, message: 'BG余额转换失败！'})
       })
     },
     // 今日签到

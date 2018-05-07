@@ -1,5 +1,5 @@
 <template lang="jade">
-  .me-page
+  .me-page.safe-detail-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -843,6 +843,7 @@ export default {
 // to imitate the old ds
   @import '../../var.stylus'
   body.nds
+  body.cb.v2
     .safe-detail-info.scroll-content
       // position relative
       left 0
@@ -860,5 +861,7 @@ export default {
           transition width linear .2s
         &.expand:before
           width 100%
-        
+  body.cb.v2
+    .safe-detail-info.scroll-content
+      top 2rem !important
 </style>

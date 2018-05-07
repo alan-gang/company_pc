@@ -16,6 +16,8 @@ let store = {
       // 特殊金额
       smoney: '',
       free: '',
+      // bg
+      bgmoney: '',
       // safeCenter
       email: '',
       phone: '',
@@ -73,6 +75,7 @@ let store = {
         // 特殊金额
         smoney: '',
         free: '',
+        bgmoney: '',
         // safeCenter
         email: '',
         phone: '',
