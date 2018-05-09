@@ -1,5 +1,5 @@
 <template lang="jade">
-  .me-page
+  .me-page.bonus-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -142,4 +142,13 @@ export default {
     .ds-button-group
       margin .2rem 0
       
+</style>
+
+
+<style lang="stylus">
+  #app.cb.v2 .bonus-page 
+    .base-info
+      max-width 8rem
+      margin 0 auto
+      // max-width 5rem
 </style>

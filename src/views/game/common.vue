@@ -339,7 +339,7 @@ export default {
     if (this.isTry) this.checked = true
   },
   beforeDestroy () {
-    clearInterval(this.lucknumbersTimeout)
+    clearTimeout(this.lucknumbersTimeout)
   },
   methods: {
     scrollHander (evt) {
@@ -363,6 +363,8 @@ export default {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
               this.__recentlyCode()
+              clearTimeout(this.lucknumbersTimeout)
+              this.lucknumbersTimeout = 0
             }, 3000)
           } else {
             this.overtime = false
@@ -375,6 +377,8 @@ export default {
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
             this.__recentlyCode()
+            clearTimeout(this.lucknumbersTimeout)
+            this.lucknumbersTimeout = 0
           }, 3000)
         }
       }, (rep) => {

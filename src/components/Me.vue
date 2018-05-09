@@ -54,11 +54,11 @@
       el-col.r(:span="14")
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            span.name {{ Me.account }}
+            // span.name {{ Me.account }}
             span.money {{ Me.amoney }}
           slot
             dl
-              dd(style="padding-bottom: .1rem")
+              // dd(style="padding-bottom: .1rem")
                 el-popover(placement="right-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover  message'" )
                   button.ds-button.primary.full(slot="reference" @click="checkinNow") 签到
                   slot 
@@ -225,6 +225,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  @import '../var.stylus'
+
   .el-popover .popper__arrow
     display block
   .footer-popover.more
@@ -233,6 +235,39 @@ export default {
     transform: translateY(-0.2rem) translateX(0.2rem);
   .footer-popover
     background-color rgba(245, 245, 245, 1)
+  
+
+  .dialog-router
+    width auto
+    text-align left
+    background-color #222330
+    shadow()
+    .el-dialog__header
+      background-color #30313f
+      .el-dialog__title
+        color #fff    
+    .el-dialog__body
+      padding .5rem
+    .login-test .routers
+      padding 0
+  
+  footer > .el-dialog__wrapper:first-child
+  .new-home .el-dialog__wrapper
+    background rgba(0,0,0,.5)
+    
+  .dialog-transfer
+    width auto
+    text-align left
+    background-color #ededed
+    // padding .2rem .4rem
+    .el-dialog__body
+      padding 2 * PWX 8 * PWX
+    .text-black
+      font-size .18rem
+    .to
+      padding PWX PW
+      background url(../assets/game/new/to.png) center bottom .1rem no-repeat
+      
 </style>
 
 <style lang="stylus" scoped>
@@ -247,6 +282,8 @@ export default {
     .l
       background url(../assets/notice-icon.png) left center no-repeat
       padding-left .3rem
+    .r
+      text-align right
     .r .name
     .r .money
     .r .topup

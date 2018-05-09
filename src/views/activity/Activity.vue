@@ -82,6 +82,7 @@
       display inline-block
       // width 4.15rem
       width 50%
+      max-width 5rem
       vertical-align top
       // margin PW
       padding PW

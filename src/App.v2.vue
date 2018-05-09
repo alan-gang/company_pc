@@ -4,9 +4,9 @@
     
     
     // pages
-    keep-alive
-      transition(name="fade" appear=true)
-        router-view.scroll-content.page.collapse-footer(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter}" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
+    // keep-alive
+    transition(name="fade" appear=true)
+      router-view.scroll-content.page.collapse-footer(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter}" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
       
     // Print
@@ -30,7 +30,7 @@
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
-import dsFooter from './components/Footer'
+// import dsFooter from './components/Footer'
 import Print from './components/Print'
 // import Chat from './components/Chat'
 import base from './components/base'
@@ -290,8 +290,283 @@ export default {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
+          title: '管理中心',
+          url: 'me',
+          groups: [
+            {
+              id: '2-1',
+              title: '个人中心',
+              items: [
+                {
+                  id: '2-1-1',
+                  menuid: '20',
+                  title: '个人信息',
+                  url: 'Me'
+                },
+                {
+                  id: '2-2-1',
+                  menuid: '87',
+                  title: '安全中心',
+                  url: 'SafeCenter'
+                },
+                {
+                  id: '2-3-1',
+                  menuid: '29',
+                  title: '奖金详情',
+                  url: 'Bonus'
+                },
+                {
+                  id: '2-4-1',
+                  menuid: '30',
+                  title: '充值申请',
+                  url: 'TopUp'
+                },
+                {
+                  id: '2-5-1',
+                  menuid: '32',
+                  title: '提现申请',
+                  url: 'WithDraw'
+                },
+                {
+                  id: '2-6-1',
+                  menuid: '34',
+                  title: '我的银行卡',
+                  url: 'Bank'
+                },
+                {
+                  id: '2-7-1',
+                  // menuid: '34',
+                  title: 'BG转帐记录',
+                  url: 'BGTransaction'
+                }
+              ]
+            },
+            {
+              id: '3-1',
+              title: '用户中心',
+              items: [
+                {
+                  id: '3-1-1',
+                  menuid: '38',
+                  title: '用户列表',
+                  url: 'UserList',
+                  // size: 'full',
+                  position: {
+                    width: '11rem'
+                  }
+                },
+                {
+                  id: '3-2-1',
+                  menuid: '42',
+                  title: '增加用户',
+                  url: 'AddUser'
+                },
+                {
+                  id: '3-2-2',
+                  menuid: '43',
+                  title: '推广设置',
+                  url: 'Ad'
+                },
+                {
+                  id: '3-2-3',
+                  menuid: '93',
+                  title: '设置日工资',
+                  url: 'SetDaySalary'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '45',
+                  // size: 'full',
+                  title: '分红列表',
+                  url: 'Stock'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '64',
+                  // size: 'full',
+                  title: '分红列表',
+                  url: 'Stock'
+                },
+                // {
+                //   id: '3-3-2',
+                //   menuid: '29',
+                //   title: '分红详情',
+                //   url: 'StockDetail'
+                //   // position: {
+                //   //   width: '5.4rem',
+                //   //   height: '6.8rem'
+                //   // }
+                // },
+                {
+                  id: '3-3-3',
+                  menuid: '44',
+                  title: '契约列表',
+                  url: 'Contract'
+                },
+                {
+                  id: '3-3-4',
+                  menuid: '88',
+                  title: '契约详情',
+                  url: 'ContractDetail',
+                  position: {
+                    width: '5.4rem',
+                    height: '6.8rem'
+                  }
+                },
+                {
+                  id: '3-4-1',
+                  menuid: '47',
+                  title: '团队数据统计',
+                  url: 'DataAnalysis'
+                },
+                {
+                  id: '3-4-2',
+                  menuid: '48',
+                  title: '团队图表分析',
+                  url: 'ChartAnalysis',
+                  position: {
+                    'min-width': '9.5rem'
+                  }
+                }
+              ]
+            },
+            {
+              id: '4-1',
+              title: '游戏记录',
+              items: [
+                {
+                  id: '4-1-1',
+                  menuid: '50',
+                  title: '投注记录列表',
+                  url: 'Order',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
+                  id: '4-2-1',
+                  menuid: '53',
+                  title: '追号记录列表',
+                  url: 'Follow',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-1-2',
+                  menuid: '94',
+                  title: '我的奖池号',
+                  url: 'LuckyPool',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '89',
+                  title: '走势图',
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
+                },
+                {
+                  id: '4-8-1',
+                  menuid: '98',
+                  title: 'BG视讯记录',
+                  url: 'BGVedioRecord',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
+                  id: '4-8-2',
+                  menuid: '98',
+                  title: 'BG电游记录',
+                  url: 'BGGameRecord',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-8-3',
+                  menuid: '98',
+                  title: 'BG扑鱼记录',
+                  url: 'BGFishRecord',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-1-7',
+                  menuid: '98',
+                  title: 'VR投注记录',
+                  url: 'VROrder',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
+                  id: '4-1-8',
+                  menuid: '98',
+                  title: 'VR追号记录',
+                  url: 'VRFollow',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-1-9',
+                  menuid: '98',
+                  title: 'VR打赏列表',
+                  url: 'VRTip',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-4-1',
+                  menuid: '57',
+                  title: '今日报表列表',
+                  url: 'Today'
+                },
+                {
+                  id: '4-5-1',
+                  menuid: '58',
+                  title: '盈亏报表列表',
+                  url: 'ProfitLoss'
+                },
+                // {
+                //   id: '4-5-4',
+                //   title: '个人盈亏明细',
+                //   url: 'ProfitLossDetail'
+                // },
+                {
+                  id: '4-5-2',
+                  menuid: '67',
+                  title: '帐变列表',
+                  position: {
+                    width: '12rem'
+                  },
+                  url: 'Account'
+                },
+                {
+                  id: '4-5-5',
+                  menuid: '78',
+                  title: '我的日工资详情',
+                  url: 'DaySalary'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 2,
+          menuid: '3',
+          class: 'ds-icon-me',
           title: '个人',
           url: 'me',
+          hide: true,
           groups: [
             {
               id: '2-1',
@@ -349,6 +624,7 @@ export default {
           title: '团队',
           menuid: '4',
           url: 'group',
+          hide: true,
           groups: [
             {
               id: '3-1',
@@ -477,6 +753,7 @@ export default {
           title: '报表',
           menuid: '5',
           url: 'form',
+          hide: true,
           // size: 'full',
           groups: [
             {
@@ -765,10 +1042,10 @@ export default {
           if (this.mi === 7) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[7 + 3], this.menus[8 + 3], this.menus[9 + 3], this.menus[10 + 3], this.menus[11 + 3]]
+            this.activeMenu = [this.menus[7 + 4], this.menus[8 + 4], this.menus[9 + 4], this.menus[10 + 4], this.menus[11 + 4]]
           }
         }
-      }, this.mi ? 0 : 50)
+      }, this.mi ? 0 : 0)
     },
     'Me': {
       deep: true,
@@ -994,7 +1271,7 @@ export default {
                 keep: true
               }
             })
-          }, 100)
+          }, 0)
         } else {
           !this.currentab[0] && this.openTab(this.prev.href === '/' && this.ctabs.length > 0 ? this.ctabs[0].href : this.prev.href)
         }
@@ -1086,7 +1363,7 @@ export default {
   },
   components: {
     dsHeader,
-    dsFooter,
+    // dsFooter,
     Print,
     dsLefter,
     dsRighter

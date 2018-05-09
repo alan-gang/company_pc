@@ -193,7 +193,7 @@
         this.amount[0].difMoney = 0
         this.Cdata.forEach(d => {
           this.amount[0].expectCost += d.totalAmount
-          this.amount[0].expenditure += d.completedAmount
+          this.amount[0].expenditure += parseFloat(d.completedAmount)
         })
         this.amount[0].difMoney = -(this.amount[0].expectCost + this.amount[0].expenditure)
         this.amount[0].expectCost = this.amount[0].expectCost.toFixed(3)

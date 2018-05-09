@@ -271,7 +271,7 @@
         this.amount[0].difMoney = 0
         this.data.forEach(d => {
           this.amount[0].income += d.income
-          this.amount[0].expenditure += d.expenditure
+          this.amount[0].expenditure += parseFloat(d.expenditure)
         })
         this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
         this.amount[0].income = this.amount[0].income.toFixed(3)

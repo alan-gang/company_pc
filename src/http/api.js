@@ -41,6 +41,12 @@ let Login = {
   // open a third part pages ============================================VR======================================
   loginVr: '/ext/vr.do?method=loginVr',
   // open a third part pages ============================================BG======================================
+  // BG视讯游戏记录
+  videoOrderList: '/ext/bg.do?method=videoOrderList',
+  // BG扑鱼游戏记录
+  fishingOrderList: '/ext/bg.do?method=fishingOrderList',
+  // BG电游游戏记录
+  egameOrderList: '/ext/bg.do?method=egameOrderList',
   // BG转账记录
   queryBalanceTransfer: '/ext/bg.do?method=queryBalanceTransfer',
   // 登出

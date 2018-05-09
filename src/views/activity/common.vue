@@ -183,6 +183,8 @@ export default {
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .scroll-content
+    max-width 10rem
+    margin 0 auto
     &.content-shadow
       .content
         font-shadow()

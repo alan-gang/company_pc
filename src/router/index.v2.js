@@ -176,10 +176,10 @@ export default function (VueRoter) {
       // router.app.$Progress.fail()
       next(false)
     } else if ('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1] || 'xxxxx') === -1 && 'game,me,group,form,activity,help,download'.indexOf(from.path.split('/')[1] || 'xxxxx') !== -1) {
-      store.state.pages.forEach(t => store.actions.updatePage('', {size: 'minus'}, t))
-      setTimeout(next, 300)
+      // store.state.pages.forEach(t => store.actions.updatePage('', {size: 'minus'}, t))
+      // setTimeout(next, 300)
     } else next()
-    // next()
+    next()
     //
   })
 

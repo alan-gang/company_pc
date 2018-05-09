@@ -63,6 +63,9 @@ import MyProfitLoss from './form/MyProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
 import DaySalary from './form/DaySalary'
+import BGFishRecord from './form/BGFishRecord'
+import BGGameRecord from './form/BGGameRecord'
+import BGVedioRecord from './form/BGVedioRecord'
 // 趋势图
 import TrendChart from './form/TrendChart'
 
@@ -142,6 +145,9 @@ export default {
     ProfitLossDetail,
     Today,
     DaySalary,
+    BGFishRecord,
+    BGGameRecord,
+    BGVedioRecord,
     // 走势图
     TrendChart,
     // Help

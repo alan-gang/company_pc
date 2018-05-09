@@ -13,7 +13,7 @@
       p.title.text-white.pl1.pr1(style="line-height: .36rem") 我们的游戏
         router-link.ds-button.text-button(:to=" 'game/1-1-1 ' " style="float: right") 更多游戏
 
-      el-row.collects.font-white.top-games
+      el-row.collects.font-white.top-games(style="margin-top: .00rem")
         el-col(:span="5" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openTab(c.id) ") {{ c.title }}
           p {{ c.descr }}
       

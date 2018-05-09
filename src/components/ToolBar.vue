@@ -59,6 +59,7 @@ export default {
   bg-hover = #ececec
   bg-active = #e2e2e2
   .tool-bar
+    radius(0)
     user-select none
     height TH
     line-height TH 
@@ -78,6 +79,7 @@ export default {
   .el-button-group
     float right
     height 100%
+    radius(0)
     .el-button
       font-size .12rem
       color GREY
@@ -95,6 +97,7 @@ export default {
       &:first-child
         font-size .16rem
       &.close
+        radius(0)
         &:hover
           background-color #f34
           color #fff
@@ -115,3 +118,4 @@ export default {
     top .12rem
 
 </style>
+

@@ -157,9 +157,8 @@
 <style lang="stylus">
   @import '../../var.stylus'
   @import '../../path.stylus'
-  // #app.v2.cb
-    // .ds-icon-download-logo
-      // background url(../../assets/v2/mlogo.png) left center no-repeat
-      // background-size .8rem
+  #app.v2.cb
+    .ds-icon-download-logo
+      background url(../../assets/v2/mlogo.png) .3rem .3rem no-repeat
       
 </style>

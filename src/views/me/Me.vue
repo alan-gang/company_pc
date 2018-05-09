@@ -1,5 +1,5 @@
 <template lang="jade">
-  .me-page
+  .me-page.me-info-page
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -96,4 +96,14 @@ export default {
   .free
   .luck-chance
     color #666
+</style>
+
+
+<style lang="stylus">
+  #app.cb.v2 .me-info-page 
+    .me-sideview
+      display none
+    .scroll-content
+      left 0
+      // max-width 5rem
 </style>

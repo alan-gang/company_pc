@@ -4,6 +4,10 @@
 #app.classic .dialog-page.game-page
   min-width 10.8rem !important
 
+#app.classic.v2.cb.game
+  .content-width
+    width 10.8rem
+    left 2%
 
 @import './var.stylus'
 H = 1.04rem

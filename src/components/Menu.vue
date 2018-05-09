@@ -96,6 +96,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .footer-popover
+    padding PW
     transform: translateY(-0.12rem);
     radius(0)
     &.menu
@@ -104,9 +105,14 @@ export default {
       .popper__arrow
         transform: translateX(1.25rem)
       
+      
+    .submenu.me
+    .submenu.help
+      max-width 4.5rem
     .submenu
     .submenu.game
-      max-width 6.5rem
+      max-width 6.2rem
+      margin-right 0
       width auto
       display block
       float none
@@ -117,6 +123,7 @@ export default {
         left 0
         top .1rem
         padding  0
+        font-size .14rem
         span:after
           display none
         .title
@@ -133,6 +140,8 @@ export default {
         width auto
         color #666
         margin: 0 0 0.1rem -0.1rem;
+        font-size .14rem
+        transform none
       .ds-button.card
       dd:not(.inner-submenu) .ds-button.card
         position relative
@@ -160,7 +169,7 @@ export default {
         &.sign.new:after
           content '新'
           background BLUE
-          
+     
   
   .footer-popover
     .info
@@ -185,7 +194,8 @@ export default {
   section.menu
     box-sizing border-box
     height FH
-    padding-left 2.6rem
+    // padding-left 3.8rem
+    text-align right
     background url(../assets/v2/logo.png) left center  no-repeat 
     .icon-button
       position relative
