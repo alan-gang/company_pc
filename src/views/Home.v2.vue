@@ -7,7 +7,7 @@
     // el-carousel(:interval="4000" type="card" height="450px")
       el-carousel-item(v-for="item in sources" v-bind:key="item" v-bind:style="{ ba }")
         img(:src=" item.src ")
-    .ad(style="height: 400px; background: url(/static/activity/activity9.jpg) center no-repeat; background-size: 100% 400px")
+    .ad(style="height: 400px; background: url(/static/pic/banner.jpg) center no-repeat; background-size: 100% 400px")
     
     .our-game.content-width
       p.title.text-white.pl1.pr1(style="line-height: .36rem") 我们的游戏

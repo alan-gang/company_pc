@@ -169,10 +169,10 @@ export default {
       else if (this.bg !== 0 && (this.m > this.Me.amoney)) return this.$message.warning({target: this.$el, message: '可用余额不足！'})
       this.$http.get(this.bgAPI, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
-          // this.cpwd = ''
-          // this.m = 0
+          this.cpwd = ''
+          this.m = 0
           this.$message.success({target: this.$el, message: data.msg || 'BG余额转换成功！'})
-          this.transfer = false
+          this.transferBG = false
           this.getBalance()
         } else {
           this.$message.error({target: this.$el, message: data.msg || 'BG余额转换失败！'})
@@ -226,7 +226,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-
+body.cb.v2
   .el-popover .popper__arrow
     display block
   .footer-popover.more
@@ -234,7 +234,7 @@ export default {
   .footer-popover.message
     transform: translateY(-0.2rem) translateX(0.2rem);
   .footer-popover
-    background-color rgba(245, 245, 245, 1)
+    background rgba(245, 245, 245, 1)
   
 
   .dialog-router

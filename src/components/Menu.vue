@@ -95,6 +95,8 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
+ 
+body.cb.v2
   .footer-popover
     padding PW
     transform: translateY(-0.12rem);

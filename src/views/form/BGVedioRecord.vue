@@ -80,10 +80,8 @@
             return time.getTime() > Date.now()
           }
         },
-        // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
-        // st: '',
+        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 30), new Date(new Date().getTime())],
+        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 30), dateTimeFormat(new Date().getTime())],
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
         data: [{}],
@@ -108,6 +106,7 @@
       }
     },
     mounted () {
+      this.getData()
     },
     methods: {
       tableRowClassName (row, index) {
@@ -128,8 +127,8 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
-            beginDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
-            endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
+            startTime: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
+            endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
             scope: this.zone,
             pageIndex: 1,
             pageSize: this.pageSize

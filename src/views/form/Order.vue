@@ -415,7 +415,7 @@
         this.amount[0].expenditure = 0
         this.amount[0].difMoney = 0
         this.Cdata.forEach(d => {
-          this.amount[0].income += d.bonus
+          this.amount[0].income += parseFloat(d.bonus)
           this.amount[0].expenditure += parseFloat(d.totalPrice)
         })
         this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure

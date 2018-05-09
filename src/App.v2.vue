@@ -797,6 +797,33 @@ export default {
                   url: 'TrendChart'
                 },
                 {
+                  id: '4-8-1',
+                  menuid: '98',
+                  title: 'BG视讯记录',
+                  url: 'BGVedioRecord',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
+                  id: '4-8-2',
+                  menuid: '98',
+                  title: 'BG电游记录',
+                  url: 'BGGameRecord',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-8-3',
+                  menuid: '98',
+                  title: 'BG扑鱼记录',
+                  url: 'BGFishRecord',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
                   id: '4-1-7',
                   menuid: '98',
                   title: 'VR投注记录列表',
