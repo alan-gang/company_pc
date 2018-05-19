@@ -18,7 +18,7 @@
       div(v-if="type === 1")
         label.item
           span 标题：
-          input.ds-input.block(ref="t" v-model="t" placeholder="请输入意见标题")
+          input.ds-input(ref="t" v-model="t" placeholder="请输入意见标题" style="width: 3rem")
 
         label.item
           span 内容：

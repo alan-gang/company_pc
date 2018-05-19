@@ -7,9 +7,9 @@
     slot(name="toolbar")
     .stock-list.scroll-content
 
-      .form
+      .form.form-filters
 
-        label.item 帐变时间范围 
+        label.item 时间范围 
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
@@ -20,7 +20,14 @@
         label.item 用户名 
           input.ds-input.small(v-model="name" style="width: 1rem")
         
-        .buttons(style="margin-left: .9rem")
+        el-select(v-model="S" placeholder="默认排序")
+          el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
+        | &nbsp;&nbsp;
+        label.ds-checkbox-label(@click="btos = !btos" v-bind:class="{active: btos}")
+          .ds-checkbox
+          | 从大到小
+        
+        .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="profitList()") 搜索
         
       
@@ -29,66 +36,108 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
       
-        el-table.header-bold.nopadding(:data="data" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0")
+        el-table.header-bold.nopadding(:data="data" stripe @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0" v-bind:max-height=" MH " )
 
-          el-table-column(prop="userName" label="用户名" width="100" v-bind:sortable="true")
+          el-table-column(class-name="pl2" prop="userName" label="用户名" )
             template(scope="scope")
               span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
   
-          el-table-column(prop="userPoint" label="返点级别" width="100" )
-          el-table-column(prop="salaryAmount" label="工资总额" width="100" )
+          el-table-column(prop="userPoint" label="返点级别" )
+          el-table-column(prop="salaryAmount" label="工资总额" )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.salaryAmount) }}
 
-          el-table-column(prop="saveAmount" label="充值总额" width="100" )
+          el-table-column(prop="saveAmount" label="充值总额" )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.saveAmount) }}
 
-          el-table-column(prop="withdrawAmount" label="提款总额" width="100" )
+          el-table-column(prop="withdrawAmount" label="提款总额" )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.withdrawAmount) }}
 
 
-          el-table-column(prop="buyAmount" label="投注总额" width="100" )
+          el-table-column(prop="buyAmount" label="投注总额" )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.buyAmount) }}
 
-          el-table-column(prop="pointAmount" label="返点总额" width="100" )
+          el-table-column(prop="pointAmount" label="返点总额" )
 
 
-          el-table-column(prop="prizeAmount" label="派奖总额" width="100" )
+          el-table-column(prop="prizeAmount" label="派奖总额" )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.prizeAmount) }}
 
-          el-table-column(prop="rewardsAmount" label="活动" width="100")
+          el-table-column(prop="rewardsAmount" label="活动")
             template(scope="scope")
               span {{ numberWithCommas(scope.row.rewardsAmount) }}
 
-          el-table-column(prop="profitAmount" label="盈亏结算" width="100"  v-bind:sortable="true")
+          el-table-column(prop="salaryAmount" label="工资")
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.salaryAmount) }}
+
+
+          el-table-column(prop="profitAmount" label="盈亏"  )
             template(scope="scope")
               span {{ numberWithCommas(scope.row.profitAmount) }}
 
-          // el-table-column(prop="userName" label="用户名" width="100" sortable="true")
-          // el-table-column(prop="buy" label="投注总额" width="100" )
-          // el-table-column(prop="point" label="返点总额" width="100" )
-          // el-table-column(prop="prize" label="中奖总额" width="100" )
-          // el-table-column(prop="profit" label="盈亏结算" width="100" )
-          // el-table-column(prop="rate" label="中奖率" width="100" )
+          el-table-column(prop="outProfitAmount" label="其它盈亏"  )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.profitAmount) }}
+
+          el-table-column(prop="settlement" label="总结算"  )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.settlement) }}
           
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0 .05rem" @click.stop="goProfitLossDetail(scope.row.userId)") 明细
-      
+              .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
+
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+    
+    .modal(v-show="showDetail" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+          .tool-bar
+            span.title 明细
+            el-button-group
+              el-button.close(icon="close" @click="showDetail = ''")
+          .table-list(style="padding: .15rem .2rem ")
+          
+            el-table.header-bold.nopadding(:data="cdata" stripe max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
+
+              el-table-column(class-name="pl2" prop="userName" label="用户名")
+                template(scope="scope")
+                    span {{ scope.row.userName }}
+              el-table-column(prop="date" label="日期")
+              el-table-column(prop="userPoint" label="返点级别" )
+                template(scope="scope")
+                  span {{ scope.row.userPoint }}
+              el-table-column(align="rgiht" prop="salaryAmount" label="工资总额" )
+              el-table-column(align="rgiht" prop="saveAmount" label="充值总额" )
+              el-table-column(align="rgiht" prop="withdrawAmount" label="提款总额" )
+              el-table-column(align="rgiht" prop="buyAmount" label="投注总额" )
+              el-table-column(align="rgiht" prop="pointAmount" label="返点总额" )
+              el-table-column(align="rgiht" prop="prizeAmount" label="派奖总额" )
+              el-table-column(align="rgiht" prop="rewardsAmount" label="活动")
+              el-table-column(align="rgiht" prop="profitAmount" label="盈亏结算")
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
+  import ProfitLossDetail from './ProfitLossDetail'
   import { numberWithCommas } from '../../util/Number'
   import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
+    mixins: [setTableMaxHeight],
+    components: {
+      ProfitLossDetail
+    },
     data () {
       return {
+        TH: 320,
         numberWithCommas: numberWithCommas,
         me: store.state.user,
         clearableOnTime: false,
@@ -122,15 +171,23 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
+        stEt: [(new Date().getDate()) <= 16 ? (new Date().setDate(1)) : (new Date().setDate(16)), new Date(new Date().getTime() - 3600 * 1000 * 24)],
         data: [{}],
+        pageSize: 20,
+        total: 0,
+        currentPage: 1,
+        preOptions: {},
         BL: [
           {title: '自己'},
           {}
         ],
         ZONES: ['直接下级', '所有下级'],
         zone: '',
-        name: ''
+        name: '',
+        SS: ['投注总额', '盈亏金额', '工资总额', '返点级别'],
+        S: '',
+        btos: false,
+        cdata: []
       }
     },
     computed: {
@@ -139,13 +196,18 @@
       this.profitList()
     },
     methods: {
+      pageChanged (cp) {
+        this.profitList(cp, () => {
+          this.currentPage = cp
+        })
+      },
       cellClick (row, column, cell, event) {
         if (column.property === 'userName') {
           // this.BL.push({
           //   id: row.userId,
           //   title: row.userName
           // })
-          this.profitList(row.userId)
+          this.profitList(undefined, undefined, row.userId)
         }
       },
       link (B, i) {
@@ -153,7 +215,7 @@
           // this.BL = this.BL.slice(0, i + 1)
           // this.profitList()
         // }
-        this.profitList(B.userId)
+        this.profitList(undefined, undefined, B.userId)
       },
       summary () {
         let s = {
@@ -182,23 +244,33 @@
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
       // profitList: api + 'report/profit.do?method=list',
       // api.getTeamProfit
-      profitList (id) {
+      profitList (page, fn, id) {
         let loading = this.$loading({
-          text: '盈亏报表加载中...',
+          text: '加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.get(api.profitList, {
-          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
-          userId: id || this.BL[this.BL.length - 2].userId,
-          parentId: !id && this.zone !== '' ? this.zone + 1 : '',
-          userName: id ? '' : this.name
-          // userId: id || ''
-        }).then(({data}) => {
+        if (!fn) {
+          this.preOptions = {
+            startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+            endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
+            userId: id || this.BL[this.BL.length - 2].userId,
+            parentId: this.zone !== '' ? this.zone + 1 : '',
+            userName: this.name,
+            orderType: this.S === '' ? '' : this.S + 1,
+            sort: this.btos ? 2 : 1,
+            page: 1,
+            pageSize: this.pageSize
+          }
+        } else {
+          this.preOptions.page = page
+        }
+        this.$http.get(api.profitList, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
             this.data = data.allDate
             this.BL = (data.userBreads).concat([{}])
+            this.total = data.totSize || this.data.length
+            typeof fn === 'function' && fn()
             // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'
@@ -223,6 +295,35 @@
           }
         })
       },
+      // 盈亏详情列表（按用户和时间范围查询）
+      // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=detail&destUserId=2&startDay=20170101&endDay=20170301
+      // profitDetail: api + 'report/profit.do?method=detail',
+      profitDetail (userId) {
+        this.cdata = []
+        let loading = this.$loading({
+          text: '加载中...',
+          target: this.$el
+        }, 10000, '加载超时...')
+        this.$http.get(api.profitDetail, {
+          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
+          destUserId: userId
+        }).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.cdata = data.allDate
+            setTimeout(() => {
+              loading.text = '加载成功!'
+            }, 100)
+          } else loading.text = '加载失败!'
+        }, (rep) => {
+          // error
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 100)
+        })
+      },
       tableRowClassName (row) {
         if (this.me.account === row.userName) return 'text-danger'
       }
@@ -245,5 +346,115 @@
   .el-select
   .el-input-number
     width 1rem
+
+</style>
+
+
+<style lang="stylus" scoped>
+
+  @import '../../var.stylus'
+
+  bg = #d8d8d8
+  bg-hover = #ececec
+  bg-active = #e2e2e2
+  .tool-bar
+    height TH
+    line-height TH 
+    background-color bg
+    font-size .12rem
+    border-top-right-radius .05rem
+    border-top-left-radius .05rem
+    overflow hidden
+    background-position .2rem center
+
+  .title
+    color #333
+    font-weight bold
+    padding-left .2rem
+
+  .el-button-group
+    float right
+    height 100%
+    .el-button
+      font-size .12rem
+      color GREY
+      border none
+      height 100%
+      width TH
+      padding 0
+      background-color transparent
+      &:hover
+        background-color bg-hover
+      &:active
+        background-color bg-active
+      &:first-child
+        font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
+
+  .modal 
+    position absolute
+    top TH
+    bottom 0
+    left 0
+    right 0
+    text-align center
+    z-index 9999
+    
+    .mask
+      position absolute
+      left 0
+      top 0
+      width 100%
+      height 100%
+      opacity .5
+      background #000
+      z-index 9998
+    .box-wrapper
+      position absolute
+      top 0
+      bottom 0
+      left 0
+      right 0
+      text-align center
+      z-index 9999
+      &:after
+        content ''
+        height 100%
+        width 0
+        vertical-align middle
+        display inline-block
+    .box
+      position relative
+      text-align left
+      display inline-block
+      vertical-align middle
+      background-color #ededed
+      font-size .12rem
+      width 9rem
+      radius()
+    .content
+      margin 0 .2rem
+      .el-row
+        margin PW 0
+        word-wrap break-word
+      .textarea-label
+        position relative
+        margin .3rem .3rem .3rem 0
+        .label
+          position absolute
+          left 0
+          top .05rem
+        .el-textarea
+          display inline-bock
+          vertical-align top
+          padding-left .6rem 
+          .textarea
+            font-size .12rem
 
 </style>

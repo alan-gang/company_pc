@@ -6,23 +6,23 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.play-help
+
+      img(src="/static/pic/bz_bg.jpg" style="width: 100%")
       .ds-button-group
         .ds-button.text-button(:class="{ selected: index === i }" @click=" index = i " v-for=" (g, i) in games ") {{ g.tagname }}
-      // .content(v-html=" games[index].content ")
+      
       .content(v-if=" gcontent ")
-        p.title {{ gcontent.content }}
+        p.title &nbsp;&nbsp;&nbsp;&nbsp;{{ gcontent.content }}
 
         el-row.row-title.text-black
-          el-col(style="width: 10%") 玩法组
-          el-col(style="width: 15%; padding-left: .2rem") 玩法
-          el-col( style="width: 75%; padding-left: .2rem") 玩法说明
+          el-col(:span="4" style="padding-left: .2rem;" ) 玩法组
+          el-col(:span="4") 玩法
+          el-col(:span="16") 玩法说明
 
-        el-row.row-content(v-for="g in groups")
-          el-col(style="width: 10%; margin: .15rem 0")  {{ g.title }}
-          el-col(style="width: 90%")
-            el-row(v-for=" m in g.subList " style="margin: .15rem 0")
-              el-col(style="width: 16.66%; padding-left: .2rem") {{ m.title }}
-              el-col( style="width: 83.33%; padding-left: .2rem") {{ m.content }}
+        el-row.row-content(v-for="g in items")
+          el-col.text-blue(:span="4" style="padding-left: .2rem;" v-bind:class="{ o: !g.ptitle }")  {{ g.ptitle || 'xxx ' }}
+          el-col(:span="4"  style="padding-right: .2rem") {{ g.title }}
+          el-col(:span="16" style="padding-right: .2rem") {{ g.content }}
 
         
 
@@ -48,6 +48,13 @@
       },
       groups () {
         return (this.gcontent.subList || []).filter(g => g.level === 2)
+      },
+      items () {
+        return this.groups.reduce((p, na) => {
+          na && na.subList && na.subList[0] && (na.subList[0].ptitle = na.title)
+          p = p.concat(na.subList || [])
+          return p
+        }, [])
       }
     },
     mounted () {
@@ -55,7 +62,7 @@
     },
     methods: {
       getHelpInfo () {
-        this.$http.get(api.getHelpInfo, {subject: 'game'}).then(({data}) => {
+        this.$http.myget(api.getHelpInfo, {subject: 'game'}).then(({data}) => {
           if (data.success === 1) {
             // this.games = data.items.filter(g => g.level === 0)
             this.content = data.content
@@ -65,7 +72,7 @@
         })
       },
       getHelpTag () {
-        this.$http.get(api.getHelpTag, {subject: 'game'}).then(({data}) => {
+        this.$http.myget(api.getHelpTag, {subject: 'game'}).then(({data}) => {
           if (data.success === 1) {
             this.games = data.tagList
             this.getHelpInfo()
@@ -84,6 +91,19 @@
     top TH
     text-align center
     padding PWX 0
+    .ds-button-group
+      position absolute
+      top 1.2rem
+      right 1rem
+      color #fff
+      font-size .36rem
+      line-height .2rem
+      @media screen and (max-width: 1600px)
+        top .5rem
+        font-size .24rem
+
+      text-align left
+      // height auto
     .content
       margin 0 PWX PWX PWX
       text-align left
@@ -91,12 +111,40 @@
       .title
         margin PWX 0
         color #999
+      .text-blue.o
+        opacity 0
       .row-title
         font-weight bold
+        bg-gradient(180deg, #ddd, #eee)
+        line-height .4rem
+
       .row-content
-        border-bottom 1px solid #d4d4d4
-        &:last-child
-          border-bottom none
-      
+        // border-bottom 1px solid #d4d4d4
+        // &:last-child
+        //   border-bottom none
+
+
+        line-height 1.2
+        padding PW 0
+
+        &:nth-child(odd)
+            background-color #fff
+        &:nth-child(even)
+            background-color rgba(255, 255, 255, .5)
         
+        
+</style>
+
+<style lang="stylus">
+#app.night
+  .play-help
+    .content
+      color #aaa
+      .row-title
+        background #444
+      .row-content
+        &:nth-child(odd)
+            background-color #555
+        &:nth-child(even)
+            background-color #444
 </style>

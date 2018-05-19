@@ -2,7 +2,7 @@
   .game-side-buttons
     router-link.ds-button.small.fix-right(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="" v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: .25rem; line-height: 1.5; z-index: 9999") 遗漏分析
     
-    .ds-button.fix-right(v-if="methodidtype === '1' " style="padding: .05rem .1rem; position: absolute; right: -.4rem; width: .4rem; top: 2.25rem; line-height: 1.5; z-index: 9999; margin-left: .05rem;" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
+    // .ds-button.fix-right(v-if="methodidtype === '1' " style="padding: .05rem .1rem; position: absolute; right: -.4rem; width: .4rem; top: 2.25rem; line-height: 1.5; z-index: 9999; margin-left: .05rem;" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
     
     .ds-button.recent-codes.fix-right(ref="instruction" style="padding: .05rem .1rem; position: absolute; left: 0; width: .4rem; top: 1.25rem; line-height: 1.5; z-index: 9999") 
 

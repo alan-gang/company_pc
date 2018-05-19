@@ -1,4 +1,16 @@
 <template lang="jade">
+  // title: 'BG视讯记录
+  // url: 'BGVedioRecord
+  // title: 'BG电游记录
+  // url: 'BGGameRecord
+  // title: 'BG扑鱼记录
+  // url: 'BGFishRecord
+  // title: 'VR投注记录列表
+  // url: 'VROrder
+  // title: 'VR追号记录列表
+  // url: 'VRFollow
+  // title: 'VR打赏列表
+  // url: 'VRTip
   .group-page
     slot(name="cover")
     slot(name="movebar")
@@ -6,48 +18,68 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-
-      .form
-        label.item 游戏时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-        label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
-
-
-        .buttons(style="margin-left: .6rem")
-          .ds-button.primary.large.bold(@click="getData") 搜索
+      div(style="text-align: center")
+        .ds-button-group
+          .ds-button.x-small.text-button(v-for=" (b, i) in btns " @click=" I = i  " v-bind:class=" {selected: I === i} ") {{ b }}
       
-      .table-list(style="padding: .15rem .2rem ")
+      div(v-if=" I === 0 ")
+        .form.form-filters
+          label.item 游戏时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+          label.item 范围 
+            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
+              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
+
+
+          .buttons(style="margin-left: .6rem")
+            .ds-button.primary.large.bold(@click="getData") 搜索
+        
+        .table-list(style="padding: .15rem .2rem ")
+        
+          el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+
+            el-table-column(class-name="pl2" prop="orderId" label="订单号"  )
+            el-table-column(prop="gameName" label="游戏类型"  )
+            el-table-column(prop="orderTime" label="下注时间（美东）"  )
+            el-table-column(prop="playName" label="结算"  )
+            el-table-column(prop="validBet" label="总投注"  )
+            el-table-column(prop="payment" label="派彩"  )
+            el-table-column(prop="validBet" label="打码量"  )
+            el-table-column(prop="orderStatus" label="状态"  )
+              template(scope="scope")
+                 span(:class=" { 'text-green': scope.row.orderStatus === 2 } ") {{ STATE[scope.row.orderStatus - 1] }}
+
+           
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
-
-          el-table-column(prop="orderId" label="订单号" width="100" )
-          el-table-column(prop="gameName" label="游戏类型" width="100" )
-          el-table-column(prop="orderTime" label="下注时间（美东）" width="150" )
-          // el-table-column(prop="issueId" label="局号" width="100" )
-          // el-table-column(prop="issueId" label="桌椅编号" width="100" )
-          el-table-column(prop="playName" label="结算" width="100" )
-          // el-table-column(prop="issueId" label="玩法" width="100" )
-          el-table-column(prop="validBet" label="总投注" width="100" )
-          el-table-column(prop="payment" label="派彩" width="100" )
-          el-table-column(prop="validBet" label="打码量" width="100" )
-          el-table-column(prop="orderStatus" label="状态" width="100" )
-            template(scope="scope")
-               span(:class=" { 'text-green': scope.row.orderStatus === 2 } ") {{ STATE[scope.row.orderStatus - 1] }}
-
-         
-
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
-
+      BGGameRecord.scroll-content(v-if=" I === 1 " style="top: .5rem")
+      BGFishRecord.scroll-content(v-if=" I === 2 " style="top: .5rem")
+      VROrder.scroll-content(v-if=" I === 3 " style="top: .5rem")
+      VRFollow.scroll-content(v-if=" I === 4 " style="top: .5rem")
+      VRTip.scroll-content(v-if=" I === 5 " style="top: .5rem")
       
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
+  import BGGameRecord from './BGGameRecord'
+  import BGFishRecord from './BGFishRecord'
+  import VROrder from './VROrder'
+  import VRFollow from './VRFollow'
+  import VRTip from './VRTip'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
+    mixins: [setTableMaxHeight],
+    components: {
+      BGGameRecord,
+      BGFishRecord,
+      VROrder,
+      VRFollow,
+      VRTip
+    },
     data () {
       return {
         pickerOptions: {
@@ -89,7 +121,9 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消']
+        STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
+        btns: ['BG视讯记录', 'BG电游记录', 'BG扑鱼记录', 'VR投注记录列表', 'VR追号记录列表', 'VR打赏列表'],
+        I: 0
       }
     },
     computed: {
@@ -103,6 +137,9 @@
             this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
+      },
+      I () {
+        if (this.I === 0) this.getData()
       }
     },
     mounted () {

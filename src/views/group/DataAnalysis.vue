@@ -5,9 +5,9 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .stock-list.scroll-content
+    .stock-list.scroll-content.data-analysis
 
-      .form
+      .form.form-filters(style="display: none")
 
         label 日期 
           el-date-picker(:picker-options="options" v-model="st" type="date" placeholder="请选择日期")
@@ -15,38 +15,78 @@
         | &nbsp;&nbsp;
         .ds-button.primary.large.bold(@click="getTeamTodayData") 提交
 
-        p.item.block(style="margin: .3rem 0 .15rem 0")
-          | 我的帐户：&nbsp;&nbsp;&nbsp;&nbsp;
-          span.text-blue {{ me.account }}
-          span(style="padding-left: 2rem") 我的昵称：&nbsp;&nbsp;&nbsp;&nbsp;
-          span.text-black {{ me.name }}
 
-        .item.block
-          | 团队余额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          span.amount.gradient {{ data.totalBalance || 0}}
-          span.text-black  元 
-          span.text-money  &nbsp;{{ textMoney }}
-
-        .item.block
-          | 团队总人数：&nbsp;&nbsp;&nbsp;
-          span.amount {{ data.userCount || 0 }}
-          span.text-black 人 
+      .form.form-filters
         
-        .item.block
-          span(style="position: relative; top: -.25rem") 团队活跃用户：
-          div(style="display: inline-block; vertical-align: middle")
+        div.bbbb(style="border-bottom: 1px solid #eee; padding-bottom: .15rem")
+          .slot.me.text-black
+              | 我的帐户：
+              span {{ me.account }}
+              span
 
-            label
-              span.amount {{ data.userActivity || 0}}
-              span.text-black 人 
-              span.text-money (有活动的)
+        .content
+            .slot.money
+              .f 团队余额
+              div(style="display: inline-block; vertical-align: top; min-width: 6rem")
 
-            br
+                span.amount.text-black {{ numberWithCommas(data.availBal || 0)}}
+                span.text-black  元 
 
-            label
-              span.amount {{ data.buyUserCount || 0 }}
-              span.text-black 人 
-              span.text-money (有投注的)
+              div(style="display: inline-block; vertical-align: top; text-align: right; position: relative; font-size: .16rem")
+                div(style="position: relative;  padding-left: 1.2rem;")
+                  span.text-999.ft14 团队特殊余额：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.speBal || 0)}}
+                  span.text-black  元 
+                div(style="position: relative;  padding-left: 1.2rem;")
+
+                  span.text-999.ft14 团队充值金额：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.saveAmount || 0)}}
+                  span.text-black  元 
+                div(style="position: relative;  padding-left: 1.2rem;")
+                
+                  span.text-999.ft14 团队提款金额：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.withdrawAmount || 0)}}
+                  span.text-black  元 
+
+            .slot.team
+              .f 团队总人数
+              div(style="display: inline-block; vertical-align: top; min-width: 6rem")
+
+                span.amount.text-black {{ numberWithCommas(data.teamCount || 0)}}
+                span.text-black  人
+
+              div(style="display: inline-block; vertical-align: top;  position: relative; font-size: .16rem")
+                div(style="position: relative;  padding-left: .8rem;")
+
+                  span.text-999.ft14 有投注的：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.playCount || 0)}}
+                  span.text-black  人 
+
+                div(style="position: relative;  padding-left: .8rem;")
+                
+                  span.text-999.ft14 有活动的：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.actUser || 0)}}
+                  span.text-black  人 
+
+            .slot.lteam
+              .f 团队活跃用户
+              
+              div(style="display: inline-block; vertical-align: top; min-width: 6rem")
+
+                span.amount.text-black {{ numberWithCommas(data.online || 0)}}
+                span.text-black  人
+
+              div(style="display: inline-block; vertical-align: top;  position: relative; font-size: .16rem")
+                div(style="position: relative;  padding-left: .8rem;")
+
+                  span.text-999.ft14 电脑在线：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.onlinePc || 0)}}
+                  span.text-black  人 
+
+                div(style="position: relative;  padding-left: .8rem;")
+                
+                  span.text-999.ft14 手机在线：
+                  span.amount.text-black(style="font-size: .36rem") {{ numberWithCommas(data.onlineMobile || 0)}}
 
         
 
@@ -56,8 +96,8 @@
 
 <script>
   import store from '../../store'
-  import { digitUppercase } from '../../util/Number'
-  import { dateFormat } from '../../util/Date'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
+  // import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   export default {
     data () {
@@ -69,7 +109,8 @@
             return time.getTime() > (Date.now() - 24 * 3600 * 1000)
           }
         },
-        data: {}
+        data: {},
+        numberWithCommas: numberWithCommas
       }
     },
     computed: {
@@ -89,11 +130,11 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.getTeamTodayData, {
-          startDay: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''
+          // startDay: this.st ? dateFormat((window.newDate(this.st)).getTime(), 6).replace(/[\s-]*/g, '') : ''
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.data = data.chartData[0]
+            this.data = data
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -118,21 +159,54 @@
     .form
       padding PWX PWX*2
 
-  .item
-    display inline-block
-    &.block
-      display block
-  
-  .el-select
-  .el-input-number 
-    width 1rem
-    
-  .text-money
-    color #999
   .amount
     font-family Roboto
-    font-size 0.72rem
+    font-size 0.5rem
     &.gradient
       font-gradient()
+
+  .slot
+    position relative
+    font-size .24rem
+    padding .25rem PW .25rem 2rem
+    &:not(:last-child)
+      border-bottom: 1px solid #eee
+
+  .ft14
+    font-size .14rem
+    position absolute
+    left 0
+    line-height .5rem
+
+  .f
+    position absolute
+    left .6rem
+    top 1.2rem
+    font-size .16rem
+
+  .slot.me
+    padding PW
+    border none
+    margin 0 auto
+    padding-top 1.2rem
+    width 3rem
+    text-align center
+    background url(../../assets/v2/td_icon_04.png) center top no-repeat
+
+  .slot.money
+    background url(../../assets/v2/td_icon_01.png) .5rem .15rem no-repeat
+  .slot.team
+    background url(../../assets/v2/td_icon_02.png) .5rem .1rem no-repeat
+    .f
+      top 1.1rem
+  .slot.lteam
+    background url(../../assets/v2/td_icon_03.png) .5rem .15rem no-repeat
+</style>
+
+<style lang="stylus">
+#app.night .data-analysis
+  .bbbb
+  .slot:not(.me)
+    border-color #666 !important
 
 </style>

@@ -17,7 +17,7 @@
                 .ds-icon-ow-credit
                 h5.text-999 专业运营资质
                 br
-                h6.text-bbb 畅博娱乐拥有菲律宾政府颁发的博彩牌照，
+                h6.text-bbb 信游娱乐拥有菲律宾政府颁发的博彩牌照，
                 h6.text-bbb 安全公信
               .card
                 .ds-icon-ow-protect
@@ -33,7 +33,7 @@
                 h6.text-bbb 即时到账，提现最快3分钟到账
             .ds-icon-ow-safe-bg
               h5 随时随地 快乐游戏
-              h6.light-white 畅博娱乐 轻松享受游戏乐趣
+              h6.light-white 信游娱乐 轻松享受游戏乐趣
               br
               p
                 .ds-ow-button.green.ds-icon-ow-download.oval 立即下载

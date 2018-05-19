@@ -40,9 +40,11 @@
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay.toFixed(3) }}
       |  元
+      .ds-button.primary.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6 || (ns.length > 0)") 机选
       .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
       .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
+        .ds-button.primary.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})") 机选
         .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
         .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
@@ -55,7 +57,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type'],
+  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns'],
   data () {
     return {
       me: store.state.user,
@@ -78,7 +80,9 @@ export default {
       // 快速金额
       ft: 2,
       fts: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
-      ftshow: false
+      ftshow: false,
+      // for random
+      tt: 0
     }
   },
   computed: {
@@ -112,6 +116,13 @@ export default {
     }
   },
   watch: {
+    tt () {
+      if (this.tt !== 0) {
+        setTimeout(() => {
+          this.tt = 0
+        }, this.tt)
+      }
+    },
     cIndex () {
       this.$emit('set-currency', this.currencies[this.cIndex])
     },
@@ -273,7 +284,7 @@ export default {
         padding: 0.08rem 0px 0.07rem;
       .right
         line-height: .4rem; padding: 0.08rem 0px 0.07rem;
-        & > .primary
+        & > .primary:not(.random)
           display none
         .buttons
           position: relative; top: -.08rem

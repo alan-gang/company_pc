@@ -1,27 +1,30 @@
 <template lang="jade">
   section.new-home
-    Me
+    Me(:menus="menus" v-on:open-page="openTab")
     
-    MyMenu(:menus="menus" v-on:open-page="openTab")
+    MyMenu(:menus="menus.slice(0, 10)" v-on:open-page="openTab")
 
     // el-carousel(:interval="4000" type="card" height="450px")
       el-carousel-item(v-for="item in sources" v-bind:key="item" v-bind:style="{ ba }")
         img(:src=" item.src ")
-    .ad(style="height: 400px; background: url(/static/pic/banner.jpg) center no-repeat; background-size: 100% 400px")
+    img.ad(src="/static/pic/banner.jpg" width="100%")
     
     .our-game.content-width
       p.title.text-white.pl1.pr1(style="line-height: .36rem") 我们的游戏
-        router-link.ds-button.text-button(:to=" 'game/1-1-1 ' " style="float: right") 更多游戏
+        // router-link.ds-button.text-button(:to=" '/game/1-1-1' " style="float: right") 更多游戏
 
       el-row.collects.font-white.top-games(style="margin-top: .00rem")
-        el-col(:span="5" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openTab(c.id) ") {{ c.title }}
-          p {{ c.descr }}
+        el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ") 
+          p {{ c.title }}
+          // p {{ c.descr }}
       
       el-row(:gutter=15 style="padding-bottom: .1rem")
-        el-col.picture.wait.lhg(:span="12")
-          img(src="/static/pic/lhg.png")
-        el-col.picture.bjl(:span="12")
-          img(src="/static/pic/bjl.png")
+        el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: 203}}) ")
+          .co
+            img(src="/static/pic/lhg.png")
+        el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: 201}}) ")
+          .co
+            img(src="/static/pic/bjl.png")
 
 
     CopyRight
@@ -66,7 +69,20 @@ export default {
         {href: '/activity/5-2-2', src: '/static/activity/nds/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
         {href: '/activity/5-2-3', src: '/static/activity/nds/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'}
       ],
-      topgames: [{class: 'ds-icon-game-chq', id: '1-1-1', title: '时时彩', descr: '最受彩民认可的游戏'}, {class: 'ds-icon-game-cb30', id: '1-2-1', title: '快投30秒', descr: '开奖最快的游戏'}, {class: 'ds-icon-game-gd', id: '1-3-1', title: '广东11选5', descr: '一款权威的官彩游戏'}, {class: 'ds-icon-game-ahK3', id: '1-4-1', title: '安徽快三'}, {class: 'ds-icon-game-bjpk10', id: '1-5-1', title: '北京PK10'}, {class: 'ds-icon-game-lhc', id: '1-1-6', title: '六合彩'}, {class: 'ds-icon-game-ffctx', id: '1-1-7', title: '腾讯分分彩'}, {class: 'ds-icon-game-fc', id: '1-5-2', title: '福彩3D'}],
+      topgames: [
+        {class: 'index_icon_01', id: '1-1-1', title: '时时彩'},
+        {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
+        {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
+        {class: 'index_icon_04', id: '1-2-1', title: '快投30秒'},
+        {class: 'index_icon_05', id: '1-3-4', title: '11运夺金'},
+        {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
+        {class: 'index_icon_07', id: '1-5-2', title: '福彩3D'},
+        {class: 'index_icon_08', id: '1-5-3', title: '排列三、五'},
+        {class: 'index_icon_09', id: '1-5-4', title: '快投排列五'},
+        {class: 'index_icon_10', id: '1-1-6', title: '六合彩'},
+        {class: 'index_icon_11', id: '1-7-4', fn: 2, title: 'VR赛车'},
+        {class: 'index_icon_12', id: '1-7-6', fn: 15, title: 'VR百家乐'}
+      ],
       formData: {
         // data: '',
         // version: 0,
@@ -89,6 +105,10 @@ export default {
   beforeDestroy () {
   },
   methods: {
+    openHomeTab (item) {
+      if (item.fn) return this.__openWindowWithPost(item.fn)
+      else this.openTab(item.id)
+    },
     openTab (url) {
       this.$emit('open-tab', url)
     },
@@ -171,63 +191,120 @@ export default {
   .new-home .dialog-container
     top 0
     z-index 2
-  .el-carousel__item
-    img
-      width 100%
-      height 100%
+  // .el-carousel__item
+  //   img
+  //     width 100%
+  //     height 100%
 
-  W = 2.45rem
+  W = 1.5rem
   H = 1.5rem
   .top-games
     margin PW 0
-    padding PW 0
+    padding PW
     text-align center
     radius()
-    background-color rgba(255, 255, 255, .1)
+    background url(../assets/v2/index_icon_bg.jpg)
+    // background-color rgba(255, 255, 255, .1)
     .el-col
       position relative
       min-width W
       height H
-      margin 0 PW
-      margin-bottom .3rem
+      // margin .075rem PW
+      // margin-bottom .3rem
       overflow hidden
       radius()
-      padding-top H - 2.5*PW
       // background-color rgba(0, 0, 0, .2)
       // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
-      background-position 50% 25% 
+      background-position 50% 
       cursor pointer
       // &:not(:first-child)
       //   margin-left .3rem
+      padding-top H
+      // background-color rgba(255, 255, 255, .4)
+      transition all ease-in-out .3s
+      // opacity .8
+      &.index_icon_01
+        background url(../assets/v2/index_icon_01.png) 50% no-repeat
+      &.index_icon_02
+        background url(../assets/v2/index_icon_02.png) 50% no-repeat
+      &.index_icon_03
+        background url(../assets/v2/index_icon_03.png) 50% no-repeat
+      &.index_icon_04
+        background url(../assets/v2/index_icon_04.png) 50% no-repeat
+      &.index_icon_05
+        background url(../assets/v2/index_icon_05.png) 50% no-repeat
+      &.index_icon_06
+        background url(../assets/v2/index_icon_06.png) 50% no-repeat
+      &.index_icon_07
+        background url(../assets/v2/index_icon_07.png) 50% no-repeat
+      &.index_icon_08
+        background url(../assets/v2/index_icon_08.png) 50% no-repeat
+      &.index_icon_09
+        background url(../assets/v2/index_icon_09.png) 50% no-repeat
+      &.index_icon_10
+        background url(../assets/v2/index_icon_10.png) 50% no-repeat
+      &.index_icon_11
+        background url(../assets/v2/index_icon_11.png) 50% no-repeat
+      &.index_icon_12
+        background url(../assets/v2/index_icon_12.png) 50% no-repeat
+
       &:hover
-       background-color rgba(255, 255, 255, .4)
-      &.empty
-        padding-top 0
-        line-height H
-        font-size .8rem
-        font-weight 100
-        background-position 50%
+        padding-top H - 2*PW
+        background-position 50% 20%
+        background-color rgba(255, 255, 255, .2)
+        box-shadow 0 .3rem 1rem rgba(0, 0, 0, .2)
+        opacity 1
+
+      
+
+
+
+
+
+      // &.empty
+      //   padding-top 0
+      //   line-height H
+      //   font-size .8rem
+      //   font-weight 100
+      //   background-position 50%
           
-      &:not(.empty)
-        &:hover
-          .delete-bar
-            display block
-        &:before
-          content ''
-          display block
-          width .96rem
-          height .96rem
-          box-sizing border-box
-          z-index -1
-          box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
-          radius(50%)
-          center()
-          top 42.5%
+      // &:not(.empty)
+      //   &:hover
+      //     .delete-bar
+      //       display block
+      //   &:before
+      //     content ''
+      //     display block
+      //     width .96rem
+      //     height .96rem
+      //     box-sizing border-box
+      //     z-index -1
+      //     box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+      //     radius(50%)
+      //     center()
+      //     top 42.5%
   .picture
     position relative
     cursor pointer
-    img
+    height 3rem
+    .co
       width 100%
+      height 100%
+      overflow hidden
+    img
+      position relative
+      left 0
+      top 0
+      width 100%
+      opacity .8
+      transition all ease-in-out .3s
+
+    &:hover
+      img
+        opacity 1
+        width 110%
+        left -5%
+        top -5%
   .picture.wait:after
     content '敬请期待'
     display inline-block

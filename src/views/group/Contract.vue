@@ -14,36 +14,39 @@
           .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的契约
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级契约
-        label.item 契约生效时间范围 
+        label.item 时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        // label.item 契约结束时间从 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        //   |  至 
-        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
-          
         label.item  &nbsp;状态 
-          el-select(clearable v-model="s"  placeholder="全")
+          el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
             el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S")
+
+        label.item(v-if="type === 1") 用户名  
+          input.ds-input.small(v-model="name" style="width: 1rem")
         | &nbsp;&nbsp;
+        
         .ds-button.primary.large.bold(@click="contract") 搜索
 
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName")
+        el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
 
-          el-table-column(prop="userName" label="用户名" width="150" v-if="type === 1")
+          el-table-column(class-name="pl2" prop="userName" label="用户名" v-if="type === 1")
 
-          el-table-column(prop="expireTm" label="契约结束时间" width="150" )
+          el-table-column(prop="beginTm" label="开始时间" )
 
-          el-table-column(prop="beginTm" label="契约开始时间" width="150" )
+          el-table-column(class-name="pl2" prop="expireTm" label="截止时间" )
 
-          el-table-column(prop="status" label="状态" align="center" width="150")
+
+          el-table-column(prop="status" label="状态")
             template(scope="scope")
               span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-blue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
 
-          el-table-column(label="操作" align="center")
+          el-table-column(label="操作")
             template(scope="scope")
-              .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" goContractDetail(scope.row.id) ") 查看详情
+
+              .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id) ") 查看详情
+
               .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
+
               .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
         
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
@@ -121,21 +124,6 @@
               | 自动发放
               span.text-green  ( 推荐 )
 
-          //p.item.block
-          //   span.text-danger *
-          //   | 按时间：
- 
-          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 0 " v-bind:class=" { active: AT === 0 } ")
-          //     span.ds-radio.white.
-          //     | 月
-          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 1 " v-bind:class=" { active: AT === 1 } ")
-          //     span.ds-radio.white.
-          //     | 周
- 
-          //   label.text-black(style="padding: 0 .1rem").ds-radio-label.disabled(@click=" AT = 2 " v-bind:class=" { active: AT === 2} ")
-          //     span.ds-radio.white.
-          //     | 日
-
           p.item.block(v-for=" (CR, i) in CRULES ")
             span.text-danger {{ i===0? '*': '&nbsp;'}}
             | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
@@ -160,18 +148,34 @@
 
           .buttons.item.block(style="padding-left: .6rem")
             .ds-button.primary.bold(@click="createContract") 确认发送
-
+    
+    .modal(v-if="showDetail" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.06rem;")
+          .tool-bar
+            span.title 契约详情
+            el-button-group
+              el-button.close(icon="close" @click="showDetail = ''")
+          ContractDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5.7rem;")
 
         
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
+  import ContractDetail from './ContractDetail'
   import api from '../../http/api'
   import { dateTimeFormat } from '../../util/Date'
   import store from '../../store'
   export default {
+    mixins: [setTableMaxHeight],
+    components: {
+      ContractDetail
+    },
     data () {
       return {
+        TH: 180,
         // 0 我的契约
         // 1 下级契约
         pickerOptions: {
@@ -339,7 +343,9 @@
           {title: '规则二十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
           {title: '规则三十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
         ],
-        ruleLength: 3
+        ruleLength: 3,
+        name: '',
+        showDetail: false
       }
     },
     computed: {
@@ -438,7 +444,8 @@
             // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             status: this.s.id || '',
             page: 1,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            userName: this.type === 1 ? this.name : ''
           }
         } else {
           this.preOptions.page = page
@@ -585,5 +592,115 @@
       margin 0
       line-height .25rem
       vertical-align top
+
+</style>
+
+
+<style lang="stylus" scoped>
+
+  @import '../../var.stylus'
+
+  bg = #d8d8d8
+  bg-hover = #ececec
+  bg-active = #e2e2e2
+  .tool-bar
+    height TH
+    line-height TH 
+    background-color bg
+    font-size .12rem
+    border-top-right-radius .05rem
+    border-top-left-radius .05rem
+    overflow hidden
+    background-position .2rem center
+
+  .title
+    color #333
+    font-weight bold
+    padding-left .2rem
+
+  .el-button-group
+    float right
+    height 100%
+    .el-button
+      font-size .12rem
+      color GREY
+      border none
+      height 100%
+      width TH
+      padding 0
+      background-color transparent
+      &:hover
+        background-color bg-hover
+      &:active
+        background-color bg-active
+      &:first-child
+        font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
+
+  .modal 
+    position absolute
+    top TH
+    bottom 0
+    left 0
+    right 0
+    text-align center
+    z-index 9999
+    
+    .mask
+      position absolute
+      left 0
+      top 0
+      width 100%
+      height 100%
+      opacity .5
+      background #000
+      z-index 9998
+    .box-wrapper
+      position absolute
+      top 0
+      bottom 0
+      left 0
+      right 0
+      text-align center
+      z-index 9999
+      &:after
+        content ''
+        height 100%
+        width 0
+        vertical-align middle
+        display inline-block
+    .box
+      position relative
+      text-align left
+      display inline-block
+      vertical-align middle
+      background-color #ededed
+      font-size .12rem
+      width 9rem
+      radius()
+    .content
+      margin 0 .2rem
+      .el-row
+        margin PW 0
+        word-wrap break-word
+      .textarea-label
+        position relative
+        margin .3rem .3rem .3rem 0
+        .label
+          position absolute
+          left 0
+          top .05rem
+        .el-textarea
+          display inline-bock
+          vertical-align top
+          padding-left .6rem 
+          .textarea
+            font-size .12rem
 
 </style>

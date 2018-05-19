@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
+      .form.form-filters
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
@@ -19,10 +19,12 @@
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
+      
+      .table-list(style="padding: .15rem .2rem ")
+      
+        el-table.header-bold.nopadding(:data="Cdata"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
-
-          el-table-column(prop="serialNumber" label="订单号" width="150" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2" prop="serialNumber" label="订单号" width="150" show-overflow-tooltip=true)
             template(scope="scope")
               div
                 .text-blue(v-if="!scope.row.last" style="padding: 0" @click=" ") {{ scope.row.serialNumber }}
@@ -43,12 +45,14 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   // import util from '../../util'
   export default {
+    mixins: [setTableMaxHeight],
     data () {
       return {
         ACCOUNT: store.state.user.account,

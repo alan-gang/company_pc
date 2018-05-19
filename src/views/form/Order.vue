@@ -7,132 +7,85 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
-        label.item 游戏时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+      .form.form-filters
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+        
+        label.item 时间 
+          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
 
-        // label.item 游戏时间 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        // label.item(style="margin-left: -.1rem") 至 
-        //   el-date-picker(:picker-options="pickerOptions" v-model="et" type="datetime" placeholder="请选择日期时间")
-
-        label.item 状态 
-          el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
-            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-
-        label.item 奖金 
-          el-select(clearable v-bind:disabled=" !ISFREE[0] "  v-model="isFree" style="width: .8rem" placeholder="全")
-            el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
-
-        label.item 游戏名称 
-          el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.5rem" placeholder="全")
+        label.item 游戏  
+          el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        label.item 游戏玩法 
-          el-select(clearable v-bind:disabled=" !methodList[0] "  v-model="method" style="width: 1.5rem" placeholder="全")
-            el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
 
-        label.item 游戏奖期 
-          el-select(clearable v-bind:disabled=" !issueList[0] "  v-model="issue" style="width: 1.5rem" filterable placeholder="全")
-            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
+        label.item 奖期 
+          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
-        label.item 游戏模式 
-          el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .6rem" placeholder="全")
-            el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
-
-        label.item 注单编号 
+        label.item 状态 
+          el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .9rem" placeholder="全")
+            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
+        
+        label.item 编号 
           el-input(v-model="id" style="width: 1rem")
 
-        label.item 游戏用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
-
-
-        .buttons(style="margin-left: .6rem")
+        .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" v-bind:span-method="arraySpanMethod" stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-          el-table-column(prop="projectId" label="注单编号" width="80" )
+          el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
             template(scope="scope")
               div
-                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click=" OrderDetail(scope.row, 0) ") {{ scope.row.projectId }}
+                span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.projectId }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(prop="userName" label="用户" width="80")
+          el-table-column(prop="userName" label="用户")
           
-          el-table-column(prop="writeTime" label="投注时间" width="140")
+          el-table-column(prop="writeTime" label="投注时间")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.writeTime }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
 
-          el-table-column(prop="lotteryName" label="游戏" width="100")
+          el-table-column(prop="lotteryName" label="游戏")
 
-          el-table-column(prop="methodName" label="玩法" width="150")
+          el-table-column(prop="methodName" label="玩法")
             template(scope="scope")
               div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
-          el-table-column(prop="issue" label="期号" width="100")
-
-          // el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
-          
-          // el-table-column(prop="position" label="投注位置" min-width="80")
+          el-table-column(prop="issue" label="期号")
 
 
-          el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
-            template(scope="scope")
-              p {{ scope.row.code }}
-                span(v-if="scope.row.position") [{{ scope.row.position }}]  
-
-
-          el-table-column(prop="multiple" label="倍数" width="40" align="right")
-
-          el-table-column(class-name="pl1" prop="modes" label="模式" width="60")
-            template(scope="scope")
-                span {{ MODES[scope.row.modes - 1] }}     
-
-          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
+          el-table-column(prop="totalPrice" label="总金额" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="120" align="right")
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.bonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
 
-          el-table-column( prop="prizeCode" label="开奖号码" min-width="120" show-overflow-tooltip=true)
-
-          el-table-column(class-name="pr2" label="优惠券" width="80" align="center")
+          // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+          el-table-column(label="状态" align="center")
             template(scope="scope")
-              div(v-if="!scope.row.last")
-                span.text-danger(v-if="scope.row.isusefree") 是
-                span.text-grey(v-if="!scope.row.isusefree") 否
+              span(:class=" [STATUSCLASS[scope.row.stat]] ") {{ STATUS[scope.row.stat] }}
           
-          el-table-column(class-name="pr2" label="奖池号" width="100" align="center" v-if="platform !== 'ds' ")
+          el-table-column(label="操作" width="200")
             template(scope="scope")
+
               div(v-if="!scope.row.last")
-                span.text-666(v-if="scope.row.isJoinPool") {{ scope.row.poolCode }}
-                span.text-grey(v-if="!scope.row.isJoinPool") 未参与
-         
-          el-table-column(label="状态" width="60")
-            template(scope="scope")
-              span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
-          el-table-column(label="操作" wdith="100")
-            template(scope="scope")
-              div(v-if="!scope.row.last")
-                // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
-                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" platform === 'ds' ? (showFollow = scope.row.taskId) : goFollowDetail(scope.row.taskId) ") 追号详情
-                // .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = true ") 追号详情
+
+                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 0) ") 注单详情
+
+                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop="showFollow = scope.row.taskId ") 追号详情
+
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) " v-if="platform !== 'ds' ") 打印
         
 
@@ -144,7 +97,7 @@
       .box-wrapper
         .box(ref="box")
           .tool-bar
-            span.title {{ modalTitles[type] }}
+            span.title {{ '投注详情' }}
             el-button-group
               el-button.close(icon="close" @click="show = false")
           .content
@@ -165,7 +118,7 @@
 
               el-col(:span="6")
                 总金额：
-                span.text-black {{ row.totalPrice }}
+                span.text-black {{ row.TotalPrice }}
 
             el-row
               el-col(:span="6")
@@ -226,25 +179,25 @@
             
             el-table.header-bold.nopadding.vtop(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
-              el-table-column(prop="projectid" label="编号" width="160" )
+              el-table-column(class-name="pl2" prop="projectid" label="编号" width="160" )
 
-              el-table-column(prop="expandcode" label="号码" width="160")
+              el-table-column(prop="expandcode" label="号码")
                 template(scope="scope")
                  p {{ scope.row.expandcode }}
                    span(v-if="scope.row.position") [{{ scope.row.position }}]
               
 
-              el-table-column(prop="codetimes" label="倍数" width="80" align="right")
+              el-table-column(prop="codetimes" label="倍数" )
 
-              el-table-column(label="奖级" width="80" align="right")
+              el-table-column(label="奖级")
                 template(scope="scope")
                   span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
-              el-table-column(prop="prize" label="奖金"  align="right")
+              el-table-column(prop="prize" label="奖金")
 
             .buttons(style="margin: .3rem; text-align: center")
-              .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel()") 确认撤单
+              // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
+              .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 确认撤单
 
     
     .modal(v-show="showFollow" )
@@ -261,6 +214,7 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
@@ -271,8 +225,10 @@
     components: {
       Follow
     },
+    mixins: [setTableMaxHeight],
     data () {
       return {
+        TH: 300,
         ACCOUNT: store.state.user.account,
         pickerOptions: {
           shortcuts: [{
@@ -304,12 +260,15 @@
             return time.getTime() > Date.now()
           }
         },
+        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
+        stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
         // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
+        // defaultStEt: ['', ''],
+        // stEt: ['', ''],
         // st: '',
         // et: '',
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+        STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
         status: '',
         ISFREE: ['现金', '优惠券'],
         isFree: '',
@@ -381,6 +340,15 @@
       this.Orderlist()
     },
     methods: {
+      arraySpanMethod ({ row, column, rowIndex, columnIndex }) {
+        if (rowIndex % 2 === 0) {
+          if (columnIndex === 0) {
+            return [1, 2]
+          } else if (columnIndex === 1) {
+            return [0, 0]
+          }
+        }
+      },
       callPrint (row) {
         this.__setCall({
           fn: '__print',
@@ -419,9 +387,9 @@
           this.amount[0].expenditure += parseFloat(d.totalPrice)
         })
         this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
-        this.amount[0].income = this.amount[0].income.toFixed(3)
-        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
-        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
+        this.amount[0].income = this.amount[0].income.toFixed(4)
+        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(4)
+        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(4)
         if (!this.amount[0].difMoney.startsWith('-')) this.amount[0].difMoney = '+' + this.amount[0].difMoney
 
         this.Cdata[0] && this.Cdata.push({
@@ -573,11 +541,12 @@
           if (data.success === 1) {
             // this.show = false
             this.expandList = data.expandList
-            row.userPoint = data.userPoint
-            row.poolIssue = data.poolIssue
-            row.poolCode = data.poolCode
-            row.poolBonus = data.poolBonus
-            row.poolIsGetPrize = data.poolIsGetPrize
+            // row.userPoint = data.userPoint
+            // row.poolIssue = data.poolIssue
+            // row.poolCode = data.poolCode
+            // row.poolBonus = data.poolBonus
+            // row.poolIsGetPrize = data.poolIsGetPrize
+            this.row = data
             this.fullCode = data.code
             setTimeout(() => {
               loading.text = '详情加载成功!'
@@ -614,10 +583,14 @@
           // error
         })
       },
+      getIssueList (s, cb) {
+        cb(this.issueList.filter(issue => issue.issue.indexOf(s) !== -1))
+      },
       getRecentIssueList () {
         this.$http.get(api.getRecentIssueList, {lotteryId: this.gameid, issCount: 30}).then(({data}) => {
           // success
           if (data.success === 1) {
+            data.issueList.forEach(x => (x.value = x.issue))
             this.issueList = data.issueList
           } else {
             this.issueList = []

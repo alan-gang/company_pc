@@ -6,16 +6,17 @@
         span.text-black.text-bold 特殊金额&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;可用余额
-      // br
+
       p 特殊帐户余额： 
         | {{ Me.smoney || '0.000' }}
-      // br
+
       p
         el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
         span.text-999  &nbsp;&nbsp;输入金额
-      // br
+
       p
         el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNow")
+
       p(style="padding-top: .1rem")
         span.ds-button.primary(@click="transferNow") 确认转入
 
@@ -30,32 +31,34 @@
         span.text-black.text-bold {{ bg !== 0 ? '可用余额' : 'BG余额' }}&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;{{ bg === 0 ? '可用余额' : 'BG余额' }}
-      // br
+      
       p 可用余额： 
         | {{ Me.amoney || '0.000' }}
       p BG余额： 
         | {{ Me.bgmoney || '0.000' }}
-      // br
+      
       p
         el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
         span.text-999  &nbsp;&nbsp;输入金额
-      // br
+      
       p
         el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNowBG")
-      // br
+      
       p(style="padding-top: .1rem")
         span.ds-button.primary(@click="transferNowBG") 确认转入
 
     el-row.content-width
       el-col.l(:span="10")
-        .ds-icon-volume
-        router-link.text-white(:to=" '/help/6-2-1' " v-for=" (msg, ii) in notices " v-show="ii === i") {{ msg.subject }}
-
+        router-link.ds-icon-volume(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") &nbsp;
+        router-link.text-button(:to="m.defaultUrl" v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
+        
       el-col.r(:span="14")
+        // Menus(:menus="menus")
+
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            // span.name {{ Me.account }}
-            span.money {{ Me.amoney }}
+            span.name(v-if="hide") {{ Me.account }}
+            span.money(v-if="!hide") {{ numberWithCommas(Me.amoney) }}
           slot
             dl
               // dd(style="padding-bottom: .1rem")
@@ -70,38 +73,52 @@
 
               dd
                 span.name.ds-icon-m{{ Me.name }}
-              dd 
+              dd(title="我的钱包")
                 span.money.ds-icon-money
                   span 主: 
-                  span {{ Me.amoney || '0.000' }} 
-                span 特: {{ Me.smoney || '0.000' }}
+                  span {{ numberWithCommas(Me.amoney || '0.000') }} 
+                br
+                span(style="padding-left: .3rem" title="特殊金额提现不收取手续费") 特: {{ numberWithCommas(Me.smoney || '0.000') }}
+
                 span.ds-button.text-button.blue(@click=" transfer = true ") 转入
-              dd
-                span.free.ds-icon-free {{ Me.free || '0.000' }}
-              dd
+              dd(title="我的优惠券")
+                span.free.ds-icon-free {{ numberWithCommas(Me.free) || '0.000' }}
+              dd(title="BG钱包")
                 span.money.ds-icon-bg-money
-                    {{ Me.bgmoney || '0.000' }}
+                    {{ numberWithCommas(Me.bgmoney) || '0.000' }}
                 span.ds-button.text-button.blue(@click=" transferBG = true ") 转入
 
               dd(style="padding-top: .1rem")
                 // .ds-button.primary(@click=" transfer = true ") 特殊金额转换
                 .ds-button.danger.full(@click="logout" ) 安全退出
 
-        
+        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" style="padding: 0 .05rem; text-decoration: none;") 
+          span(v-show="!hide") 隐藏
+          span(v-show="hide") 展开
+
         router-link.topup(:to=" '/me/2-4-1' " v-if="!Me.isTry && Me.canTopUp") 充值
         router-link.topup(:to=" '/me/2-5-1' " v-if="!Me.isTry && Me.canWithDraw") 提现
-        span.logout(@click="logout" style="margin-left: .1rem" ) 安全退出
+        Menus(:menus=" meRightMenu " v-on:open-page="openTab")        
+        span.logout(@click="logout" ) 安全退出
+
 
            
 
 </template>
 
 <script>
+import { numberWithCommas } from '../util/Number'
 import store from '../store'
 import api from '../http/api'
+import Menus from './Menu'
 export default {
+  props: ['menus'],
+  components: {
+    Menus
+  },
   data () {
     return {
+      hide: false,
       Me: store.state.user,
       notices: [],
       i: 0,
@@ -112,7 +129,8 @@ export default {
       cwd: '',
       m: '',
       transferBG: false,
-      bg: 0
+      bg: 0,
+      numberWithCommas: numberWithCommas
     }
   },
   watch: {
@@ -126,6 +144,14 @@ export default {
     }
   },
   computed: {
+    // apply on Me.vue left menu
+    meLeftMenu () {
+      return [this.menus[14], this.menus[15], this.menus[16]]
+    },
+    // apply on Me.vue right menu
+    meRightMenu () {
+      return [this.menus[10]]
+    },
     bgAPI () {
       return [api.withdrawFromBG, api.transferToBG][this.bg]
     }
@@ -136,6 +162,9 @@ export default {
     this.getBalance()
   },
   methods: {
+    openTab (url) {
+      this.$emit('open-page', url)
+    },
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
@@ -280,10 +309,23 @@ body.cb.v2
     background-color rgba(255,255,255,.1)
     color #fff
     .l
-      background url(../assets/notice-icon.png) left center no-repeat
-      padding-left .3rem
+
+      .ds-icon-volume
+        display inline-block
+        width .4rem
+        height 100%
+        background url(../assets/notice-icon.png) .1rem center no-repeat
+        &:hover
+            background url(../assets/notice-icon.png) .1rem center no-repeat rgba(0,0,0,.15)
+
+    .l .text-button
+      color #fff
+      padding 0 .1rem !important
+
+
     .r
       text-align right
+    .l .text-button
     .r .name
     .r .money
     .r .topup

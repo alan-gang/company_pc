@@ -8,8 +8,9 @@
     
     .contract.scroll-content(:class="{ center: !stock }")
       div(v-if="stock" style="margin: .3rem;" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
-        p.title.text-black(v-if=" platform === 'ds' ") 
-          span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
+        // p.title.text-black
+        //   span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
+
         h2.text-black(style="margin: .3rem 0; text-align: center") 分红详情
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.userName }} 
         p.item 分红状态：{{  STATUS[stock.isDone].title }} 
@@ -38,6 +39,7 @@
   import store from '../../store'
   import api from '../../http/api'
   export default {
+    props: ['id', 'myself'],
     data () {
       return {
         me: store.state.user,
@@ -71,11 +73,11 @@
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
-      '$route': 'openRoute'
+      // '$route': 'openRoute'
     },
     mounted () {
-      this.self = this.$route.query.self
-      this.qryBonusById(this.$route.query.id || '')
+      this.self = this.myself
+      this.qryBonusById(this.id || '')
     },
     methods: {
       back () {

@@ -1,7 +1,9 @@
 <template lang="jade">
   .order-list(style="position: relative;")
-    span(style="background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
-    el-table.ghost.header-bold(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
+    span(style="z-index: 1; background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
+
+    el-table.ghost.header-bold(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick")
+
       el-table-column(:render-header="renderHeader" label="玩法、投注号码" width="150" show-overflow-tooltip=true)
         template(scope="scope") 
           span {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
@@ -17,7 +19,7 @@
         .ds-button.text-button(@click="remove($index)") 
           i.el-icon-close(v-show="row.title")
 
-    el-pagination(:total="ns.length" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if="ns.length > 5" v-on:current-change="pageChanged")
+    el-pagination(:total="ns.length" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if="ns.length > pageSize" v-on:current-change="pageChanged")
 
 </template>
 
@@ -30,7 +32,7 @@
         // data: [
         //   {title: '五星直选', $: '元', n: 20, times: 3, pay: 252455121545121245544560.00, bonus: 23.45, point: '7.5%'}
         // ]
-        pageSize: 5,
+        pageSize: 10,
         currentPage: 1
       }
     },
@@ -77,14 +79,7 @@
 </script>
 
 <style lang="stylus">
-  H = 1.6rem
-  .order-list
-    
-    .el-table
-    // width "calc(100% - %s)" % s
-      .el-table__body-wrapper
-        // padding-right .3rem
-        max-height H
+  
     
     
     

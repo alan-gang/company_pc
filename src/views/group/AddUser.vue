@@ -34,10 +34,6 @@
             | 为
             span.text-danger {{ 0.1 }}%
 
-        // p(style="padding: .05rem .4rem" v-if="UL[me.role]") 用户类型： &nbsp;&nbsp;
-        //   el-select(v-model="u")
-        //     el-option(v-for="U in UL[me.role]" v-bind:label="U.title" v-bind:value="U")
-
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
           span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符）
@@ -65,6 +61,7 @@
        
         div.buttons(style="padding: .1rem .4rem")
           .ds-button.primary.large.bold(@click="openAccount") 开户
+          .ds-button.cancel.large.bold(@click="back()") 返回
         
 
       
@@ -126,6 +123,9 @@
       this.showRegistUser()
     },
     methods: {
+      back () {
+        window.history.back()
+      },
       openAccount () {
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
         if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})

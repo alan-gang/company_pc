@@ -45,7 +45,7 @@ MMH = .5rem
 RW = .7rem
 
 // content-width
-CTW = 11rem
+CTW = 12rem
 
 
 
@@ -101,7 +101,7 @@ bg-gradient(p = 90deg, c1 = #ff3350, c2 = #1a9ff3)
   
 
 // border-radius
-radius(x = .05rem)
+radius(x = .02rem)
   border-radius x
 // font-shadow
 font-shadow(x = 1px 1px 1px rgba(0, 0, 0, .3))

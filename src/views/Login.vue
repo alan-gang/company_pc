@@ -2,7 +2,6 @@
   .login
     Logo
     router-view.part(v-on:update-user="setUser")
-    DownLoad
     AllRights
 
 </template>
@@ -10,7 +9,6 @@
 <script>
 import base from 'components/base'
 import AllRights from 'components/AllRights'
-import DownLoad from 'components/DownLoad'
 import Logo from 'components/Logo'
 export default {
   name: 'Login',
@@ -28,7 +26,6 @@ export default {
   },
   components: {
     Logo,
-    DownLoad,
     AllRights
   }
 }
@@ -38,6 +35,7 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .login
+    background url(/static/skins/bg.jpg) center no-repeat
     top 0
     bottom 0
     z-index 1
@@ -58,7 +56,7 @@ export default {
       max-width 6rem
       min-width 6rem
     .all-rights
-      @media screen and (max-height: 800px)
+      @media screen and (max-height: 1000px)
         position relative
       
     

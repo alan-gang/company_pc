@@ -3,9 +3,9 @@
     br
     p.text-blue 最近投注记录
 
-    el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem;")
+    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem;")
 
-      el-table-column(prop="projectId" label="注单编号" width="150")
+      el-table-column(class-name="pl2" prop="projectId" label="注单编号" width="150")
          template(scope="scope")
           span.ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row)") {{ scope.row.projectId }}
 
@@ -336,7 +336,12 @@ export default {
     min-height 1rem
     max-height 1.9rem
     
+  #app.nds.classic.night .game-page .game-recent-order
+    .el-dialog
+      .text-black
+        color #333
      
+
 </style>
 
 

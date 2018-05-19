@@ -41,15 +41,17 @@
        
         div(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 
           span(style="position: absolute; line-height: 2") 自动注册地址： &nbsp;
-          div.text-blue(style="display: block; margin-left: 1rem" v-for=" url in urls ") {{ url }} 
-            span.ds-button.text-button.green(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError") 复制注册地址
+          .box(style="padding-left: 1rem")
+            div.text-blue(style="display: inline-block; " v-for=" (url, i) in urls ")
+              input.ds-input(v-bind:value="url") 
+              span.ds-button.text-button.green(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError") 复制注册地址
+              br
+              .QR.ds-icon-QR(:style="QRS[i]")
+                p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
            
         div.buttons(style="padding: .1rem 2.03rem")
           .ds-button.primary.large.bold(@click="setKeepPoint") 提交
 
-        div(style="padding: .4rem 1.9rem;")
-          .QR.ds-icon-QR(:style="QR" v-for=" QR in QRS ")
-            p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
 
         
 
@@ -85,7 +87,7 @@
             background: 'url(' + 'data:image/png;base64,' + q + ') left top no-repeat',
             height: '1.96rem',
             width: '1.4rem',
-            margin: '.15rem',
+            marginTop: '.15rem',
             textAlign: 'center',
             display: 'inline-block'
           })

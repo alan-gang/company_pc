@@ -39,7 +39,7 @@
 
           el-table-column(prop="cnname" label="礼品" align="left")
             template(scope="scope") 
-              div.ds-icon-activity-ticket.small {{ scope.row.amount + (scope.row.isFree ? '元优惠券' : '元礼金') }}
+              div.ds-icon-activity-ticket.small(style="line-height: 2.5") {{ scope.row.amount + (scope.row.isFree ? '元优惠券' : '元礼金') }}
                 br
                 | {{ scope.row.activityName }}
 

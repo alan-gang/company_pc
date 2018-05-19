@@ -6,27 +6,17 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.function-help
-
-      // 新
-      // .content.scroll-content(style="width: 4rem;")
-      //   .item(v-for="(g, index) in notices") 
-      //     .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
-      //       span {{ g.subject }}
-      //       .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime }}
-      //     // pre.value(v-show=" openIndex === index ") {{ g.content }}
-
-      // .detial.scroll-content(style="left: 4rem" v-if="cg")
-      //   .step.text-666
-      //     span {{ cg.subject }}
-      //     .time.text-666 {{ cg.sendTime }}
-      //   pre.value {{ cg.content }}
       
       .content
-        .item(v-for="(g, index) in notices") 
-          .step.text-666( v-bind:class="{'text-black': openIndex === index}" @click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
-            span {{ g.subject }}
-            .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ platform === 'ds' ? g.sendTime.split(' ')[0] : g.sendTime }}
-           pre.value(v-bind:class=" { expand: openIndex === index } ") {{ g.content }}
+        .item(v-for="(g, index) in notices" v-bind:class="{'active': openIndex === index}") 
+          .step.text-666(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
+            span.date {{ g.sendTime.split(' ')[0].split('-')[1] + '-' + g.sendTime.split(' ')[0].split('-')[2] }}
+            span.title {{ g.subject }}
+              .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime.split(' ')[1] }}
+      .with-content(v-if="  notices[openIndex] ")
+        span.title {{  notices[openIndex].subject }}
+          .time.text-666 {{  notices[openIndex].sendTime }}
+        pre.value {{ notices[openIndex].content }}
          
          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -105,43 +95,89 @@
       text-align left
       // height auto
     .time
-      text-align right
+      // margin-top .1rem
+      text-align left
       font-size .12rem
     .title
+      line-height .25rem
       font-size .14rem
-      color #999
+      color #666
     .content
+      background #e6e6e6
+      position absolute
+      left 0
+      top 0
+      bottom 0
+      overflow auto
       text-align left
-      
+      width 3.69rem
+      overflow hidden
+      &:hover
+        overflow auto
+      // padding 0 PW
       .item
-            
-        margin PW 0
-        padding-bottom .2rem
-      .step
-        position relative
-        top -.02rem
-        font-size .18rem
-        font-weight bold
-        cursor pointer
-        &.text-black span
-          // font-family Roboto
-          // font-size 0.72rem
-          // font-gradient()
+        &:hover
+          background #f3f3f3
+          .title
+            font-weight bold 
+            color #333
+        &.active
+          background #ededed
+          .title
+            font-weight bold 
+            color #333
+        // margin PW 0
+        // padding-bottom .2rem
+        padding PW
+        .date
+          position absolute
+          left 0
+          top 0
+          font-size .48rem
+          font-family Roboto
+          font-gradient()
           background linear-gradient(90deg, #ff3350, #1a9ff3)
           -webkit-background-clip text
           -webkit-text-fill-color transparent
-      .value
-        margin-top 0
-        line-height .22rem
-        overflow hidden
-        transition max-height 1s ease-in
-        max-height 0
-        &.expand
-          transition max-height .3s ease-in
-          max-height 5rem
+      .step
+        position relative
+        padding-left 1.35rem
+        padding-top .05rem
+        font-size .18rem
+        font-weight bold
+        cursor pointer
+    .with-content
+      margin-left 4rem
+      text-align left
+      .title
+        font-size .18rem
+        color #333
+        font-weight bold
+
+      .time
+        text-align right
+    .value
+      margin-top 0
+      line-height .22rem
+      transition max-height 1s ease-in
           
 </style>
 <style lang="stylus">
+
   .night .function-help .item:hover .text-666
     color #fff
+
+  .night .function-help .content
+    background-color #454545
+    .item
+      .title
+        color #ccc
+      &:hover
+        .title
+          color #999
+        background-color #555
+      
+      &.active
+        background-color #888
+
 </style> 

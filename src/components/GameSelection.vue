@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection
     transition-group(name="slide" appear=true tag="div")
-      GameNumberRow(v-for="(row, i) in rows" v-bind:key="row" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
+      GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
 
     transition(name="slide-down" appear=true)
       .f(v-if="rows.length === 0")

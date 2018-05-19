@@ -18,7 +18,7 @@
         pc_: '',
         // 邮箱验证码
         ec_: '',
-        // 畅博安全码
+        // 信游安全码
         cb_: '',
         // 安全问答1、2
         q1_: '',
@@ -68,7 +68,7 @@
           // success
           // if (data.success !== 1) this.notice = '验证码输入不正确！'
           if (data.success !== 1) {
-            this.$message.warning('畅博安全码输入不正确！')
+            this.$message.warning('信游安全码输入不正确！')
           } else {
             if (fn) fn()
             else {
@@ -115,7 +115,7 @@
           if (data.success === 1) {
             fn && fn()
           } else {
-            this.$message.error('用户名不存在！')
+            this.$message.error(data.msg || '用户名不存在！')
           }
         }, (rep) => {
           // error
@@ -157,7 +157,7 @@
             // this.phone_ = data.mobile
             store.actions.setUser({cbsafe: true})
           } else {
-            this.$message.warning(data.msg || '您还没有开启畅博安全！')
+            this.$message.warning(data.msg || '您还没有开启信游安全！')
           }
         }, (rep) => {
           // error

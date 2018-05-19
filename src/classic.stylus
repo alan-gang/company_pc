@@ -207,19 +207,19 @@ body.classic:not(.v2)
             display none
             
         .el-menu-item.ds-button
-          &.sign:before
-            display block
+          &.sign:after
+            position relative
+            display inline-block
             content ''
-            position absolute
-            top -.07rem
+            // position absolute
+            top .02rem
             left -.05rem
             width .4rem
-            height .4rem
-          &.hot:before
+            height .2rem
+          &.hot:after
             background url($ASSETS/inner_hot.png) center no-repeat
-          &.new:before
-            left -.05rem
-            top -.05rem
+          &.new:after
+            top .05rem
             background url($ASSETS/inner_new.png) center no-repeat
           
       

@@ -1,6 +1,19 @@
 @import './var.stylus'
 @import './ie.stylus'
 
+.el-date-editor--datetimerange.el-input
+  width 320px
+#app.night
+  .form-filters
+  .form-contents
+    background-color #555
+    margin PW PWX
+    
+#app:not(.night)
+  .form-filters
+  .form-contents
+    background-color #fff
+    margin PW PWX
 
 .el-tooltip__popper
   word-break break-all
@@ -244,6 +257,9 @@ pre
 /*
  *rewrite el-popover
  */
+ .el-popover.table-popover
+   background-color #fff
+
 .el-popover .popper__arrow
     display none
 .el-popover
@@ -357,15 +373,17 @@ pre
 /*
  *rewrite el-table
  */
-  table-bg(x = transparent)
+  table-bg(x = #fff)
     background-color x
     tr 
       background-color x
   table-header-bg(x = transparent)
     th 
       background-color x
+      bg-gradient(180deg, #ddd, #eee)
       .cell
         background-color x
+        bg-gradient(180deg, #ddd, #eee)
         
   table-header-color(x = #333)
     th
@@ -418,20 +436,26 @@ pre
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
-  table-row-height(x = .2rem)
+  table-row-height(x = .4rem)
     td
-      height auto
+      height .3rem
       .cell
         line-height x
-   table-header-height(x = .2rem)
+   table-header-height(x = .4rem)
     th
-      height auto
+      height .4rem
       .cell
         line-height x
 
   .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
     color inherit
     background-color inherit
+  #app.night .el-table--striped .el-table__body tr:nth-child(2n) td
+    background #555
+  #app.night .el-table__header-wrapper th
+  #app.night .el-table__header-wrapper th .cell
+    background #555
+  
     
   .el-table::before
   .el-table::after
@@ -440,8 +464,15 @@ pre
     display none
   .el-table--enable-row-hover .el-table__body tr:hover>td
     background-color #d8e6ef
+
+  #app.night .el-table
+    background #666
+
   .el-table
+    table tr
+      background none
     margin .05rem .02rem
+    margin-bottom 0
     font-size .12rem
     color #666
     // 头部文字按钮
@@ -475,7 +506,7 @@ pre
     &.nopadding
       .cell
       th > div
-        padding 0.05rem .02rem
+        padding 0.04rem .02rem
         line-height .2rem
   
   TABLEH = 6rem
@@ -503,11 +534,18 @@ pre
  *rewrite el-pagination
  */
 
-
+#app.night .el-pagination
+  color #ccc
+  background #555
+  
 .el-pagination
+  // margin-top
+  padding .07rem 0
+  margin-bottom 0
   text-align center
   color #666
-  background-color transparent
+  // background-color #ddd
+  bg-gradient(180deg, #eee, #ddd)
   margin-bottom PW
   .el-pager li.active
     background-color BLUE
@@ -1325,8 +1363,8 @@ pre
   color WHITE
   font-size .14rem
   border 0
-  radius()
-  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  radius(.02rem)
+  // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
   font-shadow()
   user-select none
   cursor pointer
@@ -1539,7 +1577,7 @@ pre
     overflow hidden
     background-color #fff
     border .01rem solid #ccc
-    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
+    // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
     box-sizing border-box
     overflow visible
     .ds-button:not(.el-icon-close)
@@ -1551,11 +1589,11 @@ pre
         color BLUE
         text-decoration none
       &:last-child
-        border-top-right-radius .05rem
-        border-bottom-right-radius .05rem
+        border-top-right-radius .02rem
+        border-bottom-right-radius .02rem
       &:first-child
-        border-top-left-radius .05rem
-        border-bottom-left-radius .05rem
+        border-top-left-radius .02rem
+        border-bottom-left-radius .02rem
       &.selected
         background-color BLUE
         color #fff
@@ -1567,7 +1605,7 @@ pre
   
   &:hover
     .ds-radio
-      border-color rgba(255, 255, 255, .4)
+      border-color #999
       &.white
         border-color BLUE
  
@@ -1596,13 +1634,13 @@ pre
   box-sizing border-box
   width .2rem
   height .2rem
-  border .01rem solid rgba(255, 255, 255, .2)
+  border .01rem solid #ccc
   radius(50%)
-  shadow()
+  // shadow()
   margin .05rem
   vertical-align middle
   &:hover
-    border-color rgba(255, 255, 255, .4)
+    border-color #999
   &.active
     border-color BLUE
     &:after
@@ -1662,7 +1700,7 @@ pre
   width .2rem
   height .2rem
   radius()
-  shadow()
+  // shadow()
   margin-right .05rem
   vertical-align middle
   background-color WHITE
@@ -1720,7 +1758,7 @@ pre
   background-color #fff
   border .01rem solid #ccc
   radius()
-  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
   box-sizing border-box
   // input
   //   height .3rem
@@ -1757,7 +1795,7 @@ pre
  *rewrite el-input-number
  */
 .el-input-number
-  box-shadow 0 0 2px rgba(0,0,0,.2)
+  // box-shadow 0 0 2px rgba(0,0,0,.2)
   vertical-align middle
   overflow visible
   radius()
@@ -1774,7 +1812,7 @@ pre
       text-align right
       
 .el-textarea__inner
-  box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+  // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
   &:hover
     border-color BLUE
   &:focus
@@ -1792,7 +1830,7 @@ pre
     background-color #fff
     border .01rem solid #ccc
     radius()
-    box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
+    // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
     box-sizing border-box
     &:hover
       border-color BLUE

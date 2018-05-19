@@ -1,21 +1,21 @@
 <template lang="jade">
-  el-row.game-info.new-game-info(style="background-position: .2rem center")
-
-    el-col.left(:span="24" style="line-height: .5rem; padding-left: 1.3rem; margin: .05rem 0 0.3rem 0")
+  el-row.game-info.new-game-info(style="background-position: .2rem .2rem")
+    .inherit
+    el-col.left(:span="24" style="line-height: .5rem; padding-left: 1.3rem; margin: 0 0 0.35rem 0")
       div(style="float: left")
         span(style="color: #fff; font-size: .14rem") {{ CNPER }} 期截止时间
         br
         span(v-for=" n in showTime.split(':') " style="margin-left: 0; font-size: .4rem; color: #fff; background-color: #fff; color: #ff7e00; margin: 0 .05rem; border-radius: .05rem; padding: .05rem ") {{ n }}
 
        div(style="float: left; padding-left: .2rem;")
-        span(style="color: #fff; font-size: .14rem") {{ NPER }} 期 
+        span(style="color: #fff; font-size: .14rem") {{ NPER }} 期
         span.timeout(v-if="overtime" @click="") &nbsp;开奖中，点击刷新
         br
         
         // GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
-      div.static(style="float: right; padding-left: .2rem; width: 2.7rem" @click="expand = !expand")
-        span(style="color: #fff; font-size: .14rem; float: left") 近期开奖号码
+      div.static(style="float: right; padding-left: .2rem; width: 2.7rem; line-height: .3rem; font-size: .12rem" @click="expand = !expand")
+        span(style="color: #fff; font-size: .12rem; float: left") 近期开奖号码
        
 
 
@@ -325,7 +325,15 @@ export default {
   @import '../var.stylus'
   .recent-codes.show
     display inline-block !important
-    
+  
+  .inherit
+    position absolute
+    top 0
+    left 0
+    width 1.4rem
+    height 100%
+    background inherit
+
   F = .3rem
   .game-info
     &.new-game-info

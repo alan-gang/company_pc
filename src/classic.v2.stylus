@@ -3,11 +3,26 @@
 #app.classic .dialog-page.game-page .game-info,
 #app.classic .dialog-page.game-page
   min-width 10.8rem !important
+  
+#app.classic.night.v2
+   .game-info.new-game-info
+      box-shadow none !important
 
 #app.classic.v2.cb.game
   .content-width
     width 10.8rem
     left 2%
+
+// 设置游戏界面整页滚动
+#app.classic.v2.cb.game
+  .dialog-container
+    position relative
+    top 0 !important
+    overflow visible !important
+    .game-page
+      bottom: auto !important;
+    .game-content.scroll-content
+      position relative
 
 @import './var.stylus'
 H = 1.04rem
@@ -120,7 +135,7 @@ H = 1.04rem
     height .26rem
     vertical-align middle
     margin-right PW
-    shadow(0 0 2px rgba(0,0,0,.2) )
+    shadow(none)
     background url(../../DSM/src/assets/icon_01.png) center no-repeat
   .ds-icon-group-menu
     display inline-block
@@ -128,7 +143,7 @@ H = 1.04rem
     height .26rem
     vertical-align middle
     margin-right PW
-    shadow(0 0 2px rgba(0,0,0,.2) )
+    shadow(none)
     background url(../../DSM/src/assets/icon_02.png) center no-repeat
   .ds-icon-record-menu
     display inline-block
@@ -136,7 +151,7 @@ H = 1.04rem
     height .26rem
     vertical-align middle
     margin-right PW
-    shadow(0 0 2px rgba(0,0,0,.2) )
+    shadow(none)
     background url(../../DSM/src/assets/icon_03.png) center no-repeat
   .ds-icon-gift-menu
     display inline-block
@@ -144,7 +159,7 @@ H = 1.04rem
     height .26rem
     vertical-align middle
     margin-right PW
-    shadow(0 0 2px rgba(0,0,0,.2) )
+    shadow(none)
     background url(assets/gift.png) center no-repeat
     background-size .26rem .26rem
   .ds-icon-help-menu
@@ -153,7 +168,7 @@ H = 1.04rem
     height .26rem
     vertical-align middle
     margin-right PW
-    shadow(0 0 2px rgba(0,0,0,.2) )
+    shadow(none)
     background url(assets/help.png) center no-repeat
     background-size .26rem .26rem
 
@@ -173,7 +188,7 @@ H = 1.04rem
         .el-button-group>*:not(.close)
           display none
       &:not(.trend-chart-page)>.scroll-content:not(.followDetail-page-content):not(.safe-detail-info)
-        top .3rem !important
+        top .36rem !important
     
 #app.classic.v2.game .new-home
   .dialog-container
@@ -247,11 +262,11 @@ body
   .new-game-info
     .game-luck-number-history
       position absolute
-      top .5rem
+      top .22rem
       right 0
       padding 0
       width 2.8rem
-      height .9rem
+      height 1.15rem
       overflow hidden
       &.expand
         height 5rem
@@ -259,24 +274,23 @@ body
         overflow auto
         
       .lucky-numbers
-        padding 0 .05rem
+        padding 0
         background none !important
         
       .NPER
-        font-size .14rem
-      
+        font-size .12rem
       .lucky-numbers
         
         & > .left
           min-width 2.6rem
-          line-height .3rem
-          height .3rem
+          line-height .22rem
+          height .22rem
         
         &.long
           & > .left
             min-width 2.6rem
-            line-height .3rem
-            height .6rem
+            line-height .16rem
+            height .35rem
           
         &.game-K3
           .dice
@@ -296,9 +310,9 @@ body
         &:not(.game-K3)
           .the-number
           .number
-            width: 0.20rem;
-            height: 0.20rem;
-            line-height: 0.20rem;
+            width: 0.160rem;
+            height: 0.160rem;
+            line-height: 0.160rem;
             font-size: .12rem
           .number
             color #ccc
@@ -391,6 +405,7 @@ body
           
         &:after
           position absolute
+          z-index -1
           content ''
           left 3.8rem
           right 3.15rem

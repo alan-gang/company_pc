@@ -490,6 +490,8 @@ let Group = {
 }
 
 let Form = {
+  // getSalaryById: 'report/daySalaryRepor.do?method=getSalaryById&userId=4&startDate=20180501&endDate=20180515'
+  getSalaryById: '/report/daySalaryRepor.do?method=getSalaryById',
   personList: '/report/profit.do?method=personList',
   poolIssue: '/report/buyReport.do?method=poolIssue',
   poolList: '/report/buyReport.do?method=poolList',

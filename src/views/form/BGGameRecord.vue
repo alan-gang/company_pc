@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
+      .form.form-filters
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
@@ -21,13 +21,13 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-          el-table-column(prop="betTimeBj" label="时间" width="150" )
-          el-table-column(prop="cnGameName" label="游戏名称" width="120" )
-          el-table-column(prop="roundId" label="回合参考码" width="120" )
-          el-table-column(prop="bet" label="下注金额" width="100" )
-          el-table-column(prop="win" label="赢" width="100" )
+          el-table-column(class-name="pl2" prop="betTimeBj" label="时间"  )
+          el-table-column(prop="cnGameName" label="游戏名称"  )
+          el-table-column(prop="roundId" label="回合参考码"  )
+          el-table-column(prop="bet" label="下注金额"  )
+          el-table-column(prop="win" label="赢"  )
 
 
          
@@ -38,9 +38,11 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
+    mixins: [setTableMaxHeight],
     data () {
       return {
         pickerOptions: {

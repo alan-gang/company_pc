@@ -192,11 +192,11 @@
               .ds-button.primary.large(@click="unbindEmail" v-if="me.email") 提交
               .ds-button.cancel.large(@click="clearEmail") 清空
 
-      // 畅博安全
+      // 信游安全
       el-row.email(v-bind:class="{expand: index === 8 }")
         el-col
           el-row.static
-            el-col(:span="6").title.ds-icon-cbsafe 畅博安全
+            el-col(:span="6").title.ds-icon-cbsafe 信游安全
 
             el-col(:span="14").email
               span.text-green.ds-icon-set(v-if="me.cbsafe") 已设置
@@ -215,10 +215,10 @@
               transition(name="slide" appear=true)
                 div(style="padding: 0 1rem;" v-if="stepIndex === 1 && !me.cbsafe")
                   .QR.ds-icon-QR(:style="myQR")
-                  p.text-black(style="font-weight: bold; ") 扫码查看畅博安全码{{ qrDescrb }}
+                  p.text-black(style="font-weight: bold; ") 扫码查看信游安全码{{ qrDescrb }}
 
               transition(name="slide" appear=true)
-                p(v-if="stepIndex === 1") 畅博安全码：
+                p(v-if="stepIndex === 1") 信游安全码：
                   input.ds-input.large(v-model="cb_" @keyup.enter="switchGoogleAuth(me.cbsafe ? 0 : 1)")
 
             .buttons(style="margin-left: .85rem")
@@ -288,7 +288,7 @@
 
               .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
                 .ds-checkbox
-                畅博安全认证
+                信游安全认证
 
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
@@ -303,7 +303,7 @@
                   span.text-black(v-if="(safeCheck === 1 ? pt_ : et_ )") {{ (safeCheck === 1 ? pt_ : et_ ) }} 
                     span.text-999 秒后可重新发送
             transition(name="slide" appear=true)
-              p(v-if=" me.safeCheck != safeCheck &&  (me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) " style="margin-top: .2rem") 畅博安全码：
+              p(v-if=" me.safeCheck != safeCheck &&  (me.safeCheck === 3 && safeCheck === 0) || (me.safeCheck !== 3 && safeCheck === 3) " style="margin-top: .2rem") 信游安全码：
                   input.ds-input.large(v-model="safeCheckCode")
 
 
@@ -401,7 +401,7 @@ export default {
         this.safeCheck = 0
       }
       if (!this.me.cbsafe && this.safeCheck === 3) {
-        this.$message.error({target: this.$el, message: '请先开启畅博安全，再来绑定安全验证方式!'})
+        this.$message.error({target: this.$el, message: '请先开启信游安全，再来绑定安全验证方式!'})
         this.safeCheck = 0
       }
     },
@@ -426,7 +426,7 @@ export default {
         if (data.success === 1) {
           this.qrStr = 'data:image/png;base64,' + data.qrStr
           this.qrDescrb = '(密钥: ' + data.authKey + ', 平台：' + data.plat + ')'
-        } else this.$message.warning(data.msg || '畅博二维码获取失败！')
+        } else this.$message.warning(data.msg || '信游二维码获取失败！')
       }, (rep) => {
         // error
       })
@@ -439,14 +439,14 @@ export default {
         this.newCashPwd = ''
         this.cb_ = ''
         if (data.success === 1) {
-          this.$message.success(type ? '恭喜您，畅博安全开启成功' : '您已成功关闭畅博安全！')
+          this.$message.success(type ? '恭喜您，信游安全开启成功' : '您已成功关闭信游安全！')
           store.actions.setUser({
             cbsafe: !!type
           })
           this.stepIndex = 0
           if (this.me.safeCheck === 3) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
           // this.index = -1
-        } else this.$message.warning(data.msg || '畅博安全码输入不正确！')
+        } else this.$message.warning(data.msg || '信游安全码输入不正确！')
       }, (rep) => {
         // error
       })
@@ -863,5 +863,15 @@ export default {
           width 100%
   body.cb.v2
     .safe-detail-info.scroll-content
-      top 2rem !important
+        top 0 !important
+        position relative
+        // max-width 10rem
+        margin 0 auto
+        padding 0 10%
+    @media screen and (max-width: 1200px)
+      .safe-detail-info.scroll-content
+        top 2rem !important
+        // position relative
+        max-width 10rem
+        margin 0 auto
 </style>

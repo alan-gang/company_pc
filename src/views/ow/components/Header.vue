@@ -22,7 +22,7 @@ export default {
         {title: '常见问题', link: '/ow?url=faq'},
         {title: '域名验证', link: '/ow?url=domaincheck'},
         {title: '客户端下载', link: '/ow?url=download'},
-        {title: '畅博资讯', link: '/ow?url=news'}
+        {title: '信游资讯', link: '/ow?url=news'}
       ]
     }
   },

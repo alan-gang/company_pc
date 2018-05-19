@@ -17,7 +17,7 @@
               span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
               span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
                 span.text-999 秒后可重新发送
-        p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 畅博安全码：
+        p(v-if="me.safeCheck === 3 " style="margin-top: .2rem") 信游安全码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
 
 

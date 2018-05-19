@@ -35,7 +35,7 @@
         input(v-model="a2_" id="friendName" @keyup.enter="next")
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 3")
-        label(for="cb") 畅博安全码：
+        label(for="cb") 信游安全码：
         input(v-model="cb_" id="cb" @keyup.enter="next")
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
@@ -112,7 +112,7 @@ export default {
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
-      radios: ['邮箱找回', '', '安全问题找回', '畅博安全找回'],
+      radios: ['邮箱找回', '', '安全问题找回', '博盾安全找回'],
       finish: false,
       time: 5,
       newpwd: '',
@@ -127,6 +127,9 @@ export default {
   watch: {
     finish (n) {
       if (this.finish) this.countTime()
+    },
+    stepIndex () {
+      if (this.stepIndex === 0) this._getVerifyImage()
     }
   },
   mounted () {
@@ -142,7 +145,8 @@ export default {
       }, 1000)
     },
     next () {
-      this.noEmpty() && this._checkVerifyCode(() => {
+      // this.noEmpty(this.step) && this._checkVerifyCode(() => {
+      if (this.noEmpty()) {
         switch (this.stepIndex) {
           case 0:
             this._checkUserName(() => {
@@ -207,7 +211,7 @@ export default {
           case 2:
             this._safeQuestion()
         }
-      })
+      }
     },
     done () {
       if (this.noEmpty(2)) {

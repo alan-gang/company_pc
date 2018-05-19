@@ -77,9 +77,9 @@
         el-col(:span="6")
 
     .followDetail-page-content.scroll-content.info(style="top: 2.1rem")
-      el-table.header-bold.nopadding(:data="detail.taskDetailsList" v-bind:max-height="platform === 'ds' ? 250 : 600" @selection-change="handleSelectionChange")
+      el-table.header-bold.nopadding(:data="detail.taskDetailsList" max-height="250" @selection-change="handleSelectionChange")
 
-        el-table-column(width="80" label="选择")
+        el-table-column(class-name="pl2" width="80" label="选择")
           template(scope="scope")
             .ds-checkbox-label.disabled(style="opacity: .4")
               .ds-checkbox.disabled(:class="{ active: scope.row.status === 0}")

@@ -31,7 +31,7 @@
       return {
         downloads: [
           {
-            title: '畅博娱乐',
+            title: '信游娱乐',
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-logo',
             buttons: [

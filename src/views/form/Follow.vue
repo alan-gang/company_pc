@@ -7,48 +7,29 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
+      .form.form-filters
         label.item 追号时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-        // label.item 追号时间 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        //   |  至 
-        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
-
-        // label.item 状态 
-        //   el-select(clearable v-bind:disabled=" !STATUS[0] " placeholder="全" v-model="status" style="width: .8rem")
-        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-
-        label.item 奖金 
-          el-select(clearable v-bind:disabled=" !ISFREE[0] " placeholder="全" v-model="isFree" style="width: .8rem")
-            el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
         label.item 游戏名称 
           el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.5rem")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        label.item 游戏玩法 
-          el-select(clearable v-bind:disabled=" !methodList[0] " placeholder="全" v-model="method" style="width: 1.5rem")
-            el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
+        // label.item 游戏玩法 
+        //   el-select(clearable v-bind:disabled=" !methodList[0] " placeholder="全" v-model="method" style="width: 1.5rem")
+        //     el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
 
         label.item 游戏奖期 
           el-select(clearable v-bind:disabled=" !issueList[0] " placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
             el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
-        label.item 游戏模式 
-          el-select(clearable v-bind:disabled=" !MODES[0] " placeholder="全" v-model="mode" style="width: .6rem")
-            el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
+        label.item 游戏用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
 
         label.item 追号编号 
           el-input(v-model="id" style="width: 1rem")
 
-        label.item 游戏用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] " placeholder="全" v-model="zone" style="width: 1rem")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
         .buttons(style="margin-left: .6rem")
@@ -57,53 +38,58 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-          el-table-column(label="追号编号" width="100" )
+          el-table-column(label="追号编号" class-name="pl2")
             template(scope="scope")
               div
-                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click.stop=" platform === 'ds' ? (showFollow = scope.row.taskId) : goFollowDetail(scope.row.taskId)  ") {{ scope.row.taskId }}
+                span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.taskId }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(prop="userName" label="用户" width="80")
+          el-table-column(prop="userName" label="用户")
           
-          el-table-column(prop="beginTime" label="追号时间" width="140" )
+          el-table-column(prop="beginTime" label="追号时间" )
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.beginTime }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(prop="lotteryName" label="游戏" width="100" )
+          el-table-column(prop="lotteryName" label="游戏" )
 
-          el-table-column(prop="methodName" label="玩法" min-width="100" )
+          el-table-column(prop="methodName" label="玩法" min )
             template(scope="scope")
               div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
 
-          el-table-column(prop="beginIssue" label="开始期数" width="100" )
+          el-table-column(prop="beginIssue" label="开始期数" )
 
-          el-table-column(class-name="pl2" prop="issuecount" label="追号期数" align="right" width="80")
+          el-table-column(class-name="pl2" prop="issuecount" label="总期数")
 
-          el-table-column(prop="finishedcount" label="完成期数" width="80" align="right")
+          el-table-column(prop="finishedcount" label="完成期数")
 
-          el-table-column(class-name="pl2"  prop="codes" label="追号内容"  min-width="140" show-overflow-tooltip=true)
-
-          el-table-column(class-name="pl1" prop="modes" label="模式" width="50" )
+          el-table-column(class-name="pl1" prop="modes" label="模式" )
             template(scope="scope")
               span {{ MODES[scope.row.modes - 1] }}            
 
-          el-table-column(prop="taskprice" label="总金额" width="100" align="right")
+          el-table-column(prop="taskprice" label="总金额" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.taskprice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
 
-          el-table-column(prop="finishprice" label="完成金额" width="100" align="right")
+          // el-table-column(prop="finishprice" label="完成金额" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.finishprice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(class-name="pl2"   label="状态" width="100")
+          el-table-column(class-name="pl2"   label="状态")
             template(scope="scope")
               span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
-         
+
+          el-table-column(label="操作")
+            template(scope="scope")
+
+              div(v-if="!scope.row.last")
+
+                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = scope.row.taskId") 追号详情
+
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
@@ -117,9 +103,13 @@
             el-button-group
               el-button.close(icon="close" @click="showFollow = ''")
           Follow.followDetail-page(v-bind:id=" showFollow " style="min-height: 5.7rem")
+
+
+
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
@@ -129,6 +119,7 @@
     components: {
       Follow
     },
+    mixins: [setTableMaxHeight],
     data () {
       return {
         pickerOptions: {
@@ -162,8 +153,10 @@
           }
         },
         // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
+        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
+        stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
+        // defaultStEt: ['', ''],
+        // stEt: ['', ''],
         // st: '',
         // et: '',
         STATUS: ['进行中', '取消', '已完成'],
@@ -251,11 +244,11 @@
         this.amount[0].difMoney = 0
         this.Cdata.forEach(d => {
           this.amount[0].expectCost += parseFloat(d.taskprice)
-          this.amount[0].expenditure += parseFloat(d.finishprice)
+          // this.amount[0].expenditure += parseFloat(d.finishprice)
         })
         this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
         this.amount[0].income = this.amount[0].income.toFixed(3)
-        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
+        // this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
         this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
         if (!this.amount[0].difMoney.startsWith('-')) this.amount[0].difMoney = '+' + this.amount[0].difMoney
         this.Cdata[0] && this.Cdata.push({
@@ -271,7 +264,7 @@
           modes: '',
           income: '+' + this.amount[0].income,
           expectCost: '-' + this.amount[0].expectCost,
-          expenditure: '-' + this.amount[0].expenditure,
+          expenditure: '-' + this.amount[0].expectCost,
           balance: ''
         })
       },

@@ -38,6 +38,7 @@
   import store from '../../store'
   import api from '../../http/api'
   export default {
+    props: ['id', 'myself'],
     data () {
       return {
         me: store.state.user,
@@ -72,12 +73,12 @@
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
-      '$route': 'openRoute'
+      // '$route': 'openRoute'
     },
     mounted () {
       // console.log(this.$route.query.self, '????????????????!!!!!!!!!!!!')
-      this.self = this.$route.query.self
-      this.qryContractById(this.$route.query.id || '')
+      this.self = this.myself
+      this.qryContractById(this.id || '')
     },
     methods: {
       openRoute ({path, query: {id, self}}) {

@@ -7,16 +7,12 @@
   "scripts": {
     "ncb-dev": "node build/ncb-dev-server.js",
     "ncb-build": "node build/ncb-build.js",
-
     "gj-dev": "node build/gj-dev-server.js",
     "gj-build": "node build/gj-build.js",
-
     "nds-dev": "node build/nds-dev-server.js",
     "nds-build": "node build/nds-build.js",
-    
     "dsm-dev": "node build/dsm-dev-server.js",
     "dsm-build": "node build/dsm-build.js",
-    
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
@@ -32,6 +28,7 @@
     "vue-awesome-swiper": "^2.4.2",
     "vue-clipboard2": "0.0.6",
     "vue-echarts-v3": "^1.0.3",
+    "vue-loader": "^15.1.0",
     "vue-worker": "^1.2.1"
   },
   "devDependencies": {
@@ -50,7 +47,6 @@
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^4.0.2",
     "css-loader": "^0.25.0",
-    "element-ui": "^1.0.0-rc.8",
     "eslint": "^3.7.1",
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",
@@ -98,7 +94,6 @@
     "stylus-loader": "^2.3.1",
     "url-loader": "^0.5.7",
     "vue-chartjs": "^2.5.0",
-    "vue-loader": "^9.9.5",
     "vue-progressbar": "^0.7.2",
     "vue-resource": "^0.7.4",
     "vue-router": "^2.0.1",

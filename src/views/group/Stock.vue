@@ -14,146 +14,105 @@
           .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
-        label.item 分红发放日期范围 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+        .form-filters(style="padding: .15rem; margin: .2rem 0;")
+          label.item 发放日期 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        // label.item 契约结束时间从 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        //   |  至 
-        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
-          
-        label.item  &nbsp;状态 
-          el-select(v-model="s")
-            el-option(v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
+            
+          label.item  &nbsp;状态 
+            el-select(v-model="s")
+              el-option(v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
 
-        .ds-button.primary.large.bold(@click="bonus") 搜索
+          label.item(v-if="type === 1") 用户名  
+            input.ds-input.small(v-model="name" style="width: 1rem")
+              
+          .ds-button.primary.large.bold(@click="bonus") 搜索
 
-        el-table.header-bold.nopadding(:data="bonusList" v-bind:row-class-name="tableRowClassName" max-height="400" v-show=" !(type === 0 && me.role <= 2)")
-          // nds
-          el-table-column(prop="issue" label="分红期号" width="140" v-if=" platform === 'ds' ")
-          el-table-column(prop="saleAmount" label="总销量" width="140"  v-if=" platform === 'ds' ")
-          el-table-column(prop="profitAmount" label="总盈亏" width="140"  v-if=" platform === 'ds' ")
-          el-table-column(prop="actUser" label="活跃人數" width="80" v-if=" platform === 'ds' ")
-          el-table-column(prop="bounsRate" label="分红比率" width="80"  v-if=" platform === 'ds' ")
+        el-table.header-bold.nopadding(:data="bonusList"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName"  v-show=" !(type === 0 && me.role <= 2)")
+
+          el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="type === 1")
+
+          el-table-column(class-name="pl2" prop="issue" label="分紅期号"  )
+
+          el-table-column(label="总销量")
             template(scope="scope")
-              span {{ scope.row.bounsRate }}%
-          el-table-column(prop="bouns" label="应发分红" width="100"  v-if=" platform === 'ds' ")
-          el-table-column(prop="" label="分红状态" align="center" v-if=" platform === 'ds' ")
-             template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isDone === 1, 'text-blue': scope.row.isDone === 0 }") {{ STATUS[scope.row.isDone].title }}
-              // span(:class="{ 'text-green': scope.row.isSend > 0, 'text-blue': scope.row.isSend < 1 }") {{ ['未发放', '已发放'][scope.row.isSend]}}
-
-
-
-          el-table-column(prop="userName" label="用户名" width="80" v-if="type === 1")
-
-          el-table-column(prop="issue" label="分紅期号" width="140"  v-if=" platform !== 'ds' ")
-
-          el-table-column(prop="expireTm" label="契约结束时间" width="140"  v-if=" platform !== 'ds' ")
-
-          // el-table-column(prop="beginTm" label="契约开始时间" width="140"  v-if=" platform !== 'ds' ")
-
-          el-table-column(label="累计销量" width="100" align="right" v-if=" platform !== 'ds' ")
-            template(scope="scope")
-              // span {{ scope.row.ruleType === 0 ? scope.row.sales : '--' }}
               span {{ scope.row.saleAmount }}
 
 
-          el-table-column(label="累计盈亏" width="100" align="right" v-if=" platform !== 'ds' ")
+          el-table-column(label="总盈亏")
             template(scope="scope")
-              // span {{ scope.row.ruleType === 1 ? scope.row.sales : '--' }}
               span {{ scope.row.profitAmount }}
-          
-          el-table-column(prop="actUser" label="活跃人數" width="80"  align="right" v-if=" platform !== 'ds' ")
 
 
-          el-table-column(prop="bouns" label="理论分红金额" width="120" align="right" v-if=" platform !== 'ds' ")
+          el-table-column(prop="actUser" label="活跃人數")
 
-          el-table-column(prop="status" label="状态" align="center" width="80" v-if=" platform !== 'ds' ")
+
+          el-table-column(prop="bounsRate" label="分红比例")
+
+          el-table-column(prop="bouns" label="应收分红")
+
+          el-table-column(prop="status" label="状态")
              template(scope="scope")
               span(:class="{ 'text-green': scope.row.isDone === 1, 'text-blue': scope.row.isDone === 0 }") {{ STATUS[scope.row.isDone].title }}
 
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goStockDetail(scope.row.id)") 查看详情
+              .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id)") 查看详情
 
 
-        el-table.header-bold.nopadding(:data="topBonuList" max-height="400" v-on:expand="expand" v-show=" (type === 0 && me.role <= 2)")
+        el-table.header-bold.nopadding(:data="topBonuList"   stripe v-bind:max-height=" MH "  v-on:expand="expand" v-show=" (type === 0 && me.role <= 2)")
           
-          // nds
-          el-table-column(prop="issue" label="分红期号" width="140" v-if=" platform === 'ds' ")
-          el-table-column(prop="monthlyBuy" label="总销量" width="140"  v-if=" platform === 'ds' ")
-          el-table-column(prop="monthlyProfit" label="总盈亏" width="140"  v-if=" platform === 'ds' ")
-          el-table-column(prop="actUser" label="活跃人數" width="80" v-if=" platform === 'ds' ")
-          el-table-column(prop="bounsRate" label="分红比率" width="80"  v-if=" platform === 'ds' ")
-            template(scope="scope")
-              span {{ scope.row.bounsRate }}%
-              
-          el-table-column(prop="shareAmount" label="应发分红" width="100"  v-if=" platform === 'ds' ")
-          el-table-column(prop="" label="分红状态" align="center" v-if=" platform === 'ds' ")
-             template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isSend > 0, 'text-blue': scope.row.isSend < 1 }") {{ ['未发放', '已发放'][scope.row.isSend]}}
 
-
-
-          // el-table-column(type="expand")
-          //   template(scope="scope")
-          //     el-table.header-bold.nopadding(:data="topDetailList")
-          //       el-table-column(prop="creatTime" label="创建日期" width="140" )
-          //       el-table-column(prop="times" label="发放日期" width="140" )
-          //       // el-table-column(prop="startDate" label="分红开始日期" width="140" )
-          //       // el-table-column(prop="endDate" label="分红结束日期" width="140" )
-          //       el-table-column(prop="relatName" label="关联用户" width="80" )
-          //       // el-table-column(prop="conBeginTm" label="契约开始日期" width="140" )
-          //       // el-table-column(prop="conExPireTm" label="契约过期日期" width="140" )
-          //       el-table-column(prop="bonusRate" label="分红比率" width="80" )
-          //       el-table-column(prop="saleAmount" label="销售金额" width="100" )
-          //       el-table-column(prop="profitAmoun" label="盈亏金额" width="100" )
-          //       el-table-column(prop="bonusBook" label="理论分红" width="100" )
-          //       el-table-column(prop="bonus" label="实际分红" width="100" )
-          //       el-table-column(prop="" label="状态" align="center" width="80")
-          //          template(scope="scope")
-          //           span(:class="{ 'text-green': scope.row.isDone > 0, 'text-blue': scope.row.isDone < 1 }") {{ ['未发放', '已发放'][scope.row.isDone]}}
-          //       el-table-column(prop="userpoint" label="操作" align="center")
-          //           template(scope="scope")
-          //             .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="goContractDetail(scope.row.contractId)") 查看契约详情
-
-          el-table-column(prop="issue" label="期号" width="140" v-if=" platform !== 'ds' ")
-          el-table-column(prop="date" label="理论发放日期" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="uTime" label="更新时间" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="monthlyBuy" label="本期销售额" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="monthlyProfit" label="本期盈亏额" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="bookProfit" label="理论盈亏" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="totalProfit" label="总盈亏" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="actUser" label="活跃人數" width="80" v-if=" platform !== 'ds' ")
-          el-table-column(prop="shareBook" label="理论分红金额" width="140"  v-if=" platform !== 'ds' ")
-          el-table-column(prop="shareAmount" label="分红金额" width="140"  v-if=" platform !== 'ds' ")
-          // el-table-column(label="奖金类型" align="center" width="80")
+          el-table-column(class-name="pl2" prop="issue" label="期号")
+          el-table-column(prop="date" label="理论发放日期" )
+          el-table-column(prop="uTime" label="更新时间" )
+          el-table-column(prop="monthlyBuy" label="本期销售额" )
+          el-table-column(prop="monthlyProfit" label="本期盈亏额" )
+          el-table-column(prop="bookProfit" label="理论盈亏" )
+          el-table-column(prop="totalProfit" label="总盈亏" )
+          el-table-column(prop="actUser" label="活跃人數")
+          el-table-column(prop="shareBook" label="理论分红金额" )
+          el-table-column(prop="shareAmount" label="分红金额" )
             template(scope="scope")
               span {{ ['团队分红', '关联分红'][scope.row.bonusType - 1]}}
 
-          el-table-column(label="是否累积" align="center" width="80" v-if=" platform !== 'ds' ")
+          el-table-column(label="是否累积" align="center")
             template(scope="scope")
               span {{ ['否', '是'][scope.row.isGrand]}}
 
-
-          el-table-column(prop="" label="状态" align="center" v-if=" platform !== 'ds' ")
+          el-table-column(prop="" label="状态" align="center")
              template(scope="scope")
               span(:class="{ 'text-green': scope.row.isSend > 0, 'text-blue': scope.row.isSend < 1 }") {{ ['未发放', '已发放'][scope.row.isSend]}}
       
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
         
-
+    
+    .modal(v-if="showDetail" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.06rem;")
+          .tool-bar
+            span.title 分红详情
+            el-button-group
+              el-button.close(icon="close" @click="showDetail = ''")
+          StockDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5.7rem;")
       
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
+  import StockDetail from './StockDetail'
   import api from '../../http/api'
   import store from '../../store'
   import { dateFormat } from '../../util/Date'
   export default {
+    mixins: [setTableMaxHeight],
+    components: {
+      StockDetail
+    },
     data () {
       return {
+        TH: 180,
         pickerOptions: {
           shortcuts: [{
             text: '最近一个月',
@@ -240,7 +199,9 @@
         // pageSize: 5,
         total: 0,
         currentPage: 1,
-        preOptions: {}
+        preOptions: {},
+        showDetail: false,
+        name: ''
       }
     },
     computed: {
@@ -330,7 +291,8 @@
             // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             status: this.s.id || '',
             page: 1,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            userName: this.type === 1 ? this.name : ''
           }
         } else {
           this.preOptions.page = page
@@ -383,5 +345,114 @@
   .el-select
   .el-input-number
     width 1rem
+
+</style>
+
+<style lang="stylus" scoped>
+
+  @import '../../var.stylus'
+
+  bg = #d8d8d8
+  bg-hover = #ececec
+  bg-active = #e2e2e2
+  .tool-bar
+    height TH
+    line-height TH 
+    background-color bg
+    font-size .12rem
+    border-top-right-radius .05rem
+    border-top-left-radius .05rem
+    overflow hidden
+    background-position .2rem center
+
+  .title
+    color #333
+    font-weight bold
+    padding-left .2rem
+
+  .el-button-group
+    float right
+    height 100%
+    .el-button
+      font-size .12rem
+      color GREY
+      border none
+      height 100%
+      width TH
+      padding 0
+      background-color transparent
+      &:hover
+        background-color bg-hover
+      &:active
+        background-color bg-active
+      &:first-child
+        font-size .16rem
+      &.close
+        &:hover
+          background-color #f34
+          color #fff
+        &:active
+          color #fff
+          background-color #d40c1d
+
+  .modal 
+    position absolute
+    top TH
+    bottom 0
+    left 0
+    right 0
+    text-align center
+    z-index 9999
+    
+    .mask
+      position absolute
+      left 0
+      top 0
+      width 100%
+      height 100%
+      opacity .5
+      background #000
+      z-index 9998
+    .box-wrapper
+      position absolute
+      top 0
+      bottom 0
+      left 0
+      right 0
+      text-align center
+      z-index 9999
+      &:after
+        content ''
+        height 100%
+        width 0
+        vertical-align middle
+        display inline-block
+    .box
+      position relative
+      text-align left
+      display inline-block
+      vertical-align middle
+      background-color #ededed
+      font-size .12rem
+      width 9rem
+      radius()
+    .content
+      margin 0 .2rem
+      .el-row
+        margin PW 0
+        word-wrap break-word
+      .textarea-label
+        position relative
+        margin .3rem .3rem .3rem 0
+        .label
+          position absolute
+          left 0
+          top .05rem
+        .el-textarea
+          display inline-bock
+          vertical-align top
+          padding-left .6rem 
+          .textarea
+            font-size .12rem
 
 </style>

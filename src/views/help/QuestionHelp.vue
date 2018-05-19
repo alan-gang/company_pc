@@ -6,12 +6,12 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.function-help
+      img(src="/static/pic/bz_bg.jpg" style="width: 100%")
       .ds-button-group
         .ds-button.text-button(:class="{ selected: index === i }" @click=" index = i " v-for=" (g, i) in games ") {{ g.tagname }}
-      
-      .content(v-if=" gcontent ")
-        p.title {{ gcontent.content }}
 
+      .content(v-if=" gcontent ")
+        // p.title {{ gcontent.content }}
         .item(v-for="g in gcontent.subList") 
           span.step.text-black {{ g.title }}
           .value {{ g.content }}
@@ -71,7 +71,18 @@
     top TH
     text-align center
     padding PWX
+    min-width 9rem
     .ds-button-group
+      position absolute
+      top 1.2rem
+      right 1rem
+      color #fff
+      font-size .36rem
+      line-height .2rem
+      @media screen and (max-width: 1600px)
+        top .5rem
+        font-size .24rem
+
       text-align left
       // height auto
     .title
@@ -79,8 +90,15 @@
       color #999
     .content
       text-align left
+      margin PW 0
       .item
-        margin PW 0
+        padding PW
+        &:nth-child(odd)
+          background-color #fff
+        &:nth-child(even)
+          background-color rgba(255, 255, 255, .5)
+       .step
+          font-size .16rem
       .step
         position relative
         top -.02rem
@@ -88,4 +106,17 @@
         font-weight bold
       .value
         line-height .22rem
+        text-indent .3rem
+</style>
+
+<style lang="stylus">
+#app.night
+  .function-help
+    .content
+      color #999
+      .item
+        &:nth-child(odd)
+          background-color #444
+        &:nth-child(even)
+          background-color #555
 </style>

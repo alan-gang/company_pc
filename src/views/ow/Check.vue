@@ -7,7 +7,7 @@
       .scroll-content.flex(ref="sc")
         .flex-content
           .ds-icon-ow-lock
-          h5.white 畅博安全验证系统
+          h5.white 信游安全验证系统
           .input-container
             input
             .ds-icon-ow-input-clear

@@ -16,7 +16,7 @@
               h4 {{ menu.info.descrb }}
               .ds-button.primary(@click="open(menu.info)") 点击进入
 
-            dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+            dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {notitile: !group.title, 'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
 
@@ -66,6 +66,9 @@ export default {
         window.accessAngular.open()
       }
     },
+    __openThirdPart (item) {
+      this.open(item)
+    },
     open (item, index) {
       this.__setCall({
         fn: '__closeGuide'
@@ -110,15 +113,21 @@ body.cb.v2
       
     .submenu.me
     .submenu.help
-      max-width 4.5rem
+      max-width 4.2rem
     .submenu
     .submenu.game
-      max-width 6.2rem
+      // margin .1rem 0
+      margin-top .1rem
+      margin-bottom .1rem
+      &.SSC
+        margin-top 0
+        margin-bottom 0
+      max-width 5.5rem
       margin-right 0
       width auto
       display block
       float none
-      padding-left 1rem
+      padding-left 1.2rem
       position relative
       dt
         position absolute
@@ -139,9 +148,10 @@ body.cb.v2
         float none
         background none
         height auto
-        width auto
+        width 1.35rem
+        height .3rem
         color #666
-        margin: 0 0 0.1rem -0.1rem;
+        margin: 0 0 0.05rem -0.02rem;
         font-size .14rem
         transform none
       .ds-button.card
@@ -150,16 +160,18 @@ body.cb.v2
         radius(0)
         color #333
         background-color #fff
-        margin 0 .1rem
+        margin 0 .03rem
+        width 1.3rem
+        height .3rem
         &:hover
           background-color #e8f6ff
-          shadow(3px 3px 5px #aaa)
+          // shadow(3px 3px 5px #aaa)
         &.sign:after
           display inline-block
           content '热'
           position absolute
-          right -.1rem
-          top -.1rem
+          right .02rem
+          top .06rem
           left auto !important
           bottom auto !important
           color #fff
@@ -171,7 +183,25 @@ body.cb.v2
         &.sign.new:after
           content '新'
           background BLUE
-     
+    .submenu.game
+      dt
+        display none
+
+      background url(../assets/v2/nav_icon_qt.png) 0 center no-repeat
+    
+      &.SSC
+        background url(../assets/v2/nav_icon_ssc.png) 0 center no-repeat
+        & + .SSC
+          background none
+      &.G115
+        background url(../assets/v2/nav_icon_115.png) 0 center no-repeat
+
+      &.K3
+        background url(../assets/v2/nav_icon_ks.png) 0 center no-repeat
+
+      &.VR
+        background url(../assets/v2/nav_icon_vr.png) 0 center no-repeat
+
   
   .footer-popover
     .info
@@ -185,9 +215,14 @@ body.cb.v2
     .ds-icon-game-bg1
       background url(../assets/v2/001.png) .2rem center no-repeat
     .ds-icon-game-bg2
-      background url(../assets/v2/002.png) .2rem center no-repeat
-    .ds-icon-game-bg3
       background url(../assets/v2/003.png) .2rem center no-repeat
+    .ds-icon-game-bg3
+      background url(../assets/v2/002.png) .2rem center no-repeat
+</style>
+
+<style lang="stylus">
+  .new-header .menu .icon-button
+    padding 0 .1rem !important
 </style>
 
 <style lang="stylus" scoped>
@@ -199,10 +234,12 @@ body.cb.v2
     // padding-left 3.8rem
     text-align right
     background url(../assets/v2/logo.png) left center  no-repeat 
+
     .icon-button
       position relative
       display inline-block
-      padding 0 .1rem
+      padding 0 .2rem
+
       height FH
       line-height FH
       color #fff
@@ -212,6 +249,12 @@ body.cb.v2
       &:hover
         background-color rgba(0, 0, 0, .1)
       
+  #app.cb.v2 .new-header section.menu
+    display inline
+    background none
+    .icon-button
+      height .36rem
+      line-height .36rem
 
     
 </style>

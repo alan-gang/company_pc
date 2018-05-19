@@ -1,6 +1,6 @@
 <template lang="jade">
 .login-form
-  SlidePics(v-if=" platform !== 'ds' ")
+  img(src="/static/pic/login_banner.jpg")
   dl
     
     dt.ds-icon-notice(:class="{ h0: !this.regard }")
@@ -9,8 +9,9 @@
 
     // dt.ds-icon-notice(v-if="notice") {{ notice }}
       
-    dt.dd(v-if=" platform !== 'ds' ")
+    dt.dd(v-if=" platform !== 'ds' " style="font-size: .18rem; text-align: left;")
       用户登录
+      router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m" style="float: right; color: #666") 试玩登录
 
     dd.ds-icon-user
       input( v-model="un_" @change="getGreetingMsg" autofocus)
@@ -25,7 +26,6 @@
     dd.ds-button.positive.full.bold.login(@click="login" style="border: none") 登录
 
     dd.actions
-      router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m") 试玩登录
       router-link.back-router.ds-button.text-button.light.small(:to="'/login'" @click.native.stop="" style="float: left") 切换线路
       .forget.ds-button.text-button.light.small(style="position: relative" v-bind:class="{over: over}" @mouseleave=" overf(0) " @mouseover=" overf(1) ") 无法登录
         .con(ref="con" style="position: absolute; left: .9rem; top: -3rem; max-height: 6rem; overflow: auto; padding: .3rem .5rem; background: #efefef; border-radius: 5px; cursor: default")
@@ -45,13 +45,13 @@
   import api from '../../http/api'
   import xhr from 'components/xhr'
   // import { launchFullScreen } from '../../util/Dom'
-  import SlidePics from 'components/SlidePics'
+  // import SlidePics from 'components/SlidePics'
   export default {
     name: 'Login',
     mixins: [xhr],
     props: ['m'],
     components: {
-      SlidePics
+      // SlidePics
     },
     data () {
       return {
@@ -64,7 +64,8 @@
     },
     computed: {
       disablePwd () {
-        return !this.un_ || this.regard === false
+        // return !this.un_ || this.regard === false
+        return false
       }
     },
     mounted () {
@@ -82,7 +83,9 @@
         setTimeout(() => {
           this.$el.querySelector('.ds-icon-user input').focus()
         }, 0)
-        this.tryLogin(userId, sessionKey)
+        setTimeout(() => {
+          this.tryLogin(userId, sessionKey)
+        }, 100)
       }
     },
     activated () {
@@ -288,6 +291,7 @@
   @import '../../var.stylus'
   
   .login-form
+    text-align center
     & > *
         display inline-block
         vertical-align middle
@@ -384,7 +388,7 @@
   #app.cb.v2
     .login-form
       margin-top .5rem
-      max-width 9rem
+      max-width 12rem
       min-width 9rem
       dt
         text-shadow none
@@ -399,6 +403,7 @@
     .try-form
     .login-form
       dl
+        padding 0 .1rem
         background #eee
         radius()
       .dd

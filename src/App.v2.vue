@@ -163,12 +163,6 @@ export default {
           menuid: '1'
         },
         {
-          menuid: '98',
-          title: '真人娱乐',
-          big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg1 ', id: '9-9-9', title: 'BG真人娱乐大厅', descrb: '真人娱乐场，美女如云', fn: 201}
-        },
-        {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
@@ -190,9 +184,14 @@ export default {
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', volume: true, gameid: 17},
                 {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', volume: false, gameid: 17},
-                {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', volume: true, gameid: 20},
-                {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', volume: false, gameid: 2},
+                // {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', volume: true, gameid: 20},
+                // {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', volume: false, gameid: 2},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29}
+                // {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', volume: false, gameid: 16},
+                // {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', volume: false, gameid: 12},
+                // {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', volume: false, gameid: 21},
+                // {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', volume: false, gameid: 18},
+                // {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', volume: false, gameid: 19}
               ]
             },
             {
@@ -200,11 +199,6 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', volume: false, gameid: 16},
-                {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', volume: false, gameid: 12},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', volume: false, gameid: 21},
-                {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', volume: false, gameid: 18},
-                {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', volume: false, gameid: 19}
               ]
             },
             {
@@ -216,7 +210,7 @@ export default {
               items: [
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '江西11选5', volume: true, gameid: 7},
-                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
+                // {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
                 {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', volume: true, gameid: 6},
                 {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11}
               ]
@@ -229,8 +223,8 @@ export default {
                 {class: 'ds-icon-game-ahK3', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
                 {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
-                {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
-                {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
+                {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
+                // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
               ]
             },
             {
@@ -243,8 +237,8 @@ export default {
                 {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
-                {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
-                {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
+                // {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
+                // {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
                 {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
               ]
             },
@@ -253,12 +247,12 @@ export default {
               // hide: true,
               url: 'VR',
               items: [
-                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR金星1.5分彩', fn: 1},
+                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: '金星1.5分彩', fn: 1},
                 // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: 11},
-                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: 2},
-                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: 13},
-                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR彩票百家乐', fn: 15}
+                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: '3分彩', fn: 11},
+                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: '赛车', fn: 2},
+                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: '快艇', fn: 13},
+                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: '彩票百家乐', fn: 15}
                 // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
               ]
             },
@@ -273,6 +267,12 @@ export default {
               ]
             }
           ]
+        },
+        {
+          menuid: '98',
+          title: '真人娱乐',
+          big: true,
+          info: {menuid: '98', class: 'ds-icon-game-bg1 ', id: '9-9-9', title: 'BG真人娱乐大厅', descrb: '真人娱乐场，美女如云', fn: 201}
         },
         {
           menuid: '98',
@@ -318,26 +318,26 @@ export default {
                 {
                   id: '2-4-1',
                   menuid: '30',
-                  title: '充值申请',
+                  title: '充值中心',
                   url: 'TopUp'
                 },
                 {
                   id: '2-5-1',
                   menuid: '32',
-                  title: '提现申请',
+                  title: '提现中心',
                   url: 'WithDraw'
+                },
+                {
+                  id: '2-7-1',
+                  // menuid: '34',
+                  title: '转帐记录',
+                  url: 'BGTransaction'
                 },
                 {
                   id: '2-6-1',
                   menuid: '34',
                   title: '我的银行卡',
                   url: 'Bank'
-                },
-                {
-                  id: '2-7-1',
-                  // menuid: '34',
-                  title: 'BG转帐记录',
-                  url: 'BGTransaction'
                 }
               ]
             },
@@ -368,44 +368,15 @@ export default {
                   url: 'Ad'
                 },
                 {
-                  id: '3-2-3',
-                  menuid: '93',
-                  title: '设置日工资',
-                  url: 'SetDaySalary'
-                },
-                {
-                  id: '3-3-1',
-                  menuid: '45',
-                  // size: 'full',
-                  title: '分红列表',
-                  url: 'Stock'
-                },
-                {
-                  id: '3-3-1',
-                  menuid: '64',
-                  // size: 'full',
-                  title: '分红列表',
-                  url: 'Stock'
-                },
-                // {
-                //   id: '3-3-2',
-                //   menuid: '29',
-                //   title: '分红详情',
-                //   url: 'StockDetail'
-                //   // position: {
-                //   //   width: '5.4rem',
-                //   //   height: '6.8rem'
-                //   // }
-                // },
-                {
                   id: '3-3-3',
                   menuid: '44',
-                  title: '契约列表',
+                  title: '契约设置',
                   url: 'Contract'
                 },
                 {
                   id: '3-3-4',
                   menuid: '88',
+                  hide: true,
                   title: '契约详情',
                   url: 'ContractDetail',
                   position: {
@@ -413,16 +384,22 @@ export default {
                     height: '6.8rem'
                   }
                 },
+                // {
+                //   id: '3-2-3',
+                //   // menuid: '93',
+                //   title: '设置日工资',
+                //   url: 'SetDaySalary'
+                // },
                 {
                   id: '3-4-1',
                   menuid: '47',
-                  title: '团队数据统计',
+                  title: '团队统计',
                   url: 'DataAnalysis'
                 },
                 {
                   id: '3-4-2',
                   menuid: '48',
-                  title: '团队图表分析',
+                  title: '团队分析',
                   url: 'ChartAnalysis',
                   position: {
                     'min-width': '9.5rem'
@@ -437,7 +414,7 @@ export default {
                 {
                   id: '4-1-1',
                   menuid: '50',
-                  title: '投注记录列表',
+                  title: '投注记录',
                   url: 'Order',
                   position: {
                     width: '13rem'
@@ -446,7 +423,7 @@ export default {
                 {
                   id: '4-2-1',
                   menuid: '53',
-                  title: '追号记录列表',
+                  title: '追号记录',
                   url: 'Follow',
                   position: {
                     width: '12rem'
@@ -455,106 +432,71 @@ export default {
                 {
                   id: '4-1-2',
                   menuid: '94',
-                  title: '我的奖池号',
+                  title: '奖池记录',
                   url: 'LuckyPool',
                   position: {
                     width: '12rem'
                   }
                 },
                 {
-                  id: '4-5-3',
-                  menuid: '89',
-                  title: '走势图',
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
-                },
-                {
-                  id: '4-8-1',
-                  menuid: '98',
-                  title: 'BG视讯记录',
+                  id: '4-9-9',
+                  menuid: '53',
+                  title: '其它游戏',
                   url: 'BGVedioRecord',
                   position: {
-                    width: '13rem'
-                  }
-                },
-                {
-                  id: '4-8-2',
-                  menuid: '98',
-                  title: 'BG电游记录',
-                  url: 'BGGameRecord',
-                  position: {
                     width: '12rem'
                   }
                 },
-                {
-                  id: '4-8-3',
-                  menuid: '98',
-                  title: 'BG扑鱼记录',
-                  url: 'BGFishRecord',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '4-1-7',
-                  menuid: '98',
-                  title: 'VR投注记录',
-                  url: 'VROrder',
-                  position: {
-                    width: '13rem'
-                  }
-                },
-                {
-                  id: '4-1-8',
-                  menuid: '98',
-                  title: 'VR追号记录',
-                  url: 'VRFollow',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '4-1-9',
-                  menuid: '98',
-                  title: 'VR打赏列表',
-                  url: 'VRTip',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '4-4-1',
-                  menuid: '57',
-                  title: '今日报表列表',
-                  url: 'Today'
-                },
-                {
-                  id: '4-5-1',
-                  menuid: '58',
-                  title: '盈亏报表列表',
-                  url: 'ProfitLoss'
-                },
-                // {
-                //   id: '4-5-4',
-                //   title: '个人盈亏明细',
-                //   url: 'ProfitLossDetail'
-                // },
                 {
                   id: '4-5-2',
                   menuid: '67',
-                  title: '帐变列表',
+                  title: '帐变明细',
                   position: {
                     width: '12rem'
                   },
                   url: 'Account'
                 },
                 {
+                  id: '4-4-1',
+                  menuid: '57',
+                  title: '实时报表',
+                  url: 'Today'
+                },
+                {
+                  id: '4-5-1',
+                  menuid: '58',
+                  title: '历史报表',
+                  url: 'ProfitLoss'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '45',
+                  // size: 'full',
+                  title: '分红报表',
+                  url: 'Stock'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '64',
+                  // size: 'full',
+                  title: '分红报表',
+                  url: 'Stock'
+                },
+                {
                   id: '4-5-5',
                   menuid: '78',
-                  title: '我的日工资详情',
+                  title: '工资报表',
                   url: 'DaySalary'
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '89',
+                  title: '走势图',
+                  hide: true,
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
               ]
             }
@@ -593,26 +535,26 @@ export default {
                 {
                   id: '2-4-1',
                   menuid: '30',
-                  title: '充值申请',
+                  title: '充值中心',
                   url: 'TopUp'
                 },
                 {
                   id: '2-5-1',
                   menuid: '32',
-                  title: '提现申请',
+                  title: '提现中心',
                   url: 'WithDraw'
+                },
+                {
+                  id: '2-7-1',
+                  // menuid: '34',
+                  title: '转帐记录',
+                  url: 'BGTransaction'
                 },
                 {
                   id: '2-6-1',
                   menuid: '34',
                   title: '我的银行卡',
                   url: 'Bank'
-                },
-                {
-                  id: '2-7-1',
-                  // menuid: '34',
-                  title: 'BG转帐记录',
-                  url: 'BGTransaction'
                 }
               ]
             }
@@ -653,91 +595,38 @@ export default {
                   url: 'Ad'
                 },
                 {
-                  id: '3-2-3',
-                  menuid: '93',
-                  title: '设置日工资',
-                  url: 'SetDaySalary'
-                }
-              ]
-            },
-            // {
-            //   id: '3-2',
-            //   title: '开户中心',
-            //   items: [
-            //     {
-            //       id: '3-2-1',
-            //       menuid: '42',
-            //       title: '增加用户',
-            //       url: 'AddUser'
-            //     },
-            //     {
-            //       id: '3-2-2',
-            //       menuid: '43',
-            //       title: '推广设置',
-            //       url: 'Ad'
-            //     }
-            //   ]
-            // },
-            {
-              id: '3-3',
-              title: '契约分红',
-              items: [
-                {
-                  id: '3-3-1',
-                  menuid: '45',
-                  // size: 'full',
-                  title: '分红列表',
-                  url: 'Stock'
-                },
-                {
-                  id: '3-3-1',
-                  menuid: '64',
-                  // size: 'full',
-                  title: '分红列表',
-                  url: 'Stock'
-                },
-                // {
-                //   id: '3-3-2',
-                //   menuid: '29',
-                //   title: '分红详情',
-                //   url: 'StockDetail'
-                //   // position: {
-                //   //   width: '5.4rem',
-                //   //   height: '6.8rem'
-                //   // }
-                // },
-                {
                   id: '3-3-3',
                   menuid: '44',
-                  title: '契约列表',
+                  title: '契约设置',
                   url: 'Contract'
                 },
                 {
                   id: '3-3-4',
                   menuid: '88',
+                  hide: true,
                   title: '契约详情',
                   url: 'ContractDetail',
                   position: {
                     width: '5.4rem',
                     height: '6.8rem'
                   }
-                }
-              ]
-            },
-            {
-              id: '3-4',
-              title: '团队统计',
-              items: [
+                },
+                // {
+                //   id: '3-2-3',
+                //   menuid: '93',
+                //   title: '设置日工资',
+                //   url: 'SetDaySalary'
+                // },
                 {
                   id: '3-4-1',
                   menuid: '47',
-                  title: '团队数据统计',
+                  title: '团队统计',
                   url: 'DataAnalysis'
                 },
                 {
                   id: '3-4-2',
                   menuid: '48',
-                  title: '团队图表分析',
+                  title: '团队分析',
                   url: 'ChartAnalysis',
                   position: {
                     'min-width': '9.5rem'
@@ -745,6 +634,49 @@ export default {
                 }
               ]
             }
+            // {
+            //   id: '3-3',
+            //   title: '契约分红',
+            //   items: [
+            //     {
+            //       id: '3-3-3',
+            //       menuid: '44',
+            //       title: '契约列表',
+            //       url: 'Contract'
+            //     },
+            //     {
+            //       id: '3-3-4',
+            //       menuid: '88',
+            //       title: '契约详情',
+            //       url: 'ContractDetail',
+            //       position: {
+            //         width: '5.4rem',
+            //         height: '6.8rem'
+            //       }
+            //     }
+            //   ]
+            // }
+            // {
+            //   id: '3-4',
+            //   title: '团队统计',
+            //   items: [
+            //     {
+            //       id: '3-4-1',
+            //       menuid: '47',
+            //       title: '团队数据统计',
+            //       url: 'DataAnalysis'
+            //     },
+            //     {
+            //       id: '3-4-2',
+            //       menuid: '48',
+            //       title: '团队图表分析',
+            //       url: 'ChartAnalysis',
+            //       position: {
+            //         'min-width': '9.5rem'
+            //       }
+            //     }
+            //   ]
+            // }
           ]
         },
         {
@@ -763,7 +695,7 @@ export default {
                 {
                   id: '4-1-1',
                   menuid: '50',
-                  title: '投注记录列表',
+                  title: '投注记录',
                   url: 'Order',
                   position: {
                     width: '13rem'
@@ -772,7 +704,7 @@ export default {
                 {
                   id: '4-2-1',
                   menuid: '53',
-                  title: '追号记录列表',
+                  title: '追号记录',
                   url: 'Follow',
                   position: {
                     width: '12rem'
@@ -781,161 +713,132 @@ export default {
                 {
                   id: '4-1-2',
                   menuid: '94',
-                  title: '我的奖池号',
+                  title: '奖池记录',
                   url: 'LuckyPool',
                   position: {
                     width: '12rem'
                   }
                 },
                 {
-                  id: '4-5-3',
-                  menuid: '89',
-                  title: '走势图',
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
-                },
-                {
-                  id: '4-8-1',
-                  menuid: '98',
-                  title: 'BG视讯记录',
+                  id: '4-9-9',
+                  menuid: '53',
+                  title: '其它游戏',
                   url: 'BGVedioRecord',
                   position: {
-                    width: '13rem'
-                  }
-                },
-                {
-                  id: '4-8-2',
-                  menuid: '98',
-                  title: 'BG电游记录',
-                  url: 'BGGameRecord',
-                  position: {
                     width: '12rem'
                   }
                 },
-                {
-                  id: '4-8-3',
-                  menuid: '98',
-                  title: 'BG扑鱼记录',
-                  url: 'BGFishRecord',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '4-1-7',
-                  menuid: '98',
-                  title: 'VR投注记录列表',
-                  url: 'VROrder',
-                  position: {
-                    width: '13rem'
-                  }
-                },
-                {
-                  id: '4-1-8',
-                  menuid: '98',
-                  title: 'VR追号记录列表',
-                  url: 'VRFollow',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '4-1-9',
-                  menuid: '98',
-                  title: 'VR打赏列表',
-                  url: 'VRTip',
-                  position: {
-                    width: '12rem'
-                  }
-                }
-              ]
-            },
-            // {
-            //   id: '4-2',
-            //   title: '追号记录',
-            //   items: [
-            //     {
-            //       id: '4-2-1',
-            //       menuid: '53',
-            //       title: '追号记录列表',
-            //       url: 'Follow',
-            //       position: {
-            //         width: '12rem'
-            //       }
-            //     }
-            //     // {
-            //     //   id: '4-2-2',
-            //     //   title: '追号记录详情',
-            //     //   url: 'FollowDetail',
-            //     //   position: {
-            //     //     width: '10rem'
-            //     //   }
-            //     // }
-            //   ]
-            // },
-            // @TODO @next
-            // {
-            //   id: '4-3',
-            //   title: '跟单中心',
-            //   items: [
-            //     {
-            //       id: '4-3-1',
-            //       menuid: '56',
-            //       title: '跟单中心',
-            //       url: 'FollowOrder'
-            //     }
-            //   ]
-            // },
-            // {
-            //   id: '4-4',
-            //   title: '今日报表',
-            //   items: [
-            //     {
-            //       id: '4-4-1',
-            //       menuid: '57',
-            //       title: '今日报表列表',
-            //       url: 'Today'
-            //     }
-            //   ]
-            // },
-            {
-              id: '4-5',
-              title: '游戏报表',
-              items: [
-                {
-                  id: '4-4-1',
-                  menuid: '57',
-                  title: '今日报表列表',
-                  url: 'Today'
-                },
-                {
-                  id: '4-5-1',
-                  menuid: '58',
-                  title: '盈亏报表列表',
-                  url: 'ProfitLoss'
-                },
-                // {
-                //   id: '4-5-4',
-                //   title: '个人盈亏明细',
-                //   url: 'ProfitLossDetail'
-                // },
                 {
                   id: '4-5-2',
                   menuid: '67',
-                  title: '帐变列表',
+                  title: '帐变明细',
                   position: {
                     width: '12rem'
                   },
                   url: 'Account'
                 },
                 {
+                  id: '4-4-1',
+                  menuid: '57',
+                  title: '实时报表',
+                  url: 'Today'
+                },
+                {
+                  id: '4-5-1',
+                  menuid: '58',
+                  title: '历史报表',
+                  url: 'ProfitLoss'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '45',
+                  // size: 'full',
+                  title: '分红报表',
+                  url: 'Stock'
+                },
+                {
+                  id: '3-3-1',
+                  menuid: '64',
+                  // size: 'full',
+                  title: '分红报表',
+                  url: 'Stock'
+                },
+                {
                   id: '4-5-5',
                   menuid: '78',
-                  title: '我的日工资详情',
+                  title: '工资报表',
                   url: 'DaySalary'
+                },
+                {
+                  id: '4-5-3',
+                  menuid: '89',
+                  title: '走势图',
+                  hide: true,
+                  position: {
+                    width: '16.3rem'
+                  },
+                  url: 'TrendChart'
                 }
+                // {
+                //   id: '4-8-1',
+                //   menuid: '98',
+                //   title: 'BG视讯记录',
+                //   url: 'BGVedioRecord',
+                //   position: {
+                //     width: '13rem'
+                //   }
+                // },
+                // {
+                //   id: '4-8-2',
+                //   menuid: '98',
+                //   title: 'BG电游记录',
+                //   url: 'BGGameRecord',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
+                // {
+                //   id: '4-8-3',
+                //   menuid: '98',
+                //   title: 'BG扑鱼记录',
+                //   url: 'BGFishRecord',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
+                // {
+                //   id: '4-1-7',
+                //   menuid: '98',
+                //   title: 'VR投注记录列表',
+                //   url: 'VROrder',
+                //   position: {
+                //     width: '13rem'
+                //   }
+                // },
+                // {
+                //   id: '4-1-8',
+                //   menuid: '98',
+                //   title: 'VR追号记录列表',
+                //   url: 'VRFollow',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
+                // {
+                //   id: '4-1-9',
+                //   menuid: '98',
+                //   title: 'VR打赏列表',
+                //   url: 'VRTip',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // }
+              ]
+            },
+            {
+              id: '4-5',
+              title: '游戏报表',
+              items: [
               ]
             }
           ]
@@ -944,9 +847,9 @@ export default {
           id: 5,
           class: 'ds-icon-gift',
           title: '活动',
-          // href: '/activity/5-1-1',
           url: 'activity',
           menuid: '6',
+          defaultUrl: '/activity/5-1-1',
           groups: [
             {
               title: '活动中心',
@@ -963,6 +866,7 @@ export default {
           title: '帮助',
           url: 'help',
           menuid: '7',
+          defaultUrl: '/help/6-1-1',
           groups: [
             {
               id: '6-1',
@@ -1019,6 +923,7 @@ export default {
           id: 7,
           class: 'ds-icon-download',
           href: '/download/7-1-1',
+          defaultUrl: '/download/7-1-1',
           title: '下载'
         }
         // {
@@ -1066,7 +971,7 @@ export default {
           this.activeMenu = []
         }
         if (this.mi > 2) {
-          if (this.mi === 7) {
+          if (this.mi === 6) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
             this.activeMenu = [this.menus[7 + 4], this.menus[8 + 4], this.menus[9 + 4], this.menus[10 + 4], this.menus[11 + 4]]
@@ -1174,6 +1079,7 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
+          showSalary: data.showSalary === '1',
           name: data.nickName,
           pwd: data.hasLogPwd === '1',
           cashPwd: data.hasSecurityPwd === '1',
@@ -1312,7 +1218,7 @@ export default {
       this.setUser()
       document.body.className = this.Me.css
       cookie.remove('JSESSIONID')
-      if (!args) this.$router.push('/login')
+      if (!args) this.$router.push('/login/login')
       if (args && args.fn) args.fn()
       this.__logoutChat()
     },
@@ -1418,7 +1324,7 @@ export default {
     color #666
     margin 0
     background url(/static/skins/bg.jpg) center no-repeat
-    background-size 100% 100% !important
+    // background-size 100% 100% !important
     transition background linear .5s
     &.skin-new-year 
       #app.classic .lefter.game .game
@@ -1448,7 +1354,7 @@ export default {
         background-size 200% 170% !important
         // background-position 200% 200% !important
       
-    // background-size cover
+    background-size cover
   
   body:fullscreen #app > * {
     background url(/static/skins/bg.jpg) center no-repeat

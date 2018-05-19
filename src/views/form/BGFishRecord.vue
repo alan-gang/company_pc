@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
+      .form.form-filters
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
@@ -21,14 +21,14 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-          el-table-column(prop="orderTime" label="捕鱼时间" width="150" )
-          el-table-column(prop="issueId" label="局号" width="150" )
-          el-table-column(prop="betAmount" label="投注金额" width="100" )
-          el-table-column(prop="calcAmount" label="派彩" width="100" )
-          el-table-column(prop="payout" label="输/赢" width="100" )
-          el-table-column(prop="orderId" label="来源" width="100" )
+          el-table-column(class-name="pl2" prop="orderTime" label="捕鱼时间"  )
+          el-table-column(prop="issueId" label="局号"  )
+          el-table-column(prop="betAmount" label="投注金额"  )
+          el-table-column(prop="calcAmount" label="派彩"  )
+          el-table-column(prop="payout" label="输/赢"  )
+          el-table-column(prop="orderId" label="来源"  )
             template(scope="scope")
               span 捕鱼获得
 
@@ -41,9 +41,11 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
+    mixins: [setTableMaxHeight],
     data () {
       return {
         pickerOptions: {

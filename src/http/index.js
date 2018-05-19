@@ -19,7 +19,7 @@ export default (Vue) => {
         timeout: 10000
       },
       then: function (s, e) {
-        e && e()
+        // e && e()
         return THROTTLE.xhr
       },
       finally: function (f) {
@@ -27,7 +27,7 @@ export default (Vue) => {
         return THROTTLE.xhr
       },
       catch: function (f) {
-        f && f()
+        // f && f()
         return THROTTLE.xhr
       }
     }

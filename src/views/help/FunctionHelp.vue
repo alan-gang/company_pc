@@ -6,20 +6,26 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.function-help
+
+      img(src="/static/pic/bz_bg.jpg" style="width: 100%")
       .ds-button-group
         .ds-button.text-button(:class="{ selected: index === i }" @click=" index = i " v-for=" (g, i) in games ") {{ g.tagname }}
       
-      .content(v-for="gcontent in gcontents")
+      .content(v-for="gcontent in gcontents" v-if=" gcontent.title === '\"\"' ")
 
-        span.step.text-black(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.title}}
-        .value {{ gcontent.content }}
-        
-        // p.title {{ gcontent.content }}
+        // span.step.text-black(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.title}}
+        // .value.text-999(v-if=" gcontent.title !== '\"\"' ") {{ gcontent.content }}
 
-        .item(v-for="g in gcontent.subList") 
+
+        .item(v-for="(g,i) in gcontent.subList" ) 
           span.step.text-black {{ g.title }}
           .value {{ g.content }}
-         
+      
+      .content( v-if=" gcontents[0] && gcontents[0].title !== '\"\"' ")
+
+        .item(v-for="gcontent in gcontents" ) 
+          span.step.text-black {{ gcontent.title }}
+          .value {{ gcontent.content }}
 
     
 </template>
@@ -75,7 +81,18 @@
     top TH
     text-align center
     padding PWX
+    min-width 9rem
     .ds-button-group
+      position absolute
+      top 1.2rem
+      right 1rem
+      color #fff
+      font-size .36rem
+      line-height .2rem
+      @media screen and (max-width: 1600px)
+        top .5rem
+        font-size .24rem
+
       text-align left
       // height auto
     .title
@@ -85,7 +102,11 @@
       text-align left
       margin PW 0
       .item
-        margin PW
+        padding PW
+        &:nth-child(odd)
+          background-color #fff
+        &:nth-child(even)
+          background-color rgba(255, 255, 255, .5)
        .step
           font-size .16rem
       .step
@@ -95,5 +116,5 @@
         font-weight bold
       .value
         line-height .22rem
-        text-indent PWX
+        text-indent .3rem
 </style>

@@ -7,23 +7,24 @@
     slot(name="toolbar")
     .stock-list.scroll-content
 
-      .form
+      .form.form-filters
 
         label.item 时间范围 
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         .buttons(style="margin-left: .6rem; margin-top: .1rem")
           .ds-button.primary.large.bold(@click="getData") 搜索
         
+      .table-list(style="padding: .15rem .2rem ")
       
         el-table.header-bold.nopadding(:data="data" style="margin: .2rem 0")
 
-          el-table-column(prop="loginId" label="用户名" width="150" v-bind:sortable="true")
+          el-table-column(prop="loginId" label="用户名" )
 
-          el-table-column(prop="operateTime" label="时间" width="150" v-bind:sortable="true")
+          el-table-column(prop="operateTime" label="时间" )
           
-          el-table-column(prop="amount" label="金额" width="100" v-bind:sortable="true")
+          el-table-column(prop="amount" label="金额" )
   
-          el-table-column(prop="accountItemName" label="操作" width="100" )
+          el-table-column(prop="accountItemName" label="操作"  )
 
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -60,7 +61,7 @@
         }
       }
     },
-    created () {
+    mounted () {
       this.getData()
     },
     methods: {

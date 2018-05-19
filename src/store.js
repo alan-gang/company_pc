@@ -6,6 +6,7 @@ let store = {
     hasHeader: false,
     hasFooter: false,
     user: {
+      showSalary: false,
       login: false,
       // Home & Me
       name: '游客',
@@ -65,6 +66,7 @@ let store = {
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
       user = user || {
+        showSalary: false,
         login: false,
         // Home & Me
         name: '游客',

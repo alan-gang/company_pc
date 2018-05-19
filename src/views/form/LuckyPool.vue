@@ -7,48 +7,19 @@
     slot(name="toolbar")
     .user-list.scroll-content
 
-      .form
-        label.item 游戏时间 
+      .form.form-filters
+        label.item 参与时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        // label.item 游戏时间 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        // label.item(style="margin-left: -.1rem") 至 
-        //   el-date-picker(:picker-options="pickerOptions" v-model="et" type="datetime" placeholder="请选择日期时间")
 
         label.item 状态 
           el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        // label.item 奖金 
-        //   el-select(clearable v-bind:disabled=" !ISFREE[0] "  v-model="isFree" style="width: .8rem" placeholder="全")
-        //     el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
-        // label.item 游戏名称 
-        //   el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.5rem" placeholder="全")
-        //     el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
-
-        // label.item 游戏玩法 
-        //   el-select(clearable v-bind:disabled=" !methodList[0] "  v-model="method" style="width: 1.5rem" placeholder="全")
-        //     el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
-
-        label.item 游戏奖期 
+        label.item 奖池期号
           el-select(clearable v-bind:disabled=" !issueList[0] "  v-model="issue" style="width: 1.5rem" filterable placeholder="全")
             el-option(v-for="U in issueList" v-bind:label="U" v-bind:value="U")
-
-        // label.item 游戏模式 
-        //   el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .6rem" placeholder="全")
-        //     el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
-
-        // label.item 注单编号 
-        //   el-input(v-model="id" style="width: 1rem")
-
-        // label.item 游戏用户 
-        //   input.ds-input.small(v-model="name" style="width: 1rem")
-
-        // label.item 范围 
-        //   el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
-        //     el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
         .buttons(style="margin-left: .6rem")
@@ -57,172 +28,55 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
 
-          // el-table-column(prop="projectId" label="注单编号" width="80" )
-          //   template(scope="scope")
-          //     div
-          //       .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click=" OrderDetail(scope.row, 0) ") {{ scope.row.projectId }}
-          //       span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(prop="userName" label="用户" width="80")
+          el-table-column(class-name="pl2" prop="userName" label="用户")
           
-          el-table-column(prop="writeTime" label="投注时间" width="140")
+          el-table-column(prop="writeTime" label="参与时间")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.writeTime }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
 
-          // el-table-column(prop="lotteryName" label="游戏" width="100")
-
-          // el-table-column(prop="methodName" label="玩法" width="100")
-
-          el-table-column(prop="poolIssue" label="期号" width="100")
-
-          el-table-column(class-name="pr2" label="奖池号" width="100" align="center")
+          el-table-column(prop="projectId" label="注单编号" )
             template(scope="scope")
-              div(v-if="!scope.row.last")
-                span.text-666 {{ scope.row.poolCode }}
-
-          // el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
-          
-          // el-table-column(prop="position" label="投注位置" min-width="80")
+              div
+                span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.projectId }}
+                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
           
 
-          // el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
+          el-table-column(prop="poolIssue" label="奖池期号")
+
+          // el-table-column(class-name="pr2" label="奖池号")
           //   template(scope="scope")
-          //     p {{ scope.row.code }}
-          //       span(v-if="scope.row.position") [{{ scope.row.position }}]  
+          //     div(v-if="!scope.row.last")
+          //       span.text-666 {{ scope.row.poolCode }}
 
 
-          // el-table-column(prop="multiple" label="倍数" width="40" align="right")
-
-          // el-table-column(class-name="pl1" prop="modes" label="模式" width="60")
-            template(scope="scope")
-                span {{ MODES[scope.row.modes - 1] }}     
-
-          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
+          el-table-column(prop="totalPrice" label="参与金额" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") 1
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" width="150" align="right")
+          el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.poolBonus }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
 
-          el-table-column(class-name="pl2" prop="prizeCode" label="开奖号码" width="150" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2" prop="prizeCode" label="奖池开奖号" show-overflow-tooltip=true)
 
-          // el-table-column(class-name="pr2" label="优惠券" width="80" align="center")
-          //   template(scope="scope")
-          //     div(v-if="!scope.row.last")
-          //       span.text-danger(v-if="scope.row.isusefree") 是
-          //       span.text-grey(v-if="!scope.row.isusefree") 否
-          
-          
          
-          el-table-column(label="状态" width="60")
+          el-table-column(label="状态")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
 
-          //el-table-column(label="操作" wdith="100")
-          //  template(scope="scope")
-          //    div(v-if="!scope.row.last")
-                // .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 1) ") 发起跟单
-                // .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1" style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 2) ") 撤消
-                // .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" goFollowDetail(scope.row.taskId) ") 追号详情
-                // .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
         
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
       
-    // .modal(v-show="show" )
-    //   .mask
-    //   .box-wrapper
-    //     .box(ref="box")
-    //       .tool-bar
-    //         span.title {{ modalTitles[type] }}
-    //         el-button-group
-    //           el-button.close(icon="close" @click="show = false")
-    //       .content
-    //         el-row
-    //           el-col(:span="6")
-    //             游戏用户：
-    //             span.text-black {{ row.nickName }}
-    //           el-col(:span="6")
-    //             游戏：
-    //             span.text-black {{ row.lotteryName }}
-    //           el-col(:span="6")
-    //             span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
-    //                 span.text-black {{ row.prizeCode  }}
-    //             el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
-    //               div(slot="content") {{ row.prizeCode }}
-    //               span 开奖号码：
-    //                 span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
-    //           el-col(:span="6")
-    //             总金额：
-    //             span.text-black {{ row.totalPrice }}
-    //         el-row
-    //           el-col(:span="6")
-    //             注单编号：
-    //             span.text-black {{ row.projectId }}
-    //           el-col(:span="6")
-    //             玩法：
-    //             span.text-black {{ row.methodName }}
-    //           el-col(:span="6")
-    //             注单状态：
-    //             span.text-black {{ STATUS[row.stat] }}
-    //           el-col(:span="6")
-    //             倍数模式：
-    //             span.text-black {{ row.multiple }} 
-    //               span ({{ MODES[row.modes - 1] }})
-    //         el-row
-    //           el-col(:span="6")
-    //             投单时间：
-    //             span.text-black {{ row.writeTime }}
-    //           el-col(:span="6")
-    //             奖期：
-    //             span.text-black {{ row.issue }}
-    //           el-col(:span="6")
-    //             注单奖金：
-    //             span.text-black {{ row.bonus }}
-    //           el-col(:span="6" v-if="row.userPoint")
-    //             动态奖金返点：
-    //             span.text-black {{ row.userPoint }}
-    //         el-row(v-if="row.isJoinPool")
-    //           el-col(:span="6")
-    //             奖池期号：
-    //             span.text-black {{ row.poolIssue}}
-    //           el-col(:span="6")
-    //             奖池状态：
-    //             span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
-    //           el-col(:span="6")
-    //             奖池号码：
-    //             span.text-black {{ row.poolCode }}
-    //           el-col(:span="6")
-    //             奖池奖金：
-    //             span.text-black {{ row.poolBonus  }}
-    //         p.textarea-label
-    //           span.label 投注内容：
-    //           el-input.font-12(disabled v-model=" codePosition " type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
-    //         p 可能中奖的情况：
-    //         el-table.header-bold.nopadding(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0;" max-height="200")
-    //           el-table-column(prop="projectid" label="编号" width="160" )
-    //           el-table-column(prop="expandcode" label="号码" width="160")
-    //             template(scope="scope")
-    //              p {{ scope.row.expandcode }}
-    //                span(v-if="scope.row.position") [{{ scope.row.position }}]
-    //           el-table-column(prop="codetimes" label="倍数" width="80" align="right")
-    //           el-table-column(label="奖级" width="80" align="right")
-    //             template(scope="scope")
-    //               span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
-    //           el-table-column(prop="prize" label="奖金"  align="right")
-    //         .buttons(style="margin: .3rem; text-align: center")
-    //           .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-    //           .ds-button.primary.large.bold(v-if="type === 2 && row.userName === ACCOUNT" @click="cancel") 确认撤销
-
 
 
 
@@ -230,12 +84,14 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   // import util from '../../util'
   export default {
+    mixins: [setTableMaxHeight],
     data () {
       return {
         ACCOUNT: store.state.user.account,

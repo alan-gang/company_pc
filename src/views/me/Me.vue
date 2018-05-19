@@ -73,7 +73,7 @@ export default {
     padding PWX .4rem
     .base-info
       color #333
-      margin-bottom .8rem
+      margin-bottom .3rem
       .el-col
         height .6rem
         line-height .6rem
@@ -105,5 +105,5 @@ export default {
       display none
     .scroll-content
       left 0
-      // max-width 5rem
+      max-width 5rem
 </style>

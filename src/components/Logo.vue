@@ -10,7 +10,7 @@
     text-align center
     .icon-list
       display inline-block
-      width LGW
+      width LGW + .5rem
       height LGH
   .ds-icon-logo
     // background url($CASSETS/logo.png) center center no-repea0t
