@@ -1,20 +1,20 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-let api = 'http://192.168.169.46:9901/cagamesclient'
+let api = 'http://192.168.169.49:9901/dscagamesclient'
 // jork
-// let api = 'http://192.168.169.46:9901/cagamesclient'
+// let api = 'http://192.168.169.46:9901/dscagamesclient'
 let env = 'dev'
 // 外网生产地址
 if (window.location.host.indexOf('.net') !== -1) {
   env = 'pro'
-  // api = 'https://api.cb868.net:1888/cagamesclient'
-  api = 'https://api.' + window.location.host.replace('www.', '') + ':1888/cagamesclient'
+  // api = 'https://api.cb868.net:1888/dscagamesclient'
+  api = 'https://api.' + window.location.host.replace('www.', '') + ':1888/dscagamesclient'
 // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
-  api = 'http://112.199.101.98:9901/cagamesclient'
+  api = 'http://112.199.101.98:9901/dscagamesclient'
 } else if (window.location.host.match(/^\d{1,3}/) && window.location.host.split('.')[0] !== '192') {
   env = 'pro'
-  api = 'https://api.cb868.net:1888/cagamesclient'
+  api = 'https://api.cb868.net:1888/dscagamesclient'
 }
 window.env = env
 // api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api

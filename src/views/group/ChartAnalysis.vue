@@ -64,7 +64,7 @@
   // import 'echarts/lib/component/timeline'
   // import 'zrender/lib/vml/vml'
   // ^^^^^^^^^^^^^^
-  import IEcharts from 'vue-echarts-v3/src/lite.vue'
+  import IEcharts from 'vue-echarts-v3/src/lite.js'
   import 'echarts/lib/chart/line'
   import 'echarts/lib/chart/bar'
   import 'echarts/lib/component/legend'

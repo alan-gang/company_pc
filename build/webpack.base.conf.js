@@ -58,8 +58,13 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: projectRoot,
-        exclude: /node_modules/
+        // include: projectRoot,
+        include: [
+          projectRoot,
+          path.join(projectRoot, 'node_modules/vue-echarts-v3/src')
+        ],
+        // exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-echarts-v3[\\/]src[\\/])/
       },
       {
         test: /\.json$/,

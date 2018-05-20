@@ -21,13 +21,14 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "echarts": "^4.1.0",
     "element-ui": "^1.2.9",
     "lodash": "^4.17.4",
     "simple-web-worker": "^1.2.0",
     "vue": "^2.0.1",
     "vue-awesome-swiper": "^2.4.2",
     "vue-clipboard2": "0.0.6",
-    "vue-echarts-v3": "^1.0.3",
+    "vue-echarts-v3": "^1.0.19",
     "vue-worker": "^1.2.1"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^4.0.2",
     "css-loader": "^0.25.0",
+    "element-ui": "^1.0.0-rc.8",
     "eslint": "^3.7.1",
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",
@@ -93,7 +95,7 @@
     "stylus-loader": "^2.3.1",
     "url-loader": "^0.5.7",
     "vue-chartjs": "^2.5.0",
-    "vue-loader": "^9.9.0",
+    "vue-loader": "^9.9.5",
     "vue-progressbar": "^0.7.2",
     "vue-resource": "^0.7.4",
     "vue-router": "^2.0.1",

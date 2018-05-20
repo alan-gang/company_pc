@@ -40,11 +40,11 @@
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay.toFixed(3) }}
       |  元
-      .ds-button.primary.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6 || (ns.length > 0)") 机选
+      .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6 || (ns.length > 0)") 机选
       .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
       .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
-        .ds-button.primary.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})") 机选
+        .ds-button.success.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})") 机选
         .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
         .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈

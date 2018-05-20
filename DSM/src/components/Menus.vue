@@ -20,12 +20,16 @@
 <script>
 export default {
   props: ['menus'],
+  data () {
+    return {
+      defaultUrl: ''
+    }
+  },
   methods: {
     handleopen () {
     },
     handleclose () {
     },
-    defaultUrl: '',
     openTab (item) {
       // let fn = (this.pages.find(p => p.id === id && p.fn) || {}).fn
       if (item.fn) return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
