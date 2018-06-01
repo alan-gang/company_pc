@@ -8,24 +8,30 @@
     .me-detail-info.scroll-content
       .base-info
         div.info
-          label(style="margin: 0 .2rem") 帐号：
+          label(style="margin: 0 .1rem") 帐号：
             span.account {{ account }}
-          label(style="margin: 0 .2rem") 昵称：
+          label(style="margin: 0 .1rem") 昵称：
             span.account {{ name }}
-          label(style="margin: 0 .2rem") 
-              span.text-blue 高频彩资金
+          label(style="margin: 0 .1rem") 
+              span.text-blue 高频
               | 限额：
               span.account.text-danger {{ limitbonus }}
               | 元
-          label(style="margin: 0 .2rem") 
-              span.text-blue 低频彩资金
+          label(style="margin: 0 .1rem") 
+              span.text-blue 低频
               | 限额：
               span.account.text-danger {{ dplimitbonus }} 
               | 元
 
+          label(style="margin: 0 .1rem") 返点：
+            span.account {{ userPoint }}
+
+          label(style="margin: 0 .1rem" v-if="salary") 工资：
+            span.account.text-blue {{ salary }}
+
         .ds-button-group
           .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.cnName }}
-      .table-list(style="padding: .15rem")
+      .table-list(style="padding: 0 0 0 .15rem")
         el-table.header-bold.bonus-table(:data="data" stripe v-bind:row-class-name="tableRowClassName" style="max-width: 8rem; margin: 0 auto; padding: 0rem 0")
           
           el-table-column(prop="methodName" label="玩法" )
@@ -55,7 +61,11 @@ export default {
       limitbonus: '',
       keys: [],
       games: [],
-      skey: ''
+      skey: '',
+      userPoint: '',
+      salary: '',
+      teamsales: '',
+      activityuser: ''
       // data: [
       //  {title: '五星直选', bonusLevel: '奖金', bonus: '180000.00', point: '7.5', status: '使用中'}
       // ]
@@ -92,6 +102,10 @@ export default {
           this.name = data.nickName
           this.dplimitbonus = data.dplimitbonus
           this.limitbonus = data.limitbonus
+          this.userPoint = data.userPoint
+          this.salary = data.userDaySalary.salary
+          this.teamsales = data.userDaySalary.teamsales
+          this.activityuser = data.userDaySalary.activityuser
           // this.games = data.lotteryPrizeInfo
           this.keys = data.cnNames
           this.games = data.lotteryPrizeInfo

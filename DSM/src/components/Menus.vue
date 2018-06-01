@@ -1,7 +1,7 @@
 <template lang="jade">
-  el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' ")
+  el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' " unique-opened)
 
-    el-submenu(v-for="(m, i) in menus" v-if="m.title && menus.length > 2" v-bind:index="m.class")
+    el-submenu(v-for="(m, i) in menus" v-if="m.title && menus.length > 2 && !m.removed" v-bind:index="m.class")
       template(slot="title")
         i(:class="[m.class + '-menu']")
         | {{ m.title }}

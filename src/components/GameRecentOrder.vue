@@ -3,30 +3,33 @@
     br
     p.text-blue 最近投注记录
 
-    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem;")
+    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;" empty-text="投注记录当前为空！")
 
-      el-table-column(class-name="pl2" prop="projectId" label="注单编号" width="150")
+      el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
          template(scope="scope")
           span.ds-button.text-button.blue(style="padding: 0" @click="OrderDetail(scope.row)") {{ scope.row.projectId }}
 
-      el-table-column(prop="issue" label="期号" width="100")
+      el-table-column(prop="issue" label="期号" )
 
-      el-table-column(prop="methodName" label="玩法" width="100")
+      el-table-column(prop="methodName" label="玩法" )
 
-      el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
+      el-table-column(prop="code" label="投注内容" show-overflow-tooltip=true)
         template(scope="scope")
           p {{ scope.row.code }}
-            span(v-if="scope.row.position") [{{ scope.row.position }}]  
+            span(v-if="scope.row.position") [{{ scope.row.position }}]
 
-      el-table-column(prop="totalPrice" label="总金额" width="80")
+      el-table-column(prop="multiple" label="倍数"  align="center")
+
+
+      el-table-column(prop="totalPrice" label="总金额" align="right")
         template(scope="scope")
           span {{ scope.row.totalPrice }}
 
-      el-table-column(class-name="pr2" prop="bonus" label="奖金" width="60" align="right")
+      el-table-column(class-name="pr2" prop="bonus" label="奖金"  align="right")
         template(scope="scope")
           span {{ scope.row.bonus }}
 
-      el-table-column(label="状态" width="70")
+      el-table-column(label="状态" align="center")
         template(scope="scope")
           span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
       
@@ -122,21 +125,21 @@
             
             el-table.header-bold.nopadding.vtop(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
-              el-table-column(prop="projectid" label="编号" width="160" )
+              el-table-column(class-name="pl2" prop="projectid" label="编号" )
 
-              el-table-column(prop="expandcode" label="号码" width="160")
+              el-table-column(prop="expandcode" label="号码" )
                 template(scope="scope")
                  p {{ scope.row.expandcode }}
                    span(v-if="scope.row.position") [{{ scope.row.position }}]
               
 
-              el-table-column(prop="codetimes" label="倍数" width="80" align="right")
+              el-table-column(prop="codetimes" label="倍数" )
 
-              el-table-column(label="奖级" width="80" align="right")
+              el-table-column(label="奖级" )
                 template(scope="scope")
                   span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
-              el-table-column(prop="prize" label="奖金"  align="right")
+              el-table-column(class-name="pr2" prop="prize" label="奖金" )
 
             .buttons(style="margin: .3rem; text-align: center")
               .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
@@ -306,20 +309,7 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  .game-recent-order
-    .el-table__empty-block
-      position relative
-      height 0
-      background none
-      &:after
-        content '投注记录当前为空！'
-      .el-table__empty-text
-        display none
-        
-    
-    
-</style>
+
 
 <style lang="stylus" scoped>
   @import '../var.stylus'

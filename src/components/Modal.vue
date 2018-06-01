@@ -8,7 +8,7 @@
 
       .box-wrapper
 
-        .box
+        .box(:style="boxStyle")
 
           .header-bar(v-if="title || showclose")
 
@@ -63,6 +63,9 @@
           warn: ['danger', 'cancel'],
           success: ['success', 'cancel'],
           redpocket: ['gold', 'cancel']
+        },
+        boxStyle: {
+          width: '4.2rem'
         }
       }
     },
@@ -114,6 +117,7 @@
       if (this.Pok) this.ok = this.Pok
       if (this.Pcancel) this.cancel = this.Pcancel
       if (this.Pclose) this.close = this.Pclose
+      if (this.PboxStyle) this.boxStyle = this.PboxStyle
     },
     mounted () {
     }
@@ -158,6 +162,7 @@
         vertical-align middle
         display inline-block
     .box
+      // overflow hidden
       position relative
       text-align left
       display inline-block

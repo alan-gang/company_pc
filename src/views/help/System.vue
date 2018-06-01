@@ -8,17 +8,19 @@
     .scroll-content.function-help
       
       .content
-        .item(v-for="(g, index) in notices" v-bind:class="{'active': openIndex === index}") 
-          .step.text-666(@click="openIndex === index ?  (openIndex = -1) : (openIndex = index)") 
+
+        .item(v-for="(g, index) in notices" v-bind:class="{'active': openIndex === index}" @click=" (openIndex = index)") 
+          .step.text-666() 
             span.date {{ g.sendTime.split(' ')[0].split('-')[1] + '-' + g.sendTime.split(' ')[0].split('-')[2] }}
             span.title {{ g.subject }}
               .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime.split(' ')[1] }}
+
       .with-content(v-if="  notices[openIndex] ")
         span.title {{  notices[openIndex].subject }}
           .time.text-666 {{  notices[openIndex].sendTime }}
         pre.value {{ notices[openIndex].content }}
          
-         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+        // el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
         p.class(v-if=" notices.length === 0 ") 暂无任何公告!
     
@@ -71,6 +73,7 @@
             this.notices = data.sysNotices || []
             // this.notices = [{subject: '快投30秒 (1711201201) 期199000'}]
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.total = data.totalSize || this.notices.length
           }
         }, (rep) => {
@@ -117,12 +120,12 @@
       // padding 0 PW
       .item
         &:hover
-          background #f3f3f3
+          background #ededed
           .title
             font-weight bold 
             color #333
         &.active
-          background #ededed
+          background #f3f3f3
           .title
             font-weight bold 
             color #333
@@ -171,13 +174,13 @@
     background-color #454545
     .item
       .title
+        color #888
+    .item:hover
+      .title
+        color #999
+
+    .item.active
+      .title
         color #ccc
-      &:hover
-        .title
-          color #999
-        background-color #555
-      
-      &.active
-        background-color #888
 
 </style> 

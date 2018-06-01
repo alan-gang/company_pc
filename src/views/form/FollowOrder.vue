@@ -343,6 +343,7 @@
               loading.text = '加载成功!'
             }, 100)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.data = data.recordList
             this.total = data.totalSize || this.data.length
           } else loading.text = '加载失败!'

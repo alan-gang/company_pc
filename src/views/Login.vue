@@ -35,7 +35,7 @@ export default {
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .login
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/big_bg.jpg) center no-repeat
     top 0
     bottom 0
     z-index 1
@@ -57,7 +57,7 @@ export default {
       min-width 6rem
     .all-rights
       @media screen and (max-height: 1000px)
-        position relative
+        // position relative
       
     
 </style>

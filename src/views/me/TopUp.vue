@@ -92,18 +92,18 @@
             br
             | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
 
-        el-table.header-bold.margin(:data="data" style="margin: .2rem")
-          el-table-column(prop="payerTime" label="充值时间" width="180")
+        el-table.header-bold.margin(:data="data" style="margin: .2rem 0" stripe)
+          el-table-column(prop="payerTime" label="充值时间")
 
-          el-table-column(prop="bankName" label="银行" width="140")
+          el-table-column(prop="bankName" label="银行" )
 
-          el-table-column(prop="payerRealAmount" label="金额" width="140" align="right")
+          el-table-column(prop="payerRealAmount" label="金额"  align="right")
 
-          el-table-column(prop="payerTransferFee" label="手续费" width="140" align="right")
+          el-table-column(prop="payerTransferFee" label="手续费"  align="right")
 
-          el-table-column(label="" align="right" width="20")
+          el-table-column(label="" align="right" )
 
-          el-table-column(label="状态" width="100")
+          el-table-column(label="状态" )
             template(scope="scope")
               span(:class="{ 'text-green': scope.row.isDone === '充值成功', 'text-danger': scope.row.isDone !== '充值成功' }") {{  scope.row.isDone}}
 
@@ -171,8 +171,8 @@
               p.item 
                 span.text-danger *
                 | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                el-select(v-model="Cbank" style="width: 3rem")
-                  el-option(v-for="(b, index) in ALLBANKS" v-bind:label="b.text" v-bind:value="b")
+                el-select(v-model="CbankIndex" style="width: 3rem")
+                  el-option(v-for="(b, index) in ALLBANKS" v-bind:label="b.text" v-bind:value="index")
              
               p.item 
                 span.text-danger *
@@ -259,11 +259,12 @@
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
 import { dateTimeFormat } from '../../util/Date'
-// import util from '../../util'
+import {numberWithCommas} from '../../util/Number'
 import Modal from 'components/Modal'
 export default {
   data () {
     return {
+      numberWithCommas: numberWithCommas,
       Ptype: 'warn',
       Pbtn: ['进入网上银行'],
       Phref: [],
@@ -299,7 +300,7 @@ export default {
       ALLBANKS: BANKS,
       // 催帐
       row: {},
-      Cbank: {},
+      CbankIndex: '',
       Cname: '',
       Ccardno: '',
       Camount: 0,
@@ -320,6 +321,9 @@ export default {
     }
   },
   computed: {
+    Cbank () {
+      return this.ALLBANKS[this.CbankIndex]
+    },
     myQR () {
       return {
         margin: '0 auto',
@@ -483,7 +487,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 100)
       })
     },
     queryPayError (page, fn) {
@@ -501,7 +505,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 100)
       })
     },
     pageChanged (cp) {
@@ -521,13 +525,14 @@ export default {
         if (data.success === 1) {
           this.data = data.payRecordData || []
           typeof fn === 'function' && fn()
+          !fn && (this.currentPage = 1)
           this.total = data.totalSize || this.data.length
         }
       }).catch(rpe => {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 100)
       })
     },
     copySuccess () {
@@ -731,8 +736,11 @@ export default {
           // })
 
           this.merNoBankList = data.merNoBankList || []
-          if (!this.bankList[0]) this.type = 3
-          else return false
+          if (!this.bankList[0]) {
+            this.type = 3
+            // console.log
+            if (this.epay[0]) this.selectBank = this.epay[0].more[this.radioIndex || 0].channelCodes[0]
+          } else return false
           if (!this.epay[0]) this.type = 2
           // this.max = data.max
           // this.min = data.min

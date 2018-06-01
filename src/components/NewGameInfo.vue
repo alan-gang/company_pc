@@ -1,14 +1,15 @@
 <template lang="jade">
   el-row.game-info.new-game-info(style="background-position: .2rem .2rem")
     .inherit
-    el-col.left(:span="24" style="line-height: .5rem; padding-left: 1.3rem; margin: 0 0 0.35rem 0")
+    el-col.left(:span="24" style="line-height: .5rem; padding-left: 1.3rem; margin: 0 0 0.1rem 0")
       div(style="float: left")
         span(style="color: #fff; font-size: .14rem") {{ CNPER }} 期截止时间
         br
-        span(v-for=" n in showTime.split(':') " style="margin-left: 0; font-size: .4rem; color: #fff; background-color: #fff; color: #ff7e00; margin: 0 .05rem; border-radius: .05rem; padding: .05rem ") {{ n }}
+        span(v-for=" n in showTime.split(':') " style="margin-left: 0; font-size: .4rem; color: #fff; background-color: #fff; color: #ff7e00; margin: 0 .05rem; border-radius: .05rem; padding: .05rem;  ") {{ n }}
 
        div(style="float: left; padding-left: .2rem;")
         span(style="color: #fff; font-size: .14rem") {{ NPER }} 期
+        span.ds-icon-volume(:class="{ on: volume }" @click=" setVolume() ") {{ !volume ? '开启声音' : '关闭声音' }}
         span.timeout(v-if="overtime" @click="") &nbsp;开奖中，点击刷新
         br
         
@@ -100,6 +101,7 @@ import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 import GameLuckyNumber from './GameLuckyNumber'
 export default {
   props: {
+    // volume: Boolean,
     NPER: String,
     FNPER: Number,
     PNPER: Number,
@@ -122,7 +124,8 @@ export default {
       interval: 0,
       Cdata: [],
       STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
-      t: 0
+      t: 0,
+      volume: false
     }
   },
   computed: {
@@ -150,6 +153,7 @@ export default {
       }
     }, 1000)
     // this.Orderlist()
+    this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
   },
   watch: {
     t () {
@@ -189,6 +193,10 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    setVolume () {
+      this.volume = !this.volume
+      window.localStorage.setItem('volume', this.volume ? 1 : 0)
+    },
     callPrint (row) {
       this.__setCall({
         fn: '__print',
@@ -323,9 +331,32 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+
+  .ds-icon-volume
+    position relative
+    top -.01rem
+    vertical-align middle
+    display inline-block
+    width .6rem
+    height .3rem
+    line-height .3rem
+    padding-left .3rem
+    color #fff
+    margin 0 .1rem
+    cursor pointer
+    background url(../assets/v2/icon01_02.png) .1rem center no-repeat
+
+    &.on
+      background url(../assets/v2/icon01.png) .1rem center no-repeat
+
+    &:hover
+        background-color rgba(0,0,0,.5)
+
   .recent-codes.show
     display inline-block !important
   
+  .game-info.new-game-info
+    background-position .2rem .2rem !important
   .inherit
     position absolute
     top 0
@@ -333,6 +364,7 @@ export default {
     width 1.4rem
     height 100%
     background inherit
+    background-position .2rem .2rem
 
   F = .3rem
   .game-info

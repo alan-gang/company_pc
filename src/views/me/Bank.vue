@@ -45,21 +45,21 @@
           .buttons(style="float: right; padding: .2rem 0")
             button.ds-button.primary.large(@click="(type = 'bind') &&  stepIndex++" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 增加银行卡
             button.ds-button.cancel.large(@click=" (type = 'lock') &&  stepIndex++" v-bind:disabled="!!locked || !myBanks[0]" v-bind:class="{ disabled: !!locked || !myBanks[0] }") {{ locked ? '已锁定' : '锁定全部银行卡' }}
+        div( style="margin: .2rem")
+          el-table.header-bold.margin(:data="myBanks" stripe)
+            el-table-column(label="银行名称")
+              template(scope="scope")
+                .ds-icon-bank-card.static(v-bind:class=" [ scope.row.class ] " style="margin: 0")
 
-        el-table.header-bold.margin(:data="myBanks" style="margin: .2rem")
-          el-table-column(label="银行名称")
-            template(scope="scope")
-              .ds-icon-bank-card.static(v-bind:class=" [ scope.row.class ] " style="margin: 0")
+            el-table-column(prop="cardNo" label="卡号")
 
-          el-table-column(prop="cardNo" label="卡号")
+            el-table-column(label="绑定时间")
+              template(scope="scope")
+                span {{ scope.row.addTime }}
 
-          el-table-column(label="绑定时间")
-            template(scope="scope")
-              span {{ scope.row.addTime }}
-
-          el-table-column(label="操作" min-width="60"  align="center")
-            template(scope="scope")
-              button.ds-button.text-button.blue(@click="unbindCard(scope.row)" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 解绑
+            el-table-column(label="操作" min-width="60"  align="center")
+              template(scope="scope")
+                button.ds-button.text-button.blue(@click="unbindCard(scope.row)" v-bind:disabled="!!locked" v-bind:class="{ disabled: !!locked }") 解绑
 
 
       
@@ -99,16 +99,16 @@
         .form(style="margin: .2rem .4rem" v-if="bi === 0")
          
           p.item 开户银行：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            el-select.width1-5rem(v-model="bank")
-              el-option(v-for="(b, index) in avaibleBanks" v-bind:label="b.text" v-bind:value="b")
+            el-select.width1-5rem(v-model="bankIndex")
+              el-option(v-for="(b, index) in avaibleBanks" v-bind:label="b.text" v-bind:value="index")
 
           p.item 开户银行省份：
-            el-select.width1-5rem(v-model="province")
-              el-option(v-for="(p, index) in PROVINCES" v-bind:label="p.title" v-bind:value="p")
+            el-select.width1-5rem(v-model="provinceIndex")
+              el-option(v-for="(p, index) in PROVINCES" v-bind:label="p.title" v-bind:value="index")
           
           p.item 开户银行城市：
-            el-select.width1-5rem(v-model="city")
-              el-option(v-for="(c, index) in province.subRegionList" v-bind:label="c.title" v-bind:value="c")
+            el-select.width1-5rem(v-model="cityIndex")
+              el-option(v-for="(c, index) in province.subRegionList" v-bind:label="c.title" v-bind:value="index")
           
           p.item 支行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="branchName")
@@ -160,8 +160,8 @@
         .form(style="margin: .2rem .4rem" v-if="i === 0")
           .item(style="line-height: .5rem") 已绑定的银行卡：
             p.banks.text-black
-              span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
-              | {{ bank.cardNo }}
+              span.ds-icon-bank-card.static(v-bind:class=" [ ubank.class ] ")
+              | {{ ubank.cardNo }}
           
           p.item 银行帐号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input.large(v-model="cardNo")
@@ -177,10 +177,10 @@
         .form(style="margin: .2rem" v-if="i === 1")
           .item(style="line-height: .5rem") 开户银行：
             p.banks.text-black
-              span.ds-icon-bank-card.static(v-bind:class=" [ bank.class ] ")
+              span.ds-icon-bank-card.static(v-bind:class=" [ ubank.class ] ")
           
-          p.item 银行帐号：&nbsp;{{ bank.cardNo }}
-          p.item(style="margin: .2rem 0") 绑定时间：&nbsp;{{ bank.addTime }}
+          p.item 银行帐号：&nbsp;{{ ubank.cardNo }}
+          p.item(style="margin: .2rem 0") 绑定时间：&nbsp;{{ ubank.addTime }}
           p.item 资金密码：&nbsp;
             input.ds-input.large(v-model="cpwd" type="password")
         
@@ -249,11 +249,10 @@ export default {
       myBanks: [],
       PROVINCES: [],
       // 开户银行：
-      bank: {},
       // 开户银行省份：
-      province: {},
+      provinceIndex: 0,
       // 开户银行城市：
-      city: {},
+      cityIndex: '',
       // 开户人姓名：
       name: '',
       // 卡号
@@ -269,7 +268,10 @@ export default {
       bs: ['01 添加新银行卡信息', '02 核对信息', '03 完成'],
       bi: 0,
       // checkSafeCodeUrl: ['', api.checkMailVerifyCode, api.checkSmsVerifyCode, api.checkGoogleAuth]
-      checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth]
+      checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
+      bankIndex: '',
+      // unbind bank
+      ubank: null
     }
   },
   watch: {
@@ -292,6 +294,15 @@ export default {
     }
   },
   computed: {
+    bank () {
+      return this.avaibleBanks[this.bankIndex]
+    },
+    province () {
+      return this.PROVINCES[this.provinceIndex]
+    },
+    city () {
+      return this.province.subRegionList[this.cityIndex]
+    },
     // BANKS () {
     //   return BANKS.filter(b => {
     //     return this.avaibleBanks.find(ab => ab.apiName === b.apiName)
@@ -367,7 +378,7 @@ export default {
         ok () {
           this.type = 'unbind'
           this.stepIndex++
-          this.bank = row
+          this.ubank = row
         },
         O: this
       })
@@ -487,7 +498,7 @@ export default {
       })
     },
     clearBankCard () {
-      this.bank = {}
+      this.ubank = {}
       this.province = {}
       this.city = {}
       this.branchName = ''
@@ -500,7 +511,7 @@ export default {
       // block8/3 console.log(this.cardNo)
       if (!Validate.bankcard(this.cardNo)) return this.$message.error({target: this.$el, message: '请输入正确的银行卡号！'})
       if (!Validate.chineseName(this.name)) return this.$message.error({target: this.$el, message: '请输入正确的开户人姓名！'})
-      this.$http.post(api.unbindBankCardCheck, {realName: this.name, cardNo: this.cardNo, entry: this.bank.entry}).then(({data}) => {
+      this.$http.post(api.unbindBankCardCheck, {realName: this.name, cardNo: this.cardNo, entry: this.ubank.entry}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '基本信息校验成功！'})
           this.i++
@@ -516,7 +527,7 @@ export default {
         text: '解绑中...',
         target: this.$el
       }, 10000)
-      this.$http.post(api.unbindBankCard, {cardId: this.bank.entry, secuityPwd: this.cpwd}).then(({data}) => {
+      this.$http.post(api.unbindBankCard, {cardId: this.ubank.entry, secuityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           loading && loading.close()
           this.$modal.success({

@@ -43,7 +43,7 @@
     },
     methods: {
       getHelpInfo () {
-        this.$http.get(api.getHelpInfo, {subject: 'faq'}).then(({data}) => {
+        this.$http.myget(api.getHelpInfo, {subject: 'faq'}).then(({data}) => {
           if (data.success === 1) {
             this.content = data.content
           } else this.$message.warning({target: this.$el, message: '常见问题帮助信息获取失败！'})
@@ -52,7 +52,7 @@
         })
       },
       getHelpTag () {
-        this.$http.get(api.getHelpTag, {subject: 'faq'}).then(({data}) => {
+        this.$http.myget(api.getHelpTag, {subject: 'faq'}).then(({data}) => {
           if (data.success === 1) {
             this.games = data.tagList
             this.getHelpInfo()

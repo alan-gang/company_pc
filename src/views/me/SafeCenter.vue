@@ -243,13 +243,13 @@
           el-row.action(v-if="index === 6 && !me.safe")
             .safe-form.form
               p 选择问题：
-                el-select(placeholder="请选择" style="width: 2.2rem" v-model="q1")
-                  el-option(v-for="q1 in Q" v-bind:label="q1.title" v-bind:value="q1" v-bind:disabled="q1.disabled")
+                el-select(placeholder="请选择" style="width: 2.5rem" v-model="q1title")
+                  el-option(v-for="q1 in Q" v-bind:label="q1.title" v-bind:value="q1.title" v-bind:disabled=" q1.title === q2title")
               p 您的答案：
                 input.ds-input.large(v-model="a1_")
               p 选择问题：
-                el-select(placeholder="请选择" style="width: 2.2rem" v-model="q2")
-                  el-option(v-for="q2 in Q" v-bind:label="q2.title" v-bind:value="q2" v-bind:disabled="q2.disabled")
+                el-select(placeholder="请选择" style="width: 2.5rem" v-model="q2title")
+                  el-option(v-for="q2 in Q" v-bind:label="q2.title" v-bind:value="q2.title" v-bind:disabled="q2.title === q1title")
               p 您的答案：
                 input.ds-input.large(v-model="a2_")
 
@@ -336,8 +336,10 @@ export default {
       phone: '',
       email: '',
       Q: [],
-      q1: null,
-      q2: null,
+      // q1: null,
+      // q2: null,
+      q1title: '',
+      q2title: '',
       safeCheck: 0,
       safeCheckCode: '',
 
@@ -377,14 +379,14 @@ export default {
     newCashPwdAgain () {
       this.newPwdAgain = this.newPwdAgain.trim()
     },
-    q1 (n, o) {
-      this.q1 && (this.q1.disabled = true)
-      if (o) o.disabled = false
-    },
-    q2 (n, o) {
-      this.q2 && (this.q2.disabled = true)
-      if (o) o.disabled = false
-    },
+    // q1 (n, o) {
+    //   this.q1 && (this.q1.disabled = true)
+    //   if (o) o.disabled = false
+    // },
+    // q2 (n, o) {
+    //   this.q2 && (this.q2.disabled = true)
+    //   if (o) o.disabled = false
+    // },
     a1_ () {
       this.a1_ = this.a1_.trim()
     },
@@ -691,9 +693,9 @@ export default {
       })
     },
     setSafeQuestion () {
-      if (!this.q1 || !this.q2 || !this.a1_ || !this.a2_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      if (!this.q1title || !this.q2title || !this.a1_ || !this.a2_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
-      this.$http.post(api.setSafeQuestion, {question1: this.q1.title, question2: this.q2.title, answer1: this.a1_, answer2: this.a2_}).then(({data}) => {
+      this.$http.post(api.setSafeQuestion, {question1: this.q1title, question2: this.q2title, answer1: this.a1_, answer2: this.a2_}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 安全问答设置成功。'})
           store.actions.setUser({safe: true})
@@ -847,7 +849,7 @@ export default {
     .safe-detail-info.scroll-content
       // position relative
       left 0
-      top 1.5rem !important
+      top 2rem !important
       .el-row
         &:before
           content ''
@@ -863,8 +865,8 @@ export default {
           width 100%
   body.cb.v2
     .safe-detail-info.scroll-content
-        top 0 !important
-        position relative
+        // top 0 !important
+        // position relative
         // max-width 10rem
         margin 0 auto
         padding 0 10%

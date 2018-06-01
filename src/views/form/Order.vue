@@ -8,6 +8,7 @@
     .user-list.scroll-content
 
       .form.form-filters
+
         label.item 用户 
           input.ds-input.small(v-model="name" style="width: 1rem")
         
@@ -36,7 +37,7 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:span-method="arraySpanMethod" stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" show-summary v-bind:summary-method="getSummaries"  stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
           el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
             template(scope="scope")
@@ -59,10 +60,11 @@
 
           el-table-column(prop="issue" label="期号")
 
+          el-table-column(prop="multiple" label="倍数")
 
           el-table-column(prop="totalPrice" label="总金额" align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.totalPrice }}
+              span(v-if="!scope.row.last") {{ digitUppercase(scope.row.totalPrice) }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
@@ -127,9 +129,10 @@
               el-col(:span="6")
                 玩法：
                 span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+
               el-col(:span="6")
                 注单状态：
-                span.text-black {{ STATUS[row.stat] }}
+                span(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
 
               el-col(:span="6")
                 倍数模式：
@@ -216,7 +219,7 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
-  import { digitUppercase } from '../../util/Number'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
@@ -239,23 +242,25 @@
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
               picker.$emit('pick', [start, end])
             }
-          }, {
-            text: '最近一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }],
+          }
+          // , {
+          //   text: '最近一个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }, {
+          //   text: '最近三个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }
+          ],
           disabledDate (time) {
             return time.getTime() > Date.now()
           }
@@ -298,7 +303,8 @@
         expandList: [],
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: [],
-        showFollow: ''
+        showFollow: '',
+        digitUppercase: numberWithCommas
       }
     },
     computed: {
@@ -340,6 +346,32 @@
       this.Orderlist()
     },
     methods: {
+      getSummaries (param) {
+        const { columns, data } = param
+        const sums = []
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计'
+            return
+          }
+          const values = data.map(item => Number(item[column.property]))
+          if (values.every(value => !isNaN(value)) && index !== 5 && index !== 6) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            // sums[index] += ' 元'
+            sums[index] = this.digitUppercase((index === 7 ? '-' : '+') + sums[index].toFixed(4))
+          } else {
+            sums[index] = ''
+          }
+        })
+        return sums
+      },
       arraySpanMethod ({ row, column, rowIndex, columnIndex }) {
         if (rowIndex % 2 === 0) {
           if (columnIndex === 0) {
@@ -511,12 +543,13 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             // data.recordList.forEach(d => {
             //   d.code = '177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755'
             // })
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            this.summary()
+            // this.summary()
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error

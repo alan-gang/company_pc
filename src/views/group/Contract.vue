@@ -14,16 +14,20 @@
           .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的契约
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级契约
-        label.item 时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-        label.item  &nbsp;状态 
-          el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
-            el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S")
 
         label.item(v-if="type === 1") 用户名  
           input.ds-input.small(v-model="name" style="width: 1rem")
+
+        // label.item 时间 
+        //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+        label.item  &nbsp;状态 
+          el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
+            el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
+
         | &nbsp;&nbsp;
+
+        
         
         .ds-button.primary.large.bold(@click="contract") 搜索
 
@@ -31,14 +35,14 @@
 
           el-table-column(class-name="pl2" prop="userName" label="用户名" v-if="type === 1")
 
-          el-table-column(prop="beginTm" label="开始时间" )
+          el-table-column(class-name="pl2" prop="beginTm" label="开始时间" )
 
           el-table-column(class-name="pl2" prop="expireTm" label="截止时间" )
 
 
           el-table-column(prop="status" label="状态")
             template(scope="scope")
-              span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-blue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
+              span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
 
           el-table-column(label="操作")
             template(scope="scope")
@@ -106,10 +110,11 @@
           
           p.item.block
              span.text-danger *
-             | 发放周期：
+             | 发放周期： 
+             span 半月
              
-             el-select(v-model=" SV " style="width: .7rem" placeholder="无")
-              el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
+            // el-select(v-model=" SV " style="width: .7rem" placeholder="无")
+            //  el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
 
              // span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
 
@@ -295,7 +300,7 @@
           {id: 3, title: '已拒绝', reason: '已拒绝'},
           {id: 4, title: '待确认', reason: '重新发起'}
         ],
-        s: {},
+        s: '',
         data: [],
         pageSize: 20,
         // pageSize: 5,
@@ -442,7 +447,7 @@
             endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
             // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-            status: this.s.id || '',
+            status: this.s || '',
             page: 1,
             pageSize: this.pageSize,
             userName: this.type === 1 ? this.name : ''
@@ -464,6 +469,7 @@
             this.data = data.contractList || data.mySubContract
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -489,9 +495,9 @@
         if (!this.stEtA[0] || !this.stEtA[1]) {
           return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
         }
-        if (!this.SV) {
-          return this.$message.warning({target: this.$el, message: '请选择发放周期！'})
-        }
+        // if (!this.SV) {
+        //   return this.$message.warning({target: this.$el, message: '请选择发放周期！'})
+        // }
         if (!this.dataRules[0]) {
           return this.$message.warning({target: this.$el, message: '请至少设置一条契约规则！'})
         }
@@ -507,7 +513,8 @@
           expireTm: dateTimeFormat((window.newDate(this.stEtA[1])).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
-          sendCycle: parseInt(this.SV),
+          // sendCycle: parseInt(this.SV),
+          sendCycle: 2,
           // sharecycle: this.AT,
           // bonusRuleList: JSON.stringify(data)
           bonusRuleList: JSON.stringify(this.dataRules)

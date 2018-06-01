@@ -106,7 +106,7 @@
           if (data.success === 1) {
             this.$modal.success({
               // target: this.$el,
-              content: '恭喜你注册成功，你的密码为：' + (this.platform === 'ds' ? '123456a' : '123qwe'),
+              content: '恭喜你注册成功，你的密码为：123456a',
               btn: ['马上登录'],
               ok () {
                 this.__setCall({
@@ -120,7 +120,7 @@
                     path: '/login/login',
                     query: {
                       un_: this.account,
-                      pwd: (this.platform === 'ds' ? '123456a' : '123qwe')
+                      pwd: '123456a'
                     }
                   })
                 }, 200)

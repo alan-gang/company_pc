@@ -8,37 +8,33 @@
     .user-list.scroll-content
 
       .form.form-filters
+        
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+        
         label.item 追号时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        label.item 游戏名称 
-          el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.5rem")
+        label.item 游戏 
+          el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        // label.item 游戏玩法 
-        //   el-select(clearable v-bind:disabled=" !methodList[0] " placeholder="全" v-model="method" style="width: 1.5rem")
-        //     el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
+        label.item 奖期 
+          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
-        label.item 游戏奖期 
-          el-select(clearable v-bind:disabled=" !issueList[0] " placeholder="全" v-model="issue" style="width: 1.5rem" filterable)
-            el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
 
-        label.item 游戏用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
 
         label.item 追号编号 
           el-input(v-model="id" style="width: 1rem")
 
 
-
-
-        .buttons(style="margin-left: .6rem")
+        .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="followList()") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
           el-table-column(label="追号编号" class-name="pl2")
             template(scope="scope")
@@ -71,7 +67,7 @@
 
           el-table-column(prop="taskprice" label="总金额" align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.taskprice }}
+              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.taskprice) }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
 
           // el-table-column(prop="finishprice" label="完成金额" align="right")
@@ -79,9 +75,9 @@
               span(v-if="!scope.row.last") {{ scope.row.finishprice }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
-          el-table-column(class-name="pl2"   label="状态")
+          el-table-column(class-name="pl2"   label="状态" align="center")
             template(scope="scope")
-              span(:class="{ 'text-green': scope.row.status === 0, 'text-grey': scope.row.status === 2, 'text-danger': scope.row.status === 1}") {{ STATUS[scope.row.status] }}
+              span(:class=" STATUSCLASS[scope.row.status] ") {{ STATUS[scope.row.status] }}
 
           el-table-column(label="操作")
             template(scope="scope")
@@ -111,7 +107,7 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
-  import { digitUppercase } from '../../util/Number'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
@@ -131,23 +127,25 @@
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
               picker.$emit('pick', [start, end])
             }
-          }, {
-            text: '最近一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }],
+          }
+          // {
+          //   text: '最近一个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }, {
+          //   text: '最近三个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }
+          ],
           disabledDate (time) {
             return time.getTime() > Date.now()
           }
@@ -159,7 +157,8 @@
         // stEt: ['', ''],
         // st: '',
         // et: '',
-        STATUS: ['进行中', '取消', '已完成'],
+        STATUS: ['进行中', '已取消', '已完成'],
+        STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
         status: '',
         ISFREE: ['现金', '优惠券'],
         isFree: '',
@@ -194,7 +193,8 @@
         user: {name: 'it001', game: '美国时时彩'},
         amount: [{}],
         Cdata: [],
-        showFollow: ''
+        showFollow: '',
+        numberWithCommas: numberWithCommas
       }
     },
     computed: {
@@ -230,6 +230,32 @@
       this.followList()
     },
     methods: {
+      getSummaries (param) {
+        const { columns, data } = param
+        const sums = []
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计'
+            return
+          }
+          const values = data.map(item => Number(item[column.property]))
+          if (index === 9) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            // sums[index] += ' 元'
+            sums[index] = numberWithCommas('-' + sums[index].toFixed(4))
+          } else {
+            sums[index] = ''
+          }
+        })
+        return sums
+      },
       openRoute ({path, query: {gameid}}) {
         if (path !== '/form/4-2-1') return false
         if (gameid && gameid !== this.gameid) {
@@ -358,9 +384,10 @@
               loading.text = '加载成功!'
             }, 100)
             typeof fn === 'function' && fn()
+            if (!fn) this.currentPage = 1
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
-            this.summary()
+            // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error
@@ -393,10 +420,14 @@
           // error
         })
       },
+      getIssueList (s, cb) {
+        cb(this.issueList.filter(issue => issue.issue.indexOf(s) !== -1))
+      },
       getRecentIssueList () {
         this.$http.get(api.getRecentIssueList, {lotteryId: this.gameid, issCount: 30}).then(({data}) => {
           // success
           if (data.success === 1) {
+            data.issueList.forEach(x => (x.value = x.issue))
             this.issueList = data.issueList
           } else {
             this.issueList = []

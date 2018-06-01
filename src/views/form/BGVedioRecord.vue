@@ -3,7 +3,7 @@
   // url: 'BGVedioRecord
   // title: 'BG电游记录
   // url: 'BGGameRecord
-  // title: 'BG扑鱼记录
+  // title: 'BG捕鱼记录
   // url: 'BGFishRecord
   // title: 'VR投注记录列表
   // url: 'VROrder
@@ -17,17 +17,21 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .user-list.scroll-content
+    .user-list.scroll-content.other-game
       div(style="text-align: center")
         .ds-button-group
           .ds-button.x-small.text-button(v-for=" (b, i) in btns " @click=" I = i  " v-bind:class=" {selected: I === i} ") {{ b }}
       
       div(v-if=" I === 0 ")
-        .form.form-filters
+        .form.form-filters(style="margin-top: .03rem")
+
           label.item 游戏时间 
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-          label.item 范围 
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
+
+          label.item 范围  
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -37,7 +41,7 @@
         
         .table-list(style="padding: .15rem .2rem ")
         
-          el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+          el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
             el-table-column(class-name="pl2" prop="orderId" label="订单号"  )
             el-table-column(prop="gameName" label="游戏类型"  )
@@ -122,8 +126,10 @@
         currentPage: 1,
         preOptions: {},
         STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
-        btns: ['BG视讯记录', 'BG电游记录', 'BG扑鱼记录', 'VR投注记录列表', 'VR追号记录列表', 'VR打赏列表'],
-        I: 0
+        // btns: ['真人记录', '电游记录', '捕鱼记录', 'VR投注', 'VR追号', 'VR打赏'],
+        btns: ['真人记录', '电游记录', '捕鱼记录'],
+        I: 0,
+        name: ''
       }
     },
     computed: {
@@ -159,13 +165,14 @@
       },
       getData (page, fn) {
         let loading = this.$loading({
-          text: 'BG视讯游戏记录加载中...',
+          text: '其它游戏记录加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
             startTime: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
+            userName: this.name,
             scope: this.zone,
             pageIndex: 1,
             pageSize: this.pageSize
@@ -180,6 +187,7 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.data = data.result.items
             this.total = data.total || this.data.length
           } else loading.text = data.msg || '加载失败!'
@@ -214,5 +222,11 @@
     position relative
     top .01rem
 
+</style>
+
+<style lang="stylus">
+#app.v2 .other-game
+  .scroll-content
+    top .1rem
 </style>
 

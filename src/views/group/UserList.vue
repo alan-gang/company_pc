@@ -24,7 +24,7 @@
 
         label.item 排序 
           el-select(clearable v-model="f" placeholder="默认排序" style="width: 1.1rem")
-            el-option(v-for="F in Filters" v-bind:label="F.title" v-bind:value="F")
+            el-option(v-for="F in Filters" v-bind:label="F.title" v-bind:value="F.id")
         label.item 
           el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
             el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
@@ -36,7 +36,7 @@
           .ds-button.cancel.large(@click="clear") 清空
       
       .table-list(style="padding: .15rem .2rem " v-if="stepIndex === 0")
-        p(style="margin: .15rem 0 .15rem 0" )
+        p(style="margin: 0 0 .15rem 0" )
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '我的用户' : B.userName }}
 
@@ -59,11 +59,15 @@
           el-table-column(prop="daySalary"  label="日工资" v-if=" showSalary  ")
 
           el-table-column(prop="teamBalance"  label="主帐户余额"  align="right")
+              template(scope="scope")
+                  span {{ numberWithCommas(scope.row.teamBalance) }}
 
           el-table-column(prop="speBalance"  label="特殊余额"  align="right")
+              template(scope="scope")
+                  span {{ numberWithCommas(scope.row.speBalance) }}
 
 
-          el-table-column.pl1(class-name=" pl2 pr1" prop="registerTime" label="注册时间" show-overflow-tooltip)
+          el-table-column.pl1( prop="registerTime" label="注册时间" align="center" show-overflow-tooltip)
             template(scope="scope")
               el-popover(v-bind:popper-class=" 'table-popover' " trigger="hover" placement="top")
                 span(slot="reference") {{ scope.row.registerTime.split(' ')[0] }}
@@ -103,7 +107,7 @@
                 
                 div(v-if="scope.row.showTeanBalance")
 
-                 span.text-danger {{ scope.row.myTeamBalance }}
+                 span.text-danger {{numberWithCommas(scope.row.myTeamBalance) }}
         
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -212,13 +216,13 @@
 
           div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
 
-            el-table.header-bold(:data="pointData[pointType]"  style="margin: .2rem")
+            el-table.header-bold(:data="pointData[pointType]"  style="margin: .2rem 0")
 
-              el-table-column(prop="level" label="返点等级" align="right" width="120")
+              el-table-column(prop="level" label="返点等级" )
 
-              el-table-column(prop="prize" label="最高奖金" width="120" align="right")
+              el-table-column(prop="prize" label="最高奖金" )
 
-              el-table-column(prop="30Days" label="30天投注量(万)" width="200" align="right")
+              el-table-column(prop="30Days" label="30天投注量(万)" )
 
           hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
         
@@ -238,7 +242,7 @@
             |  )的返点级别：
             span.amount {{ user.userPoint }}
             | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
-            el-input-number( v-model="point" style="width: .6rem" v-bind:min=" range[pointType].min "  v-bind:max="range[pointType].max" v-bind:debounce="3000")
+            el-input( v-model="point" style="width: .6rem")
 
             span.text-money  (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
 
@@ -290,7 +294,7 @@
 
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
-  import { digitUppercase } from '../../util/Number'
+  import { digitUppercase, numberWithCommas } from '../../util/Number'
   import store from '../../store'
   import xhr from 'components/xhr'
   import api from '../../http/api'
@@ -298,6 +302,7 @@
     mixins: [xhr, setTableMaxHeight],
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         TH: 300,
         showDaySalary: 0,
         showSalary: 0,
@@ -327,13 +332,13 @@
           {id: 2, title: '手动'}
         ],
         // 默认排序 返点级别，账户余额，注册时间，登录时间，日工资
-        f: {},
+        f: '',
         Filters: [
           {id: 1, title: '返点级别'},
           {id: 2, title: '帐户余额'},
           {id: 3, title: '注册时间'},
-          {id: 4, title: '登录时间'},
-          {id: 5, title: '日工资'}
+          {id: 4, title: '登录时间'}
+          // {id: 5, title: '日工资'}
         ],
         // o: {},
         // // 用户级别
@@ -397,16 +402,25 @@
       }
     },
     watch: {
-      point () {
-        setTimeout(() => {
-          let i = (this.point + '').lastIndexOf('.')
-          if (i !== -1 && (this.point + '').slice(i).length > 2) {
-            this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(1))
-          }
-        })
-      },
+      // point () {
+      //   setTimeout(() => {
+      //     let i = (this.point + '').lastIndexOf('.')
+      //     if (i !== -1 && (this.point + '').slice(i).length > 2) {
+      //       this.point = parseFloat((Math.floor(this.point * 100) / 100).toFixed(1))
+      //     }
+      //   })
+      // },
       stepIndex () {
         if (this.stepIndex === 0) this.getUserList()
+      },
+      point () {
+        setTimeout(() => {
+          this.point = this.point.trim()
+          this.point = this.point.replace(/[^0-9,.]/g, '').replace(/[,.]{2,}/g, ',')
+          let [l, r, t] = this.point.split('.')
+          if (r) this.point = l + '.' + r.slice(0, 1)
+          if ((r && r.split(/[,]/)[1]) || t) this.point = l + '.' + r.split(/[.,]/)[0].slice(0, 1)
+        }, 0)
       }
     },
     mounted () {
@@ -550,7 +564,7 @@
         this.minPoint = ''
         this.maxPoint = ''
         this.rg = ''
-        this.f = {}
+        this.f = ''
         this.btos = ''
       },
       // sortByteamBalance (a, b) {
@@ -596,7 +610,7 @@
             minPoint: this.minPoint,
             maxPoint: this.maxPoint,
             cType: this.rg,
-            sortType: this.f.id,
+            sortType: this.f,
             sort: !this.btos ? 1 : 2,
             // minBalance: this.minMoney || '',
             // maxBalance: this.maxMoney || '',
@@ -646,6 +660,7 @@
             })
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             // this.data = data.recordList
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -726,6 +741,7 @@
         })
       },
       adjustPoint () {
+        if (this.point > this.range[this.pointType].max || this.point < this.range[this.pointType].min) return this.$message.warning({target: this.$el, message: '返点值太大或太小！'})
         this.$http.get(api.adjustPoint, {
           destUserId: this.user.userId,
           adjustType: this.pointType === 'up' ? 0 : 1,

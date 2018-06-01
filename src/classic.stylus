@@ -197,29 +197,37 @@ body.classic:not(.v2)
       
       .el-menu
         .el-menu-item.ds-button
-          color rgba(255, 255, 255, .7)
+          margin .02rem 0
+          background-color #3b3635
+          background-image: linear-gradient(
+      rgba(255, 255, 255, 0.05), 
+      rgba(255, 255, 255, 0.05)), 
+    linear-gradient(
+      #3b3635, 
+      #3b3635);
+          // color rgba(255, 255, 255, .7)
           &.is-active
             color #fff
           &.notis-active
-            color rgba(255, 255, 255, .7)
+            // color rgba(255, 255, 255, .7)
           // padding-left .5rem !important
           &:before
             display none
             
         .el-menu-item.ds-button
           &.sign:after
-            position relative
+            position absolute
             display inline-block
             content ''
             // position absolute
-            top .02rem
-            left -.05rem
+            top .04rem
+            left 1.0rem
             width .4rem
             height .2rem
           &.hot:after
             background url($ASSETS/inner_hot.png) center no-repeat
           &.new:after
-            top .05rem
+            top .04rem
             background url($ASSETS/inner_new.png) center no-repeat
           
       
@@ -249,14 +257,22 @@ body.classic:not(.v2)
         text-align left
         box-shadow none
         position relative
-        padding-left .3rem !important
+        padding-left .2rem !important
         &.notis-active:hover
-          background rgba(0,0,0,.2)
-          
+          color #ffd400
+          background-image: linear-gradient(
+    rgba(255, 255, 255, 0.2), 
+    rgba(255, 255, 255, 0.2)), 
+  linear-gradient(
+    #595555, 
+    #595555);
         &.is-active
-          background BLUE
+          // background BLUE
+          bg-gradient(90deg, BLUE, BLUE-ACTIVE)
         &.notis-active
-          background none
+          // background none
+          background-color: #3b3635;
+          background-image: linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05)), linear-gradient(#3b3635, #3b3635);
 
         &:before
           content '.'
@@ -301,7 +317,7 @@ body.classic:not(.v2)
       max-height 4rem
     
     .inner-bar.opacity-0
-      height .5rem
+      height .65rem
     
     .fixed.inner-bar
     .amout-bar
@@ -360,12 +376,16 @@ body.classic:not(.v2)
         
       .menu
         & > div:first-child
-          padding-left 0
+          height .36rem
+          padding-left .05rem
+          bg-gradient(90deg, BLUE, BLUE-ACTIVE)
           
         height auto
         .row
           display block
         dd
+          height .34rem
+          color #fff
           padding 0
           width .7rem
           radius 0
@@ -376,6 +396,8 @@ body.classic:not(.v2)
           &:hover
             background #f7f7f7
             color BLUE
+            border-color BLUE
+            
           .submenu-group
             display none
           &.selected

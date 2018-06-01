@@ -1,7 +1,7 @@
 <template lang="jade">
   .righter
     .ds-icon-skins
-      .expand-left.skins  &nbsp;&nbsp;可选皮肤
+      .expand-left.skins.text-black  &nbsp;&nbsp;可选皮肤
         br
         .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' center no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
     .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
@@ -20,7 +20,7 @@
       return {
         Me: store.state.user,
         store: store,
-        skins: ['/static/skins/bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
+        skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
         // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
     },
@@ -159,7 +159,9 @@
       height RW
       line-height RW
       text-align center
+      color #fff
       background-color rgba(49,41,84, .95)
+      // background-color #e9e9e9
       z-index -1
       transition all ease .3s
       overflow hidden

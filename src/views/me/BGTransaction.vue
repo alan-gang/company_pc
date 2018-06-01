@@ -9,22 +9,46 @@
 
       .form.form-filters
 
-        label.item 时间范围 
+        label.item 时间范围  
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+        | &nbsp;&nbsp;
+        
+        label.item 转出帐户  
+          el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
+            el-option(v-for="(n, i) in froms" v-bind:label="n" v-bind:value="i" v-if="n")
+        
+        | &nbsp;&nbsp;
+        
+        label.item 转入帐户  
+          el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
+            el-option(v-for="(n, i) in froms" v-bind:label="n" v-bind:value="i" v-if="n")
+        
+        | &nbsp;&nbsp;
+
+
+        label.item 状态  
+          el-select(clearable v-model="s" style="width: .8rem" placeholder="无")
+            el-option(v-for="(n, i) in S" v-bind:label="n" v-bind:value="i" v-if="n")
+
         .buttons(style="margin-left: .6rem; margin-top: .1rem")
           .ds-button.primary.large.bold(@click="getData") 搜索
         
-      .table-list(style="padding: .15rem .2rem ")
+      .table-list(style="padding: .15rem .2rem " stripe)
       
-        el-table.header-bold.nopadding(:data="data" style="margin: .2rem 0")
+        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH ")
 
-          el-table-column(prop="loginId" label="用户名" )
+          el-table-column(class-name="pl2" prop="from" label="从...转出" )
 
-          el-table-column(prop="operateTime" label="时间" )
+          el-table-column(prop="to" label="转入到" )
+
+          el-table-column(prop="time" label="时间" )
           
           el-table-column(prop="amount" label="金额" )
+
+          el-table-column(prop="state" label="状态" )
+            template(scope="scope")
+              span(:class=" SC[scope.row.stateIndex] ") {{ S[scope.row.stateIndex] }}
   
-          el-table-column(prop="accountItemName" label="操作"  )
 
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -33,33 +57,44 @@
 </template>
 
 <script>
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
     name: 'BGTransaction',
     compontents: {
     },
+    mixins: [setTableMaxHeight],
     data () {
       return {
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
+        stEt: [(new Date().getTime() - 1000 * 3600 * 24 * 7), new Date()],
+        // defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
+        // stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
+        // defaultStEt: ['', ''],
+        // stEt: ['', ''],
         data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,
-        preOptions: {}
+        preOptions: {},
+        froms: ['主帐户', '特殊帐户', '', 'BG帐户'],
+        f: '',
+        t: '',
+        S: ['处理中', '成功', '失败'],
+        SC: ['text-blue', 'text-green', 'text-danger'],
+        s: ''
       }
     },
     watch: {
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
-        }
-      }
+      // stEt: {
+      //   deep: true,
+      //   handler () {
+      //     if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
+      //     if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
+      //       this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24)
+      //     }
+      //   }
+      // }
     },
     mounted () {
       this.getData()
@@ -77,20 +112,23 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
-            projectId: this.id,
-            startTime: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
-            endTime: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
+            from: this.f,
+            to: this.t,
+            state: this.s,
+            bgTm: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
+            endTm: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
             pageIndex: 1,
             pageSize: this.pageSize
           }
         } else {
           this.preOptions.pageIndex = page
         }
-        this.$http.get(api.queryBalanceTransfer, this.preOptions).then(({data: {result}}) => {
-          if (result && result.items) {
+        this.$http.get(api.queryBalanceTransfer, this.preOptions).then(({data}) => {
+          if (data && data.recordList) {
             typeof fn === 'function' && fn()
-            this.data = result.items
-            this.total = result.total || this.data.length
+            !fn && (this.currentPage = 1)
+            this.data = data.recordList
+            this.total = data.totalSize || this.data.length
           }
         }).finally(() => {
           setTimeout(() => {
@@ -106,4 +144,7 @@
   @import '../../var.stylus'
   .form
     padding PWX
+    .item
+      display inline-block
+      margin-top .1rem
 </style>

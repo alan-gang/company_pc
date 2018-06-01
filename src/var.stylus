@@ -59,10 +59,16 @@ LIGHT-HOVER = #e3e0ee
 
 GREY = #9897b2
 
-BLUE = #1a9ff3
-BLUE-HOVER = #2aadff
+// old blue
+OBLUE = #1a9ff3
+OBLUE-HOVER = #2aadff
 // BLUE-HOVER = #42b6ff
-BLUE-ACTIVE = #038adf
+OBLUE-ACTIVE = #038adf
+// new blue
+BLUE = #f17d0b
+BLUE-HOVER = #ff5429
+BLUE-ACTIVE = #ff5429
+
 
 RED = #ff3350
 PINK = #ff566e

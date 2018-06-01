@@ -271,6 +271,7 @@
             this.OL = data.salaryComb || []
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             // this.OOL = data.winSlaryData
           } else loading.text = '加载失败!'
         }, (rep) => {

@@ -42,10 +42,10 @@
             br
             | 新绑定的提款银行卡需要绑定时间超过 
             span.text-danger 6
-            |  小时才能正常提款
+            |  小时才能正常提款。
+            br
+            | 特殊余额提款不收取手续费。
         .form
-          p.item 可提现金额：&nbsp;&nbsp;
-            span.amount {{ mtype ? me.smoney : me.amoney }}
 
           .item(style="line-height: .5rem") 收款银行卡：
             p.banks
@@ -66,13 +66,17 @@
             span.min.text-danger  {{ max }} 
             | 元)
 
+          .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            el-select(v-model=" mtype " style="width: 1.8rem; position: relative; top: -.01rem")
+                el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
+
+          p.item 可提金额：&nbsp;&nbsp;&nbsp;&nbsp;
+            span.amount(style="vertical-align: middle") {{ numberWithCommas(mtype ? me.smoney : me.amoney) }}
+          
           p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
-          .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            el-select(v-model=" mtype " style="width: 1.8rem; position: relative; top: -.01rem")
-                el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
 
           .buttons(style="margin-left: .98rem; padding: .2rem 0")
             .ds-button.primary.large(@click="showWithDraw") 确认
@@ -126,19 +130,19 @@
                 el-step(v-bind:el-icon=" (scope.row.step === 4 && scope.row.result === 2) ? 'el-icon-circle-close' : '' " v-bind:status=" scope.row.step === 4 ? SSS[scope.row.result] : ( scope.row.step >= 4 ? 'success' : 'wait') " v-bind:title=" '完成' + (scope.row.step === 4 ? SS[scope.row.result] : '')  " description="")
               
 
-          el-table-column(prop="acceptTime" label="提现时间" width="160")
+          el-table-column(prop="acceptTime" label="提现时间" )
 
-          el-table-column(prop="bankName" label="银行" width="140")
+          el-table-column(prop="bankName" label="银行" )
             template(scope="scope")
               .ds-icon-bank-card.static(v-bind:class=" [ scope.row.class ] " style="margin: 0")
 
-          el-table-column(prop="realMoney" label="金额" width="140" align="right")
+          el-table-column(prop="realMoney" label="金额"  align="right")
 
-          el-table-column(prop="transferFee" label="手续费" width="100" align="right")
+          el-table-column(prop="transferFee" label="手续费"  align="right")
 
-          el-table-column(label="" align="right" width="50")
+          el-table-column(label="" align="right" )
 
-          el-table-column(label="状态" width="100")
+          el-table-column(label="状态" )
             template(scope="scope")
               span(:class=" scope.row.statusV.indexOf('失败') !== -1 ? 'text-danger' : 'text-green' " v-if="scope.row.statusV") {{ scope.row.statusV }}
 
@@ -154,13 +158,14 @@
 import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
-import { digitUppercase } from '../../util/Number'
+import {numberWithCommas, digitUppercase} from '../../util/Number'
 import xhr from 'components/xhr'
 // import util from '../../util'
 export default {
   mixins: [xhr],
   data () {
     return {
+      numberWithCommas: numberWithCommas,
       me: store.state.user,
       cpwd: '',
       myBanks: [],
@@ -289,6 +294,7 @@ export default {
           })
           typeof fn === 'function' && fn()
           this.total = data.totalSize || this.data.length
+          !fn && (this.currentPage = 1)
           // 在这里你想初始化的时候展开哪一行都可以了
           this.expands.push(0)
         }

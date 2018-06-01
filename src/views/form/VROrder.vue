@@ -8,109 +8,84 @@
     .user-list.scroll-content
 
       .form.form-filters
+
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+        
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        // label.item 游戏时间 
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        // label.item(style="margin-left: -.1rem") 至 
-        //   el-date-picker(:picker-options="pickerOptions" v-model="et" type="datetime" placeholder="请选择日期时间")
-
-        // label.item 状态 
-        //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
-        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-
-        // label.item 奖金 
-        //   el-select(clearable v-bind:disabled=" !ISFREE[0] "  v-model="isFree" style="width: .8rem" placeholder="全")
-        //     el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
         label.item 游戏名称 
           el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.5rem" placeholder="全")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        // label.item 游戏玩法 
-        //   el-select(clearable v-bind:disabled=" !methodList[0] "  v-model="method" style="width: 1.5rem" placeholder="全")
-        //     el-option(v-for="U in methodList" v-bind:label="U.methodName" v-bind:value="U")
-
-        // label.item 游戏奖期 
-        //   el-select(clearable v-bind:disabled=" !issueList[0] "  v-model="issue" style="width: 1.5rem" filterable placeholder="全")
-        //     el-option(v-for="U in issueList" v-bind:label="U.issue" v-bind:value="U.issue")
-
-        // label.item 游戏模式 
-        //   el-select(clearable v-bind:disabled=" !MODES[0] "  v-model="mode" style="width: .6rem" placeholder="全")
-        //     el-option(v-for="(U, i) in MODES" v-bind:label="U" v-bind:value="i")
-
-        // label.item 注单编号 
-        //   el-input(v-model="id" style="width: 1rem")
-
-        // label.item 游戏用户 
-        //   input.ds-input.small(v-model="name" style="width: 1rem")
 
         // label.item 范围 
         //   el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
         //     el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
-        .buttons(style="margin-left: .6rem")
+        .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
-          el-table-column(class-name="pl2" prop="serialNumber" label="注单编号" width="120" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2" prop="serialNumber" label="注单编号"  show-overflow-tooltip=true)
             template(scope="scope")
               div
                 .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.serialNumber }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(class-name="pl2" prop="playerName" label="用户" width="100")
+          el-table-column(class-name="pl2" prop="playerName" label="用户" )
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.playerName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
           
-          el-table-column(prop="createTime" label="投注时间" width="140")
+          el-table-column(prop="createTime" label="投注时间" )
             
 
-          el-table-column(prop="channelName" label="游戏" width="100")
+          el-table-column(prop="channelName" label="游戏" )
 
-          el-table-column(prop="betTypeName" label="玩法" width="150")
+          el-table-column(prop="betTypeName" label="玩法" )
             // template(scope="scope")
             //   div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
-          el-table-column(prop="issueNumber" label="期号" width="100")
+          el-table-column(prop="issueNumber" label="期号" )
 
           // el-table-column(prop="code" label="投注内容" min-width="120" show-overflow-tooltip=true)
           
-          el-table-column(class-name="pl2" prop="position" label="投注位置" min-width="150")
+          // el-table-column(class-name="pl2" prop="position" label="投注位置" min-width="150")
 
 
-          el-table-column(prop="number" label="投注内容" min-width="120" show-overflow-tooltip=true)
+          // el-table-column(prop="number" label="投注内容" min-width="120" show-overflow-tooltip=true)
             // template(scope="scope")
             //   p {{ scope.row.code }}
             //     span(v-if="scope.row.position") [{{ scope.row.position }}]  
 
 
-          el-table-column(prop="multiple" label="倍数" width="40" align="right")
+          el-table-column(prop="multiple" label="倍数" width="40")
 
-          el-table-column(class-name="pl2" prop="unit" label="模式(元)" width="80")
+          el-table-column(class-name="pl2" prop="unit" label="模式(元)")
             // template(scope="scope")
             //     span {{ MODES[scope.row.modes - 1] }}     
 
-          el-table-column(prop="totalPrice" label="总金额" width="100" align="right")
+          el-table-column(prop="totalPrice" label="总金额" align="right")
              template(scope="scope")
                span(v-if="!scope.row.last") {{ scope.row.cost }}
                span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pr2" prop="playerPrize" label="奖金" width="120" align="right")
+          el-table-column(class-name="pr2" prop="playerPrize" label="奖金" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.playerPrize }}
               span.text-green(v-if="scope.row.last") {{ scope.row.income }}
 
 
-          el-table-column( prop="winningNumber" label="开奖号码" min-width="120" show-overflow-tooltip=true)
+          el-table-column( prop="winningNumber" label="开奖号码" show-overflow-tooltip=true align="center")
 
           // el-table-column(class-name="pr2" label="优惠券" width="80" align="center")
           //   template(scope="scope")
@@ -515,8 +490,8 @@
             endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(' ', 'T') + 'Z' : '',
             // stat: this.status,
             // isFree: this.isFree,
-            // userName: this.name,
-            // scope: this.zone,
+            userName: this.name,
+            scope: this.zone,
             // lotteryId: this.gameid,
             // methodId: this.method.methodId,
             // issue: this.issue,
@@ -545,6 +520,7 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             // data.recordList.forEach(d => {
             //   d.code = '177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755'
             // })

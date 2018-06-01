@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "echarts": "^4.1.0",
-    "element-ui": "^1.2.9",
     "lodash": "^4.17.4",
     "simple-web-worker": "^1.2.0",
-    "vue": "^2.0.1",
+    "vue": "^2.5.16",
     "vue-awesome-swiper": "^2.4.2",
     "vue-clipboard2": "0.0.6",
     "vue-echarts-v3": "^1.0.19",
+    "vue-resource": "^0.7.4",
     "vue-worker": "^1.2.1"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^4.0.2",
     "css-loader": "^0.25.0",
-    "element-ui": "^1.0.0-rc.8",
+    "element-ui": "^2.3.9",
     "eslint": "^3.7.1",
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",
@@ -97,7 +97,6 @@
     "vue-chartjs": "^2.5.0",
     "vue-loader": "^9.9.5",
     "vue-progressbar": "^0.7.2",
-    "vue-resource": "^0.7.4",
     "vue-router": "^2.0.1",
     "vue-style-loader": "^1.0.0",
     "vue-touch": "^1.1.0",

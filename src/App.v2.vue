@@ -14,7 +14,7 @@
 
     // lefter
     
-    dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.user.mode.indexOf('classic') !== -1 && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
+    dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-show="state.user.mode.indexOf('classic') !== -1 && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
     // righter
     transition(name="slide-right" appear=true)
@@ -183,9 +183,10 @@ export default {
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', volume: true, gameid: 17},
-                {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', volume: false, gameid: 17},
+                {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
                 // {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', volume: true, gameid: 20},
                 // {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', volume: false, gameid: 2},
+                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29}
                 // {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', volume: false, gameid: 16},
                 // {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', volume: false, gameid: 12},
@@ -208,11 +209,12 @@ export default {
               url: 'G115',
               // width: '1.8rem',
               items: [
-                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
-                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '江西11选5', volume: true, gameid: 7},
-                // {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
                 {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', volume: true, gameid: 6},
-                {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11}
+                {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', volume: true, gameid: 7},
+                {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
+                {class: 'ds-icon-game-hb115 sign new', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
+                // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
+                {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
             },
             {
@@ -220,10 +222,10 @@ export default {
               url: 'K3',
               // width: '1.8rem',
               items: [
-                {class: 'ds-icon-game-ahK3', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
+                {class: 'ds-icon-game-ahK3  sign new', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
-                {class: 'ds-icon-game-jlK3', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
-                {class: 'ds-icon-game-bjK3', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
+                {class: 'ds-icon-game-jlK3 sign new', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
+                {class: 'ds-icon-game-bjK3 sign new', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
                 // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
               ]
             },
@@ -234,38 +236,38 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
-                {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                // {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 // {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
                 // {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
                 {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
               ]
-            },
-            {
-              title: 'VR游戏',
-              // hide: true,
-              url: 'VR',
-              items: [
-                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: '金星1.5分彩', fn: 1},
-                // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
-                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: '3分彩', fn: 11},
-                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: '赛车', fn: 2},
-                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: '快艇', fn: 13},
-                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: '彩票百家乐', fn: 15}
-                // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
-              ]
-            },
-            {
-              title: '老虎机',
-              hide: true,
-              url: 'LHG',
-              items: [
-                {menuid: '!98', class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
-                {menuid: '!98', class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
-                {menuid: '!98', class: 'ds-icon-game-lhg00', title: 'more'}
-              ]
             }
+            // {
+            //   title: 'VR游戏',
+            //   // hide: true,
+            //   url: 'VR',
+            //   items: [
+            //     {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: '金星1.5分彩', fn: 1},
+            //     // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
+            //     {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: '3分彩', fn: 11},
+            //     {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: '赛车', fn: 2},
+            //     {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: '快艇', fn: 13},
+            //     {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: '彩票百家乐', fn: 15}
+            //     // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
+            //   ]
+            // },
+            // {
+            //   title: '老虎机',
+            //   hide: true,
+            //   url: 'LHG',
+            //   items: [
+            //     {menuid: '!98', class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
+            //     {menuid: '!98', class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
+            //     {menuid: '!98', class: 'ds-icon-game-lhg00', title: 'more'}
+            //   ]
+            // }
           ]
         },
         {
@@ -282,9 +284,9 @@ export default {
         },
         {
           menuid: '98',
-          title: '扑鱼达人',
+          title: '捕鱼达人',
           big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '扑鱼达人', descrb: '一炮万金，畅快秒杀', fn: 202}
+          info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀', fn: 202}
         },
         {
           id: 2,
@@ -300,7 +302,7 @@ export default {
                 {
                   id: '2-1-1',
                   menuid: '20',
-                  title: '个人信息',
+                  title: '我的钱包',
                   url: 'Me'
                 },
                 {
@@ -343,7 +345,7 @@ export default {
             },
             {
               id: '3-1',
-              title: '用户中心',
+              title: '团队管理',
               items: [
                 {
                   id: '3-1-1',
@@ -409,7 +411,7 @@ export default {
             },
             {
               id: '4-1',
-              title: '游戏记录',
+              title: '报表管理',
               items: [
                 {
                   id: '4-1-1',
@@ -429,15 +431,15 @@ export default {
                     width: '12rem'
                   }
                 },
-                {
-                  id: '4-1-2',
-                  menuid: '94',
-                  title: '奖池记录',
-                  url: 'LuckyPool',
-                  position: {
-                    width: '12rem'
-                  }
-                },
+                // {
+                //   id: '4-1-2',
+                //   menuid: '94',
+                //   title: '奖池记录',
+                //   url: 'LuckyPool',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
                 {
                   id: '4-9-9',
                   menuid: '53',
@@ -459,7 +461,7 @@ export default {
                 {
                   id: '4-4-1',
                   menuid: '57',
-                  title: '实时报表',
+                  title: '今日报表',
                   url: 'Today'
                 },
                 {
@@ -475,13 +477,13 @@ export default {
                   title: '分红报表',
                   url: 'Stock'
                 },
-                {
-                  id: '3-3-1',
-                  menuid: '64',
-                  // size: 'full',
-                  title: '分红报表',
-                  url: 'Stock'
-                },
+                // {
+                //   id: '3-3-1',
+                //   menuid: '64',
+                //   // size: 'full',
+                //   title: '分红报表',
+                //   url: 'Stock'
+                // },
                 {
                   id: '4-5-5',
                   menuid: '78',
@@ -517,7 +519,7 @@ export default {
                 {
                   id: '2-1-1',
                   menuid: '20',
-                  title: '个人信息',
+                  title: '我的钱包',
                   url: 'Me'
                 },
                 {
@@ -710,15 +712,15 @@ export default {
                     width: '12rem'
                   }
                 },
-                {
-                  id: '4-1-2',
-                  menuid: '94',
-                  title: '奖池记录',
-                  url: 'LuckyPool',
-                  position: {
-                    width: '12rem'
-                  }
-                },
+                // {
+                //   id: '4-1-2',
+                //   menuid: '94',
+                //   title: '奖池记录',
+                //   url: 'LuckyPool',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
                 {
                   id: '4-9-9',
                   menuid: '53',
@@ -740,7 +742,7 @@ export default {
                 {
                   id: '4-4-1',
                   menuid: '57',
-                  title: '实时报表',
+                  title: '今日报表',
                   url: 'Today'
                 },
                 {
@@ -756,13 +758,13 @@ export default {
                   title: '分红报表',
                   url: 'Stock'
                 },
-                {
-                  id: '3-3-1',
-                  menuid: '64',
-                  // size: 'full',
-                  title: '分红报表',
-                  url: 'Stock'
-                },
+                // {
+                //   id: '3-3-1',
+                //   menuid: '64',
+                //   // size: 'full',
+                //   title: '分红报表',
+                //   url: 'Stock'
+                // },
                 {
                   id: '4-5-5',
                   menuid: '78',
@@ -800,7 +802,7 @@ export default {
                 // {
                 //   id: '4-8-3',
                 //   menuid: '98',
-                //   title: 'BG扑鱼记录',
+                //   title: 'BG捕鱼记录',
                 //   url: 'BGFishRecord',
                 //   position: {
                 //     width: '12rem'
@@ -1019,9 +1021,48 @@ export default {
     this.setPages(this._getPages())
     window.NProgress.done()
     // console.log(this.$router)
-    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
+    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) {
+      // this.tryLogin()
+    }
   },
   methods: {
+    // 11、系统公告   ALL
+    sysNotices () {
+      this.$http.get(api.sysNotices, {page: 1, pageSize: 1}).then(({data}) => {
+        // success
+        if (data.success) {
+          let n = (data.sysNotices || [])[0]
+          let modal = this.$modal.confirm({
+            title: n.subject || '特别提醒',
+            boxStyle: {
+              width: '580px'
+            },
+            content: '<pre class="text-666" style="text-align: left;">' + n.content + '</pre>',
+            btn: ['知道了'],
+            ok () {
+              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+                modal.btn = ['立即前往设置']
+                modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
+                return false
+              }
+            },
+            close () {
+              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+                modal.btn = ['立即前往设置']
+                modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
+                return false
+              }
+              if (modal.btn[0] === '立即前往设置') {
+                this.$router.push('/me/2-2-1')
+              }
+            },
+            O: this
+          })
+        }
+      }, (rep) => {
+        // error
+      })
+    },
     openRoute ({path, params: {url}}) {
       if (!url) store.actions.updateAllPages({active: false})
     },
@@ -1050,7 +1091,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
+      this.$http.get(api.validate, {isAuto: 1}).then(({data}) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -1079,20 +1120,21 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
-          showSalary: data.showSalary === '1',
+          showSalary: data.showSalary === 1,
           name: data.nickName,
-          pwd: data.hasLogPwd === '1',
-          cashPwd: data.hasSecurityPwd === '1',
+          pwd: data.hasLogPwd === 1,
+          cashPwd: data.hasSecurityPwd === 1,
           type: data.identity,
           account: data.userName,
           shareCycle: data.shareCycle,
           role: data.roleId,
-          hasBankCard: data.hasBankCard === '1',
-          isTry: data.isTry === '1',
-          guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
+          hasBankCard: data.hasBankCard === 1,
+          isTry: data.isTry === 1,
+          guide: data.isTry === 1 ? false : (!data.nickName || data.hasLogPwd !== 1 || data.hasSecurityPwd !== 1),
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType,
-          vip: data.isVip
+          vip: data.isVip,
+          isVip: data.isVip
         })
         this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
@@ -1106,6 +1148,7 @@ export default {
         // window.accessAngular.connect()
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
+        this.sysNotices()
       })
     },
     // openRoute ({path}) {
@@ -1323,7 +1366,7 @@ export default {
     font-size .14rem
     color #666
     margin 0
-    background url(/static/skins/bg.jpg) center no-repeat
+    background url(/static/skins/big_bg.jpg) center no-repeat
     // background-size 100% 100% !important
     transition background linear .5s
     &.skin-new-year 

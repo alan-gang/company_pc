@@ -16,10 +16,10 @@
           el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
+        label.item 奖期 
+          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="奖池期号" style="width: .8rem;")
 
-        label.item 奖池期号
-          el-select(clearable v-bind:disabled=" !issueList[0] "  v-model="issue" style="width: 1.5rem" filterable placeholder="全")
-            el-option(v-for="U in issueList" v-bind:label="U" v-bind:value="U")
+
 
 
         .buttons(style="margin-left: .6rem")
@@ -28,7 +28,7 @@
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" show-summary v-bind:summary-method="getSummaries" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
 
           el-table-column(class-name="pl2" prop="userName" label="用户")
@@ -45,32 +45,23 @@
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
           
 
+          el-table-column(class-name="pl2" prop="poolCode" label="奖池号" align="center")
+
+
           el-table-column(prop="poolIssue" label="奖池期号")
 
-          // el-table-column(class-name="pr2" label="奖池号")
-          //   template(scope="scope")
-          //     div(v-if="!scope.row.last")
-          //       span.text-666 {{ scope.row.poolCode }}
+
+          el-table-column(prop="poolTotalPrice" label="参与金额" align="right")
+
+          el-table-column(class-name="pr2" prop="poolBonus" label="奖金" align="right")
 
 
-          el-table-column(prop="totalPrice" label="参与金额" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") 1
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
-
-
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.poolBonus }}
-              span.text-green(v-if="scope.row.last") {{ scope.row.income }}
-
-
-          el-table-column(class-name="pl2" prop="prizeCode" label="奖池开奖号" show-overflow-tooltip=true)
+          el-table-column(class-name="pl2" prop="prizeCode" label="奖池开奖号" align="center")
 
          
           el-table-column(label="状态")
             template(scope="scope")
-              span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
+              span(:class=" STATUSCLASS[scope.row.stat] ") {{ STATUS[scope.row.stat] }}
 
         
 
@@ -128,9 +119,9 @@
         // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
         defaultStEt: ['', ''],
         stEt: ['', ''],
-        // st: '',
-        // et: '',
-        STATUS: ['未开奖', '已中奖', '未中奖'],
+        STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+        STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
+        // STATUS: ['未开奖', '已中奖', '未中奖'],
         status: '',
         ISFREE: ['现金', '优惠券'],
         isFree: '',
@@ -227,6 +218,32 @@
           this.gameid = gameid
           this.poolList()
         }
+      },
+      getSummaries (param) {
+        const { columns, data } = param
+        const sums = []
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计'
+            return
+          }
+          const values = data.map(item => Number(item[column.property]))
+          if (values.every(value => !isNaN(value)) && index !== 3 && index !== 4 && index !== 7) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            // sums[index] += ' 元'
+            sums[index] = (index === 5 ? '+' : '-') + sums[index].toFixed(4)
+          } else {
+            sums[index] = ''
+          }
+        })
+        return sums
       },
       summary () {
         this.amount[0].income = 0
@@ -353,9 +370,10 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            this.summary()
+            // this.summary()
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error
@@ -402,7 +420,9 @@
         this.$http.get(api.poolIssue).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.issueList = data.issueList || []
+            let X = []
+            data.issueList.forEach(x => X.push({value: x}))
+            this.issueList = X
           } else {
             this.issueList = []
             this.issue = ''
@@ -424,11 +444,17 @@
           // error
         })
       },
+      getIssueList (s, cb) {
+        cb(this.issueList.filter(issue => issue.value.indexOf(s) !== -1))
+      },
       getRecentIssueList () {
         this.$http.get(api.getRecentIssueList, {lotteryId: this.gameid, issCount: 30}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.issueList = data.issueList
+            let X = []
+            data.issueList.forEach(x => X.push({value: x}))
+            console.log(X)
+            this.issueList = X
           } else {
             this.issueList = []
             this.issue = ''

@@ -1,15 +1,15 @@
 <template lang="jade">
 .login-form
   img(src="/static/pic/login_banner.jpg")
-  dl
+  dl(style="padding-top: .1rem")
     
-    dt.ds-icon-notice(:class="{ h0: !this.regard }")
+    dt.ds-icon-notice(:class="{ h0: !this.regard }" style="margin-top: .1rem")
       | 问候语：
       span.regard {{ regard }}
 
     // dt.ds-icon-notice(v-if="notice") {{ notice }}
       
-    dt.dd(v-if=" platform !== 'ds' " style="font-size: .18rem; text-align: left;")
+    dt.dd(v-if=" platform !== 'ds' " style="font-size: .18rem; text-align: left; margin-top: 0rem")
       用户登录
       router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="" v-if="!m" style="float: right; color: #666") 试玩登录
 
@@ -236,7 +236,7 @@
         //   text: '自动登录中...',
         //   target: this.$el.querySelector('.login')
         // })
-        this.$http.get(api.validate).then(({data}) => {
+        this.$http.get(api.validate, {isAuto: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
             this.loginSuccess(data)
@@ -314,8 +314,8 @@
         border none
         overflow hidden
     dd
-      line-height BMH + .1rem
-      height BMH
+      line-height BMH - .1rem
+      height BMH - .1rem
       padding 0 PW
       padding-left PW + .1rem + .24rem
       border-bottom 1px solid rgba(255, 255, 255, .2)
@@ -411,7 +411,7 @@
         height .3rem
         line-height .3rem
         text-shadow none
-        margin .1rem PW
+        margin .2rem PW .1rem PW
       dd.ds-button
         margin 0 PW
         width auto

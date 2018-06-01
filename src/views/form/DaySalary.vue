@@ -20,11 +20,11 @@
       
       .table-list(style="padding: .15rem .2rem ")
 
-        p(style="margin: .15rem 0")
+        p(style="margin: 0 0 .15rem 0")
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0" @cell-click="cellClick" v-bind:max-height=" MH ")
+        el-table.header-bold.nopadding(:data="data" v-bind:row-class-name="tableRowClassName" style="margin: 0 0" @cell-click="cellClick" v-bind:max-height=" MH ")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名")
             template(scope="scope")
@@ -32,14 +32,16 @@
 
           // el-table-column(prop="date" label="日期")
           el-table-column(prop="buyAmount" label="团队销量" )
-          // el-table-column(prop="buyAmount" label="有效销量" )
+          el-table-column(prop="buyAmount" label="有效销量" )
           // el-table-column(prop="activitUser" label="活跃用户")
           // el-table-column(prop="salaryLevel" label="工资标准" )
           el-table-column(prop="subSalary" label="下级工资总额" )
           el-table-column(prop="daySalary" label="本人工资" )
+          el-table-column(prop="getDaySalary" label="本人已领工资" )
           el-table-column(prop="" label="操作" align="center")
             template(scope="scope")
-              .ds-button.text-button.blue(@click=" (showDetail = true) && getSalaryById(scope.row.userId) ") 明细
+              .ds-button.text-button.blue(style=" padding: 0 .05rem" @click=" (showDetail = true) && getSalaryById(scope.row.userId) ") 详情
+              .ds-button.green.text-button(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click="goToGift()") 去领取
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
     
@@ -66,6 +68,12 @@
               el-table-column(prop="salaryLevel" label="工资标准" )
               el-table-column(prop="subSalary" label="下级工资总额" )
               el-table-column(prop="daySalary" label="本人工资" )
+              el-table-column(prop="daySalary" label="是否领取" )
+                template(scope="scope")
+
+                  span.text-danger(v-if="scope.row.isDone") 已领取
+                  span.text-danger(v-if="!scope.row.isDone && !scope.row.canGet ") 未领取
+                  span.text-oblue(style="cursor: pointer" v-if=" scope.row.canGet " @click=" goToGift() ") 去领取
 
 </template>
 
@@ -78,6 +86,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
+        TH: 280,
         me: store.state.user,
         clearableOnTime: false,
         pickerOptions: {
@@ -94,7 +103,9 @@
         BL: [
           {title: '自己'},
           {}
-        ]
+        ],
+        canGet: false,
+        cdata: []
       }
     },
     computed: {
@@ -103,6 +114,11 @@
       this.daySalaryRepor()
     },
     methods: {
+      goToGift () {
+        setTimeout(() => {
+          this.$router.push('/activity/5-1-2')
+        }, 0)
+      },
       cellClick (row, column, cell, event) {
         if (column.property === 'userName') {
           // this.BL.push({
@@ -147,9 +163,11 @@
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.BL = (data.userBreads).concat([{}])
             this.total = data.totalSize || this.data.length
             this.data = data.recordList
+            this.canGet = data.canGet
             // this.data = data.subUserProfit
             setTimeout(() => {
               loading.text = '加载成功!'
@@ -170,8 +188,8 @@
           target: this.$el
         }, 10000, '加载超时...')
         this.$http.get(api.getSalaryById, {
-          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
+          startDate: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+          endDate: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
           destUserId: userId
         }).then(({data}) => {
           // success

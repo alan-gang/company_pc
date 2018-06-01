@@ -11,17 +11,22 @@
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
+
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+
         label.item 范围 
           el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
+        
 
         .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="getData") 搜索
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
           el-table-column(class-name="pl2" prop="betTimeBj" label="时间"  )
           el-table-column(prop="cnGameName" label="游戏名称"  )
@@ -88,7 +93,8 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消']
+        STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
+        name: ''
       }
     },
     computed: {
@@ -121,13 +127,14 @@
       },
       getData (page, fn) {
         let loading = this.$loading({
-          text: 'BG电子游戏记录加载中...',
+          text: '其它游戏记录加载中...',
           target: this.$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
             startTime: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
+            userName: this.name,
             scope: this.zone,
             pageIndex: 1,
             pageSize: this.pageSize
@@ -142,6 +149,7 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.data = data.result.items
             this.total = data.result.total || this.data.length
           } else loading.text = data.msg || '加载失败!'

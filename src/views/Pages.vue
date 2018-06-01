@@ -426,6 +426,11 @@ export default {
     volume (page) {
       page.volume = !page.volume
     },
+    __volume () {
+      if (this.pages[0]) {
+        this.pages[0].volume = !this.pages[0].volume
+      }
+    },
     addPrefence (page) {
       this.$http.get(api.addPrefence, {
         menuId: page.menuid,
@@ -680,7 +685,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .dialog-page.active .tool-bar
-    background-color WHITE
+    // background-color WHITE
   .page .dialog-page.full
     background rgba(0,0,0,0)
     &:after
@@ -860,7 +865,8 @@ export default {
     z-index 0
     radius()
     // background-color #fff
-    background-color #ededed
+    // background-color #ededed
+    background-color #e9e9e9
     box-shadow 0 0 .1rem rgba(0,0,0,.5)
     transition transform linear 0.2s, width linear 0.2s, height linear 0.2s, left linear 0.2s, top linear 0.2s, opacity linear 0.2s
     // transform perspective(1rem) translate3D(-4rem, -4rem, -.8rem)

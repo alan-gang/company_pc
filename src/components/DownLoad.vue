@@ -9,7 +9,8 @@ s<template lang="jade">
 export default {
   data () {
     return {
-      dls: window.platform === 'ds' ? ['http://www.ds998.net/home/login/download.html', 'http://fir.im/5ent', 'https://fir.im/3005'] : ['http://www.changbo.net/#/download', 'https://fir.im/t6rk', 'https://fir.im/2819']
+      // dls: window.platform === 'ds' ? ['http://www.ds998.net/home/login/download.html', 'http://fir.im/5ent', 'https://fir.im/3005'] : ['http://www.changbo.net/#/download', 'https://fir.im/t6rk', 'https://fir.im/2819']
+      dls: ['http://www.ds998.net/download.html', 'http://fir.im/3wqd', 'https://fir.im/xy3001']
     }
   },
   computed: {
@@ -29,7 +30,7 @@ export default {
       height DLH
       padding 0
       line-height 1.5rem
-      color LIGHT
+      color rgba(255, 255, 255, .5)
       font-size .12rem
       cursor pointer
   .ds-icon-windows

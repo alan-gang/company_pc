@@ -49,7 +49,7 @@
 
     el-row.content-width
       el-col.l(:span="10")
-        router-link.ds-icon-volume(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") &nbsp;
+        router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
         router-link.text-button(:to="m.defaultUrl" v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         
       el-col.r(:span="14")
@@ -57,48 +57,44 @@
 
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
-            span.name(v-if="hide") {{ Me.account }}
-            span.money(v-if="!hide") {{ numberWithCommas(Me.amoney) }}
+            span.name(v-if="hide") {{ Me.name }}
+            span.money(v-if="!hide") 余额：{{ numberWithCommas(Me.amoney) }}
           slot
-            dl
-              // dd(style="padding-bottom: .1rem")
-                el-popover(placement="right-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover  message'" )
-                  button.ds-button.primary.full(slot="reference" @click="checkinNow") 签到
-                  slot 
-                    p 已连续签到
-                      span.text-blue {{ checkDays }}天
-                      |，今日
-                      span.text-gold +{{ prizeAmount }}金币
-                // .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
+            dl.text-999
 
               dd
-                span.name.ds-icon-m{{ Me.name }}
+                span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}} 
+                  span.text-666 {{ Me.name }}
+
+              dd
+                span.account-type 用户类型：
+                  span.text-666 {{ Me.isVip ? 'VIP会员' : '普通用户' }}
+
               dd(title="我的钱包")
                 span.money.ds-icon-money
-                  span 主: 
-                  span {{ numberWithCommas(Me.amoney || '0.000') }} 
-                br
-                span(style="padding-left: .3rem" title="特殊金额提现不收取手续费") 特: {{ numberWithCommas(Me.smoney || '0.000') }}
+                  span  主余额：
+                  span.text-666 {{ numberWithCommas(Me.amoney || '0.000') }}
+              dd
 
-                span.ds-button.text-button.blue(@click=" transfer = true ") 转入
-              dd(title="我的优惠券")
-                span.free.ds-icon-free {{ numberWithCommas(Me.free) || '0.000' }}
-              dd(title="BG钱包")
-                span.money.ds-icon-bg-money
-                    {{ numberWithCommas(Me.bgmoney) || '0.000' }}
-                span.ds-button.text-button.blue(@click=" transferBG = true ") 转入
+              dd
+                router-link.ds-button.primary.full(:to=" '/me/2-1-1' ") 进入我的钱包
 
-              dd(style="padding-top: .1rem")
-                // .ds-button.primary(@click=" transfer = true ") 特殊金额转换
-                .ds-button.danger.full(@click="logout" ) 安全退出
+              dd
+              dd
 
-        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" style="padding: 0 .05rem; text-decoration: none;") 
+              dd.text-center
+                p.text-black 最后登录
+                p {{ Me.lastLoginTime }} {{ Me.location }}
+
+   
+
+        span.collapse.el-icon-caret-left.text-666(@click="hide = !hide" style="padding: 0 .05rem; text-decoration: none;cursor: pointer") 
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
 
         router-link.topup(:to=" '/me/2-4-1' " v-if="!Me.isTry && Me.canTopUp") 充值
         router-link.topup(:to=" '/me/2-5-1' " v-if="!Me.isTry && Me.canWithDraw") 提现
-        Menus(:menus=" meRightMenu " v-on:open-page="openTab")        
+        Menus(:menus=" meRightMenu " v-on:open-page="openTab" style="left: 0")        
         span.logout(@click="logout" ) 安全退出
 
 
@@ -140,6 +136,7 @@ export default {
     },
     more () {
       this.getBalance()
+      this.acctSecureInfo()
       this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
     }
   },
@@ -162,6 +159,26 @@ export default {
     this.getBalance()
   },
   methods: {
+    acctSecureInfo () {
+      this.$http.get(api.acctSecureInfo).then(({data}) => {
+        if (data.success === 1) {
+          store.actions.setUser({
+            email: data.email,
+            phone: data.mobile,
+            greeting: data.greetMsg,
+            pwd: data.isSetLoginPwd,
+            cashPwd: data.isSetSecurityPwd,
+            safe: data.isSetSafeQuest,
+            safeCheck: data.isSetVerifytype,
+            cbsafe: !!data.isOpenKey,
+            safeScore: data.accountPoint,
+            location: data.location,
+            lastLoginTime: data.lastLoginTime
+          })
+          this.safeCheck = data.isSetVerifytype
+        }
+      })
+    },
     openTab (url) {
       this.$emit('open-page', url)
     },
@@ -263,8 +280,23 @@ body.cb.v2
   .footer-popover.message
     transform: translateY(-0.2rem) translateX(0.2rem);
   .footer-popover
-    background rgba(245, 245, 245, 1)
-  
+    background #e5e7eb
+    &.more
+      background #fff
+      padding 0
+      dl
+        padding-top PW
+        dd
+          padding .05rem PWX
+          &:last-child
+            background #e9e9e9
+            padding PWX
+      .account-type
+        padding: 0.1rem 0;
+        padding-left: 0.29rem;
+        margin-right: 0.1rem;
+        background url(../assets/v2/index_qb_icon_01.png) left center no-repeat
+
 
   .dialog-router
     width auto
@@ -306,21 +338,17 @@ body.cb.v2
     position relative
     max-width 100%
     line-height .36rem
-    background-color rgba(255,255,255,.1)
-    color #fff
-    .l
+    background-color #ffa930
+    color #484342
 
-      .ds-icon-volume
-        display inline-block
-        width .4rem
-        height 100%
-        background url(../assets/notice-icon.png) .1rem center no-repeat
-        &:hover
-            background url(../assets/notice-icon.png) .1rem center no-repeat rgba(0,0,0,.15)
+      
 
     .l .text-button
       color #fff
       padding 0 .1rem !important
+      &:hover
+        background-color rgba(255, 255, 255, .5)
+      
 
 
     .r
@@ -333,25 +361,25 @@ body.cb.v2
       position relative
       display inline-block
       padding 0 .1rem 0 2*PW
-      color #fff
+      color #2e2a29
       cursor pointer
       &.name
-        background url(../assets/v2/name.png) .1rem center no-repeat
+        background url(../assets/v2/icon02.png) .1rem center no-repeat
       &.money
-        background url(../assets/v2/money.png) .1rem center no-repeat
+        background url(../assets/v2/icon03.png) .1rem center no-repeat
       &.topup
-        background url(../assets/v2/topup.png) .1rem center no-repeat
+        background url(../assets/v2/icon04.png) .1rem center no-repeat
       &.logout
-        background url(../assets/v2/logout.png) .1rem center no-repeat
+        background url(../assets/v2/icon05.png) .1rem center no-repeat
       &:hover
-        &:after
-          content ''
-          position absolute
-          left 0
-          right 0
-          top 0
-          bottom 0
-          background-color rgba(0, 0, 0, .15)
+        &.name
+          background url(../assets/v2/icon02.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
+        &.money
+          background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5) 
+        &.topup
+          background url(../assets/v2/icon04.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
+        &.logout
+          background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         
     
 </style>

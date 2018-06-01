@@ -7,7 +7,7 @@
     slot(name="toolbar")
     .stock-list.scroll-content.data-analysis
 
-      .form.form-filters(style="display: none")
+      .form.form-filters(style="display: none;")
 
         label 日期 
           el-date-picker(:picker-options="options" v-model="st" type="date" placeholder="请选择日期")
@@ -16,7 +16,7 @@
         .ds-button.primary.large.bold(@click="getTeamTodayData") 提交
 
 
-      .form.form-filters
+      .form.form-filters(style=" padding-top: .4rem")
         
         div.bbbb(style="border-bottom: 1px solid #eee; padding-bottom: .15rem")
           .slot.me.text-black
@@ -26,9 +26,9 @@
 
         .content
             .slot.money
-              .f 团队余额
+              
               div(style="display: inline-block; vertical-align: top; min-width: 6rem")
-
+                p.text-999(style="font-size: .16rem") 团队余额
                 span.amount.text-black {{ numberWithCommas(data.availBal || 0)}}
                 span.text-black  元 
 
@@ -49,9 +49,9 @@
                   span.text-black  元 
 
             .slot.team
-              .f 团队总人数
               div(style="display: inline-block; vertical-align: top; min-width: 6rem")
 
+                p.text-999(style="font-size: .16rem") 团队总人数
                 span.amount.text-black {{ numberWithCommas(data.teamCount || 0)}}
                 span.text-black  人
 
@@ -69,10 +69,10 @@
                   span.text-black  人 
 
             .slot.lteam
-              .f 团队活跃用户
               
               div(style="display: inline-block; vertical-align: top; min-width: 6rem")
 
+                p.text-999(style="font-size: .16rem") 团队在线用户
                 span.amount.text-black {{ numberWithCommas(data.online || 0)}}
                 span.text-black  人
 
@@ -154,6 +154,9 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .form-filters
+    background-image: linear-gradient(0deg, #ffffff 0%, #fffae5 100%)
+    
   .stock-list
     top TH
     .form
@@ -161,7 +164,7 @@
 
   .amount
     font-family Roboto
-    font-size 0.5rem
+    font-size 0.6rem
     &.gradient
       font-gradient()
 

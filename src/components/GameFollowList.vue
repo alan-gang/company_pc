@@ -18,7 +18,7 @@
         | &nbsp;&nbsp;最低收益：
         el-input-number.center.get(v-model="get")
         |  %
-    el-table.ghost(:data="data" max-height="350" min-width="400" @selection-change="getSelection" ref="multipleTable")
+    el-table.ghost(:data="data" stripe max-height="350" min-width="400" @selection-change="getSelection" ref="multipleTable")
 
       el-table-column(width="80"  type="selection")
 
@@ -29,7 +29,7 @@
 
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
-      el-table-column(prop="times" label="倍数" width="150" align="right" inline-template)
+      el-table-column(prop="times" label="倍数" width="150" align="center" inline-template)
         el-input-number.center.blue(v-model="row.times"  v-bind:min="1" v-bind:max="10000" style="width: .75rem")
       el-table-column(prop="payV" label="金额" width="200" align="right"  inline-template)
         span 

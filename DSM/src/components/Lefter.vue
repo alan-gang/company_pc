@@ -1,5 +1,5 @@
 <template lang="jade">
-  .lefter.ds-gm-icon-logo(:class= "[ menus[0].url ]")
+  .lefter.ds-gm-icon-logo(:class= "[ menus[0] && menus[0].url ]")
     Meinfo(:name="name" v-bind:money="money" v-bind:free="free" v-on:logout="logout" v-if="!hideme" v-bind:smoney="smoney")
     Menus.scroll-content(v-bind:menus="menus")
 </template>

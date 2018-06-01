@@ -33,9 +33,9 @@
                 span {{ t.days }} 天
             .ds-button.cancel.disabled(v-if="t.get") 已签到
 
-      .table-list(style="padding: .15rem .2rem " v-if="tabIndex === 2")
+      .table-list(style="padding: .15rem .2rem; max-width: 8rem; margin: 0 auto; " v-if="tabIndex === 2")
     
-        el-table.header-bold.margin(:data="data" v-bind:row-class-name="tableRowClassName" )
+        el-table.header-bold.margin(:data="data" stripe v-bind:row-class-name="tableRowClassName" )
 
           el-table-column(prop="cnname" label="礼品" align="left")
             template(scope="scope") 
@@ -43,7 +43,7 @@
                 br
                 | {{ scope.row.activityName }}
 
-          el-table-column(prop="prizeDate" label="领取时间" width="150")
+          el-table-column(prop="prizeDate" label="领取时间" align="left")
 
           // el-table-column(prop="taskprice" label="数量" width="100" align="right")
 
@@ -90,7 +90,7 @@ export default {
       this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday, {entry: t.activityId}).then(({data}) => {
         if (data.success === 1) {
           t.get = true
-          this.$message.success(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到成功！'))
+          this.$message.success(data.msg || '连续签到成功' + (data.checkDays ? (data.checkDays || 1) + '天' : '') + '！')
         } else {
           this.$message.error(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到失败！'))
         }
@@ -152,7 +152,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 100)
       })
     },
     getAllEnablePrize () {
@@ -174,7 +174,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 1000)
+        }, 100)
       })
     }
   }

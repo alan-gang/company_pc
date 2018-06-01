@@ -160,5 +160,9 @@
   #app.v2.cb
     .ds-icon-download-logo
       background url(../../assets/v2/mlogo.png) .3rem .3rem no-repeat
+      &:hover
+        background-color #fff
+
+
       
 </style>

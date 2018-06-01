@@ -79,7 +79,7 @@ body.night
         .ds-button.selected
           color #fff
       .menu dd.title:hover
-        background rgba(0,0,0,.2)
+        background #444
     
         
     &.full
@@ -161,7 +161,7 @@ body.night
     .game-selection .title span
       background-color #a1a1a1
      .game-selection .el-row:hover .title span
-       background-color BLUE
+       // background-color BLUE
       
     .inner-bar
       color #aaa

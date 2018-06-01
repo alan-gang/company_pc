@@ -80,7 +80,7 @@
               el-col(:span="10") 提款单笔最低
                     span.text-blue  100元 
                     |, 单笔最高
-                    span.text-blue  8元 
+                    span.text-blue  8万元 
             el-row
               el-col(:span="4") VIP3
               el-col(:span="10") 充值单笔最低

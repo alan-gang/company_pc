@@ -389,8 +389,9 @@
         .title
           color WHITE
           span
-            background-color BLUE
-            box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+            color BLUE
+            // background-color BLUE
+            // box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
       .el-row
         width 100%
     .el-col
@@ -420,10 +421,12 @@
         position relative
         padding .065rem .1rem
         padding-right .15rem
-        background-color #d9d9d9
-        radius()
-        border-top-right-radius .20rem 50%
-        border-bottom-right-radius .20rem 50%
+        font-size .16rem
+        color #999
+        // background-color #d9d9d9
+        // radius()
+        // border-top-right-radius .20rem 50%
+        // border-bottom-right-radius .20rem 50%
           
     // 数字区
     .numbers
@@ -451,15 +454,16 @@
           background-color #ddd
         &.default:hover
         &.default.selected
-          box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+          // box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
           font-shadow()
           color #fff
           .after
             color #fff
         &.default:hover
-          background-color BLUE
+          // background-color BLUE
+          background-color rgba(241, 125, 11, .5)
         &.default.selected
-          background-color DANGER
+          background-color BLUE
         &.square
           radius()
           padding 0 .2rem

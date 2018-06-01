@@ -14,14 +14,14 @@
           .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
-        .form-filters(style="padding: .15rem; margin: .2rem 0;")
+        .form-filters(style="padding: .15rem; margin: 0 0 .2rem 0;")
           label.item 发放日期 
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
             
           label.item  &nbsp;状态 
-            el-select(v-model="s")
-              el-option(v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S")
+            el-select(v-model="s" clearable style="width: .9rem")
+              el-option(v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S.id")
 
           label.item(v-if="type === 1") 用户名  
             input.ds-input.small(v-model="name" style="width: 1rem")
@@ -48,12 +48,14 @@
 
 
           el-table-column(prop="bounsRate" label="分红比例")
+            template(scope="scope")
+              span {{ scope.row.bounsRate }}%
 
-          el-table-column(prop="bouns" label="应收分红")
+          el-table-column(prop="bouns" v-bind:label=" type ? '应发分红' : '应收分红' ")
 
           el-table-column(prop="status" label="状态")
              template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isDone === 1, 'text-blue': scope.row.isDone === 0 }") {{ STATUS[scope.row.isDone].title }}
+              span(:class=" STATUS[scope.row.isDone].css ") {{ STATUS[scope.row.isDone].title }}
 
           el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
@@ -112,7 +114,7 @@
     },
     data () {
       return {
-        TH: 180,
+        TH: 250,
         pickerOptions: {
           shortcuts: [{
             text: '最近一个月',
@@ -185,13 +187,13 @@
         // et: '',
         // 分红状态
         STATUS: [
-          {id: '0', title: '未发放', class: 'waiting-pay'},
-          {id: 1, title: '已发放', class: 'paid'},
-          {id: 2, title: '待确认', class: 'wait'}
+          {css: 'text-danger', id: '0', title: '未发放', class: 'waiting-pay'},
+          {css: 'text-green', id: 1, title: '已发放', class: 'paid'},
+          {css: 'text-oblue', id: 2, title: '待确认', class: 'wait'}
           // {id: 2, title: '已发放', class: 'paid'},
           // {id: 3, title: '平台外已发放', class: 'paid-out'}
         ],
-        s: {},
+        s: '',
         bonusList: [],
         topBonuList: [],
         topDetailList: [],
@@ -289,7 +291,7 @@
             endDate: this.stEt[1] ? dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[\s:-]*/g, '') : '',
             // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-            status: this.s.id || '',
+            status: this.s,
             page: 1,
             pageSize: this.pageSize,
             userName: this.type === 1 ? this.name : ''
@@ -307,6 +309,7 @@
 
             this.total = data.totalSize || (data.topBonuList || this.bonusList).length
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

@@ -79,6 +79,7 @@
     left 0
     width W
     bg-gradient(45deg,  #719ee2, #a174b6)
+    bg-gradient(45deg,  ORANGE, DANGER)
     border-bottom-left-radius .05rem
     background-size 100% 100%
     text-align center

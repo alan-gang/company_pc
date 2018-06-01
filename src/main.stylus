@@ -1,6 +1,13 @@
 @import './var.stylus'
 @import './ie.stylus'
-
+// input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill
+//   background-color rgba(0,0,0,0) !important
+.el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td
+  background-color #dedede
+#app.night
+  .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td
+    background-color #555
+    color #ccc
 .el-date-editor--datetimerange.el-input
   width 320px
 #app.night
@@ -14,6 +21,7 @@
   .form-contents
     background-color #fff
     margin PW PWX
+    margin-bottom 0
 
 .el-tooltip__popper
   word-break break-all
@@ -67,13 +75,13 @@ pre
   
 // el-table__empty-text
 .el-table__empty-block
-  position relative
-  margin-top .2rem
-  height 1.5rem
-  background url($ASSETS/404/empty-table.png) center top no-repeat
+  // position relative
+  // margin-top .2rem
+  // height 1rem
+  // background url($ASSETS/404/empty-table.png) center top no-repeat
   .el-table__empty-text
-    vertical-align bottom
-    transform: translate(-50%, 250%)
+    // vertical-align bottom
+    // transform: translate(-50%, 250%)
     
   
 .el-table
@@ -326,8 +334,9 @@ pre
   min-width auto
   text-align left
   font-size .12rem
-  color #b0cfe3
-  background-color rgba(22, 113, 188, .95)
+  color #ccc
+  background-color #302b2a
+  // background-color rgba(22, 113, 188, .95)
   border none
   vertical-align middle
   shadow()
@@ -361,7 +370,7 @@ pre
     width 1.5rem
     vertical-align middle
     .el-slider__bar
-      background-color #bbb
+      background-color BLUE
     .el-slider__runway
       background-color #ddd
     .el-slider__button
@@ -369,7 +378,7 @@ pre
       border 2px solid BLUE
       shadow()
       &.hover
-        border-color #108fdf
+        border-color BLUE-ACTIVE
 /*
  *rewrite el-table
  */
@@ -381,9 +390,11 @@ pre
     th 
       background-color x
       bg-gradient(180deg, #ddd, #eee)
+      background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
       .cell
         background-color x
         bg-gradient(180deg, #ddd, #eee)
+        background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
         
   table-header-color(x = #333)
     th
@@ -471,7 +482,7 @@ pre
   .el-table
     table tr
       background none
-    margin .05rem .02rem
+    margin .05rem 0
     margin-bottom 0
     font-size .12rem
     color #666
@@ -492,6 +503,10 @@ pre
     table-row-selected()
     table-row-height()
     table-header-height()
+    
+    .el-table__body tr.el-table__row--striped td
+      background-image: linear-gradient(#f8f8f8, #f8f8f8), linear-gradient(#f8f8f8, #f8f8f8);
+
     &.header-bold
       th
         .cell
@@ -506,9 +521,26 @@ pre
     &.nopadding
       .cell
       th > div
-        padding 0.04rem .02rem
+        padding 0.05rem .02rem
         line-height .2rem
   
+  .el-table.trend-table
+    td
+      height auto
+      .cell
+        line-height .2rem
+    th
+      height auto
+      .cell
+        line-height .2rem
+    
+    th 
+      background-color transparent
+      background none
+      .cell
+        background none
+        background-color transparent
+        
   TABLEH = 6rem
   .el-table
     // width "calc(100% - %s)" % s
@@ -547,8 +579,12 @@ pre
   // background-color #ddd
   bg-gradient(180deg, #eee, #ddd)
   margin-bottom PW
+  .el-pager li:hover
+    color BLUE
   .el-pager li.active
+    border-color BLUE
     background-color BLUE
+    color #fff
   button
   button.btn-next
   button.btn-prev
@@ -594,6 +630,8 @@ pre
   color GREY
 .text-blue
   color BLUE
+.text-oblue
+  color OBLUE
 .text-danger
   color RED
 .text-gold
@@ -1370,6 +1408,7 @@ pre
   cursor pointer
   box-sizing border-box
   vertical-align middle
+  // border 1px solid rgba(0,0,0,0)
   &.bold
     font-weight bold
   &.large
@@ -1419,11 +1458,13 @@ pre
     &:not(.disabled):active
       background-color DANGER-ACTIVE 
   &.positive
-    bg-gradient(90deg, BLUE, #12cdbe) 
+    bg-gradient(90deg, BLUE, BLUE-ACTIVE) 
     &:not(.disabled):hover
-      bg-gradient(90deg, #33b0ff, #24ddce) 
+      // bg-gradient(90deg, #33b0ff, #24ddce) 
+      bg-gradient(90deg, #ff8b1a, #ff643d) 
     &:not(.disabled):active
-      background #0d8ddd
+      background BLUE-ACTIVE
+      
   &.high-positive
     bg-gradient(180deg, #ffbf00, #e98800) 
     &:not(.disabled):hover
@@ -1464,12 +1505,16 @@ pre
     border .01rem solid #ccc
     box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .1)
     text-shadow none
-    &:not(.disabled):hover
+    &:not(.disabled):not(.oblue):hover
       border-color BLUE
-    &:not(.disabled):active
+    &:not(.disabled):not(.oblue):active
       color #333
       background-color #f3f3f3
       border-color #aaa
+    &.oblue
+      border-color OBLUE
+      color OBLUE
+      
       
   &.success
     background-color #65c014

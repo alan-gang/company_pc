@@ -98,6 +98,7 @@
           if (data.success) {
             if (data.data && data.data[0]) this.list = data.data
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.total = data.totalSize || this.list.length
           }
         }, (rep) => {

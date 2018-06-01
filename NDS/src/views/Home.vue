@@ -94,6 +94,7 @@
             this.notices = data.sysNotices || []
             // this.notices = [{subject: '快投30秒 (1711201201) 期199000'}]
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.total = data.totalSize || this.notices.length
           }
         }, (rep) => {

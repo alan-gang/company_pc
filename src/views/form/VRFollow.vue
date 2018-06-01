@@ -8,9 +8,12 @@
     .user-list.scroll-content
 
       .form.form-filters
+        
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+
         label.item 游戏时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
 
 
         label.item 游戏名称 
@@ -19,13 +22,13 @@
 
 
       
-        .buttons(style="margin-left: .6rem")
+        .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="Orderlist") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
           el-table-column(class-name="pl2" prop="serialNumber" label="追号编号" width="120" show-overflow-tooltip=true)
             template(scope="scope")
@@ -33,52 +36,52 @@
                 .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click=" ") {{ scope.row.serialNumber }}
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
-          el-table-column(class-name="pl2" prop="playerName" label="用户" width="100")
+          el-table-column(class-name="pl2" prop="playerName" label="用户" )
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.playerName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
           
-          el-table-column(prop="createTime" label="追号时间" width="140")
+          el-table-column(prop="createTime" label="追号时间" )
             
 
-          el-table-column(prop="channelName" label="游戏" width="100")
+          el-table-column(prop="channelName" label="游戏" )
 
-          el-table-column(prop="betTypeName" label="玩法" width="150")
+          el-table-column(prop="betTypeName" label="玩法" )
             // template(scope="scope")
             //   div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
-          el-table-column(prop="firstIssue" label="开始期数" width="100")
+          // el-table-column(prop="firstIssue" label="开始期数" )
 
-          el-table-column(prop="numberOfIssue" label="追号期数 " width="80")
+          el-table-column(prop="numberOfIssue" label="追号期数 " )
 
-          el-table-column(prop="numberOfBetIssue" label="完成期数 " width="80")
+          el-table-column(prop="numberOfBetIssue" label="完成期数 " )
           
-          el-table-column(prop="numberOfCancelledIssue" label="取消期数 " width="80")
+          el-table-column(prop="numberOfCancelledIssue" label="取消期数 " )
 
           
-          el-table-column(class-name="" prop="number" label="追号内容" min-width="150" show-overflow-tooltip=true)
+          // el-table-column(class-name="" prop="number" label="追号内容"  show-overflow-tooltip=true)
 
-          el-table-column(class-name="pl2" prop="position" label="追号位置" min-width="120")
+          // el-table-column(class-name="pl2" prop="position" label="追号位置" )
 
 
-          el-table-column(prop="multiple" label="倍数" width="40" align="right")
+          // el-table-column(prop="multiple" label="倍数")
 
-          el-table-column(class-name="pl2" prop="unit" label="模式(元)" width="80")
+          el-table-column(class-name="pl2" prop="unit" label="模式(元)")
             // template(scope="scope")
             //     span {{ MODES[scope.row.modes - 1] }}     
 
-          el-table-column(prop="totalAmount" label="总金额" width="100" align="right")
+          el-table-column(prop="totalAmount" label="总金额" align="right")
              template(scope="scope")
                span(v-if="!scope.row.last") {{ scope.row.totalAmount }}
                span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
 
-          el-table-column(class-name="pl2" prop="completedAmount" label="完成金额" width="100" align="right")
+          el-table-column(class-name="pl2" prop="completedAmount" label="完成金额" align="right")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.completedAmount }}
               span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
 
-          el-table-column(class-name="pl2" label="状态" width="120")
+          el-table-column(class-name="pl2" label="状态")
             template(scope="scope")
               span(:class="{ 'text-danger': scope.row.state === 3,  'text-grey': scope.row.state === 1, 'text-green': scope.row.state === 0, 'text-black': scope.row.state === 2}") {{ STATUS[scope.row.state] }}
           
@@ -462,7 +465,7 @@
             endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(' ', 'T') + 'Z' : '',
             // stat: this.status,
             // isFree: this.isFree,
-            // userName: this.name,
+            userName: this.name,
             // scope: this.zone,
             // lotteryId: this.gameid,
             // methodId: this.method.methodId,
@@ -492,6 +495,7 @@
               loading.text = '加载成功!'
             }, 500)
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             // data.recordList.forEach(d => {
             //   d.code = '177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755'
             // })

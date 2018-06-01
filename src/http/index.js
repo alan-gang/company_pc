@@ -59,38 +59,21 @@ export default (Vue) => {
     Vue.http['my' + m] = Vue.http[m]
     Object.defineProperty(Vue.http, m, {
       get: function () {
-        // console.log(this['throttle_' + m], '??????', m, this.throttle_post)
         return this['throttle_' + m]
       }
     })
   })
   let M = null
   let VM = null
-  // let throttle = {}
-  Vue.http.interceptors.push(() => {
+  Vue.http.interceptors.push((request) => {
     return {
       request (req) {
         if (this && this.$modal) VM = this
-        // if (throttle[req.url]) {
-        //   try {
-        //     // req.abort()
-        //     req.cancel()
-        //   } catch (e) {
-        //     console.log('cancel repeat request faild !!!!!')
-        //     req.url = ''
-        //   }
-        // } else {
-        //   throttle[req.url] = true
-        //   setTimeout(() => {
-        //     throttle[req.url] = false
-        //   }, 2000)
-        // }
         return req
       },
       response (rep) {
         // 用户过期
         if (rep.data && rep.data.success === -1 && !M) {
-          // if (store.state.user.login) {
           VM && (M = VM.$modal.warn({
             content: '您长时间没有操作，请重新登录！',
             btn: ['确定'],
@@ -101,21 +84,18 @@ export default (Vue) => {
             },
             O: VM
           }))
-          // }
         } else if (rep.data && rep.data.success === -3) {
-          // M = this.$modal.warn({
-          //   content: '您所在的区域禁止登录本站， 抱歉请谅解！',
-          //   btn: ['确定'],
-          //   close () {
-          //     M = null
-          //     window.location.href = 'www.baidu.com'
-          //   },
-          //   O: this
-          // })
           this.$router.push('/login/forbidden')
+        } else if (rep.data && rep.data.success === 0 && rep.data.msg && !M) {
+          VM && (M = VM.$modal.warn({
+            // target: VM.$el,
+            content: rep.data.msg,
+            btn: ['确定'],
+            close () {
+              M = null
+            }
+          }))
         }
-        // block8/3 console.log(rep.data)
-        // if (data && data.success === -2) console.log('no Authorization')
         return rep
       }
     }

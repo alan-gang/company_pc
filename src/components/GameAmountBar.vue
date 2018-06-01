@@ -1,7 +1,7 @@
 <template lang="jade">
   el-row.amout-bar
     el-col.left(:span="8")
-      .ds-button.primary.bold(@click="showFollow" v-if="!show") 追号
+      .ds-button.primary.bold(@click="showFollow" v-if="!show && !followButton") 追号
       span.follow(v-if="show")
         | 追号总期数 
         span.NPER {{ NPER }} 
@@ -21,12 +21,12 @@
       
 
       
-      .ds-checkbox-label(style="margin-right: 0" v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ")
-        .ds-checkbox
-        | 奖池抽奖
+      // .ds-checkbox-label(style="margin-right: 0" v-bind:class="{active: pot}" @click=" togglePot " v-if=" pot !== 0 ")
+      //   .ds-checkbox
+      //   | 奖池抽奖
       el-popover(placement="top" trigger="click" v-bind:popper-class="'popover-instruction font-white popover-pot'")
         span(slot="reference")
-          span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
+          // span.ds-icon-text-question(style="margin-right: .1rem; cursor: pointer" v-if=" pot !== 0 ")
         slot
           p(style="line-height: .25rem")
               span.label.text-blue.text-bold 奖池说明：
@@ -40,16 +40,18 @@
               | 一等奖中奖金额占奖池总金额的70%，二等奖占奖池总金额30%。
               | 同一个奖级如多人中奖，平均分配该奖级所有奖金，特别奖，好运奖，贡献奖，
               | 为单独所有不会与其他人共享，当期剩余的未派发的奖金自动滚入下一期。
+
       
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle" style="margin-right: 0")
         .ds-checkbox
-        | 使用优惠券
+        | 使用优惠券&nbsp;&nbsp;
 
       label.text-666(style="display: inline-block" v-if="!show") &nbsp;&nbsp;起始期：
-        el-select(v-model="nper" style="position: relative; top: -0.01rem")
+        el-select(v-model="nper" style="position: relative; top: -0.01rem; width: 2rem")
           el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
-
-      .ds-button.danger.bold.large(@click.self="book") 投注
+      br(v-if=" followButton ")
+      .ds-button.success.bold(@click="showFollow" v-if=" followButton " style="margin-right: .05rem") 追号
+      .ds-button.positive.bold.large(@click.self="book") 投注
         // span(v-if="!show")
         //   |  起始期：
         //   el-select(v-model="nper" style="position: relative; top: -0.01rem")
@@ -63,6 +65,7 @@
 <script>
 export default {
   props: {
+    followButton: Boolean,
     show: Boolean,
     NPER: Number,
     PAY: Number,
@@ -121,7 +124,7 @@ export default {
     max-width: 9.3rem;
     left: 0;
     right: 0;
-    z-index 9999
+    z-index 1999
     position absolute
     bottom 0
     border-bottom-right-radius .05rem

@@ -21,7 +21,7 @@
 
 
 
-    el-col.left(:span="15")
+    el-col.left(:span="14")
       span(v-show="HC6") 快速金额
       el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
       .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
@@ -34,20 +34,20 @@
       el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
       span.p(v-if="P" v-show="!HC6") {{ ps}} - {{ prize }}
 
-    el-col.right(:span=" 9 ")
+    el-col.right(:span=" 10 ")
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay.toFixed(3) }}
       |  元
-      .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6 || (ns.length > 0)") 机选
-      .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
+      .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6") 机选
+      // .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
       .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
+        .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
+        .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
         .ds-button.success.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})") 机选
         .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
-        .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
-        .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
 
 
 
@@ -57,7 +57,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns'],
+  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns'],
   data () {
     return {
       me: store.state.user,
@@ -125,6 +125,7 @@ export default {
     },
     cIndex () {
       this.$emit('set-currency', this.currencies[this.cIndex])
+      !this.HC6 && window.localStorage.setItem('model', this.cIndex)
     },
     p () {
       if (this.p < this.min) this.p = this.min
@@ -152,8 +153,11 @@ export default {
     // console.log('new orderbar, point:', this.point)
     this.t = this.times
     this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
-    this.cIndex = this.currency.model - 1
-    if (this.HC6) this.t = this.ft
+    this.cIndex = parseInt(window.localStorage.getItem('model') || 0)
+    if (this.HC6) {
+      this.t = this.ft
+      this.cIndex = 0
+    }
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
     // }, 0)
@@ -265,7 +269,7 @@ export default {
     &.opacity-0 
       height 0
     &.opacity-1
-      height .5rem
+      height .65rem
       
     width 100%
     // color #666
@@ -339,6 +343,7 @@ export default {
         
     
   .right
+    line-height .3rem
     text-align right
     .ds-button
       vertical-align middle

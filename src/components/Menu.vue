@@ -1,32 +1,33 @@
 <template lang="jade">
-  section.menu.content-width
-    el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
+  section.menu-root
+    section.menu.content-width
+      el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
 
 
-          .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
-            .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
-            
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
+              .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
+              
 
-          router-link.icon-button.after-title(:to="menu.href"   slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle") {{ menu.title }}
+            router-link.icon-button.after-title(:to="menu.href"   slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle") {{ menu.title }}
 
 
-          slot
-            .info(v-if=" menu.big " v-bind:class=" [ menu.info.class ] ")
-              h3 {{ menu.info.title }}
-              h4 {{ menu.info.descrb }}
-              .ds-button.primary(@click="open(menu.info)") 点击进入
+            slot
+              .info(v-if=" menu.big " v-bind:class=" [ menu.info.class ] ")
+                h3 {{ menu.info.title }}
+                h4 {{ menu.info.descrb }}
+                .ds-button.primary(@click="open(menu.info)" title="第一次点击可能会被拦截，再点一次即可") 点击进入
 
-            dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {notitile: !group.title, 'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
-              dt
-                span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
+              dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {notitile: !group.title, 'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
+                dt
+                  span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
 
-              dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
+                dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
 
-                .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.title }} 
-                
-                // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
-                  span.text-gold {{ item.pretitle }}
-                  | {{ item.title }}
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.title }} 
+                  
+                  // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
+                    span.text-gold {{ item.pretitle }}
+                    | {{ item.title }}
 
 </template>
 
@@ -101,6 +102,7 @@ export default {
  
 body.cb.v2
   .footer-popover
+    border-top 4px solid BLUE
     padding PW
     transform: translateY(-0.12rem);
     radius(0)
@@ -108,12 +110,20 @@ body.cb.v2
       max-width auto
       transform: translateY(-0.12rem) translateX(-1.25rem)
       .popper__arrow
-        transform: translateX(1.25rem)
-      
+        transform: translateX(1.25rem) translateY(-.05rem)
+    .popper__arrow
+      transform: translateY(-.05rem)
+      border-bottom-color BLUE
+      &:after
+        border-bottom-color BLUE
+
       
     .submenu.me
     .submenu.help
       max-width 4.2rem
+
+    .submenu.game
+      min-height .6rem
     .submenu
     .submenu.game
       // margin .1rem 0
@@ -122,7 +132,7 @@ body.cb.v2
       &.SSC
         margin-top 0
         margin-bottom 0
-      max-width 5.5rem
+      max-width 4.3rem
       margin-right 0
       width auto
       display block
@@ -149,7 +159,7 @@ body.cb.v2
         background none
         height auto
         width 1.35rem
-        height .3rem
+        height .34rem
         color #666
         margin: 0 0 0.05rem -0.02rem;
         font-size .14rem
@@ -162,27 +172,33 @@ body.cb.v2
         background-color #fff
         margin 0 .03rem
         width 1.3rem
-        height .3rem
+        height .34rem
+        line-height .34rem
         &:hover
-          background-color #e8f6ff
+          background-color BLUE
+          color #fff
           // shadow(3px 3px 5px #aaa)
         &.sign:after
           display inline-block
           content '热'
           position absolute
-          right .02rem
-          top .06rem
+          right -.02rem
+          top -.02rem
           left auto !important
           bottom auto !important
           color #fff
           width .2rem
           height .2rem
-          line-height .2rem
+          line-height 1.5
           background DANGER
           radius(50%)
         &.sign.new:after
           content '新'
-          background BLUE
+          background OBLUE
+     .submenu
+        padding-left 1rem
+        &.me:first-child
+            margin-top 0
     .submenu.game
       dt
         display none
@@ -228,13 +244,14 @@ body.cb.v2
 <style lang="stylus" scoped>
   @import '../var.stylus'
   @import '../path.stylus'
+  .menu-root
+    background #302b2a
   section.menu
     box-sizing border-box
     height FH
     // padding-left 3.8rem
     text-align right
-    background url(../assets/v2/logo.png) left center  no-repeat 
-
+    background url(../assets/v2/logo.png) left center  no-repeat
     .icon-button
       position relative
       display inline-block
@@ -247,14 +264,32 @@ body.cb.v2
       text-align center
       cursor pointer
       &:hover
-        background-color rgba(0, 0, 0, .1)
+        background-color rgba(255, 255, 255, .15)
+
+      .el-icon--right.el-icon-arrow-down
+        transition transform ease-in-out .2s
+        &:after
+        &:before
+          // opacity 0
+        // background url(../assets/v2/icon000.png) left center  no-repeat
+
+      &:hover .el-icon--right.el-icon-arrow-down
+        transform rotateZ(180deg) translateX(1px) translateY(3px)
+
       
-  #app.cb.v2 .new-header section.menu
+  #app.cb.v2 .new-header section
     display inline
     background none
+    .content-width
+      left 0
     .icon-button
       height .36rem
       line-height .36rem
+      color #2e2a29
+      &:hover
+        background-color rgba(255,255,255,.5)
+      .el-icon--right.el-icon-arrow-down
+        color #666 !important
 
     
 </style>

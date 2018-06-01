@@ -19,7 +19,7 @@
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
       <!-- 东森专用 -->
-      NewGameInfo(v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+      NewGameInfo(v-bind:volume="page.volume" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
@@ -27,9 +27,9 @@
       transition(name="slide" appear=true)
         GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
-      GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length > 0" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" )
+      GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
       <!-- 投注单 -->
-      GameOrderList(v-bind:ns="ns" v-if="ns.length > 0" v-on:remove-order="removeOrder" ref="orders")
+      GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book")
       <!-- 追号栏 -->
       transition(name="slide-left" appear=true key="follow")
         GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
@@ -41,15 +41,15 @@
       <!-- 追号记录 -->
       // GameFollowHistory
 
-      GameOrderBar.fixed.inner-bar.inner-order-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" style="display: none")
+      // GameOrderBar.fixed.inner-bar.inner-order-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" style="display: none")
       
       <!-- 总计栏 -->
-      GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0" style="display: none")
+      GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
 
       GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
 
     <!-- 总计栏 -->
-    GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
+    // GameAmountBar.inner-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0")
     <!-- 下单 -->
     GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
@@ -310,7 +310,7 @@ export default {
     },
     'follow.show' () {
       if (this.follow.show) {
-        this.__getTraceIssueList()
+        // this.__getTraceIssueList()
         // auto scroll to just can see orders
         setTimeout(() => {
           if (this.platform !== 'ds') this.$refs.GC.scrollTop = (util.getOffset(this.$refs.orders.$el, 1).top || this.$refs.GC.scrollTop)
@@ -370,7 +370,8 @@ export default {
             this.overtime = false
             this.NPER = lst.issue + ''
             this.lucknumbers = lst.lucknumbers
-            this.page.volume && this.__setCall({fn: '__music', callId: undefined})
+            // this.page.volume && this.__setCall({fn: '__music', callId: undefined})
+            parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
           }
           this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
@@ -421,6 +422,7 @@ export default {
       })
     },
     __getTraceIssueList () {
+      if (this.issues && this.issues.length > 20) return this.issues.shift()
       this.$http.mypost(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) {
@@ -470,6 +472,11 @@ export default {
         if (data.success > 0) {
           // this.$message.success('投注成功')
           loading.text = '投注成功'
+          this.$modal.success({
+            target: this.$el,
+            content: '投注成功',
+            btn: ['确定']
+          })
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
@@ -489,6 +496,11 @@ export default {
           //   this.ns.splice(i, 1)
           // })
           loading.text = data.msg || '投注失败！'
+          this.$modal.warn({
+            target: this.$el,
+            content: data.msg || '投注失败！',
+            btn: ['确定']
+          })
           if (parseInt(data.msg)) {
             data.msg.split(',').map(i => parseInt(i)).forEach(i => {
               temp.push(this.ns[i - 1])
@@ -500,6 +512,11 @@ export default {
               content: '投注列表中的第' + data.msg + '项投注失败！',
               btn: ['确定']
             })
+            this.$modal.warn({
+              target: this.$el,
+              content: '投注成功',
+              btn: ['确定']
+            })
           }
           // this.__loading({
           //   text: '投注失败！',
@@ -508,6 +525,11 @@ export default {
         }
       }, (rep) => {
         loading.text = '投注失败！'
+        this.$modal.warn({
+          target: this.$el,
+          content: '投注失败！',
+          btn: ['确定']
+        })
         // this.__loading({
         //   text: '投注失败！',
         //   target: this.$el
@@ -516,7 +538,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 500)
+        }, 100)
       })
     },
     quickbook () {
@@ -574,6 +596,11 @@ export default {
         if (data.success > 0) {
           // this.$message.success('投注成功')
           loading.text = '投注成功'
+          this.$modal.success({
+            target: this.$el,
+            content: '投注成功',
+            btn: ['确定']
+          })
           this.__setCall({fn: '__clearSelectedNumbers'})
           setTimeout(() => {
             this.__setCall({fn: '__clearValue'})
@@ -601,6 +628,11 @@ export default {
           //   this.ns.splice(i, 1)
           // })
           loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
+          this.$modal.warn({
+            target: this.$el,
+            content: parseInt(data.msg) ? '投注失败！' : data.msg,
+            btn: ['确定']
+          })
           // if (parseInt(data.msg)) {
           //   data.msg.split(',').map(i => parseInt(i)).forEach(i => {
           //     temp.push(this.ns[i - 1])
@@ -616,6 +648,11 @@ export default {
         }
       }, (rep) => {
         loading.text = '投注失败！'
+        this.$modal.warn({
+          target: this.$el,
+          content: '投注失败！',
+          btn: ['确定']
+        })
         // this.__loading({
         //   text: '投注失败！',
         //   target: this.$el
@@ -624,7 +661,7 @@ export default {
       }).finally(() => {
         setTimeout(() => {
           loading.close()
-        }, 500)
+        }, 100)
       })
     },
     setType (type) {

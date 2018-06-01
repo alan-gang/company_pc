@@ -21,8 +21,7 @@ export default {
     height ARH + 1rem
     line-height ARH
     margin 0
-    // margin-top ARH
     text-align center
-    color GREY
+    color rgba(255, 255, 255, .5)
     font-size .12rem
 </style>

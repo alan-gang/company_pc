@@ -72,7 +72,8 @@
           span.text-black {{ detail.codes }}
         el-col(:span="6")
           追号状态：
-          span.text-black {{ STATUS[detail.status] }}
+          span(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
+
         el-col(:span="6")
         el-col(:span="6")
 
@@ -91,7 +92,7 @@
             span {{ scope.row.multiple + '倍' }}
         el-table-column( label="追号状态" )
           template(scope="scope")
-            span(:class="{ 'text-green': scope.row.status === 0, 'text-danger': scope.row.status === 2, 'text-grey': scope.row.status === 1}") {{ STATUSS[scope.row.status] }}
+            span(:class=" STATUSSCLASS[scope.row.status] ") {{ STATUSS[scope.row.status] }}
 
         el-table-column(prop="userpoint" label="注单详情")
           template(scope="scope")
@@ -140,7 +141,7 @@
                 span.text-black {{ row.methodName }}（{{ row.codeType === 1 ? '复式' : '单式'}}）
               el-col(:span="5")
                 注单状态：
-                span.text-black {{ ORDERSTATUS[row.stat] }}
+                span(:class=" ORDERSTATUSCLASS[row.stat] ") {{ ORDERSTATUS[row.stat] }}
 
               el-col(:span="5")
                 倍数模式：
@@ -201,11 +202,16 @@
     props: ['id'],
     data () {
       return {
+        STATUS: ['进行中', '已取消', '已完成'],
+        STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
         ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
-        STATUS: ['进行中', '已完成', '已取消'],
+        // STATUS: ['进行中', '已完成', '已取消'],
         STATUSS: ['未生成', '已生成', '已取消'],
+        STATUSSCLASS: ['text-black', 'text-green', 'text-grey'],
+        // ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+        ORDERSTATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
         show: false,
         detail: {},
         taskId: '',

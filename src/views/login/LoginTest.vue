@@ -23,6 +23,7 @@
       //       span.time {{ serverTimeList[index] }}
       //       |  毫秒
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // img(:src=" url.line + '/static/favicon.png' " v-for=" (url, i) in frontList " @load="loadImg(url, 'frontTimeList')" v-if="url")
 </template>
 
 <script>
@@ -48,7 +49,8 @@
         serverTimeListValue: [],
         timeout: 2000,
         auto: 0,
-        currentServer: ''
+        currentServer: '',
+        T: 0
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // cs: ''
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -113,6 +115,7 @@
       getEnableLines () {
         this.$http.get(api.getEnableLines).then(({data}) => {
           if (data.success === 1) {
+            this.T = new Date().getTime()
             this.frontList = !this.m ? data.frontList : data.managerList
             this.serverList = data.serverList
             this.test()
@@ -124,7 +127,7 @@
       test () {
         // this.frontList = ['http://www.baidu.com']
         !this.server && this.frontList.forEach((url, i) => {
-          this.testAline(url, i, 'frontTimeList')
+          this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
             // if get tapi don't change again
             if (window.localStorage.getItem('tapi')) return false
@@ -135,18 +138,29 @@
         // console.log(Url.extractHostname(api.api), SESSION)
         this.serverList.forEach((url, i) => {
           // this.testAline(url, i, 'serverTimeList')
-          this.testAline(url + '/login/login.do?method=getVerifyImage', i, 'serverTimeList')
+          // this.testAline(url + '/login/login.do?method=getVerifyImage', i, 'serverTimeList')
           // this.server == change server router
           // if (this.server) {
           //   cookie.set('SESSION', SESSION, {domain: Url.extractHostname(url)})
           // }
         })
       },
-      testAline (url, i, timeList) {
+      // loadImg (url, i, timeList) {
+      //   console.log(url, '?????????')
+      //   const et = new Date().getTime()
+      //   const v = this.getValue(et - this.T)
+      //   this.$set(this[timeList], i, et - this.T)
+      //   this.$set(this[timeList + 'Value'], i, v)
+      //   this.$set(this[timeList], i, '> 10000')
+      //   this.$set(this[timeList + 'Value'], i, 0)
+      //   if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.line.replace('www.', '')) {
+      //     window.localStorage.removeItem('api')
+      //   }
+      // },
+      testAline (line, i, timeList) {
         const st = new Date().getTime()
-        this.$http.jsonp(url.line).then((rep) => {
+        this.$http.jsonp(line).then((rep) => {
         }, (rep) => {
-          // block8/3 console.log('success testing', rep)
           const et = new Date().getTime()
           const v = this.getValue(et - st)
           this.$set(this[timeList], i, et - st)
@@ -154,7 +168,7 @@
           if (rep.status !== 0) {
             this.$set(this[timeList], i, '> 10000')
             this.$set(this[timeList + 'Value'], i, 0)
-            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === url.line.replace('www.', '')) {
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === line.replace('www.', '')) {
               window.localStorage.removeItem('api')
             }
           }
@@ -310,5 +324,25 @@
       .timer
         text-align right
       
-
+  .login-test
+    .routers
+      width 10rem
+      .el-col-8
+        width 50%
+    .col-content
+      height 1rem
+      .signal-bar
+        position relative
+        line-height 1.3rem
+        top .1rem
+        margin-left PWX
+        display inline-block
+      
+      .timer
+        position absolute
+        right PWX
+        top 0
+        line-height 1.3rem
+        .time
+          font-size .2rem
 </style>

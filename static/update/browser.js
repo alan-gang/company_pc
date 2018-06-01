@@ -80,7 +80,8 @@
     OS: OSName,
     browser: browserName,
     v: majorVersion,
-    fv: fullVersion
+    fv: fullVersion,
+    iOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
   }
 
 })()

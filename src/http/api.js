@@ -1,5 +1,8 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-let api = 'http://192.168.169.49:9901/dscagamesclient'
+let api = 'http://192.168.169.49:9901/cagamesclient'
+if (window.location.host.split('.')[0] === '58') {
+  api = 'http://58.71.87.90:9901/cagamesclient'
+}
 // jork
 // let api = 'http://192.168.169.46:9901/dscagamesclient'
 let env = 'dev'
@@ -11,29 +14,14 @@ if (window.location.host.indexOf('.net') !== -1) {
 // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
-  api = 'http://112.199.101.98:9901/dscagamesclient'
-} else if (window.location.host.match(/^\d{1,3}/) && window.location.host.split('.')[0] !== '192') {
+  api = 'http://112.199.101.98:9901/cagamesclient'
+} else if (window.location.host.match(/^\d{1,3}/) && window.location.host.split('.')[0] !== '192' && window.location.host.split('.')[0] !== '58') {
   env = 'pro'
-  api = 'https://api.cb868.net:1888/dscagamesclient'
+  api = 'https://api.dsn96.net:1888/dscagamesclient'
 }
 window.env = env
-// api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || api
 api = window.localStorage.getItem('tapi') || api
 
-// window.localStorage.setItem('tapi', 'http://192.168.169.44:19901/cagamesclient')
-// dev
-// let api = 'http://112.199.101.98:19901/cagamesclient'
-// let api = window.localStorage.getItem('api') || 'https://api.cb868.net:1888/cagamesclient'
-// let api = 'http://13.113.163.174:1888/cagamesclient'
-// online new
-// let api = 'http://119.9.91.210:1888/cagamesclient'
-// online
-// let api = 'http://119.9.117.58:9901/cagamesclient/'
-// steven
-// let api = 'http://192.168.169.119:8080/cagamesclient/'
-// johson
-// let api = 'http://192.168.169.161:8080/cagamesclient/'
-// let api = 'http://192.168.169.111:8080/cagamesclient/'
 let Login = {
 
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
@@ -43,12 +31,13 @@ let Login = {
   // open a third part pages ============================================BG======================================
   // BG视讯游戏记录
   videoOrderList: '/ext/bg.do?method=videoOrderList',
-  // BG扑鱼游戏记录
+  // BG捕鱼游戏记录
   fishingOrderList: '/ext/bg.do?method=fishingOrderList',
   // BG电游游戏记录
   egameOrderList: '/ext/bg.do?method=egameOrderList',
   // BG转账记录
-  queryBalanceTransfer: '/ext/bg.do?method=queryBalanceTransfer',
+  // queryBalanceTransfer: '/ext/bg.do?method=queryBalanceTransfer',
+  queryBalanceTransfer: '/ext/bg.do?method=queryBalanceTransferPage',
   // 登出
   BGlogout: '/ext/bg.do?method=logout',
   // BG游戏地址接口

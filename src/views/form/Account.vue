@@ -10,10 +10,10 @@
       .form.form-filters
         
         label.item 类型 
-          el-select(multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
+          el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
             el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
-        label.item 帐变时间范围 
+        label.item 时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" @change="detectDate")
 
         
@@ -21,37 +21,38 @@
           el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
             el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
-        label.item 用户名 
+        label.item 用户 
           input.ds-input.small(v-model="name" style="width: 1rem")
         
         .item
           el-select(clearable  v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
             el-option(v-for="(U, i) in QUERYS" v-bind:label="U" v-bind:value="i")
-          el-input(v-model="id" style="width: 1.5rem")
+          el-input(v-model="id" style="width: 1rem")
         
-        label.item 游戏名称 
-          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.5rem; ")
+        label.item 游戏 
+          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
 
-        label.item.block(style="margin-left: .32rem") 快速查询：
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资...
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账...
+        label.item.block(style="margin-left: .32rem") 自身快捷查询：
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
         
 
         .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="list") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
+          .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected"  style="margin-top: .1rem")
+        el-table.header-bold.nopadding(:data="data" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
 
           el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
             template(scope="scope")
@@ -73,15 +74,10 @@
 
           el-table-column(prop="issue" label="期号"  )
 
-          el-table-column(prop="income" label="收入"  align="right")
+          el-table-column(prop="inout" label="收支"  align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.income) }}
-              span.text-green(v-if="scope.row.last") {{ numberWithCommas(scope.row.income) }}
+              span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{ parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
-          el-table-column(prop="expenditure" label="支出"  align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.expenditure) }}
-              span.text-danger(v-if="scope.row.last") {{ numberWithCommas(scope.row.expenditure) }}
 
           el-table-column(prop="balance" label="主帐户余额"  align="right")
             template(scope="scope")
@@ -100,22 +96,6 @@
             template(scope="scope")
               span {{ ISFREE[scope.row.isFree] }}
 
-        
-        // el-table.header-bold.nopadding(:data="amount" v-bind:row-class-name="tableRowClassName" style="" v-if="amount[0]")
-        //   el-table-column(prop="entry" label="" width="750" )
-        //     template(scope="scope")
-        //       p 小结：本页变动金额 &nbsp;&nbsp;
-        //         span.text-blue {{ scope.row.difMoney }}
-        //   el-table-column(prop="income" label="" width="100" align="right")
-        //     template(scope="scope")
-        //       span.text-green + {{ scope.row.income }}
-        //   el-table-column(prop="expenditure" label="" width="100" align="right")
-        //     template(scope="scope")
-        //       span.text-danger - {{ scope.row.expenditure }}
-        //   el-table-column( label="" width="100" align="right")
-        //   el-table-column(label="" align="right")
-
-          
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -137,31 +117,31 @@
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
         pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }],
+          // shortcuts: [{
+          //   text: '最近一周',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }, {
+          //   text: '最近一个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }, {
+          //   text: '最近三个月',
+          //   onClick (picker) {
+          //     const end = new Date()
+          //     const start = new Date()
+          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+          //     picker.$emit('pick', [start, end])
+          //   }
+          // }],
           disabledDate (time) {
             return time.getTime() > Date.now()
           }
@@ -179,7 +159,7 @@
         MODES: ['元', '角', '分', '厘'],
         mode: '',
         TYPES: '',
-        multipleSelectStyle: {minWidth: '1.5rem'},
+        multipleSelectStyle: {minWidth: '1rem'},
         typeMax: 5,
         type: [],
         preTypeLength: 0,
@@ -194,7 +174,8 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        amount: [{income: 0, expenditure: 0, difMoney: 0}]
+        amount: [{income: 0, expenditure: 0, difMoney: 0}],
+        hideNumber: false
       }
     },
     computed: {
@@ -209,6 +190,21 @@
       // }
     },
     watch: {
+      hideNumber () {
+        this.data.forEach(x => {
+          if (this.hideNumber) {
+            x.inout = (x.copyinout = (x.inout || '0')).split('.')[0]
+            x.balance = (x.copybalance = (x.balance || '0')).split('.')[0]
+            x.speBalance = (x.copyspeBalance = (x.speBalance || '0')).split('.')[0]
+            x.isFree = (x.copyisFree = (x.isFree || '0')).split('.')[0]
+          } else {
+            x.inout = x.copyinout
+            x.balance = x.copybalance
+            x.speBalance = x.copyspeBalance
+            x.isFree = x.copyisFree
+          }
+        })
+      },
       stEt: {
         deep: true,
         handler () {
@@ -222,14 +218,14 @@
         // this.preTypeLength = o.length
         this.preTypeLength > n.length ? setTimeout(() => {
           this.multipleSelectStyle = {
-            minWidth: '1.5rem',
+            minWidth: '1rem',
             height: '.3rem',
-            width: this.type.length + 0.5 + 'rem'
+            width: this.type.length + 0.3 + 'rem'
           }
         }, 300) : this.multipleSelectStyle = {
-          minWidth: '1.5rem',
+          minWidth: '1rem',
           height: '.3rem',
-          width: this.type.length + 0.5 + 'rem'
+          width: this.type.length + 0.3 + 'rem'
         }
         this.preTypeLength = n.length
       },
@@ -247,6 +243,31 @@
       }
     },
     methods: {
+      getSummaries (param) {
+        const { columns, data } = param
+        const sums = []
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计'
+            return
+          }
+          const values = data.map(item => Number(item[column.property]))
+          if (index === 6) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            sums[index] = (sums[index] > 0 ? '+' : '') + numberWithCommas(sums[index].toFixed(this.hideNumber ? 0 : 6))
+          } else {
+            sums[index] = ''
+          }
+        })
+        return sums
+      },
       detectDate (v) {
         // console.log(v)
       },
@@ -406,12 +427,13 @@
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             this.data = data.orderRecordList
             this.total = data.totalSize || this.data.length
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-            this.summary()
+            // this.summary()
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error

@@ -5,12 +5,12 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    el-row.game-info(:class="[ game.class, game.class + '-middle' ]" style="background-position: .2rem .2rem;")
+    el-row.game-info(:class="[ gg.class, gg.class + '-middle' ]" style="background-position: .2rem .2rem; padding-left: 1rem")
 
         el-col.left(:span="4" style="min-width: 1.8rem")
           .item 
             el-select(v-model="game" style="width: 1.5rem")
-              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U")
+              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         el-col.right(:span="20")
           .item 
             .ds-checkbox-label(:class="{ active: polyline }" @click=" polyline = !polyline ")
@@ -58,7 +58,7 @@
         //         div
         //           span(:class="[ scope.row.numbers && scope.row.numbers[i + k*12].class ]") {{ scope.row.numbers ? scope.row.numbers[i + k*12].n: 0 }}
 
-        el-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName")
+        el-table.trend-table.nopadding.header-bold.has-border(:data="myData" border v-bind:row-class-name="tableRowClassName")
           el-table-column(:resizable=" resizable " prop="issue" label="期号" width="80" align="center" class-name="bg-white")
           el-table-column(:resizable=" resizable " prop="code" label="开奖号码" v-bind:width="pl > 5 ? 140 : 80" align="center" class-name="bg-white")
           el-table-column(:resizable=" resizable " v-for="(P, k) in PS" v-bind:label="P.title" align="center" v-bind:class-name=" k % 2 === 0 ? 'bg-light-blue' : 'bg-light-danger' ")
@@ -179,11 +179,14 @@ export default {
     }
   },
   computed: {
+    gg () {
+      return this.gameList.filter(x => x.lotteryId === this.game)[0] || {}
+    },
     PS () {
       return this.PPS.slice(0, this.pl)
     },
     gameid () {
-      return this.game.lotteryId
+      return this.game
     },
     svgstyle () {
       return {
@@ -243,7 +246,7 @@ export default {
       !((this.W > 900) === (window.document.body.clientHeight > 900)) && this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
     })
     this.getLotterys()
-    this.$route.query.gameid && (this.game.lotteryId = this.$route.query.gameid)
+    this.$route.query.gameid && (this.game = this.$route.query.gameid)
   },
   methods: {
     draw (x) {
@@ -280,7 +283,7 @@ export default {
     openRoute ({path, query: {gameid}}) {
       if (path !== '/form/4-5-3') return false
       if (gameid) {
-        this.game.lotteryId = gameid
+        this.game = gameid
         // TODO update data
       }
     },
@@ -298,7 +301,7 @@ export default {
             }
           })
           this.gameList = data.lotteryList
-          if (!this.game.lotteryId) {
+          if (!this.game) {
             this.game = this.gameList[0]
           }
         }

@@ -155,10 +155,11 @@
           position relative
           padding .065rem .1rem
           padding-right .15rem
-          background-color #d9d9d9
-          radius()
-          border-top-right-radius .20rem 50%
-          border-bottom-right-radius .20rem 50%
+          color #999
+          // background-color #d9d9d9
+          // radius()
+          // border-top-right-radius .20rem 50%
+          // border-bottom-right-radius .20rem 50%
           
       .ds-button
         font-size .12rem
