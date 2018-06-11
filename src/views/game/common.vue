@@ -628,7 +628,7 @@ export default {
           //   this.ns.splice(i, 1)
           // })
           loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
-          this.$modal.warn({
+          !data.msg && this.$modal.warn({
             target: this.$el,
             content: parseInt(data.msg) ? '投注失败！' : data.msg,
             btn: ['确定']
