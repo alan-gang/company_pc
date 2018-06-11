@@ -14,9 +14,9 @@
           // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
           .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
-        
+
         .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
-          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }") 
+          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }")
             span.ds-radio.white
             | {{ r.tongdName }}
 
@@ -25,7 +25,7 @@
       //     input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
       //     .buttons(style="margin-left: .70rem; padding: .2rem 0")
       //       .ds-button.primary.large(@click="checkSecurityPwd") 确认
-      
+
 
       .form(v-if=" type !== 2 ")
 
@@ -54,36 +54,36 @@
                   label.ds-radio-label
                     span.ds-radio.white(style="opacity: 0")
                     span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 3" @click="showAllBank = true")  更多银行
-        
+
         .item(style="line-height: .5rem" v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
           input.ds-input(v-model="name" @keyup.enter.native="topUpNow" style="width: 1.8rem")
           span(style="padding: 0 .2rem") （请输入支付宝真实姓名）
-              
-        
+
+
 
 
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
           span(style="padding: 0 .2rem") 充值限额：(单笔充值限额：最低：
-              span.min.text-danger  {{ min }} 
+              span.min.text-danger  {{ min }}
               | 元，
               | 最高：
-              span.min.text-danger  {{ max }} 
+              span.min.text-danger  {{ max }}
               | 元)
-        
+
 
         .buttons(style="margin-left: .85rem; padding-top: .05rem")
             .ds-button.primary.large(@click="topUpNow") 确认
 
-      
+
       .form(v-if="type === 2")
-        
-        // label.item 充值时间 
+
+        // label.item 充值时间
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        //   |  至 
+        //   |  至
         //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
 
-        // label.item(style="margin-left: .2rem") 状态 
+        // label.item(style="margin-left: .2rem") 状态
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
@@ -118,7 +118,7 @@
               span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
-    
+
 
     .modal(v-show="show" )
       .mask
@@ -128,43 +128,43 @@
             span.title(style="font-size: .18rem; color #666;") 支付 {{ amount }} 元
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="show = false" )
-              
+
           .content
             p.text-black {{ selectBank.text }}扫码支付
             .QR.ds-icon-QR(:style="myQR")
               p(style="padding-top: 1.5rem; position: relative")
                 span.refresh.ds-button.small(v-show="pt_ === 0" @click="commit") 重新获取二维码
                 span.loading(v-show="pt_ !== 0")
-                  span.text-danger {{ this.pt_ }} 
-                  | 秒后二维码过期 
+                  span.text-danger {{ this.pt_ }}
+                  | 秒后二维码过期
                 span.loading(v-show="pt_ === 0")
                   span.text-danger 二维码已过期，请重新获取
 
-    
+
     Modal(title="" v-bind:Ptype="Ptype" v-show="dataXnow" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
-        p(v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付宝真实姓名： 
+        p(v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付宝真实姓名：
           span.text-black {{ name }}
           span.ds-button.text-button.green(v-clipboard:copy=" name " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 充值总额： 
+        p 充值总额：
           span.text-black {{ dataXamount }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXamount " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 银行信息： 
+        p 银行信息：
           span.text-black {{ dataXbankName }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXbankName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        p 户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXcardName }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXcardName " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        p 卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXcardNum }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXcardNum " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 订单号：&nbsp;&nbsp;&nbsp; 
+        p 订单号：&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXorderId }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXorderId " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-    
+
     .modal(v-show="showRequest" )
       .mask
       .box-wrapper
@@ -173,42 +173,42 @@
             span.title.text-black(style="font-size: .18rem;") 催到帐
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="showRequest = false" )
-              
+
           .content
             .form(style="margin: .2rem .4rem" v-if="row.errorEntry === '0' ")
-              
-              p.item 
+
+              p.item
                 span.text-danger *
                 | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 el-select(v-model="CbankIndex" style="width: 3rem")
                   el-option(v-for="(b, index) in ALLBANKS" v-bind:label="b.text" v-bind:value="index")
-             
-              p.item 
+
+              p.item
                 span.text-danger *
                 | 付款人姓名：&nbsp;
                 input.ds-input.large(v-model="Cname" style="width: 3rem")
-                span(style="font-size: .12rem") 
+                span(style="font-size: .12rem")
 
-              p.item 
+              p.item
                 span.text-danger *
                 | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="Ccardno" style="width: 3rem")
                 span(style="font-size: .12rem")
 
-               p.item 
+               p.item
                 span.text-danger *
                 | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp;
                 el-input-number(type="number" v-model="Camount" style="width: 3rem")
                 span(style="font-size: .12rem")
 
-               p.item 
+               p.item
                 | 收款人姓名：&nbsp;
                 input.ds-input.large(v-model="CRname" style="width: 3rem")
                 span(style="font-size: .12rem")
 
               p.item 交易序列号：&nbsp;&nbsp;
                 input.ds-input.large(v-model="Cid" style="width: 3rem")
-                span(style="font-size: .12rem") 
+                span(style="font-size: .12rem")
 
               p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 el-date-picker(type="datetime" v-model="Ctime"  style="width: 3rem")
@@ -222,36 +222,36 @@
                 .ds-button.primary.large(@click="sendReq") 提交
 
             .form(style="margin: .2rem .4rem; padding-bottom: .3rem " v-if="row.errorEntry !== '0' ")
-              
-              p.item 
+
+              p.item
                 span.text-danger *
-                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp; 
+                | 银行名称：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.bankName || '空' }}
-                
-             
-              p.item 
+
+
+              p.item
                 span.text-danger *
                 | 付款人姓名：&nbsp;
-                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payname || '空' }} 
+                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payname || '空' }}
 
-              p.item 
+              p.item
                 span.text-danger *
                 | 付款卡号：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payCardNo || '空' }}
 
-              p.item 
+              p.item
                 span.text-danger *
                 | 付款金额：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payAmount || '空' }}
 
-              p.item 
+              p.item
                | 收款人姓名：&nbsp;
                span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.getname || '空' }}
 
               p.item 交易序列号：&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.serialNo || '空' }}
 
-              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp; 
+              p.item 付款时间：&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.payTime || '空' }}
               p.item 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 span.text-999(style="width: 3rem; display: inline-block; text-align: left") {{ detail.noteWord || '空' }}
@@ -260,8 +260,8 @@
                 span.text-green(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 0") 待处理
                 span.text-danger(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 2") 失败，{{ detail.backReson }}
 
-      
-      
+
+
 </template>
 
 <script>
@@ -788,7 +788,7 @@ export default {
         if (data.success === 1) {
           // if (this.type === 0) {
           if (this.type >= 3 && (this.epay[this.type - 3].title === '网银转帐' || this.epay[this.type - 3].title === '支付宝转帐')) {
-            data = data.msg
+            data = data.data
             this.dataXamount = data.amount
             this.dataXbankName = data.bankName
             this.dataXcardName = data.cardName
@@ -817,7 +817,7 @@ export default {
             //   },
             //   O: this
             // })
-          } else if (data.payUrl || data.msg) {
+          } else if (data.payUrl || data.href) {
             // 第三方充值
             // 第三方充值 二维码支付
             if (data.payUrl) {
@@ -829,7 +829,7 @@ export default {
               this.$modal.warn({
                 content: '立即跳转到第三方去充值？',
                 btn: ['进入网上银行'],
-                href: [data.msg],
+                href: [data.href],
                 target: this.$el,
                 ok () {
                   this.$modal.question({
@@ -898,7 +898,7 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  
+
   .ds-radio-label
     color #999
   .ds-radio-label.active
@@ -922,7 +922,7 @@ export default {
       margin 0
       // line-height .25rem
       vertical-align top
-      
+
   .scroll-content
     top TH
   .me-topup
@@ -948,10 +948,10 @@ export default {
         background-color #d2e8f6
         border 1px solid BLUE
         // border none
-  
+
   .el-button-group
     float right
-  
+
   .el-icon-close
     padding .05rem .1rem
     font-size .18rem
@@ -974,7 +974,7 @@ export default {
     text-shadow none
     &:hover
       background-color #fff
-  .modal 
+  .modal
     position absolute
     top 0
     bottom 0
@@ -982,7 +982,7 @@ export default {
     right 0
     text-align center
     z-index 9999
-    
+
     .mask
       position absolute
       left 0
@@ -1030,7 +1030,7 @@ export default {
         .el-textarea
           display inline-bock
           vertical-align top
-          padding-left .6rem 
+          padding-left .6rem
           .textarea
             font-size .12rem
 </style>

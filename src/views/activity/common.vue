@@ -23,22 +23,22 @@
 
           el-row.list-title
             el-col(:span="6") {{ '团队日量要求' }}
-            el-col(:span="6") {{ '团队活跃用户' }} 
-            el-col(:span="6" style="text-align: right") {{ '日工资比例' }}  
-            el-col(:span="6" style="text-align: right") {{ '工资上限' }}  
+            el-col(:span="6") {{ '团队活跃用户' }}
+            el-col(:span="6" style="text-align: right") {{ '日工资比例' }}
+            el-col(:span="6" style="text-align: right") {{ '工资上限' }}
 
           el-row.list-item(v-for=" l in list13 " )
             el-col(:span="6") {{ l.expandName }}
             el-col(:span="6") {{ l.expandValue === 0 ? '无要求' : l.expandValue}}
-            el-col(:span="6" style="text-align: right") {{ l.expandPrize }} 
-            el-col(:span="6" style="text-align: right") {{ l.maxPrize }}  
+            el-col(:span="6" style="text-align: right") {{ l.expandPrize }}
+            el-col(:span="6" style="text-align: right") {{ l.maxPrize }}
 
         .list(v-if="list && list[0]" )
 
           el-row.list-title
             el-col(:span="8") {{ th1[Math.max(10, idt) - 10].split(':')[1] }}
-            el-col(:span="5" style="text-align: right") {{ th2[Math.max(10, idt) - 10].split(':')[1] }} 
-            el-col(:span="8" style="text-align: right") {{ th3[Math.max(10, idt) - 10].split(':')[1] }}  
+            el-col(:span="5" style="text-align: right") {{ th2[Math.max(10, idt) - 10].split(':')[1] }}
+            el-col(:span="8" style="text-align: right") {{ th3[Math.max(10, idt) - 10].split(':')[1] }}
 
           el-row.list-item(v-for=" l in list " )
             el-col(:span="8") {{ l.minSaveAmount }} {{ l[th1[Math.max(10, idt) - 10].split(':')[0]] }}
@@ -49,8 +49,8 @@
 
           el-row.list-title
             el-col(:span="8") {{ '名次' }}
-            el-col(:span="5" style="text-align: right") {{ '金额' }} 
-            // el-col(:span="8" style="text-align: right") {{ '预算' }}  
+            el-col(:span="5" style="text-align: right") {{ '金额' }}
+            // el-col(:span="8" style="text-align: right") {{ '预算' }}
 
           el-row.list-item(v-for=" l in list9 " )
             el-col(:span="8") {{ l.levelName }}
@@ -189,13 +189,13 @@ export default {
       .content
         font-shadow()
     top TH
-    border-bottom-left-radius .05rem    
-    border-bottom-right-radius .05rem  
+    border-bottom-left-radius .05rem
+    border-bottom-right-radius .05rem
     color #fff
     .banner
       width 100%
-    
-    .info 
+
+    .info
       margin .4rem PWX
       .title
         display inline-block
@@ -211,11 +211,11 @@ export default {
         margin PW
       .list
         min-width 5rem
-        .list-title 
+        .list-title
           height .36rem
           background-color rgba(0,0,0,.5)
           line-height .36rem
-        .list-item 
+        .list-item
           height .4rem
           line-height .4rem
           background-color rgba(255, 255, 255, .1)
@@ -223,11 +223,11 @@ export default {
         .el-col
           min-width 1rem
           padding 0 PWX
-      
+
     .actions
       margin .7rem PWX
       text-align center
-        
+
 </style>
 
 

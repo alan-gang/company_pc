@@ -1,19 +1,19 @@
 <template lang="jade">
 
   #app(:class=" [state.user.css, 'app', {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }] ")
-    
-    
+
+
     // pages
     // keep-alive
     transition(name="fade" appear=true)
       router-view.scroll-content.page.collapse-footer(:pages="tabs" v-bind:prehref="prev.href" v-bind:menus="menus" v-on:close-tab="closeTab" v-on:open-tab="openTab" v-on:get-menus="getUserPrefence" v-on:get-userfund="__getUserFund"  v-bind:class="{ 'has-header': state.hasHeader, 'has-footer has-righter': state.hasFooter}" v-bind:loop="loop" v-bind:max-pages="maxPages" v-bind:money="state.user.amoney" v-bind:free="state.user.free")
 
-      
+
     // Print
     Print(:data="printData" v-if="showPrint")
 
     // lefter
-    
+
     dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-show="state.user.mode.indexOf('classic') !== -1 && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
     // righter
@@ -1370,7 +1370,7 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, 'Microsoft YaHei'
-  
+
   body
     height 100%
     width 100%
@@ -1380,10 +1380,10 @@ export default {
     background url(/static/skins/big_bg.jpg) center no-repeat
     // background-size 100% 100% !important
     transition background linear .5s
-    &.skin-new-year 
+    &.skin-new-year
       #app.classic .lefter.game .game
         background-color rgba(0,0,0, .7)
-        
+
       .page.home > .container
         margin-top 18%
         @media(max-height: 768px)
@@ -1392,8 +1392,8 @@ export default {
         margin-top 17%
         @media(max-height: 768px)
           margin-top 12%
-      
-            
+
+
       @media(max-height: 1200px)
         background-size 130% 130% !important
       @media(max-height: 900px)
@@ -1407,9 +1407,9 @@ export default {
       @media(max-width: 1200px)
         background-size 200% 170% !important
         // background-position 200% 200% !important
-      
+
     background-size cover
-  
+
   body:fullscreen #app > * {
     background url(/static/skins/bg.jpg) center no-repeat
   }
@@ -1419,7 +1419,7 @@ export default {
   body:-moz-full-screen #app > * {
     background url(/static/skins/bg.jpg) center no-repeat
   }
-  
+
 </style>
 <style lang="less">
   @import url('./chat.wap.less');
@@ -1438,9 +1438,9 @@ export default {
   // @import './pad.stylus'
   // @import './phone.stylus'
   // @import './chat.night.stylus'
-  
-  
-    
+
+
+
   header
     position absolute
     top 0
@@ -1455,7 +1455,7 @@ export default {
     // &:after
     //   content ''
     //   position absolute
-    //   left 0 
+    //   left 0
     //   right -1.5rem
     //   top 0
     //   bottom 0
@@ -1468,7 +1468,7 @@ export default {
   //   right 0
   //   min-width 8.5rem
     // z-index 1
-      
+
   #app:not(.classic) .dialog-container
     z-index 2
 
@@ -1491,9 +1491,9 @@ export default {
       @media(max-width: 1500px)
         // bottom 2*FH
       @media(max-width: 862px)
-        // bottom 3*FH 
-    
-      
+        // bottom 3*FH
+
+
 
 // define transition common timming function and time
 [class*=-enter]
@@ -1506,12 +1506,12 @@ export default {
     // transform perspective(500px) translateZ(-5000px)
     opacity .2
     transform perspective(500px) translateZ(-1000px)
-    
-    
+
+
 .slide-enter, .slide-leave-active
   opacity 0
   transform translateX(100%)
-  
+
 .slide-up-enter, .slide-up-leave-active
   opacity 0
   transform translateY(-100%)
@@ -1526,20 +1526,20 @@ export default {
   &.dialog-container
     transition all linear 0s // @static 2
 
-  
-  
+
+
 
 // define for main page
 .page
   &[class*=-leave]
     // transition-delay .5s
-  
+
   // &[adjusting]
   //   top 0
   //   bottom 0
-    
+
 .back
-  // define for main page when back 
+  // define for main page when back
   &>.page
     &[class*=-leave]
       transition-delay 0s

@@ -2,6 +2,7 @@ const BANKS = [
   {apiName: 'qqwallet', class: 'qqwallet', text: 'QQ钱包'},
   {apiName: 'bdwallet', class: 'bdwallet', text: '百度钱包'},
   {apiName: 'zfb', class: 'alipay', text: '支付宝'},
+  {apiName: 'zfb2bank', class: 'alipay', text: '支付宝'},
   {apiName: 'weixin', class: 'wepay', text: '微信'},
   {apiName: 'bob', class: 'bjyh', text: '北京银行'},
   {apiName: 'gdb', class: 'gfyh', text: '广发银行'},

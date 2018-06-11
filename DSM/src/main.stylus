@@ -34,17 +34,17 @@
       background-color rgba(0, 0, 0, 0)
       &:before
         background-color BLUE
-      
+
   .el-menu-item-group
       background-color rgba(0, 0, 0, .3)
-  
+
   .el-submenu
     &.is-opened
       .el-submenu__title
         color #fff
         background-color rgba(255, 255, 255, .08)
         font-weight bold
-        
+
 .el-submenu .el-menu
   margin .05rem 0 0 0
   background-color rgba(0,0,0,0)
@@ -59,7 +59,7 @@
   //   background-color #9da4cb
   //   vertical-align middle
   //   margin 0 .08rem
-    
+
 // icons
 .ds-gm-icon-logo
   background url(assets/logo.png) center .3rem no-repeat
@@ -112,17 +112,17 @@
       .scroll-content
         padding-top PWX
         top 0
-        
+
       &.me-page
         .me-sideview
           top 0
           radius(0)
-      
+
       &.trend-chart-page
         .scroll-content
           top 1.44rem
         .game-info
           background-color rgba(0,0,0,0)
-      
-      
-    
+
+
+

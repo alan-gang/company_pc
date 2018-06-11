@@ -6,29 +6,29 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .stock-list.scroll-content
-      
-      
+
+
       .form(v-if="stepIndex === 0 ")
-        
+
         div(style="text-align: center; min-height: .2rem")
           .ds-button-group(v-if="me.role >= 2")
             .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的契约
             .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级契约
 
-        label.item(v-if="type === 1") 用户名  
+        label.item(v-if="type === 1") 用户名
           input.ds-input.small(v-model="name" style="width: 1rem")
 
-        // label.item 时间 
+        // label.item 时间
         //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        label.item  &nbsp;状态 
+        label.item  &nbsp;状态
           el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
             el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
 
         | &nbsp;&nbsp;
 
-        
-        
+
+
         .ds-button.primary.large.bold(@click="contract") 搜索
 
         el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
@@ -52,7 +52,7 @@
               .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
 
               .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
-        
+
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
 
@@ -63,19 +63,19 @@
             p.content
               span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
               br
-              | 1. 
+              | 1.
               span.text-danger 销量
               | 和
               span.text-danger 亏损
               | 只要达到规则，都应按照规则的分红比例派发分红
               br
-              | 2. 
+              | 2.
               span.text-danger [手动发放]
               | 即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
               span.text-danger 分红列表-分红详情
               | 中进行点击确认发放
               br
-              | 3. 
+              | 3.
               span.text-danger [自动发放]
               | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
               span.text-danger 手动执行
@@ -96,7 +96,7 @@
 
         div(style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
 
-          
+
 
           p.item.block
             span.text-danger *
@@ -107,16 +107,15 @@
             span.text-danger *
             | 契约时间：
             el-date-picker(:picker-options="ApickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-          
+
           p.item.block
              span.text-danger *
-             | 发放周期： 
-             span 半月
-             
-            // el-select(v-model=" SV " style="width: .7rem" placeholder="无")
-            //  el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
+             | 发放周期：
+             //- span 半月
+             el-select(v-model=" SV " style="width: .7rem" placeholder="无")
+                el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
 
-             // span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+                span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
 
           p.item.block
             span.text-danger *
@@ -132,14 +131,14 @@
           p.item.block(v-for=" (CR, i) in CRULES ")
             span.text-danger {{ i===0? '*': '&nbsp;'}}
             | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-            span.text-black 累计 
+            span.text-black 累计
             el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
             span.text-black &nbsp;万，活跃人数&nbsp;
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
-            span.text-black  人，分红比例 
+            span.text-black  人，分红比例
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
             |  %
 
@@ -153,7 +152,7 @@
 
           .buttons.item.block(style="padding-left: .6rem")
             .ds-button.primary.bold(@click="createContract") 确认发送
-    
+
     .modal(v-if="showDetail" )
       .mask
       .box-wrapper
@@ -164,7 +163,7 @@
               el-button.close(icon="close" @click="showDetail = ''")
           ContractDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5.7rem;")
 
-        
+
 </template>
 
 <script>
@@ -495,9 +494,9 @@
         if (!this.stEtA[0] || !this.stEtA[1]) {
           return this.$message.warning({target: this.$el, message: '请选择契约时间！'})
         }
-        // if (!this.SV) {
-        //   return this.$message.warning({target: this.$el, message: '请选择发放周期！'})
-        // }
+        if (!this.SV) {
+          return this.$message.warning({target: this.$el, message: '请选择发放周期！'})
+        }
         if (!this.dataRules[0]) {
           return this.$message.warning({target: this.$el, message: '请至少设置一条契约规则！'})
         }
@@ -513,8 +512,8 @@
           expireTm: dateTimeFormat((window.newDate(this.stEtA[1])).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
-          // sendCycle: parseInt(this.SV),
-          sendCycle: 2,
+          sendCycle: parseInt(this.SV),
+          // sendCycle: 2,
           // sharecycle: this.AT,
           // bonusRuleList: JSON.stringify(data)
           bonusRuleList: JSON.stringify(this.dataRules)
@@ -581,11 +580,11 @@
     margin 0 PW .1rem 0
     &.block
       display block
-  
+
   .el-select
-  .el-input-number 
+  .el-input-number
     width 1rem
-  
+
   .notice
     font-size .12rem
     line-height .22rem
@@ -612,7 +611,7 @@
   bg-active = #e2e2e2
   .tool-bar
     height TH
-    line-height TH 
+    line-height TH
     background-color bg
     font-size .12rem
     border-top-right-radius .05rem
@@ -650,7 +649,7 @@
           color #fff
           background-color #d40c1d
 
-  .modal 
+  .modal
     position absolute
     top TH
     bottom 0
@@ -658,7 +657,7 @@
     right 0
     text-align center
     z-index 9999
-    
+
     .mask
       position absolute
       left 0
@@ -706,7 +705,7 @@
         .el-textarea
           display inline-bock
           vertical-align top
-          padding-left .6rem 
+          padding-left .6rem
           .textarea
             font-size .12rem
 
