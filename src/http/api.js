@@ -10,18 +10,17 @@ let env = 'dev'
 if (window.location.host.indexOf('.net') !== -1) {
   env = 'pro'
   // api = 'https://api.cb868.net:1888/dscagamesclient'
-  api = 'https://api.' + window.location.host.replace('www.', '') + ':1888/dscagamesclient'
+  api = 'https://www.' + window.location.host.replace('www.', '') + '/dscagamesclient'
 // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
   api = 'http://112.199.101.98:9901/cagamesclient'
 } else if (window.location.host.match(/^\d{1,3}/) && window.location.host.split('.')[0] !== '192' && window.location.host.split('.')[0] !== '58') {
   env = 'pro'
-  api = 'https://api.dsn96.net:1888/dscagamesclient'
+  api = 'https://www.dsn96.net/dscagamesclient'
 }
 window.env = env
 api = window.localStorage.getItem('tapi') || api
-
 let Login = {
 
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456

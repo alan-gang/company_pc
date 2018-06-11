@@ -28,7 +28,7 @@
               
           .ds-button.primary.large.bold(@click="bonus") 搜索
 
-        el-table.header-bold.nopadding(:data="bonusList"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName"  v-show=" !(type === 0 && me.role <= 2)")
+        el-table.header-bold.nopadding(:data="bonusList"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="type === 1")
 
@@ -62,29 +62,7 @@
               .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id)") 查看详情
 
 
-        el-table.header-bold.nopadding(:data="topBonuList"   stripe v-bind:max-height=" MH "  v-on:expand="expand" v-show=" (type === 0 && me.role <= 2)")
-          
-
-          el-table-column(class-name="pl2" prop="issue" label="期号")
-          el-table-column(prop="date" label="理论发放日期" )
-          el-table-column(prop="uTime" label="更新时间" )
-          el-table-column(prop="monthlyBuy" label="本期销售额" )
-          el-table-column(prop="monthlyProfit" label="本期盈亏额" )
-          el-table-column(prop="bookProfit" label="理论盈亏" )
-          el-table-column(prop="totalProfit" label="总盈亏" )
-          el-table-column(prop="actUser" label="活跃人數")
-          el-table-column(prop="shareBook" label="理论分红金额" )
-          el-table-column(prop="shareAmount" label="分红金额" )
-            template(scope="scope")
-              span {{ ['团队分红', '关联分红'][scope.row.bonusType - 1]}}
-
-          el-table-column(label="是否累积" align="center")
-            template(scope="scope")
-              span {{ ['否', '是'][scope.row.isGrand]}}
-
-          el-table-column(prop="" label="状态" align="center")
-             template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isSend > 0, 'text-blue': scope.row.isSend < 1 }") {{ ['未发放', '已发放'][scope.row.isSend]}}
+       
       
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
         

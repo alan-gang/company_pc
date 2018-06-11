@@ -19,6 +19,8 @@ let store = {
       free: '',
       // bg
       bgmoney: '',
+      // ctg
+      tcgmoney: 0,
       // safeCenter
       email: '',
       phone: '',
@@ -78,6 +80,7 @@ let store = {
         smoney: '',
         free: '',
         bgmoney: '',
+        tcgmoney: 0,
         // safeCenter
         email: '',
         phone: '',

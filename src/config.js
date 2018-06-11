@@ -11,14 +11,24 @@ export default (Vue) => {
         platform: window.platform
       }
     },
-    watch: {
-      call: {
-        deep: true,
-        handler () {
+    // watch: {
+    //   call: {
+    //     deep: true,
+    //     handler () {
+    //       if (this.call.fn && typeof this[this.call.fn] === 'function') {
+    //         (!this.call.callId || this.call.callId === this.callId) && this.$nextTick(this[this.call.fn](this.call.args))
+    //       }
+    //     }
+    //   }
+    // },
+    created () {
+      if (Object.keys(this.$options.methods).join(',').match(/__(?!(setCall|loading))/g)) {
+        // console.log(Object.keys(this.$options.methods))
+        this.$watch('call', () => {
           if (this.call.fn && typeof this[this.call.fn] === 'function') {
             (!this.call.callId || this.call.callId === this.callId) && this.$nextTick(this[this.call.fn](this.call.args))
           }
-        }
+        }, {deep: true})
       }
     },
     methods: {

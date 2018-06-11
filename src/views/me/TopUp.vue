@@ -10,7 +10,7 @@
       .tab(style="text-align: center")
         .ds-button-group
           // 无多通道
-          .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
+          // .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
           // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
           .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
@@ -42,11 +42,11 @@
 
         .item(style="line-height: .5rem") 支付方式：
             .banks
-                label.ds-radio-label( v-if=" type > 2 && epay[type - 3].title !== '在线支付'")
+                label.ds-radio-label( v-if=" type > 2 && epay[type - 3].title !== '在线支付' && epay[type - 3].title !== '网银转帐' ")
                   // span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
                   span.ds-icon-bank-card.selected(v-bind:class=" [ selectBank.class ] ")
 
-                div(v-if=" (type === 0 || epay[type - 3].title === '在线支付' ) ")
+                div(v-if=" (type >= 3 && ( epay[type - 3].title === '网银转帐' || epay[type - 3].title === '在线支付' )) ")
                   label.ds-radio-label(v-for="bank in banksO " @click="selectBank = bank")
                     span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
                     span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.bankCode === bank.bankCode } ] ")
@@ -55,6 +55,12 @@
                     span.ds-radio.white(style="opacity: 0")
                     span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 3" @click="showAllBank = true")  更多银行
         
+        .item(style="line-height: .5rem" v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          input.ds-input(v-model="name" @keyup.enter.native="topUpNow" style="width: 1.8rem")
+          span(style="padding: 0 .2rem") （请输入支付宝真实姓名）
+              
+        
+
 
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
@@ -137,6 +143,9 @@
     
     Modal(title="" v-bind:Ptype="Ptype" v-show="dataXnow" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
+        p(v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付宝真实姓名： 
+          span.text-black {{ name }}
+          span.ds-button.text-button.green(v-clipboard:copy=" name " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
         p 充值总额： 
           span.text-black {{ dataXamount }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXamount " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
@@ -265,7 +274,7 @@ export default {
   data () {
     return {
       numberWithCommas: numberWithCommas,
-      Ptype: 'warn',
+      Ptype: 'success',
       Pbtn: ['进入网上银行'],
       Phref: [],
       cpwd: '',
@@ -317,7 +326,8 @@ export default {
       merNoBankList: [],
       // 非银行转帐类
       epay: [],
-      radioIndex: 0
+      radioIndex: 0,
+      name: ''
     }
   },
   computed: {
@@ -390,6 +400,9 @@ export default {
         this.min = this.selectBank.minSave
       }
     },
+    radioIndex () {
+      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐')) this.selectBank = {}
+    },
     type () {
       // this.max = 0
       // this.min = 0
@@ -397,7 +410,7 @@ export default {
       this.radioIndex = 0
       // if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
-      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付')) this.selectBank = {}
+      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐')) this.selectBank = {}
       // if (this.type > 2) this.selectBank = this.otherPay
     },
     Ctime () {
@@ -548,14 +561,15 @@ export default {
     Pclose () {
       this.dataXnow = false
       setTimeout(() => {
-        this.Ptype = 'warn'
+        this.Ptype = 'success'
         this.Phref = []
-        this.Pbtn = ['进入网上银行']
+        this.name = ''
+        // this.Pbtn = ['进入网上银行']
       }, 1000)
       return false
     },
     Pok () {
-      if (this.Pbtn[0] === '进入网上银行') {
+      if (this.Pbtn[0] === '进入网上银行' || this.Pbtn[0] === '进入支付宝') {
         this.Ptype = 'question'
         this.Pbtn = ['充值成功', '充值失败']
         setTimeout(() => {
@@ -686,7 +700,7 @@ export default {
           // this.merBankList = data.merBankList || []
           this.epay = []
           // 在线支付 快捷支付 QQ 微信
-          let epays = ['online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付']
+          let epays = ['bankList:网银转帐', 'online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付', 'zfb2Bank:支付宝转帐']
           epays.forEach(m => {
             data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
               f.channelCodes.forEach(b => {
@@ -736,11 +750,11 @@ export default {
           // })
 
           this.merNoBankList = data.merNoBankList || []
-          if (!this.bankList[0]) {
-            this.type = 3
+          // if (!this.bankList[0]) {
+          this.type = 3
             // console.log
-            if (this.epay[0]) this.selectBank = this.epay[0].more[this.radioIndex || 0].channelCodes[0]
-          } else return false
+          if (this.epay[0]) this.selectBank = this.epay[0].more[this.radioIndex || 0].channelCodes[0]
+          // } else return false
           if (!this.epay[0]) this.type = 2
           // this.max = data.max
           // this.min = data.min
@@ -763,15 +777,17 @@ export default {
         text: '充值申请中...',
         target: this.$el
       }, 10000, '充值申请超时...')
-      this.$http.get(api.commit, {
+      this.$http.post(api.commit, {
         chanType: 'web',
-        saveType: Math.min(this.type, 1),
+        saveType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].saveType : '',
         merType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tongdCode : '',
         bankCode: this.selectBank.bankCode,
-        amount: this.amount
+        amount: this.amount,
+        cardName: this.name
       }).then(({data}) => {
         if (data.success === 1) {
-          if (this.type === 0) {
+          // if (this.type === 0) {
+          if (this.type >= 3 && (this.epay[this.type - 3].title === '网银转帐' || this.epay[this.type - 3].title === '支付宝转帐')) {
             data = data.msg
             this.dataXamount = data.amount
             this.dataXbankName = data.bankName
@@ -781,6 +797,10 @@ export default {
             this.dataXappendix = data.appendix
             this.dataXnow = true
             this.Phref[0] = data.payUrl
+            if (this.epay[this.type - 3].title === '支付宝转帐') {
+              console.log()
+              this.Pbtn = ['进入支付宝']
+            } else this.Pbtn = ['进入网上银行']
             // 在线充值 附言
             // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
             //  '<p>银行信息：' + data.bankName + '' + '</p>' +
@@ -797,7 +817,7 @@ export default {
             //   },
             //   O: this
             // })
-          } else if (Math.min(this.type, 1) === 1) {
+          } else if (data.payUrl || data.msg) {
             // 第三方充值
             // 第三方充值 二维码支付
             if (data.payUrl) {
@@ -841,6 +861,7 @@ export default {
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
       if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
       if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
+      if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转帐' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
       this.commit()
     }
     // 在线充值*************

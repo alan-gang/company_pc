@@ -155,7 +155,8 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .form-filters
-    background-image: linear-gradient(0deg, #ffffff 0%, #fffae5 100%)
+    background-image: linear-gradient(0deg, #ffffff 0%, #ffffff 80%, #fffae5 100%)
+
     
   .stock-list
     top TH

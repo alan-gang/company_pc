@@ -26,6 +26,7 @@ import KL8 from './game/KL8'
 import K3 from './game/K3'
 import LHG from './game/LHG'
 import HC6 from './game/HC6'
+import IFRAME from './game/IFRAME'
 
 // me
 import Me from './me/Me'
@@ -67,7 +68,7 @@ import BGFishRecord from './form/BGFishRecord'
 import BGGameRecord from './form/BGGameRecord'
 import BGVedioRecord from './form/BGVedioRecord'
 // 趋势图
-import TrendChart from './form/TrendChart'
+// import TrendChart from './form/TrendChart'
 
 // 帮助中心
 import PlayHelp from './help/PlayHelp'
@@ -111,6 +112,7 @@ export default {
     K3,
     LHG,
     HC6,
+    IFRAME,
     // me
     Me,
     SafeCenter,
@@ -149,7 +151,7 @@ export default {
     BGGameRecord,
     BGVedioRecord,
     // 走势图
-    TrendChart,
+    // TrendChart,
     // Help
     PlayHelp,
     FunctionHelp,

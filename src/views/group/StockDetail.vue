@@ -117,7 +117,7 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.stock = (this.self && this.me.role <= 2) ? data.topDetailList : data
+            this.stock = data
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -148,7 +148,7 @@
           },
           close () {
             if (modal.btn[0] === '已发放') {
-              this.qryBonusById(this.$route.query.id || '')
+              this.qryBonusById(this.id || '')
               this.__setCall({fn: '__bonus', callId: undefined})
             }
           }
@@ -182,7 +182,7 @@
           },
           close () {
             if (modal.btn[0] === '已发放') {
-              this.qryBonusById(this.$route.query.id || '')
+              this.qryBonusById(this.id || '')
               this.__setCall({fn: '__bonus', callId: undefined})
             }
           }

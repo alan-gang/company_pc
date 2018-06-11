@@ -67,14 +67,14 @@
                   span {{ numberWithCommas(scope.row.speBalance) }}
 
 
-          el-table-column.pl1( prop="registerTime" label="注册时间" align="center" show-overflow-tooltip)
+          el-table-column.pl1(class-name=" pl2"  prop="registerTime" label="注册时间" show-overflow-tooltip min-width="100" align="center")
             template(scope="scope")
               el-popover(v-bind:popper-class=" 'table-popover' " trigger="hover" placement="top")
                 span(slot="reference") {{ scope.row.registerTime.split(' ')[0] }}
                 slot
                   span {{ scope.row.registerTime }}
 
-          el-table-column.pl1(class-name=" pl2 pr1" prop="lastTime" label="最后登录时间" )
+          el-table-column.pl1(prop="lastTime" label="最后登录时间" min-width="100")
             template(scope="scope")
               el-popover(v-bind:popper-class=" 'table-popover' " trigger="hover" placement="top")
                 span(slot="reference") {{ scope.row.lastTime.split(' ')[0] }}

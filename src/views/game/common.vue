@@ -496,7 +496,7 @@ export default {
           //   this.ns.splice(i, 1)
           // })
           loading.text = data.msg || '投注失败！'
-          this.$modal.warn({
+          !data.msg && this.$modal.warn({
             target: this.$el,
             content: data.msg || '投注失败！',
             btn: ['确定']

@@ -1,13 +1,13 @@
 <template lang="jade">
-  section.new-home
+  section.new-home(@scroll="scrollHander")
     Me(:menus="menus" v-on:open-page="openTab")
     
-    MyMenu(:menus="menus.slice(0, 10)" v-on:open-page="openTab")
+    MyMenu(:menus="menus.slice(0, 11)" v-on:open-page="openTab")
 
     // el-carousel(:interval="4000" type="card" height="450px")
       el-carousel-item(v-for="item in sources" v-bind:key="item" v-bind:style="{ ba }")
         img(:src=" item.src ")
-    img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem")
+    img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem; cursor: pointer;" @click="__setCall({fn: '__openWindowWithPost', args: '3:301:iframe'})")
     
     .our-game.content-width
 
@@ -52,17 +52,34 @@
     
     router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
     
-
+    // Pages.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
+    
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")
       input(type="hidden" name="data" value="")
       input(type="hidden" name="version" value="")
       input(type="hidden" name="id" value="")
 
+    
+    iframe(:src="ifsrc" v-if="sports" style="width: 10rem;margin: 0 auto; border: none; height: 100%; position: absolute; top: 1.04rem" @load="ssports = true" v-show="ssports")
+    
+    .modal(v-if="false" )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="max-width: 12rem; width: 12rem; max-height: 8rem;")
+          .tool-bar
+            span.title 沙巴体育
+            el-button-group
+              el-button.close(icon="close" @click="ifsrc = ''")
+            
+          iframe(:src="ifsrc" v-if="ifsrc" style="width: 100%;margin: 0; border: none; height: 7.5rem")
+
+
 </template>
 
 <script>
 import base from 'components/base'
+// import Pages from './Pages'
 import api from '../http/api'
 import store from '../store'
 import Guide from './Guide'
@@ -106,7 +123,9 @@ export default {
         // vrurl: ''
       },
       ns: [1, 2, 3, 4, 5],
-      timeout: 0
+      timeout: 0,
+      ifsrc: '',
+      sports: false
     }
   },
   computed: {
@@ -115,6 +134,15 @@ export default {
     }
   },
   watch: {
+    '$route' ({path, query: {sports}}) {
+      if (sports && path === '/') {
+        this.sports = true
+        this.ssports = true
+      } else {
+        this.sports = false
+        this.ssports = false
+      }
+    }
   },
   mounted () {
     this.__recentlyCode()
@@ -131,6 +159,13 @@ export default {
     this.timeout = 0
   },
   methods: {
+    scrollHander (evt) {
+      this.lefter = this.lefter || document.getElementsByClassName('lefter')[0]
+      if (this.lefter) {
+        this.lefter.style.transition = 'transform linear 0s'
+        this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
+      }
+    },
     pricePot () {
       this.$http.get(api.pricePot).then(({data}) => {
         if (data.success === 1) {
@@ -177,7 +212,7 @@ export default {
       })
     },
     openExternal (fn) {
-      if (fn > 200) return this.openBG(fn)
+      if (fn.split(':')[1] > 200) return this.openBG(fn)
       // this.formData = {}
       this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
         //
@@ -194,10 +229,12 @@ export default {
       })
     },
     openBG (fn) {
+      if (fn.split(':')[2] === 'iframe') this.$router.push('/game/1-8-1')
       // this.formData = {}
-      this.$http.get(api.gameUrl, {gameid: fn || 201}).then(({data}) => {
+      this.$http.get(api.gameUrl, {gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0]}).then(({data}) => {
         //
         if (data.success) {
+          // data.url && (data.url.iframe = true)
           this.formData[fn] = data.url
           this.__openWindowWithPost(fn)
         }
@@ -222,7 +259,16 @@ export default {
       f.submit()
     },
     __openWindowWithPost (fn) {
-      if (typeof this.formData[fn] === 'string') return window.open(this.formData[fn])
+      if (typeof this.formData[fn] === 'string') {
+        if (fn.split(':')[2] === 'iframe') {
+          this.ifsrc = this.formData[fn]
+          this.formData[fn] = undefined
+          // this.$router.push('/game/1-8-1')
+          this.__setCall({fn: '__setIframeSrc', args: this.ifsrc})
+          return false
+        }
+        return window.open(this.formData[fn])
+      }
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     }
   },
@@ -406,6 +452,4 @@ export default {
     background-color rgba(0, 0, 0, .3)
     
 </style>
-
-
 

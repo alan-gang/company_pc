@@ -90,7 +90,7 @@
   .play-help
     top TH
     text-align center
-    padding PWX 0
+    padding PWX
     .ds-button-group
       position absolute
       top 1.2rem
@@ -105,7 +105,7 @@
       text-align left
       // height auto
     .content
-      margin 0 PWX PWX PWX
+      // margin 0 PWX PWX PWX
       text-align left
       font-size .12rem
       .title

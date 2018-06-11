@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     gg () {
-      return this.gameList.filter(x => x.lotteryId === this.game)[0] || {}
+      return this.gameList.filter(x => String(x.lotteryId) === String(this.game))[0] || {}
     },
     PS () {
       return this.PPS.slice(0, this.pl)
@@ -246,7 +246,7 @@ export default {
       !((this.W > 900) === (window.document.body.clientHeight > 900)) && this.draw((window.document.body.clientHeight > 900 ? 1 : 0.9))
     })
     this.getLotterys()
-    this.$route.query.gameid && (this.game = this.$route.query.gameid)
+    this.$route.query.gameid && (this.game = parseInt(this.$route.query.gameid))
   },
   methods: {
     draw (x) {
@@ -281,7 +281,7 @@ export default {
       })
     },
     openRoute ({path, query: {gameid}}) {
-      if (path !== '/form/4-5-3') return false
+      // if (path !== '/form/4-5-3') return false
       if (gameid) {
         this.game = gameid
         // TODO update data
@@ -296,14 +296,14 @@ export default {
         if (data.success === 1) {
           data.lotteryList.forEach(d => {
             d.class = (store.state.pages.find(p => p.gameid === d.lotteryId) || {}).class
-            if (this.gameid && (this.gameid + '') === (d.lotteryId + '')) {
-              this.game = d
-            }
+            // if (this.game && (this.game + '') === (d.lotteryId + '')) {
+              // this.gg = d
+            // }
           })
           this.gameList = data.lotteryList
-          if (!this.game) {
-            this.game = this.gameList[0]
-          }
+          // if (!this.game) {
+          //   this.gg = this.gameList[0]
+          // }
         }
       }, (rep) => {
         // error

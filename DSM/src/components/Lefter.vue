@@ -13,6 +13,11 @@ export default {
     return {
     }
   },
+  watch: {
+    menus () {
+      this.$el.style.transform = ''
+    }
+  },
   methods: {
     logout () {
       this.$emit('logout')

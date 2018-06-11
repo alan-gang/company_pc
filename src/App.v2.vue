@@ -241,7 +241,8 @@ export default {
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 // {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
                 // {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
-                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
+                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
+                {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             }
             // {
@@ -272,21 +273,28 @@ export default {
         },
         {
           menuid: '98',
+          title: '体育竞技',
+          big: true,
+          // hide: true,
+          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '2018世界杯激情来袭', fn: '3:301:iframe'}
+        },
+        {
+          menuid: '98',
           title: '真人娱乐',
           big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg1 ', id: '9-9-9', title: 'BG真人娱乐大厅', descrb: '真人娱乐场，美女如云', fn: 201}
+          info: {menuid: '98', class: 'ds-icon-game-bg1 ', id: '9-9-9', title: 'BG真人娱乐大厅', descrb: '真人娱乐场，美女如云', fn: '2:201'}
         },
         {
           menuid: '98',
           title: '电子游戏',
           big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg2 ', id: '9-9-9', title: '电子游戏', descrb: '经典游戏，火热开奖', fn: 203}
+          info: {menuid: '98', class: 'ds-icon-game-bg2 ', id: '9-9-9', title: '电子游戏', descrb: '经典游戏，火热开奖', fn: '2:203'}
         },
         {
           menuid: '98',
           title: '捕鱼达人',
           big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀', fn: 202}
+          info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀', fn: '2:202'}
         },
         {
           id: 2,
@@ -298,6 +306,7 @@ export default {
             {
               id: '2-1',
               title: '个人中心',
+              innerurl: 'me',
               items: [
                 {
                   id: '2-1-1',
@@ -346,6 +355,7 @@ export default {
             {
               id: '3-1',
               title: '团队管理',
+              innerurl: 'group',
               items: [
                 {
                   id: '3-1-1',
@@ -412,6 +422,7 @@ export default {
             {
               id: '4-1',
               title: '报表管理',
+              innerurl: 'form',
               items: [
                 {
                   id: '4-1-1',
@@ -976,7 +987,7 @@ export default {
           if (this.mi === 6) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[7 + 4], this.menus[8 + 4], this.menus[9 + 4], this.menus[10 + 4], this.menus[11 + 4]]
+            this.activeMenu = [this.menus[8 + 4], this.menus[9 + 4], this.menus[10 + 4], this.menus[11 + 4], this.menus[12 + 4]]
           }
         }
       }, this.mi ? 0 : 0)
@@ -1200,7 +1211,7 @@ export default {
               defaultSize: m.size || i.size || g.size || '',
               size: m.size || i.size || g.size || '',
               url: g.url || '',
-              href: i.href || ('/' + m.url + '/' + i.id),
+              href: i.href || ('/' + (g.innerurl || m.url) + '/' + i.id),
               // class: g.class || '',
               menuClass: g.class || m.class
               // can't be star

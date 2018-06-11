@@ -6,7 +6,7 @@ export default {
     return {
       idt: 12,
       // to: '/me/2-5-1',
-      src: '/static/activity/activity12.jpg',
+      src: '/static/activity/activity12.png',
       bg: '#e3384a',
       myClass: 'content-shadow'
     }

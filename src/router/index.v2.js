@@ -137,6 +137,10 @@ export default function (VueRoter) {
         ]
       },
       {
+        path: '/trend',
+        component: require('../views/form/TrendChart')
+      },
+      {
         path: '*',
         redirect: '/'
       }
@@ -152,6 +156,17 @@ export default function (VueRoter) {
   let t = 0
   // 匹配前
   router.beforeEach((to, from, next) => {
+    // login or not go to the page
+    if (to.path.startsWith('/form/4-5-3')) {
+      console.log(to)
+      if (from && from.path.startsWith('/game')) {
+        window.open(window.location.origin + '#' + to.fullPath)
+        // console.log(window.location.origin + '#' + to.fullPath)
+        return next(false)
+      }
+      next({path: '/trend?gameid=' + to.query.gameid})
+      return next()
+    }
     // console.log('game,me,group,form,activity,help,download'.indexOf(to.path.split('/')[1]) === -1, to.path, '????????')
     // router.app.$Progress.start()
     t = setTimeout(() => {

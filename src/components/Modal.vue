@@ -62,7 +62,8 @@
           question: ['success', 'cancel'],
           warn: ['danger', 'cancel'],
           success: ['success', 'cancel'],
-          redpocket: ['gold', 'cancel']
+          redpocket: ['gold', 'cancel'],
+          info: ['primary', 'cancel']
         },
         boxStyle: {
           width: '4.2rem'

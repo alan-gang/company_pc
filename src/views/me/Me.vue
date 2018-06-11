@@ -6,6 +6,7 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content
+
       .s(style="padding: PWX 0")
         .c
           br
@@ -24,6 +25,12 @@
             // span.text-666 元
         .c
           br
+          p 体育帐户
+          p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
+            // span.text-666 元
+
+        .c
+          br
           p 优惠券
           p.amount.text-black {{ numberWithCommas(ME.free) }}
             // span.text-666 元
@@ -37,7 +44,9 @@
           p 可用余额：
             span.text-blue {{ numberWithCommas(fm) }}
             | 元
-            span.switch(v-if="showSwitch" @click=" switchs ")
+            span.switch-box
+              span.switch(v-if="showSwitch" @click=" switchs ")
+              span.refresh(@click=" refresh ")
         
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
@@ -57,7 +66,7 @@
             input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
-            .ds-button.primary.full(@click="ok") 确认
+            button.ds-button.primary.full(@click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
 
             
 
@@ -78,10 +87,11 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户'],
       t: '',
       m: '',
-      cpwd: ''
+      cpwd: '',
+      btn: false
     }
   },
   computed: {
@@ -93,15 +103,19 @@ export default {
           return this.ME.smoney
         case 2:
           return this.ME.bgmoney
+        case 3:
+          return this.ME.tcgmoney
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return this.ME.bgmoney
+          return !this.t ? this.ME.bgmoney : this.ME.tcgmoney
         case 1:
           return this.ME.amoney
         case 2:
+          return this.ME.amoney
+        case 3:
           return this.ME.amoney
       }
     },
@@ -113,13 +127,15 @@ export default {
           return this.froms.slice(0, 1)
         case 2:
           return this.froms.slice(0, 1)
+        case 3:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -145,8 +161,13 @@ export default {
     // this.__setCall({fn: '__getUserFund', args: undefined})
   },
   methods: {
+    refresh () {
+      this.__setCall({fn: '__getUserFund', args: undefined})
+      this.getBalance()
+    },
     switchs () {
-      if (this.f === 0) this.f = 2
+      if (this.f === 0 && this.t === 0) this.f = 2
+      else if (this.f === 0 && this.t === 1) this.f = 3
       else this.f = 0
     },
     ok () {
@@ -156,7 +177,8 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.amount || 0})
+          store.actions.setUser({bgmoney: data.bgAmount || 0})
+          store.actions.setUser({tcgmoney: data.sportsAmount || 0})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
@@ -185,17 +207,27 @@ export default {
       if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
       if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
-      this.$http.get(this.bgAPI, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
+      this.btn = true
+      let t = setTimeout(() => {
+        if (this.btn) this.btn = false
+      }, 10000)
+      this.$message.success({target: this.$el, message: (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$http.get(this.bgAPI, {amount: this.m, securityPwd: this.cpwd, platid: Math.max(this.f, this.t + 2)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
           this.m = ''
-          this.$message.success({target: this.$el, message: data.msg || 'BG余额转换成功！'})
-          this.getBalance()
+          setTimeout(this.getBalance, 1000)
+          this.__setCall({fn: '__getUserFund', args: undefined})
+          // this.getBalance()
         } else {
-          this.$message.error({target: this.$el, message: data.msg || 'BG余额转换失败！'})
+          // this.$message.error({target: this.$el, message: data.msg || (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
         }
       }).catch(rep => {
-        this.$message.error({target: this.$el, message: 'BG余额转换失败！'})
+        // this.$message.error({target: this.$el, message: (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
+      }).finally(() => {
+        this.btn = false
+        clearTimeout(t)
+        t = 0
       })
     }
   },
@@ -220,6 +252,8 @@ export default {
       padding 1.2rem  .2rem .3rem .2rem
       font-size .18rem
       vertical-align top
+      @media screen and (max-width: 1500px)
+        width 1.5rem
       .amount
         color BLUE
         font-size .2rem
@@ -237,8 +271,11 @@ export default {
         background url(../../assets/v2/qb_icon_02.png) center .25rem no-repeat
 
       &:nth-child(4)
+        background url(../../assets/v2/qb_icon_04.png) center .25rem no-repeat
+
+      &:nth-child(5)
         background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
- 
+    
     .cc
       max-width 3.1rem
       margin 0 auto
@@ -255,17 +292,34 @@ export default {
         line-height .3rem
         position relative
         margin-bottom .1rem
-      .switch
+
+      .switch-box
         position absolute
-        right -.5rem
+        left 100%
         top -.03rem
+        width 1rem
+        text-align left
+      .switch
+        display inline-block
         width .4rem
         height .4rem
         background url(../../assets/v2/qb_icon_01.png) center center no-repeat #f3f3f3
         border 1px solid rgba(0,0,0,0)
         cursor pointer
+        margin-right .1rem
         &:hover
           border 1px solid BLUE
+
+      .refresh
+        display inline-block
+        width .4rem
+        height .4rem
+        background url(../../assets/v2/refresh.png) center center no-repeat #f3f3f3
+        border 1px solid rgba(0,0,0,0)
+        cursor pointer
+        &:hover
+          border 1px solid BLUE
+
 
 
 

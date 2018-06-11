@@ -113,6 +113,9 @@
           o[n.split(':')[0]] = !this.sl ? true : (this.numbers.length * (parseFloat(n.split(':')[1]) || 0)) < this.sl
         })
         return o
+      },
+      EVEN () {
+        return this.numbers.length % 2 === 0 ? 0 : 1
       }
     },
     watch: {
@@ -331,10 +334,10 @@
         if (!this.row.buttons) return -1
         if (this.ns.length === 0) return this.row.buttons.length - 1
         if (this.ns.length === this.numbers.length) return 0
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) >= this.numbers.length)) return 1
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (2 * n + 1) < this.numbers.length)) return 2
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) !== 0)) return 3
-        if (this.ns.length === this.numbers.length / 2 && this.ns.every(n => (n % 2) === 0)) return 4
+        if (this.ns.length === Math.ceil(this.numbers.length / 2) && this.ns.every(n => (2 * n + 1) >= this.numbers.length)) return 1
+        if (this.ns.length === Math.floor(this.numbers.length / 2) && this.ns.every(n => (2 * n + 1) <= this.numbers.length)) return 2
+        if (this.ns.length === Math.ceil(this.numbers.length / 2) && this.ns.every(n => (n % 2) !== 0)) return 3
+        if (this.ns.length === Math.floor(this.numbers.length / 2) && this.ns.every(n => (n % 2) === 0)) return 4
         if (this.ns.length === this.numbers.filter(n => isPrime(n.value)).length && this.ns.every(n => isPrime(n))) return 5
         if (this.ns.length === this.numbers.filter(n => (n.value > 1) && !isPrime(n.value)).length && this.ns.every(n => (n > 1) && !isPrime(n))) return 6
         return -1

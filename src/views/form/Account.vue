@@ -66,7 +66,7 @@
               span(v-if="!scope.row.last") {{ scope.row.userName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
           
-          el-table-column(prop="times" label="时间" )
+          el-table-column(prop="times" label="时间" min-width="120")
 
           el-table-column(prop="orderType" label="类型"  )
 

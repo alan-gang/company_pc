@@ -50,7 +50,7 @@
     el-row.content-width
       el-col.l(:span="10")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
-        router-link.text-button(:to="m.defaultUrl" v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
+        router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         
       el-col.r(:span="14")
         // Menus(:menus="menus")
@@ -143,11 +143,11 @@ export default {
   computed: {
     // apply on Me.vue left menu
     meLeftMenu () {
-      return [this.menus[14], this.menus[15], this.menus[16]]
+      return [this.menus[15], this.menus[16], this.menus[17]]
     },
     // apply on Me.vue right menu
     meRightMenu () {
-      return [this.menus[10]]
+      return [this.menus[11]]
     },
     bgAPI () {
       return [api.withdrawFromBG, api.transferToBG][this.bg]
@@ -264,7 +264,15 @@ export default {
       })
     },
     logout () {
-      this.__setCall({fn: '__logout', args: undefined})
+      this.$modal.info({
+        content: '您确认要退出吗？',
+        btn: ['确定', '再玩一会'],
+        btnClass: {info: ['cancel', 'primary']},
+        ok () {
+          this.__setCall({fn: '__logout', args: undefined})
+        },
+        O: this
+      })
     }
   }
 }

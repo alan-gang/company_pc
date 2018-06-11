@@ -24,4 +24,8 @@ export default {
     text-align center
     color rgba(255, 255, 255, .5)
     font-size .12rem
+    @media screen and (max-width: 1000px)
+      position relative
+    @media screen and (max-height: 800px)
+      position relative
 </style>

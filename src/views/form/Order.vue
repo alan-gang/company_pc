@@ -47,14 +47,14 @@
 
           el-table-column(prop="userName" label="用户")
           
-          el-table-column(prop="writeTime" label="投注时间")
+          el-table-column(prop="writeTime" label="投注时间" min-width="120")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.writeTime }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
 
           el-table-column(prop="lotteryName" label="游戏")
 
-          el-table-column(prop="methodName" label="玩法")
+          el-table-column(prop="methodName" label="玩法" min-width="120")
             template(scope="scope")
               div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 

@@ -39,7 +39,7 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
       
-        el-table.header-bold.nopadding(:data="data" stripe show-summary v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH " )
+        el-table.header-bold.nopadding(:data="data" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH " )
 
           el-table-column(class-name="pl2" prop="userName" label="用户名" )
             template(scope="scope")
@@ -200,7 +200,7 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [(new Date().getDate()) <= 16 ? (new Date().setDate(1)) : (new Date().setDate(16)), new Date(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24).getDate() < 16 ? ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(1)) : ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(16)), new Date(new Date().getTime() - 3600 * 1000 * 24)],
         data: [{}],
         pageSize: 20,
         total: 0,

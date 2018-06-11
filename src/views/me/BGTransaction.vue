@@ -77,11 +77,11 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        froms: ['主帐户', '特殊帐户', '', 'BG帐户'],
+        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户'],
         f: '',
         t: '',
-        S: ['处理中', '成功', '失败'],
-        SC: ['text-blue', 'text-green', 'text-danger'],
+        S: ['失败', '成功', '处理中'],
+        SC: ['text-danger', 'text-green', 'text-blue'],
         s: ''
       }
     },

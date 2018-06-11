@@ -3,6 +3,10 @@
 #app.classic .dialog-page.game-page .game-info,
 #app.classic .dialog-page.game-page
   min-width 10.8rem !important
+
+#app.v2 > .trend-chart-page
+  top 0
+  background-color #ededed
   
 #app.night.v2 .dialog-page .game-selection .title span
   background none
@@ -169,10 +173,14 @@ H = 1.04rem
     left 0.5*H
     right 0.8*H
     bottom H !important
+    @media screen and (max-height: 900px)
+      top .3rem
+      bottom .3rem !important
     .dialog-page
       radius(0)
       top .1rem !important
       shadow(none)
+      
       
 
 #app.classic.v2 .righter
@@ -197,6 +205,9 @@ H = 1.04rem
   left 0.5*H
   color #666
   background-color #d0d0d0
+  @media screen and (max-height: 900px)
+    top .3rem
+    bottom .3rem !important
   .el-menu
     padding-left 0
     padding-right 0
@@ -229,14 +240,14 @@ H = 1.04rem
       &:hover
         color BLUE
         background-color #fff
-      &.is-active
+      &.is-active:not(.notis-active)
         // color BLUE
         // background-color rgba(0, 0, 0, 0)
         color #fff
         background-color BLUE
         &:before
           background-color BLUE
-        
+
     .el-menu-item-group
         // background-color rgba(0, 0, 0, .3)
     
@@ -432,8 +443,8 @@ body
         &:not(.game-K3)
           & > .left
             top 0
-            height .14rem
-            line-height .14rem
+            height .17rem
+            line-height .17rem
         
         // &.long
         //   & > .left
@@ -467,7 +478,7 @@ body
             vertical-align middle
             top 0
           .number
-            color #ccc
+            color GOLD
             background: none !important
             // border 1px solid #ccc
   
@@ -538,7 +549,8 @@ body
       background-color rgba(0,0,0, 0)
       box-shadow 3.65rem 0 rgba(137, 137, 137, .5) inset, -3rem 0 rgba(137, 137, 137, .5) inset
       .game-luck-number-history .NPER
-        color GOLD
+        color #ccc
+        letter-spacing 3px
       &>.el-col-24
         &>:nth-child(1)
           &>:nth-child(3)
