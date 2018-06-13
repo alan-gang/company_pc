@@ -150,7 +150,8 @@ export default {
                 {id: '5-2-10', position: {width: '7.6rem'}, title: '日工资扶持', url: 'Salary'},
                 {id: '5-2-11', position: {width: '7.6rem'}, title: '六合彩专属', url: 'HC6E'},
                 {id: '5-2-12', position: {width: '7.6rem'}, title: '迎新春闯关', url: 'NewYear'},
-                {id: '5-2-13', position: {width: '7.6rem'}, title: '全新日工资', url: 'NewSalary'}
+                {id: '5-2-13', position: {width: '7.6rem'}, title: '全新日工资', url: 'NewSalary'},
+                {id: '5-2-14', position: {width: '7.6rem'}, title: '助力世界杯', url: 'WorldCup'}
               ]
             }
           ]

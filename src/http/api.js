@@ -579,6 +579,9 @@ let Activity = {
   // 充值活动
   // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
   doSave: '/activity.do?method=doSave',
+  // 助力世界杯
+  // http://192.168.169.44:9901/cagamesclient/activity.do?method=doWorldCup
+  doWorldCup: '/activity.do?method=doWorldCup',
   // 日工资
   // /activity.do?method=getSalary
   getSalary: '/activity.do?method=getSalary',

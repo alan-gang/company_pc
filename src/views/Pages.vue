@@ -96,6 +96,7 @@ import Salary from './activity/Salary'
 import HC6E from './activity/HC6E'
 import NewYear from './activity/NewYear'
 import NewSalary from './activity/NewSalary'
+import WorldCup from './activity/WorldCup'
 // 下载
 import Download from './download/Download'
 
@@ -176,6 +177,7 @@ export default {
     HC6E,
     NewYear,
     NewSalary,
+    WorldCup,
     // 下载
     Download
   },
@@ -694,7 +696,7 @@ export default {
       content ''
       position absolute
       top .36rem
-      left 0 
+      left 0
       right 0
       bottom 0
       background-color #ededed
@@ -705,13 +707,13 @@ export default {
       background rgba(0,0,0,0)
       .title
         display none
-      .el-button-group 
+      .el-button-group
         background-color #668ccb
         .el-button
           color WHITE
-          .full 
+          .full
             border-color WHITE
-          
+
           &:hover
             background-color rgba(255, 255, 255, .2)
             color WHITE
@@ -719,8 +721,8 @@ export default {
               border-color WHITE
             &.close
               background-color DANGER
-          
-      
+
+
   @media(max-width: 1024px)
     .page .dialog-page
       top 0 !important
@@ -758,7 +760,7 @@ export default {
   //       display none !important
   //     .amout-bar
   //       position relative !important
-      
+
   //     // max-width 1024px !important
   //   .dialog-page ~ .dialog-page
   //     display none
@@ -779,7 +781,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '../var.stylus'
-  .cover 
+  .cover
     position absolute
     left 0
     right 0
@@ -813,8 +815,8 @@ export default {
       height 200rem
       top -100rem
       left -100rem
-      
-      
+
+
   .resize-x
     user-select none
     position absolute
@@ -832,8 +834,8 @@ export default {
       height 200rem
       left -100rem
       top -100rem
-      
-  
+
+
   .resize-y
     user-select none
     position absolute
@@ -851,7 +853,7 @@ export default {
       height 200rem
       top -100rem
       left -100rem
-      
+
   .page
     overflow hidden
     perspective 100px
@@ -887,10 +889,10 @@ export default {
     &.active
       transform none
       // shadow(0 0 .1rem .1rem #fff)
-      
+
       // transition-duration .5s
       z-index 9999 !important
-      
+
     &[class*=-enter]
     &[class*=-leave]
     // [class*=-move]
@@ -903,15 +905,15 @@ export default {
       opacity .2
       transform perspective(100px) translateZ(-1000px)
       // shadow(0 0 5rem 5rem #333)
-    
+
 
     &[adjusting]
       z-index 2
       // shadow(0 0 5rem 2rem #333)
-    
+
     &.minus
       // shadow(0 0 5rem 2rem #333)
-    
+
     &.full
       // shadow(0 0 5rem 2rem #333)
       radius(0)
@@ -921,8 +923,8 @@ export default {
           height TH
           top 0
           z-index 0
-    
-      
+
+
 </style>
 
 

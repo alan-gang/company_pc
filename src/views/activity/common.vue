@@ -33,6 +33,20 @@
             el-col(:span="6" style="text-align: right") {{ l.expandPrize }}
             el-col(:span="6" style="text-align: right") {{ l.maxPrize }}
 
+        .list(v-if="list14 && list14[0]" )
+
+          el-row.list-title
+            el-col(:span="6") {{ '用户组' }}
+            el-col(:span="6") {{ '返点' }}
+            el-col(:span="6" style="text-align: left") {{ '团队周投注额' }}
+            el-col(:span="6" style="text-align: left") {{ '周返点举例' }}
+
+          el-row.list-item(v-for=" l in list14 " )
+            el-col(:span="6") {{ l.level }}
+            el-col(:span="6") {{ l.minSaveAmount + '%' }}
+            el-col(:span="6" style="text-align: left") {{ l.buyAmount + '万' }}
+            el-col(:span="6" style="text-align: left") {{ l.prizeAmount + '元' }}
+
         .list(v-if="list && list[0]" )
 
           el-row.list-title
@@ -94,10 +108,11 @@ export default {
       expand: [],
       list9: [],
       list13: [],
-      th1: ['maxSaveAmount:首存金额', 'buyAmount:当日销量', 'level:关卡'],
-      th2: ['prizeAmount:现金礼包', 'prizeAmount:销量返利（元）', 'buyAmount:投注量要求'],
-      th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励'],
-      th4: ['expandName:团队日量要求', 'expandPrize:团队活跃用户', 'expandValue:日工资比例', 'maxPrize:工资上限']
+      list14: [],
+      th1: ['maxSaveAmount:首存金额', 'buyAmount:当日销量', 'level:关卡', '', 'level:用户组'],
+      th2: ['prizeAmount:现金礼包', 'prizeAmount:销量返利（元）', 'buyAmount:投注量要求', '', 'minSaveAmount:返点'],
+      th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励', '', 'buyAmount:团队周投注额（单位万'],
+      th4: ['expandName:团队日量要求', 'expandPrize:团队活跃用户', 'expandValue:日工资比例', 'maxPrize:工资上限', 'prizeAmount:周返点（单位元)']
     }
   },
   computed: {
@@ -146,16 +161,22 @@ export default {
       this.$http.get(api.getActivityDetail, {entry: this.id}).then(({data}) => {
         // success
         if (data.success === 1) {
-          if (String(this.idt) === String(13)) {
-            this.list13 = data.expand
-            data.expand = []
-          }
           this.enable = data.enable
           this.st = data.beginDate
           this.et = data.endDate
           this.content = data.content
           this.rule = data.ruleDesc
-          if (String(this.idt) === String(9)) {
+          this.list = []
+          this.list14 = []
+          this.list13 = []
+          this.list9 = []
+          if (String(this.idt) === String(14)) {
+            this.list14 = data.saveDetail || []
+            data.expand = []
+          } else if (String(this.idt) === String(13)) {
+            this.list13 = data.expand
+            data.expand = []
+          } else if (String(this.idt) === String(9)) {
             this.list9 = data.saveDetail || []
           } else {
             this.list = data.saveDetail || []

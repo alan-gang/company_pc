@@ -10,9 +10,9 @@
         .ds-button-group
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 礼品中心
           .ds-button.text-button(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 已领取的礼品
-      
+
       .empty(v-if=" tabIndex === 1 && tickets.length === 0 " style="padding: .15rem") 暂无可领取的礼品
-      
+
       .gift-list(v-if="tabIndex === 1")
 
 
@@ -29,16 +29,16 @@
           div(v-if="t.activityType === 3")
             .ds-button(@click="checkinNow(t)" v-if="!t.get" v-bind:class="{ primary: t.enable === '1', 'cancel disabled': t.enable !== '1' }") 签到
               p.error.text-ellipsis(v-if="t.msg") ({{ t.msg }})
-              p.days(v-if="t.isContinue === '1' ") 已连续签到 
+              p.days(v-if="t.isContinue === '1' ") 已连续签到
                 span {{ t.days }} 天
             .ds-button.cancel.disabled(v-if="t.get") 已签到
 
       .table-list(style="padding: .15rem .2rem; max-width: 8rem; margin: 0 auto; " v-if="tabIndex === 2")
-    
+
         el-table.header-bold.margin(:data="data" stripe v-bind:row-class-name="tableRowClassName" )
 
           el-table-column(prop="cnname" label="礼品" align="left")
-            template(scope="scope") 
+            template(scope="scope")
               div.ds-icon-activity-ticket.small(style="line-height: 2.5") {{ scope.row.amount + (scope.row.isFree ? '元优惠券' : '元礼金') }}
                 br
                 | {{ scope.row.activityName }}
@@ -50,10 +50,10 @@
           el-table-column(width="20")
 
           el-table-column(label="状态" width="80" align="left")
-            template(scope="scope") 
+            template(scope="scope")
               span.text-green {{ '已领取' }}
 
-    
+
 </template>
 
 <script>
@@ -67,7 +67,7 @@ export default {
       ticketType: ['ds-icon-activity-ticket', 'ds-icon-activity-coin'],
       tickets: [],
       data: [],
-      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary, api.getRewardSalary, api.getRewardSalary, api.getDayReward]
+      actions: [api.doRegist, api.doProfile, api.doCheckIn, api.doFirstSave, api.doFirstWithdraw, api.doSave, api.getSalary, '', '', api.getRewardSalary, api.getRewardSalary, api.getRewardSalary, api.getDayReward, api.doWorldCup]
     }
   },
   watch: {
@@ -119,6 +119,9 @@ export default {
     // // 充值活动
     // // http://192.168.169.44:9901/cagamesclient/activity.do?method=doSave
     // doSave: '/activity.do?method=doSave',
+    // // 助力世界杯
+    // http://192.168.169.44:9901/cagamesclient/activity.do?method=doWorldCup
+    // doWorldCup: '/activity.do?method=doWorldCup',
     getNow (t) {
       if (!this.actions[t.activityType - 1]) return
       this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
@@ -183,7 +186,7 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  
+
   .gift-center
     top TH
     padding PWX .1rem
@@ -241,7 +244,7 @@ export default {
         text-align center
         width 1.2rem
         // background-image url(../../assets/activity/line.png)
-        // background-position left center 
+        // background-position left center
         // background-repeat no-repeat
         box-shadow none
         background-size 10px 10px

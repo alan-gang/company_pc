@@ -13,7 +13,7 @@
 
       .empty(v-if=" activities.length === 0 " style="padding: .15rem") 活动列表空空如也
 
-    
+
 </template>
 
 <script>
@@ -36,7 +36,8 @@
           {href: '/activity/5-2-10', src: '/static/activity/activity10.jpg', title: '直属总代日工资增加1w20', describe: '开业活动：直属总代日工资增加1w2'},
           {href: '/activity/5-2-11', src: '/static/activity/activity11.jpg', title: '六合彩专属活动', describe: '六合彩专属鸿运金！投注就送20000'},
           {href: '/activity/5-2-12', src: '/static/activity/activity12.png', title: '迎新春闯关活动', describe: '天天信游 全民闯关'},
-          {href: '/activity/5-2-13', src: '/static/activity/activity13.jpg', title: '全新日工资', describe: '上班工资每月发，平台工资天天领'}
+          {href: '/activity/5-2-13', src: '/static/activity/activity13.jpg', title: '全新日工资', describe: '上班工资每月发，平台工资天天领'},
+          {href: '/activity/5-2-14', src: '/static/activity/activity14.jpg', title: '助力世界杯', describe: '你投我就送，返点无上限'}
         ],
         activities: [
         ]
@@ -95,16 +96,16 @@
       background-size 100%
       &:hover
         background-color #fff
-      
+
       h4,h5
         margin .08rem .05rem
         margin-bottom 0
       h4
         font-size .14rem
         font-weight bold
-      h5 
+      h5
         font-size .12rem
       img
         width 100%
-  
+
 </style>
