@@ -34,10 +34,10 @@
           | {{ EM }}
       
       el-row(:gutter=15 style="padding-bottom: .3rem")
-        el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: 203}}) ")
+        el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203'}}) ")
           .co
             img(src="/static/pic/lhg.jpg")
-        el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: 201}}) ")
+        el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
           .co
             img(src="/static/pic/bjl.jpg")
 
