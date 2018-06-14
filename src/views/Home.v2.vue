@@ -2,7 +2,7 @@
   section.new-home(@scroll="scrollHander")
     Me(:menus="menus" v-on:open-page="openTab")
     
-    MyMenu(:menus="menus.slice(0, 11)" v-on:open-page="openTab")
+    MyMenu(:menus="menus.slice(0, 11).concat(menus[15])" v-on:open-page="openTab")
 
     // el-carousel(:interval="4000" type="card" height="450px")
       el-carousel-item(v-for="item in sources" v-bind:key="item" v-bind:style="{ ba }")

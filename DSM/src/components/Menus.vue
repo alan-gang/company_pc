@@ -4,7 +4,7 @@
     el-submenu(v-for="(m, i) in menus" v-if="m.title && menus.length > 2 && !m.removed" v-bind:index="m.url")
       template(slot="title")
         i(:class="[m.class + '-menu']")
-        | {{ m.title }}
+        | {{ m.stitle || m.title }}
       el-menu-item-group(v-for="(g, ii) in m.groups" v-if="g.items.filter(function(x){return !x.removed})[0]")
         template(slot="title") {{ g.title }}
         el-menu-item(style="margin: .05rem 0" v-for="(item, iii) in g.items" v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-bind:index=" '/' + m.url + '/' + item.id" v-if="!item.removed && item.id && !item.hide") {{ item.title }}

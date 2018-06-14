@@ -4,7 +4,7 @@
       el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
 
 
-            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
               .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
               
 
@@ -28,7 +28,8 @@
                   // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                     span.text-gold {{ item.pretitle }}
                     | {{ item.title }}
-
+      
+      .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="!menu.href && !menu.removed && menu.hideSub"  @click="open(menu.groups[0].items[0])" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
 </template>
 
 <script>
@@ -265,6 +266,22 @@ body.cb.v2
       vertical-align middle
       text-align center
       cursor pointer
+      &.hot:after
+        display inline-block
+        content '热'
+        position absolute
+        right -.02rem
+        top .15rem
+        left auto !important
+        bottom auto !important
+        color #fff
+        width .2rem
+        height .2rem
+        line-height 1.5
+        background DANGER
+        font-size .12rem
+        radius(50%)
+        
       &:hover
         background-color rgba(255, 255, 255, .15)
 
@@ -292,6 +309,9 @@ body.cb.v2
         background-color rgba(255,255,255,.5)
       .el-icon--right.el-icon-arrow-down
         color #666 !important
+      
+      
+          
 
     
 </style>

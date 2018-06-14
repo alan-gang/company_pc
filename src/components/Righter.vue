@@ -8,6 +8,10 @@
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
       .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
+    .ds-icon-downloadcenter(@click="$router.push('/help/6-1-1')")
+      .expand-left  帮助中心
+    .ds-icon-helpcenter(@click="$router.push('/help/7-1-1')")
+      .expand-left  下载中心
     .ds-icon-
       .expand-left 联系客服
 
@@ -56,7 +60,8 @@
         
       left auto !important
       right 0 !important
-      top 50% !important
+      top 55% !important
+      top calc(50% + 1.05rem) !important
       z-index 5
       border-radius 0 !important
       padding 0
@@ -83,6 +88,7 @@
         font-size .14rem
         
         overflow hidden
+      
       .icon.custom-service
         width RW
         height RW
@@ -142,7 +148,10 @@
             width 3.45rem
             
             
-            
+    .ds-icon-downloadcenter
+      background url(../assets/v2/download.png) center no-repeat 
+    .ds-icon-helpcenter
+      background url(../assets/v2/helpcenter.png) center no-repeat       
     .expand-left
       &.skins
         width 3.45rem

@@ -50,7 +50,7 @@
     el-row.content-width
       el-col.l(:span="10")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
-        router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
+        // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         
       el-col.r(:span="14")
         // Menus(:menus="menus")

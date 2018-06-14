@@ -184,7 +184,7 @@ H = 1.04rem
 
 
 #app.classic.v2 .righter
-  transform translateY(-66%)
+  transform translateY(-50%)
   .ds-icon-classic
     display none
 #app.classic.v2 .lefter

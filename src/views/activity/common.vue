@@ -37,9 +37,9 @@
 
           el-row.list-title
             el-col(:span="6") {{ '用户组' }}
-            el-col(:span="6") {{ '返点' }}
+            el-col(:span="6") {{ '返水' }}
             el-col(:span="6" style="text-align: left") {{ '团队周投注额' }}
-            el-col(:span="6" style="text-align: left") {{ '周返点举例' }}
+            el-col(:span="6" style="text-align: left") {{ '周返水举例' }}
 
           el-row.list-item(v-for=" l in list14 " )
             el-col(:span="6") {{ l.level }}

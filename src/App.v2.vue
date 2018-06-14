@@ -860,10 +860,13 @@ export default {
         {
           id: 5,
           class: 'ds-icon-gift',
-          title: '活动',
+          title: '优惠活动',
+          stitle: '活动',
           url: 'activity',
           menuid: '6',
           defaultUrl: '/activity/5-1-1',
+          hot: true,
+          hideSub: true,
           groups: [
             {
               title: '活动中心',
