@@ -8,9 +8,9 @@
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
       .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
-    .ds-icon-downloadcenter(@click="$router.push('/help/6-1-1')")
+    .ds-icon-helpcenter(@click="$router.push('/help/6-1-1')")
       .expand-left  帮助中心
-    .ds-icon-helpcenter(@click="$router.push('/help/7-1-1')")
+    .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
     .ds-icon-
       .expand-left 联系客服
