@@ -60,6 +60,7 @@ import VROrder from './form/VROrder'
 import VRTip from './form/VRTip'
 import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
+import OutProfitLoss from './form/OutProfitLoss'
 import MyProfitLoss from './form/MyProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
@@ -144,6 +145,7 @@ export default {
     VRTip,
     LuckyPool,
     ProfitLoss,
+    OutProfitLoss,
     MyProfitLoss,
     ProfitLossDetail,
     Today,

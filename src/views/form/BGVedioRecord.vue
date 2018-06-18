@@ -60,9 +60,10 @@
       
       BGGameRecord.scroll-content(v-if=" I === 1 " style="top: .5rem")
       BGFishRecord.scroll-content(v-if=" I === 2 " style="top: .5rem")
-      VROrder.scroll-content(v-if=" I === 3 " style="top: .5rem")
-      VRFollow.scroll-content(v-if=" I === 4 " style="top: .5rem")
-      VRTip.scroll-content(v-if=" I === 5 " style="top: .5rem")
+      //- VROrder.scroll-content(v-if=" I === 3 " style="top: .5rem")
+      //- VRFollow.scroll-content(v-if=" I === 4 " style="top: .5rem")
+      //- VRTip.scroll-content(v-if=" I === 5 " style="top: .5rem")
+      Sports.scroll-content(v-if=" I === 3 " style="top: .5rem")
       
 </template>
 
@@ -73,6 +74,7 @@
   import VROrder from './VROrder'
   import VRFollow from './VRFollow'
   import VRTip from './VRTip'
+  import Sports from './Sports'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
@@ -82,7 +84,8 @@
       BGFishRecord,
       VROrder,
       VRFollow,
-      VRTip
+      VRTip,
+      Sports
     },
     data () {
       return {
@@ -127,7 +130,7 @@
         preOptions: {},
         STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
         // btns: ['真人记录', '电游记录', '捕鱼记录', 'VR投注', 'VR追号', 'VR打赏'],
-        btns: ['真人记录', '电游记录', '捕鱼记录'],
+        btns: ['真人记录', '电游记录', '捕鱼记录', '体育记录'],
         I: 0,
         name: ''
       }

@@ -11,6 +11,9 @@ if (window.location.host.indexOf('.net') !== -1) {
   env = 'pro'
   // api = 'https://api.cb868.net:1888/dscagamesclient'
   api = 'https://www.' + window.location.host.replace('www.', '') + '/dscagamesclient'
+  if (window.location.host.split('.')[0].startsWith('v')) {
+    api = 'https://' + window.location.host + '/dscagamesclient'
+  }
 // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
@@ -27,6 +30,10 @@ let Login = {
   tryLoginFromUrl: '/login/login.do?method=dsLog',
   // open a third part pages ============================================VR======================================
   loginVr: '/ext/vr.do?method=loginVr',
+  // 外部盈亏报表
+  outReportList: '/report/extReport.do?method=list',
+  // 体育记录
+  tcgOrderList: '/ext/bg.do?method=tcgOrderList',
   // open a third part pages ============================================BG======================================
   // BG视讯游戏记录
   videoOrderList: '/ext/bg.do?method=videoOrderList',

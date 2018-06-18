@@ -503,6 +503,12 @@ export default {
                   url: 'DaySalary'
                 },
                 {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '其它报表',
+                  url: 'OutProfitLoss'
+                },
+                {
                   id: '4-5-3',
                   menuid: '89',
                   title: '走势图',
@@ -762,6 +768,12 @@ export default {
                   menuid: '58',
                   title: '历史报表',
                   url: 'ProfitLoss'
+                },
+                {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '其它报表',
+                  url: 'OutProfitLoss'
                 },
                 {
                   id: '3-3-1',
