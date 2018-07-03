@@ -38,13 +38,15 @@
         
       
       .table-list(style="padding: .15rem .2rem ")
-        //- p(style="margin: 0 0 .15rem 0")
+        p(style="margin: 0 0 .15rem 0")
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
       
         el-table.header-bold.nopadding(:data="data" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH " )
 
           el-table-column(class-name="pl2" prop="username" label="用户名" )
+            template(scope="scope")
+              span.pointer.text-blue(:class=" { 'text-danger': scope.row.username === me.account } " v-if="!scope.row.lst") {{ scope.row.username }}
 
           el-table-column(prop="platName" label="平台" align="center")
 
@@ -223,7 +225,7 @@
         })
       },
       cellClick (row, column, cell, event) {
-        if (column.property === 'userName') {
+        if (column.property === 'username') {
           // this.BL.push({
           //   id: row.userId,
           //   title: row.userName
@@ -274,7 +276,7 @@
           this.preOptions = {
             beginDate: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
             endDate: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
-            // userId: id || this.BL[this.BL.length - 2].userId,
+            userId: id || this.BL[this.BL.length - 2].userId,
             scope: this.zone !== '' ? this.zone + 1 : '',
             userName: this.name,
             platid: this.platid !== '' ? this.platid + 2 : '',
@@ -291,7 +293,7 @@
             // data.pageTotalJson.lst = true
             // data.pageNum > 1 && data.allDate.push(data.pageTotalJson)
             this.data = data.items
-            // this.BL = (data.userBreads).concat([{}])
+            this.BL = (data.userBreads).concat([{}])
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
             !fn && (this.currentPage = 1)

@@ -39,6 +39,9 @@
             br
             | 为了提高充值成功率，如果充值金额为整数，使用某些充值方式时，系统会自动将充值金额随机增加
             span.text-danger(style="font-size: 14px") 0.01-0.09
+            br(v-if="moreTip")
+            span.text-danger(v-if="moreTip") {{ moreTip }}   
+
 
         .item(style="line-height: .5rem") 支付方式：
             .banks
@@ -331,6 +334,9 @@ export default {
     }
   },
   computed: {
+    moreTip () {
+      return this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tip : ''
+    },
     Cbank () {
       return this.ALLBANKS[this.CbankIndex]
     },
