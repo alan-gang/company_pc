@@ -87,9 +87,10 @@ export default {
     checkinNow (t) {
       if (t.enable !== '1') return
       // this.$http.get(api.getCheckToday).then(({data}) => {
-      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.getCheckToday, {entry: t.activityId}).then(({data}) => {
+      this.$http.get(t.isContinue === '1' ? api.getCheckInReward : api.doCheckIn, {entry: t.activityId}).then(({data}) => {
         if (data.success === 1) {
-          t.get = true
+          // t.get = true
+          this.$set(t, 'get', true)
           this.$message.success(data.msg || '连续签到成功' + (data.checkDays ? (data.checkDays || 1) + '天' : '') + '！')
         } else {
           this.$message.error(data.msg || ((t.isContinue === '1' ? '连续' : '') + '签到失败！'))
@@ -123,8 +124,9 @@ export default {
     // http://192.168.169.44:9901/cagamesclient/activity.do?method=doWorldCup
     // doWorldCup: '/activity.do?method=doWorldCup',
     getNow (t) {
-      if (!this.actions[t.activityType - 1]) return
-      this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
+      // if (!this.actions[t.activityType - 1]) return
+      // this.$http.get(this.actions[t.activityType - 1], {entry: t.activityId}).then(({data}) => {
+      this.$http.get(api.doRewardPrize, {prizeId: t.pirzeId, activityId: t.activityId}).then(({data}) => {
         // success
         if (data.success === 1) {
           this.$message.success(data.msg || '礼品领取成功！')

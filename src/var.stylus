@@ -8,7 +8,7 @@ HH = .36rem
 // footer heights
 FH = .68rem
 // toolbar heights
-TH = .36rem
+TH = .4rem
 // luckynumber heights
 LH = .6rem
 // gameinfo heights

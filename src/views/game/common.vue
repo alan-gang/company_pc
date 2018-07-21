@@ -185,6 +185,16 @@ export default {
     }
   },
   computed: {
+    menuItemArray () {
+      return this.menus.reduce((p, m, i) => {
+        return m.groups.reduce((p, g, j) => {
+          return g.items.reduce((p, it, k) => {
+            p.push(it)
+            return p
+          }, p)
+        }, p)
+      }, [])
+    },
     pricePerOrder () {
       return this.gameType === 'HC6' ? 1 : 2
     },
@@ -240,7 +250,13 @@ export default {
     overtime () {
       setTimeout(() => {
         this.__setCall({fn: '__orderlist'})
-      }, 300)
+      }, 1000)
+      setTimeout(() => {
+        this.__setCall({fn: '__orderlist'})
+      }, 3000)
+      setTimeout(() => {
+        this.__setCall({fn: '__orderlist'})
+      }, 10000)
     },
     methodid () {
       this.__setCall({
@@ -342,6 +358,11 @@ export default {
     clearTimeout(this.lucknumbersTimeout)
   },
   methods: {
+    // 隐藏返点为0的方法
+    hideItem (id) {
+      let x = this.menuItemArray.find(i => M[i.id + this.idType].split(':')[0] === id)
+      if (x) x.hide = true
+    },
     scrollHander (evt) {
       if (this.$refs.GC.scrollTop > 96) this.scrollAtBottom = true
       else this.scrollAtBottom = false
@@ -417,6 +438,10 @@ export default {
       this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
         if (data.success > 0) this.PS = data.items
+        this.menuItemArray.forEach(mi => {
+          // console.log(M[mi.id + this.idType].split(':')[0], data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
+          this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
+        })
       }, (rep) => {
         // error
       })

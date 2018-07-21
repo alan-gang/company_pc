@@ -63,19 +63,19 @@
             p.content
               span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
               br
-              | 1.
+              | 1. 
               span.text-danger 销量
               | 和
               span.text-danger 亏损
               | 只要达到规则，都应按照规则的分红比例派发分红
               br
-              | 2.
+              | 2. 
               span.text-danger [手动发放]
               | 即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
               span.text-danger 分红列表-分红详情
               | 中进行点击确认发放
               br
-              | 3.
+              | 3. 
               span.text-danger [自动发放]
               | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
               span.text-danger 手动执行
@@ -86,8 +86,12 @@
               span.text-danger 1号
               | 和
               span.text-danger 16号
-              |；[按周]
-              span.text-danger 周一
+              //- |；[按周]
+              //- span.text-danger 周一
+              br
+              | 5. 一天内投注额达到
+              span.text-danger 500元
+              | ，为一个有效用户
 
 
         p.title.text-black
@@ -136,7 +140,7 @@
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
             el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
-            span.text-black &nbsp;万，活跃人数&nbsp;
+            span.text-black &nbsp;万，有效人数&nbsp;
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
             span.text-black  人，分红比例
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
@@ -161,7 +165,7 @@
             span.title 契约详情
             el-button-group
               el-button.close(icon="close" @click="showDetail = ''")
-          ContractDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5.7rem;")
+          ContractDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5rem;")
 
 
 </template>

@@ -34,25 +34,26 @@
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
 
-        label.item.block(style="margin-left: .32rem") 自身快捷查询：
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
-          span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
+       
         
 
         .buttons(style="margin-left: .3rem")
           .ds-button.primary.large.bold(@click="list") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
           .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
+          label.item(style="margin-left: .32rem") 自身快捷查询：
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
+        el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
 
           el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
             template(scope="scope")
@@ -400,7 +401,7 @@
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
           text: '帐变记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         // OrderReport.do?method=list&orderId=7&beginDate=20170201000000&endDate=20170303000000&isFree=1&userName=test&scope=1&serialType=2&serialValue=3397&lotteryId=1&methodId=37&issueId=1111&modes=11&page=1&pageSize=20
         if (!fn) {

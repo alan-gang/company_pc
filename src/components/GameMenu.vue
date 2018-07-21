@@ -2,17 +2,17 @@
 <template lang="jade">
   dl.menu
     .menu-con
-      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) ") {{menu.title}}
+      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] ") {{menu.title}}
         .submenu-group(v-if="menu.groups")
           dl.submenu(v-for="group in menu.groups")
             dt(v-if="group.title") 
               span {{ group.title }}
             dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}") {{ item.title }}
 
-    el-row.row(v-for=" g in cm.groups " v-if="cm.groups")
+    el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
         span {{ g.title }}
-      .ds-button.text-button.text-666.small(v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+      .ds-button.text-button.text-666.small(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
 
 
 </template>

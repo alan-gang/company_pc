@@ -40,7 +40,7 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '我的用户' : B.userName }}
 
-        el-table.header-bold.nopadding(:data="data" v-bind:max-height=" MH "  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" stripe)
+        el-table.header-bold.nopadding(ref="table" v-bind:data="data" v-bind:max-height=" MH "  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" stripe)
           
           // 用户名
           el-table-column(class-name="pl2" prop="userName"  label="用户名" min-width=" 100 ")
@@ -103,7 +103,7 @@
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.daySalary) || ( oo = scope.row.winSalary ))   ") 调整工资
 
-              .ds-button.text-button.blue(style="padding: 0 .05rem; vertical-align: top;" @click="getTeamBalance(scope.row)") 团队余额
+              .ds-button.text-button.blue(style="padding: 0 .05rem;" @click="getTeamBalance(scope.row)") 团队余额
                 
                 div(v-if="scope.row.showTeanBalance")
 
@@ -181,9 +181,10 @@
             |  万
 
           p(style="padding-left: 30%; margin-top: .15rem") 
-            | 活跃用户：
+            | 有效用户：
             el-input-number(v-model="activityCount")
             |  人
+            span.text-999（投注达到500为有效用户）
             br
             span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem" @click="setSalary") 确认
 
@@ -598,9 +599,10 @@
       },
       getUserList (id, page, fn) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
+        console.log(this.$refs['table'])
         let loading = this.$loading({
           text: '用户列表加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
 
         if (!fn) {

@@ -27,8 +27,8 @@
             el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
 
         
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="profitList()") 搜索
+        .ds-button.primary.large.bold(@click="profitList()") 搜索
+        //- .buttons(style="margin-left: .3rem")
         
       
       .table-list(style="padding: .15rem .2rem ")
@@ -36,7 +36,7 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:summary-method="getSummaries"  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH ")
+        el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries"  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName"  v-bind:max-height=" MH ")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名" )
             template(scope="scope")
@@ -79,7 +79,7 @@
 
           el-table-column(align="right" class-name="pr2" prop="profitAmount" label="盈亏"  )
             template(scope="scope")
-              span {{ numberWithCommas(scope.row.profitAmount) }}
+              span(:class=" { 'text-danger': scope.row.profitAmount.startsWith('-'), 'text-green': !scope.row.profitAmount.startsWith('-') } ") {{ numberWithCommas(scope.row.profitAmount) }}
       
       el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -220,7 +220,7 @@
       profitList (page, fn, id) {
         let loading = this.$loading({
           text: '加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -273,7 +273,7 @@
         })
       },
       tableRowClassName (row) {
-        if (this.me.account === row.userName) return 'text-danger'
+        // if (this.me.account === row.userName) return 'text-danger'
       }
     }
   }

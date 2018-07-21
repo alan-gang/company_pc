@@ -23,7 +23,7 @@
 
           el-row.list-title
             el-col(:span="6") {{ '团队日量要求' }}
-            el-col(:span="6") {{ '团队活跃用户' }}
+            el-col(:span="6") {{ '团队有效用户' }}
             el-col(:span="6" style="text-align: right") {{ '日工资比例' }}
             el-col(:span="6" style="text-align: right") {{ '工资上限' }}
 
@@ -112,7 +112,7 @@ export default {
       th1: ['maxSaveAmount:首存金额', 'buyAmount:当日销量', 'level:关卡', '', 'level:用户组'],
       th2: ['prizeAmount:现金礼包', 'prizeAmount:销量返利（元）', 'buyAmount:投注量要求', '', 'minSaveAmount:返点'],
       th3: ['buyAmount:累计投注额标准', 'vipPrizeAmount:VIP用户销量返利（元）', 'prizeAmount:获取奖励', '', 'buyAmount:团队周投注额（单位万'],
-      th4: ['expandName:团队日量要求', 'expandPrize:团队活跃用户', 'expandValue:日工资比例', 'maxPrize:工资上限', 'prizeAmount:周返点（单位元)']
+      th4: ['expandName:团队日量要求', 'expandPrize:团队有效用户', 'expandValue:日工资比例', 'maxPrize:工资上限', 'prizeAmount:周返点（单位元)']
     }
   },
   computed: {

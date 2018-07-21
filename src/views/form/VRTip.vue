@@ -9,25 +9,32 @@
 
       .form.form-filters
         
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
-
-
-        label.item 游戏时间 
+        label.item 游戏时间  
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
 
         label.item 游戏名称 
           el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.5rem" placeholder="全")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="Orderlist") 搜索
-          .ds-button.cancel.large(@click="clear(true)") 清空
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
+
+
+
+        label.item 范围 
+            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
+              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
+
+
+       
+
+        .ds-button.primary.large.bold(@click="Orderlist") 搜索
+        //- .buttons(style="margin-left: .3rem")
+          //- .ds-button.cancel.large(@click="clear(true)") 清空
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="Cdata"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
+        el-table.header-bold.nopadding(:data="Cdata" ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
           el-table-column(class-name="pl2" prop="serialNumber" label="订单号"  show-overflow-tooltip=true)
             template(scope="scope")
@@ -300,7 +307,7 @@
       Orderlist (page, fn) {
         let loading = this.$loading({
           text: '打赏记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -312,7 +319,7 @@
             // stat: this.status,
             // isFree: this.isFree,
             userName: this.name,
-            // scope: this.zone,
+            scope: this.zone,
             // lotteryId: this.gameid,
             // methodId: this.method.methodId,
             // issue: this.issue,
@@ -456,7 +463,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .user-list
-    top TH
+    // top TH
     .form
       padding PWX
 

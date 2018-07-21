@@ -18,12 +18,8 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content.other-game
-      div(style="text-align: center")
-        .ds-button-group
-          .ds-button.x-small.text-button(v-for=" (b, i) in btns " @click=" I = i  " v-bind:class=" {selected: I === i} ") {{ b }}
-      
-      div(v-if=" I === 0 ")
-        .form.form-filters(style="margin-top: .03rem")
+        div(style="height: .1rem")
+        .form.form-filters(style="margin-top: 0")
 
           label.item 游戏时间 
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
@@ -36,12 +32,12 @@
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
-          .buttons(style="margin-left: .6rem")
-            .ds-button.primary.large.bold(@click="getData") 搜索
+          .ds-button.primary.large.bold(@click="getData") 搜索
+          //- .buttons(style="margin-left: .6rem")
         
         .table-list(style="padding: .15rem .2rem ")
         
-          el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
+          el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
             el-table-column(class-name="pl2" prop="orderId" label="订单号"  )
             el-table-column(prop="gameName" label="游戏类型"  )
@@ -58,34 +54,34 @@
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
-      BGGameRecord.scroll-content(v-if=" I === 1 " style="top: .5rem")
-      BGFishRecord.scroll-content(v-if=" I === 2 " style="top: .5rem")
-      //- VROrder.scroll-content(v-if=" I === 3 " style="top: .5rem")
-      //- VRFollow.scroll-content(v-if=" I === 4 " style="top: .5rem")
-      //- VRTip.scroll-content(v-if=" I === 5 " style="top: .5rem")
-      Sports.scroll-content(v-if=" I === 3 " style="top: .5rem")
+      //- BGGameRecord.scroll-content(v-if=" I === 1 ")
+      //- BGFishRecord.scroll-content(v-if=" I === 2 ")
+      //- VROrder.scroll-content(v-if=" I === 3 ")
+      //- VRFollow.scroll-content(v-if=" I === 4 ")
+      //- VRTip.scroll-content(v-if=" I === 5 ")
+      //- Sports.scroll-content(v-if=" I === 3 ")
       
 </template>
 
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
-  import BGGameRecord from './BGGameRecord'
-  import BGFishRecord from './BGFishRecord'
-  import VROrder from './VROrder'
-  import VRFollow from './VRFollow'
-  import VRTip from './VRTip'
-  import Sports from './Sports'
+  // import BGGameRecord from './BGGameRecord'
+  // import BGFishRecord from './BGFishRecord'
+  // import VROrder from './VROrder'
+  // import VRFollow from './VRFollow'
+  // import VRTip from './VRTip'
+  // import Sports from './Sports'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
     mixins: [setTableMaxHeight],
     components: {
-      BGGameRecord,
-      BGFishRecord,
-      VROrder,
-      VRFollow,
-      VRTip,
-      Sports
+      // BGGameRecord,
+      // BGFishRecord,
+      // VROrder,
+      // VRFollow,
+      // VRTip,
+      // Sports
     },
     data () {
       return {
@@ -131,7 +127,6 @@
         STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
         // btns: ['真人记录', '电游记录', '捕鱼记录', 'VR投注', 'VR追号', 'VR打赏'],
         btns: ['真人记录', '电游记录', '捕鱼记录', '体育记录'],
-        I: 0,
         name: ''
       }
     },
@@ -146,15 +141,15 @@
             this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
-      },
-      I () {
-        if (this.I === 0) this.getData()
       }
     },
     mounted () {
       this.getData()
     },
     methods: {
+      __setGRPTI (i) {
+        this.I = i
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -169,7 +164,7 @@
       getData (page, fn) {
         let loading = this.$loading({
           text: '其它游戏记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -209,7 +204,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .user-list
-    top TH
+    // top TH
     .form
       padding PWX
 
@@ -227,9 +222,5 @@
 
 </style>
 
-<style lang="stylus">
-#app.v2 .other-game
-  .scroll-content
-    top .1rem
-</style>
+
 

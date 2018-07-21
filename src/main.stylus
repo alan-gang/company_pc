@@ -1,5 +1,9 @@
 @import './var.stylus'
 @import './ie.stylus'
+// .el-table__header-wrapper
+// .el-table__body-wrapper
+// .el-table__footer-wrapper
+//   background-color #fff
 // input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill
 //   background-color rgba(0,0,0,0) !important
 .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td
@@ -20,7 +24,7 @@
   .form-filters
   .form-contents
     background-color #fff
-    margin PW PWX
+    margin .1rem PWX
     margin-bottom 0
 
 .el-tooltip__popper
@@ -447,14 +451,14 @@ pre
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
-  table-row-height(x = .4rem)
+  table-row-height(x = .36rem)
     td
-      height .3rem
+      height .36rem
       .cell
         line-height x
-   table-header-height(x = .4rem)
+   table-header-height(x = .36rem)
     th
-      height .4rem
+      height .36rem
       .cell
         line-height x
 
@@ -520,7 +524,8 @@ pre
     
     &.nopadding
       .cell
-      th > div
+        padding 0 .02rem
+      th > div.cell
         padding 0.05rem .02rem
         line-height .2rem
   

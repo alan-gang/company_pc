@@ -31,7 +31,8 @@
 
       el-table-column(label="状态" align="center")
         template(scope="scope")
-          span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
+          span(:class=" [STATUSCLASS[scope.row.stat]] ") {{ STATUS[scope.row.stat] }}
+          //- span(:class="{ 'text-danger': scope.row.stat === 3,  'text-grey': scope.row.stat === 0, 'text-green': scope.row.stat === 2, 'text-black': scope.row.stat === 1}") {{ STATUS[scope.row.stat] }}
       
       el-table-column(label="操作" wdith="50")
         template(scope="scope")
@@ -75,7 +76,9 @@
                 span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
               el-col(:span="6")
                 注单状态：
-                span.text-black {{ STATUS[row.stat] }}
+                //- span.text-black {{ STATUS[row.stat] }}
+                span(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
+                
 
               el-col(:span="6")
                 倍数模式：
@@ -163,9 +166,11 @@ export default {
   },
   data () {
     return {
+      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+      STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
       modal: false,
       Cdata: [],
-      STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+      // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
       show: false,
       row: {prizeCode: ''},
       expandList: [],
@@ -346,7 +351,7 @@ export default {
   .tool-bar
     height TH
     line-height TH 
-    background-color bg
+    // background-color bg
     font-size .12rem
     border-top-right-radius .05rem
     border-top-left-radius .05rem

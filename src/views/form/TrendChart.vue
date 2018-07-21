@@ -27,6 +27,7 @@
             .ds-button.text-button.blue(@click="size = 30") 最近30期
             .ds-button.text-button.blue(@click="size = 50") 最近50期
             .ds-button.text-button.blue(@click=" size = 100 ") 最近100期
+            .ds-button.text-button.blue(@click=" size = 120 ") 最近120期
             .ds-button.text-button.blue(@click=" st = lyd ") 前天
             .ds-button.text-button.blue(@click=" st = yd ") 昨天
             .ds-button.text-button.blue(@click=" st = td ") 今天
@@ -176,6 +177,7 @@ export default {
     },
     st () {
       if (this.st) this.trendData()
+      this.size = 0
     }
   },
   computed: {
@@ -259,7 +261,7 @@ export default {
           // width height 30*30
           // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
           // width height 25*25
-          this.lines[i] += 24.46 * (parseInt(s) + (12.25 * i) + 0.5) + ',' + ((30 * x + (j - 1) / (j + 1)) * j + 15 * x) + ' '
+          this.lines[i] += 24.99 * (parseInt(s) + (12 * i) + 0.5 + ((i === 1 || i === 2) ? 0.2 * i : 0)) + ',' + ((19.9 * x + (j - 1) / (j + 1)) * j + 14 * x) + ' '
           // 总出现
           // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
           // if (i === 1) {

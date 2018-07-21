@@ -10,8 +10,8 @@
       .content
 
         .item(v-for="(g, index) in notices" v-bind:class="{'active': openIndex === index}" @click=" (openIndex = index)") 
-          .step.text-666() 
-            span.date {{ g.sendTime.split(' ')[0].split('-')[1] + '-' + g.sendTime.split(' ')[0].split('-')[2] }}
+          .step.text-666
+            span.date.text-black {{ g.sendTime.split(' ')[0].split('-')[1] + '-' + g.sendTime.split(' ')[0].split('-')[2] }}
             span.title {{ g.subject }}
               .time.text-666( v-bind:class="{'text-black': openIndex === index}") {{ g.sendTime.split(' ')[1] }}
 
@@ -121,6 +121,8 @@
       .item
         &:hover
           background #ededed
+          .date
+            color #f37e0c
           .title
             font-weight bold 
             color #333
@@ -131,20 +133,20 @@
             color #333
         // margin PW 0
         // padding-bottom .2rem
-        padding PW
+        padding PW PW PW PWX
         .date
           position absolute
           left 0
           top 0
-          font-size .48rem
+          font-size .36rem
           font-family Roboto
-          font-gradient()
-          background linear-gradient(90deg, #ff3350, #1a9ff3)
-          -webkit-background-clip text
-          -webkit-text-fill-color transparent
+          // font-gradient()
+          // background linear-gradient(90deg, #ff3350, #1a9ff3)
+          // -webkit-background-clip text
+          // -webkit-text-fill-color transparent
       .step
         position relative
-        padding-left 1.35rem
+        padding-left 1.05rem
         padding-top .05rem
         font-size .18rem
         font-weight bold

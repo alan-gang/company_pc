@@ -9,12 +9,12 @@
 
       
       .form
+        .form-filters(style="padding: .15rem; margin: .1rem 0 .2rem 0;")
+          div(style="text-align: center; min-height: .2rem" )
+            .ds-button-group(v-if="me.role >= 2")
+              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
+              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
 
-        div(style="text-align: center; min-height: .2rem" )
-          .ds-button-group(v-if="me.role >= 2")
-            .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
-            .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
-        .form-filters(style="padding: .15rem; margin: 0 0 .2rem 0;")
           label.item 发放日期 
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
@@ -28,7 +28,7 @@
               
           .ds-button.primary.large.bold(@click="bonus") 搜索
 
-        el-table.header-bold.nopadding(:data="bonusList"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
+        el-table.header-bold.nopadding(:data="bonusList" ref="table"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="type === 1")
 
@@ -41,10 +41,10 @@
 
           el-table-column(label="总盈亏")
             template(scope="scope")
-              span {{ scope.row.profitAmount }}
+              span(:class=" {'text-green': parseFloat(scope.row.profitAmount) > 0, 'text-danger': parseFloat(scope.row.profitAmount) < 0 } ")  {{ scope.row.profitAmount }}
 
 
-          el-table-column(prop="actUser" label="活跃人數")
+          el-table-column(prop="actUser" label="有效人數")
 
 
           el-table-column(prop="bounsRate" label="分红比例")
@@ -259,7 +259,7 @@
       bonus (page, fn) {
         let loading = this.$loading({
           text: '分红加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
 
         if (!fn) {
@@ -314,7 +314,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .stock-list
-    top TH
+    // top TH
     .form
       padding 0 PWX
 

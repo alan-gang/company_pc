@@ -1,58 +1,80 @@
 <template lang="jade">
-  .group-page
+  .group-page.tool-bar-page-content
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
+      
+      div(v-if=" I === 0 ")
 
-      .form.form-filters
-        label.item 游戏时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+        .form.form-filters
+          label.item 游戏时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
 
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
+          label.item 范围 
+            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
+              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
-        
+          
 
-        .buttons(style="margin-left: .6rem")
           .ds-button.primary.large.bold(@click="getData") 搜索
-      
-      .table-list(style="padding: .15rem .2rem ")
-      
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
+          //- .buttons(style="margin-left: .6rem")
+        
+        .table-list(style="padding: .15rem .2rem ")
+        
+          el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
-          el-table-column(class-name="pl2" prop="username" label="用户名"  width="150")
-          el-table-column(prop="betTime" label="时间" width="150")
-          el-table-column(prop="oddstype" label="盘口" width="100")
-          el-table-column(prop="odds" label="赔率"  align="center"  width="100")
-          el-table-column(prop="betAmount" label="下注金额"  align="right" width="100")
-          el-table-column(prop="winAmount" label="奖金"  align="right" width="100")
-          el-table-column(prop="betStatus" label="状态"  align="center" width="150")
-            template(scope="scope")
-                span(:class=" { 'text-green': scope.row.betStatus === '中奖', 'text-grey': scope.row.betStatus === '未中奖' } ") {{ scope.row.betStatus }}
-          el-table-column(prop="eventName" label="赛事"  min-width="250")
+            el-table-column(class-name="pl2" prop="username" label="用户名"  width="150")
+            el-table-column(prop="betTime" label="时间" width="150")
+            el-table-column(prop="oddstype" label="盘口" width="100")
+            el-table-column(prop="odds" label="赔率"  align="center"  width="100")
+            el-table-column(prop="betAmount" label="下注金额"  align="right" width="100")
+            el-table-column(prop="winAmount" label="奖金"  align="right" width="100")
+            el-table-column(prop="betStatus" label="状态"  align="center" width="150")
+              template(scope="scope")
+                  span(:class=" { 'text-green': scope.row.betStatus === '中奖', 'text-grey': scope.row.betStatus === '未中奖' } ") {{ scope.row.betStatus }}
+            el-table-column(prop="eventName" label="赛事"  min-width="250")
 
 
-         
+           
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-      
+      BGVedioRecord.scroll-content(v-if=" I === 1 ")
+      BGGameRecord.scroll-content(v-if=" I === 2 ")
+      BGFishRecord.scroll-content(v-if=" I === 3 ")
+      VROrder.scroll-content(v-if=" I === 4 ")
+      VRFollow.scroll-content(v-if=" I === 5 ")
+      VRTip.scroll-content(v-if=" I === 6 ")
+
 </template>
 
 <script>
+  import BGVedioRecord from './BGVedioRecord'
+  import BGGameRecord from './BGGameRecord'
+  import BGFishRecord from './BGFishRecord'
+  import VROrder from './VROrder'
+  import VRFollow from './VRFollow'
+  import VRTip from './VRTip'
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   export default {
     mixins: [setTableMaxHeight],
+    components: {
+      BGVedioRecord,
+      BGGameRecord,
+      BGFishRecord,
+      VROrder,
+      VRFollow,
+      VRTip
+    },
     data () {
       return {
         pickerOptions: {
@@ -83,7 +105,8 @@
         currentPage: 1,
         preOptions: {},
         STATE: ['未结算', '结算赢', '结果和', '结算输', '取消', '过期', '系统取消'],
-        name: ''
+        name: '',
+        I: 0
       }
     },
     computed: {
@@ -97,12 +120,20 @@
             this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
+      },
+      I () {
+        if (this.I === 0) {
+          setTimeout(this.getData)
+        }
       }
     },
     mounted () {
       this.getData()
     },
     methods: {
+      __setGRPTI (i) {
+        this.I = i
+      },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -117,7 +148,7 @@
       getData (page, fn) {
         let loading = this.$loading({
           text: '其它游戏记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -157,7 +188,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .user-list
-    top TH
+    // top TH
     .form
       padding PWX
 

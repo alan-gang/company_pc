@@ -21,7 +21,22 @@ module.exports = {
     port: 8080,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/cagamesclient': {
+            target: 'http://192.168.169.49:9901/cagamesclient',
+            changeOrigin: true,
+            pathRewrite: {
+              '^/cagamesclient': ''
+            }
+        },
+        '/xy_activity': {
+            target: 'http://192.168.169.49/xy_activity',
+            changeOrigin: true,
+            pathRewrite: {
+              '^/xy_activity': ''
+            }
+        }
+    },
     productionSourceMap: true,
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

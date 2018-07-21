@@ -6,93 +6,94 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
+       div(v-if=" I === 0 ")
+        .form.form-filters
 
-      .form.form-filters
-
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
-        
-        label.item 时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
-
-        label.item 游戏  
-          el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
-
-
-        label.item 奖期 
-          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
-
-        label.item 状态 
-          el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .9rem" placeholder="全")
-            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-        
-        label.item 编号 
-          el-input(v-model="id" style="width: 1rem")
-
-
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="Orderlist") 搜索
-          .ds-button.cancel.large(@click="clear(true)") 清空
-      
-      .table-list(style="padding: .15rem .2rem ")
-      
-        el-table.header-bold.nopadding(:data="Cdata" show-summary v-bind:summary-method="getSummaries"  stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
-
-          el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
-            template(scope="scope")
-              div
-                span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.projectId }}
-                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
-
-          el-table-column(prop="userName" label="用户")
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
           
-          el-table-column(prop="writeTime" label="投注时间" min-width="120")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.writeTime }}
-              span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+          label.item 时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
 
-          el-table-column(prop="lotteryName" label="游戏")
-
-          el-table-column(prop="methodName" label="玩法" min-width="120")
-            template(scope="scope")
-              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
-
-          el-table-column(prop="issue" label="期号")
-
-          el-table-column(prop="multiple" label="倍数")
-
-          el-table-column(prop="totalPrice" label="总金额" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ digitUppercase(scope.row.totalPrice) }}
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+          label.item 游戏  
+            el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
+              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
 
-          el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.bonus }}
-              span.text-green(v-if="scope.row.last") {{ scope.row.income }}
+          label.item 奖期 
+            el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
-
-          // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
-          el-table-column(label="状态" align="center")
-            template(scope="scope")
-              span(:class=" [STATUSCLASS[scope.row.stat]] ") {{ STATUS[scope.row.stat] }}
+          label.item 状态 
+            el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .9rem" placeholder="全")
+              el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
           
-          el-table-column(label="操作" width="200")
-            template(scope="scope")
+          label.item 编号 
+            el-input(v-model="id" style="width: 1rem")
 
-              div(v-if="!scope.row.last")
 
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 0) ") 注单详情
-
-                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop="showFollow = scope.row.taskId ") 追号详情
-
-                .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) " v-if="platform !== 'ds' ") 打印
+          .ds-button.primary.large.bold(@click="Orderlist" style="margin-left: .0rem") 搜索
+          //- .buttons(style="margin-left: .3rem")
+            .ds-button.cancel.large(@click="clear(true)") 清空
         
+        .table-list(style="padding: .15rem .2rem ")
+        
+          el-table.header-bold.nopadding(:data="Cdata"   style=""   ref="table" show-summary v-bind:summary-method="getSummaries"  stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+            el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
+              template(scope="scope")
+                div
+                  span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.projectId }}
+                  span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
+            el-table-column(prop="userName" label="用户")
+            
+            el-table-column(prop="writeTime" label="投注时间" min-width="120")
+              template(scope="scope")
+                span(v-if="!scope.row.last") {{ scope.row.writeTime }}
+                span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+
+            el-table-column(prop="lotteryName" label="游戏")
+
+            el-table-column(prop="methodName" label="玩法" min-width="120")
+              template(scope="scope")
+                div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
+
+            el-table-column(prop="issue" label="期号")
+
+            el-table-column(prop="multiple" label="倍数")
+
+            el-table-column(prop="totalPrice" label="总金额" align="right")
+              template(scope="scope")
+                span.text-danger(v-if="!scope.row.last") -{{ digitUppercase(scope.row.totalPrice) }}
+                span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+
+
+            el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
+              template(scope="scope")
+                span.text-green(v-if="!scope.row.las && scope.row.bonus !== '0.0000' ") +{{ scope.row.bonus }}
+                span.text-green(v-if="scope.row.last") {{ scope.row.income }}
+
+
+            // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
+            el-table-column(label="状态" align="center")
+              template(scope="scope")
+                span(:class=" [STATUSCLASS[scope.row.stat]] ") {{ STATUS[scope.row.stat] }}
+            
+            el-table-column(label="操作" width="200")
+              template(scope="scope")
+
+                div(v-if="!scope.row.last")
+
+                  .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 0) ") 注单详情
+
+                  .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop="showFollow = scope.row.taskId ") 追号详情
+
+                  .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) " v-if="platform !== 'ds' ") 打印
+          
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+       VROrder.scroll-content(v-if=" I === 1 ")
       
     .modal(v-show="show" )
       .mask
@@ -219,6 +220,7 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
+  import VROrder from './VROrder'
   import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
@@ -226,7 +228,8 @@
   // import util from '../../util'
   export default {
     components: {
-      Follow
+      Follow,
+      VROrder
     },
     mixins: [setTableMaxHeight],
     data () {
@@ -304,7 +307,8 @@
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: [],
         showFollow: '',
-        digitUppercase: numberWithCommas
+        digitUppercase: numberWithCommas,
+        I: 0
       }
     },
     computed: {
@@ -314,12 +318,6 @@
       codePosition () {
         return this.row.position ? (this.fullCode || this.row.code + '[' + this.row.position + ']') : this.fullCode || this.row.code
       }
-      // Cdata () {
-      //   // if (this.data.length <= this.pageSize) return this.data
-      //   // else {
-      //   //   return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-      //   // }
-      // }
     },
     watch: {
       show () {
@@ -338,6 +336,11 @@
             this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
+      },
+      I () {
+        if (this.I === 0) {
+          setTimeout(this.getData)
+        }
       }
     },
     mounted () {
@@ -346,6 +349,9 @@
       this.Orderlist()
     },
     methods: {
+      __setGOI (i) {
+        this.I = i
+      },
       getSummaries (param) {
         const { columns, data } = param
         const sums = []
@@ -513,14 +519,12 @@
       Orderlist (page, fn) {
         let loading = this.$loading({
           text: '投注记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
             projectId: this.id,
-            // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
             beginDate: this.stEt[0] ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, '') : '',
-            // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
             endDate: this.stEt[1] ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, '') : '',
             stat: this.status,
             isFree: this.isFree,
@@ -544,9 +548,6 @@
             }, 500)
             typeof fn === 'function' && fn()
             !fn && (this.currentPage = 1)
-            // data.recordList.forEach(d => {
-            //   d.code = '177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755177551775517755'
-            // })
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
             // this.summary()
@@ -635,24 +636,6 @@
       }
     }
   }
-  // 投注列表
-  // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&beginDate=20170101000000&endDate=20170303000000&stat=1&isFree=1&userName=test&scope=1&lotteryId=1&methodId=16&issue=170104071&modes=1
-  // Orderlist: api + 'report/buyReport.do?method=list',
-  // 根据投注号Id查询投注详情
-  // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=detail&projectId=2290
-  // OrderDetail: api + 'report/buyReport.do?method=list',
-  // 撤单
-  // http://192.168.169.44:9901/cagamesclient/booking.do?method=cancel&id=1304
-  // cancel: api + '/booking.do?method=cancel',
-  // 获取玩法
-  // http://192.168.169.44:9901/cagamesclient/report/OrderReport.do?method=getMethods&lotteryId=1
-  // getMethods: api + 'report/OrderReport.do?method=getMethods',
-  // 获取期号
-  // http://192.168.169.44:9901/cagamesclient/issue.do?method=getRecentIssueList&lotteryId=1&issCount=10
-  // getRecentIssueList: api + 'issue.do?method=getRecentIssueList'
-  // 获取彩种列表
-  // http://192.168.169.44:9901/cagamesclient/report/OrderReport.do?method=getLotterys
-  // getLotterys: api + 'report/OrderReport.do?method=getLotterys',
 </script>
 <style lang="stylus">
   .vtop table td

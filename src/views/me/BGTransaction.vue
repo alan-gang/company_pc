@@ -30,12 +30,12 @@
           el-select(clearable v-model="s" style="width: .8rem" placeholder="无")
             el-option(v-for="(n, i) in S" v-bind:label="n" v-bind:value="i" v-if="n")
 
-        .buttons(style="margin-left: .6rem; margin-top: .1rem")
-          .ds-button.primary.large.bold(@click="getData") 搜索
+        .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem") 搜索
+        //- .buttons(style="margin-left: .6rem; margin-top: .1rem")
         
       .table-list(style="padding: .15rem .2rem " stripe)
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH ")
+        el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH ")
 
           el-table-column(class-name="pl2" prop="from" label="从...转出" )
 
@@ -108,7 +108,7 @@
       getData (page, fn) {
         let loading = this.$loading({
           text: 'BG转帐记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {

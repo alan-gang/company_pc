@@ -1,6 +1,9 @@
 <template lang="jade">
-  .tool-bar
-    span.title {{ title }}
+  .tool-bar.page-tool-bar
+    //- span.title(v-if="!tabs") {{ title }}
+    .tabs.text-black
+        span.tab(v-for=" (b, i) in tabs || [title] " @click=" __setCall({fn: tabfn, args: (ti = i) })  " v-bind:class=" {selected: ti === i} ") {{ b }}
+
     el-button-group
       .el-button.ds-icon-volume(:class=" { off: !volume } " @click="v")
       el-button.my-star(v-bind:icon="starClass" @click.stop="like" v-if="menuid")
@@ -15,9 +18,10 @@
 
 <script>
 export default {
-  props: ['title', 'star', 'menuid', 'volume'],
+  props: ['title', 'star', 'menuid', 'volume', 'tabs', 'tabfn'],
   data () {
     return {
+      ti: 0
     }
   },
   computed: {
@@ -52,6 +56,59 @@ export default {
   .dialog-page.game-page .move-bar
      right 1.75rem
 </style>
+<style lang="stylus" scoped>
+  @import '../var.stylus'
+  .tabs
+    display inline-block
+    text-align center
+    background-color inherit
+    font-weight bold
+    height TH
+    .tab
+      display inline-block
+      // height .37rem
+      // line-height .37rem
+      width 1rem
+      position relative
+      cursor pointer
+      border-top 3px solid #a8a8a8
+      box-sizing border-box
+      background none
+      &:hover
+        color BLUE
+      &.selected
+        color BLUE
+        border-top 3px solid BLUE
+        background-image linear-gradient(0deg, #e9e9e9 0%, #ffffff 100%)
+      &:first-child:before
+        content ''
+        position absolute
+        left 0px
+        top -3px
+        height 100%
+        width 2px
+        // background-color #d0d0d0
+        // border-left 1px solid #d0d0d0
+        // border-right 1px solid #fff
+        background-image url(../assets/40x2.jpg)
+        z-index -1
+        
+      &:after
+        z-index -1
+        content ''
+        position absolute
+        right -1px
+        top -3px
+        height 100%
+        width 2px
+        // background-color #d0d0d0
+        // border-left 1px solid #d0d0d0
+        // border-right 1px solid #fff
+        background-image url(../assets/40x2.jpg)
+        
+        // background-image linear-gradient(90deg, #d0d0d0 0%, #ffffff 100%)
+
+</style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
@@ -59,22 +116,25 @@ export default {
   bg-hover = #ececec
   bg-active = #e2e2e2
   .tool-bar
+    padding-left .2rem
+    &.page-tool-bar
+      background none
     radius(0)
     user-select none
     height TH
     line-height TH 
-    background-color bg
-    font-size .12rem
+    background-color #e9e9e9
+    font-size .14rem
     border-top-right-radius .05rem
     border-top-left-radius .05rem
     overflow hidden
-    background-position .2rem center
+    // background-position .2rem center
   
   
   .title
     color #333
     font-weight bold
-    padding-left .41rem
+    // padding-left .41rem
   
   .el-button-group
     float right

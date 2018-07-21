@@ -37,7 +37,8 @@
           {href: '/activity/5-2-11', src: '/static/activity/activity11.jpg', title: '六合彩专属活动', describe: '六合彩专属鸿运金！投注就送20000'},
           {href: '/activity/5-2-12', src: '/static/activity/activity12.png', title: '迎新春闯关活动', describe: '天天信游 全民闯关'},
           {href: '/activity/5-2-13', src: '/static/activity/activity13.jpg', title: '全新日工资', describe: '上班工资每月发，平台工资天天领'},
-          {href: '/activity/5-2-14', src: '/static/activity/activity14.jpg', title: '助力世界杯', describe: '你投我就送，返点无上限'}
+          {href: '/activity/5-2-14', src: '/static/activity/activity14.jpg', title: '助力世界杯', describe: '你投我就送，返点无上限'},
+          {href: '/activity/5-2-15', src: '/static/activity/activity15.png', title: '助力世界杯', describe: '你投我就送，返点无上限'}
         ],
         activities: [
         ]

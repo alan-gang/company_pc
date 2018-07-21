@@ -15,8 +15,8 @@
         label.item 用户名 
           input.ds-input.small(v-model="name" style="width: 1rem")
 
-        .buttons(style="margin-left: .9rem")
-          .ds-button.primary.large.bold(@click="daySalaryRepor()") 搜索
+        .ds-button.primary.large.bold(@click="daySalaryRepor()") 搜索
+        //- .buttons(style="margin-left: .9rem")
       
       .table-list(style="padding: .15rem .2rem ")
 
@@ -33,7 +33,7 @@
           // el-table-column(prop="date" label="日期")
           el-table-column(prop="buyAmount" label="团队销量" )
           el-table-column(prop="buyAmount" label="有效销量" )
-          // el-table-column(prop="activitUser" label="活跃用户")
+          // el-table-column(prop="activitUser" label="有效用户")
           // el-table-column(prop="salaryLevel" label="工资标准" )
           el-table-column(prop="subSalary" label="下级工资总额" )
           el-table-column(prop="daySalary" label="本人工资" )
@@ -64,7 +64,7 @@
               el-table-column(prop="date" label="日期")
               el-table-column(prop="buyAmount" label="团队销量" )
               el-table-column(prop="buyAmount" label="有效销量" )
-              el-table-column(prop="activitUser" label="活跃用户")
+              el-table-column(prop="activitUser" label="有效用户")
               el-table-column(prop="salaryLevel" label="工资标准" )
               el-table-column(prop="subSalary" label="下级工资总额" )
               el-table-column(prop="daySalary" label="本人工资" )
@@ -90,11 +90,39 @@
         me: store.state.user,
         clearableOnTime: false,
         pickerOptions: {
+          shortcuts: [{
+            text: '最近3天',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 3)
+              end.setTime(end.getTime() - 3600 * 1000 * 24 * 1)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近5天',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 5)
+              end.setTime(end.getTime() - 3600 * 1000 * 24 * 1)
+              picker.$emit('pick', [start, end])
+            }
+          }, {
+            text: '最近7天',
+            onClick (picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              end.setTime(end.getTime() - 3600 * 1000 * 24 * 1)
+              picker.$emit('pick', [start, end])
+            }
+          }],
           disabledDate (time) {
-            return time.getTime() > Date.now() || time.getTime() < (Date.now() - 3600 * 1000 * 24 * 30)
+            return time.getTime() > (Date.now() - 3600 * 1000 * 24 * 1) || time.getTime() < (Date.now() - 3600 * 1000 * 24 * 30)
           }
         },
-        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 1), new Date(new Date().getTime())],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 1), new Date(new Date().getTime() - 3600 * 1000 * 24 * 1)],
         data: [{}],
         pageSize: 20,
         total: 0,

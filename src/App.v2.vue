@@ -151,7 +151,8 @@ export default {
                 {id: '5-2-11', position: {width: '7.6rem'}, title: '六合彩专属', url: 'HC6E'},
                 {id: '5-2-12', position: {width: '7.6rem'}, title: '迎新春闯关', url: 'NewYear'},
                 {id: '5-2-13', position: {width: '7.6rem'}, title: '全新日工资', url: 'NewSalary'},
-                {id: '5-2-14', position: {width: '7.6rem'}, title: '助力世界杯', url: 'WorldCup'}
+                {id: '5-2-14', position: {width: '7.6rem'}, title: '助力世界杯', url: 'WorldCup'},
+                {id: '5-2-15', position: {width: '7.6rem'}, title: '助力世界杯', url: 'ReturnPoint'}
               ]
             }
           ]
@@ -245,21 +246,21 @@ export default {
                 {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
                 {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
+            },
+            {
+              title: 'VR游戏',
+              // hide: true,
+              url: 'VR',
+              items: [
+                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR1.5分彩', fn: '1'},
+                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: '11'},
+                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: '2'},
+                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: '13'},
+                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR百家乐', fn: '15'}
+                // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: 'window'.env !== 'pro' ? 12 : 0},
+                // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
+              ]
             }
-            // {
-            //   title: 'VR游戏',
-            //   // hide: true,
-            //   url: 'VR',
-            //   items: [
-            //     {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: '金星1.5分彩', fn: 1},
-            //     // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: window.env !== 'pro' ? 12 : 0},
-            //     {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: '3分彩', fn: 11},
-            //     {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: '赛车', fn: 2},
-            //     {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: '快艇', fn: 13},
-            //     {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: '彩票百家乐', fn: 15}
-            //     // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
-            //   ]
-            // },
             // {
             //   title: '老虎机',
             //   hide: true,
@@ -428,7 +429,9 @@ export default {
                 {
                   id: '4-1-1',
                   menuid: '50',
-                  title: '投注记录',
+                  title: '彩票投注',
+                  tabs: ['彩票投注', 'VR投注'],
+                  tabfn: '__setGOI',
                   url: 'Order',
                   position: {
                     width: '13rem'
@@ -437,7 +440,9 @@ export default {
                 {
                   id: '4-2-1',
                   menuid: '53',
-                  title: '追号记录',
+                  title: '彩票追号',
+                  tabs: ['彩票追号', 'VR追号'],
+                  tabfn: '__setGFI',
                   url: 'Follow',
                   position: {
                     width: '12rem'
@@ -455,45 +460,36 @@ export default {
                 {
                   id: '4-9-9',
                   menuid: '53',
-                  title: '其它游戏',
-                  url: 'BGVedioRecord',
+                  title: '其它投注',
+                  url: 'Sports',
+                  // tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录'],
+                  tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录'],
+                  tabfn: '__setGRPTI',
                   position: {
                     width: '12rem'
                   }
                 },
                 {
-                  id: '4-5-2',
-                  menuid: '67',
-                  title: '帐变明细',
-                  position: {
-                    width: '12rem'
-                  },
-                  url: 'Account'
-                },
-                {
-                  id: '4-4-1',
-                  menuid: '57',
-                  title: '今日报表',
-                  url: 'Today'
-                },
-                {
                   id: '4-5-1',
                   menuid: '58',
-                  title: '历史报表',
+                  title: '彩票报表',
+                  tabs: ['彩票报表', '彩票分红'],
+                  tabfn: '__setProfitLossI',
                   url: 'ProfitLoss'
                 },
                 {
                   id: '3-3-1',
                   menuid: '45',
                   // size: 'full',
-                  title: '分红报表',
+                  title: '彩票分红',
+                  hide: true,
                   url: 'Stock'
                 },
                 // {
                 //   id: '3-3-1',
                 //   menuid: '64',
                 //   // size: 'full',
-                //   title: '分红报表',
+                //   title: '彩票分红',
                 //   url: 'Stock'
                 // },
                 {
@@ -507,6 +503,21 @@ export default {
                   menuid: '58',
                   title: '其它报表',
                   url: 'OutProfitLoss'
+                },
+                {
+                  id: '4-4-1',
+                  menuid: '57',
+                  title: '今日报表',
+                  url: 'Today'
+                },
+                {
+                  id: '4-5-2',
+                  menuid: '67',
+                  title: '帐变明细',
+                  position: {
+                    width: '12rem'
+                  },
+                  url: 'Account'
                 },
                 {
                   id: '4-5-3',
@@ -715,7 +726,7 @@ export default {
                 {
                   id: '4-1-1',
                   menuid: '50',
-                  title: '投注记录',
+                  title: '彩票投注',
                   url: 'Order',
                   position: {
                     width: '13rem'
@@ -724,7 +735,7 @@ export default {
                 {
                   id: '4-2-1',
                   menuid: '53',
-                  title: '追号记录',
+                  title: '彩票追号',
                   url: 'Follow',
                   position: {
                     width: '12rem'
@@ -742,31 +753,17 @@ export default {
                 {
                   id: '4-9-9',
                   menuid: '53',
-                  title: '其它游戏',
-                  url: 'BGVedioRecord',
+                  title: '其它投注',
+                  url: 'Sports',
                   position: {
                     width: '12rem'
                   }
                 },
                 {
-                  id: '4-5-2',
-                  menuid: '67',
-                  title: '帐变明细',
-                  position: {
-                    width: '12rem'
-                  },
-                  url: 'Account'
-                },
-                {
-                  id: '4-4-1',
-                  menuid: '57',
-                  title: '今日报表',
-                  url: 'Today'
-                },
-                {
                   id: '4-5-1',
                   menuid: '58',
-                  title: '历史报表',
+                  title: '彩票报表',
+                  tabs: ['彩票报表', '彩票分红'],
                   url: 'ProfitLoss'
                 },
                 {
@@ -779,14 +776,15 @@ export default {
                   id: '3-3-1',
                   menuid: '45',
                   // size: 'full',
-                  title: '分红报表',
+                  hide: true,
+                  title: '彩票分红',
                   url: 'Stock'
                 },
                 // {
                 //   id: '3-3-1',
                 //   menuid: '64',
                 //   // size: 'full',
-                //   title: '分红报表',
+                //   title: '彩票分红',
                 //   url: 'Stock'
                 // },
                 {
@@ -794,6 +792,21 @@ export default {
                   menuid: '78',
                   title: '工资报表',
                   url: 'DaySalary'
+                },
+                {
+                  id: '4-4-1',
+                  menuid: '57',
+                  title: '今日报表',
+                  url: 'Today'
+                },
+                {
+                  id: '4-5-2',
+                  menuid: '67',
+                  title: '帐变明细',
+                  position: {
+                    width: '12rem'
+                  },
+                  url: 'Account'
                 },
                 {
                   id: '4-5-3',
@@ -835,7 +848,7 @@ export default {
                 // {
                 //   id: '4-1-7',
                 //   menuid: '98',
-                //   title: 'VR投注记录列表',
+                //   title: 'VR彩票投注列表',
                 //   url: 'VROrder',
                 //   position: {
                 //     width: '13rem'

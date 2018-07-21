@@ -4,11 +4,11 @@
     
     MyMenu(:menus="menus.slice(0, 11).concat(menus[15])" v-on:open-page="openTab")
 
-    // el-carousel(:interval="4000" type="card" height="450px")
-      el-carousel-item(v-for="item in sources" v-bind:key="item" v-bind:style="{ ba }")
-        img(:src=" item.src ")
-    img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem; cursor: pointer;" @click="__setCall({fn: '__openWindowWithPost', args: '3:301:iframe'})")
-    
+    el-carousel.ad(:interval="4000" arrow="always")
+      el-carousel-item(v-for="(item, i) in sources" v-bind:key=" i " v-bind:style="{ ba }")
+        img(:src=" item.src " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner(item) ")
+
+    //- img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem; cursor: pointer;" @click="__setCall({fn: '__openWindowWithPost', args: '3:301:iframe'})")
     .our-game.content-width
 
       el-row.collects.font-white.top-games
@@ -97,10 +97,12 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
-        {href: '/activity/5-2-9', src: '/static/activity/activity9.jpg', title: '王者争霸赛', describe: '王者争霸赛，注册就送2万体验币'},
-        {href: '/activity/5-2-1', src: '/static/activity/nds/activity1.jpg', title: '注册就送', describe: '全新的游戏体验，来玩就送'},
-        {href: '/activity/5-2-2', src: '/static/activity/nds/activity2.jpg', title: '新用户有礼了', describe: '绑定手机、银行卡、邮箱，即可领取58元优惠券'},
-        {href: '/activity/5-2-3', src: '/static/activity/nds/activity3.jpg', title: '每日签到', describe: '每日来我签到，好礼不断'}
+        {href: '/activity/5-2-15?id=90', src: '/static/pic/2.jpg'},
+        {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
+        {href: '/activity/5-2-8?id=89', src: '/static/pic/1.jpg'}
+        // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
+        // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
+        // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
       ],
       topgames: [
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
@@ -159,6 +161,13 @@ export default {
     this.timeout = 0
   },
   methods: {
+    openBanner (item) {
+      if (item.fn) {
+        this.__setCall({fn: item.fn, args: item.args})
+      } else if (item.href) {
+        this.$router.push(item.href)
+      }
+    },
     scrollHander (evt) {
       this.lefter = this.lefter || document.getElementsByClassName('lefter')[0]
       if (this.lefter) {
@@ -216,7 +225,7 @@ export default {
       // this.formData = {}
       this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
         //
-        this.formData[fn] = data
+        this.formData[fn] = data.vrurl
         this.__openWindowWithPost(fn)
         // if (data.success === 1) {
         //   // this.openWindowWithPost(data)
@@ -291,6 +300,14 @@ export default {
   // @import '../1280X800.stylus'
   // @import '../chat.stranger.1366.stylus'
   // @import '../classic.v2.stylus'
+  .new-home .el-carousel__container
+    height 180px
+    @media screen and (min-width: 1200px)
+        height 272px
+    @media screen and (min-width: 1600px)
+        height 372px
+    @media screen and (min-width: 1920px)
+        height 400px
 
 </style>
 

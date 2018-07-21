@@ -21,7 +21,7 @@
 
 
         label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
+          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
         //- el-select(v-model="S" placeholder="默认排序")
@@ -33,8 +33,8 @@
           el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
             el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
         
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="profitList()") 搜索
+        .ds-button.primary.large.bold(@click="profitList()") 搜索
+        //- .buttons(style="margin-left: .3rem")
         
       
       .table-list(style="padding: .15rem .2rem ")
@@ -42,7 +42,7 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH " )
+        el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" v-bind:max-height=" MH " )
 
           el-table-column(class-name="pl2" prop="username" label="用户名" )
             template(scope="scope")
@@ -60,10 +60,14 @@
             template(scope="scope")
               span {{ numberWithCommas(scope.row.prizeamount) }}
 
+          el-table-column(align="right" prop="pointamount" label="返水" )
+            template(scope="scope")
+              span {{ numberWithCommas(scope.row.pointamount) }}
+
 
           el-table-column(align="right" prop="settlement" label="盈亏"  class-name="pr2")
             template(scope="scope")
-              span {{ numberWithCommas(scope.row.settlement) }}
+              span(:class=" {'text-green': parseFloat(scope.row.settlement) > 0, 'text-danger': parseFloat(scope.row.settlement) < 0 } ")  {{ numberWithCommas(scope.row.settlement) }}
 
           //- el-table-column(prop="userpoint" label="操作" align="center")
             template(scope="scope")
@@ -126,7 +130,7 @@
 
               el-table-column(align="right" prop="settlement" label="总结算" class-name="pr2" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.settlement) }}
+                  span(:class=" {'text-green': parseFloat(scope.row.settlement) > 0, 'text-danger': parseFloat(scope.row.settlement) < 0 } ") {{ numberWithCommas(scope.row.settlement) }}
 </template>
 
 <script>
@@ -270,7 +274,7 @@
       profitList (page, fn, id) {
         let loading = this.$loading({
           text: '加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {

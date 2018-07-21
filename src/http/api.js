@@ -1,5 +1,5 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-let api = 'http://192.168.169.49:9901/cagamesclient'
+let api = '/cagamesclient'
 if (window.location.host.split('.')[0] === '58') {
   api = 'http://58.71.87.90:9901/cagamesclient'
 }
@@ -600,7 +600,9 @@ let Activity = {
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=myGetPrize
   // 今日签到
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=getCheckToday
-  getCheckToday: '/activity.do?method=getCheckToday'
+  getCheckToday: '/activity.do?method=getCheckToday',
+  // prizeId就是礼品ID，activityId就是活动ID
+  doRewardPrize: '/activity.do?method=doRewardPrize'
 }
 
 let Download = {

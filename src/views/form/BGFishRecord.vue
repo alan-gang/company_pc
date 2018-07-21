@@ -1,5 +1,5 @@
 <template lang="jade">
-  .group-page
+  .group-page.tool-bar-page-content
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -19,12 +19,12 @@
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
-        .buttons(style="margin-left: .6rem")
-          .ds-button.primary.large.bold(@click="getData") 搜索
+        .ds-button.primary.large.bold(@click="getData") 搜索
+        //- .buttons(style="margin-left: .6rem")
       
       .table-list(style="padding: .15rem .2rem ")
       
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
+        el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
 
           el-table-column(class-name="pl2" prop="orderTime" label="捕鱼时间"  )
           el-table-column(prop="issueId" label="局号"  )
@@ -129,7 +129,7 @@
       getData (page, fn) {
         let loading = this.$loading({
           text: '其它游戏记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -169,7 +169,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .user-list
-    top TH
+    // top TH
     .form
       padding PWX
 

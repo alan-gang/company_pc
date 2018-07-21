@@ -6,94 +6,95 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .stock-list.scroll-content
-
-      .form.form-filters
-
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
-        
-        label.item 时间范围 
-          el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
-
-
-        label.item 范围 
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
-
-        
-        el-select(v-model="S" placeholder="默认排序")
-          el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
-
-        | &nbsp;&nbsp;
-
-        label.item 
-          el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
-            el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
-        
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="profitList()") 搜索
-        
       
-      .table-list(style="padding: .15rem .2rem ")
-        p(style="margin: 0 0 .15rem 0")
-          el-breadcrumb(separator=">")
-            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
-      
-        el-table.header-bold.nopadding(:data="data" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" style="margin: 0 0 0 0" v-bind:max-height=" MH " )
+      div(v-if=" I === 0 ")
+        .form.form-filters
 
-          el-table-column(class-name="pl2" prop="userName" label="用户名" )
-            template(scope="scope")
-              span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } " v-if="!scope.row.lst") {{ scope.row.userName }}
-              span(v-if="scope.row.lst") 小结
-          el-table-column(prop="userPoint" label="返点级别" align="center")
-
-          el-table-column(align="right" prop="saveAmount" label="充值总额" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.saveAmount) }}
-
-          el-table-column(align="right" prop="withdrawAmount" label="提款总额" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.withdrawAmount) }}
-
-
-          el-table-column(align="right" prop="buyAmount" label="投注总额" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.buyAmount) }}
-
-          el-table-column(align="right" prop="pointAmount" label="返点总额" )
-
-
-          el-table-column(align="right" prop="prizeAmount" label="派奖总额" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.prizeAmount) }}
-
-          el-table-column(align="right" prop="rewardsAmount" label="活动")
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.rewardsAmount) }}
-
-          el-table-column(align="right" prop="salaryAmount" label="工资")
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.salaryAmount) }}
-
-
-          el-table-column(align="right" prop="profitAmount" label="盈亏"  )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.profitAmount) }}
-
-          el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.outProfitAmount) }}
-
-          el-table-column(align="right" prop="settlement" label="总结算"  )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.settlement) }}
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
           
-          el-table-column(prop="userpoint" label="操作" align="center")
-            template(scope="scope")
-              .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
+          label.item 时间范围 
+            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
-    
+
+          label.item 范围 
+            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
+              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
+
+          
+          el-select(v-model="S" placeholder="默认排序")
+            el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
+
+          | &nbsp;&nbsp;
+
+          label.item 
+            el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
+              el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
+          
+          .ds-button.primary.large.bold(@click="profitList()") 搜索
+          //- .buttons(style="margin-left: .3rem")
+        .table-list(style="padding: .15rem .2rem ")
+          p(style="margin: 0 0 .15rem 0")
+            el-breadcrumb(separator=">")
+              el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
+        
+          el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName"  v-bind:max-height=" MH " )
+
+            el-table-column(class-name="pl2" prop="userName" label="用户名" )
+              template(scope="scope")
+                span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } " v-if="!scope.row.lst") {{ scope.row.userName }}
+                span(v-if="scope.row.lst") 小结
+            el-table-column(prop="userPoint" label="返点级别" align="center")
+
+            el-table-column(align="right" prop="saveAmount" label="充值总额" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.saveAmount) }}
+
+            el-table-column(align="right" prop="withdrawAmount" label="提款总额" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.withdrawAmount) }}
+
+
+            el-table-column(align="right" prop="buyAmount" label="投注总额" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.buyAmount) }}
+
+            el-table-column(align="right" prop="pointAmount" label="返点总额" )
+
+
+            el-table-column(align="right" prop="prizeAmount" label="派奖总额" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.prizeAmount) }}
+
+            el-table-column(align="right" prop="rewardsAmount" label="活动")
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.rewardsAmount) }}
+
+            el-table-column(align="right" prop="salaryAmount" label="工资")
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.salaryAmount) }}
+
+
+            el-table-column(align="right" prop="profitAmount" label="盈亏"  )
+              template(scope="scope")
+                span(:class=" { 'text-danger': scope.row.profitAmount.startsWith('-'), 'text-green': !scope.row.profitAmount.startsWith('-') } ") {{ numberWithCommas(scope.row.profitAmount) }}
+
+            //- el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
+              template(scope="scope")
+                span(v-bind:class=" { 'text-danger': scope.row.outProfitAmount.startsWith('-'), 'text-green': scope.row.outProfitAmount.startsWith('+') } ") {{ numberWithCommas(scope.row.outProfitAmount) }}
+
+            //- el-table-column(align="right" prop="settlement" label="总结算"  )
+              template(scope="scope")
+                span(:class=" { 'text-danger': scope.row.settlement.startsWith('-'), 'text-green': !scope.row.settlement.startsWith('-') } ") {{ numberWithCommas(scope.row.settlement) }}
+            
+            el-table-column(prop="userpoint" label="操作" align="center")
+              template(scope="scope")
+                .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+      Stock(v-if=" I === 1 ")
+
     .modal(v-show="showDetail" )
       .mask
       .box-wrapper
@@ -139,20 +140,22 @@
                   span {{ numberWithCommas(scope.row.salaryAmount) }}
 
 
-              el-table-column(align="right" prop="profitAmount" label="盈亏"  )
+              el-table-column(align="right" prop="profitAmount" label="盈亏"  class-name="pr2" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.profitAmount) }}
+                  span(:class=" { 'text-danger': scope.row.profitAmount.startsWith('-'), 'text-green': scope.row.profitAmount.startsWith('+') } ") {{ numberWithCommas(scope.row.profitAmount) }}
 
-              el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
+              //- el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.outProfitAmount) }}
+                  span(:class=" { 'text-danger': scope.row.outProfitAmount.startsWith('-'), 'text-green': scope.row.outProfitAmount.startsWith('+') } ") {{ numberWithCommas(scope.row.outProfitAmount) }}
 
-              el-table-column(align="right" prop="settlement" label="总结算" class-name="pr2" )
+              //- el-table-column(align="right" prop="settlement" label="总结算" class-name="pr2" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.settlement) }}
+                  span(:class=" { 'text-danger': scope.row.settlement.startsWith('-'), 'text-green': scope.row.settlement.startsWith('+') } ") {{ numberWithCommas(scope.row.settlement) }}
+
 </template>
 
 <script>
+  import Stock from '../group/Stock'
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
   import { numberWithCommas } from '../../util/Number'
@@ -162,7 +165,8 @@
   export default {
     mixins: [setTableMaxHeight],
     components: {
-      ProfitLossDetail
+      ProfitLossDetail,
+      Stock
     },
     data () {
       return {
@@ -201,7 +205,7 @@
           }
         },
         stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24).getDate() < 16 ? ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(1)) : ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(16)), new Date(new Date().getTime() - 3600 * 1000 * 24)],
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,
@@ -217,15 +221,26 @@
         S: '',
         btos: '',
         cdata: [],
-        totalJson: {}
+        totalJson: {},
+        I: 0
       }
     },
     computed: {
+    },
+    watch: {
+      I () {
+        if (this.I === 0) {
+          setTimeout(this.profitList)
+        }
+      }
     },
     mounted () {
       this.profitList()
     },
     methods: {
+      __setProfitLossI (I) {
+        this.I = I
+      },
       getSummaries (param) {
         const { columns } = param
         const sums = []
@@ -290,7 +305,7 @@
       profitList (page, fn, id) {
         let loading = this.$loading({
           text: '加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
@@ -372,7 +387,7 @@
         })
       },
       tableRowClassName (row) {
-        if (this.me.account === row.userName) return 'text-danger'
+        // if (this.me.account === row.userName) return 'text-danger'
       }
     }
   }

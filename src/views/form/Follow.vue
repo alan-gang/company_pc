@@ -6,89 +6,92 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-
-      .form.form-filters
-        
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
-        
-        label.item 追号时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-        label.item 游戏 
-          el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
-
-        label.item 奖期 
-          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
-
-
-
-        label.item 追号编号 
-          el-input(v-model="id" style="width: 1rem")
-
-
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="followList()") 搜索
-          .ds-button.cancel.large(@click="clear(true)") 清空
+       div(v-if=" I === 0 ")
       
-      .table-list(style="padding: .15rem .2rem ")
-      
-        el-table.header-bold.nopadding(:data="Cdata" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
-
-          el-table-column(label="追号编号" class-name="pl2")
-            template(scope="scope")
-              div
-                span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.taskId }}
-                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
-
-          el-table-column(prop="userName" label="用户")
+        .form.form-filters
           
-          el-table-column(prop="beginTime" label="追号时间"  min-width="120")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.beginTime }}
-              span.text-blue(v-if="scope.row.last") {{ scope.row.expenditure }}
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
+          
+          label.item 追号时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-          el-table-column(prop="lotteryName" label="游戏" )
+          label.item 游戏 
+            el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
+              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-          el-table-column(prop="methodName" label="玩法"  min-width="120")
-            template(scope="scope")
-              div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
-
-          el-table-column(prop="beginIssue" label="开始期数" )
-
-          el-table-column(class-name="pl2" prop="issuecount" label="总期数")
-
-          el-table-column(prop="finishedcount" label="完成期数")
-
-          el-table-column(class-name="pl1" prop="modes" label="模式" )
-            template(scope="scope")
-              span {{ MODES[scope.row.modes - 1] }}            
-
-          el-table-column(prop="taskprice" label="总金额" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ numberWithCommas(scope.row.taskprice) }}
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
-
-          // el-table-column(prop="finishprice" label="完成金额" align="right")
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.finishprice }}
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
-
-          el-table-column(class-name="pl2"   label="状态" align="center")
-            template(scope="scope")
-              span(:class=" STATUSCLASS[scope.row.status] ") {{ STATUS[scope.row.status] }}
-
-          el-table-column(label="操作")
-            template(scope="scope")
-
-              div(v-if="!scope.row.last")
-
-                .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = scope.row.taskId") 追号详情
+          label.item 奖期 
+            el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+          label.item 追号编号 
+            el-input(v-model="id" style="width: 1rem")
+
+
+          .ds-button.primary.large.bold(@click="followList()") 搜索
+          //- .buttons(style="margin-left: .3rem")
+            .ds-button.cancel.large(@click="clear(true)") 清空
+        
+        .table-list(style="padding: .15rem .2rem ")
+        
+          el-table.header-bold.nopadding(:data="Cdata"  style=""   ref="table" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
+
+            el-table-column(label="追号编号" class-name="pl2")
+              template(scope="scope")
+                div
+                  span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.taskId }}
+                  span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
+
+            el-table-column(prop="userName" label="用户")
+            
+            el-table-column(prop="beginTime" label="追号时间"  min-width="120")
+              template(scope="scope")
+                span(v-if="!scope.row.last") {{ scope.row.beginTime }}
+                span.text-blue(v-if="scope.row.last") {{ scope.row.expenditure }}
+
+            el-table-column(prop="lotteryName" label="游戏" )
+
+            el-table-column(prop="methodName" label="玩法"  min-width="120")
+              template(scope="scope")
+                div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
+
+            el-table-column(prop="beginIssue" label="开始期数" )
+
+            el-table-column(class-name="pl2" prop="issuecount" label="总期数")
+
+            el-table-column(prop="finishedcount" label="完成期数")
+
+            el-table-column(class-name="pl1" prop="modes" label="模式" )
+              template(scope="scope")
+                span {{ MODES[scope.row.modes - 1] }}            
+
+            el-table-column(prop="taskprice" label="总金额" align="right")
+              template(scope="scope")
+                span.text-danger(v-if="!scope.row.last") -{{ numberWithCommas(scope.row.taskprice) }}
+                span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
+
+            // el-table-column(prop="finishprice" label="完成金额" align="right")
+              template(scope="scope")
+                span(v-if="!scope.row.last") {{ scope.row.finishprice }}
+                span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+
+            el-table-column(class-name="pl2"   label="状态" align="center")
+              template(scope="scope")
+                span(:class=" STATUSCLASS[scope.row.status] ") {{ STATUS[scope.row.status] }}
+
+            el-table-column(label="操作")
+              template(scope="scope")
+
+                div(v-if="!scope.row.last")
+
+                  .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = scope.row.taskId") 追号详情
+
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
       
+       VRFollow.scroll-content(v-if=" I === 1 ")
+
 
     .modal(v-show="showFollow" )
       .mask
@@ -107,13 +110,15 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
+  import VRFollow from './VRFollow'
   import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
   export default {
     components: {
-      Follow
+      Follow,
+      VRFollow
     },
     mixins: [setTableMaxHeight],
     data () {
@@ -194,19 +199,14 @@
         amount: [{}],
         Cdata: [],
         showFollow: '',
-        numberWithCommas: numberWithCommas
+        numberWithCommas: numberWithCommas,
+        I: 0
       }
     },
     computed: {
       textMoney () {
         return digitUppercase(this.money)
       }
-      // Cdata () {
-      //   if (this.data.length <= this.pageSize) return this.data
-      //   else {
-      //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-      //   }
-      // }
     },
     watch: {
       '$route': 'openRoute',
@@ -222,6 +222,11 @@
             this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
         }
+      },
+      I () {
+        if (this.I === 0) {
+          setTimeout(this.getData)
+        }
       }
     },
     mounted () {
@@ -230,6 +235,9 @@
       this.followList()
     },
     methods: {
+      __setGFI (i) {
+        this.I = i
+      },
       getSummaries (param) {
         const { columns, data } = param
         const sums = []
@@ -352,7 +360,7 @@
       followList (page, fn) {
         let loading = this.$loading({
           text: '追号记录加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {

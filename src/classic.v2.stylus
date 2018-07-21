@@ -218,16 +218,17 @@ H = 1.04rem
     background-color rgba(0,0,0,0)
     // color #9da4cb
     .el-submenu__title
-      height .36rem
-      line-height .36rem
+      height .34rem
+      line-height .34rem
       color #333
       background-color #e5e5e5
       &:hover
         background-color #e5e5e5
     .el-menu-item
-      color #666
+      color #333
       height .3rem
       line-height .3rem
+      padding-left .45rem !important
       &:before
         // content ''
         display inline-block
@@ -249,12 +250,15 @@ H = 1.04rem
           background-color BLUE
 
     .el-menu-item-group
+      ul
+        margin 0 0 0  0
+      
         // background-color rgba(0, 0, 0, .3)
 
     .el-submenu
       &:first-child
         margin-top 0
-      margin .05rem 0
+      margin .02rem 0
       &.is-opened
         .el-submenu__title
           // color #fff
@@ -284,43 +288,50 @@ H = 1.04rem
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right PW
+    margin-right .02rem
     shadow(none)
     background url(../DSM/src/assets/icon_01.png) center no-repeat
+    background-size .2rem .2rem
+    
   .ds-icon-group-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right PW
+    margin-right .02rem
     shadow(none)
     background url(../DSM/src/assets/icon_02.png) center no-repeat
+    background-size .2rem .2rem
+    
   .ds-icon-record-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right PW
+    margin-right .02rem
     shadow(none)
     background url(../DSM/src/assets/icon_03.png) center no-repeat
+    background-size .2rem .2rem
+    
   .ds-icon-gift-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right PW
+    margin-right .02rem
     shadow(none)
     background url(assets/gift.png) center no-repeat
-    background-size .26rem .26rem
+    background-size .2rem .2rem
+    
   .ds-icon-help-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right PW
+    margin-right .02rem
     shadow(none)
     background url(assets/help.png) center no-repeat
-    background-size .26rem .26rem
+    background-size .2rem .2rem
 
 #app.classic.v2:not(.game) .new-home
   .dialog-container
@@ -339,7 +350,7 @@ H = 1.04rem
         .el-button-group>*:not(.close)
           display none
       &:not(.trend-chart-page)>.scroll-content:not(.followDetail-page-content):not(.safe-detail-info)
-        top .36rem !important
+        top .4rem !important
 
 #app.classic.v2.game .new-home
   .dialog-container
@@ -424,6 +435,8 @@ body
         height 5rem
         background #343d46 !important
         overflow auto
+        width 3rem
+        right -.2rem
 
       .lucky-numbers
         padding 0

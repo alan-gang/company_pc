@@ -7,7 +7,7 @@
         .move-bar(slot="movebar")
         .resize-x(slot="resize-x")
         .resize-y(slot="resize-y")
-        ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:class="[ page.menuClass +  '-small']" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)")
+        ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:tabs="page.tabs" v-bind:tabfn="page.tabfn" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)")
 
 </template>
 
@@ -68,6 +68,7 @@ import DaySalary from './form/DaySalary'
 import BGFishRecord from './form/BGFishRecord'
 import BGGameRecord from './form/BGGameRecord'
 import BGVedioRecord from './form/BGVedioRecord'
+import Sports from './form/Sports'
 // 趋势图
 // import TrendChart from './form/TrendChart'
 
@@ -98,6 +99,7 @@ import HC6E from './activity/HC6E'
 import NewYear from './activity/NewYear'
 import NewSalary from './activity/NewSalary'
 import WorldCup from './activity/WorldCup'
+import ReturnPoint from './activity/ReturnPoint'
 // 下载
 import Download from './download/Download'
 
@@ -153,6 +155,7 @@ export default {
     BGFishRecord,
     BGGameRecord,
     BGVedioRecord,
+    Sports,
     // 走势图
     // TrendChart,
     // Help
@@ -180,6 +183,7 @@ export default {
     NewYear,
     NewSalary,
     WorldCup,
+    ReturnPoint,
     // 下载
     Download
   },
