@@ -5,159 +5,157 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .stock-list.scroll-content
-      div(v-if=" I === 0 ")
+    .scroll-content
 
-        .form(v-if="stepIndex === 0 ")
+      .form(v-if="stepIndex === 0 ")
 
-          div(style="text-align: center; min-height: .2rem")
-            .ds-button-group(v-if="me.role >= 2")
-              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的契约
-              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级契约
+        div(style="text-align: center; min-height: .2rem")
+          .ds-button-group(v-if="me.role >= 2")
+            .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的佣金
+            .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级佣金
 
-          label.item(v-if="type === 1") 用户名&nbsp;
-            input.ds-input.small(v-model="name" style="width: 1rem")
+        label.item(v-if="type === 1") 用户名&nbsp;
+          input.ds-input.small(v-model="name" style="width: 1rem")
 
-          // label.item 时间
-          //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+        // label.item 时间
+        //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-          label.item  &nbsp;状态&nbsp;
-            el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
-              el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
+        label.item  &nbsp;状态&nbsp;
+          el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
+            el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
 
-          | &nbsp;&nbsp;
-
-
-
-          .ds-button.primary.large.bold(@click="contract") 搜索
-
-          el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
-
-            el-table-column(class-name="pl2" prop="userName" label="用户名" v-if="type === 1")
-
-            el-table-column(class-name="pl2" prop="beginTm" label="开始时间" )
-
-            el-table-column(class-name="pl2" prop="expireTm" label="截止时间" )
-
-
-            el-table-column(prop="status" label="状态")
-              template(scope="scope")
-                span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
-
-            el-table-column(label="操作")
-              template(scope="scope")
-
-                .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id) ") 查看详情
-
-                .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
-
-                .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
-
-          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
-
-
-        div(v-if="stepIndex === 1 ")
-
-          .notice(style="margin-top: .2rem")
-              span.title 温馨提示：
-              p.content
-                span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
-                br
-                | 1.
-                span.text-danger 销量
-                | 和
-                span.text-danger 亏损
-                | 只要达到规则，都应按照规则的分红比例派发分红
-                br
-                | 2.
-                span.text-danger [手动发放]
-                | 即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
-                span.text-danger 分红列表-分红详情
-                | 中进行点击确认发放
-                br
-                | 3.
-                span.text-danger [自动发放]
-                | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
-                span.text-danger 手动执行
-                br
-                | 4. 契约执行周期为：[按月]
-                span.text-danger 1号
-                | ；[按半月]
-                span.text-danger 1号
-                | 和
-                span.text-danger 16号
-                //- |；[按周]
-                //- span.text-danger 周一
-                br
-                | 5. 一天内投注额达到
-                span.text-danger 500元
-                | ，为一个有效用户
-
-
-          p.title.text-black
-            span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
-
-
-          div(style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
+        | &nbsp;&nbsp;
 
 
 
-            p.item.block
-              span.text-danger *
-              | 用户名：&nbsp;&nbsp;&nbsp;&nbsp;
-              span.text-black {{ user.userName }}
+        .ds-button.primary.large.bold(@click="contract") 搜索
 
-            .item.block
-              span.text-danger *
-              | 契约时间：
-              el-date-picker(:picker-options="ApickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+        el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
 
-            p.item.block
-               span.text-danger *
-               | 发放周期：
-               //- span 半月
-               el-select(v-model=" SV " style="width: .7rem" placeholder="无")
-                  el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
+          el-table-column(class-name="pl2" prop="userName" label="用户名" v-if="type === 1")
 
-                  span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+          el-table-column(class-name="pl2" prop="beginTm" label="开始时间" )
 
-            p.item.block
-              span.text-danger *
-              | 发放方式：
-              label.text-black(style="padding: 0; margin-left: -.05rem ").ds-radio-label(@click=" sendType = 0 " v-bind:class=" { active: sendType === 0 } ")
-                 span.ds-radio.white.
-                 | 手动发放
-              label.text-black(style="padding: 0 .1rem").ds-radio-label(@click=" sendType = 1 " v-bind:class=" { active: sendType === 1 } ")
-                span.ds-radio.white.
-                | 自动发放
-                span.text-green  ( 推荐 )
-
-            p.item.block(v-for=" (CR, i) in CRULES ")
-              span.text-danger {{ i===0? '*': '&nbsp;'}}
-              | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-              span.text-black 累计
-              el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
-                el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
-              | &nbsp;&nbsp;
-              el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
-              span.text-black &nbsp;万，有效人数&nbsp;
-              el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
-              span.text-black  人，分红比例
-              el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
-              |  %
+          el-table-column(class-name="pl2" prop="expireTm" label="截止时间" )
 
 
-            .buttons.item.block(style="padding-left: .55rem")
-              .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 21")
-                span.text-black &nbsp;再加一行
+          el-table-column(prop="status" label="状态")
+            template(scope="scope")
+              span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
 
-              .ds-button.x-small.text-button.el-icon-minus.blue(@click=" ruleLength-- " v-if="ruleLength > 3 ")
-                span.text-black &nbsp;减最后一行
+          el-table-column(label="操作")
+            template(scope="scope")
 
-            .buttons.item.block(style="padding-left: .6rem")
-              .ds-button.primary.bold(@click="createContract") 确认发送
+              .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id) ") 查看详情
 
-      OtherContract.scroll-content(v-if=" I === 1 ")
+              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
+
+              .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
+
+        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
+
+
+      div(v-if="stepIndex === 1 ")
+
+        .notice(style="margin-top: .2rem")
+            span.title 温馨提示：
+            p.content
+              span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
+              br
+              | 1.
+              span.text-danger 销量
+              | 和
+              span.text-danger 亏损
+              | 只要达到规则，都应按照规则的分红比例派发分红
+              br
+              | 2.
+              span.text-danger [手动发放]
+              | 即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
+              span.text-danger 分红列表-分红详情
+              | 中进行点击确认发放
+              br
+              | 3.
+              span.text-danger [自动发放]
+              | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
+              span.text-danger 手动执行
+              br
+              | 4. 契约执行周期为：[按月]
+              span.text-danger 1号
+              | ；[按半月]
+              span.text-danger 1号
+              | 和
+              span.text-danger 16号
+              //- |；[按周]
+              //- span.text-danger 周一
+              br
+              | 5. 一天内投注额达到
+              span.text-danger 500元
+              | ，为一个有效用户
+
+
+        p.title.text-black
+          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
+
+
+        div(style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
+
+
+
+          p.item.block
+            span.text-danger *
+            | 用户名：&nbsp;&nbsp;&nbsp;&nbsp;
+            span.text-black {{ user.userName }}
+
+          .item.block
+            span.text-danger *
+            | 契约时间：
+            el-date-picker(:picker-options="ApickerOptions" v-model="stEtA" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+          p.item.block
+             span.text-danger *
+             | 发放周期：
+             //- span 半月
+             el-select(v-model=" SV " style="width: .7rem" placeholder="无")
+                el-option(v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S")
+
+                span.text-black(style="padding: 0 .16rem") {{ time[me.shareCycle] }}
+
+          p.item.block
+            span.text-danger *
+            | 发放方式：
+            label.text-black(style="padding: 0; margin-left: -.05rem ").ds-radio-label(@click=" sendType = 0 " v-bind:class=" { active: sendType === 0 } ")
+               span.ds-radio.white.
+               | 手动发放
+            label.text-black(style="padding: 0 .1rem").ds-radio-label(@click=" sendType = 1 " v-bind:class=" { active: sendType === 1 } ")
+              span.ds-radio.white.
+              | 自动发放
+              span.text-green  ( 推荐 )
+
+          p.item.block(v-for=" (CR, i) in CRULES ")
+            span.text-danger {{ i===0? '*': '&nbsp;'}}
+            | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
+            span.text-black 累计
+            el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
+              el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
+            | &nbsp;&nbsp;
+            el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
+            span.text-black &nbsp;万，有效人数&nbsp;
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+            span.text-black  人，分红比例
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
+            |  %
+
+
+          .buttons.item.block(style="padding-left: .55rem")
+            .ds-button.x-small.text-button.el-icon-plus.blue(@click=" ruleLength++ " v-if="ruleLength < 21")
+              span.text-black &nbsp;再加一行
+
+            .ds-button.x-small.text-button.el-icon-minus.blue(@click=" ruleLength-- " v-if="ruleLength > 3 ")
+              span.text-black &nbsp;减最后一行
+
+          .buttons.item.block(style="padding-left: .6rem")
+            .ds-button.primary.bold(@click="createContract") 确认发送
+
     .modal(v-if="showDetail" )
       .mask
       .box-wrapper
@@ -174,15 +172,13 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ContractDetail from './ContractDetail'
-  import OtherContract from './OtherContract'
   import api from '../../http/api'
   import { dateTimeFormat } from '../../util/Date'
   import store from '../../store'
   export default {
     mixins: [setTableMaxHeight],
     components: {
-      ContractDetail,
-      OtherContract
+      ContractDetail
     },
     data () {
       return {
@@ -293,8 +289,8 @@
         stEt: ['', ''],
         stEtA: ['', ''],
         me: store.state.user,
-        time: ['月', '半月', '周'],
-        sendCycle: [],
+        time: ['月'],
+        sendCycle: [1],
         SV: '',
         type: 0,
         // st: '',
@@ -320,8 +316,8 @@
         sendType: 1,
         AT: 0,
         // 规则一：累计
-        TYPE: [{id: 0, title: '销售'}, {id: 1, title: '亏损'}],
-        r: {id: 0, title: '销售'},
+        TYPE: [{id: 0, title: '亏损'}],
+        r: {id: 0, title: '亏损'},
         RULES: [
           {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
           {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
@@ -357,8 +353,8 @@
         ruleLength: 3,
         name: '',
         showDetail: false,
-        I: 0,
-        cType: 0
+        I: 1,
+        cType: 1
       }
     },
     computed: {
@@ -411,7 +407,7 @@
     },
     mounted () {
       this.contract()
-      this.getSysContractRange()
+      // this.getSysContractRange()
       // if (this.platform === 'ds') {
       const end = new Date()
       const start = new Date()
@@ -420,24 +416,21 @@
       // }
     },
     methods: {
-      __setGCI (i) {
-        this.I = i
-      },
       pageChanged (cp) {
         this.contract(cp, () => {
           this.currentPage = cp
         })
       },
-      getSysContractRange () {
-        this.$http.get(api.getSysContractRange).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.sendCycle = data.sendCycle.split(',')
-          }
-        }, (rep) => {
-          // error
-        })
-      },
+      // getSysContractRange () {
+      //   this.$http.get(api.getSysContractRange).then(({data}) => {
+      //     // success
+      //     if (data.success === 1) {
+      //       this.sendCycle = data.sendCycle.split(',')
+      //     }
+      //   }, (rep) => {
+      //     // error
+      //   })
+      // },
       goContractDetail (id) {
         this.$router.push({
           path: '/group/3-3-4',
@@ -478,6 +471,7 @@
             //     c.expireTm = '--'
             //   }
             // })
+            // this.cType = data.cType
             this.data = data.contractList || data.mySubContract
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
@@ -525,7 +519,7 @@
           expireTm: dateTimeFormat((window.newDate(this.stEtA[1])).getTime()).replace(/[\s:-]*/g, ''),
           userId: this.user.userId,
           sendType: this.sendType,
-          sendCycle: parseInt(this.SV),
+          // sendCycle: parseInt(this.SV),
           cType: this.cType,
           // sendCycle: 2,
           // sharecycle: this.AT,

@@ -43,6 +43,7 @@ import SetDaySalary from './group/SetDaySalary'
 import AddUser from './group/AddUser'
 import Ad from './group/Ad'
 import Contract from './group/Contract'
+import OtherContract from './group/OtherContract'
 import ContractDetail from './group/ContractDetail'
 import Stock from './group/Stock'
 import StockDetail from './group/StockDetail'
@@ -61,6 +62,7 @@ import VRTip from './form/VRTip'
 import LuckyPool from './form/LuckyPool'
 import ProfitLoss from './form/ProfitLoss'
 import OutProfitLoss from './form/OutProfitLoss'
+import OtherProfit from './form/OtherProfit'
 import MyProfitLoss from './form/MyProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
 import Today from './form/Today'
@@ -131,6 +133,7 @@ export default {
     AddUser,
     Ad,
     Contract,
+    OtherContract,
     ContractDetail,
     Stock,
     StockDetail,
@@ -148,6 +151,7 @@ export default {
     LuckyPool,
     ProfitLoss,
     OutProfitLoss,
+    OtherProfit,
     MyProfitLoss,
     ProfitLossDetail,
     Today,

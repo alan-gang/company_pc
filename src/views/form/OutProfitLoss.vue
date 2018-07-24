@@ -6,21 +6,21 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .stock-list.scroll-content
-
+      //- div(v-if=" I === 0 ")
       .form.form-filters
 
-        label.item 用户 
+        label.item 用户&nbsp;
           input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 平台 
+        label.item 平台&nbsp;
           el-select(clearable v-model="platid" style="width: 1rem" placeholder="全")
             el-option(v-for="(p, i) in PL" v-bind:label="p" v-bind:value="i")
-        
-        label.item 时间范围 
+
+        label.item 时间范围&nbsp;
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
-        label.item 范围 
+        label.item 范围&nbsp;
           el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -28,20 +28,20 @@
           el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
 
         //- | &nbsp;&nbsp;
-        
-        //- label.item 
+
+        //- label.item
           el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
             el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
-        
+
         .ds-button.primary.large.bold(@click="profitList()") 搜索
         //- .buttons(style="margin-left: .3rem")
-        
-      
+
+
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0")
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
-      
+
         el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" v-bind:max-height=" MH " )
 
           el-table-column(class-name="pl2" prop="username" label="用户名" )
@@ -74,7 +74,8 @@
               .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
-    
+
+      //- OtherProfit.scroll-content(v-if=" I === 1 ")
     .modal(v-show="showDetail" )
       .mask
       .box-wrapper
@@ -84,13 +85,13 @@
             el-button-group
               el-button.close(icon="close" @click="showDetail = ''")
           .table-list(style="padding: .15rem .2rem ")
-          
+
             el-table.header-bold.nopadding(:data="cdata" stripe   v-bind:summary-method="getSummaries"  max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
 
               el-table-column(class-name="pl2" prop="userName" label="用户名" )
                 template(scope="scope")
                   span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
-      
+
               el-table-column(prop="date" label="日期" align="center")
 
               el-table-column(align="right" prop="saveAmount" label="充值总额" )
@@ -136,6 +137,7 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
+  // import OtherProfit from './OtherProfit'
   import { numberWithCommas } from '../../util/Number'
   import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
@@ -144,6 +146,7 @@
     mixins: [setTableMaxHeight],
     components: {
       ProfitLossDetail
+      // OtherProfit
     },
     data () {
       return {
@@ -201,7 +204,8 @@
         S: '',
         btos: '',
         cdata: [],
-        totalJson: {}
+        totalJson: {},
+        I: 0
       }
     },
     computed: {
@@ -210,6 +214,9 @@
       this.profitList()
     },
     methods: {
+      __setGOI (i) {
+        this.I = i
+      },
       getSummaries (param) {
         const { columns } = param
         const sums = []
@@ -372,7 +379,7 @@
     display inline-block
     margin 0 PW .1rem 0
 
-    
+
   .el-select
   .el-input-number
     width 1rem
@@ -389,7 +396,7 @@
   bg-active = #e2e2e2
   .tool-bar
     height TH
-    line-height TH 
+    line-height TH
     background-color bg
     font-size .12rem
     border-top-right-radius .05rem
@@ -427,7 +434,7 @@
           color #fff
           background-color #d40c1d
 
-  .modal 
+  .modal
     position absolute
     top TH
     bottom 0
@@ -435,7 +442,7 @@
     right 0
     text-align center
     z-index 9999
-    
+
     .mask
       position absolute
       left 0
@@ -483,7 +490,7 @@
         .el-textarea
           display inline-bock
           vertical-align top
-          padding-left .6rem 
+          padding-left .6rem
           .textarea
             font-size .12rem
 

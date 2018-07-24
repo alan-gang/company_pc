@@ -12,8 +12,8 @@
         .form-filters(style="padding: .15rem; margin: .1rem 0 .2rem 0;")
           div(style="text-align: center; min-height: .2rem" )
             .ds-button-group(v-if="me.role >= 2")
-              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的分红
-              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级分红
+              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的佣金
+              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级佣金
 
           label.item 发放日期&nbsp;
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
@@ -81,7 +81,7 @@
 
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
-  import StockDetail from './StockDetail'
+  import StockDetail from '../group/StockDetail'
   import api from '../../http/api'
   import store from '../../store'
   import { dateFormat } from '../../util/Date'
@@ -182,7 +182,8 @@
         preOptions: {},
         showDetail: false,
         name: '',
-        groupId: 0
+        I: 1,
+        cTtype: 1
       }
     },
     computed: {
@@ -208,6 +209,9 @@
       this.bonus()
     },
     methods: {
+      __setGOI (i) {
+        this.I = i
+      },
       pageChanged (cp) {
         this.bonus(cp, () => {
           this.currentPage = cp
@@ -274,7 +278,7 @@
             page: 1,
             pageSize: this.pageSize,
             userName: this.type === 1 ? this.name : '',
-            groupId: this.groupId
+            cTtype: this.cTtype
           }
         } else {
           this.preOptions.page = page

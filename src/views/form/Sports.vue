@@ -6,28 +6,28 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-      
+
       div(v-if=" I === 0 ")
 
         .form.form-filters
-          label.item 游戏时间 
+          label.item 游戏时间
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
 
-          label.item 用户 
+          label.item 用户
             input.ds-input.small(v-model="name" style="width: 1rem")
 
-          label.item 范围 
+          label.item 范围
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
-          
+
 
           .ds-button.primary.large.bold(@click="getData") 搜索
           //- .buttons(style="margin-left: .6rem")
-        
+
         .table-list(style="padding: .15rem .2rem ")
-        
+
           el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
             el-table-column(class-name="pl2" prop="username" label="用户名"  width="150")
@@ -42,7 +42,7 @@
             el-table-column(prop="eventName" label="赛事"  min-width="250")
 
 
-           
+
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -196,7 +196,7 @@
     display inline-block
     margin 0 PW .1rem 0
 
-    
+
   .el-select
   .el-input-number
     width 1.2rem

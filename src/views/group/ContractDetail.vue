@@ -9,15 +9,15 @@
 
       div(v-if="contracts.length === 0" style="height: 100%;") 当前无可用契约
         div(style="width: 0; height: 100%; vertical-align: middle; display: inline-block")
-      
+
       div.c(v-for=" (c, ci) in contracts "  v-bind:class=" ['ds-icon-stock-' + STATUS[c.stat].class ] ")
-        p.title.text-black(v-if=" platform === 'ds' ") 
+        p.title.text-black(v-if=" platform === 'ds' ")
           span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
-          
+
         h2.text-black(style="margin: .3rem 0") {{ contracts.length > 1 ?  ci === 0 ? '新契约' : '现有契约' : '契约详情'  }}
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ c.userName }}
         p.item 契约状态：{{ STATUS[c.stat].title }}
-        p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }} 
+        p.item 契约时间：{{ c.beginTm }} 至  {{ c.expireTm }}
         p.item 发放周期：按{{ TIME[c.sendCycle] }}
         p.item 发放方式：{{ STYPE[c.sendType] }}
 
@@ -31,14 +31,14 @@
         .item.buttons(style="margin: .3rem 0" v-if=" self && STATUS[c.stat].title === '待确认' ")
           .ds-button.primary.large.bold(@click="checkContract(c.id, 1)") 接受
           .ds-button.cancel.large.bold(@click="checkContract(c.id, 0)") 拒绝
-      
+
 </template>
 
 <script>
   import store from '../../store'
   import api from '../../http/api'
   export default {
-    props: ['id', 'myself'],
+    props: ['id', 'myself', 'cType'],
     data () {
       return {
         me: store.state.user,
@@ -93,7 +93,9 @@
           text: '我的契约加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.get(api.queryMyContract).then(({data}) => {
+        this.$http.get(api.queryMyContract, {
+          cType: this.cType
+        }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.contracts = data.contractList.reverse()
@@ -173,5 +175,5 @@
     margin .24rem 0
     text-align left
     padding-left 20%
- 
+
 </style>

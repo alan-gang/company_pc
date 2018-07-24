@@ -385,7 +385,12 @@ export default {
                   id: '3-3-3',
                   menuid: '44',
                   title: '契约设置',
-                  url: 'Contract'
+                  tabs: ['彩票契约', '佣金契约'],
+                  url: 'Contract',
+                  tabfn: '__setGCI',
+                  position: {
+                    width: '12rem'
+                  }
                 },
                 {
                   id: '3-3-4',
@@ -504,6 +509,17 @@ export default {
                   title: '其它报表',
                   url: 'OutProfitLoss'
                 },
+                // {
+                //   id: '4-5-8',
+                //   menuid: '58',
+                //   title: '其它报表',
+                //   tabs: ['其它报表', '佣金报表'],
+                //   url: 'OutProfitLoss',
+                //   tabfn: '__setGOI',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
                 {
                   id: '4-4-1',
                   menuid: '57',
