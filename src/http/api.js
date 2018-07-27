@@ -537,7 +537,22 @@ let Form = {
   getRecentIssueList: '/issue.do?method=getRecentIssueList',
   // 走势图
   // /cagamesclient/issuehistory.do?method=list&id=2&size=100&data=
-  trendData: '/issuehistory.do?method=list'
+  trendData: '/issuehistory.do?method=list',
+  // -------------wilon + 新接口--------------
+  // 查看佣金详情
+  // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
+  qryCommDetail: '/team/contractBonus.do?method=qryCommDetail',
+  // 发放佣金
+// userId：下级用户ID 7
+// issue:佣金期号2018-07-01
+// chanelType：0 平台内发放 1:平台外发放
+// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
+  sendCtComm: '/team/contractBonus.do?method=sendCtComm',
+//   下级确认佣金（如果是平台外发放）
+// issue:佣金期号 如：2018-07-01
+// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
+  subCheckComm: '/team/contractBonus.do?method=subCheckComm'
+
 }
 
 let Help = {

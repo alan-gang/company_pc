@@ -503,23 +503,23 @@ export default {
                   title: '工资报表',
                   url: 'DaySalary'
                 },
-                {
-                  id: '4-5-8',
-                  menuid: '58',
-                  title: '其它报表',
-                  url: 'OutProfitLoss'
-                },
                 // {
                 //   id: '4-5-8',
                 //   menuid: '58',
                 //   title: '其它报表',
-                //   tabs: ['其它报表', '佣金报表'],
                 //   url: 'OutProfitLoss',
-                //   tabfn: '__setGOI',
-                //   position: {
-                //     width: '12rem'
-                //   }
                 // },
+                {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '其它报表',
+                  tabs: ['其它报表', '佣金报表'],
+                  url: 'OutProfitLoss',
+                  tabfn: '__setGOI',
+                  position: {
+                    width: '12rem'
+                  }
+                },
                 {
                   id: '4-4-1',
                   menuid: '57',

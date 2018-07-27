@@ -32,7 +32,7 @@
 
           el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="type === 1")
 
-          el-table-column(class-name="pl2" prop="issue" label="分紅期号"  )
+          el-table-column(class-name="pl2" prop="issue" label="分红期号"  )
 
           el-table-column(label="总销量")
             template(scope="scope")
@@ -44,14 +44,16 @@
               span(:class=" {'text-green': parseFloat(scope.row.profitAmount) > 0, 'text-danger': parseFloat(scope.row.profitAmount) < 0 } ")  {{ scope.row.profitAmount }}
 
 
-          el-table-column(prop="actUser" label="有效人數")
+          el-table-column(prop="actUser" label="活跃人数")
 
+          el-table-column(prop="rewards" label="活动费用" )
 
-          el-table-column(prop="bounsRate" label="分红比例")
-            template(scope="scope")
-              span {{ scope.row.bounsRate }}%
+          el-table-column(prop="bonus" label="佣金金额")
+          //- el-table-column(prop="bounsRate" label="分红比例")
+          //-   template(scope="scope")
+          //-     span {{ scope.row.bounsRate }}%
 
-          el-table-column(prop="bouns" v-bind:label=" type ? '应发分红' : '应收分红' ")
+          //- el-table-column(prop="bouns" v-bind:label=" type ? '应发分红' : '应收分红' ")
 
           el-table-column(prop="status" label="状态")
              template(scope="scope")
@@ -75,7 +77,7 @@
             span.title 分红详情
             el-button-group
               el-button.close(icon="close" @click="showDetail = ''")
-          StockDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " style="min-height: 5.7rem;")
+          StockDetail(v-bind:id=" showDetail " v-bind:myself=" !this.type " v-bind:type="'qryBonusById'" style="min-height: 5.7rem;")
 
 </template>
 
@@ -187,7 +189,7 @@
     },
     computed: {
       apiBonus () {
-        return this.me.role <= 2 ? [api.topBonus, api.mySubBouns][this.type] : [api.myBonus, api.mySubBouns][this.type]
+        return this.me.role <= 2 ? [api.myBonus, api.mySubBouns][this.type] : [api.myBonus, api.mySubBouns][this.type]
       }
     },
     watch: {

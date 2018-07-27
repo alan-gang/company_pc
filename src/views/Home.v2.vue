@@ -1,7 +1,7 @@
 <template lang="jade">
   section.new-home(@scroll="scrollHander")
     Me(:menus="menus" v-on:open-page="openTab")
-    
+
     MyMenu(:menus="menus.slice(0, 11).concat(menus[15])" v-on:open-page="openTab")
 
     el-carousel.ad(:interval="4000" arrow="always")
@@ -25,14 +25,14 @@
           p 信游彩票包含时时彩，11选五，快三，PK10，福彩3D，排三排五，六合彩等多种游戏，玩法齐全，同时开发了多个快频彩票，还有VR视频美女开奖，满足您不同的需求。
 
 
-        el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ") 
+        el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
           p {{ c.title }}
           // p {{ c.descr }}
 
-        // .el-col.pool(:span="24") 
+        // .el-col.pool(:span="24")
           span 奖池累计：
           | {{ EM }}
-      
+
       el-row(:gutter=15 style="padding-bottom: .3rem")
         el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203'}}) ")
           .co
@@ -46,23 +46,23 @@
 
 
     // Guide(v-if="me.guide")
-    
+
     // keep-alive
     //   transition(name="fade" appear=true)
-    
+
     router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
-    
+
     // Pages.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
-    
+
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")
       input(type="hidden" name="data" value="")
       input(type="hidden" name="version" value="")
       input(type="hidden" name="id" value="")
 
-    
+
     iframe(:src="ifsrc" v-if="sports" style="width: 10rem;margin: 0 auto; border: none; height: 100%; position: absolute; top: 1.04rem" @load="ssports = true" v-show="ssports")
-    
+
     .modal(v-if="false" )
       .mask
       .box-wrapper
@@ -71,7 +71,7 @@
             span.title 沙巴体育
             el-button-group
               el-button.close(icon="close" @click="ifsrc = ''")
-            
+
           iframe(:src="ifsrc" v-if="ifsrc" style="width: 100%;margin: 0; border: none; height: 7.5rem")
 
 
@@ -97,9 +97,9 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
-        {href: '/activity/5-2-15?id=90', src: '/static/pic/2.jpg'},
+        {href: '/activity/5-2-15?id=96', src: '/static/pic/2.jpg'},
         {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
-        {href: '/activity/5-2-8?id=89', src: '/static/pic/1.jpg'}
+        {href: '/activity/5-2-8?id=99', src: '/static/pic/1.jpg'}
         // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
@@ -378,7 +378,7 @@ export default {
       height H
       overflow hidden
       radius()
-      background-position 50% 
+      background-position 50%
       cursor pointer
       padding-top H
       transition all ease-in-out .3s
@@ -467,6 +467,6 @@ export default {
     line-height .36rem
     text-align center
     background-color rgba(0, 0, 0, .3)
-    
+
 </style>
 

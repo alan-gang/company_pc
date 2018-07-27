@@ -6,76 +6,76 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .stock-list.scroll-content
-      //- div(v-if=" I === 0 ")
-      .form.form-filters
+      div(v-if=" I === 0 ")
+        .form.form-filters
 
-        label.item 用户&nbsp;
-          input.ds-input.small(v-model="name" style="width: 1rem")
+          label.item 用户&nbsp;
+            input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 平台&nbsp;
-          el-select(clearable v-model="platid" style="width: 1rem" placeholder="全")
-            el-option(v-for="(p, i) in PL" v-bind:label="p" v-bind:value="i")
+          label.item 平台&nbsp;
+            el-select(clearable v-model="platid" style="width: 1rem" placeholder="全")
+              el-option(v-for="(p, i) in PL" v-bind:label="p" v-bind:value="i")
 
-        label.item 时间范围&nbsp;
-          el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
-
-
-        label.item 范围&nbsp;
-          el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
-            el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
-
-        //- el-select(v-model="S" placeholder="默认排序")
-          el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
-
-        //- | &nbsp;&nbsp;
-
-        //- label.item
-          el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
-            el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
-
-        .ds-button.primary.large.bold(@click="profitList()") 搜索
-        //- .buttons(style="margin-left: .3rem")
+          label.item 时间范围&nbsp;
+            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
-      .table-list(style="padding: .15rem .2rem ")
-        p(style="margin: 0 0 .15rem 0")
-          el-breadcrumb(separator=">")
-            el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
+          label.item 范围&nbsp;
+            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
+              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
-        el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" v-bind:max-height=" MH " )
+          //- el-select(v-model="S" placeholder="默认排序")
+            el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
 
-          el-table-column(class-name="pl2" prop="username" label="用户名" )
-            template(scope="scope")
-              span.pointer.text-blue(:class=" { 'text-danger': scope.row.username === me.account } " v-if="!scope.row.lst") {{ scope.row.username }}
+          //- | &nbsp;&nbsp;
 
-          el-table-column(prop="platName" label="平台" align="center")
+          //- label.item
+            el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
+              el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
 
-
-          el-table-column(align="right" prop="buyamount" label="投注总额" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.buyamount) }}
+          .ds-button.primary.large.bold(@click="profitList()") 搜索
+          //- .buttons(style="margin-left: .3rem")
 
 
-          el-table-column(align="right" prop="prizeamount" label="奖金" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.prizeamount) }}
+        .table-list(style="padding: .15rem .2rem ")
+          p(style="margin: 0 0 .15rem 0")
+            el-breadcrumb(separator=">")
+              el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-          el-table-column(align="right" prop="pointamount" label="返水" )
-            template(scope="scope")
-              span {{ numberWithCommas(scope.row.pointamount) }}
+          el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" v-bind:max-height=" MH " )
+
+            el-table-column(class-name="pl2" prop="username" label="用户名" )
+              template(scope="scope")
+                span.pointer.text-blue(:class=" { 'text-danger': scope.row.username === me.account } " v-if="!scope.row.lst") {{ scope.row.username }}
+
+            el-table-column(prop="platName" label="平台" align="center")
 
 
-          el-table-column(align="right" prop="settlement" label="盈亏"  class-name="pr2")
-            template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.settlement) > 0, 'text-danger': parseFloat(scope.row.settlement) < 0 } ")  {{ numberWithCommas(scope.row.settlement) }}
+            el-table-column(align="right" prop="buyamount" label="投注总额" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.buyamount) }}
 
-          //- el-table-column(prop="userpoint" label="操作" align="center")
-            template(scope="scope")
-              .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+            el-table-column(align="right" prop="prizeamount" label="奖金" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.prizeamount) }}
 
-      //- OtherProfit.scroll-content(v-if=" I === 1 ")
+            el-table-column(align="right" prop="pointamount" label="返水" )
+              template(scope="scope")
+                span {{ numberWithCommas(scope.row.pointamount) }}
+
+
+            el-table-column(align="right" prop="settlement" label="盈亏"  class-name="pr2")
+              template(scope="scope")
+                span(:class=" {'text-green': parseFloat(scope.row.settlement) > 0, 'text-danger': parseFloat(scope.row.settlement) < 0 } ")  {{ numberWithCommas(scope.row.settlement) }}
+
+            //- el-table-column(prop="userpoint" label="操作" align="center")
+              template(scope="scope")
+                .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+      OtherProfit.scroll-content(v-if=" I === 1 ")
     .modal(v-show="showDetail" )
       .mask
       .box-wrapper
@@ -137,7 +137,7 @@
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
-  // import OtherProfit from './OtherProfit'
+  import OtherProfit from './OtherProfit'
   import { numberWithCommas } from '../../util/Number'
   import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
@@ -145,8 +145,8 @@
   export default {
     mixins: [setTableMaxHeight],
     components: {
-      ProfitLossDetail
-      // OtherProfit
+      ProfitLossDetail,
+      OtherProfit
     },
     data () {
       return {
@@ -341,7 +341,7 @@
           text: '加载中...',
           target: this.$el
         }, 10000, '加载超时...')
-        this.$http.myget(api.profitDetail, {
+        this.$http.get(api.profitDetail, {
           startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
           endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
           destUserId: userId

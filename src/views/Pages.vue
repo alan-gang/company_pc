@@ -83,7 +83,7 @@ import Feedback from './help/Feedback'
 import VIP from './help/VIP'
 
 // 活动中心
-import Activity from './activity/Activity'
+import Activity from './activity/Activity.new'
 import Gift from './activity/Gift'
 
 // 活动详情
