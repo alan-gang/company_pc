@@ -30,7 +30,7 @@
 
         el-table.header-bold.nopadding(:data="bonusList" ref="table"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
 
-          el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="type === 1")
+          el-table-column(class-name="pl2" align="center" prop="userName" label="用户名"  v-if="type === 1")
 
           el-table-column(class-name="pl2" prop="issue" label="分红期号"  )
 

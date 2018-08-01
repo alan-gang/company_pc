@@ -429,7 +429,6 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            console.log(data[0] + '---------------')
             this.cdata = data.data
             setTimeout(() => {
               loading.text = '加载成功!'
