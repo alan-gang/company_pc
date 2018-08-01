@@ -97,12 +97,21 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
+<<<<<<< HEAD
         // {href: '/activity/5-2-15?id=96', src: '/static/pic/2.jpg'},
         // {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
         // {href: '/activity/5-2-8?id=99', src: '/static/pic/1.jpg'}
         {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
         {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
         {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
+=======
+        {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
+        {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
+        {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
+        // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
+        // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
+        // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
+>>>>>>> 92f8703abc2d76c09b1e8e5d2f1f3476e0fe84a6
       ],
       topgames: [
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},

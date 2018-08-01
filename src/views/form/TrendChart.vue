@@ -261,7 +261,7 @@ export default {
           // width height 30*30
           // this.lines[i] += 30.5 * (parseInt(s) + 11.8 * i + 0.5) + ',' + (35 * j + 15) + ' '
           // width height 25*25
-          this.lines[i] += 24.99 * (parseInt(s) + (12 * i) + 0.5 + ((i === 1 || i === 2) ? 0.2 * i : 0)) + ',' + ((19.9 * x + (j - 1) / (j + 1)) * j + 14 * x) + ' '
+          this.lines[i] += 24.99 * (parseInt(s) + (12 * i) + 0.5 + ((i === 1) ? 0.2 * i : 0)) + ',' + ((19.9 * x + (j - 1) / (j + 1) + 0.05) * j + 14 * x) + ' '
           // 总出现
           // this.$set(this.fData[0].numbers, i * 12 + parseInt(s), parseInt(s))
           // if (i === 1) {

@@ -599,7 +599,7 @@
       },
       getUserList (id, page, fn) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
-        console.log(this.$refs['table'])
+        // console.log(this.$refs['table'])
         let loading = this.$loading({
           text: '用户列表加载中...',
           target: this.$refs['table'].$el
