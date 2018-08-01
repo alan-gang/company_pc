@@ -97,9 +97,9 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
-        {href: '/activity/5-2-15?id=96', src: '/static/pic/2.jpg'},
-        {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
-        {href: '/activity/5-2-8?id=99', src: '/static/pic/1.jpg'}
+        {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
+        {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
+        {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
         // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
