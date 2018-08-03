@@ -34,13 +34,21 @@
 
           el-table-column(align="center" prop="issue" label="佣金期号"  )
 
-          el-table-column(align="center" prop="sptProfit" label="体育总盈亏")
+          el-table-column(align="center" prop="sptProfit" label="体育盈亏")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.sptProfit) > 0, 'text-danger': parseFloat(scope.row.sptProfit) < 0 } ")  {{ scope.row.sptProfit }}
 
-          el-table-column(align="center" prop="vidProfit" label="真人总盈亏")
+          el-table-column(align="center" prop="vidProfit" label="真人盈亏")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.vidProfit) > 0, 'text-danger': parseFloat(scope.row.vidProfit) < 0 } ")  {{ scope.row.vidProfit }}
 
-          el-table-column(align="center" prop="egameProfit" label="电游总盈亏")
+          el-table-column(align="center" prop="egameProfit" label="电游盈亏")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.egameProfit) > 0, 'text-danger': parseFloat(scope.row.egameProfit) < 0 } ")  {{ scope.row.egameProfit }}
 
-          el-table-column(align="center" prop="fishProfit" label="捕鱼总盈亏")
+          el-table-column(align="center" prop="fishProfit" label="捕鱼盈亏")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.fishProfit) > 0, 'text-danger': parseFloat(scope.row.fishProfit) < 0 } ")  {{ scope.row.fishProfit }}
 
           //- el-table-column(label="总销量")
           //-   template(scope="scope")
@@ -52,15 +60,23 @@
               span(:class=" {'text-green': parseFloat(scope.row.totProfit) > 0, 'text-danger': parseFloat(scope.row.totProfit) < 0 } ")  {{ scope.row.totProfit }}
 
           el-table-column(align="center" prop="lastProft" label="上期结余")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.lastProft) > 0, 'text-danger': parseFloat(scope.row.lastProft) < 0 } ")  {{ scope.row.lastProft }}
 
-          el-table-column(align="center" prop="actUser" label="活跃人数")
+          el-table-column(align="center" prop="actUser" label="有效人数")
+
+          el-table-column(align="center" prop="bonusRate" label="佣金比例")
+            template(scope="scope")
+              span {{ scope.row.bonusRate }}%
 
           el-table-column(align="center" prop="bonus" label="佣金金额")
-          //- el-table-column(prop="bounsRate" label="分红比例")
+            template(scope="scope")
+              span(:class=" {'text-green': parseFloat(scope.row.bonus) > 0, 'text-danger': parseFloat(scope.row.bonus) < 0 } ")  {{ scope.row.bonus }}
+          //- el-table-column(prop="bonusRate" label="分红比例")
           //-   template(scope="scope")
-          //-     span {{ scope.row.bounsRate }}%
+          //-     span {{ scope.row.bonusRate }}%
 
-          //- el-table-column(prop="bouns" v-bind:label=" type ? '应发分红' : '应收分红' ")
+          //- el-table-column(prop="bonus" v-bind:label=" type ? '应发分红' : '应收分红' ")
 
           el-table-column(align="center" prop="status" label="状态")
             template(scope="scope")
@@ -102,58 +118,56 @@
                 template(scope="scope")
                   span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
 
-              el-table-column(prop="issue" label="佣金期号" align="center")
+              el-table-column(align="left" prop="issue" label="佣金期号")
 
-              el-table-column(prop="groupName" label="游戏类型" align="center")
+              el-table-column(align="left" prop="gameName" label="游戏")
 
-              el-table-column(align="center" prop="profitAmount" label="游戏盈亏" )
+              el-table-column(align="left" prop="profitAmt" label="游戏盈亏" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.profitAmount) }}
+                  span(:class=" {'text-green': parseFloat(scope.row.profitAmt) > 0, 'text-danger': parseFloat(scope.row.profitAmt) < 0 } ") {{ numberWithCommas(scope.row.profitAmt) }}
 
-              el-table-column(align="center" prop="pointAmount" label="返水总额" )
+              el-table-column(align="left" prop="pointAmt" label="返水总额" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.pointAmount) }}
+                  span(:class=" {'text-green': parseFloat(scope.row.pointAmt) > 0, 'text-danger': parseFloat(scope.row.pointAmt) < 0 } ") {{ numberWithCommas(scope.row.pointAmt) }}
 
-
-              el-table-column(align="center" prop="platFee" label="平台费总额" )
+              el-table-column(align="left" prop="rewards" label="活动费用" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.platFee) }}
+                  span(:class=" {'text-green': parseFloat(scope.row.rewards) > 0, 'text-danger': parseFloat(scope.row.rewards) < 0 } ") {{ numberWithCommas(scope.row.rewards) }}
 
-
-              el-table-column(align="center" prop="rewards" label="活动费用" )
+              el-table-column(align="left" prop="platFee" label="平台费总额" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.rewards) }}
+                  span(:class=" {'text-green': parseFloat(scope.row.platFee) > 0, 'text-danger': parseFloat(scope.row.platFee) < 0 } ") {{ numberWithCommas(scope.row.platFee) }}
 
-              el-table-column(align="center" prop="realProfit" label="当期净盈利")
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.realProfit) }}
-
-              el-table-column(align="center" prop="lastProfit" label="上期结余")
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.lastProfit) }}
-
-
-              el-table-column(align="center" prop="totalProfit" label="实际净盈利"  )
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.totalProfit) }}
-
-              el-table-column(align="center" prop="actUser" label="活跃人数"  )
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.actUser) }}
-
-              el-table-column(align="center" prop="bonusRate" label="佣金比例")
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.bonusRate) }}%
-
-              el-table-column(align="center" prop="bonus" label="佣金金额")
-
-              el-table-column(align="center" prop="status" label="状态")
-                template(scope="scope")
-                  span(:class=" STATUS[scope.row.isDone].css ") {{ STATUS[scope.row.isDone].title }}
-
-              //- el-table-column(align="right" prop="settlement" label="总结算" class-name="pr2" )
+              //- el-table-column(align="center" prop="realProfit" label="当期净盈利")
               //-   template(scope="scope")
-              //-     span(:class=" {'text-green': parseFloat(scope.row.settlement) > 0, 'text-danger': parseFloat(scope.row.settlement) < 0 } ") {{ numberWithCommas(scope.row.settlement) }}
+              //-     span {{ numberWithCommas(scope.row.realProfit) }}
+
+              //- el-table-column(align="center" prop="lastProfit" label="上期结余")
+              //-   template(scope="scope")
+              //-     span {{ numberWithCommas(scope.row.lastProfit) }}
+
+
+              //- el-table-column(align="center" prop="totalProfit" label="实际净盈利"  )
+              //-   template(scope="scope")
+              //-     span {{ numberWithCommas(scope.row.totalProfit) }}
+
+              //- el-table-column(align="center" prop="actUser" label="活跃人数"  )
+              //-   template(scope="scope")
+              //-     span {{ numberWithCommas(scope.row.actUser) }}
+
+              //- el-table-column(align="center" prop="bonusRate" label="佣金比例")
+              //-   template(scope="scope")
+              //-     span {{ numberWithCommas(scope.row.bonusRate) }}%
+
+              //- el-table-column(align="center" prop="bonus" label="佣金金额")
+
+              //- el-table-column(align="center" prop="status" label="状态")
+              //-   template(scope="scope")
+              //-     span(:class=" STATUS[scope.row.isDone].css ") {{ STATUS[scope.row.isDone].title }}
+
+              el-table-column(align="left" prop="settle" label="总结算" class-name="pr2" )
+                template(scope="scope")
+                  span(:class=" {'text-green': parseFloat(scope.row.settle) > 0, 'text-danger': parseFloat(scope.row.settle) < 0 } ") {{ numberWithCommas(scope.row.settle) }}
 
 </template>
 
@@ -187,7 +201,7 @@
             onClick (picker) {
               const end = new Date()
               const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89)
               picker.$emit('pick', [start, end])
             }
           }, {
@@ -195,7 +209,7 @@
             onClick (picker) {
               const end = new Date()
               const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
               picker.$emit('pick', [start, end])
             }
           }, {
@@ -236,7 +250,7 @@
           // }
         },
         defaultStEt: ['', ''],
-        stEt: ['', ''],
+        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 89), new Date()],
         me: store.state.user,
         // 0 我的佣金
         // 1 下级佣金
@@ -300,7 +314,7 @@
       showComm (obj) {
         this.showDetail = true
         this.commissionDetail = obj
-        console.log('=====>', this.commissionDetail)
+        // console.log('=====>', this.commissionDetail)
         window.localStorage.cdetail = JSON.stringify(obj)
       },
       getSummaries (param) {
@@ -325,6 +339,25 @@
         if (expanded && !row.topDetailList) {
           this.topBonuDetail(row)
         }
+      },
+      summary () {
+        let s = {
+          last: true,
+          userName: '汇总：',
+          profitAmt: 0,
+          pointAmt: 0,
+          rewards: 0,
+          platFee: 0,
+          settle: 0
+        }
+        this.cdata.forEach(d => {
+          s.profitAmt += parseFloat((d.profitAmt).replace(/,/g, '')) || 0
+          s.pointAmt += parseFloat((d.pointAmt).replace(/,/g, '')) || 0
+          s.rewards += parseFloat((d.rewards).replace(/,/g, '')) || 0
+          s.platFee += parseFloat((d.platFee).replace(/,/g, '')) || 0
+          s.settle += parseFloat((d.settle).replace(/,/g, '')) || 0
+        })
+        this.cdata[0] && this.cdata.push(s)
       },
       topBonuDetail (row) {
         let loading = this.$loading({
@@ -429,11 +462,11 @@
         }).then(({data}) => {
           // success
           if (data.success === 1) {
-            console.log(data[0] + '---------------')
             this.cdata = data.data
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

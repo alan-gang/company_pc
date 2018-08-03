@@ -19,7 +19,7 @@
         p.item 发放方式：{{ STYPE[stock.sendType] }}
         p.item 分红比例：{{  stock.bonusRate }}%
 
-        // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bouns }} 元
+        // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bonus }} 元
         .item.text-danger(style="display: inline-block; margin: 0") 累计盈亏 {{ stock.profitAmount }}，需发放 {{ stock.bonus }} 元
           // p.text-green(style="text-align: right; margin: .05rem 0") 分红已发放 100000 元
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
@@ -58,7 +58,7 @@
         // TIME: ['月', '周', '日'],
         // TIME: ['月', '半月', '周'],
         TIME: ['', '月', '半月', '周'],
-        STYPE: ['手动发放', '自动发放'],
+        STYPE: ['', '手动发放', '自动发放'],
         // 销售盈亏类型
         TYPE: [
           {id: 1, title: '销售'},
@@ -135,7 +135,7 @@
       paid () {
         let modal = this.$modal.redpocket({
           target: this.$el,
-          content: '<h2 class="title">为 ' + this.stock.userName + ' 发放红包 </h2><p class="content"><span class="amount">' + this.stock.bouns + '</span> 元</p>',
+          content: '<h2 class="title">为 ' + this.stock.userName + ' 发放红包 </h2><p class="content"><span class="amount">' + this.stock.bonus + '</span> 元</p>',
           btn: ['下一步'],
           O: this,
           ok () {

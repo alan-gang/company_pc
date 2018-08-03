@@ -6,7 +6,8 @@
 
     el-carousel.ad(:interval="4000" arrow="always")
       el-carousel-item(v-for="(item, i) in sources" v-bind:key=" i " v-bind:style="{ ba }")
-        img(:src=" item.src " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner(item) ")
+        //- img(:src=" item.src " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner(item) ")
+        img(:src=" item.webBanner " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner() ")
 
     //- img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem; cursor: pointer;" @click="__setCall({fn: '__openWindowWithPost', args: '3:301:iframe'})")
     .our-game.content-width
@@ -97,9 +98,9 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
-        {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
-        {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
-        {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
+        // {href: '/activity/5-2-15?id=96', src: '/static/pic/2.jpg'},
+        // {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
+        // {href: '/activity/5-2-8?id=99', src: '/static/pic/1.jpg'}
         // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
         // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
@@ -147,6 +148,7 @@ export default {
     }
   },
   mounted () {
+    this.getActivityBanner()
     this.__recentlyCode()
     this.pricePot()
     this.timeout = setInterval(this.pricePot, 60000 * 5)
@@ -161,13 +163,27 @@ export default {
     this.timeout = 0
   },
   methods: {
-    openBanner (item) {
-      if (item.fn) {
-        this.__setCall({fn: item.fn, args: item.args})
-      } else if (item.href) {
-        this.$router.push(item.href)
-      }
+    getActivityBanner () {
+      this.$http.get(api.getActivityBanner).then(({data}) => {
+        if (data.success === 1) {
+          this.sources = data.webBanner || 0
+        } else {
+          // this.$message.error({target: this.$el, message: data.msg || '奖池信息获取失败！'})
+        }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '奖池信息获取失败！'})
+      })
     },
+    openBanner () {
+      this.$router.push('/activity/5-1-1')
+    },
+    // openBanner (item) {
+    //   if (item.fn) {
+    //     this.__setCall({fn: item.fn, args: item.args})
+    //   } else if (item.href) {
+    //     this.$router.push(item.href)
+    //   }
+    // },
     scrollHander (evt) {
       this.lefter = this.lefter || document.getElementsByClassName('lefter')[0]
       if (this.lefter) {
