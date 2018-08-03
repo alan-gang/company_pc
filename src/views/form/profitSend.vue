@@ -53,7 +53,7 @@
           {id: 1, title: '已发放', class: 'paid'},
           {id: 2, title: '待确认', class: 'wait'}
         ],
-        STYPE: ['手动发放', '自动发放'],
+        STYPE: ['', '手动发放', '自动发放'],
         // 销售盈亏类型
         TYPE: [
           {id: 1, title: '销售'},

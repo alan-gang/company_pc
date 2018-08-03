@@ -159,7 +159,9 @@ let Login = {
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
   lineTest: '/login/lineTest.do?method=lineTest',
   // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
-  isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth'
+  isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth',
+  // 首页活动banner
+  getActivityBanner: '/activity.do?method=getActivityBanner'
 }
 
 let Game = {
