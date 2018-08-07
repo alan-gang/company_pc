@@ -1569,6 +1569,10 @@ let HC6 = {
   // '正特和值'
   '4-1-8-HC6' ({nsl}) {
     return C(nsl, 1)
+  },
+  // 'nt'
+  '5-1-1-HC6' ({nsl}) {
+    return C(nsl, 1)
   }
 }
 

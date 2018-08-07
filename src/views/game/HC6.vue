@@ -50,17 +50,17 @@ export default {
               ]
             }
           ]
+        },
+        {
+          title: '尾数',
+          groups: [
+            {
+              items: [
+                {mutilpOrderPerRow: true, id: '5-1-1-HC6', title: '1尾', description: '对开奖号码的最后一位进行购买，所选尾数号码与开奖号码尾数相同，即为中奖。', example: '投注方案：0尾；开奖号最后一位0，即尾数; 0为一等奖，其它为二等奖'}
+              ]
+            }
+          ]
         }
-        // {
-        //   title: '尾数',
-        //   groups: [
-        //     {
-        //       items: [
-        //         {mutilpOrderPerRow: true, id: '5-1-1-HC6', title: '1尾', description: '对开奖号码的最后一位进行购买，所选尾数号码与开奖号码尾数相同，即为中奖。', example: '投注方案：0尾；开奖号最后一位0，即尾数。'}
-        //       ]
-        //     }
-        //   ]
-        // }
         // {
         //   title: '波色',
         //   groups: [
