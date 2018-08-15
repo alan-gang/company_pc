@@ -10,7 +10,7 @@ export default {
   data () {
     return {
       // dls: window.platform === 'ds' ? ['http://www.ds998.net/home/login/download.html', 'http://fir.im/5ent', 'https://fir.im/3005'] : ['http://www.changbo.net/#/download', 'https://fir.im/t6rk', 'https://fir.im/2819']
-      dls: ['http://www.ds998.net/download.html', 'http://fir.im/3wqd', 'https://fir.im/xy3001']
+      dls: ['https://www.ds998.net/pages/download.html', 'https://app.ds998.net/', 'https://app.ds998.net/']
     }
   },
   computed: {

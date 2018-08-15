@@ -6,6 +6,13 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .scroll-content.download-center
+      .notice(style="margin: 0 0 .2rem 0")
+        span.title 温馨提示：
+        p.content
+          | 如果遇到扫码失败或者被QQ、微信或支付宝屏蔽的情况，
+          | 请复制下载链接
+          span.text-blue(style="font-size: 14px") https://app.ds998.net/app.html 
+          | 至手机自带的浏览器中进行下载，给您带来的不便我们深感抱歉
       el-row(v-for="d in downloads" v-bind:class=" [ d.class ] ")
         el-col(:span="6" style="padding: .1rem .1rem 0 0")
           p.title.text-black {{ d.title }}
@@ -26,7 +33,7 @@
 </template>
 <script>
   import api from '../../http/api'
-  export default {
+export default {
     data () {
       return {
         downloads: [
@@ -109,6 +116,7 @@
       .download-center
         .el-row:hover
           background-color #444
+        
           
 
 </style>
@@ -151,7 +159,20 @@
         &:hover
           .qr
             display block
-      
+    .notice
+      font-size .12rem
+      line-height .22rem
+      margin 0 .2rem
+      padding PWX
+      background-color #fffde8
+      border 1px solid #d5d09b
+      radius()
+      .content
+        display inline-block
+        margin 0
+        // line-height .25rem
+        vertical-align top
+  
 </style>
 
 <style lang="stylus">
@@ -162,6 +183,7 @@
       background url(../../assets/v2/mlogo.png) .3rem .3rem no-repeat
       &:hover
         background-color #fff
+    
 
 
       
