@@ -90,6 +90,7 @@
             return time.getTime() > Date.now()
           }
         },
+        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 30), new Date()._setHMS('0:0:0')],
         stEt: [new Date()._setHMS('0:0:0')._bf(-30), new Date()._setHMS('23:59:59')],
         PL: ['BG:2', '体育:3', '开元:7'],
         platid: '',
@@ -140,7 +141,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.outerOrderRecord + 'egame', this.preOptions).then(({data}) => {
+        this.$http.post(api.outerOrderRecord + 'chess', this.preOptions).then(({data}) => {
           // success
           if (data.items) {
             setTimeout(() => {

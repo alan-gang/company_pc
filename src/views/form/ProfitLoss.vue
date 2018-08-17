@@ -10,14 +10,14 @@
       div(v-if=" I === 0 ")
         .form.form-filters
 
-          label.item 用户
+          label.item 用户 
             input.ds-input.small(v-model="name" style="width: 1rem")
 
-          label.item 时间范围
+          label.item 时间范围 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
-          label.item 范围
+          label.item 范围 
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 

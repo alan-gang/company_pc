@@ -235,6 +235,8 @@ body.cb.v2
       background url(../assets/v2/003.png) .2rem center no-repeat
     .ds-icon-game-bg3
       background url(../assets/v2/002.png) .2rem center no-repeat
+    .ds-icon-game-bg4
+      background url(../assets/v2/004.png) .2rem center no-repeat
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
 </style>

@@ -13,7 +13,7 @@
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         | &nbsp;&nbsp;
         
-        label.item 转出帐户  
+        label.item 转出帐户 
           el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
             el-option(v-for="(n, i) in froms" v-bind:label="n" v-bind:value="i" v-if="n")
         

@@ -22,6 +22,7 @@ let store = {
       // ctg
       tcgmoney: 0,
       // safeCenter
+      kymoney: '',
       email: '',
       phone: '',
       greeting: '',
@@ -81,6 +82,7 @@ let store = {
         free: '',
         bgmoney: '',
         tcgmoney: 0,
+        kymoney: '',
         // safeCenter
         email: '',
         phone: '',

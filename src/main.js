@@ -9,12 +9,13 @@ import './polyline'
 import config from './config'
 config(Vue)
 
-Vue.use({
-  install: function (Vue, name) {
-    name = name || '$worker'
-    Object.defineProperty(Vue.prototype, name, { value: SimpleWebWorker })
-  }
-})
+// Vue.use({
+//   install: function (Vue, name) {
+//     name = name || '$worker'
+//     Object.defineProperty(Vue.prototype, name, { value: SimpleWebWorker })
+//   }
+// })
+Vue.prototype.$worker = SimpleWebWorker
 // ow
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // Vue.use(VueAwesomeSwiper)

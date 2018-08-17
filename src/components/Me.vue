@@ -147,7 +147,7 @@ export default {
     },
     // apply on Me.vue right menu
     meRightMenu () {
-      return [this.menus[11]]
+      return [this.menus[12]]
     },
     bgAPI () {
       return [api.withdrawFromBG, api.transferToBG][this.bg]
@@ -185,7 +185,7 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.amount || 0})
+          store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})

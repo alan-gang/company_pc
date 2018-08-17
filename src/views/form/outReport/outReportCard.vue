@@ -66,14 +66,7 @@
               template(scope="scope")
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)") 明细
 
-          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
-
-      outReportVideo(v-if=" I === 1 ")
-      outReportGame(v-if=" I === 2 ")
-      outReportVFish(v-if=" I === 3 ")
-      outReportViCard(v-if=" I === 4 ")
-      OtherProfit(v-if=" I === 5 ")
-
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > this.pageSize " v-on:current-change="pageChanged")
 
     .modal(v-show="showDetail" )
       .mask
@@ -82,7 +75,7 @@
           .tool-bar
             span.title 明细
             el-button-group
-              el-button.close(icon="close" @click="showDetail = ''")
+              el-button.close(icon="close" @click.native="showDetail = ''")
           .table-list(style="padding: .15rem .2rem ")
 
             el-table.header-bold.nopadding(:data="cdata" stripe ref="itable"   max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
@@ -119,30 +112,20 @@
                 template(scope="scope")
                   span(:class=" {'text-green': parseFloat(scope.row.settle) > 0, 'text-danger': parseFloat(scope.row.settle) < 0 } ")  {{ numberWithCommas(scope.row.settle) }}
             
-            el-pagination(:total="ctotal" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="ccurrentPage" small v-if=" ctotal > 20 " v-on:current-change="cpageChanged")
+            el-pagination(:total="ctotal" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="ccurrentPage" small v-if=" ctotal > this.pageSize " v-on:current-change="cpageChanged")
 
 </template>
 
 <script>
   import setTableMaxHeight from 'components/setTableMaxHeight'
-  import ProfitLossDetail from './ProfitLossDetail'
-  import OtherProfit from './OtherProfit'
-  import outReportVideo from './outReport/outReportVideo'
-  import outReportGame from './outReport/outReportGame'
-  import outReportVFish from './outReport/outReportFish'
-  import outReportViCard from './outReport/outReportCard'
-  import { numberWithCommas } from '../../util/Number'
-  import api from '../../http/api'
-  import store from '../../store'
+  import ProfitLossDetail from '../ProfitLossDetail'
+  import { numberWithCommas } from '../../../util/Number'
+  import api from '../../../http/api'
+  import store from '../../../store'
   export default {
     mixins: [setTableMaxHeight],
     components: {
-      ProfitLossDetail,
-      OtherProfit,
-      outReportVideo,
-      outReportGame,
-      outReportVFish,
-      outReportViCard
+      ProfitLossDetail
     },
     data () {
       return {
@@ -203,26 +186,16 @@
         ctotal: 0,
         ccurrentPage: 1,
         cpreOptions: {},
-        I: 0,
-        showDetail: false
+        showDetail: false,
+        I: 0
       }
     },
     computed: {
-    },
-    watch: {
-      I () {
-        if (this.I === 0) {
-          setTimeout(this.profitList)
-        }
-      }
     },
     mounted () {
       this.profitList()
     },
     methods: {
-      __setGOI (i) {
-        this.I = i
-      },
       pageChanged (cp) {
         this.profitList(cp, () => {
           this.currentPage = cp
@@ -249,7 +222,7 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
-            gameType: 6,
+            gameType: 4,
             username: this.name,
             userId: id || this.BL[this.BL.length - 2].userId,
             scope: this.zone !== '' ? this.zone + 1 : '',
@@ -290,7 +263,7 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.cpreOptions = {
-            gameType: 6,
+            gameType: 4,
             username: this.name,
             userId: id,
             scope: this.zone !== '' ? this.zone + 1 : '',
@@ -329,9 +302,9 @@
 </script>
 
 <style lang="stylus" scoped>
-  @import '../../var.stylus'
+  @import '../../../var.stylus'
   .stock-list
-    top TH
+    // top TH
     .form
       padding PWX
 
@@ -349,7 +322,7 @@
 
 <style lang="stylus" scoped>
 
-  @import '../../var.stylus'
+  @import '../../../var.stylus'
 
   bg = #d8d8d8
   bg-hover = #ececec

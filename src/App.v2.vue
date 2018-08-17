@@ -299,6 +299,12 @@ export default {
           info: {menuid: '98', class: 'ds-icon-game-bg3 ', id: '9-9-9', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀', fn: '2:202'}
         },
         {
+          menuid: '98',
+          title: '棋牌游戏',
+          big: true,
+          info: {menuid: '98', class: 'ds-icon-game-bg4 ', id: '9-9-9', title: '棋牌游戏', descrb: '张张As', fn: '7:202'}
+        },
+        {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
@@ -468,7 +474,7 @@ export default {
                   title: '其它投注',
                   url: 'Sports',
                   // tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录'],
-                  tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录'],
+                  tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录', '棋牌记录'],
                   tabfn: '__setGRPTI',
                   position: {
                     width: '12rem'
@@ -513,7 +519,7 @@ export default {
                   id: '4-5-8',
                   menuid: '58',
                   title: '其它报表',
-                  tabs: ['其它报表', '佣金报表'],
+                  tabs: ['体育报表', '真人报表', '电游报表', '捕鱼报表', '棋牌报表', '佣金报表'],
                   url: 'OutProfitLoss',
                   tabfn: '__setGOI',
                   position: {
@@ -1032,7 +1038,7 @@ export default {
           if (this.mi === 6) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[8 + 4], this.menus[9 + 4], this.menus[10 + 4], this.menus[11 + 4], this.menus[12 + 4]]
+            this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
           }
         }
       }, this.mi ? 0 : 0)

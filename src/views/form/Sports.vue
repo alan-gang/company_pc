@@ -10,14 +10,14 @@
       div(v-if=" I === 0 ")
 
         .form.form-filters
-          label.item 游戏时间
-            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-
-          label.item 用户
+          label.item 用户 
             input.ds-input.small(v-model="name" style="width: 1rem")
 
-          label.item 范围
+          label.item 时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+
+          label.item 范围 
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -49,9 +49,10 @@
       BGVedioRecord.scroll-content(v-if=" I === 1 ")
       BGGameRecord.scroll-content(v-if=" I === 2 ")
       BGFishRecord.scroll-content(v-if=" I === 3 ")
-      VROrder.scroll-content(v-if=" I === 4 ")
-      VRFollow.scroll-content(v-if=" I === 5 ")
-      VRTip.scroll-content(v-if=" I === 6 ")
+      BGCardsRecord.scroll-content(v-if=" I === 4 ")
+      VROrder.scroll-content(v-if=" I === 10 ")
+      VRFollow.scroll-content(v-if=" I === 11 ")
+      VRTip.scroll-content(v-if=" I === 12 ")
 
 </template>
 
@@ -59,6 +60,7 @@
   import BGVedioRecord from './BGVedioRecord'
   import BGGameRecord from './BGGameRecord'
   import BGFishRecord from './BGFishRecord'
+  import BGCardsRecord from './BGCardsRecord'
   import VROrder from './VROrder'
   import VRFollow from './VRFollow'
   import VRTip from './VRTip'
@@ -71,6 +73,7 @@
       BGVedioRecord,
       BGGameRecord,
       BGFishRecord,
+      BGCardsRecord,
       VROrder,
       VRFollow,
       VRTip
@@ -81,8 +84,8 @@
           shortcuts: [{
             text: '最近一周',
             onClick (picker) {
-              const end = new Date()
-              const start = new Date()
+              const end = new Date()._setHMS('23:59:59')
+              const start = new Date()._setHMS('0:0:0')
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
               picker.$emit('pick', [start, end])
             }
@@ -91,12 +94,7 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
-        stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        // defaultStEt: ['', ''],
-        // stEt: ['', ''],
-        // st: '',
+        stEt: [new Date()._setHMS('0:0:0')._bf(-30), new Date()._setHMS('23:59:59')],
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
         data: [{}],
@@ -112,15 +110,6 @@
     computed: {
     },
     watch: {
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
-        }
-      },
       I () {
         if (this.I === 0) {
           setTimeout(this.getData)

@@ -31,6 +31,12 @@
 
         .c
           br
+          p 棋牌帐户
+          p.amount.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
+            // span.text-666 元
+
+        .c
+          br
           p 优惠券
           p.amount.text-black {{ numberWithCommas(ME.free) }}
             // span.text-666 元
@@ -62,7 +68,7 @@
           p &nbsp;&nbsp;
             span {{ cm }}
 
-          label.item 资金密码  
+          //- label.item 资金密码  
             input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
@@ -87,7 +93,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户', '棋牌帐户'],
       t: '',
       m: '',
       cpwd: '',
@@ -105,17 +111,21 @@ export default {
           return this.ME.bgmoney
         case 3:
           return this.ME.tcgmoney
+        case 4:
+          return this.ME.kymoney
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return !this.t ? this.ME.bgmoney : this.ME.tcgmoney
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney][this.t]
         case 1:
           return this.ME.amoney
         case 2:
           return this.ME.amoney
         case 3:
+          return this.ME.amoney
+        case 4:
           return this.ME.amoney
       }
     },
@@ -129,13 +139,15 @@ export default {
           return this.froms.slice(0, 1)
         case 3:
           return this.froms.slice(0, 1)
+        case 4:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -167,8 +179,20 @@ export default {
     },
     switchs () {
       if (this.f === 0 && this.t === 0) this.f = 2
-      else if (this.f === 0 && this.t === 1) this.f = 3
-      else this.f = 0
+      else if (this.f === 0 && this.t === 1) (this.f = 3) && (this.t = 0)
+      else if (this.f === 0 && this.t === 2) (this.f = 4) && (this.t = 0)
+      else if (this.f === 2) (this.t = 0) || (this.f = 0)
+      else if (this.f === 3) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 1
+        })
+      } else if (this.f === 4) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 2
+        })
+      }
     },
     ok () {
       if (this.f === 1) this.transferNow()
@@ -177,8 +201,7 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0})
-          store.actions.setUser({tcgmoney: data.sportsAmount || 0})
+          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
@@ -187,7 +210,7 @@ export default {
     transferNow () {
       if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
       if (!this.ccm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
-      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
       if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
@@ -205,14 +228,14 @@ export default {
     transferNowBG () {
       if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
       if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
-      if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
       if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
       this.btn = true
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
-      this.$http.get(this.bgAPI, {amount: this.m, securityPwd: this.cpwd, platid: Math.max(this.f, this.t + 2)}).then(({data}) => {
+      this.$message.success({target: this.$el, message: (['', '', 'BG', '体育', '棋牌'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.f, this.t + 2) < 4 ? Math.max(this.f, this.t + 2) : 7}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
           this.m = ''
@@ -274,6 +297,9 @@ export default {
         background url(../../assets/v2/qb_icon_04.png) center .25rem no-repeat
 
       &:nth-child(5)
+        background url(../../assets/v2/qb_icon_05.png) center .25rem no-repeat
+
+      &:nth-child(6)
         background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
     
     .cc

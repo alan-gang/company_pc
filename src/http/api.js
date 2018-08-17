@@ -25,7 +25,9 @@ if (window.location.host.indexOf('.net') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
-
+  outerReportDetail: '/report/otherReport.do?method=detail',
+  outerReport: '/report/otherReport.do?method=list',
+  outerOrderRecord: '/ext/projectOther.do?method=',
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
   tryLoginFromUrl: '/login/login.do?method=dsLog',
   // open a third part pages ============================================VR======================================
