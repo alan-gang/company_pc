@@ -172,7 +172,7 @@ export default {
       showAllBank: false,
       selectBank: {},
       maxmins: [],
-      max: 10000,
+      max: 45000,
       min: 0,
       money: 0,
       get: 0,
@@ -227,7 +227,7 @@ export default {
     selectBank () {
       // this.selectBank.apiName && this.getWithdrawByApi()
       if (!this.selectBank.apiName) {
-        this.max = 10000
+        this.max = 45000
         this.min = 0
       } else {
         let x = this.maxmins.find(m => m.bankCode === this.selectBank.apiName) || {maxDraw: 10000, minDraw: 0}

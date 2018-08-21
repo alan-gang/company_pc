@@ -35,7 +35,7 @@
             | 如果充值失败请多次尝试，或使用
             span.text-danger 在线支付
             | 的方式进行充值。手续费为：
-            span.text-danger(style="font-size: 14px") {{ selectBank.custFee }}%
+            span.text-danger(style="font-size: 14px") {{ selectBank.custFee || '0' }}%
             br
             | 为了提高充值成功率，如果充值金额为整数，使用某些充值方式时，系统会自动将充值金额随机增加
             span.text-danger(style="font-size: 14px") 0.01-0.09

@@ -38,7 +38,7 @@
           //- el-table-column(prop="betTimeEst" label="投注时间（美东）"  width="150" show-overflow-tooltip=true)
           el-table-column(prop="gameName" label="游戏"  )
           el-table-column(prop="betAmount" label="投注额"  )
-          el-table-column(prop="betAmount" label="奖金"  )
+          el-table-column(prop="prize" label="奖金"  )
           el-table-column(prop="profit" label="盈亏"  )
           el-table-column(prop="stat" label="状态"  )
             template(scope="scope")

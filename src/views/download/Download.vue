@@ -11,7 +11,7 @@
         p.content
           | 如果遇到扫码失败或者被QQ、微信或支付宝屏蔽的情况，
           | 请复制下载链接
-          span.text-blue(style="font-size: 14px") https://app.ds998.net/app.html 
+          span.text-blue(style="font-size: 14px")  https://app.ds998.net 
           | 至手机自带的浏览器中进行下载，给您带来的不便我们深感抱歉
       el-row(v-for="d in downloads" v-bind:class=" [ d.class ] ")
         el-col(:span="6" style="padding: .1rem .1rem 0 0")

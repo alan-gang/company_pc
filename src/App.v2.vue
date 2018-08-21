@@ -278,7 +278,7 @@ export default {
           title: '体育竞技',
           big: true,
           // hide: true,
-          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '2018世界杯激情来袭', fn: '3:301:iframe'}
+          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe'}
         },
         {
           menuid: '98',
@@ -302,7 +302,7 @@ export default {
           menuid: '98',
           title: '棋牌游戏',
           big: true,
-          info: {menuid: '98', class: 'ds-icon-game-bg4 ', id: '9-9-9', title: '棋牌游戏', descrb: '张张As', fn: '7:202'}
+          info: {menuid: '98', class: 'ds-icon-game-bg4 ', id: '9-9-9', title: '棋牌游戏', descrb: '多人对战，畅玩无限', fn: '7:202'}
         },
         {
           id: 2,
