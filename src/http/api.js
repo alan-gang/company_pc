@@ -1,15 +1,16 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-let api = '/cagamesclient'
-if (window.location.host.split('.')[0] === '58') {
-  api = 'http://58.71.87.90:9901/cagamesclient'
-}
+let api = 'http://cb510.net/dscagamesclient'
+// let api = 'http://192.168.169.49:9901/cagamesclient'
 // jork
+// let api = 'http://192.168.169.46:9901/dscagamesclient'
+// steven
 // let api = 'http://192.168.169.46:9901/dscagamesclient'
 let env = 'dev'
 // 外网生产地址
-if (window.location.host.indexOf('.net') !== -1) {
+if (window.location.host.indexOf('cb510') !== -1) {
+  api = 'http://cb510.net/dscagamesclient'
+} else if (window.location.host.indexOf('.net') !== -1) {
   env = 'pro'
-  // api = 'https://api.cb868.net:1888/dscagamesclient'
   api = 'https://www.' + window.location.host.replace('www.', '') + '/dscagamesclient'
   if (window.location.host.split('.')[0].startsWith('v')) {
     api = 'https://' + window.location.host + '/dscagamesclient'
@@ -25,6 +26,10 @@ if (window.location.host.indexOf('.net') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  activityReportDetail: '/report/activityReport.do?method=detailList',
+  activityReport: '/report/activityReport.do?method=list',
+  chatUrl: '/login/login.do?method=getChatUrl',
+  lul: '/report/dwReport.do?method=list',
   outerReportDetail: '/report/otherReport.do?method=detail',
   outerReport: '/report/otherReport.do?method=list',
   outerOrderRecord: '/ext/projectOther.do?method=',
@@ -224,9 +229,9 @@ let Game = {
   // 1.  最近投注记录
   getOrderList: '/project.do?method=list',
   // 2.  最近追号记录
-  getFollowList: '/task.do?method=list',
+  getFollowList: '/task.do?method=list'
   // /cagamesclient/ltrPool.do?method=current
-  pricePot: '/ltrPool.do?method=current'
+  // pricePot: '/ltrPool.do?method=current'
   // 19、修改密码页面，校验安全问答  ALL  仅在投注时候有效（追号无效），如用户选择参与奖池投注则该订单的每个方案需额外多花费一元金额，且不能撤销。
 }
 
@@ -511,11 +516,20 @@ let Form = {
   list: '/report/OrderReport.do?method=list',
   // 盈亏报表列表
   // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
-  profitList: '/report/profit.do?method=list',
+  // profitList: '/report/profit.do?method=list',
+  // 彩票报表
+  profitList: '/report/ltrReport.do?method=list',
   // 盈亏详情列表（按用户和时间范围查询）
   // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=detail&destUserId=2&startDay=20170101&endDay=20170301
-  profitDetail: '/report/profit.do?method=detail',
+  // profitDetail: '/report/profit.do?method=detail',
+  profitDetail: '/report/ltrReport.do?method=detail',
+
   // 今日报表
+  // profitListToday: '/report/profit.do?method=list',
+  profitListToday: '/report/todayReport.do?method=list',
+  // 汇总报表
+  totalReport: '/report/totalReport.do?method=list',
+  totalReportDetail: '/report/totalReport.do?method=detail',
   // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=todayReport&startDay=20170101&endDay=20170301
   todayReport: '/report/profit.do?method=todayReport',
   // 追号列表

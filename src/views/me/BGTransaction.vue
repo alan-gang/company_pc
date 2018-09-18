@@ -15,13 +15,13 @@
         
         label.item 转出帐户 
           el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
-            el-option(v-for="(n, i) in froms" v-bind:label="n" v-bind:value="i" v-if="n")
+            el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
         
         label.item 转入帐户  
           el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
-            el-option(v-for="(n, i) in froms" v-bind:label="n" v-bind:value="i" v-if="n")
+            el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
 
@@ -77,7 +77,7 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户'],
+        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户', '棋牌帐户:7', 'PT帐户:5'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],
@@ -112,8 +112,8 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
-            from: this.f,
-            to: this.t,
+            from: (this.froms[this.f] || '').split(':')[1] || this.f,
+            to: (this.froms[this.t] || '').split(':')[1] || this.t,
             state: this.s,
             bgTm: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTm: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',

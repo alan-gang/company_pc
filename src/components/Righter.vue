@@ -13,6 +13,8 @@
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
     .ds-icon-
+      .expand-left 联系上级
+    .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
 
 </template>
@@ -22,6 +24,7 @@
   export default {
     data () {
       return {
+        window: window,
         Me: store.state.user,
         store: store,
         skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
@@ -32,7 +35,8 @@
       Me: {
         deep: true,
         handler () {
-          document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
+          // document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
+          document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
           document.body.className = this.Me.css
         }
       }
@@ -59,9 +63,9 @@
         left 8px
         
       left auto !important
-      right 0 !important
-      top 55% !important
-      top calc(50% + 1.05rem) !important
+      right 20px !important
+      top 60% !important
+      top calc(47% + 1.05rem) !important
       z-index 5
       border-radius 0 !important
       padding 0
@@ -81,7 +85,7 @@
         line-height RW !important
         width 0
         text-align center
-        content '联系客服' !important
+        content '联系上级' !important
         color #fff !important
         background-color rgba(49,41,84, .95)
         transition all ease .3s
@@ -93,12 +97,12 @@
         width RW
         height RW
         margin 0
-        background-image url(../assets/righter/04.png) !important
+        background-image url(../assets/righter/05.png) !important
         background-position center
         cursor pointer !important
         &:hover
           background-color rgba(49,41,84, .95)
-          background url(../assets/righter/04.png) center no-repeat rgba(49,41,84, .95)
+          background url(../assets/righter/05.png) center no-repeat rgba(49,41,84, .95)
           &:after
             width 1.11rem
         &:after
@@ -111,7 +115,7 @@
           line-height RW
           width 0
           text-align center
-          content '联系客服' !important
+          content '联系上级' !important
           color #fff !important
           background-color rgba(49,41,84, .95)
           transition all ease .3s
@@ -128,7 +132,7 @@
   .righter
     position fixed
     top 50%
-    right 0
+    right 20px
     width RW
     transform translateY(-75%)
     background-color rgba(0,0,0,.2)
@@ -152,6 +156,9 @@
       background url(../assets/v2/download.png) center no-repeat 
     .ds-icon-helpcenter
       background url(../assets/v2/helpcenter.png) center no-repeat       
+    .ds-icon-contact-
+      background url(../assets/righter/04.png) center no-repeat       
+      
     .expand-left
       &.skins
         width 3.45rem

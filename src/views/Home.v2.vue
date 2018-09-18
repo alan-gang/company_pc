@@ -1,59 +1,118 @@
 <template lang="jade">
   section.new-home(@scroll="scrollHander")
     Me(:menus="menus" v-on:open-page="openTab")
-
+    
     MyMenu(:menus="menus.slice(0, 12).concat(menus[16])" v-on:open-page="openTab")
+
+    router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
+
 
     el-carousel.ad(:interval="4000" arrow="always")
       el-carousel-item(v-for="(item, i) in sources" v-bind:key=" i " v-bind:style="{ ba }")
-        //- img(:src=" item.src " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner(item) ")
         img(:src=" item.webBanner " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner() ")
+    
+    .box.our-game
+      .content-width
+        el-row.collects.font-white.top-games
+          .intro(@mouseenter="__recentlyCode")
+            span.gt 信游彩票
+            span.en-name LOTTERY
+            .right
+              span.name 重庆时时彩 &nbsp;&nbsp;
+              span.number(v-for=" n in ns ") {{ n }}
+              |  &nbsp;&nbsp;
+              router-link.ds-button.primary(:to=" '/game/1-1-1' ") 再来一注
+                .el-icon-arrow-right
+            .line
+            p 信游彩票包含时时彩，11选五，快三，PK10，福彩3D，排三排五，六合彩等多种游戏，玩法齐全，同时开发了多个快频彩票，还有VR视频美女开奖，满足您不同的需求。
 
-    //- img.ad(src="/static/pic/banner.jpg" width="100%" style="min-width: 8rem; cursor: pointer;" @click="__setCall({fn: '__openWindowWithPost', args: '3:301:iframe'})")
-    .our-game.content-width
 
-      el-row.collects.font-white.top-games
-        .intro(@mouseenter="__recentlyCode")
-          span.gt 信游彩票
-          span.en-name LOTTERY
-          .right
-            span.name 重庆时时彩 &nbsp;&nbsp;
-            span.number(v-for=" n in ns ") {{ n }}
-            |  &nbsp;&nbsp;
-            router-link.ds-button.primary(:to=" '/game/1-1-1' ") 再来一注
-              .el-icon-arrow-right
-          .line
-          p 信游彩票包含时时彩，11选五，快三，PK10，福彩3D，排三排五，六合彩等多种游戏，玩法齐全，同时开发了多个快频彩票，还有VR视频美女开奖，满足您不同的需求。
+          el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
+            p {{ c.title }}
+
+        //- .title 
+          p.t1 我们的游戏
+          p.t2 OUR GAMES
+
+        el-row(:gutter=15 style="padding-bottom: .2rem")
+          
+          el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+            .co
+              img(src="/static/pic/lhg.jpg")
+            //- p
+              span.t1 体育竞技 &nbsp;&nbsp;
+              span.t2 SPORTS
+              span.f_r 立即进行 >
+          el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
+            .co
+              img(src="/static/pic/bjl.jpg")
+
+            //- p
+              span.t1 真人娱乐 &nbsp;&nbsp;
+              span.t2 CASINO
+              span.f_r 立即进行 >
+
+        //- el-row(:gutter=15 style="padding-bottom: .3rem")
+          el-col.picture.a.lhg(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+            .co
+              img(src="/static/pic/home/3.jpg")
+            p
+              span.t1 电子游戏 &nbsp;&nbsp;
+              span.t2 ELECTRIC
+              span.f_r 立即进行 >
+          el-col.picture.a.fish(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
+            .co
+              img(src="/static/pic/home/4.jpg")
+
+            p
+              span.t1 捕鱼达人 &nbsp;&nbsp;
+              span.t2 FISHING
+              span.f_r 立即进行 >
+
+          el-col.picture.a.chess(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) ")
+            .co
+              img(src="/static/pic/home/5.jpg")
+
+            p
+              span.t1 棋牌游戏 &nbsp;&nbsp;
+              span.t2 CHESS
+              span.f_r 立即进行 >
+        //- .title 
+          p.t1 精彩活动
+          p.t2 ACTIVITY
+        //- el-row(:gutter=15 style="padding-bottom: .3rem")
+          el-col.picture.b.lhg(:span="6" @click.native=" openBanner() ")
+            .co
+              img(src="/static/pic/home/6.jpg")
+            p 信游抢楼大抽奖，每天3888无限送
+          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
+            .co
+              img(src="/static/pic/home/7.jpg")
+
+            p 体育高返水，每周无限返水
+
+          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
+            .co
+              img(src="/static/pic/home/8.jpg")
+
+            p 真人、电游、捕鱼返水进行时
+
+          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
+            .co
+              img(src="/static/pic/home/9.jpg")
+
+            p 上班工资每月发，平台工资天天领
 
 
-        el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
-          p {{ c.title }}
-          // p {{ c.descr }}
 
-        // .el-col.pool(:span="24")
-          span 奖池累计：
-          | {{ EM }}
 
-      el-row(:gutter=15 style="padding-bottom: .3rem")
-        el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203'}}) ")
-          .co
-            img(src="/static/pic/lhg.jpg")
-        el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
-          .co
-            img(src="/static/pic/bjl.jpg")
+
+
+    
 
 
     CopyRight
 
-
-    // Guide(v-if="me.guide")
-
-    // keep-alive
-    //   transition(name="fade" appear=true)
-
-    router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
-
-    // Pages.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
 
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")
@@ -62,18 +121,6 @@
       input(type="hidden" name="id" value="")
 
 
-    iframe(:src="ifsrc" v-if="sports" style="width: 10rem;margin: 0 auto; border: none; height: 100%; position: absolute; top: 1.04rem" @load="ssports = true" v-show="ssports")
-
-    .modal(v-if="false" )
-      .mask
-      .box-wrapper
-        .box(ref="box" style="max-width: 12rem; width: 12rem; max-height: 8rem;")
-          .tool-bar
-            span.title 沙巴体育
-            el-button-group
-              el-button.close(icon="close" @click="ifsrc = ''")
-
-          iframe(:src="ifsrc" v-if="ifsrc" style="width: 100%;margin: 0; border: none; height: 7.5rem")
 
 
 </template>
@@ -88,7 +135,6 @@ import Pages from './Pages'
 import CopyRight from 'components/CopyRight'
 import Me from 'components/Me'
 import MyMenu from 'components/Menu'
-import { numberWithCommas } from '../util/Number'
 export default {
   name: 'Home',
   mixins: [base],
@@ -98,42 +144,23 @@ export default {
       hasFooter: true,
       me: store.state.user,
       sources: [
-        // {href: '/activity/5-2-15?id=96', src: '/static/pic/2.jpg'},
-        // {href: '/activity/5-2-14?id=88', src: '/static/pic/3.jpg'},
-        // {href: '/activity/5-2-8?id=99', src: '/static/pic/1.jpg'}
-        // {href: '/activity/5-1-1', src: '/static/pic/2.jpg'},
-        // {href: '/activity/5-1-1', src: '/static/pic/3.jpg'},
-        // {href: '/activity/5-1-1', src: '/static/pic/1.jpg'}
       ],
       topgames: [
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        // {class: 'index_icon_04', id: '1-2-1', title: '快投30秒'},
         {class: 'index_icon_13', id: '1-1-4', title: '欢乐分分彩'},
         {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
         {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
         {class: 'index_icon_05', id: '1-5-3', title: '排列三、五'},
-        // {class: 'index_icon_09', id: '1-5-4', title: '快投排列五'},
         {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
-        // {class: 'index_icon_11', id: '1-7-4', fn: 2, title: 'VR赛车'},
-        // {class: 'index_icon_12', id: '1-7-6', fn: 15, title: 'VR百家乐'}
       ],
       formData: {
-        // data: '',
-        // version: 0,
-        // id: '',
-        // vrurl: ''
       },
       ns: [1, 2, 3, 4, 5],
       timeout: 0,
       ifsrc: '',
       sports: false
-    }
-  },
-  computed: {
-    EM () {
-      return numberWithCommas(this.pricePotAmount || 0)
     }
   },
   watch: {
@@ -150,13 +177,6 @@ export default {
   mounted () {
     this.getActivityBanner()
     this.__recentlyCode()
-    this.pricePot()
-    this.timeout = setInterval(this.pricePot, 60000 * 5)
-    // this.openExternal(1)
-    // this.openExternal(2)
-    // this.openExternal(11)
-    // this.openExternal(13)
-    // this.openExternal(15)
   },
   beforeDestroy () {
     clearInterval(this.timeout)
@@ -168,41 +188,19 @@ export default {
         if (data.success === 1) {
           this.sources = data.webBanner || 0
         } else {
-          // this.$message.error({target: this.$el, message: data.msg || '奖池信息获取失败！'})
         }
       }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '奖池信息获取失败！'})
       })
     },
     openBanner () {
       this.$router.push('/activity/5-1-1')
     },
-    // openBanner (item) {
-    //   if (item.fn) {
-    //     this.__setCall({fn: item.fn, args: item.args})
-    //   } else if (item.href) {
-    //     this.$router.push(item.href)
-    //   }
-    // },
     scrollHander (evt) {
       this.lefter = this.lefter || document.getElementsByClassName('lefter')[0]
       if (this.lefter) {
         this.lefter.style.transition = 'transform linear 0s'
         this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
       }
-    },
-    pricePot () {
-      this.$http.get(api.pricePot).then(({data}) => {
-        if (data.success === 1) {
-          this.pricePotAmount = data.amount || 0
-          // this.pricePotCount = data.count || 0
-          // }
-        } else {
-          // this.$message.error({target: this.$el, message: data.msg || '奖池信息获取失败！'})
-        }
-      }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '奖池信息获取失败！'})
-      })
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
@@ -237,40 +235,29 @@ export default {
       })
     },
     openExternal (fn) {
-      if (fn.split(':')[1] > 200) return this.openBG(fn)
+      if (fn.split(':')[1]) return this.openBG(fn)
       // this.formData = {}
       this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
         //
         this.formData[fn] = data.vrurl
         this.__openWindowWithPost(fn)
-        // if (data.success === 1) {
-        //   // this.openWindowWithPost(data)
-        //   this.formData[fn] = data
-        // } else {
-        //   // this.$message.error({target: this.$el, message: data.msg || '第三方游戏获取失败！'})
-        // }
       }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '第三方游戏获取失败！'})
       })
     },
     openBG (fn) {
-      if (fn.split(':')[2] === 'iframe') this.$router.push('/game/1-8-1')
+      if (fn.split(':')[2] === 'iframe') this.$router.push(fn.split(':')[3] || '/game/1-8-1')
       // this.formData = {}
       this.$http.get(api.gameUrl, {gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0]}).then(({data}) => {
         //
         if (data.success) {
           // data.url && (data.url.iframe = true)
+          if (data.userName && data.password) {
+            data.url = '?un=' + data.userName + '&pwd=' + data.password
+          }
           this.formData[fn] = data.url
           this.__openWindowWithPost(fn)
         }
-        // if (data.success === 1) {
-        //   // this.openWindowWithPost(data)
-        //   this.formData[fn] = data
-        // } else {
-        //   // this.$message.error({target: this.$el, message: data.msg || '第三方游戏获取失败！'})
-        // }
       }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '第三方游戏获取失败！'})
       })
     },
     openWindowWithPost ({data, version, id, vrurl, msg}) {
@@ -288,11 +275,12 @@ export default {
         if (fn.split(':')[2] === 'iframe') {
           this.ifsrc = this.formData[fn]
           this.formData[fn] = undefined
-          // this.$router.push('/game/1-8-1')
           this.__setCall({fn: '__setIframeSrc', args: this.ifsrc})
+          this.__setCall({fn: '__setIframeSrcKey', args: fn})
           return false
         }
-        return window.open(this.formData[fn])
+        window.open(this.formData[fn])
+        this.formData[fn] = undefined
       }
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     }
@@ -324,6 +312,9 @@ export default {
         height 372px
     @media screen and (min-width: 1920px)
         height 400px
+    
+    @media screen and (min-width: 2560px)
+        height 533px
 
 </style>
 
@@ -333,14 +324,20 @@ export default {
   @import '../var.stylus'
   .new-home .dialog-container
     top 0
-    z-index 2
-
+    z-index 3
+  .box
+    // background-image url(/static/pic/home/0.jpg)
+    // background-repeat no-repeat
+    // background-size 100%
+    // background-color #fff
+    padding-top .3rem
+    
   W = 1.5rem
   H = 1.4rem
   .top-games
     // height 6rem
     position relative
-    margin .3rem 0
+    margin-bottom .3rem
     padding PW
     padding-left 43%
     text-align center
@@ -452,7 +449,7 @@ export default {
   .picture
     position relative
     cursor pointer
-    height 2.8rem
+    height 2.7rem
     .co
       width 100%
       height 100%
@@ -483,6 +480,38 @@ export default {
     line-height .36rem
     text-align center
     background-color rgba(0, 0, 0, .3)
+  .picture.a
+    height 1.9rem
+  .picture.b
+    height 1.5rem
+  .title
+    border-left 3px solid BLUE
+    padding-left .1rem
+    margin .1rem 0
+    .t1
+      color #333
+      font-size .2rem
+      font-weight bold
+  
+  .picture
+    margin-bottom .1rem
+    .t1
+      font-size .16rem
+      color #333
+      font-weight bold
+    .t2
+      color #999
+    .f_r
+      float right
+      color BLUE
+      // margin-right .3rem
+      padding 0 .2rem
+      &:hover
+        background-color BLUE
+        color #fff
+    p
+      padding .05rem 0
+      line-height .3rem
 
 </style>
 

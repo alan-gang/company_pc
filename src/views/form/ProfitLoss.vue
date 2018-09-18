@@ -13,21 +13,21 @@
           label.item 用户 
             input.ds-input.small(v-model="name" style="width: 1rem")
 
-          label.item 时间范围 
+          label.item 时间 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
-          label.item 范围 
+          //- label.item 范围 
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
 
-          el-select(v-model="S" placeholder="默认排序")
+          //- el-select(v-model="S" placeholder="默认排序")
             el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
 
-          | &nbsp;&nbsp;
+          //- | &nbsp;&nbsp;
 
-          label.item
+          //- label.item
             el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
               el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
 
@@ -42,70 +42,58 @@
 
             el-table-column(class-name="pl2" prop="userName" label="用户名" )
               template(scope="scope")
-                span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } " v-if="!scope.row.lst") {{ scope.row.userName }}
-                span(v-if="scope.row.lst") 小结
+                span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
+
             el-table-column(prop="userPoint" label="返点级别" align="center")
 
-            el-table-column(align="right" prop="saveAmount" label="充值总额" )
+            el-table-column(align="right" prop="betAmount" label="投注总额")
               template(scope="scope")
-                span {{ numberWithCommas(scope.row.saveAmount) }}
-
-            el-table-column(align="right" prop="withdrawAmount" label="提款总额" )
-              template(scope="scope")
-                span {{ numberWithCommas(scope.row.withdrawAmount) }}
-
-
-            el-table-column(align="right" prop="buyAmount" label="投注总额" )
-              template(scope="scope")
-                span {{ numberWithCommas(scope.row.buyAmount) }}
+                span {{ numberWithCommas(scope.row.betAmount) }}
 
             el-table-column(align="right" prop="pointAmount" label="返点总额" )
-
 
             el-table-column(align="right" prop="prizeAmount" label="派奖总额" )
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.prizeAmount) }}
 
-            el-table-column(align="right" prop="rewardsAmount" label="活动")
+            el-table-column(align="right" prop="vrBetAmount" label="VR投注" )
+            el-table-column(align="right" prop="vrPointAmount" label="VR返点" )
+            el-table-column(align="right" prop="vrPrizeAmount" label="VR派奖" )
+
+
+            el-table-column(align="right" prop="activityAmount" label="彩票活动")
               template(scope="scope")
-                span {{ numberWithCommas(scope.row.rewardsAmount) }}
+                span {{ numberWithCommas(scope.row.activityAmount) }}
 
             el-table-column(align="right" prop="salaryAmount" label="工资")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.salaryAmount) }}
 
 
-            el-table-column(align="right" prop="profitAmount" label="盈亏"  )
+            el-table-column(align="right" prop="settleAmount" label="总盈亏"  )
               template(scope="scope")
-                span(:class=" { 'text-danger': parseFloat(scope.row.profitAmount) < 0, 'text-green': parseFloat(scope.row.profitAmount) > 0 } ") {{ numberWithCommas(scope.row.profitAmount) }}
-
-            //- el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
-              template(scope="scope")
-                span(v-bind:class=" { 'text-danger': scope.row.outProfitAmount.startsWith('-'), 'text-green': scope.row.outProfitAmount.startsWith('+') } ") {{ numberWithCommas(scope.row.outProfitAmount) }}
-
-            //- el-table-column(align="right" prop="settlement" label="总结算"  )
-              template(scope="scope")
-                span(:class=" { 'text-danger': scope.row.settlement.startsWith('-'), 'text-green': !scope.row.settlement.startsWith('-') } ") {{ numberWithCommas(scope.row.settlement) }}
+                span(:class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } ")  {{ scope.row.settleAmount &&scope.row.settleAmount._nwc() }}
+                
 
             el-table-column(prop="userpoint" label="操作" align="center")
               template(scope="scope")
-                .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(scope.row.userId)") 明细
+                .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)") 明细
 
-          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
       Stock(v-if=" I === 1 ")
 
     .modal(v-show="showDetail" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 明细
             el-button-group
               el-button.close(icon="close" @click="showDetail = ''")
           .table-list(style="padding: .15rem .2rem ")
 
-            el-table.header-bold.nopadding(:data="cdata" stripe   v-bind:summary-method="getSummaries"  max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
+            el-table.header-bold.nopadding(:data="cdata" stripe  ref="itable" v-bind:summary-method="getSummaries"  max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0;")
 
               el-table-column(class-name="pl2" prop="userName" label="用户名" )
                 template(scope="scope")
@@ -113,44 +101,36 @@
 
               el-table-column(prop="date" label="日期" align="center")
 
-              el-table-column(align="right" prop="saveAmount" label="充值总额" )
+              el-table-column(align="right" prop="betAmount" label="投注总额" )
                 template(scope="scope")
-                  span {{ numberWithCommas(scope.row.saveAmount) }}
+                  span {{ numberWithCommas(scope.row.betAmount) }}
 
-              el-table-column(align="right" prop="withdrawAmount" label="提款总额" )
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.withdrawAmount) }}
-
-
-              el-table-column(align="right" prop="buyAmount" label="投注总额" )
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.buyAmount) }}
-
+              el-table-column(align="right" prop="pointAmount" label="返点总额")
 
               el-table-column(align="right" prop="prizeAmount" label="派奖总额" )
                 template(scope="scope")
                   span {{ numberWithCommas(scope.row.prizeAmount) }}
 
-              el-table-column(align="right" prop="rewardsAmount" label="活动")
-                template(scope="scope")
-                  span {{ numberWithCommas(scope.row.rewardsAmount) }}
+              el-table-column(align="right" prop="vrBetAmount" label="VR投注" )
+              el-table-column(align="right" prop="vrPointAmount" label="VR返点" )
+              el-table-column(align="right" prop="vrPrizeAmount" label="VR派奖" )
 
-              el-table-column(align="right" prop="salaryAmount" label="工资")
+
+              el-table-column(align="right" prop="activityAmount" label="彩票活动")
+                template(scope="scope")
+                  span {{ numberWithCommas(scope.row.activityAmount) }}
+
+              el-table-column(align="right" prop="salaryAmount" label="工资" )
                 template(scope="scope")
                   span {{ numberWithCommas(scope.row.salaryAmount) }}
 
 
-              el-table-column(align="right" prop="profitAmount" label="盈亏"  class-name="pr2" )
+              el-table-column(align="right" class-name=" pr2 " prop="settleAmount" label="总盈亏"  min-width="120")
                 template(scope="scope")
-                  span(:class=" { 'text-danger': parseFloat(scope.row.profitAmount) < 0, 'text-green': parseFloat(scope.row.profitAmount) > 0 } ") {{ numberWithCommas(scope.row.profitAmount) }}
+                  span(:class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } ") {{ scope.row.settleAmount &&scope.row.settleAmount._nwc() }}
 
-              //- el-table-column(align="right" prop="outProfitAmount" label="其它盈亏"  )
-                template(scope="scope")
-                  span(:class=" { 'text-danger': scope.row.outProfitAmount.startsWith('-'), 'text-green': scope.row.outProfitAmount.startsWith('+') } ") {{ numberWithCommas(scope.row.outProfitAmount) }}
+            el-pagination(:total="ctotal" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="ccurrentPage" small v-if=" ctotal > pageSize " v-on:current-change="cpageChanged")
 
-              //- el-table-column(align="right" prop="settlement" label="总结算" class-name="pr2" )
-                template(scope="scope")
-                  span(:class=" { 'text-danger': scope.row.settlement.startsWith('-'), 'text-green': scope.row.settlement.startsWith('+') } ") {{ numberWithCommas(scope.row.settlement) }}
 
 </template>
 
@@ -159,7 +139,7 @@
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
   import { numberWithCommas } from '../../util/Number'
-  import { dateFormat } from '../../util/Date'
+  // import { dateFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   export default {
@@ -204,7 +184,7 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24).getDate() < 16 ? ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(1)) : ((new Date(new Date().getTime() - 3600 * 1000 * 24)).setDate(16)), new Date(new Date().getTime() - 3600 * 1000 * 24)],
+        stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         data: [],
         pageSize: 20,
         total: 0,
@@ -220,9 +200,12 @@
         SS: ['投注总额', '盈亏金额', '工资总额', '返点级别'],
         S: '',
         btos: '',
-        cdata: [],
         totalJson: {},
-        I: 0
+        I: 0,
+        cdata: [],
+        ctotal: 0,
+        ccurrentPage: 1,
+        cpreOptions: {}
       }
     },
     computed: {
@@ -238,6 +221,10 @@
       this.profitList()
     },
     methods: {
+      sm (a, b) {
+        console.log(a, b, '???')
+        return a - b
+      },
       __setProfitLossI (I) {
         this.I = I
       },
@@ -259,6 +246,11 @@
           this.currentPage = cp
         })
       },
+      cpageChanged (cp) {
+        this.profitDetail(cp, () => {
+          this.ccurrentPage = cp
+        })
+      },
       cellClick (row, column, cell, event) {
         if (column.property === 'userName') {
           // this.BL.push({
@@ -275,29 +267,6 @@
         // }
         this.profitList(undefined, undefined, B.userId)
       },
-      summary () {
-        let s = {
-          last: true,
-          userName: '小结：',
-          salaryAmount: 0,
-          saveAmount: 0,
-          withdrawAmount: 0,
-          buyAmount: 0,
-          pointAmount: 0,
-          prizeAmount: 0,
-          profitAmount: 0
-        }
-        this.data.forEach(d => {
-          s.salaryAmount += parseInt(d.salaryAmount) || 0
-          s.saveAmount += parseInt(d.saveAmount) || 0
-          s.withdrawAmount += parseInt(d.withdrawAmount) || 0
-          s.buyAmount += parseInt(d.buyAmount) || 0
-          s.pointAmount += parseInt(d.pointAmount) || 0
-          s.prizeAmount += parseInt(d.prizeAmount) || 0
-          s.profitAmount += parseInt(d.profitAmount) || 0
-        })
-        this.data[0] && this.data.push(s)
-      },
       // 盈亏报表列表
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=list&startDay=20170101&endDay=20170301
       // profitList: api + 'report/profit.do?method=list',
@@ -309,11 +278,11 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.preOptions = {
-            startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-            endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
+            beginDate: new Date(this.stEt[0])._toDayString(),
+            endDate: new Date(this.stEt[1])._toDayString(),
             userId: id || this.BL[this.BL.length - 2].userId,
             parentId: this.zone !== '' ? this.zone + 1 : '',
-            userName: this.name,
+            username: this.name,
             orderType: this.S === '' ? '' : this.S + 1,
             sort: this.btos === '' ? 2 : this.btos + 1,
             page: 1,
@@ -328,7 +297,7 @@
             // this.totalJson = data.totalJson
             // data.pageTotalJson.lst = true
             // data.pageNum > 1 && data.allDate.push(data.pageTotalJson)
-            this.data = data.allDate
+            this.data = data.items
             this.BL = (data.userBreads).concat([{}])
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
@@ -347,33 +316,33 @@
           }, 100)
         })
       },
-      goProfitLossDetail (userId) {
-        this.$router.push({
-          path: '/form/4-5-4',
-          query: {
-            st: (window.newDate(this.stEt[0])).getTime(),
-            et: (window.newDate(this.stEt[1])).getTime(),
-            userId: userId
-          }
-        })
-      },
       // 盈亏详情列表（按用户和时间范围查询）
       // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=detail&destUserId=2&startDay=20170101&endDay=20170301
       // profitDetail: api + 'report/profit.do?method=detail',
-      profitDetail (userId) {
+      profitDetail (page, fn, id) {
         this.cdata = []
         let loading = this.$loading({
           text: '加载中...',
-          target: this.$el
+          target: this.$refs['itable'].$el
         }, 10000, '加载超时...')
-        this.$http.myget(api.profitDetail, {
-          startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-          endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, ''),
-          destUserId: userId
-        }).then(({data}) => {
+        if (!fn) {
+          this.cpreOptions = {
+            userId: id,
+            page: 1,
+            pageSize: this.pageSize,
+            beginDate: new Date(this.stEt[0])._toDayString(),
+            endDate: new Date(this.stEt[1])._toDayString()
+          }
+        } else {
+          this.cpreOptions.page = page
+        }
+        this.$http.myget(api.profitDetail, this.cpreOptions).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.cdata = data.allDate
+            this.cdata = data.items
+            this.ctotal = data.totalSize || this.data.length
+            typeof fn === 'function' && fn()
+            !fn && (this.currentPage = 1)
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)

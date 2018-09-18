@@ -65,12 +65,16 @@ import OutProfitLoss from './form/OutProfitLoss'
 import OtherProfit from './form/OtherProfit'
 import MyProfitLoss from './form/MyProfitLoss'
 import ProfitLossDetail from './form/ProfitLossDetail'
-import Today from './form/Today'
-import DaySalary from './form/DaySalary'
+// import Today from './form/Today'
+// import TotalReport from './form/TotalReport'
+// import DaySalary from './form/DaySalary'
 import BGFishRecord from './form/BGFishRecord'
 import BGGameRecord from './form/BGGameRecord'
 import BGVedioRecord from './form/BGVedioRecord'
 import Sports from './form/Sports'
+// import LUL from './form/LUL'
+// import ActivityReport from './form/ActivityReport'
+import TotalAccount from './form/TotalAccount'
 // 趋势图
 // import TrendChart from './form/TrendChart'
 
@@ -154,12 +158,16 @@ export default {
     OtherProfit,
     MyProfitLoss,
     ProfitLossDetail,
-    Today,
-    DaySalary,
+    // Today,
+    // TotalReport,
+    // DaySalary,
     BGFishRecord,
     BGGameRecord,
     BGVedioRecord,
     Sports,
+    // LUL,
+    // ActivityReport,
+    TotalAccount,
     // 走势图
     // TrendChart,
     // Help

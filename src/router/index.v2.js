@@ -23,6 +23,7 @@ const Try = r => require.ensure([], () => r(require('../views/login/Try')), 'log
 const Forget = r => require.ensure([], () => r(require('../views/login/Forget')), 'login-part')
 
 const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
+const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
 
 export default function (VueRoter) {
   let router = new VueRoter({
@@ -35,6 +36,13 @@ export default function (VueRoter) {
         },
         component: require('../views/Home.v2'),
         children: [
+          {
+            path: '/egame',
+            meta: {
+              login: true
+            },
+            component: Egame
+          },
           {
             path: '/game/:url',
             meta: {
@@ -158,7 +166,6 @@ export default function (VueRoter) {
   router.beforeEach((to, from, next) => {
     // login or not go to the page
     if (to.path.startsWith('/form/4-5-3')) {
-      console.log(to)
       if (from && from.path.startsWith('/game')) {
         window.open(window.location.origin + '#' + to.fullPath)
         // console.log(window.location.origin + '#' + to.fullPath)

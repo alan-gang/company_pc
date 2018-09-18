@@ -55,10 +55,6 @@ export default {
     .forget-form
       max-width 6rem
       min-width 6rem
-    .all-rights
-      @media screen and (max-height: 1000px)
-        // position relative
-      
     
 </style>
 

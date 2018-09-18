@@ -456,6 +456,7 @@
 </script>
 <style lang="stylus">
   .vtop table td
+    padding-top .1rem
     vertical-align top
 
 </style>

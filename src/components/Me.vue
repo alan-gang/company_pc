@@ -185,7 +185,8 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
+          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0})
+          // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})

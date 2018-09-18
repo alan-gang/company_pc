@@ -1,0 +1,132 @@
+<template lang="jade">
+.outer-egame(:style=" bgStyle ")
+  .cw.relative(v-if=" !href ") 加载中...
+  .cw
+    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: ii === i} " @click="  ((ii = i) || true) && __setCall({fn: '__openWindowWithPost', args: fns[i]}) ") {{t}}
+  .cw(v-if=" href ")
+    iframe( :src="href"  @load="load" ref="iframe" v-bind:class=" 'plat-' + key ")
+
+    
+</template>
+
+<script>
+export default {
+  name: 'outer-egame',
+  props: [],
+  data () {
+    return {
+      prebg: '',
+      bgStyle: {
+        backgroundImage: 'url(/static/skins/01.jpg)'
+      },
+      title: '',
+      href: '',
+      key: '',
+      ii: -1,
+      tabs: ['BG电子游戏', 'PT游戏'],
+      fns: ['2:203:iframe:/egame', '5:203:iframe:/egame']
+    }
+  },
+  watch: {
+  },
+  created () {
+  },
+  mounted () {
+    this.prebg = document.body.style.background
+    document.body.setAttribute('nolefter', 'true')
+    document.body.style.background = '#27262b'
+  },
+  beforeDestroy () {
+    document.body.style.background = this.prebg
+    document.body.removeAttribute('nolefter')
+    this.clearIframe()
+  },
+  methods: {
+    __setIframeSrcKey (key) {
+      this.key = (key || '').split(':')[0]
+      if (this.key === '2') {
+        this.ii = 0
+      }
+      if (this.key === '5') {
+        this.ii = 1
+      }
+    },
+    __setIframeSrc (src) {
+      if (src.startsWith('?un=')) src = '/pt_egame/index.html' + src
+      // if (src.startsWith('?un=')) src = 'http://cb510.net/pt_egame/index.html' + src
+      this.href = src
+    },
+    load () {
+      if (this.$refs['iframe'].contentWindow.document) {
+        setTimeout(() => {
+          this.__setIframeWH()
+          this.listenIframe()
+        }, 300)
+      }
+    },
+    listenIframe () {
+      !this.t && (this.t = setInterval(() => {
+        this.__setIframeWH()
+      }, 1000))
+    },
+    clearIframe () {
+      clearInterval(this.t)
+      this.t = 0
+      this.href = ''
+    },
+    __setIframeWH () {
+      this.$refs['iframe'].style.height = this.$refs['iframe'].contentWindow.document.body.clientHeight + 'px'
+      // this.$refs['iframe'].style.width = this.$refs['iframe'].contentWindow.document.body.clientWidth + 'px'
+    }
+  }
+}
+</script>
+
+<style lang="stylus">
+@import '../../var.stylus'
+// 建议不添加scoped， 所有样式最多嵌套2层
+.outer-egame 
+  & ~ .el-carousel.ad
+  & ~ .our-game
+    display none
+    
+.outer-egame
+  position relative !important
+  background-repeat no-repeat
+  background-size 100%
+  background-color #fff
+  padding-top 2rem
+  padding-bottom .2rem
+  .cw
+    width 1260px
+    margin 0 auto
+  .tab
+    width 1.8rem
+    height .6rem
+    line-height .6rem
+    display inline-block
+    background-color #fff
+    margin .1rem 0
+    text-align center
+    cursor pointer
+    &:hover
+      color BLUE
+    &.active
+      color #fff
+      background-color BLUE
+  
+  iframe
+    background-color #fff
+    width 100%
+    min-height 8rem
+    margin-right .2rem
+    border none
+    &.plat-2
+      width 1280px
+      min-height 1100px
+    &.plat-5
+      width 1280px
+      min-height 850px
+    
+  
+</style>

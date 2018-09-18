@@ -455,12 +455,12 @@ pre
     td
       height .36rem
       .cell
-        line-height x
+        line-height 1
    table-header-height(x = .36rem)
     th
       height .36rem
       .cell
-        line-height x
+        line-height 1
 
   .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
     color inherit
@@ -485,7 +485,7 @@ pre
 
   .el-table
     table tr
-      background none
+      // background none
     margin .05rem 0
     margin-bottom 0
     font-size .12rem

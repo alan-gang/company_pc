@@ -36,32 +36,35 @@
 
           el-table-column(align="center" prop="sptProfit" label="体育盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.sptProfit) > 0, 'text-danger': parseFloat(scope.row.sptProfit) < 0 } ")  {{ scope.row.sptProfit }}
+              span(:class=" {'text-green': scope.row.sptProfit && scope.row.sptProfit._o0(), 'text-danger': scope.row.sptProfit && scope.row.sptProfit._l0() } ")  {{ scope.row.sptProfit &&scope.row.sptProfit._nwc() }}
 
           el-table-column(align="center" prop="vidProfit" label="真人盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.vidProfit) > 0, 'text-danger': parseFloat(scope.row.vidProfit) < 0 } ")  {{ scope.row.vidProfit }}
+              span(:class=" {'text-green': scope.row.vidProfit && scope.row.vidProfit._o0(), 'text-danger': scope.row.vidProfit && scope.row.vidProfit._l0() } ")  {{ scope.row.vidProfit &&scope.row.vidProfit._nwc() }}
+
 
           el-table-column(align="center" prop="egameProfit" label="电游盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.egameProfit) > 0, 'text-danger': parseFloat(scope.row.egameProfit) < 0 } ")  {{ scope.row.egameProfit }}
+              span(:class=" {'text-green': scope.row.egameProfit && scope.row.egameProfit._o0(), 'text-danger': scope.row.egameProfit && scope.row.egameProfit._l0() } ")  {{ scope.row.egameProfit &&scope.row.egameProfit._nwc() }}
+
 
           el-table-column(align="center" prop="fishProfit" label="捕鱼盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.fishProfit) > 0, 'text-danger': parseFloat(scope.row.fishProfit) < 0 } ")  {{ scope.row.fishProfit }}
+              span(:class=" {'text-green': scope.row.fishProfit && scope.row.fishProfit._o0(), 'text-danger': scope.row.fishProfit && scope.row.fishProfit._l0() } ")  {{ scope.row.fishProfit &&scope.row.fishProfit._nwc() }}
 
-          //- el-table-column(label="总销量")
-          //-   template(scope="scope")
-          //-     span {{ scope.row.saleAmount }}
+          //- el-table-column(align="center" prop="cheProfit" label="棋牌盈亏")
+            template(scope="scope")
+              span(:class=" {'text-green': scope.row.cheProfit && scope.row.cheProfit._o0(), 'text-danger': scope.row.cheProfit && scope.row.cheProfit._l0() } ")  {{ scope.row.cheProfit &&scope.row.cheProfit._nwc() }}
 
 
           el-table-column(align="center" label="总盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.totProfit) > 0, 'text-danger': parseFloat(scope.row.totProfit) < 0 } ")  {{ scope.row.totProfit }}
+              span(:class=" {'text-green': scope.row.totProfit && scope.row.totProfit._o0(), 'text-danger': scope.row.totProfit && scope.row.totProfit._l0() } ")  {{ scope.row.totProfit &&scope.row.totProfit._nwc() }}
+
 
           el-table-column(align="center" prop="lastProft" label="上期结余")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.lastProft) > 0, 'text-danger': parseFloat(scope.row.lastProft) < 0 } ")  {{ scope.row.lastProft }}
+              span  {{ scope.row.lastProft &&scope.row.lastProft._nwc() }}
 
           el-table-column(align="center" prop="actUser" label="有效人数")
 
@@ -71,12 +74,8 @@
 
           el-table-column(align="center" prop="bonus" label="佣金金额")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.bonus) > 0, 'text-danger': parseFloat(scope.row.bonus) < 0 } ")  {{ scope.row.bonus }}
-          //- el-table-column(prop="bonusRate" label="分红比例")
-          //-   template(scope="scope")
-          //-     span {{ scope.row.bonusRate }}%
+              span(:class=" {'text-green': scope.row.bonus && scope.row.bonus._o0(), 'text-danger': scope.row.bonus && scope.row.bonus._l0() } ")  {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}
 
-          //- el-table-column(prop="bonus" v-bind:label=" type ? '应发分红' : '应收分红' ")
 
           el-table-column(align="center" prop="status" label="状态")
             template(scope="scope")
@@ -95,7 +94,7 @@
     .modal(v-if="showDetail" )
       .mask
       .box-wrapper
-        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 佣金详情
             el-button-group
@@ -105,14 +104,14 @@
     .modal(v-show="showDetail1" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 佣金详情
             el-button-group
               el-button.close(icon="close" @click="showDetail1 = ''")
           .table-list(style="padding: .15rem .2rem ")
 
-            el-table.header-bold.nopadding(:data="cdata" stripe   v-bind:summary-method="getSummaries"  max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
+            el-table.header-bold.nopadding(:data="cdata" stripe   ref="itable" show-summary v-bind:summary-method="getSummaries"  max-height="500" v-bind:row-class-name="tableRowClassName" style="margin: .2rem 0 0 0")
 
               el-table-column(class-name="pl2" prop="userName" label="用户名" )
                 template(scope="scope")
@@ -124,50 +123,24 @@
 
               el-table-column(align="left" prop="profitAmt" label="游戏盈亏" )
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.profitAmt) > 0, 'text-danger': parseFloat(scope.row.profitAmt) < 0 } ") {{ numberWithCommas(scope.row.profitAmt) }}
+                  span(:class=" {'text-green': scope.row.profitAmt && scope.row.profitAmt._o0(), 'text-danger': scope.row.profitAmt && scope.row.profitAmt._l0() } ")  {{ scope.row.profitAmt &&scope.row.profitAmt._nwc() }}
 
               el-table-column(align="left" prop="pointAmt" label="返水总额" )
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.pointAmt) > 0, 'text-danger': parseFloat(scope.row.pointAmt) < 0 } ") {{ numberWithCommas(scope.row.pointAmt) }}
+                  span {{ scope.row.pointAmt &&scope.row.pointAmt._nwc() }}
 
               el-table-column(align="left" prop="rewards" label="活动费用" )
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.rewards) > 0, 'text-danger': parseFloat(scope.row.rewards) < 0 } ") {{ numberWithCommas(scope.row.rewards) }}
+                  span {{ scope.row.rewards &&scope.row.rewards._nwc() }}
 
               el-table-column(align="left" prop="platFee" label="平台费总额" )
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.platFee) > 0, 'text-danger': parseFloat(scope.row.platFee) < 0 } ") {{ numberWithCommas(scope.row.platFee) }}
-
-              //- el-table-column(align="center" prop="realProfit" label="当期净盈利")
-              //-   template(scope="scope")
-              //-     span {{ numberWithCommas(scope.row.realProfit) }}
-
-              //- el-table-column(align="center" prop="lastProfit" label="上期结余")
-              //-   template(scope="scope")
-              //-     span {{ numberWithCommas(scope.row.lastProfit) }}
-
-
-              //- el-table-column(align="center" prop="totalProfit" label="实际净盈利"  )
-              //-   template(scope="scope")
-              //-     span {{ numberWithCommas(scope.row.totalProfit) }}
-
-              //- el-table-column(align="center" prop="actUser" label="活跃人数"  )
-              //-   template(scope="scope")
-              //-     span {{ numberWithCommas(scope.row.actUser) }}
-
-              //- el-table-column(align="center" prop="bonusRate" label="佣金比例")
-              //-   template(scope="scope")
-              //-     span {{ numberWithCommas(scope.row.bonusRate) }}%
-
-              //- el-table-column(align="center" prop="bonus" label="佣金金额")
-
-              //- el-table-column(align="center" prop="status" label="状态")
-              //-   template(scope="scope")
-              //-     span(:class=" STATUS[scope.row.isDone].css ") {{ STATUS[scope.row.isDone].title }}
+                  span {{ scope.row.platFee &&scope.row.platFee._nwc() }}
 
               el-table-column(align="left" prop="settle" label="总结算" class-name="pr2" )
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.settle) > 0, 'text-danger': parseFloat(scope.row.settle) < 0 } ") {{ numberWithCommas(scope.row.settle) }}
+                  span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ")  {{ scope.row.settle &&scope.row.settle._nwc() }}
+                  
 
 </template>
 
@@ -204,53 +177,13 @@
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 89)
               picker.$emit('pick', [start, end])
             }
-          }, {
-            text: '最近六个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起六个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起一年',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360)
-              picker.$emit('pick', [start, end])
-            }
           }]
           // disabledDate (time) {
           //   return time.getTime() > Date.now()
           // }
         },
         defaultStEt: ['', ''],
-        stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 89), new Date()],
+        stEt: [new Date()._setHMS('0:0:0')._bfM(-2)._setD(1), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],
         me: store.state.user,
         // 0 我的佣金
         // 1 下级佣金
@@ -291,17 +224,13 @@
       }
     },
     watch: {
-      type () {
-        this.bonus()
-      },
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = dateFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
+      type (n) {
+        if (n) {
+          this.stEt = [new Date()._setD(1)._setHMS('0:0:0'), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)]
+        } else {
+          this.stEt = [new Date()._setHMS('0:0:0')._bfM(-2)._setD(1), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)]
         }
+        this.bonus()
       }
     },
     mounted () {
@@ -318,14 +247,27 @@
         window.localStorage.cdetail = JSON.stringify(obj)
       },
       getSummaries (param) {
-        const { columns } = param
+        const { columns, data } = param
         const sums = []
         columns.forEach((column, index) => {
           if (index === 0) {
-            sums[index] = '总计'
+            sums[index] = '合计'
             return
+          }
+          const values = data.map(item => Number((item[column.property] + '').replace(/,/g, '')))
+          if (values.every(value => !isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+            sums[index] = sums[index].toFixed(2)
+            sums[index] = sums[index]._nwc()
           } else {
-            sums[index] = numberWithCommas(this.totalJson[column.property])
+            sums[index] = ''
           }
         })
         return sums
@@ -335,75 +277,11 @@
           this.currentPage = cp
         })
       },
-      expand (row, expanded) {
-        if (expanded && !row.topDetailList) {
-          this.topBonuDetail(row)
-        }
-      },
-      summary () {
-        let s = {
-          last: true,
-          userName: '汇总：',
-          profitAmt: 0,
-          pointAmt: 0,
-          rewards: 0,
-          platFee: 0,
-          settle: 0
-        }
-        this.cdata.forEach(d => {
-          s.profitAmt += parseFloat((d.profitAmt).replace(/,/g, '')) || 0
-          s.pointAmt += parseFloat((d.pointAmt).replace(/,/g, '')) || 0
-          s.rewards += parseFloat((d.rewards).replace(/,/g, '')) || 0
-          s.platFee += parseFloat((d.platFee).replace(/,/g, '')) || 0
-          s.settle += parseFloat((d.settle).replace(/,/g, '')) || 0
-        })
-        this.cdata[0] && this.cdata.push(s)
-      },
-      topBonuDetail (row) {
-        let loading = this.$loading({
-          text: '分红详情加载中...',
-          target: this.$el
-        }, 10000, '加载超时...')
-        this.$http.get(api.topBonuDetail, {
-          issue: row.issue
-        }).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.topDetailList = data.topDetailList
-            setTimeout(() => {
-              loading.text = '加载成功!'
-            }, 100)
-          } else loading.text = '加载失败!'
-        }, (rep) => {
-          // error
-          this.$message.error('加载失败！')
-        }).finally(() => {
-          setTimeout(() => {
-            loading.close()
-          }, 100)
-        })
-      },
-      goContractDetail (id) {
-        this.$router.push({
-          path: '/group/3-3-4',
-          query: {id: id}
-        })
-      },
-      goStockDetail (id) {
-        this.$router.push({
-          path: '/group/3-3-2',
-          query: {id: id, self: !this.type}
-        })
-      },
-      __bonus () {
-        this.bonus()
-      },
       bonus (page, fn) {
         let loading = this.$loading({
           text: '佣金加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
-
         if (!fn) {
           this.preOptions = {
             startDate: this.stEt[0] ? dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[\s:-]*/g, '') : '',
@@ -420,7 +298,6 @@
         } else {
           this.preOptions.page = page
         }
-
         this.$http.get(this.apiBonus, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
@@ -452,7 +329,7 @@
         this.cdata = []
         let loading = this.$loading({
           text: '加载中...',
-          target: this.$el
+          target: this.$refs['itable'].$el
         }, 10000, '加载超时...')
         this.$http.myget(api.qryCommDetail, {
           startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
@@ -466,7 +343,6 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-            this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
           // error

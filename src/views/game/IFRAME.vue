@@ -6,7 +6,7 @@
     slot(name="resize-y")
     slot(name="toolbar")
     iframe(:src="ifsrc" v-if="ifsrc" v-show="show" @load=" load ")
-    video(src="/static/media/football-goal.mp4" autoplay loop style="width: 100%" v-if="!show") 你的浏览器不支持播放，建议使用最新的chrome浏览器
+    //- video(src="/static/media/football-goal.mp4" autoplay loop style="width: 100%" v-if="!show") 你的浏览器不支持播放，建议使用最新的chrome浏览器
     p(style="color: #fff; font-size: 16px;" v-if="!show") {{ waitmsg }}
       span(v-for=" n in Array(s) ") .
 
@@ -26,9 +26,10 @@ export default {
     }
   },
   mounted () {
-    this.prebg = document.body.style.background
+    this.prebg = document.body.style.backgroundImage
     document.body.setAttribute('nolefter', 'true')
-    document.body.style.background = 'url("/static/skins/sports.jpg")'
+    // document.body.style.background = 'url("/static/skins/sports.jpg")'
+    document.body.style.backgroundImage = 'url("/static/skins/sports.jpg")'
     this.t = setInterval(() => {
       this.s++
       if (this.s === 7) {
@@ -37,7 +38,7 @@ export default {
     }, 500)
   },
   beforeDestroy () {
-    document.body.style.background = this.prebg
+    document.body.style.backgroundImage = this.prebg
     document.body.removeAttribute('nolefter')
     clearTimeout(this.tt)
     this.tt = 0

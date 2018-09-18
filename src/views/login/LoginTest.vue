@@ -5,7 +5,7 @@
       el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r.line)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
-          span.route-index {{ index + 1 }}
+          span.route-index(:class=" {ft36: index > 8} ") {{ index + 1 }}
           |  线 
           SignalBar(:value=" timeListValue[index] || 0 ")
           .timer 
@@ -131,7 +131,7 @@
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
             // if get tapi don't change again
             if (window.localStorage.getItem('tapi')) return false
-            api.api = (this.serverList.find(n => n.group === url.group) || {line: ''}).line || api.api
+            // api.api = (this.serverList.find(n => n.group === url.group) || {line: ''}).line || api.api
           }
         })
         // let SESSION = cookie.get('SESSION', {domain: Url.extractHostname(api.api)})
@@ -230,8 +230,8 @@
           //   // }
           // })
         } else {
-          if (r !== this.currentServer) window.location.href = r + '/#/login?auto=1'
-          else this.$router.push('/login/login')
+          if (r !== this.currentServer) window.location.href = r + '/'
+          else this.$router.push('/')
         }
       }
     }
@@ -255,6 +255,8 @@
     font-size 0.72rem
     vertical-align sub
     text-shadow()
+    &.ft36
+      font-size .36rem
   .time
     font-size .3rem
   .login-test

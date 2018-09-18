@@ -8,26 +8,24 @@
 
     .contract.scroll-content(:class="{ center: !stock }")
       div(v-if="stock" style="margin: .3rem;" v-bind:class=" ['ds-icon-stock-' + STATUS[stock.isDone].class ] ")
-        // p.title.text-black
-        //   span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
 
         h2.text-black(style="margin: .3rem 0; text-align: center") 分红详情
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ stock.userName }}
         p.item 分红状态：{{  STATUS[stock.isDone].title }}
         p.item 期号：{{ stock.issue }}
-        //- p.item 发放周期：按{{ TIME[stock.sendCycle] }}
         p.item 发放方式：{{ STYPE[stock.sendType] }}
         p.item 分红比例：{{  stock.bonusRate }}%
 
-        // .item.text-danger(style="display: inline-block; margin: 0") 累计{{ TYPE[stock.ruleType].title }} {{ stock.sales }} 万，需发放 {{ stock.bonus }} 元
-        .item.text-danger(style="display: inline-block; margin: 0") 累计盈亏 {{ stock.profitAmount }}，需发放 {{ stock.bonus }} 元
-          // p.text-green(style="text-align: right; margin: .05rem 0") 分红已发放 100000 元
-          // p.text-green(style=" margin: .05rem 0") 分红已全额发完
+        .item(style="display: inline-block; margin: 0") 累计盈亏： 
+          span(:class=" {'text-green': stock.profitAmount && stock.profitAmount._o0(), 'text-danger': stock.profitAmount && stock.profitAmount._l0() } ")  {{ stock.profitAmount &&stock.profitAmount._nwc() }}
+
+          | ，需发放： 
+          span(:class=" {'text-green': stock.bonus && stock.bonus._o0(), 'text-danger': stock.bonus && stock.bonus._l0() } ")  {{ stock.bonus &&stock.bonus._nwc() }}
+          |  元
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && stock.isDone === 0  ")
            button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
-          //button.ds-button.large.bold.primary(@click="paid") 发放分红
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
           button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
@@ -39,10 +37,12 @@
 <script>
   import store from '../../store'
   import api from '../../http/api'
+  import { numberWithCommas } from '../../util/Number'
   export default {
     props: ['id', 'myself'],
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         me: store.state.user,
         // 我的分红
         self: true,

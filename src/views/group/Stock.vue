@@ -34,26 +34,31 @@
 
           el-table-column(class-name="pl2" prop="issue" label="分红期号"  )
 
-          el-table-column(label="总销量")
+          el-table-column(label="彩票总销量")
             template(scope="scope")
-              span {{ scope.row.saleAmount }}
+              span {{ numberWithCommas(scope.row.saleAmount) }}
 
 
-          el-table-column(label="总盈亏")
+          el-table-column(label="彩票总盈亏")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.profitAmount) > 0, 'text-danger': parseFloat(scope.row.profitAmount) < 0 } ")  {{ scope.row.profitAmount }}
+              span(:class=" {'text-green': scope.row.profitAmount && scope.row.profitAmount._o0(), 'text-danger': scope.row.profitAmount && scope.row.profitAmount._l0() } ")  {{ scope.row.profitAmount &&scope.row.profitAmount._nwc() }}
 
 
-          el-table-column(prop="actUser" label="活跃人数")
+          el-table-column(prop="actUser" label="有效人数")
 
           el-table-column(prop="rewards" label="活动费用" )
+            template(scope="scope")
+              span {{ scope.row.rewards &&scope.row.rewards._nwc() }}
 
-          el-table-column(prop="bonus" label="佣金金额")
-          //- el-table-column(prop="bounsRate" label="分红比例")
-          //-   template(scope="scope")
-          //-     span {{ scope.row.bounsRate }}%
+          el-table-column(prop="bonusRate" label="分红比例")
+            template(scope="scope")
+              span {{ scope.row.bonusRate }}%
 
-          //- el-table-column(prop="bouns" v-bind:label=" type ? '应发分红' : '应收分红' ")
+
+          el-table-column(prop="bonus" label="分红金额")
+            template(scope="scope")
+              span(:class=" {'text-green': scope.row.bonus._o0(), 'text-danger': scope.row.bonus._l0() } ") {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus._nwc() }}
+
 
           el-table-column(prop="status" label="状态")
              template(scope="scope")
@@ -72,7 +77,7 @@
     .modal(v-if="showDetail" )
       .mask
       .box-wrapper
-        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 分红详情
             el-button-group
@@ -87,6 +92,7 @@
   import api from '../../http/api'
   import store from '../../store'
   import { dateFormat } from '../../util/Date'
+  import { numberWithCommas } from '../../util/Number'
   export default {
     mixins: [setTableMaxHeight],
     components: {
@@ -94,6 +100,7 @@
     },
     data () {
       return {
+        numberWithCommas: numberWithCommas,
         TH: 250,
         pickerOptions: {
           shortcuts: [{
@@ -109,63 +116,16 @@
             onClick (picker) {
               const end = new Date()
               const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近六个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起一个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起三个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起六个月',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '今起一年',
-            onClick (picker) {
-              const end = new Date()
-              const start = new Date()
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89)
               picker.$emit('pick', [start, end])
             }
           }]
-          // disabledDate (time) {
-          //   return time.getTime() > Date.now()
-          // }
         },
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
+        stEt: [new Date()._setHMS('0:0:0')._bfM(-2)._setD(1), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],
         me: store.state.user,
         // 0 我的分红
         // 1 下级分红
         type: 0,
-        // st: '',
-        // et: '',
-        // 分红状态
         STATUS: [
           {css: 'text-danger', id: '0', title: '未发放', class: 'waiting-pay'},
           {css: 'text-green', id: 1, title: '已发放', class: 'paid'},
@@ -193,17 +153,13 @@
       }
     },
     watch: {
-      type () {
-        this.bonus()
-      },
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt) this.stEt = this.defaultStEt
-          if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = dateFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
+      type (n) {
+        if (n) {
+          this.stEt = [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')]
+        } else {
+          this.stEt = [new Date()._setHMS('0:0:0')._bfM(-2)._setD(1), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)]
         }
+        this.bonus()
       }
     },
     mounted () {

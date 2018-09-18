@@ -18,7 +18,7 @@
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
 
 
-          label.item 范围&nbsp;
+          //- label.item 范围&nbsp;
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -60,18 +60,19 @@
 
             el-table-column(align="right" prop="settle" label="总结算"  class-name="pr2")
               template(scope="scope")
-                span(:class=" {'text-green': parseFloat(scope.row.settle) > 0, 'text-danger': parseFloat(scope.row.settle) < 0 } ")  {{ numberWithCommas(scope.row.settle) }}
+                span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ")  {{ scope.row.settle &&scope.row.settle._nwc() }}
+
 
             el-table-column(prop="userpoint" label="操作" align="center")
               template(scope="scope")
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)") 明细
 
-          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
     .modal(v-show="showDetail" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 明细
             el-button-group
@@ -110,9 +111,9 @@
 
               el-table-column(align="right" prop="settle" label="总结算"  class-name="pr2")
                 template(scope="scope")
-                  span(:class=" {'text-green': parseFloat(scope.row.settle) > 0, 'text-danger': parseFloat(scope.row.settle) < 0 } ")  {{ numberWithCommas(scope.row.settle) }}
-            
-            el-pagination(:total="ctotal" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="ccurrentPage" small v-if=" ctotal > 20 " v-on:current-change="cpageChanged")
+                  span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ")  {{ scope.row.settle &&scope.row.settle._nwc() }}
+
+            el-pagination(:total="ctotal" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="ccurrentPage" small v-if=" ctotal > pageSize " v-on:current-change="cpageChanged")
 
 </template>
 
@@ -164,7 +165,7 @@
           }
         },
         stEt: [new Date()._setD(1)._setHMS('0:0:0'), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,
@@ -203,7 +204,7 @@
       },
       cpageChanged (cp) {
         this.profitDetail(cp, () => {
-          this.currentPage = cp
+          this.ccurrentPage = cp
         })
       },
       cellClick (row, column, cell, event) {
@@ -295,7 +296,7 @@
         })
       },
       tableRowClassName (row) {
-        if (this.me.account === row.userName) return 'text-danger'
+        // if (this.me.account === row.userName) return 'text-danger'
       }
     }
   }

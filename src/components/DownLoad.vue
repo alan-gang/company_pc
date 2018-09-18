@@ -1,4 +1,4 @@
-s<template lang="jade">
+<template lang="jade">
   dl.download
     a.ds-button.text-button.light.icon-list.ds-icon-windows(target="_blank" v-bind:href="dls[0]") Windows        
     a.ds-button.text-button.light.icon-list.ds-icon-apple(target="_blank" v-bind:href="dls[1]") iPhone        

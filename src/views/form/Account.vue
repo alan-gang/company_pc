@@ -77,7 +77,7 @@
 
           el-table-column(prop="inout" label="收支"  align="right")
             template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{ parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
+              span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
 
           el-table-column(prop="balance" label="主帐户余额"  align="right")
@@ -88,7 +88,7 @@
             template(scope="scope")
               span{{ numberWithCommas(scope.row.speBalance) }}
 
-          el-table-column(prop="isFree"  label="优惠券"  align="right")
+          //- el-table-column(prop="isFree"  label="优惠券"  align="right")
             template(scope="scope")
               span{{ numberWithCommas(scope.row.speBalance) }}
 
@@ -147,8 +147,8 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
-        stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
+        defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         ISFREE: ['现金', '优惠券', '积分'],
         isFree: '',
         gameList: [],
@@ -206,15 +206,6 @@
           }
         })
       },
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
-        }
-      },
       type (o, n) {
         // this.preTypeLength = o.length
         this.preTypeLength > n.length ? setTimeout(() => {
@@ -271,36 +262,6 @@
       },
       detectDate (v) {
         // console.log(v)
-      },
-      summary () {
-        this.amount[0].income = 0
-        this.amount[0].expenditure = 0
-        this.amount[0].difMoney = 0
-        this.data.forEach(d => {
-          this.amount[0].income += parseFloat(d.income)
-          this.amount[0].expenditure += parseFloat(d.expenditure)
-        })
-        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
-        this.amount[0].income = this.amount[0].income.toFixed(3)
-        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(3)
-        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(3)
-        if (!this.amount[0].difMoney.startsWith('-')) this.amount[0].difMoney = '+' + this.amount[0].difMoney
-
-        this.data[0] && this.data.push({
-          last: true,
-          difMoney: this.amount[0].difMoney,
-          entry: '小结：',
-          nickName: '本页变动金额',
-          times: '',
-          title: '',
-          lotteryName: '',
-          methodName: '',
-          issue: '',
-          modes: '',
-          income: '+' + this.amount[0].income,
-          expenditure: '-' + this.amount[0].expenditure,
-          balance: ''
-        })
       },
       myTopup () {
         this.clear()
@@ -363,8 +324,7 @@
         })
       },
       clear (a) {
-        // this.st = ''
-        // this.et = ''
+        this.stEt = this.defaultStEt
         this.isFree = ''
         this.game = {}
         this.method = {}
@@ -430,11 +390,11 @@
             typeof fn === 'function' && fn()
             !fn && (this.currentPage = 1)
             this.data = data.orderRecordList
+            // this.data.forEach(x => (x.inout = parseFloat(x.inout) * -1))
             this.total = data.totalSize || this.data.length
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
-            // this.summary()
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error

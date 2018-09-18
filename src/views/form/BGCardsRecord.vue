@@ -13,7 +13,7 @@
           input.ds-input.small(v-model="name" style="width: 1rem")
         
         label.item 时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+          el-date-picker(:picker-options="pickerOptions" v-bind:default-time="['12:00:00']" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
         
         label.item 平台&nbsp;
             el-select(clearable v-model="platid" style="width: 1rem" placeholder="全")
@@ -35,11 +35,21 @@
           el-table-column(class-name="pl2" prop="userName" label="用户名"  )
           el-table-column(prop="platName" label="平台"  )
           el-table-column(prop="betTime" label="投注时间（北京）"  width="150" show-overflow-tooltip=true)
-          //- el-table-column(prop="betTimeEst" label="投注时间（美东）"  width="150" show-overflow-tooltip=true)
           el-table-column(prop="gameName" label="游戏"  )
+            
           el-table-column(prop="betAmount" label="投注额"  )
+            template(scope="scope")
+              span.text-danger(v-if=" scope.row.betAmount && scope.row.betAmount._o0() ") -{{ scope.row.betAmount && scope.row.betAmount._nwc() }}
+
           el-table-column(prop="prize" label="奖金"  )
+            template(scope="scope")
+              span(v-if=" scope.row.prize && scope.row.prize._o0() ") {{ scope.row.prize && scope.row.prize._nwc() }}
+
+
           el-table-column(prop="profit" label="盈亏"  )
+            template(scope="scope")
+              span(:class=" {'text-green': scope.row.profit._o0(), 'text-danger': scope.row.profit._l0()} ") {{ scope.row.profit && scope.row.profit._o0() ? '+' : '' }}{{ scope.row.profit._nwc() }}
+
           el-table-column(prop="stat" label="状态"  )
             template(scope="scope")
               span(:class=" STATECLASS[scope.row.stat] ") {{ STATE[scope.row.stat] }}
@@ -82,7 +92,7 @@
             onClick (picker) {
               const end = new Date()._setHMS('23:59:59')
               const start = new Date()._setHMS('0:0:0')
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89)
               picker.$emit('pick', [start, end])
             }
           }],
@@ -90,13 +100,12 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 30), new Date()._setHMS('0:0:0')],
-        stEt: [new Date()._setHMS('0:0:0')._bf(-30), new Date()._setHMS('23:59:59')],
-        PL: ['BG:2', '体育:3', '开元:7'],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        PL: ['开元:7'],
         platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,

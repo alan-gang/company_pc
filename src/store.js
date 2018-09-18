@@ -18,11 +18,13 @@ let store = {
       smoney: '',
       free: '',
       // bg
-      bgmoney: '',
+      bgmoney: 0,
       // ctg
       tcgmoney: 0,
       // safeCenter
-      kymoney: '',
+      kymoney: 0,
+      ptmoney: 0,
+      agamount: 0,
       email: '',
       phone: '',
       greeting: '',
@@ -47,7 +49,8 @@ let store = {
       canTopUp: true,
       canWithDraw: true,
       platform: 'cb',
-      skin: 0
+      skin: 0,
+      charUrl: ''
     },
     pages: []
   },
@@ -80,9 +83,11 @@ let store = {
         // 特殊金额
         smoney: '',
         free: '',
-        bgmoney: '',
+        bgmoney: 0,
         tcgmoney: 0,
-        kymoney: '',
+        kymoney: 0,
+        ptmoney: 0,
+        agamount: 0,
         // safeCenter
         email: '',
         phone: '',

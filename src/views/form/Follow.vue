@@ -40,21 +40,19 @@
             el-table-column(label="追号编号" class-name="pl2")
               template(scope="scope")
                 div
-                  span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.taskId }}
-                  span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
+                  span( style="padding: 0") {{ scope.row.taskId }}
 
             el-table-column(prop="userName" label="用户")
             
             el-table-column(prop="beginTime" label="追号时间"  min-width="120")
               template(scope="scope")
-                span(v-if="!scope.row.last") {{ scope.row.beginTime }}
-                span.text-blue(v-if="scope.row.last") {{ scope.row.expenditure }}
+                span() {{ scope.row.beginTime }}
 
             el-table-column(prop="lotteryName" label="游戏" )
 
             el-table-column(prop="methodName" label="玩法"  min-width="120")
               template(scope="scope")
-                div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
+                div() {{ scope.row.methodName }}（{{ scope.row.codeType === 1 ? '复式' : '单式'}}）
 
             el-table-column(prop="beginIssue" label="开始期数" )
 
@@ -68,13 +66,8 @@
 
             el-table-column(prop="taskprice" label="总金额" align="right")
               template(scope="scope")
-                span.text-danger(v-if="!scope.row.last") -{{ numberWithCommas(scope.row.taskprice) }}
-                span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
+                span.text-danger() -{{ numberWithCommas(scope.row.taskprice) }}
 
-            // el-table-column(prop="finishprice" label="完成金额" align="right")
-              template(scope="scope")
-                span(v-if="!scope.row.last") {{ scope.row.finishprice }}
-                span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
 
             el-table-column(class-name="pl2"   label="状态" align="center")
               template(scope="scope")
@@ -83,7 +76,7 @@
             el-table-column(label="操作")
               template(scope="scope")
 
-                div(v-if="!scope.row.last")
+                div()
 
                   .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop=" showFollow = scope.row.taskId") 追号详情
 
@@ -96,7 +89,7 @@
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 追号详情
             el-button-group
@@ -155,13 +148,8 @@
             return time.getTime() > Date.now()
           }
         },
-        // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
-        stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
-        // defaultStEt: ['', ''],
-        // stEt: ['', ''],
-        // st: '',
-        // et: '',
+        defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         STATUS: ['进行中', '已取消', '已完成'],
         STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
         status: '',
@@ -213,15 +201,6 @@
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
-      },
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
-        }
       },
       I () {
         if (this.I === 0) {

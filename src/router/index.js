@@ -1,15 +1,6 @@
 // import direction from './direction'
 import store from '../store'
 
-// function view(url) {
-//   return function(resolve) {
-//     require([url], resolve)
-//   }
-// }
-// const Ow = r => require.ensure([], () => r(require('../views/ow/Ow')), 'ow')
-// const OwHome = r => require.ensure([], () => r(require('../views/ow/Home')), 'ow')
-// const OwNews = r => require.ensure([], () => r(require('../views/ow/News')), 'ow')
-// const OwFAQ = r => require.ensure([], () => r(require('../views/ow/FAQ')), 'ow')
 
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
@@ -23,6 +14,7 @@ const Try = r => require.ensure([], () => r(require('../views/login/Try')), 'log
 const Forget = r => require.ensure([], () => r(require('../views/login/Forget')), 'login-part')
 
 const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
+const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
 
 export default function (VueRoter) {
   let router = new VueRoter({
@@ -31,28 +23,10 @@ export default function (VueRoter) {
       {
         path: '/',
         meta: {
-          login: true
+          // login: true
         },
         component: require('../views/Home')
       },
-      // {
-      //   path: '/ow',
-      //   component: Ow
-      //   // children: [
-      //   //   {
-      //   //     path: '',
-      //   //     component: OwHome
-      //   //   },
-      //   //   {
-      //   //     path: 'news',
-      //   //     component: OwNews
-      //   //   },
-      //   //   {
-      //   //     path: 'faq',
-      //   //     component: OwFAQ
-      //   //   }
-      //   // ]
-      // },
       {
         path: '/login',
         // component: require('../views/Login'),
@@ -84,6 +58,13 @@ export default function (VueRoter) {
             component: Try },
           { path: 'forget', component: Forget }
         ]
+      },
+      {
+        path: '/egame',
+        meta: {
+          login: true
+        },
+        component: Egame
       },
       {
         path: '/game/:url',
@@ -157,7 +138,7 @@ export default function (VueRoter) {
     }, 300)
     // 如果需要登录，而当前没有登录， 先测试有没有登录
     if (to.meta.login && store.state.user.login === false) {
-      next({path: '/login'})
+      next({path: '/'})
     // 如果不要登录， 而当前登录了, 跳到大厅
     } else if (to.meta.login && store.state.user.login === null) {
       let t = setInterval(() => {

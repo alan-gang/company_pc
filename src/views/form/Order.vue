@@ -42,21 +42,19 @@
             el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
               template(scope="scope")
                 div
-                  span(v-if="!scope.row.last" style="padding: 0") {{ scope.row.projectId }}
-                  span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
+                  span( style="padding: 0") {{ scope.row.projectId }}
 
             el-table-column(prop="userName" label="用户")
             
             el-table-column(prop="writeTime" label="投注时间" min-width="120")
               template(scope="scope")
-                span(v-if="!scope.row.last") {{ scope.row.writeTime }}
-                span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+                span() {{ scope.row.writeTime }}
 
             el-table-column(prop="lotteryName" label="游戏")
 
             el-table-column(prop="methodName" label="玩法" min-width="120")
               template(scope="scope")
-                div(v-if="!scope.row.last") {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
+                div() {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
 
             el-table-column(prop="issue" label="期号")
 
@@ -64,14 +62,12 @@
 
             el-table-column(prop="totalPrice" label="总金额" align="right")
               template(scope="scope")
-                span.text-danger(v-if="!scope.row.last") -{{ digitUppercase(scope.row.totalPrice) }}
-                span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+                span.text-danger(v-if=" scope.row.totalPrice && scope.row.totalPrice._o0() ") -{{ scope.row.totalPrice && scope.row.totalPrice._nwc() }}
 
 
             el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
               template(scope="scope")
-                span.text-green(v-if="!scope.row.las && scope.row.bonus !== '0.0000' ") +{{ scope.row.bonus }}
-                span.text-green(v-if="scope.row.last") {{ scope.row.income }}
+                span.text-green(v-if=" scope.row.bonus && scope.row.bonus._o0() ") +{{ scope.row.bonus && scope.row.bonus._nwc() }}
 
 
             // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
@@ -82,7 +78,7 @@
             el-table-column(label="操作" width="200")
               template(scope="scope")
 
-                div(v-if="!scope.row.last")
+                div()
 
                   .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 0) ") 注单详情
 
@@ -150,7 +146,7 @@
                 span.text-black {{ row.issue }}
               el-col(:span="6")
                 注单奖金：
-                span.text-black {{ row.bonus }}
+                span.text-green(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
 
               el-col(:span="6" v-if="row.userPoint")
                 动态奖金返点：
@@ -207,7 +203,7 @@
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.06rem;")
+        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
             span.title 追号详情
             el-button-group
@@ -221,7 +217,7 @@
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import Follow from './FollowDetail'
   import VROrder from './VROrder'
-  import { digitUppercase, numberWithCommas } from '../../util/Number'
+  import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
@@ -268,13 +264,8 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
-        stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
-        // stEt: [dateTimeFormat(new Date().getTime() - 3600 * 1000 * 24 * 7), dateTimeFormat(new Date().getTime())],
-        // defaultStEt: ['', ''],
-        // stEt: ['', ''],
-        // st: '',
-        // et: '',
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
         status: '',
@@ -307,7 +298,6 @@
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: [],
         showFollow: '',
-        digitUppercase: numberWithCommas,
         I: 0
       }
     },
@@ -327,15 +317,6 @@
       gameid () {
         this.getMethods()
         this.getRecentIssueList()
-      },
-      stEt: {
-        deep: true,
-        handler () {
-          if (!this.stEt[0] && !this.stEt[1]) this.stEt = this.defaultStEt
-          if ((window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
-            this.stEt[1] = new Date((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
-          }
-        }
       },
       I () {
         if (this.I === 0) {
@@ -371,7 +352,7 @@
               }
             }, 0)
             // sums[index] += ' 元'
-            sums[index] = this.digitUppercase((index === 7 ? '-' : '+') + sums[index].toFixed(4))
+            sums[index] = ((index === 7 ? '-' : '+') + sums[index].toFixed(4))._nwc()
           } else {
             sums[index] = ''
           }
@@ -415,36 +396,6 @@
           this.gameid = gameid
           this.Orderlist()
         }
-      },
-      summary () {
-        this.amount[0].income = 0
-        this.amount[0].expenditure = 0
-        this.amount[0].difMoney = 0
-        this.Cdata.forEach(d => {
-          this.amount[0].income += parseFloat(d.bonus)
-          this.amount[0].expenditure += parseFloat(d.totalPrice)
-        })
-        this.amount[0].difMoney = this.amount[0].income - this.amount[0].expenditure
-        this.amount[0].income = this.amount[0].income.toFixed(4)
-        this.amount[0].expenditure = this.amount[0].expenditure.toFixed(4)
-        this.amount[0].difMoney = this.amount[0].difMoney.toFixed(4)
-        if (!this.amount[0].difMoney.startsWith('-')) this.amount[0].difMoney = '+' + this.amount[0].difMoney
-
-        this.Cdata[0] && this.Cdata.push({
-          last: true,
-          difMoney: this.amount[0].difMoney,
-          entry: '小结：',
-          userName: '本页变动金额',
-          times: '',
-          title: '',
-          lotteryName: '',
-          methodName: '',
-          issue: '',
-          modes: '',
-          income: '+' + this.amount[0].income,
-          expenditure: '-' + this.amount[0].expenditure,
-          balance: ''
-        })
       },
       goFollowDetail (id) {
         this.$router.push({
@@ -550,7 +501,6 @@
             !fn && (this.currentPage = 1)
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            // this.summary()
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
           // error
@@ -640,6 +590,7 @@
 <style lang="stylus">
   .vtop table td
     vertical-align top
+    padding-top .1rem
 
 </style>
 

@@ -2,7 +2,7 @@
 .login-form
   img(src="/static/pic/login_banner.jpg")
   dl(style="padding-top: .1rem")
-    
+    .contact(@click=" window.open(ME.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
     dt.ds-icon-notice(:class="{ h0: !this.regard }" style="margin-top: .1rem")
       | 问候语：
       span.regard {{ regard }}
@@ -44,6 +44,7 @@
 <script>
   import api from '../../http/api'
   import xhr from 'components/xhr'
+  import store from '../../store'
   // import { launchFullScreen } from '../../util/Dom'
   // import SlidePics from 'components/SlidePics'
   export default {
@@ -55,6 +56,8 @@
     },
     data () {
       return {
+        ME: store.state.user,
+        window: window,
         regard: false,
         pwd: '',
         over: false,
@@ -313,6 +316,21 @@
         padding 0
         border none
         overflow hidden
+    dl
+      position relative
+      .contact
+        position absolute
+        top 0
+        right -.55rem
+        width .6rem
+        height .6rem
+        cursor pointer
+        background-color rgba(255, 255, 255, .2)
+        background-image url(../../assets/righter/04.png)
+        background-repeat no-repeat
+        background-position .11rem center
+        &:hover
+          opacity .8
     dd
       line-height BMH - .1rem
       height BMH - .1rem

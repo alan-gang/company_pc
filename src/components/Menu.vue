@@ -12,10 +12,17 @@
 
 
             slot
-              .info(v-if=" menu.big " v-bind:class=" [ menu.info.class ] ")
+              .info(v-if=" menu.big && !menu.info[0]" v-bind:class=" [ menu.info.class ] ")
                 h3 {{ menu.info.title }}
                 h4 {{ menu.info.descrb }}
                 .ds-button.primary(@click="open(menu.info)" title="第一次点击可能会被拦截，再点一次即可") 点击进入
+
+              .infos(v-if=" menu.big && menu.info[0]")
+                .info(v-bind:class=" [ m.class ] " v-for=" m in menu.info ")
+                  h3(v-if="m.title") {{ m.title }}
+                  h4(v-if="m.descrb") {{ m.descrb }}
+                  .ds-button.primary(@click="open(m)" title="第一次点击可能会被拦截，再点一次即可" v-if=" m.fn ") 点击进入
+
 
               dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {notitile: !group.title, 'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
                 dt
@@ -221,6 +228,31 @@ body.cb.v2
 
   
   .footer-popover
+    .infos .info
+      display inline-block
+      padding-top .54rem 
+      padding-bottom .5rem 
+      vertical-align middle
+      &:not(:first-child)
+        border-left 3px solid transparent
+        // border-image url("https://mdn.mozillademos.org/files/4127/border.png") 30
+        border-image url(../assets/v2/100.png) 30
+      &[class*=ds-icon-logo]
+        padding .9rem .6rem .2rem .6rem
+        background-size 2rem
+        background-position top center
+        background-repeat no-repeat
+
+      &.ds-icon-logo-ag
+        background-image url(../assets/v2/logo_ag_big.png)
+      &.ds-icon-logo-bg
+        background-image url(../assets/v2/logo_bg_big.png)
+      &.ds-icon-logo-pt
+        background-image url(../assets/v2/logo_pt_big.png)
+        
+        
+        
+              
     .info
       padding 2*PW
       padding-left 2rem
@@ -237,8 +269,12 @@ body.cb.v2
       background url(../assets/v2/002.png) .2rem center no-repeat
     .ds-icon-game-bg4
       background url(../assets/v2/004.png) .2rem center no-repeat
+    .ds-icon-game-bg5
+      background url(../assets/v2/005.png) .2rem center no-repeat
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
+      
+
 </style>
 
 <style lang="stylus">

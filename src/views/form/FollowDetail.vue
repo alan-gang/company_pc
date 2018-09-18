@@ -57,7 +57,8 @@
           span.text-black {{ detail.wincount }}
         el-col(:span="6")
           派奖总金额：
-          span.text-black {{ detail.winprize }}
+          span.text-green(v-if=" detail.winprize && detail.winprize._o0() ") {{ detail.winprize && detail.winprize._nwc() }}
+
         el-col(:span="6")
           取消金额：
           span.text-black {{ detail.cancelPrice }}
@@ -157,7 +158,8 @@
                 span.text-black {{ row.issue }}
               el-col(:span="5")
                 注单奖金：
-                span.text-black {{ row.bonus }}
+                span.text-green(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
+                
 
               el-col(:span="5")
                 动态奖金返点：

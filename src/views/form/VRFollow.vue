@@ -8,11 +8,14 @@
     .user-list.scroll-content
 
       .form.form-filters
+        
+        label.item 用户 
+          input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item 游戏时间 
+        label.item 时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
         
-        label.item 游戏名称 
+        label.item 游戏 
           el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.5rem" placeholder="全")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
@@ -20,10 +23,8 @@
           el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .9rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
         
-        label.item 范围 
+        //- label.item 范围 
           el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
             el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -39,13 +40,11 @@
           el-table-column(class-name="pl2" prop="serialNumber" label="追号编号" width="120" show-overflow-tooltip=true)
             template(scope="scope")
               div
-                .ds-button.text-button.blue(v-if="!scope.row.last" style="padding: 0" @click=" ") {{ scope.row.serialNumber }}
-                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
+                span.text-blue( @click=" ") {{ scope.row.serialNumber }}
 
           el-table-column(class-name="pl2" prop="playerName" label="用户" )
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.playerName }}
-              span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+              span() {{ scope.row.playerName }}
           
           el-table-column(prop="createTime" label="追号时间" min-width="150")
 
@@ -63,13 +62,11 @@
 
           el-table-column(prop="totalAmount" label="总金额" align="right")
              template(scope="scope")
-               span(v-if="!scope.row.last") {{ scope.row.totalAmount }}
-               span.text-danger(v-if="scope.row.last") {{ scope.row.expectCost }}
+               span.text-danger -{{ scope.row.totalAmount }}
 
           el-table-column(class-name="pl2" prop="completedAmount" label="完成金额" align="right")
             template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.completedAmount }}
-              span.text-danger(v-if="scope.row.last") {{ scope.row.expenditure }}
+              span {{ scope.row.completedAmount }}
 
 
           el-table-column(class-name="pl2" label="状态")
@@ -122,8 +119,7 @@
             return time.getTime() > Date.now()
           }
         },
-        defaultStEt: ['', ''],
-        stEt: ['', ''],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         STATUS: ['进行中', '追号完成', '中奖后停止追号', '延迟开奖停止追号'],
         STATUSCLASS: ['text-danger', 'text-green', 'text-grey', 'text-grey'],
         status: '',

@@ -16,8 +16,11 @@
 
           label.item 时间 
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-          label.item 范围 
+          
+          label.item 平台&nbsp;
+            el-select(clearable v-model="platid" style="width: 1rem" placeholder="全")
+              el-option(v-for="(p, i) in PL" v-bind:label="p.split(':')[0]" v-bind:value=" p.split(':')[1] ")
+          //- label.item 范围 
             el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="全")
               el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
 
@@ -35,13 +38,17 @@
             el-table-column(prop="oddstype" label="盘口" width="100")
             el-table-column(prop="odds" label="赔率"  align="center"  width="100")
             el-table-column(prop="betAmount" label="下注金额"  align="right" width="100")
+              template(scope="scope")
+                span.text-danger() -{{ scope.row.betAmount && scope.row.betAmount._nwc() }}
+
             el-table-column(prop="winAmount" label="奖金"  align="right" width="100")
+              template(scope="scope")
+                span.text-green(v-if=" scope.row.winAmount && scope.row.winAmount._o0() ") +{{ scope.row.winAmount && scope.row.winAmount._nwc() }}
+
             el-table-column(prop="betStatus" label="状态"  align="center" width="150")
               template(scope="scope")
                   span(:class=" { 'text-green': scope.row.betStatus === '中奖', 'text-grey': scope.row.betStatus === '未中奖' } ") {{ scope.row.betStatus }}
             el-table-column(prop="eventName" label="赛事"  min-width="250")
-
-
 
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -94,7 +101,9 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [new Date()._setHMS('0:0:0')._bf(-30), new Date()._setHMS('23:59:59')],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        PL: ['沙巴:3'],
+        platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
         data: [{}],
@@ -144,6 +153,7 @@
             startTime: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTIme: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
             userName: this.name,
+            platId: this.platid,
             scope: this.zone,
             pageIndex: 1,
             pageSize: this.pageSize

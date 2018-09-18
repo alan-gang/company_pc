@@ -38,8 +38,16 @@
           //- el-table-column(prop="betTimeEst" label="投注时间（美东）"  width="150" show-overflow-tooltip=true)
           el-table-column(prop="gameName" label="游戏"  )
           el-table-column(prop="betAmount" label="投注额"  )
+            template(scope="scope")
+              span.text-danger(v-if=" scope.row.betAmount && scope.row.betAmount._o0() ") -{{ scope.row.betAmount && scope.row.betAmount._nwc() }}
+
           el-table-column(prop="prize" label="奖金"  )
+            template(scope="scope")
+              span(v-if=" scope.row.prize && scope.row.prize._o0() ") {{ scope.row.prize && scope.row.prize._nwc() }}
+
           el-table-column(prop="profit" label="盈亏"  )
+            template(scope="scope")
+              span(:class=" {'text-green': scope.row.profit._o0(), 'text-danger': scope.row.profit._l0()} ") {{ scope.row.profit && scope.row.profit._o0() ? '+' : '' }}{{ scope.row.profit._nwc() }}
           el-table-column(prop="stat" label="状态"  )
             template(scope="scope")
               span(:class=" STATECLASS[scope.row.stat] ") {{ STATE[scope.row.stat] }}
@@ -82,7 +90,7 @@
             onClick (picker) {
               const end = new Date()._setHMS('23:59:59')
               const start = new Date()._setHMS('0:0:0')
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89)
               picker.$emit('pick', [start, end])
             }
           }],
@@ -90,12 +98,12 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [new Date()._setHMS('0:0:0')._bf(-30), new Date()._setHMS('23:59:59')],
-        PL: ['BG:2', '体育:3', '开元:7'],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        PL: ['AG:4', 'BG:2', 'PT:5'],
         platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,

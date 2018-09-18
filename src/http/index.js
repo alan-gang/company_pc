@@ -75,7 +75,7 @@ export default (Vue) => {
         // 用户过期
         if (rep.data && rep.data.success === -1 && !M) {
           VM && (M = VM.$modal.warn({
-            content: '您长时间没有操作，请重新登录！',
+            content: '您长时间没有操作，请重新登录',
             btn: ['确定'],
             close () {
               store.state.user.login = false

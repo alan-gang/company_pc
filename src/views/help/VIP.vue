@@ -226,27 +226,27 @@
               el-col(:span="4") VIP1
               el-col(:span="18") 一个月内完成
                 span.text-blue  40万 
-                | 万投注额
+                | 投注额
             el-row
               el-col(:span="4") VIP2
               el-col(:span="18") 一个月内完成
                 span.text-blue  60万 
-                | 万投注额
+                | 投注额
             el-row
               el-col(:span="4") VIP3
               el-col(:span="18") 一个月内完成
                 span.text-blue  80万 
-                | 万投注额
+                | 投注额
             el-row
               el-col(:span="4") VIP4
               el-col(:span="18") 一个月内完成
                 span.text-blue  100万 
-                | 万投注额
+                | 投注额
             el-row
               el-col(:span="4") VIP5
               el-col(:span="18") 一个月内完成
                 span.text-blue  120万 
-                | 万投注额
+                | 投注额
 
         p.text-grey
           | 注：所有VIP会员的保级考核从成为VIP所在月份的下一个月开始进行统计；每个月前两个工作日内完成VIP资格更新。
