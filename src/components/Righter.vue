@@ -16,6 +16,10 @@
       .expand-left 联系上级
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
+    .ds-icon-ggl(@click=" false && __setCall({fn: '__setGGL'})" style="opacity: 0")
+      span.badge 10
+      .expand-left 刮刮乐
+
 
 </template>
 
@@ -46,6 +50,7 @@
   }
 </script>
 
+
 <style lang="stylus">
   @import '../var.stylus'
   body.cb
@@ -65,7 +70,7 @@
       left auto !important
       right 20px !important
       top 60% !important
-      top calc(47% + 1.05rem) !important
+      top calc(44% + 1.1rem) !important
       z-index 5
       border-radius 0 !important
       padding 0
@@ -157,7 +162,23 @@
     .ds-icon-helpcenter
       background url(../assets/v2/helpcenter.png) center no-repeat       
     .ds-icon-contact-
-      background url(../assets/righter/04.png) center no-repeat       
+      background url(../assets/righter/04.png) center no-repeat    
+    .ds-icon-ggl   
+      background url(../assets/righter/06.png) center no-repeat
+      position relative    
+      .badge
+        background-color red
+        border-radius 50%
+        float right
+        display inline-block
+        width .2rem
+        height .2rem
+        line-height .2rem
+        text-align center
+        position absolute
+        right .05rem
+        top .1rem
+      
       
     .expand-left
       &.skins
@@ -211,5 +232,5 @@
             width 100%
             height 100%
             background url(../assets/righter/gou02.png) center no-repeat
-            
+      
 </style>

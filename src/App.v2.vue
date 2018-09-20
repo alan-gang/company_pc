@@ -20,6 +20,10 @@
     transition(name="slide-right" appear=true)
       dsRighter(v-if="state.hasFooter")
 
+    // ggl
+    GGL(v-if="ggl")
+      
+
 
 
 
@@ -30,6 +34,7 @@
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
+import GGL from './components/GGL'
 // import dsFooter from './components/Footer'
 import Print from './components/Print'
 // import Chat from './components/Chat'
@@ -184,8 +189,9 @@ export default {
                 {class: 'ds-icon-game-chq sign hot', id: '1-1-1', menuid: '11', title: '重庆时时彩', volume: true, gameid: 1},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
+                {class: 'ds-icon-game-hlj sign new', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
                 // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', volume: true, gameid: 17},
-                {class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
+                {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
                 // {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', volume: true, gameid: 20},
                 // {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', volume: false, gameid: 2},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
@@ -211,10 +217,13 @@ export default {
               url: 'G115',
               // width: '1.8rem',
               items: [
-                {url: 'G115', class: 'ds-icon-game-11ydj', id: '1-3-4', menuid: '16', title: '11运夺金', volume: true, gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-11ydj sign hot', id: '1-3-4', menuid: '16', title: '11运夺金', volume: true, gameid: 6},
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', volume: true, gameid: 7},
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
-                {class: 'ds-icon-game-hb115 sign new', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
+                {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
+                {class: 'ds-icon-game-js115 sign new', id: '1-3-8', menuid: '81', title: '江苏11选5', volume: true, gameid: 36},
+                {class: 'ds-icon-game-sh115 sign new', id: '1-3-6', menuid: '81', title: '上海11选5', volume: true, gameid: 37},
+                {class: 'ds-icon-game-ah115 sign new', id: '1-3-7', menuid: '81', title: '安徽11选5', volume: true, gameid: 38},
                 // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
                 {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
@@ -224,10 +233,10 @@ export default {
               url: 'K3',
               // width: '1.8rem',
               items: [
-                {class: 'ds-icon-game-ahK3  sign new', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
+                {class: 'ds-icon-game-ahK3  ', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
-                {class: 'ds-icon-game-jlK3 sign new', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
-                {class: 'ds-icon-game-bjK3 sign new', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
+                {class: 'ds-icon-game-jlK3 ', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
+                {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
                 // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
               ]
             },
@@ -240,10 +249,11 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 // {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
+                {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 // {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
                 // {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
-                {url: 'HC6', class: 'ds-icon-game-lhc sign new', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
                 {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             },
@@ -918,7 +928,8 @@ export default {
       ],
       menuids: '',
       activeMenu: [],
-      audio: null
+      audio: null,
+      ggl: false
     }
   },
   computed: {
@@ -1008,6 +1019,9 @@ export default {
     }
   },
   methods: {
+    __setGGL () {
+      this.ggl = !this.ggl
+    },
     // 11、系统公告   ALL
     sysNotices () {
       this.$http.get(api.sysNotices, {page: 1, pageSize: 1}).then(({data}) => {
@@ -1332,7 +1346,8 @@ export default {
     // dsFooter,
     Print,
     dsLefter,
-    dsRighter
+    dsRighter,
+    GGL
     // Chat
   }
 }

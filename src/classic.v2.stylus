@@ -13,6 +13,13 @@
 
 
 // game icon
+.ds-icon-game-shssl:not(.ds-button)
+  background-size 90px !important
+  // background url(assets/game/cqssc.png) center no-repeat
+  background url(../NDS/src/assets/game/shssl1.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+    
 .ds-icon-game-chq:not(.ds-button)
   background-size 90px !important
   // background url(assets/game/cqssc.png) center no-repeat
@@ -46,12 +53,16 @@
   &.new-game-info
     background-size auto !important
 .ds-icon-game-gd:not(.ds-button)
+.ds-icon-game-js115:not(.ds-button)
+.ds-icon-game-sh115:not(.ds-button)
+.ds-icon-game-ah115:not(.ds-button)
   background-size 80px !important
   background url(../NDS/src/assets/game/gd1151.png) center no-repeat
   // background url(../NDS/src/assets/game/gd115.png) center no-repeat
   &.new-game-info
     background-size auto !important
 .ds-icon-game-jx115:not(.ds-button)
+
   background-size 90px !important
   background url(../NDS/src/assets/game/jx1151.png) center no-repeat
   // background url(../NDS/src/assets/game/jx115.png) center no-repeat
@@ -137,6 +148,13 @@
   background-size 90px !important
   // background url(../NDS/src/assets/game/txffc.png) center no-repeat
   background url(../NDS/src/assets/game/txffc.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+
+.ds-icon-game-hlj:not(.ds-button)
+  background-size 90px !important
+  // background url(../NDS/src/assets/game/txffc.png) center no-repeat
+  background url(../NDS/src/assets/game/hljssc1.png) center no-repeat
   &.new-game-info
     background-size auto !important
 

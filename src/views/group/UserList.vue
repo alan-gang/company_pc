@@ -8,7 +8,7 @@
     .user-list.scroll-content
       
       // 用户列表
-      .form.form-filters(v-if="stepIndex === 0")
+      .form.form-filters(v-show="stepIndex === 0")
         label.item 用户名 
           input.ds-input.small(v-model="name" @keyup.enter="searNow")
 
@@ -35,7 +35,7 @@
           .ds-button.primary.large.bold(style="float: right" @click.stop="addUserNow") 增加用户
           .ds-button.cancel.large(@click="clear") 清空
       
-      .table-list(style="padding: .15rem .2rem " v-if="stepIndex === 0")
+      .table-list(style="padding: .15rem .2rem " v-show="stepIndex === 0")
         p(style="margin: 0 0 .15rem 0" )
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '我的用户' : B.userName }}
@@ -113,7 +113,7 @@
 
       // 充值
       transition-group(name="slide" appear=true tag="div")
-        div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
+        div(key="1" v-show="stepIndex === 1 && stepType === 'topUp' ")
           p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
             |  进行充值
@@ -192,7 +192,7 @@
 
 
         // 升点、降点
-        div(key="3" v-if="stepIndex === 1 && stepType === 'point' ")
+        div(key="3" v-show="stepIndex === 1 && stepType === 'point' ")
 
           p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
@@ -253,7 +253,7 @@
 
         
         // 开户额
-        div(key="4" v-if="stepIndex === 1 && stepType === 'open' ")
+        div(key="4" v-show="stepIndex === 1 && stepType === 'open' ")
           p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
               span.text-blue {{ user.userName }}
               |  调整开户额
@@ -276,7 +276,7 @@
 
               el-table-column(prop="dest" label="下级剩余开户额" width="150" align="right")
 
-              el-table-column(label="为下级增加开户额" width="150" align="right")
+              el-table-column(label="为下级增加开户额" align="center")
                 template(scope="scope")
                   el-input-number.center(v-model="scope.row.i" v-bind:min="0" v-bind:max="scope.row.src")
                   
