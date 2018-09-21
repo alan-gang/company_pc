@@ -36,6 +36,7 @@ export default {
   methods: {
     again () {
       this.f = false
+      this.move = false
       setTimeout(() => { this.doi() }, 0)
     },
     doi () {

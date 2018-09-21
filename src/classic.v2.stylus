@@ -53,14 +53,31 @@
   &.new-game-info
     background-size auto !important
 .ds-icon-game-gd:not(.ds-button)
-.ds-icon-game-js115:not(.ds-button)
-.ds-icon-game-sh115:not(.ds-button)
-.ds-icon-game-ah115:not(.ds-button)
   background-size 80px !important
   background url(../NDS/src/assets/game/gd1151.png) center no-repeat
   // background url(../NDS/src/assets/game/gd115.png) center no-repeat
   &.new-game-info
     background-size auto !important
+.ds-icon-game-js115:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/js115.png) center no-repeat
+  // background url(../NDS/src/assets/game/gd115.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+    
+.ds-icon-game-sh115:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/sh115.png) center no-repeat
+  // background url(../NDS/src/assets/game/gd115.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+.ds-icon-game-ah115:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/ah115.png) center no-repeat
+  // background url(../NDS/src/assets/game/gd115.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+  
 .ds-icon-game-jx115:not(.ds-button)
 
   background-size 90px !important

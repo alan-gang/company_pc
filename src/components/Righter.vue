@@ -16,7 +16,7 @@
       .expand-left 联系上级
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
-    .ds-icon-ggl(@click=" false && __setCall({fn: '__setGGL'})" style="opacity: 0")
+    .ds-icon-ggl(@click=" __setCall({fn: '__setGGL'})")
       span.badge 10
       .expand-left 刮刮乐
 
