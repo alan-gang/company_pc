@@ -141,7 +141,7 @@
             el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
             span.text-black &nbsp;万，有效人数&nbsp;
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
-            span.text-black  人，分红比例
+            span.text-black  人，分红比例 
             el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
             |  %
 

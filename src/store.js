@@ -50,7 +50,7 @@ let store = {
       canWithDraw: true,
       platform: 'cb',
       skin: 0,
-      charUrl: ''
+      chatUrl: ''
     },
     pages: []
   },
@@ -113,7 +113,8 @@ let store = {
         canTopUp: true,
         canWithDraw: true,
         platform: 'cb',
-        skin: 0
+        skin: 0,
+        chatUrl: ''
       }
       Object.assign(store.state.user, user)
     },
