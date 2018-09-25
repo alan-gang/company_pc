@@ -66,18 +66,20 @@ export default {
         this.ctx.beginPath()
         this.ctx.arc(x, y, 20, 0, Math.PI * 2)
         this.ctx.fill()
-        if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 3000)
+        if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 2000)
       }
     },
     getScratchPrize () {
       this.$http.get(api.getScratchPrize).then(({data}) => {
         // success
         if (data.success === 1) {
-          if (data.userPrize) {
+          if (data.userPrize !== 0) {
+            this.w = 1
             this.userPrize = data.userPrize
             this.entry = data.scratchId
           } else {
             this.w = 0
+            this.entry = data.scratchId
           }
         }
       })
@@ -157,10 +159,15 @@ export default {
         width 400px
         height 230px
         background url(../assets/ggl/3.jpg) no-repeat
+        cursor pointer
         .a
           font-weight bold
           color RED
           line-height 1.5
+          user-select none
+          -moz-user-select none
+          -ms-user-select none
+          -webkit-user-select none
           .aa
             font-size 48px
             font-weight normal
@@ -170,6 +177,9 @@ export default {
           font-weight bold
           color #333
           padding 40px 0 10px 0
+          -moz-user-select none
+          -ms-user-select none
+          -webkit-user-select none
         .c
           .ds-button
             border-radius 20px
