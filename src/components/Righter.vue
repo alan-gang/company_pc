@@ -16,8 +16,10 @@
       .expand-left 联系上级
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
-    .ds-icon-ggl(@click=" __setCall({fn: '__setGGL'})")
-      span.badge 10
+
+    //- .ds-icon-ggl(@click=" __setCall({fn: '__setGGL'})")
+    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})")
+      span.badge {{ amount }}
       .expand-left 刮刮乐
 
 
@@ -25,12 +27,14 @@
 
 <script>
   import store from '../store'
+  import api from '../http/api'
   export default {
     data () {
       return {
         window: window,
         Me: store.state.user,
         store: store,
+        amount: 0,
         skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
         // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
@@ -45,7 +49,18 @@
         }
       }
     },
+    mounted () {
+      this.__getUserScratch()
+    },
     methods: {
+      __getUserScratch () {
+        this.$http.get(api.getUserScratch).then(({data}) => {
+          // success
+          if (data.success === 1) {
+            this.amount = data.remainingNumber
+          }
+        })
+      }
     }
   }
 </script>
@@ -54,19 +69,19 @@
 <style lang="stylus">
   @import '../var.stylus'
   body.cb
-    
-    footer 
+
+    footer
       .switch-box
         display none !important
       .ds-icon-full-screen
         margin-left .2rem
-    #app ~ [data-ng-app] .custom-service-box 
+    #app ~ [data-ng-app] .custom-service-box
       .message-cut
         top -1rem
         right 1rem
       .badge
         left 8px
-        
+
       left auto !important
       right 20px !important
       top 60% !important
@@ -95,9 +110,9 @@
         background-color rgba(49,41,84, .95)
         transition all ease .3s
         font-size .14rem
-        
+
         overflow hidden
-      
+
       .icon.custom-service
         width RW
         height RW
@@ -126,9 +141,9 @@
           transition all ease .3s
           font-size .14rem
           overflow hidden
-          
-        
-      
+
+
+
 
 </style>
 
@@ -147,25 +162,25 @@
     z-index 4
     & > [class*=ds-icon]
       height RW
-      cursor pointer 
-      &:hover 
+      cursor pointer
+      &:hover
         background-color rgba(49,41,84, .95)
         .expand-left
           width 1.5 * RW
           &.skins
             transform translateX(0)
             width 3.45rem
-            
-            
+
+
     .ds-icon-downloadcenter
-      background url(../assets/v2/download.png) center no-repeat 
+      background url(../assets/v2/download.png) center no-repeat
     .ds-icon-helpcenter
-      background url(../assets/v2/helpcenter.png) center no-repeat       
+      background url(../assets/v2/helpcenter.png) center no-repeat
     .ds-icon-contact-
-      background url(../assets/righter/04.png) center no-repeat    
-    .ds-icon-ggl   
+      background url(../assets/righter/04.png) center no-repeat
+    .ds-icon-ggl
       background url(../assets/righter/06.png) center no-repeat
-      position relative    
+      position relative
       .badge
         background-color red
         border-radius 50%
@@ -178,18 +193,20 @@
         position absolute
         right .05rem
         top .1rem
-      
-      
+
+    .gray
+      -webkit-filter grayscale(50%)
+      filter grayscale(50%)
     .expand-left
       &.skins
         width 3.45rem
-        height auto  
+        height auto
         padding .2rem
         text-align left
         line-height .3rem
         transform translateX(130%)
-     
-        
+
+
       width 0
       position absolute
       right RW
@@ -202,7 +219,7 @@
       z-index -1
       transition all ease .3s
       overflow hidden
-        
+
       .skin
         position relative
         width 1rem
@@ -222,7 +239,7 @@
             width 100%
             height 100%
             background url(../assets/righter/gou01.png) center no-repeat
-            
+
         &:not(.checked):hover
           &:after
             content ''
@@ -232,5 +249,5 @@
             width 100%
             height 100%
             background url(../assets/righter/gou02.png) center no-repeat
-      
+
 </style>

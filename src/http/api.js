@@ -635,7 +635,13 @@ let Activity = {
   // http://192.168.169.161:8080/cagamesclient/activity.do?method=getCheckToday
   getCheckToday: '/activity.do?method=getCheckToday',
   // prizeId就是礼品ID，activityId就是活动ID
-  doRewardPrize: '/activity.do?method=doRewardPrize'
+  doRewardPrize: '/activity.do?method=doRewardPrize',
+  // 获取用户剩余刮刮乐数量
+  getUserScratch: '/activity.do?method=getUserScratch',
+  // 判断刮刮乐是否中奖
+  getScratchPrize: '/activity.do?method=getScratchPrize',
+  // 刮刮乐奖金入库
+  finishScratchPrize: '/activity.do?method=finishScratchPrize'
 }
 
 let Download = {

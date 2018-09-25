@@ -5,38 +5,41 @@
         .close(@click=" __setCall({fn: '__setGGL'}) ")
         .box(ref="box")
           .a(v-if="w") 恭喜，中奖了
-            .aa 5
+            .aa {{ userPrize }}
               span 元
           .b(v-if="!w") 很抱歉，什么都没有
 
           .c
             .ds-button.positive(@click="again") 再刮一张
 
-          canvas.canvas(ref="canvas" @mousemove="mm" @mousedown="md" @mouseup="mu" @mouseleave="mu" width="400" height="230" v-if="!f") 
-
-
-
+          canvas.canvas(ref="canvas" @mousemove="mm" @mousedown="md" @mouseup="mu" @mouseleave="mu" width="400" height="230" v-if="!f")
 
 
 </template>
 <script>
 import util from '../util'
+import api from '../http/api'
 export default {
   data () {
     return {
       w: 1,
+      t: 0,
       ctx: null,
       offset: null,
       move: false,
-      f: false
+      f: false,
+      userPrize: 0,
+      entry: 0
     }
   },
   mounted () {
+    this.getScratchPrize()
   },
   methods: {
     again () {
       this.f = false
       this.move = false
+      this.getScratchPrize()
       setTimeout(() => { this.doi() }, 0)
     },
     doi () {
@@ -63,9 +66,32 @@ export default {
         this.ctx.beginPath()
         this.ctx.arc(x, y, 20, 0, Math.PI * 2)
         this.ctx.fill()
-        if (x > 140 && x < 180 && y > 130 && y < 180) setTimeout(() => { this.f = true }, 3000)
+        if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 3000)
       }
+    },
+    getScratchPrize () {
+      this.$http.get(api.getScratchPrize).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          if (data.userPrize) {
+            this.userPrize = data.userPrize
+            this.entry = data.scratchId
+          } else {
+            this.w = 0
+          }
+        }
+      })
+    },
+    finishScratchPrize () {
+      this.$http.get(api.finishScratchPrize, {entry: this.entry}).then(({data}) => {
+        this.__setCall({fn: '__getUserScratch'})
+        // success
+        // if (data.success === 1) {
+        //   this.__setCall({fn: '__getUserScratch'})
+        // }
+      })
     }
+
   }
 }
 </script>
@@ -78,9 +104,9 @@ export default {
       top 0
       left 0
       width 400px
-      height 230px 
-      
-      
+      height 230px
+
+
   .wrap
     position: fixed;
     overflow: auto;
@@ -92,7 +118,7 @@ export default {
     -webkit-overflow-scrolling: touch;
     outline: 0;
     background-color rgba(0,0,0,.5)
-    
+
     &.vertical-center-modal
       display: -webkit-box;
       display: -ms-flexbox;
@@ -103,13 +129,13 @@ export default {
       -webkit-box-pack: center;
       -ms-flex-pack: center;
       justify-content: center;
-      
+
     .modal
       position relative
       width 800px
       height 525px
       background url(../assets/ggl/1.png) no-repeat
-      
+
       .close
         cursor pointer
         position absolute
@@ -121,7 +147,7 @@ export default {
         background url(../assets/ggl/4.png) center no-repeat #fff
         &:hover
           background-color #ccc
-      
+
       .box
         padding 50px 0
         text-align center
@@ -149,6 +175,6 @@ export default {
             border-radius 20px
             height 40px
             line-height 40px
-            
-        
+
+
 </style>
