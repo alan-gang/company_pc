@@ -185,7 +185,7 @@
         border-radius 50%
         float right
         display inline-block
-        width .2rem
+        min-width .2rem
         height .2rem
         line-height .2rem
         text-align center
