@@ -63,7 +63,7 @@ export default {
         this.ctx.beginPath()
         this.ctx.arc(x, y, 20, 0, Math.PI * 2)
         this.ctx.fill()
-        if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 2000)
+        if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 100)
       }
     },
     getScratchPrize (a) {
