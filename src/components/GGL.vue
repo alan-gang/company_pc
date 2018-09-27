@@ -33,14 +33,11 @@ export default {
     }
   },
   mounted () {
-    this.getScratchPrize()
+    this.getScratchPrize(true)
   },
   methods: {
     again () {
-      this.f = false
-      this.move = false
       this.getScratchPrize()
-      setTimeout(() => { this.doi() }, 0)
     },
     doi () {
       this.ctx = this.$refs['canvas'].getContext('2d')
@@ -69,7 +66,7 @@ export default {
         if (x > 140 && x < 180 && y > 130 && y < 180 && !this.f && !this.t) this.t = setTimeout(() => { this.f = true; this.finishScratchPrize(); clearTimeout(this.t); this.t = 0 }, 2000)
       }
     },
-    getScratchPrize () {
+    getScratchPrize (a) {
       this.$http.get(api.getScratchPrize).then(({data}) => {
         // success
         if (data.success === 1) {
@@ -81,16 +78,15 @@ export default {
             this.w = 0
             this.entry = data.scratchId
           }
+          this.f = false
+          this.move = false
+          !a && setTimeout(() => { this.doi() }, 0)
         }
       })
     },
     finishScratchPrize () {
       this.$http.get(api.finishScratchPrize, {entry: this.entry}).then(({data}) => {
         this.__setCall({fn: '__getUserScratch'})
-        // success
-        // if (data.success === 1) {
-        //   this.__setCall({fn: '__getUserScratch'})
-        // }
       })
     }
 

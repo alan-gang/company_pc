@@ -1,6 +1,6 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-let api = 'http://cb510.net/dscagamesclient'
-// let api = 'http://192.168.169.49:9901/cagamesclient'
+// let api = 'http://cb510.net/dscagamesclient'
+let api = 'http://192.168.169.49:9901/dscagamesclient'
 // jork
 // let api = 'http://192.168.169.46:9901/dscagamesclient'
 // steven
