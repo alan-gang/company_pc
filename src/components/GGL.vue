@@ -70,17 +70,19 @@ export default {
       this.$http.get(api.getScratchPrize).then(({data}) => {
         // success
         if (data.success === 1) {
-          if (data.userPrize !== 0) {
-            this.w = 1
-            this.userPrize = data.userPrize
-            this.entry = data.scratchId
-          } else {
-            this.w = 0
-            this.entry = data.scratchId
-          }
           this.f = false
           this.move = false
-          !a && setTimeout(() => { this.doi() }, 0)
+          setTimeout(() => {
+            !a && this.doi()
+            if (data.userPrize !== 0) {
+              this.w = 1
+              this.userPrize = data.userPrize
+              this.entry = data.scratchId
+            } else {
+              this.w = 0
+              this.entry = data.scratchId
+            }
+          }, 0)
         }
       })
     },
