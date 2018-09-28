@@ -182,7 +182,8 @@
       position relative
       .badge
         background-color red
-        border-radius 50%
+        border-radius .05rem
+        padding 0 .02rem
         float right
         display inline-block
         min-width .2rem

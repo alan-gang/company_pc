@@ -22,7 +22,7 @@ import api from '../http/api'
 export default {
   data () {
     return {
-      w: 1,
+      w: 0,
       t: 0,
       ctx: null,
       offset: null,
