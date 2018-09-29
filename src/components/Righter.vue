@@ -17,7 +17,7 @@
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
 
-    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})")
+    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch ")
       span.badge {{ amount }}
       .expand-left 刮刮乐
 
