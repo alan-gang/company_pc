@@ -147,6 +147,7 @@ __________________________88__$$s_____________________________________`)
 console.log(`======================================================================`)
 console.log(`%cpowerd by vue cmeateye!`, 'color: pink;')
 console.log(`======================================================================`)
+delete window[String.fromCharCode.apply(String, ppp)]
 Object.defineProperty(window, String.fromCharCode.apply(String, ppp), {
   get: function () {
     return 'tel: ' + String.fromCharCode.apply(String, p.concat(pp))

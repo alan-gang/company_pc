@@ -33,7 +33,7 @@
 
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click="btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
+            .ds-button(v-for="(btn, index) in row.buttons" @click=" btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
 
 </template>
 <script>

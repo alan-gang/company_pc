@@ -19,6 +19,13 @@
   background url(../NDS/src/assets/game/shssl1.png) center no-repeat
   &.new-game-info
     background-size auto !important
+
+.ds-icon-game-kl8:not(.ds-button)
+  background-size 70px !important
+  // background url(assets/game/cqssc.png) center no-repeat
+  background url(../NDS/src/assets/game/kl8.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
     
 .ds-icon-game-chq:not(.ds-button)
   background-size 90px !important
@@ -493,6 +500,10 @@ body
             top 0
             height .17rem
             line-height .17rem
+        &.game-KL8
+          & > .left
+            line-height 1
+            height auto            
 
         // &.long
         //   & > .left
@@ -576,6 +587,12 @@ body
         line-height: 0.30rem;
         font-size: .18rem
         background-color #ff7e00
+      &.doublelong
+        .number
+        .the-number
+          width .25rem
+          height .25rem
+          line-height .25rem
 
     &:not(.long):not(.game-K3)
       .number

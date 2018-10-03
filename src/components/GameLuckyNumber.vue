@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10}]")
+  el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10, doublelong: Numbers20}]")
     el-col.left(:span="onlyNumber ? 24: 20")
       span.NPER {{ NPER }} 
       | 期 &nbsp;
@@ -66,6 +66,9 @@ export default {
     },
     Numbers10 () {
       return !this.isDice && this.lucknumbers.length > 5
+    },
+    Numbers20 () {
+      return !this.isDice && this.lucknumbers.length > 10
     },
     longNumbers () {
       return !this.isDice && this.isArray

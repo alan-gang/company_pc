@@ -375,9 +375,9 @@ export default {
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
-            if (this.gameType === 'KL8') {
-              d.lucknumbers = util.groupArray(d.lucknumbers, 5)
-            }
+            // if (this.gameType === 'KL8') {
+            //   d.lucknumbers = util.groupArray(d.lucknumbers, 5)
+            // }
           })
           let lst = data.items[0] || {}
           if (this.NPER === lst.issue + '' && !noloop) {

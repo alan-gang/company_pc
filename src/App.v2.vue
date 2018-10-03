@@ -247,7 +247,7 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
-                // {url: 'KL8', class: 'ds-icon-game-bj', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'KL8', class: 'ds-icon-game-kl8', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},

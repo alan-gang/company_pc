@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10}]")
+  el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10, doublelong: Numbers20}]")
     
     el-col.left(:span="onlyNumber ? 24 : longNumbers ? 20 : 18")
       
@@ -20,7 +20,7 @@
               //.the-number {{ n }}
               //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
               //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
-              .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
+              .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(Numbers20 ? 100 : 50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
 
             // 按钮区
             .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")
@@ -98,6 +98,9 @@ export default {
     },
     Numbers10 () {
       return !this.isDice && this.lucknumbers.length > 5
+    },
+    Numbers20 () {
+      return !this.isDice && this.lucknumbers.length > 10
     },
     longNumbers () {
       return !this.isDice && this.isArray
