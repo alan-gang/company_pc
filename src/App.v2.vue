@@ -247,6 +247,7 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
+                {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 {url: 'KL8', class: 'ds-icon-game-kl8', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
@@ -1296,7 +1297,7 @@ export default {
           if (this.menuids.indexOf(',98') === -1) {
             this.menuids += ',!98,'
           }
-          this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
+          this.setUser({menuids: this.menuids, canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
           // this.setPages(
           let pages = this._getPages()
           let x = []

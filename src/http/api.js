@@ -26,6 +26,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  getCodeByTag: '/team/createAccount.do?method=getCodeByTag',
   activityReportDetail: '/report/activityReport.do?method=detailList',
   activityReport: '/report/activityReport.do?method=list',
   chatUrl: '/login/login.do?method=getChatUrl',

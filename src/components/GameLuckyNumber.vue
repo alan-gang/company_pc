@@ -1,7 +1,7 @@
 <template lang="jade">
   el-row.lucky-numbers(v-bind:class="['game-' + gameType, {long: Numbers10, doublelong: Numbers20}]")
     el-col.left(:span="onlyNumber ? 24: 20")
-      span.NPER {{ NPER }} 
+      span.NPER(style="letter-spacing: 1px") {{ NPER }} 
       | 期 &nbsp;
       span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class=" ['ds-icon-' + gameType + '-' +  (i + 1), gameType === 'HC6' ? getColorOfNumber(n) : '' ]") 
         span.the-number(:class="") {{ displayLuckNumbers[i] }}

@@ -49,9 +49,9 @@
 
                 .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id) ") 查看详情
 
-                .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
+                .ds-button.text-button.blue(v-if=" ruleCfg.length > 0 &&  type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
 
-                .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
+                .ds-button.text-button.blue(v-if=" ruleCfg.length > 0 && type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -98,7 +98,7 @@
             span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
 
 
-          div(style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
+          div(style="margin: 0 10% 0 15%; margin-top: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
 
 
 
@@ -139,12 +139,18 @@
               el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
                 el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
               | &nbsp;&nbsp;
-              el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
+              el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales"  v-bind:debounce="2000")
               span.text-black &nbsp;万，有效人数&nbsp;
-              el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+              el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1"  v-bind:debounce="2000")
               span.text-black  人，分红比例 
-              el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
-              |  %
+              //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
+              el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
+                el-option(v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) " v-bind:label="R.bounsRate + '%' " v-bind:value="R.bounsRate")
+              span(v-if="CR.bounsRate") &nbsp;最低
+                span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }} 
+                | 万，
+                span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }} 
+                | 人
 
 
             .buttons.item.block(style="padding-left: .55rem")
@@ -358,7 +364,8 @@
         name: '',
         showDetail: false,
         I: 0,
-        cType: 0
+        cType: 0,
+        ruleCfg: []
       }
     },
     computed: {
@@ -406,6 +413,23 @@
           if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
             this.stEt[1] = dateTimeFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
+        }
+      },
+      CRULES: {
+        deep: true,
+        handler () {
+          this.CRULES.forEach(CR => {
+            let rule = this.ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate)
+            if (!rule) return
+            let sales = rule.sales
+            let actUser = rule.actUser
+            setTimeout(() => {
+              if (CR.actUser < actUser) CR.actUser = actUser
+              if (CR.sales < sales) CR.sales = sales
+            }, 0)
+            // if (CR.actUser < actUser) CR.actUser = actUser
+            // if (CR.sales < sales) CR.sales = sales
+          })
         }
       }
     },
@@ -478,6 +502,7 @@
             //     c.expireTm = '--'
             //   }
             // })
+            this.ruleCfg = data.ruleCfg || []
             this.data = data.contractList || data.mySubContract
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()

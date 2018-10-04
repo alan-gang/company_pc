@@ -83,8 +83,7 @@
 
       left auto !important
       right 20px !important
-      top 60% !important
-      top calc(44% + 1.1rem) !important
+      top calc(50% + 0.35rem) !important
       z-index 5
       border-radius 0 !important
       padding 0

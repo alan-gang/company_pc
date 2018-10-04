@@ -1,13 +1,26 @@
 <template lang="jade">
   .login-register(:class="{tsfl: isGet }")
     div.form-item
-      label.item.ds-input 帐号:
+      label.item.ds-input &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帐号:
         input(v-model="account" placeholder="请输入帐号")
-    div.form-item
+    //- div.form-item
       label.item.ds-input 昵称:
         input(v-model="name" placeholder="请输入昵称")
+
     div.form-item
-      label.item.ds-input 验证码:
+      label.item.ds-input &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码:
+        input(v-model="pwd"  type="password" placeholder="请输入密码")
+
+    div.form-item
+      label.item.ds-input 确认密码:
+        input(v-model="pwda"  type="password" placeholder="请再次输入密码")
+
+    div.form-item
+      label.item.ds-input &nbsp;&nbsp;&nbsp;&nbsp;推广码:
+        input(v-model="code" placeholder="请输入推广码")
+
+    div.form-item
+      label.item.ds-input&nbsp;&nbsp;&nbsp;&nbsp;验证码:
         input(style="width: 1rem" v-model="code_" @keyup.enter="autoRegist" placeholder="请输入验证码")
         i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
@@ -38,7 +51,10 @@
       return {
         account: '',
         name: '',
+        pwd: '',
+        pwda: '',
         tag: '',
+        code: '',
         isGet: false
       }
     },
@@ -61,12 +77,24 @@
       //     window.location.href = 'login_regist.html?tag=' + this.tag
       //   }, 0)
       // }
-      setTimeout(this.getStrangerInfo, 1000)
+      if (this.tag) {
+        setTimeout(this.getStrangerInfo, 1000)
+        this.getCodeByTag()
+      }
     },
     beforeDestroy () {
       window.accessAngular.close()
     },
     methods: {
+      getCodeByTag () {
+        this.$http.get(api.getCodeByTag, {
+          tag: this.tag
+        }).then(({data}) => {
+          if (data.success === 1) {
+            this.code = data.code
+          }
+        })
+      },
       getStrangerInfo () {
         this.$http.post(api.getStrangerInfo, {
           tag: this.tag
@@ -91,22 +119,27 @@
       },
       // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
       autoRegist () {
-        if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
+        if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名'})
         if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
-        if (!this.name) return this.$message.warning({target: this.$el, message: '请输入昵称！'})
-        if (!Validate.nickName(this.name)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
-        if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码！'})
+        // if (!this.name) return this.$message.warning({target: this.$el, message: '请输入昵称！'})
+        // if (!Validate.nickName(this.name)) return this.$message.error({target: this.$el, message: '昵称由2至8个字符组成，可中文，数字不能超过4个，不能含有QQ字样！'})
+        if (!this.pwd) return this.$message.warning({target: this.$el, message: '请输入密码'})
+        if (this.pwd !== this.pwda) return this.$message.warning({target: this.$el, message: '两次密码输入不一致'})
+        if (!this.tag && !this.code) return this.$message.warning({target: this.$el, message: '请输入推广码'})
+        if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码'})
         this.$http.post(api.autoRegist, {
           tag: this.tag,
           userName: this.account,
           nickName: this.name,
-          verifyCode: this.code_
+          verifyCode: this.code_,
+          passwd: this.pwd,
+          promotionCode: this.code
         }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.$modal.success({
               // target: this.$el,
-              content: '恭喜你注册成功，你的密码为：123456a',
+              content: '恭喜你注册成功',
               btn: ['马上登录'],
               ok () {
                 this.__setCall({
@@ -120,7 +153,7 @@
                     path: '/login/login',
                     query: {
                       un_: this.account,
-                      pwd: '123456a'
+                      pwd: this.pwd
                     }
                   })
                 }, 200)
@@ -171,9 +204,12 @@
     color #bbb
     text-align left
     input
+      height .3rem
+      line-height .3rem
       border none
       padding-left .1rem
-      width 2rem
+      width 1.2rem
+      
   .ds-icon-code
     position: absolute;
     bottom: 0.1rem;

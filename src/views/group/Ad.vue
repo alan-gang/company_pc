@@ -34,8 +34,10 @@
         
         p(style="padding: 0rem 1rem") 您的返点级别：
           span.amount {{ userPoint }}
+        p(style="padding: 0rem 1rem") 您的推广码&nbsp;&nbsp;&nbsp;&nbsp;： 
+          span.text-blue {{ promotionCode }}
 
-        p(style="padding: .05rem 1rem") 保留返点： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        p(style="padding: .05rem 1rem") 保留返点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;： 
           el-select(v-model="p")
             el-option(v-for="P in PS" v-bind:label="P" v-bind:value="P")
        
@@ -69,7 +71,8 @@
         urls: [],
         qrs: [],
         userPoint: 0,
-        autoRegistMinPoint: 6.5
+        autoRegistMinPoint: 6.5,
+        promotionCode: ''
       }
     },
     computed: {
@@ -136,6 +139,7 @@
           // success
           if (data.success === 1) {
             // block8/3 console.log(data.userPoint, data.range)
+            this.promotionCode = data.promotionCode
             this.userPoint = data.userPoint
             this.autoRegistMinPoint = data.autoRegistMinPoint
             this.urls = data.url

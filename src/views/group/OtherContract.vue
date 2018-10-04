@@ -48,9 +48,9 @@
 
               .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' "  style="padding: 0 .05rem" @click.stop=" (showDetail = scope.row.id) ") 查看详情
 
-              .ds-button.text-button.blue(v-if=" type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
+              .ds-button.text-button.blue(v-if="  ruleCfg.length > 0 && type === 1 && scope.row.stat === '未签订' " style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 新建契约
 
-              .ds-button.text-button.blue(v-if=" type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
+              .ds-button.text-button.blue(v-if=" ruleCfg.length > 0 && type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')" style="padding: 0 .05rem" @click="++stepIndex && (user = scope.row)") 重新发起
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -138,12 +138,17 @@
             el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
               el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
             | &nbsp;&nbsp;
-            el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
+            el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales"  v-bind:debounce="2000")
             span.text-black &nbsp;万，有效人数&nbsp;
-            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1"  v-bind:debounce="2000")
             span.text-black  人，分红比例 
-            el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
-            |  %
+            el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
+              el-option(v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) " v-bind:label="R.bounsRate + '%' " v-bind:value="R.bounsRate")
+            span(v-if="CR.bounsRate") &nbsp;最低
+              span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }} 
+              | 万，
+              span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }} 
+              | 人
 
 
           .buttons.item.block(style="padding-left: .55rem")
@@ -316,45 +321,46 @@
         sendType: 1,
         AT: 0,
         // 规则一：累计
-        TYPE: [{id: 0, title: '亏损'}],
-        r: {id: 0, title: '亏损'},
+        TYPE: [{id: 1, title: '亏损'}],
+        r: {id: 1, title: '亏损'},
         RULES: [
-          {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则三十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
+          {title: '规则一', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则三', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则四', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则五', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则六', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则七', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则八', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则九', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十一', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十二', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十三', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十四', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十五', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十六', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十七', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十八', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则十九', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十一', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十二', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十三', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十四', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十五', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十六', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十七', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十八', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则二十九', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1},
+          {title: '规则三十', ruletype: 1, sales: 0, bounsRate: 0, actUser: 1}
         ],
         ruleLength: 3,
         name: '',
         showDetail: false,
         I: 1,
-        cType: 1
+        cType: 1,
+        ruleCfg: []
       }
     },
     computed: {
@@ -402,6 +408,21 @@
           if (this.stEt[0] && this.stEt[1] && (window.newDate(this.stEt[0])).getTime() === (window.newDate(this.stEt[1])).getTime()) {
             this.stEt[1] = dateTimeFormat((window.newDate(this.stEt[1])).getTime() + 3600 * 1000 * 24 - 1000)
           }
+        }
+      },
+      CRULES: {
+        deep: true,
+        handler () {
+          this.CRULES.forEach(CR => {
+            let rule = this.ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate)
+            if (!rule) return
+            let sales = rule.sales
+            let actUser = rule.actUser
+            setTimeout(() => {
+              if (CR.actUser < actUser) CR.actUser = actUser
+              if (CR.sales < sales) CR.sales = sales
+            }, 0)
+          })
         }
       }
     },
@@ -472,6 +493,7 @@
             //   }
             // })
             // this.cType = data.cType
+            this.ruleCfg = data.ruleCfg || []
             this.data = data.contractList || data.mySubContract
             this.total = data.totalSize || this.data.length
             typeof fn === 'function' && fn()
