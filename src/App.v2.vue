@@ -501,7 +501,7 @@ export default {
                   id: '4-5-1',
                   menuid: '58',
                   title: '彩票报表',
-                  tabs: ['彩票报表', '彩票分红'],
+                  tabs: ['彩票报表', '彩票分红:45'],
                   tabfn: '__setProfitLossI',
                   url: 'ProfitLoss'
                 },
