@@ -7,7 +7,7 @@
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
               // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
-              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
+              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
                 // 正常的显示
                 span.after(v-if=" n.after ") {{ n.after }}
                 span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
@@ -60,6 +60,12 @@
       }
     },
     computed: {
+      gameidClass () {
+        switch (this.gameid) {
+          case 39:
+            return 'ds-icon-PK10-ft'
+        }
+      },
       callId () {
         return this.gameid + '|' + this.row.id.replace(/[\s,]+/g, '').split(':')[0]
       },
@@ -648,15 +654,15 @@
             shadow(0 0 0 2px #ededed)
           &:hover
             .the-number
-              color #fff
-              background-color BLUE
-              font-shadow()
-              border-color #0a7cc4
+              // color #fff
+              // background-color BLUE
+              // font-shadow()
+              // border-color #0a7cc4
           &.selected
             .the-number
               transition all .5s linear
               color #fff
-              background-color DANGER
+              background-color BLUE
               font-shadow()
               border-color #bd0615
               

@@ -1025,7 +1025,17 @@ pre
     &:hover
       background url($ASSETS/car_blue.png) center no-repeat
     &.selected
-      background url($ASSETS/car_red.png) center no-repeat
+      background url($ASSETS/car_blue.png) center no-repeat
+      
+  .ds-icon-PK10.ds-icon-PK10-ft
+    padding-top .1rem
+    background url($ASSETS/bg_feiting_gray.png) center no-repeat
+    background-size 1.04rem !important
+    &:hover
+      background url($ASSETS/bg_feiting_color.png) center no-repeat
+    &.selected
+      background url($ASSETS/bg_feiting_color.png) center no-repeat
+      
   // .ds-icon-PK10-1
   //   background url($ASSETS/car_colour01.png) center no-repeat
   // .ds-icon-PK10-2
