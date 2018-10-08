@@ -6,12 +6,20 @@
         el-popover(placement="top"  trigger="click"  v-bind:popper-class=" 'popover-vertion-tip' " offset="20")
           
           .version-tip
+            
+            p v1.4.6
+            ul
+              li 增加新游戏幸运飞艇
+              li 注册界面支持手动输入推广码
+              li 调整契约规则-分红比例为下拉选择
+
             p v1.4.5
             ul
               li 增加汇总报表，活动报表
               li 调整了部分报表功能
               li PT真人和捕鱼游戏上线
               li AG真人、电游、捕鱼游戏上线
+
             p v1.4.4
             ul
               li 登录页面增加客服功能
@@ -22,7 +30,7 @@
 
           span.pointer(slot="reference")
             span.ll.text-666 版本说明 ：
-            span.rr V1.4.5
+            span.rr V1.4.6
           
 
         span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

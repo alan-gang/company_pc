@@ -196,6 +196,7 @@
     .gray
       -webkit-filter grayscale(50%)
       filter grayscale(50%)
+      opacity .7
     .expand-left
       &.skins
         width 3.45rem
