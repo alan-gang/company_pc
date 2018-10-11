@@ -4,21 +4,22 @@ export default (Vue) => {
     args: '',
     _count: 0
   }
+  let g = {
+    width: 0,
+    height: 0,
+    scale: 0,
+    st: 0,
+    sl: 0,
+    sh: 0,
+    sw: 0
+  }
   Vue.mixin({
     data () {
       return {
         window: window,
         call: call,
         platform: window.platform,
-        global: {
-          width: 0,
-          height: 0,
-          scale: 0,
-          st: 0,
-          sl: 0,
-          sh: 0,
-          sw: 0
-        }
+        global: g
       }
     },
     // watch: {

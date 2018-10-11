@@ -969,7 +969,11 @@ export default {
           if (this.mi === 6) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
+            if (this.Me.login) {
+              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
+            } else {
+              this.activeMenu = [this.menus[11 + 5], this.menus[12 + 5]]
+            }
           }
         }
       }, this.mi ? 0 : 0)
@@ -1015,9 +1019,6 @@ export default {
     this.setPages(this._getPages())
     window.NProgress.done()
     this.tryLogin()
-    window.onscroll = this.onScroll
-    window.onresize = this.onResize
-    this.onResize()
   },
   methods: {
     __setUser () {
@@ -1347,27 +1348,6 @@ export default {
         }
       }, (rep) => {
         // error
-      })
-    },
-    onResize (evt) {
-      let w = window
-      let d = document
-      let e = d.documentElement
-      let g = d.getElementsByTagName('body')[0]
-      let x = w.innerWidth || e.clientWidth || g.clientWidth
-      let y = w.innerHeight || e.clientHeight || g.clientHeight
-      this.__setGlobal({
-        width: x,
-        height: y,
-        scale: x / y
-      })
-    },
-    onScroll (evt) {
-      this.__setGlobal({
-        st: window.scrollTop || window.scrollY,
-        sl: window.scrollLeft || window.scrollX,
-        sh: window.document.body.scrollHeight,
-        sw: window.document.body.scrollWidth
       })
     }
   },

@@ -129,7 +129,7 @@ export default {
           if (!this.regard) {
             this.$message.warning('您未设置登录问候语！')
           }
-          setTimeout(() => this.$el.querySelector('.d .aa input').focus(), 0)
+          setTimeout(() => this.$el.querySelector('.d .ab input').focus(), 0)
         } else {
           this.$message.error('常用语获取失败！')
         }

@@ -1,7 +1,7 @@
 <template lang="jade">
   el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' " unique-opened ref="M")
 
-    el-submenu(v-for="(m, i) in menus" v-if="m.title && menus.length > 2 && !m.removed" v-bind:index="m.url")
+    el-submenu(v-for="(m, i) in menus" v-if="m.title && menus.length > 1 && !m.removed" v-bind:index="m.url")
       template(slot="title")
         i(:class="[m.class + '-menu']")
         | {{ m.stitle || m.title }}
@@ -9,7 +9,7 @@
         template(slot="title") {{ g.title }}
         el-menu-item(style="margin: .05rem 0" v-for="(item, iii) in g.items" v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-bind:index=" '/' + m.url + '/' + item.id" v-if="!item.removed && item.id && !item.hide") {{ item.title }}
 
-    div(v-for="(m, i) in menus"  v-if="menus.length < 3" v-bind:class=" [ menus[0].url ] ")
+    div(v-for="(m, i) in menus"  v-if="menus.length < 2" v-bind:class=" [ menus[0].url ] ")
       .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]") {{ m.title }}
       el-menu-item-group(v-for="(g, ii) in m.groups" v-if="g.items.filter(function(x){return !x.removed})[0]")
           template(slot="title") {{ g.title }}

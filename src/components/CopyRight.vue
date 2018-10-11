@@ -82,8 +82,27 @@
         jump: true
       }
     },
+    watch: {
+      global: {
+        deep: true,
+        handler () {
+          if (this.jump && this.global.st > (this.global.sh * 0.37)) this.doing()
+        }
+      }
+    },
     methods: {
-
+      doing () {
+        this.jump = false
+        this.infos[2].number = 1000
+        this.infos[3].number = 6000
+        let t = setInterval(() => {
+          this.infos[2].number += 11
+          this.infos[3].number += 11
+          if (this.infos[2].number > 5000) this.infos[2].number = 5000
+          if (this.infos[3].number > 8000) this.infos[3].number = 8000
+          if (this.infos[2].number === 5000 && this.infos[3].number === 8000) clearInterval(t)
+        }, 5)
+      }
     }
   }
 </script>

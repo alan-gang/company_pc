@@ -36,7 +36,7 @@ let router = new VueRouter({
         {
           path: '/game/:url',
           meta: {
-            rl: true
+            // rl: true
           },
           component: Pages
         },
@@ -64,21 +64,21 @@ let router = new VueRouter({
         {
           path: '/help/:url',
           meta: {
-            rl: true
+            // rl: true
           },
           component: Pages
         },
         {
           path: '/activity/:url',
           meta: {
-            rl: true
+            // rl: true
           },
           component: Pages
         },
         {
           path: '/download/:url',
           meta: {
-            rl: true
+            // rl: true
           },
           component: Pages
         }
