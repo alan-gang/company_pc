@@ -37,7 +37,7 @@
         span.ll.text-666 技术支持：
         span.rr 创优科技
 
-    //- el-row.content-width.b.a.text-666
+    el-row.content-width.b.a.text-666
       el-col(:span="6" v-for=" (info, i) in infos ").j
         .c(v-bind:class=" info.class ")
           .d
@@ -48,7 +48,7 @@
           .i {{ info.detail }}
 
     el-row.content-width.b
-      el-col.l.text-666(:span="14")
+      el-col.l.text-666(:span="12")
         | 信游娱乐郑重提示：本平台已获得 菲律宾PAGCOR博彩牌照，请放心购彩。
         br
         | 购彩有风险，下注需谨慎，绝不向未满18岁的青少年出售彩票
@@ -62,8 +62,8 @@
         | 建议使用浏览器为： 
         br  
 
-      el-col.r(:span="10")
-        div(style="opacity: 0") ....
+      el-col.r(:span="12")
+        .ra
         
         
 
@@ -75,10 +75,15 @@
         infos: [
           {class: 'load', title: '充值', subtitle: '到账时间', number: '0.3', tail: '秒', detail: '平台支持超过28家银行充值，可24小时在线充值。充值平均每笔到账时间为0.3秒，充值贴心，所有充值方式包括移动端均不收取手续费。'},
           {class: 'with', title: '提款', subtitle: '到账时间', number: '30', tail: '秒', detail: '平台拥有自主研发全自动审核及付款系统，提款平均每笔到账时间为30秒，提款极速到账，无需更多等待。'},
-          {class: 'plat', title: '平台', subtitle: '最新加密技术', number: '1024', tail: '', detail: '采用最先进的数据加密技术。交易信息以非明文方式传输和存储，即使外部入侵，数据也不可读，确保万无一失。'},
-          {class: 'bank', title: '合作银行', subtitle: '提供安全保障', number: '28', tail: '家', detail: '目前合作的银行有28家，并且还在努力为用户提供更多的银行可供选择，以及支持更多的移动支付方式。'}
-        ]
+          {class: 'plat', title: '火爆', subtitle: '存款人数', number: '5000', tail: '人', detail: '采用最先进的数据加密技术。交易信息以非明文方式传输和存储，即使外部入侵，数据也不可读，确保万无一失。'},
+          {class: 'bank', title: '诚信', subtitle: '今日兑奖', number: '8000', tail: '元', detail: '目前合作的银行有28家，并且还在努力为用户提供更多的银行可供选择，以及支持更多的移动支付方式。'}
+        ],
+        // need jump numbers
+        jump: true
       }
+    },
+    methods: {
+
     }
   }
 </script>
@@ -98,9 +103,11 @@
     background-size .52rem
     background-repeat no-repeat
   .d
-    text-align right
+    // text-align right
+    
   .e
     padding-right .15rem
+    padding-left .7rem
   .e
   .g
   .h
@@ -108,10 +115,12 @@
     display inline-block
     color #fff
     font-size .18rem
+    
   .g
     color BLUE
     font-size .36rem
     font-family Roboto, Arial
+    line-height 1
   .f
   .h
     font-size .12rem
@@ -135,7 +144,9 @@
     
   .t
     height .68rem
-    background-color #232227
+    // background-color #232227
+    // background-color rgba(255, 255, 255, .05)
+    
   .bt-logo
     height .68rem
     background url(../assets/v2/logo_bt.png) left center no-repeat
@@ -150,6 +161,11 @@
     color #ccc
     font-size .12rem
     line-height 2
+    background-image url(../assets/footer/footer_bg.jpg)
+    background-repeat no-repeat
+    background-size 100% 100%
+    
+    
     .l
       // padding-top .4rem
       // background url(../assets/accredited.png) no-repeat
@@ -164,7 +180,12 @@
         background url(../assets/browser.png) 1.2rem 1.3rem no-repeat
     .r
       min-height 1.6rem
-      background url(../assets/v2/logo_bt03.png) right top no-repeat
+      background url(../assets/v2/logo_bt03.png) right 1.6rem top .2rem no-repeat
+    .ra
+      float right
+      width 1.28rem
+      height 1.75rem
+      background url(../assets/footer/index_pz.jpg) left top no-repeat
   
   
 

@@ -1,4 +1,5 @@
-import store from '../store'
+// import store from '../store'
+import router from '../router/index.v2.js'
 export default (Vue) => {
   Vue.http.options.root = ''
   Vue.http.options.emulateJSON = true
@@ -67,26 +68,21 @@ export default (Vue) => {
   let VM = null
   Vue.http.interceptors.push((request) => {
     return {
-      request (req) {
-        if (this && this.$modal) VM = this
-        return req
-      },
+      // request (req) {
+      //   if (this && this.$modal) VM = this
+      //   return req
+      // },
       response (rep) {
         // 用户过期
-        if (rep.data && rep.data.success === -1 && !M) {
-          VM && (M = VM.$modal.warn({
-            content: '您长时间没有操作，请重新登录',
-            btn: ['确定'],
-            close () {
-              store.state.user.login = false
-              M = null
-              VM.__setCall({fn: '__logout', args: undefined, callId: undefined})
-            },
-            O: VM
-          }))
+        if (!rep.data) return rep
+        if (rep.data.success === -1) {
+          !VM && (VM = router.apps[0].$children[0])
+          VM && VM.__setUser({login: false})
+          VM && VM.__popLogin('Login:' + router.currentRoute.fullPath)
         } else if (rep.data && rep.data.success === -3) {
           this.$router.push('/login/forbidden')
-        } else if (rep.data && rep.data.success === 0 && rep.data.msg && !M) {
+        // 忽略没意义的消息
+        } else if (rep.data && rep.data.success === 0 && rep.data.msg && !M && rep.data.msg.match(/^[\u4e00-\u9fa5]+/)) {
           VM && (M = VM.$modal.warn({
             // target: VM.$el,
             content: rep.data.msg,
@@ -101,3 +97,4 @@ export default (Vue) => {
     }
   })
 }
+

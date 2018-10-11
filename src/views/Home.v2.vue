@@ -1,6 +1,7 @@
 <template lang="jade">
   section.new-home(@scroll="scrollHander")
-    Me(:menus="menus" v-on:open-page="openTab")
+    Me(v-if="me.login" v-bind:menus="menus" v-on:open-page="openTab" )
+    Unloginbar(v-else)
     
     MyMenu(:menus="menus.slice(0, 12).concat(menus[16])" v-on:open-page="openTab")
 
@@ -13,24 +14,33 @@
     
     .box.our-game
       .content-width
-        el-row.collects.font-white.top-games
+        el-row.collects.top-games.relative
           .intro(@mouseenter="__recentlyCode")
             span.gt 信游彩票
             span.en-name LOTTERY
-            .right
+            .right.ft12
               span.name 重庆时时彩 &nbsp;&nbsp;
               span.number(v-for=" n in ns ") {{ n }}
               |  &nbsp;&nbsp;
-              router-link.ds-button.primary(:to=" '/game/1-1-1' ") 再来一注
+              router-link.ds-button.a-more(:to=" '/game/1-1-1' ") 来一注
                 .el-icon-arrow-right
             .line
-            p 信游彩票包含时时彩，11选五，快三，PK10，福彩3D，排三排五，六合彩等多种游戏，玩法齐全，同时开发了多个快频彩票，还有VR视频美女开奖，满足您不同的需求。
+            p.t_l 时时彩是中国福利彩票时时彩的简称，时时彩是一种经中国国家财政部批准，由中国福利彩票发行管理中心在重庆市所辖区域内发行，由重庆市福利彩票发行中心承销的彩票。
 
 
           el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
             p {{ c.title }}
 
-        //- .title 
+          .absolute.rank.t_l
+            p.ft18 玩家排行 
+            dl
+              dd(v-for=" (r, i) in rank ")
+                span.rank-index {{ i }}
+                span.rank-un {{ r.un }}
+                | 赢得¥
+                span.rank-money {{ r.money }}
+
+        .title 
           p.t1 我们的游戏
           p.t2 OUR GAMES
 
@@ -39,7 +49,7 @@
           el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
             .co
               img(src="/static/pic/lhg.jpg")
-            //- p
+            p
               span.t1 体育竞技 &nbsp;&nbsp;
               span.t2 SPORTS
               span.f_r 立即进行 >
@@ -47,12 +57,12 @@
             .co
               img(src="/static/pic/bjl.jpg")
 
-            //- p
+            p
               span.t1 真人娱乐 &nbsp;&nbsp;
               span.t2 CASINO
               span.f_r 立即进行 >
 
-        //- el-row(:gutter=15 style="padding-bottom: .3rem")
+        el-row(:gutter=15 style="padding-bottom: .3rem")
           el-col.picture.a.lhg(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
             .co
               img(src="/static/pic/home/3.jpg")
@@ -77,10 +87,10 @@
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
               span.f_r 立即进行 >
-        //- .title 
+        .title 
           p.t1 精彩活动
           p.t2 ACTIVITY
-        //- el-row(:gutter=15 style="padding-bottom: .3rem")
+        el-row(:gutter=15 style="padding-bottom: .3rem")
           el-col.picture.b.lhg(:span="6" @click.native=" openBanner() ")
             .co
               img(src="/static/pic/home/6.jpg")
@@ -134,6 +144,7 @@ import Guide from './Guide'
 import Pages from './Pages'
 import CopyRight from 'components/CopyRight'
 import Me from 'components/Me'
+import Unloginbar from 'components/Unloginbar'
 import MyMenu from 'components/Menu'
 export default {
   name: 'Home',
@@ -149,10 +160,10 @@ export default {
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        {class: 'index_icon_13', id: '1-1-4', title: '欢乐分分彩'},
+        {class: 'index_icon_04', id: '1-1-4', title: '福彩3D'},
         {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
-        {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
-        {class: 'index_icon_05', id: '1-5-3', title: '排列三、五'},
+        {class: 'index_icon_07', id: '1-5-2', title: '福彩3D'},
+        {class: 'index_icon_09', id: '1-5-3', title: '11运夺金'},
         {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
       ],
       formData: {
@@ -160,7 +171,11 @@ export default {
       ns: [1, 2, 3, 4, 5],
       timeout: 0,
       ifsrc: '',
-      sports: false
+      sports: false,
+      rank: [
+        {un: 'ab***01', money: '18215'},
+        {un: 'ab***01', money: '18215'}
+      ]
     }
   },
   watch: {
@@ -290,7 +305,8 @@ export default {
     Pages,
     CopyRight,
     Me,
-    MyMenu
+    MyMenu,
+    Unloginbar
   }
 }
 </script>
@@ -326,23 +342,26 @@ export default {
     top 0
     z-index 3
   .box
-    // background-image url(/static/pic/home/0.jpg)
-    // background-repeat no-repeat
-    // background-size 100%
-    // background-color #fff
+    background url(../assets/newhome/index_bg.jpg) no-repeat
+    background-repeat no-repeat
+    background-size 100% 100%
     padding-top .3rem
     
-  W = 1.5rem
-  H = 1.4rem
+  W = 1.3rem
+  H = 1.3rem
   .top-games
     // height 6rem
     position relative
     margin-bottom .3rem
     padding PW
-    padding-left 43%
+    padding-left 31%
+    padding-right 20%
     text-align center
     radius()
-    background url(../assets/v2/index_bg02.png) no-repeat
+    color #302b2a
+    // background url(../assets/v2/index_bg02.png) no-repeat
+    background url(../assets/newhome/index_cp_bg-min.png) no-repeat
+    
     &:before
       content ''
       position absolute
@@ -351,37 +370,43 @@ export default {
       bottom 0
       left 0
       right 60%
-      background url(../assets/v2/girl.png)  no-repeat
+      background url(../assets/newhome/girl-min.png) no-repeat
+      
     .intro
       font-shadow(none)
       text-align left
       padding PW
       // padding-bottom 0
       padding-right 0
-      transform translateX(-.38rem)
       .line
-          margin PW 0
+          margin .1rem 0
           border-bottom 1px solid rgba(255, 255, 255, .3)
       .gt
           font-size .24rem
           line-height .3rem
-          color #ffff00
+          // color #ffff00
       .en-name
-          color #ccc
+          // color #ccc
           font-size .18rem
           margin-left PW
       .number
           font-size .12rem
           line-height .2rem
           radius(50%)
-          background-color #fff
-          border 2px solid #ff9731
+          background-color #302b2a
           display inline-block
           width .18rem
           height .18rem
           text-align center
-          color #000
-
+          color #ffa930
+          margin-right .05rem
+      .a-more
+        border 1px solid #302b2a
+        color #302b2a
+        text-shadow none
+        padding 0 .1rem
+        &:hover
+          opacity .8
       .right
           float right
 
@@ -396,31 +421,31 @@ export default {
       padding-top H
       transition all ease-in-out .3s
       &.index_icon_01
-        background url(../assets/v2/index_icon_01.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_01.png) 50% no-repeat
       &.index_icon_02
-        background url(../assets/v2/index_icon_02.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_02.png) 50% no-repeat
       &.index_icon_03
-        background url(../assets/v2/index_icon_03.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_03.png) 50% no-repeat
       &.index_icon_04
-        background url(../assets/v2/index_icon_04.png) 50% no-repeat
-      &.index_icon_05
-        background url(../assets/v2/index_icon_05.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_04.png) 50% no-repeat
+      // &.index_icon_05
+      //   background url(../assets/newhome/index_icon_b_05.png) 50% no-repeat
       &.index_icon_06
-        background url(../assets/v2/index_icon_06.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_06.png) 50% no-repeat
       &.index_icon_07
-        background url(../assets/v2/index_icon_07.png) 50% no-repeat
-      &.index_icon_08
-        background url(../assets/v2/index_icon_08.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_07.png) 50% no-repeat
+      // &.index_icon_08
+      //   background url(../assets/newhome/index_icon_b_08.png) 50% no-repeat
       &.index_icon_09
-        background url(../assets/v2/index_icon_09.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_09.png) 50% no-repeat
       &.index_icon_10
-        background url(../assets/v2/index_icon_10.png) 50% no-repeat
-      &.index_icon_11
-        background url(../assets/v2/index_icon_11.png) 50% no-repeat
-      &.index_icon_12
-        background url(../assets/v2/index_icon_12.png) 50% no-repeat
-      &.index_icon_13
-        background url(../assets/v2/index_icon_13.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_10.png) 50% no-repeat
+      // &.index_icon_11
+      //   background url(../assets/newhome/index_icon_b_11.png) 50% no-repeat
+      // &.index_icon_12
+      //   background url(../assets/newhome/index_icon_b_12.png) 50% no-repeat
+      // &.index_icon_13
+      //   background url(../assets/newhome/index_icon_b_13.png) 50% no-repeat
 
       &:hover
         padding-top H - 2*PW
@@ -445,6 +470,30 @@ export default {
       span
         font-size .14rem
         color #fff
+    .rank
+      right 0
+      top 0
+      width 2rem
+      color #fff
+      line-height .2rem
+      padding .35rem 0 .1rem 0
+      dl
+        padding-top .25rem 
+        dd
+          margin-bottom .15rem
+          
+      .rank-un
+        margin-right .2rem
+        
+      .rank-index
+        margin-right .1rem
+        radius(50%)
+        display inline-block
+        width .2rem
+        background-color BLUE
+        text-align center
+      
+        
 
   .picture
     position relative

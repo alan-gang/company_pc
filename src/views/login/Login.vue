@@ -92,53 +92,11 @@
       }
     },
     activated () {
-      // let {un_, pwd} = this.$route.query
-      // if (un_) this.un_ = un_
-      // if (pwd) this.pwd = pwd
-      // if (un_ && pwd) {
-      //   setTimeout(() => {
-      //     this.$el.querySelector('.ds-icon-edit input').focus()
-      //   }, 0)
-      //   this._getVerifyImage()
-      // } else {
-      //   setTimeout(() => {
-      //     this.$el.querySelector('.ds-icon-user input').focus()
-      //   }, 0)
-      //   this.tryLogin()
-      // }
     },
     methods: {
       loginSuccess (data) {
         // call app.vue loginsuccess
         this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
-
-        // this.__setCall({fn: '__getUserFund', callId: undefined})
-        // this.__setCall({fn: '__getUserPrefence', callId: undefined})
-        // this.$emit('update-user', {login: true,
-        //   name: data.nickName,
-        //   pwd: data.hasLogPwd === '1',
-        //   cashPwd: data.hasSecurityPwd === '1',
-        //   type: data.identity,
-        //   account: data.userName,
-        //   shareCycle: data.shareCycle,
-        //   role: data.roleId,
-        //   hasBankCard: data.hasBankCard === '1',
-        //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1'),
-        //   cbsafe: !!data.isOpenKey,
-        //   safeCheck: data.verifyType,
-        //   isVip: data.isVip === '1'
-        // })
-        // this.$router.push('/help/6-2-1')
-        // window.accessAngular.setUser({
-        //   id: data.userId,
-        //   key: data.token,
-        //   pltCd: data.platId,
-        //   socketUrl: data.platUrl
-        // })
-        // window.accessAngular.isStranger(false)
-        // // window.accessAngular.connect()
-        // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
-        // window.localStorage.setItem('api', api.api)
       },
       login () {
         if (this.hasEmpty()) {
@@ -186,13 +144,6 @@
         }, (rep) => {
           this.$message.error('常用语获取失败！')
         })
-        // window.$.ajax({
-        //   url: api.getGreetingMsg,
-        //   data: {userName: this.un_},
-        //   xhrFields: {
-        //     withCredentials: true
-        //   }
-        // })
       },
       tryLoginFromUrl (userId, sessionKey) {
         // userId=4&sessionKey=123456
@@ -200,27 +151,6 @@
           // success
           if (data.success === 1) {
             this.loginSuccess(data)
-            // this.$emit('update-user', {login: true,
-            //   name: data.nickName,
-            //   pwd: data.hasLogPwd === '1',
-            //   cashPwd: data.hasSecurityPwd === '1',
-            //   hasBankCard: data.hasBankCard === '1',
-            //   shareCycle: data.shareCycle,
-            //   type: data.identity,
-            //   account: data.userName,
-            //   role: data.roleId,
-            //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
-            //   // guide: true
-            // })
-            // this.$router.push('/')
-            // window.accessAngular.setUser({
-            //   id: data.userId,
-            //   key: data.token,
-            //   pltCd: data.platId,
-            //   socketUrl: data.platUrl
-            // })
-            // window.accessAngular.isStranger(false)
-            // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
           } else {
             this._getVerifyImage()
             // loading.text = '自动登录失败'
@@ -234,36 +164,10 @@
         })
       },
       tryLogin () {
-        // try login
-        // let loading = this.$loading({
-        //   text: '自动登录中...',
-        //   target: this.$el.querySelector('.login')
-        // })
         this.$http.get(api.validate, {isAuto: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
             this.loginSuccess(data)
-            // this.$emit('update-user', {login: true,
-            //   name: data.nickName,
-            //   pwd: data.hasLogPwd === '1',
-            //   cashPwd: data.hasSecurityPwd === '1',
-            //   hasBankCard: data.hasBankCard === '1',
-            //   shareCycle: data.shareCycle,
-            //   type: data.identity,
-            //   account: data.userName,
-            //   role: data.roleId,
-            //   guide: data.isTry === '1' ? false : (!data.nickName || data.hasLogPwd !== '1' || data.hasSecurityPwd !== '1')
-            //   // guide: true
-            // })
-            // this.$router.push('/')
-            // window.accessAngular.setUser({
-            //   id: data.userId,
-            //   key: data.token,
-            //   pltCd: data.platId,
-            //   socketUrl: data.platUrl
-            // })
-            // window.accessAngular.isStranger(false)
-            // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
           } else {
             this._getVerifyImage()
             // loading.text = '自动登录失败'

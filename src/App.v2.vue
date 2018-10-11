@@ -1014,12 +1014,19 @@ export default {
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
-    // console.log(this.$router)
-    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) {
-      // this.tryLogin()
-    }
+    this.tryLogin()
+    window.onscroll = this.onScroll
+    window.onresize = this.onResize
+    this.onResize()
   },
   methods: {
+    __setUser () {
+      return this.setUser()
+    },
+    __popLogin (au) {
+      console.log('need pop login:' + au)
+      this.__setCall({fn: '__LAR'})
+    },
     __setGGL () {
       this.ggl = !this.ggl
     },
@@ -1080,30 +1087,31 @@ export default {
       this.showPrint = false
     },
     tryLogin () {
-      let M = this.$modal.info({
-        content: '授权登录中...',
-        btn: [],
-        close () {
-          M = null
-        },
-        O: this
-      })
+      // let M = this.$modal.info({
+      //   content: '授权登录中...',
+      //   btn: [],
+      //   close () {
+      //     M = null
+      //   },
+      //   O: this
+      // })
       this.$http.get(api.validate, {isAuto: 1}).then(({data}) => {
         // success
         if (data.success === 1) {
-          setTimeout(() => {
-            this.loginSuccess(data)
-            M.type = 'success'
-            M.content = '登录成功！'
-          }, 500)
-          setTimeout(M._close, 1000)
+          this.loginSuccess(data)
+          // setTimeout(() => {
+          //   this.loginSuccess(data)
+          //   M.type = 'success'
+          //   M.content = '登录成功！'
+          // }, 500)
+          // setTimeout(M._close, 1000)
         } else {
           this.setUser({login: false})
-          M._close()
+          // M._close()
         }
       }, (rep) => {
         this.setUser({login: false})
-        M._close()
+        // M._close()
       }).finally(() => {
       })
     },
@@ -1340,6 +1348,27 @@ export default {
       }, (rep) => {
         // error
       })
+    },
+    onResize (evt) {
+      let w = window
+      let d = document
+      let e = d.documentElement
+      let g = d.getElementsByTagName('body')[0]
+      let x = w.innerWidth || e.clientWidth || g.clientWidth
+      let y = w.innerHeight || e.clientHeight || g.clientHeight
+      this.__setGlobal({
+        width: x,
+        height: y,
+        scale: x / y
+      })
+    },
+    onScroll (evt) {
+      this.__setGlobal({
+        st: window.scrollTop || window.scrollY,
+        sl: window.scrollLeft || window.scrollX,
+        sh: window.document.body.scrollHeight,
+        sw: window.document.body.scrollWidth
+      })
     }
   },
   components: {
@@ -1420,6 +1449,7 @@ export default {
   @import url('./chat.wap.less');
 </style>
 <style lang="stylus">
+  @import './common.stylus'
   @import './var.stylus'
   @import './path.stylus'
   @import './main.stylus'

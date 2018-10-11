@@ -1,7 +1,5 @@
 // import direction from './direction'
 import store from '../store'
-
-
 const Login = r => require.ensure([], () => r(require('../views/Login')), 'login-part')
 const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'login-part')
 const C500 = r => require.ensure([], () => r(require('../views/login/500')), 'login-part')
