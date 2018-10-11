@@ -236,8 +236,9 @@ export default {
                 {class: 'ds-icon-game-ahK3  ', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
                 {class: 'ds-icon-game-jlK3 ', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
-                {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
+                {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
                 // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
+                {class: 'ds-icon-game-jlK3 sign new', id: '1-4-6', menuid: '19', title: '欢乐快三', volume: true, gameid: 33}
               ]
             },
             {
