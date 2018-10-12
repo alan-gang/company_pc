@@ -94,7 +94,7 @@
       doing () {
         this.jump = false
         this.infos[2].number = 1000
-        this.infos[3].number = 6000
+        this.infos[3].number = 4000
         let t = setInterval(() => {
           this.infos[2].number += 11
           this.infos[3].number += 11

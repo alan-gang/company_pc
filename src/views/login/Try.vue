@@ -1,7 +1,7 @@
 <template lang="jade">
   dl.try-form
     dt 试玩
-    dd.ds-icon-edit(style="height: .4rem; line-height: .4rem")
+    dd.ds-icon-edit(style="height: .4rem; line-height: .4rem; color: #666")
       input(placeholder="验证码" v-model="code_"  @keyup.enter="login" autofocus)
       i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
@@ -94,6 +94,7 @@ export default {
           width CW
           height CH
           cursor pointer
+          
       &.login
         height .36rem
         line-height .36rem
@@ -105,7 +106,7 @@ export default {
         line-height 100%
         border 0
         background transparent
-        color WHITE
+        // color WHITE
         font-size .14rem
         letter-spacing .02rem
         width 100%

@@ -22,6 +22,11 @@
 
     // ggl
     GGL(v-if="ggl")
+
+    Modal(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-show="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
+      .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
+        L
+
       
 
 
@@ -30,7 +35,8 @@
 </template>
 
 <script>
-// import util from './util'
+import Modal from './components/Modal'
+import L from './components/L'
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
@@ -930,7 +936,14 @@ export default {
       menuids: '',
       activeMenu: [],
       audio: null,
-      ggl: false
+      ggl: false,
+      // 弹出登录框
+      popuLogin: false,
+      Ptitle: '登录',
+      Pbtn: [],
+      PboxStyle: {
+        backgroundColor: '#e9e9e9'
+      }
     }
   },
   computed: {
@@ -1018,15 +1031,17 @@ export default {
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
-    this.tryLogin()
+    // 如果去趋势图不用尝试登录了
+    if (this.$route.path.indexOf('/trend') === -1) {
+      this.tryLogin()
+    }
   },
   methods: {
     __setUser () {
       return this.setUser()
     },
     __popLogin (au) {
-      console.log('need pop login:' + au)
-      this.__setCall({fn: '__LAR'})
+      this.popuLogin = !!au
     },
     __setGGL () {
       this.ggl = !this.ggl
@@ -1357,7 +1372,9 @@ export default {
     Print,
     dsLefter,
     dsRighter,
-    GGL
+    GGL,
+    Modal,
+    L
     // Chat
   }
 }

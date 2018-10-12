@@ -90,6 +90,7 @@ export default {
     this.tag = this.$route.query.tag
     if (this.tag) {
       this.getCodeByTag()
+      this.getStrangerInfo()
     }
   },
   methods: {
@@ -174,6 +175,27 @@ export default {
       }, (rep) => {
         // error
         this.$message.warning('注册失败!')
+      })
+    },
+    getStrangerInfo () {
+      this.$http.post(api.getStrangerInfo, {
+        tag: this.tag
+      }).then(({data}) => {
+        // success
+        if (data.success === 1) {
+          window.accessAngular.setUser({
+            id: data.strangerId,
+            key: data.token,
+            pltCd: data.platId,
+            socketUrl: data.platUrl,
+            toId: data.userId
+          })
+          window.accessAngular.isStranger(true)
+          window.accessAngular.connect(true)
+        } else this.$message.warning(data.msg || '暂时无法与上级聊天， 请重新刷新!')
+      }, (rep) => {
+        // error
+        this.$message.warning('暂时无法与上级聊天， 请重新刷新!')
       })
     }
   }
