@@ -32,7 +32,7 @@
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
       
       el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
-      span.p(v-if="P" v-show="!HC6") {{ ps}} - {{ prize }}
+      span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") {{ ps}} - {{ prize }}
 
     el-col.right(:span=" 10 ")
       | 已选 
