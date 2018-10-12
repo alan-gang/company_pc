@@ -57,8 +57,8 @@ export default {
           this.$http.post(api.validate, {userName: this.l.un, userPwd: this.l.pwd, verifyCode: this.code_, channelType: 'web', timeout: 5000}).then(({data}) => {
             // success
             if (data.success === 1) {
-              this.__setCall({fn: '__popLogin', args: false})
               this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
+              this.__setCall({fn: '__popLogin', args: false})
             } else {
               this.$message.error(data.msg || '用户名或密码错误！')
               this.code_ = ''

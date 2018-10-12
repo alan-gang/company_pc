@@ -31,14 +31,14 @@
           el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
             p {{ c.title }}
 
-          .absolute.rank.t_l
+          .absolute.rank.t_l(@mouseover="leaderBoard")
             p.ft18 玩家排行 
             dl
               dd(v-for=" (r, i) in rank ")
                 span.rank-index {{ i + 1 }}
-                span.rank-un {{ r.un }}
+                span.rank-un {{ r.username }}
                 | 赢得¥
-                span.rank-money {{ r.money }}
+                span.rank-money {{ r.settlement.toFixed(0)._nwc() }}
 
         .title 
           p.t1.c_f 我们的游戏
@@ -185,16 +185,7 @@ export default {
       ifsrc: '',
       sports: false,
       rank: [
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'},
-        {un: 'ab***01', money: '18215'}
+        {username: 'ab***01', settlement: 18215}
       ],
       smpics: [
         '/static/pic/newhome/index_aboutus_01.jpg',
@@ -337,8 +328,10 @@ export default {
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     },
     leaderBoard () {
-      this.$http.get(api.leaderBoard).then(({data}) => {
-        console.log(data)
+      this.$http.get(api.leaderBoard).then(({data: {data, success}}) => {
+        if (success === 1) {
+          this.rank = data
+        }
       })
     },
     onResize (evt) {

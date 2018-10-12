@@ -944,7 +944,8 @@ export default {
       Pbtn: [],
       PboxStyle: {
         backgroundColor: '#e9e9e9'
-      }
+      },
+      redirect: ''
     }
   },
   computed: {
@@ -1043,9 +1044,14 @@ export default {
     },
     Pclose () {
       this.popuLogin = false
+      window.NProgress.done()
+      this.redirect = ''
       return false
     },
     __popLogin (au) {
+      if (typeof au === 'string') {
+        this.redirect = au.split(':')[1]
+      }
       this.popuLogin = !!au
     },
     __setGGL () {
@@ -1090,6 +1096,11 @@ export default {
     },
     openRoute ({path, params: {url}}) {
       if (!url) store.actions.updateAllPages({active: false})
+      else {
+        setTimeout(() => {
+          this.openTab(url)
+        }, 0)
+      }
     },
     __music () {
       if (!this.audio) this.audio = new window.Audio('/static/media/24_Ctu.mp3')
@@ -1150,6 +1161,7 @@ export default {
     loginSuccess (data) {
       // this.__setCall({fn: '__getUserFund', callId: undefined})
       // setTimeout(this.getUserPrefence, 1000)
+      if (this.redirect) this.$router.push(this.redirect)
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()
@@ -1170,7 +1182,7 @@ export default {
           vip: data.isVip,
           isVip: data.isVip
         })
-        this.$router.push('/')
+        // this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
           id: data.userId,

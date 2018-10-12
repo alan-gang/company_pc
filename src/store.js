@@ -130,6 +130,7 @@ let store = {
       })
     },
     updatePage (id, {opened, active, size, star, position, desk}, page) {
+      console.log(id, {opened, active, size, star, position, desk}, '////////////')
       page = page || store.state.pages.filter(p => p.id === id || p.menuid === id)[0]
       // console.log('page:', JSON.stringify(page), 'updatePage:', id, 'opened:', opened, 'active:', active, 'size:', size, 'star:', star, 'position:', position)
       if (page && page.size === 'minus' && active) size = page.defaultSize

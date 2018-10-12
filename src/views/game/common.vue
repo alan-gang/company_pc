@@ -86,6 +86,7 @@ export default {
   props: ['page', 'money', 'free'],
   data () {
     return {
+      ME: store.state.user,
       isTry: store.state.user.isTry,
       scrollAtBottom: false,
       // 页面的url
@@ -447,6 +448,7 @@ export default {
       })
     },
     __getTraceIssueList () {
+      if (!this.ME.login) return (this.issues = [])
       if (this.issues && this.issues.length > 20) return this.issues.shift()
       this.$http.mypost(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success

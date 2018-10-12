@@ -71,7 +71,7 @@ let router = new VueRouter({
         {
           path: '/activity/:url',
           meta: {
-            // rl: true
+            rl: true
           },
           component: Pages
         },
