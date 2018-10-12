@@ -17,8 +17,8 @@
     dd.ds-button._36rem.full.bold.primary(@click="login") 登录
 
     p(style="margin-top: 0")
-      span.de(@click=" $router.push('/login/forget') ") 忘记密码？
-      span.db.f_r(@click=" $router.push('/login/try') ") 试玩登录
+      span.de(@click=" __setCall({fn: '__popLogin', args: false}) || $router.push('/login/forget') ") 忘记密码？
+      span.db.f_r(@click=" __setCall({fn: '__popLogin', args: false}) || $router.push('/login/try') ") 试玩登录
 
 
 </template>

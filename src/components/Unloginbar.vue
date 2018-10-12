@@ -1,7 +1,7 @@
 <template lang="jade">
   .unloginbar
     .content-width
-      el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false" v-model="show")
+      el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false")
         span(slot="reference")
           span.a 登录 | 注册
         slot
@@ -20,7 +20,6 @@ export default {
   props: [],
   data () {
     return {
-      show: false
     }
   },
   created () {
@@ -39,7 +38,7 @@ export default {
 .lar-popover
   transform translateX(.7rem) translateY(-.05rem)
   padding 0 !important
-  z-index 9999 !important
+  z-index 1901 !important
 .unloginbar
   text-align right
   background-color #ffa930

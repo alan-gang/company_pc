@@ -1,6 +1,6 @@
 <template lang="jade">
   .game-side-buttons
-    button.ds-button.small.fix-right( @click=" ME.login && $router.push('/form/4-5-3?gameid=' + gameid) " v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: .25rem; line-height: 1.5; z-index: 9999" v-bind:disabled=" !ME.login " v-bind:class=" {disabled: !ME.login} " ) 遗漏分析
+    .ds-button.small.fix-right( @click=" ME.login ? $router.push('/form/4-5-3?gameid=' + gameid) : __setCall({fn: '__popLogin', args: 'Login'}) " v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: .25rem; line-height: 1.5; z-index: 9999" ) 遗漏分析
     
     // .ds-button.fix-right(v-if="methodidtype === '1' " style="padding: .05rem .1rem; position: absolute; right: -.4rem; width: .4rem; top: 2.25rem; line-height: 1.5; z-index: 9999; margin-left: .05rem;" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
     

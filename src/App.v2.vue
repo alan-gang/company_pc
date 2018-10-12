@@ -22,8 +22,9 @@
 
     // ggl
     GGL(v-if="ggl")
-
-    Modal(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-show="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
+    
+    // Login
+    Modal(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-if="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
         L
 
@@ -1039,6 +1040,10 @@ export default {
   methods: {
     __setUser () {
       return this.setUser()
+    },
+    Pclose () {
+      this.popuLogin = false
+      return false
     },
     __popLogin (au) {
       this.popuLogin = !!au

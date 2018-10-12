@@ -29,12 +29,12 @@
 
       el-col.c.text-center(:span="5")
         p.ba.ft18 我的上级
-        .bb.ds-button._36rem.bold.black-button(@click="") 立即联系
+        .bb.ds-button._36rem.bold.black-button(@click=" __setCall({fn: '__popLogin', args: true})  ") 稍后联系
 
       el-col.d(:span="7")
         p 
           span.da.ft18 登录
-          span.db.f_r(@click=" $router.push('/login/try') ") 试玩登录
+          span.db.f_r(@click=" __setCall({fn: '__popLogin', args: false}) || $router.push('/login/try') ") 试玩登录
         p.dc.ds-icon-notice(:class=" { o_none: regard === false } ") 问候语： 
           span.text-blue {{ regard || '空' }}
         dl
@@ -51,7 +51,7 @@
           dd.ds-button._36rem.full.bold.black-button(@click="login") 登录
 
           p(style="margin-top: 0")
-            span.de(@click=" $router.push('/login/forget') ") 忘记密码？
+            span.de(@click=" __setCall({fn: '__popLogin', args: false})|| $router.push('/login/forget') ") 忘记密码？
             //- span.f_r.df 无法登录
 
 </template>
