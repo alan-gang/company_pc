@@ -987,7 +987,7 @@ export default {
             if (this.Me.login) {
               this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
             } else {
-              this.activeMenu = [this.menus[11 + 5], this.menus[12 + 5]]
+              this.activeMenu = [this.menus[12 + 5]]
             }
           }
         }

@@ -84,7 +84,7 @@
               span.t2 CHESS
 
         el-row(:gutter=15 style="padding: .3rem 0")
-          el-col.picture.sport(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+          el-col.picture.sport(:span="12" )
             .co
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
@@ -324,6 +324,7 @@ export default {
         }
         window.open(this.formData[fn])
         this.formData[fn] = undefined
+        return false
       }
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     },
