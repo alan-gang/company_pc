@@ -91,7 +91,7 @@
 
       dd.actions(v-if="!finish")
         router-link.back.ds-button.text-button.light.small(:to="'/login/login'" @click.native.stop="") 
-          | <返回登录
+          | <返回首页
         router-link.try.ds-button.text-button.light.small(:to="'/login/try'" @click.native.stop="") 
           | 试玩登录
 </template>

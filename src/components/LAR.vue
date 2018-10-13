@@ -92,6 +92,7 @@ export default {
       this.getCodeByTag()
       this.getStrangerInfo()
     }
+    this.__setCall({fn: '__LAR'})
   },
   methods: {
     // 登录

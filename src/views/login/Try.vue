@@ -9,7 +9,7 @@
 
     dd.actions
       router-link.back.ds-button.text-button.light.small(:to="'/login/login'" @click.native.stop="") 
-        | <返回登录
+        | <返回首页
 </template>
 
 <script>

@@ -8,7 +8,7 @@ const C404 = r => require.ensure([], () => r(require('../views/login/404')), 'lo
 const C500 = r => require.ensure([], () => r(require('../views/login/500')), 'login-part')
 const C503 = r => require.ensure([], () => r(require('../views/login/503')), 'login-part')
 const Forbidden = r => require.ensure([], () => r(require('../views/login/Forbidden')), 'login-part')
-const Register = r => require.ensure([], () => r(require('../views/login/Register')), 'login-part')
+// const Register = r => require.ensure([], () => r(require('../views/login/Register')), 'login-part')
 const LoginTest = r => require.ensure([], () => r(require('../views/login/LoginTest')), 'login-part')
 // const LoginNow = r => require.ensure([], () => r(require('../views/login/Login')), 'login-part')
 const Try = r => require.ensure([], () => r(require('../views/login/Try')), 'login-part')
@@ -94,7 +94,7 @@ let router = new VueRouter({
         { path: '500', component: C500 },
         { path: '503', component: C503 },
         { path: 'forbidden', component: Forbidden },
-        { path: 'register', component: Register },
+        // { path: 'register', component: Register },
         { path: '', component: LoginTest },
         // { path: 'login',
         //   meta: {

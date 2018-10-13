@@ -98,7 +98,7 @@
           el-col.picture.card(:span="12")
             .co
               img(src="/static/pic/newhome/index_newbanner_06.jpg")
-              el-row.absolute(style="height: .4rem; line-height: .4rem; color: gray; opacity: .8;")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
                 el-col.t_c.ft18(:span="24") 敬请期待
 
             p
@@ -172,10 +172,10 @@ export default {
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        {class: 'index_icon_04', id: '1-1-4', title: '福彩3D'},
+        {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
         {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
-        {class: 'index_icon_07', id: '1-5-2', title: '福彩3D'},
-        {class: 'index_icon_09', id: '1-5-3', title: '11运夺金'},
+        {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
+        {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
         {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
       ],
       formData: {
