@@ -47,7 +47,7 @@ import Print from './components/Print'
 // import Chat from './components/Chat'
 import base from './components/base'
 import store from './store'
-import cookie from 'js-cookie'
+// import cookie from 'js-cookie'
 import api from './http/api'
 export default {
   name: 'App',
@@ -243,8 +243,8 @@ export default {
                 {class: 'ds-icon-game-ahK3  ', id: '1-4-1', menuid: '82', title: '安徽快三', volume: true, gameid: 23},
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
                 {class: 'ds-icon-game-jlK3 ', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
-                {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26}
-                // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
+                {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
+                {class: 'ds-icon-game-hlK3 sign new', id: '1-4-5', menuid: '19', title: '欢乐快三', volume: true, gameid: 33}
               ]
             },
             {
@@ -1097,9 +1097,17 @@ export default {
     openRoute ({path, params: {url}}) {
       if (!url) store.actions.updateAllPages({active: false})
       else {
+        // [0, 50, 100, 150, 200, 250].forEach(t => {
+        //   setTimeout(() => {
+        //     if (this.$route.params.url && !this.ctabs[0]) this.openTab(url)
+        //   }, 50)
+        // })
         setTimeout(() => {
           this.openTab(url)
         }, 0)
+        // setTimeout(() => {
+        //   !this.ctabs[0] && this.$router.push('/')
+        // }, 300)
       }
     },
     __music () {
@@ -1306,8 +1314,8 @@ export default {
       this.$http.get(api.logout)
       this.setUser()
       document.body.className = this.Me.css
-      cookie.remove('JSESSIONID')
-      if (!args) this.$router.push('/login/login')
+      // cookie.remove('JSESSIONID')
+      // if (!args) this.$router.push('/login/login')
       if (args && args.fn) args.fn()
       this.__logoutChat()
     },
@@ -1353,6 +1361,9 @@ export default {
           })
           this.tabs = x
           this.setPages(pages)
+
+          this.openTab(this.$route.params.url)
+
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})

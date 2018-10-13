@@ -156,6 +156,13 @@
   &.new-game-info
     background-size auto !important
 
+.ds-icon-game-hlK3:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/ks_icon_05.png) center no-repeat
+  // background url(../NDS/src/assets/game/k3.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+
 .ds-icon-game-bjK3:not(.ds-button)
   background-size 80px !important
   background url(../NDS/src/assets/game/ks_icon_04.png) center no-repeat
