@@ -89,12 +89,13 @@ export default {
           class: 'ds-icon-group',
           hide: true,
           url: 'group',
+          removed: true,
           groups: [
             {
               items: [
                 {
                   id: '3-3-2',
-                  // menuid: '29',
+                  menuid: '45',
                   title: '分红详情',
                   url: 'StockDetail',
                   position: {
@@ -1271,7 +1272,7 @@ export default {
       // some url likes /form/4-2-1 !== page.id != 4-2-1
       if (url && url.indexOf('/') !== -1) url = url.slice(url.lastIndexOf('/') + 1)
       // console.log(this.$route.params.url === url, url, '|||||')
-      if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
+      if (this.$route.params.url === url && url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
@@ -1318,6 +1319,7 @@ export default {
       // if (!args) this.$router.push('/login/login')
       if (args && args.fn) args.fn()
       this.__logoutChat()
+      if (this.$route.meta.rl) this.$router.push('/')
     },
     __logout (args) {
       this.logout(args)
@@ -1347,21 +1349,16 @@ export default {
             this.menuids += ',!98,'
           }
           this.setUser({menuids: this.menuids, canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          // this.setPages(
           let pages = this._getPages()
           let x = []
           this.tabs.forEach((t, i) => {
             if (!pages.find(x => x.id === t.id)) {
-              // this.tabs.splice(i, 1)
             } else {
-              // console.log(t.id)
-              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
               x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
           this.tabs = x
           this.setPages(pages)
-
           this.openTab(this.$route.params.url)
 
           this.$nextTick(() => {

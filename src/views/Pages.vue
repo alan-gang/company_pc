@@ -46,7 +46,7 @@ import Contract from './group/Contract'
 import OtherContract from './group/OtherContract'
 import ContractDetail from './group/ContractDetail'
 import Stock from './group/Stock'
-import StockDetail from './group/StockDetail'
+// import StockDetail from './group/StockDetail'
 import DataAnalysis from './group/DataAnalysis'
 import ChartAnalysis from './group/ChartAnalysis'
 
@@ -140,7 +140,7 @@ export default {
     OtherContract,
     ContractDetail,
     Stock,
-    StockDetail,
+    // StockDetail,
     DataAnalysis,
     ChartAnalysis,
     // form
@@ -405,10 +405,6 @@ export default {
     })
   },
   mounted () {
-    this.__setCall({fn: '__hidePool', callId: undefined})
-    setTimeout(() => {
-      this.__setCall({fn: '__hidePool', callId: undefined})
-    }, 500)
   },
   beforeDestroy () {
     // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))
