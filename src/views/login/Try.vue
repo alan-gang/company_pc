@@ -44,7 +44,7 @@ export default {
             isTry: true
             // guide: data.isTry !== '1'
           })
-          // this.$router.push('/')
+          this.$router.push('/')
           this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
         } else {
           this.$message.error('试玩登陆失败!')

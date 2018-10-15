@@ -1072,14 +1072,14 @@ export default {
             content: '<pre class="text-666" style="text-align: left;">' + n.content + '</pre>',
             btn: ['知道了'],
             ok () {
-              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+              if (!store.state.user.isTry && !(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
                 modal.btn = ['立即前往设置']
                 modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
                 return false
               }
             },
             close () {
-              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+              if (!store.state.user.isTry && !(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
                 modal.btn = ['立即前往设置']
                 modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
                 return false
