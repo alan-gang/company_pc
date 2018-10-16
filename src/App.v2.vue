@@ -24,7 +24,7 @@
     GGL(v-if="ggl")
     
     // Login
-    Modal(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-if="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
+    Modal.common-login(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-if="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
         L
 
@@ -1408,6 +1408,17 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .common-login.modal
+    .box
+      box-shadow 0 0 10px rgba(0,0,0, .5)
+    .box-wrapper
+      .header-bar
+        padding-left .3rem !important
+        .title
+          padding-top .05rem
+</style>
+
 <style lang="stylus">
   @import './var.stylus'
   @import './path.stylus'

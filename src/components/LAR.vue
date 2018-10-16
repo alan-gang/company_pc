@@ -91,6 +91,7 @@ export default {
     if (this.tag) {
       this.getCodeByTag()
       this.getStrangerInfo()
+      this.__setCall({fn: '__LAR'})
     }
   },
   methods: {

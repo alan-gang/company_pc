@@ -32,7 +32,7 @@
             p {{ c.title }}
 
           .absolute.rank.t_l(@mouseover="leaderBoard")
-            p.ft18 玩家排行 
+            p.ft18 赢家榜 
             transition(name="slide-left" appear=true)
               dl.absolute(v-show=" ri === 0 " key="0")
                 dd(v-for=" (r, i) in rank.slice(0, 10) ")
@@ -42,8 +42,8 @@
                   span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
             transition(name="slide" appear=true )
               dl.absolute(v-show=" ri === 1 " key="1")
-                dd(v-for=" (r, i) in rank.lenth > 10 ? rank.slice(10, 20) : rank ")
-                  span.rank-index {{ i + 1 }}
+                dd(v-for=" (r, i) in rank.length > 10 ? rank.slice(10, 20) : rank ")
+                  span.rank-index {{ (rank.length > 10 ? 11 : 1) + i }}
                   span.rank-un.inlb {{ r.username }}
                   | 赢得¥
                   span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
@@ -77,11 +77,11 @@
               span.t2 CASINO
 
         el-row(:gutter=15 style="padding: .3rem 0")
-          el-col.picture.sport(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe'}}) ")
+          el-col.picture.sport(:span="12" @click.native=" $router.push('/sports') ")
             .co
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
-                el-col.t_c.ft18(:span="24") 沙巴体育
+                el-col.t_c.ft18.sb(:span="24") 
             p
               span.t1 体育竞技 &nbsp;&nbsp;
               span.t2 SPORTS
@@ -90,7 +90,7 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
-                el-col.t_c.ft18(:span="24") 开元棋牌
+                el-col.t_c.ft18.ky(:span="24") 
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -650,6 +650,10 @@ export default {
           background-image url(../assets/newhome/logo_ag_big.png)
         &.dy
           background-image url(../assets/newhome/logo_bg_big.png)
+        &.sb
+          background-image url(../assets/newhome/logo_ibc_big.png)
+        &.ky
+          background-image url(../assets/newhome/logo_ky_big.png)
       
       
       
