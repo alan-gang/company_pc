@@ -256,7 +256,10 @@ export default {
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
-                {url: 'KL8', class: 'ds-icon-game-kl8', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
+                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
+                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
@@ -297,7 +300,8 @@ export default {
           title: '体育竞技',
           big: true,
           // hide: true,
-          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe'}
+          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe'}
+          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'}
         },
         {
           menuid: '98',
@@ -1573,6 +1577,7 @@ export default {
   opacity 0
   &.dialog-container
     transition all linear 0s // @static 2
+
 
 
 

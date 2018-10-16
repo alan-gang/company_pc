@@ -33,12 +33,21 @@
 
           .absolute.rank.t_l(@mouseover="leaderBoard")
             p.ft18 玩家排行 
-            dl
-              dd(v-for=" (r, i) in rank ")
-                span.rank-index {{ i + 1 }}
-                span.rank-un {{ r.username }}
-                | 赢得¥
-                span.rank-money {{ r.settlement.toFixed(0)._nwc() }}
+            transition(name="slide-left" appear=true)
+              dl.absolute(v-show=" ri === 0 " key="0")
+                dd(v-for=" (r, i) in rank.slice(0, 10) ")
+                  span.rank-index {{ i + 1 }}
+                  span.rank-un.inlb {{ r.username }}
+                  | 赢得¥
+                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
+            transition(name="slide" appear=true )
+              dl.absolute(v-show=" ri === 1 " key="1")
+                dd(v-for=" (r, i) in rank.lenth > 10 ? rank.slice(10, 20) : rank ")
+                  span.rank-index {{ i + 1 }}
+                  span.rank-un.inlb {{ r.username }}
+                  | 赢得¥
+                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
+
 
         .title 
           p.t1.c_f 我们的游戏
@@ -71,6 +80,8 @@
           el-col.picture.sport(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe'}}) ")
             .co
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+                el-col.t_c.ft18(:span="24") 沙巴体育
             p
               span.t1 体育竞技 &nbsp;&nbsp;
               span.t2 SPORTS
@@ -78,7 +89,8 @@
           el-col.picture.card(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) ")
             .co
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
-
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+                el-col.t_c.ft18(:span="24") 开元棋牌
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -181,11 +193,35 @@ export default {
       formData: {
       },
       ns: [1, 2, 3, 4, 5],
-      timeout: 0,
       ifsrc: '',
       sports: false,
       rank: [
-        {username: 'ab***01', settlement: 18215}
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182}
       ],
       smpics: [
         '/static/pic/newhome/index_aboutus_01.jpg',
@@ -200,8 +236,13 @@ export default {
         '/static/pic/newhome/index_aboutus_big_04.jpg'
       ],
       bigpici: 0,
-      showbigpic: false
+      showbigpic: false,
+      ri: 0,
+      t1: 0,
+      t2: 0
     }
+  },
+  computed: {
   },
   watch: {
     '$route' ({path, query: {sports}}) {
@@ -219,10 +260,17 @@ export default {
     this.__recentlyCode()
     this.leaderBoard()
     this.onResize()
+    this.t1 = setInterval(() => {
+      if (this.ri === 0) this.ri = 1
+      else this.ri = 0
+    }, 60 * 1000)
+    this.t2 = setInterval(this.leaderBoard, 5 * 60 * 1000)
   },
   beforeDestroy () {
-    clearInterval(this.timeout)
-    this.timeout = 0
+    clearInterval(this.t1)
+    this.t1 = 0
+    clearInterval(this.t2)
+    this.t2 = 0
   },
   methods: {
     getActivityBanner () {
@@ -421,6 +469,7 @@ export default {
     color #302b2a
     // background url(../assets/v2/index_bg02.png) no-repeat
     background url(../assets/newhome/index_cp_bg-min.png) no-repeat
+    background-size 12rem
     
     &:before
       content ''
@@ -431,6 +480,7 @@ export default {
       left 0
       right 60%
       background url(../assets/newhome/girl-min.png) no-repeat
+      background-size 3.71rem
       
     .intro
       font-shadow(none)
@@ -501,12 +551,6 @@ export default {
         background url(../assets/newhome/index_icon_b_09.png) 50% no-repeat
       &.index_icon_10
         background url(../assets/newhome/index_icon_b_10.png) 50% no-repeat
-      // &.index_icon_11
-      //   background url(../assets/newhome/index_icon_b_11.png) 50% no-repeat
-      // &.index_icon_12
-      //   background url(../assets/newhome/index_icon_b_12.png) 50% no-repeat
-      // &.index_icon_13
-      //   background url(../assets/newhome/index_icon_b_13.png) 50% no-repeat
 
       &:hover
         padding-top H - 2*PW
@@ -535,15 +579,25 @@ export default {
       right 0
       top 0
       width 2rem
+      height 5rem
+      border 2px
       color #fff
       line-height .2rem
       padding .35rem 0 .1rem 0
+      overflow hidden
+      
+      
+
       dl
         padding-top .25rem 
+        &[class*=-enter]
+        &[class*=-leave]
+          transition all linear 1s
         dd
           margin-bottom .2rem
           
       .rank-un
+        width .5rem
         margin-right .2rem
         
       .rank-index
@@ -621,6 +675,14 @@ export default {
     height 1.9rem
   .picture.b
     height 1.5rem
+    &:hover
+      img
+        opacity 1
+        width 110%
+        left -5%
+        top -5%
+      
+
   .title
     border-left 3px solid BLUE
     padding-left .1rem

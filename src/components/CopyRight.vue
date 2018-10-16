@@ -73,34 +73,62 @@
     data () {
       return {
         infos: [
-          {class: 'load', title: '充值', subtitle: '到账时间', number: '0.3', tail: '秒', detail: '平台支持超过28家银行充值，可24小时在线充值。充值平均每笔到账时间为0.3秒，充值贴心，所有充值方式包括移动端均不收取手续费。'},
-          {class: 'with', title: '提款', subtitle: '到账时间', number: '30', tail: '秒', detail: '平台拥有自主研发全自动审核及付款系统，提款平均每笔到账时间为30秒，提款极速到账，无需更多等待。'},
-          {class: 'plat', title: '火爆', subtitle: '存款人数', number: '5000', tail: '人', detail: '采用最先进的数据加密技术。交易信息以非明文方式传输和存储，即使外部入侵，数据也不可读，确保万无一失。'},
-          {class: 'bank', title: '诚信', subtitle: '今日兑奖', number: '8000', tail: '元', detail: '目前合作的银行有28家，并且还在努力为用户提供更多的银行可供选择，以及支持更多的移动支付方式。'}
+          {class: 'load', title: '充值', subtitle: '到账时间', number: (0.3 + Math.random() * 2.7).toFixed(1), tail: '秒', detail: '平台支持超过28家银行充值，可24小时在线充值。充值平均每笔到账时间为0.3秒，充值贴心，所有充值方式包括移动端均不收取手续费。'},
+          {class: 'with', title: '提款', subtitle: '到账时间', number: (30 + Math.random() * 90).toFixed(0), tail: '秒', detail: '平台拥有自主研发全自动审核及付款系统，提款平均每笔到账时间为30秒，提款极速到账，无需更多等待。'},
+          {class: 'plat', title: '火爆', subtitle: '存款人数', number: (5000 + Math.random() * 3000).toFixed(0), tail: '人', detail: '每日平均实时在线12682人，每日平均存款人数5288人，玩家的拥簇，印证平台10年沉淀，同时也是实力的佐证。'},
+          {class: 'bank', title: '诚信', subtitle: '今日兑奖', number: '9999', tail: '万', detail: '日均兑奖8678万，单日峰值2.2亿兑奖，1厘起购，百万奖金，不收取任何手续费，历史100%兑付。'}
         ],
         // need jump numbers
-        jump: true
+        jump: true,
+        n2: (5000 + Math.random() * 3000).toFixed(0),
+        n3s: [Math.random() * 500, (500 + Math.random() * 500), (1000 + Math.random() * 1000), (2000 + Math.random() * 1000), (3000 + Math.random() * 2000), (5000 + Math.random() * 2000), (7000 + Math.random() * 2000)],
+        tn: 0
+      }
+    },
+    computed: {
+      n3 () {
+        return parseInt(this.n3s[this.tn])
       }
     },
     watch: {
       global: {
         deep: true,
         handler () {
-          if (this.jump && this.global.st > (this.global.sh * 0.37)) this.doing()
+          if (this.jump && this.global.st > (this.global.sh * 0.37)) {
+            this.doing(2)
+            this.doing(3)
+            this.jump = false
+          }
         }
+      },
+      n3 () {
+        this.doing(3)
       }
     },
+    created () {
+      this.setTn()
+      setInterval(this.setTn, 60 * 1000)
+      this.infos[2].number = this.n2
+    },
     methods: {
-      doing () {
-        this.jump = false
-        this.infos[2].number = 1000
-        this.infos[3].number = 4000
+      setTn () {
+        let h = new Date().getHours()
+        if (h < (1 + 1)) this.tn = 0
+        else if (h < (2 + 1)) this.tn = 1
+        else if (h < (8 + 1)) this.tn = 2
+        else if (h < (12 + 1)) this.tn = 3
+        else if (h < (18 + 1)) this.tn = 4
+        else if (h < (20 + 1)) this.tn = 5
+        else if (h < (24 + 1)) this.tn = 6
+      },
+      doing (i) {
+        this.infos[i].number = 0
         let t = setInterval(() => {
-          this.infos[2].number += 11
-          this.infos[3].number += 11
-          if (this.infos[2].number > 5000) this.infos[2].number = 5000
-          if (this.infos[3].number > 8000) this.infos[3].number = 8000
-          if (this.infos[2].number === 5000 && this.infos[3].number === 8000) clearInterval(t)
+          this.infos[i].number += 11
+          if (this.infos[i].number > this['n' + i]) {
+            this.infos[i].number = this['n' + i]
+            clearInterval(t)
+          }
         }, 5)
       }
     }
@@ -126,7 +154,7 @@
     
   .e
     padding-right .15rem
-    padding-left .7rem
+    padding-left .55rem
   .e
   .g
   .h

@@ -1,6 +1,5 @@
 <template lang="jade">
 .outer-egame(:style=" bgStyle ")
-  .cw.relative(v-if=" !href ") 加载中...
   .cw
     .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: ii === i} " @click="  ((ii = i) || true) && __setCall({fn: '__openWindowWithPost', args: fns[i]}) ") {{t}}
   .cw(v-if=" href ")
@@ -22,7 +21,7 @@ export default {
       title: '',
       href: '',
       key: '',
-      ii: -1,
+      ii: 0,
       tabs: ['BG电子游戏', 'PT游戏'],
       fns: ['2:203:iframe:/egame', '5:203:iframe:/egame']
     }
@@ -30,15 +29,16 @@ export default {
   watch: {
   },
   created () {
+    this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}})
   },
   mounted () {
-    this.prebg = document.body.style.background
-    document.body.setAttribute('nolefter', 'true')
-    document.body.style.background = '#27262b'
+    // this.prebg = document.body.style.background
+    // document.body.setAttribute('nolefter', 'true')
+    // document.body.style.background = '#27262b'
   },
   beforeDestroy () {
-    document.body.style.background = this.prebg
-    document.body.removeAttribute('nolefter')
+    // document.body.style.background = this.prebg
+    // document.body.removeAttribute('nolefter')
     this.clearIframe()
   },
   methods: {

@@ -1212,7 +1212,7 @@ export default {
 [class*=-enter]
 [class*=-leave]
 // [class*=-move]
-  transition all linear .2s // @static 2
+  transition all linear 120.2s // @static 2
 
 .zoom-enter-active, .zoom-leave-active
     // opacity 0

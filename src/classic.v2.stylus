@@ -607,7 +607,7 @@ body
         .the-number
           width .25rem
           height .25rem
-          line-height .25rem
+          line-height .25rem !important
 
     &:not(.long):not(.game-K3)
       .number
@@ -674,6 +674,7 @@ body
         .the-number
           color #666 !important
           background-color #fff !important
+          
   .game-page .game-side-buttons
     top -.25rem
     &>.ds-button:not(.recent-codes)

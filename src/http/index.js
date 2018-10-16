@@ -73,10 +73,11 @@ export default (Vue) => {
       //   return req
       // },
       response (rep) {
-        // 用户过期
+        // 测速
         // if (!rep.data) return rep
+        // 用户过期
         !VM && (VM = router.apps[0].$children[0])
-        if (rep.data.success === -1) {
+        if (rep.data && rep.data.success === -1) {
           VM && VM.__setUser({login: false})
           VM && VM.__popLogin('Login:' + router.currentRoute.fullPath)
         } else if (rep.data && rep.data.success === -3) {

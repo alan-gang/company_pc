@@ -16,6 +16,7 @@ const Forget = r => require.ensure([], () => r(require('../views/login/Forget'))
 
 const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
 const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
+const Sports = r => require.ensure([], () => r(require('../views/outer/Sports')), 'pages-part')
 
 let router = new VueRouter({
   // mode: 'history',
@@ -26,6 +27,13 @@ let router = new VueRouter({
       },
       component: require('../views/Home.v2'),
       children: [
+        {
+          path: '/sports',
+          meta: {
+            rl: true
+          },
+          component: Sports
+        },
         {
           path: '/egame',
           meta: {

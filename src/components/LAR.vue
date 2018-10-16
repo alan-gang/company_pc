@@ -29,7 +29,7 @@
 
       el-col.c.text-center(:span="5")
         p.ba.ft18 我的上级
-        .bb.ds-button._36rem.bold.black-button(@click=" __setCall({fn: '__popLogin', args: true})  ") 稍后联系
+        .bb.ds-button._36rem.bold.black-button(@click=" __setCall({fn: '__popLogin', args: true})  ") 马上联系
 
       el-col.d(:span="7")
         p 

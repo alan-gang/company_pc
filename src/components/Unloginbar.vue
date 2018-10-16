@@ -6,15 +6,23 @@
           span.a 登录 | 注册
         slot
           LAR
-      span.b(@click=" $router.push('/login') ") 测速
+
+      el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lt-popover' " v-bind:visible-arrow="false")
+        span(slot="reference")
+          span.b 测速
+        slot
+          .content-width
+            LT
 
 </template>
 
 <script>
 import LAR from './LAR'
+import LT from '../views/login/LoginTest'
 export default {
   components: {
-    LAR
+    LAR,
+    LT
   },
   name: 'unloginbar',
   props: [],
@@ -37,9 +45,22 @@ export default {
 @import '../var.stylus'
 // 建议不添加scoped， 所有样式最多嵌套2层
 .lar-popover
+.lt-popover
   transform translateX(.7rem) translateY(-.05rem)
   padding 0 !important
   z-index 1901 !important
+.lt-popover
+  transform translateX(0) translateY(-.05rem)
+  background rgba(0,0,0, .95) !important
+  // background #e9e9e9 !important
+  .login-test 
+    h2
+      display none
+    // .routers .col-content
+    //   background-color rgba(0, 0, 0, .2)
+  
+  
+  
 .unloginbar
   text-align right
   background-color #ffa930
