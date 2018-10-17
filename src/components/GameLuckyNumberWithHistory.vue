@@ -20,7 +20,8 @@
               //.the-number {{ n }}
               //.the-number(v-if="String(n).length > 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n | padStart(2, 0)  }}
               //.the-number(v-if="String(n).length === 1" v-for=" (xx, nn ) in Array(50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ n }}
-              .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(Numbers20 ? 100 : 50) " v-bind:style=" {transform: 'translateY(' + (-100 * n)  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease' } ") {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
+              .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (Numbers20 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
+                .the-number(:class=" 'HC6-' + getColorOfNumber(nn) " v-for=" (xx, nn ) in Array(Numbers20 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayLuckNumbers[i] : nn }}
 
             // 按钮区
             .buttons(style="display: inline-block" v-if=" gameType === 'HC6' ")

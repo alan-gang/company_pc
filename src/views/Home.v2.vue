@@ -1,6 +1,7 @@
 <template lang="jade">
-  section.new-home(@scroll="scrollHander")
-    Me(:menus="menus" v-on:open-page="openTab")
+  section.new-home(@scroll="scrollHander" @resize="onResize")
+    Me(v-if="me.login" v-bind:menus="menus" v-on:open-page="openTab" )
+    Unloginbar(v-else)
     
     MyMenu(:menus="menus.slice(0, 12).concat(menus[16])" v-on:open-page="openTab")
 
@@ -13,95 +14,129 @@
     
     .box.our-game
       .content-width
-        el-row.collects.font-white.top-games
+        el-row.collects.top-games.relative
           .intro(@mouseenter="__recentlyCode")
             span.gt 信游彩票
             span.en-name LOTTERY
-            .right
+            .right.ft12
               span.name 重庆时时彩 &nbsp;&nbsp;
               span.number(v-for=" n in ns ") {{ n }}
               |  &nbsp;&nbsp;
-              router-link.ds-button.primary(:to=" '/game/1-1-1' ") 再来一注
+              router-link.ds-button.a-more(:to=" '/game/1-1-1' ") 来一注
                 .el-icon-arrow-right
             .line
-            p 信游彩票包含时时彩，11选五，快三，PK10，福彩3D，排三排五，六合彩等多种游戏，玩法齐全，同时开发了多个快频彩票，还有VR视频美女开奖，满足您不同的需求。
+            p.t_l 时时彩是中国福利彩票时时彩的简称，时时彩是一种经中国国家财政部批准，由中国福利彩票发行管理中心在重庆市所辖区域内发行，由重庆市福利彩票发行中心承销的彩票。
 
 
           el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
             p {{ c.title }}
 
-        //- .title 
-          p.t1 我们的游戏
+          .absolute.rank.t_l(@mouseover="leaderBoard")
+            p.ft18 赢家榜 
+            transition(name="slide-left" appear=true)
+              dl.absolute(v-show=" ri === 0 " key="0")
+                dd(v-for=" (r, i) in rank.slice(0, 10) ")
+                  span.rank-index {{ i + 1 }}
+                  span.rank-un.inlb {{ r.username }}
+                  | 赢得¥
+                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
+            transition(name="slide" appear=true )
+              dl.absolute(v-show=" ri === 1 " key="1")
+                dd(v-for=" (r, i) in rank.length > 10 ? rank.slice(10, 20) : rank ")
+                  span.rank-index {{ (rank.length > 10 ? 11 : 1) + i }}
+                  span.rank-un.inlb {{ r.username }}
+                  | 赢得¥
+                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
+
+
+        .title 
+          p.t1.c_f 我们的游戏
           p.t2 OUR GAMES
 
         el-row(:gutter=15 style="padding-bottom: .2rem")
           
-          el-col.picture.lhg(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+          el-col.picture.lhg(:span="12" )
             .co
-              img(src="/static/pic/lhg.jpg")
-            //- p
-              span.t1 体育竞技 &nbsp;&nbsp;
-              span.t2 SPORTS
-              span.f_r 立即进行 >
-          el-col.picture.bjl(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
-            .co
-              img(src="/static/pic/bjl.jpg")
-
-            //- p
-              span.t1 真人娱乐 &nbsp;&nbsp;
-              span.t2 CASINO
-              span.f_r 立即进行 >
-
-        //- el-row(:gutter=15 style="padding-bottom: .3rem")
-          el-col.picture.a.lhg(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
-            .co
-              img(src="/static/pic/home/3.jpg")
+              img(src="/static/pic/newhome/index_newbanner_01.jpg")
+              el-row.absolute
+                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
+                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}}) ") 
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
-              span.f_r 立即进行 >
-          el-col.picture.a.fish(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
+          el-col.picture.bjl(:span="12" )
             .co
-              img(src="/static/pic/home/4.jpg")
-
+              img(src="/static/pic/newhome/index_newbanner_02.jpg")
+              el-row.absolute
+                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ") 
+                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ") 
             p
-              span.t1 捕鱼达人 &nbsp;&nbsp;
-              span.t2 FISHING
-              span.f_r 立即进行 >
+              span.t1 真人娱乐 &nbsp;&nbsp;
+              span.t2 CASINO
 
-          el-col.picture.a.chess(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) ")
+        el-row(:gutter=15 style="padding: .3rem 0")
+          el-col.picture.sport(:span="12" @click.native=" $router.push('/sports') ")
             .co
-              img(src="/static/pic/home/5.jpg")
+              img(src="/static/pic/newhome/index_newbanner_03.jpg")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+                el-col.t_c.ft18.sb(:span="24") 
+            p
+              span.t1 体育竞技 &nbsp;&nbsp;
+              span.t2 SPORTS
 
+          el-col.picture.card(:span="12" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) ")
+            .co
+              img(src="/static/pic/newhome/index_newbanner_04.jpg")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+                el-col.t_c.ft18.ky(:span="24") 
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
-              span.f_r 立即进行 >
-        //- .title 
-          p.t1 精彩活动
-          p.t2 ACTIVITY
-        //- el-row(:gutter=15 style="padding-bottom: .3rem")
-          el-col.picture.b.lhg(:span="6" @click.native=" openBanner() ")
+
+        el-row(:gutter=15 style="padding: .3rem 0")
+          el-col.picture.sport(:span="12" )
             .co
-              img(src="/static/pic/home/6.jpg")
-            p 信游抢楼大抽奖，每天3888无限送
-          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
+              img(src="/static/pic/newhome/index_newbanner_05.jpg")
+              el-row.absolute
+                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ") 
+                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ") 
+            p
+              span.t1 捕鱼达人 &nbsp;&nbsp;
+              span.t2 FISHING
+
+          el-col.picture.card(:span="12")
             .co
-              img(src="/static/pic/home/7.jpg")
+              img(src="/static/pic/newhome/index_newbanner_06.jpg")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
+                el-col.t_c.ft18(:span="24") 敬请期待
 
-            p 体育高返水，每周无限返水
+            p
+              span.t1 电子竞技 &nbsp;&nbsp;
+              span.t2 EGAMING
 
-          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
+        .title(style="margin-top: .2rem") 
+          p.t1 关于我们
+          p.t2 ABOUT US
+        el-row(:gutter=15 style="padding-bottom: .3rem")
+          el-col.picture.b.lhg(:span="6" @click.native=" (showbigpic = true) &&  (bigpici = i) " v-for=" (img, i) in smpics " )
             .co
-              img(src="/static/pic/home/8.jpg")
+              img(:src=" img ")
+        
+        .showup(v-show=" showbigpic ")
+          .showup-modal.fixed(style="top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.7); z-index: 9999")
+          .showup-wrap
+            .content.relative
+              .close.absolute(@click=" showbigpic = false ")
+              .left.absolute(:class=" {active: bigpici > 0} "  @click=" bigpici > 0 && (bigpici--) ")
+              .right.absolute(:class=" {active: bigpici < (bigpics.length - 1) } " @click=" bigpici < (bigpics.length - 1) && (bigpici++) ")
+              img(:src=" bigpics[bigpici] ")
 
-            p 真人、电游、捕鱼返水进行时
 
-          el-col.picture.b.bjl(:span="6" @click.native=" openBanner() ")
-            .co
-              img(src="/static/pic/home/9.jpg")
 
-            p 上班工资每月发，平台工资天天领
+
 
 
 
@@ -119,8 +154,7 @@
       input(type="hidden" name="data" value="")
       input(type="hidden" name="version" value="")
       input(type="hidden" name="id" value="")
-
-
+    
 
 
 </template>
@@ -134,6 +168,7 @@ import Guide from './Guide'
 import Pages from './Pages'
 import CopyRight from 'components/CopyRight'
 import Me from 'components/Me'
+import Unloginbar from 'components/Unloginbar'
 import MyMenu from 'components/Menu'
 export default {
   name: 'Home',
@@ -149,19 +184,65 @@ export default {
         {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        {class: 'index_icon_13', id: '1-1-4', title: '欢乐分分彩'},
-        {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
         {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
-        {class: 'index_icon_05', id: '1-5-3', title: '排列三、五'},
+        {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
+        {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
+        {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
         {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
       ],
       formData: {
       },
       ns: [1, 2, 3, 4, 5],
-      timeout: 0,
       ifsrc: '',
-      sports: false
+      sports: false,
+      rank: [
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'ab***01', settlement: 18215},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182},
+        {username: 'xx***88', settlement: 52182}
+      ],
+      smpics: [
+        '/static/pic/newhome/index_aboutus_01.jpg',
+        '/static/pic/newhome/index_aboutus_02.jpg',
+        '/static/pic/newhome/index_aboutus_03.jpg',
+        '/static/pic/newhome/index_aboutus_04.jpg'
+      ],
+      bigpics: [
+        '/static/pic/newhome/index_aboutus_big_01.jpg',
+        '/static/pic/newhome/index_aboutus_big_02.jpg',
+        '/static/pic/newhome/index_aboutus_big_03.jpg',
+        '/static/pic/newhome/index_aboutus_big_04.jpg'
+      ],
+      bigpici: 0,
+      showbigpic: false,
+      ri: 0,
+      t1: 0,
+      t2: 0
     }
+  },
+  computed: {
   },
   watch: {
     '$route' ({path, query: {sports}}) {
@@ -177,10 +258,19 @@ export default {
   mounted () {
     this.getActivityBanner()
     this.__recentlyCode()
+    this.leaderBoard()
+    this.onResize()
+    this.t1 = setInterval(() => {
+      if (this.ri === 0) this.ri = 1
+      else this.ri = 0
+    }, 60 * 1000)
+    this.t2 = setInterval(this.leaderBoard, 5 * 60 * 1000)
   },
   beforeDestroy () {
-    clearInterval(this.timeout)
-    this.timeout = 0
+    clearInterval(this.t1)
+    this.t1 = 0
+    clearInterval(this.t2)
+    this.t2 = 0
   },
   methods: {
     getActivityBanner () {
@@ -201,6 +291,7 @@ export default {
         this.lefter.style.transition = 'transform linear 0s'
         this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
       }
+      this.onScroll()
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
@@ -281,8 +372,36 @@ export default {
         }
         window.open(this.formData[fn])
         this.formData[fn] = undefined
+        return false
       }
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
+    },
+    leaderBoard () {
+      this.$http.get(api.leaderBoard).then(({data: {data, success}}) => {
+        if (success === 1) {
+          this.rank = data
+        }
+      })
+    },
+    onResize (evt) {
+      let w = this.$el
+      let e = this.$el
+      let g = this.$el
+      let x = w.innerWidth || e.clientWidth || g.clientWidth
+      let y = w.innerHeight || e.clientHeight || g.clientHeight
+      this.__setGlobal({
+        width: x,
+        height: y,
+        scale: x / y
+      })
+    },
+    onScroll (evt) {
+      this.__setGlobal({
+        st: this.$el.scrollTop || this.$el.scrollY,
+        sl: this.$el.scrollLeft || this.$el.scrollX,
+        sh: this.$el.scrollHeight,
+        sw: this.$el.scrollWidth
+      })
     }
   },
   components: {
@@ -290,7 +409,8 @@ export default {
     Pages,
     CopyRight,
     Me,
-    MyMenu
+    MyMenu,
+    Unloginbar
   }
 }
 </script>
@@ -315,6 +435,10 @@ export default {
     
     @media screen and (min-width: 2560px)
         height 533px
+  
+
+
+ 
 
 </style>
 
@@ -326,23 +450,27 @@ export default {
     top 0
     z-index 3
   .box
-    // background-image url(/static/pic/home/0.jpg)
-    // background-repeat no-repeat
-    // background-size 100%
-    // background-color #fff
+    background url(../assets/newhome/index_bg.jpg) no-repeat
+    background-repeat no-repeat
+    background-size 100% 100%
     padding-top .3rem
     
-  W = 1.5rem
+  W = 1.4rem
   H = 1.4rem
   .top-games
-    // height 6rem
+    min-height 5rem
     position relative
     margin-bottom .3rem
     padding PW
-    padding-left 43%
+    padding-left 31%
+    padding-right 20%
     text-align center
     radius()
-    background url(../assets/v2/index_bg02.png) no-repeat
+    color #302b2a
+    // background url(../assets/v2/index_bg02.png) no-repeat
+    background url(../assets/newhome/index_cp_bg-min.png) no-repeat
+    background-size 12rem
+    
     &:before
       content ''
       position absolute
@@ -351,37 +479,44 @@ export default {
       bottom 0
       left 0
       right 60%
-      background url(../assets/v2/girl.png)  no-repeat
+      background url(../assets/newhome/girl-min.png) no-repeat
+      background-size 3.71rem
+      
     .intro
       font-shadow(none)
       text-align left
       padding PW
       // padding-bottom 0
       padding-right 0
-      transform translateX(-.38rem)
       .line
-          margin PW 0
+          margin .15rem 0
           border-bottom 1px solid rgba(255, 255, 255, .3)
       .gt
           font-size .24rem
           line-height .3rem
-          color #ffff00
+          // color #ffff00
       .en-name
-          color #ccc
+          // color #ccc
           font-size .18rem
           margin-left PW
       .number
           font-size .12rem
           line-height .2rem
           radius(50%)
-          background-color #fff
-          border 2px solid #ff9731
+          background-color #302b2a
           display inline-block
           width .18rem
           height .18rem
           text-align center
-          color #000
-
+          color #ffa930
+          margin-right .05rem
+      .a-more
+        border 1px solid #302b2a
+        color #302b2a
+        text-shadow none
+        padding 0 .1rem
+        &:hover
+          opacity .8
       .right
           float right
 
@@ -389,6 +524,7 @@ export default {
       position relative
       min-width W
       height H
+      margin .1rem 0
       overflow hidden
       radius()
       background-position 50%
@@ -396,31 +532,25 @@ export default {
       padding-top H
       transition all ease-in-out .3s
       &.index_icon_01
-        background url(../assets/v2/index_icon_01.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_01.png) 50% no-repeat
       &.index_icon_02
-        background url(../assets/v2/index_icon_02.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_02.png) 50% no-repeat
       &.index_icon_03
-        background url(../assets/v2/index_icon_03.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_03.png) 50% no-repeat
       &.index_icon_04
-        background url(../assets/v2/index_icon_04.png) 50% no-repeat
-      &.index_icon_05
-        background url(../assets/v2/index_icon_05.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_04.png) 50% no-repeat
+      // &.index_icon_05
+      //   background url(../assets/newhome/index_icon_b_05.png) 50% no-repeat
       &.index_icon_06
-        background url(../assets/v2/index_icon_06.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_06.png) 50% no-repeat
       &.index_icon_07
-        background url(../assets/v2/index_icon_07.png) 50% no-repeat
-      &.index_icon_08
-        background url(../assets/v2/index_icon_08.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_07.png) 50% no-repeat
+      // &.index_icon_08
+      //   background url(../assets/newhome/index_icon_b_08.png) 50% no-repeat
       &.index_icon_09
-        background url(../assets/v2/index_icon_09.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_09.png) 50% no-repeat
       &.index_icon_10
-        background url(../assets/v2/index_icon_10.png) 50% no-repeat
-      &.index_icon_11
-        background url(../assets/v2/index_icon_11.png) 50% no-repeat
-      &.index_icon_12
-        background url(../assets/v2/index_icon_12.png) 50% no-repeat
-      &.index_icon_13
-        background url(../assets/v2/index_icon_13.png) 50% no-repeat
+        background url(../assets/newhome/index_icon_b_10.png) 50% no-repeat
 
       &:hover
         padding-top H - 2*PW
@@ -445,15 +575,50 @@ export default {
       span
         font-size .14rem
         color #fff
+    .rank
+      right 0
+      top 0
+      width 2rem
+      height 5rem
+      border 2px
+      color #fff
+      line-height .2rem
+      padding .35rem 0 .1rem 0
+      overflow hidden
+      
+      
+
+      dl
+        padding-top .25rem 
+        &[class*=-enter]
+        &[class*=-leave]
+          transition all linear 1s
+        dd
+          margin-bottom .2rem
+          
+      .rank-un
+        width .5rem
+        margin-right .2rem
+        
+      .rank-index
+        margin-right .1rem
+        radius(50%)
+        display inline-block
+        width .2rem
+        background-color BLUE
+        text-align center
+      
+        
 
   .picture
     position relative
     cursor pointer
-    height 2.7rem
+    height 2.4rem
     .co
       width 100%
       height 100%
       overflow hidden
+      position relative
     img
       position relative
       left 0
@@ -461,13 +626,43 @@ export default {
       width 100%
       // opacity .8
       transition all ease-in-out .3s
+      
+    .absolute
+      left 0
+      right 0
+      bottom -.82rem
+      height .82rem
+      background-color rgba(233, 233, 233, .9)
+      opacity 0
+      transition all .3s ease-in-out
+      .el-col
+        height .82rem
+        background-position center
+        background-repeat no-repeat
+        background-size 1.8rem
+        transition inherit
+        &:hover
+          background-position center -.1rem
+        
+        &.pt
+          background-image url(../assets/newhome/logo_pt_big.png) 
+        &.ag
+          background-image url(../assets/newhome/logo_ag_big.png)
+        &.dy
+          background-image url(../assets/newhome/logo_bg_big.png)
+        &.sb
+          background-image url(../assets/newhome/logo_ibc_big.png)
+        &.ky
+          background-image url(../assets/newhome/logo_ky_big.png)
+      
+      
+      
 
     &:hover
-      img
+      .absolute
         opacity 1
-        width 110%
-        left -5%
-        top -5%
+        bottom 0
+  
   .picture.wait:after
     content '敬请期待'
     display inline-block
@@ -484,23 +679,33 @@ export default {
     height 1.9rem
   .picture.b
     height 1.5rem
+    &:hover
+      img
+        opacity 1
+        width 110%
+        left -5%
+        top -5%
+      
+
   .title
     border-left 3px solid BLUE
     padding-left .1rem
     margin .1rem 0
     .t1
-      color #333
+      color #fff
       font-size .2rem
       font-weight bold
+    .t2
+      color #ccc
   
   .picture
     margin-bottom .1rem
     .t1
       font-size .16rem
-      color #333
+      color #fff
       font-weight bold
     .t2
-      color #999
+      color #bbb
     .f_r
       float right
       color BLUE
@@ -512,6 +717,71 @@ export default {
     p
       padding .05rem 0
       line-height .3rem
+  
+  .showup-wrap
+    position fixed
+    top 0
+    bottom 0
+    left 0
+    right 0
+    text-align center
+    z-index 9999
+    &:after
+      content ''
+      height 100%
+      width 1px
+      vertical-align middle
+      display inline-block
+    .content
+      display inline-block
+      vertical-align middle
+      img
+        border 5px solid #4b4b4b
+        @media screen and (max-height: 800px)
+          width 1000px !important
+        
+      .close
+        cursor pointer
+        background-color #4b4b4b
+        top -.6rem
+        right -.6rem
+        width .6rem
+        height .6rem
+        background-image url(../assets/newhome/index_pic_nav_colse.png)
+        background-repeat no-repeat
+        background-position center
+        background-size .3rem
+        &:hover
+          background-image url(../assets/newhome/index_pic_nav_colse_ahover.png)
+          
+      .left, .right
+        cursor not-allowed
+        background-color #4b4b4b
+        top 50%
+        left -.65rem
+        width .6rem
+        height 1.44rem
+        transform translateY(-50%)
+        background-repeat no-repeat
+        background-size .13rem
+        background-position center
+        background-image url(../assets/newhome/index_pic_nav_left.png)
+
+        &.active
+          cursor pointer
+          background-image url(../assets/newhome/index_pic_nav_left_ahover.png)
+          background-color BLUE
+        &:hover
+          opacity .8
+        
+        &.right
+          left auto
+          right -.65rem
+          transform translateY(-50%) rotateY(180deg)
+          
+      
+            
+          
 
 </style>
 

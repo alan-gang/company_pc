@@ -155,6 +155,7 @@
 <script>
 // import util from '../util'
 import api from '../http/api'
+import store from '../store'
 // import M from '../util/M'
 export default {
   props: {
@@ -166,6 +167,7 @@ export default {
   },
   data () {
     return {
+      ME: store.state.user,
       STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
       STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
       modal: false,
@@ -189,6 +191,9 @@ export default {
   watch: {
     show () {
       if (!this.show) this.fullCode = '获取失败...'
+    },
+    'ME.login' () {
+      if (this.ME.login) this.Orderlist()
     }
   },
   mounted () {
@@ -228,6 +233,7 @@ export default {
       this.Orderlist()
     },
     Orderlist () {
+      if (!this.ME.login) return
       this.$http.mypost(api.Orderlist, {
         scope: 0,
         lotteryId: this.gameid,

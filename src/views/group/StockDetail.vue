@@ -79,6 +79,7 @@
     mounted () {
       this.self = this.myself
       this.qryBonusById(this.id || '')
+      console.log(this, '????')
     },
     methods: {
       back () {

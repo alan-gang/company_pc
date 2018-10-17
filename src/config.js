@@ -4,11 +4,22 @@ export default (Vue) => {
     args: '',
     _count: 0
   }
+  let g = {
+    width: 0,
+    height: 0,
+    scale: 0,
+    st: 0,
+    sl: 0,
+    sh: 0,
+    sw: 0
+  }
   Vue.mixin({
     data () {
       return {
+        window: window,
         call: call,
-        platform: window.platform
+        platform: window.platform,
+        global: g
       }
     },
     // watch: {
@@ -22,7 +33,7 @@ export default (Vue) => {
     //   }
     // },
     created () {
-      if (Object.keys(this.$options.methods).join(',').match(/__(?!(setCall|loading))/g)) {
+      if (Object.keys(this.$options.methods).join(',').match(/__(?!(setCall|loading|setGlobal))/g)) {
         // console.log(Object.keys(this.$options.methods))
         this.$watch('call', () => {
           if (this.call.fn && typeof this[this.call.fn] === 'function') {
@@ -51,6 +62,9 @@ export default (Vue) => {
             }
           }, timeout)
         }
+      },
+      __setGlobal (global) {
+        this.global = Object.assign(this.global, global)
       }
     }
   })

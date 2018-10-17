@@ -24,8 +24,8 @@
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle")
       <!-- 选号区 -->
-      transition(name="slide" appear=true)
-        GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+      //- transition(name="slide" appear=true)
+      GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
       <!-- 下单 -->
       GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
       <!-- 投注单 -->
@@ -86,6 +86,7 @@ export default {
   props: ['page', 'money', 'free'],
   data () {
     return {
+      ME: store.state.user,
       isTry: store.state.user.isTry,
       scrollAtBottom: false,
       // 页面的url
@@ -447,6 +448,7 @@ export default {
       })
     },
     __getTraceIssueList () {
+      if (!this.ME.login) return (this.issues = [])
       if (this.issues && this.issues.length > 20) return this.issues.shift()
       this.$http.mypost(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
         // success
@@ -470,6 +472,7 @@ export default {
           btn: ['确定']
         })
       }
+      if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
         return this.$modal.warn({
           target: this.$el,
@@ -567,6 +570,7 @@ export default {
       })
     },
     quickbook () {
+      if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if (this.pay > (this.checked ? this.free : this.money)) {
         return this.$modal.warn({
           target: this.$el,

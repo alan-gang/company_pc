@@ -1450,6 +1450,8 @@ pre
     border-top-right-radius 10% 50%
     border-bottom-left-radius 10% 50%
     border-bottom-right-radius 10% 50%
+  &._36rem
+    line-height .36rem
   
   &.card
     radius(0)

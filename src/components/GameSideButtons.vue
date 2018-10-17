@@ -1,6 +1,6 @@
 <template lang="jade">
   .game-side-buttons
-    router-link.ds-button.small.fix-right(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="" v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: .25rem; line-height: 1.5; z-index: 9999") 遗漏分析
+    .ds-button.small.fix-right( @click=" ME.login ? $router.push('/form/4-5-3?gameid=' + gameid) : __setCall({fn: '__popLogin', args: 'Login'}) " v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: .25rem; line-height: 1.5; z-index: 9999" ) 遗漏分析
     
     // .ds-button.fix-right(v-if="methodidtype === '1' " style="padding: .05rem .1rem; position: absolute; right: -.4rem; width: .4rem; top: 2.25rem; line-height: 1.5; z-index: 9999; margin-left: .05rem;" @click="!t && (t = 750) && __setCall({fn: '__random', args: {}})") 机选
     
@@ -24,6 +24,7 @@
 
 <script>
 import M from '../util/M'
+import store from '../store'
 export default {
   props: {
     type: Object,
@@ -32,6 +33,7 @@ export default {
   },
   data () {
     return {
+      ME: store.state.user,
       t: 0
     }
   },
@@ -63,7 +65,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import '../var.stylus'
   .popover-orderlist
     width 6.1rem
@@ -73,20 +75,14 @@ export default {
     &.m
       transform translateY(0rem) translateX(.05rem)
     
-  .popover-instruction
-    // display none
-    // top 100%
+  .popover-instruction.el-popover
     transition none
-    // max-width 4.5rem
-    transform translateX(.4rem) translateY(1.1rem) !important
+    transform translateX(.4rem) translateY(0) !important
     @media screen and (max-width: 2280px)
-      transform translateX(0) translateY(1.1rem) !important
+      transform translateX(0) translateY(0) !important
 
-    // top 2rem !important
-    // left 6.5rem !important
     padding PW .2rem 0 .2rem
     text-align left
-    // background-color rgba(22, 113, 188, .95)
     box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
     
     background-color #ff
@@ -100,7 +96,6 @@ export default {
     user-select text
     radius()
     p
-      // min-width 3.6rem
       padding-left .75rem
       margin 0 0 PW 0
       .label

@@ -24,7 +24,7 @@
               slot(:class="[typeIcon[type]]" name="my-content")
                 div(v-html="content")
 
-          .footer-bar(:class="[ 'btn' + btn.length ]")
+          .footer-bar(:class="[ 'btn' + btn.length ]" v-if=" btn[0] ")
             a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click.stop="btnClick(i)" v-bind:class="[ btnClass[type][i] || btnClass[type][1] ]") {{ b }}
 
 
@@ -35,7 +35,7 @@
 <script>
   export default {
     name: 'Modal',
-    props: ['Ptype', 'Pbtn', 'Phref', 'Pok', 'Pcancel', 'Pclose'],
+    props: ['Ptitle', 'Ptype', 'Pbtn', 'Phref', 'Pok', 'Pcancel', 'Pclose', 'PboxStyle'],
     data () {
       return {
         type: 'confirm',
@@ -119,6 +119,8 @@
       if (this.Pcancel) this.cancel = this.Pcancel
       if (this.Pclose) this.close = this.Pclose
       if (this.PboxStyle) this.boxStyle = this.PboxStyle
+      if (this.Ptitle) this.title = this.Ptitle
+      if (this.PboxStyle) this.boxStyle = Object.assign(this.boxStyle, this.PboxStyle)
     },
     mounted () {
     }
@@ -189,7 +191,8 @@
         color #333
         float left
         line-height .5rem
-        max-width 50%
+        max-width 80%
+        
       .buttons
         float right
         max-width 50%

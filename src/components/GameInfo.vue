@@ -249,44 +249,42 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
-  .popover-orderlist
-    width 6.1rem
-    background-color #ff
-    border 1px solid #ccc
-    shadow(0 0 10px rgba(0,0,0,.3))
-    &.m
-      transform translateY(0rem) translateX(.05rem)
+  // .popover-orderlist
+  //   width 6.1rem
+  //   background-color #ff
+  //   border 1px solid #ccc
+  //   shadow(0 0 10px rgba(0,0,0,.3))
+  //   &.m
+  //     transform translateY(0rem) translateX(.05rem)
     
-  .popover-instruction
-    // display none
-    // top 100%
-    transition none
-    max-width 4.5rem
-    transform translateX(.2rem) translateY(0rem)
-    padding PW .2rem 0 .2rem
-    text-align left
-    // background-color rgba(22, 113, 188, .95)
-    box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+  // .popover-instruction
+  //   transition none
+  //   max-width 4.5rem
+  //   transform translateX(.2rem) translateY(0rem)
+  //   padding PW .2rem 0 .2rem
+  //   text-align left
+  //   // background-color rgba(22, 113, 188, .95)
+  //   box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
     
-    background-color #ff
-    border 1px solid #ccc
-    shadow(0 0 10px rgba(0,0,0,.3))
-    color #666
-    text-shadow none
-    border-top-left-radius 0
-    z-index 1
-    cursor text
-    user-select text
-    radius()
-    p
-      min-width 3.6rem
-      padding-left .75rem
-      margin 0 0 PW 0
-      .label
-        &::selection
-          background-color GOLD
-        position absolute
-        left .2rem
+  //   background-color #ff
+  //   border 1px solid #ccc
+  //   shadow(0 0 10px rgba(0,0,0,.3))
+  //   color #666
+  //   text-shadow none
+  //   border-top-left-radius 0
+  //   z-index 1
+  //   cursor text
+  //   user-select text
+  //   radius()
+  //   p
+  //     min-width 3.6rem
+  //     padding-left .75rem
+  //     margin 0 0 PW 0
+  //     .label
+  //       &::selection
+  //         background-color GOLD
+  //       position absolute
+  //       left .2rem
 
 
 </style>

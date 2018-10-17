@@ -1,7 +1,7 @@
 <template lang="jade">
   dl.try-form
     dt 试玩
-    dd.ds-icon-edit(style="height: .4rem; line-height: .4rem")
+    dd.ds-icon-edit(style="height: .4rem; line-height: .4rem; color: #666")
       input(placeholder="验证码" v-model="code_"  @keyup.enter="login" autofocus)
       i.ds-icon-code(v-bind:style="{background: 'url(' + img_ + ') right center no-repeat'}" @click="_getVerifyImage")
 
@@ -9,7 +9,7 @@
 
     dd.actions
       router-link.back.ds-button.text-button.light.small(:to="'/login/login'" @click.native.stop="") 
-        | <返回登录
+        | <返回首页
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
             isTry: true
             // guide: data.isTry !== '1'
           })
-          // this.$router.push('/')
+          this.$router.push('/')
           this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
         } else {
           this.$message.error('试玩登陆失败!')
@@ -94,6 +94,7 @@ export default {
           width CW
           height CH
           cursor pointer
+          
       &.login
         height .36rem
         line-height .36rem
@@ -105,7 +106,7 @@ export default {
         line-height 100%
         border 0
         background transparent
-        color WHITE
+        // color WHITE
         font-size .14rem
         letter-spacing .02rem
         width 100%

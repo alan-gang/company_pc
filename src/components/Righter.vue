@@ -12,13 +12,13 @@
       .expand-left  帮助中心
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
-    .ds-icon-
+    .ds-icon-(v-if="Me.login")
       .expand-left 联系上级
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
 
-    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch ")
-      span.badge {{ amount }}
+    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
+      span.badge {{ amount }} 
       .expand-left 刮刮乐
 
 
@@ -46,6 +46,15 @@
           document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
           document.body.className = this.Me.css
         }
+      },
+      // 'Me.skin' () {
+      //   document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
+      // },
+      // 'Me.css' () {
+      //   document.body.className = this.Me.css
+      // },
+      'Me.login' () {
+        this.__getUserScratch()
       }
     },
     mounted () {
@@ -53,6 +62,7 @@
     },
     methods: {
       __getUserScratch () {
+        if (!this.Me.login) return
         this.$http.get(api.getUserScratch).then(({data}) => {
           // success
           if (data.success === 1) {
@@ -196,7 +206,7 @@
     .gray
       -webkit-filter grayscale(50%)
       filter grayscale(50%)
-      opacity .7
+      opacity .4
     .expand-left
       &.skins
         width 3.45rem

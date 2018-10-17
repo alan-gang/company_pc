@@ -81,7 +81,7 @@
       },
       // 获取验证码
       _getVerifyImage () {
-        this.$http.get(api.getVerifyImage).then(({data}) => {
+        this.$http.myget(api.getVerifyImage).then(({data}) => {
           // success
           if (data.success === 1) this.img_ = 'data:image/png;base64,' + data.data
           else this.$message.warning('验证码获取失败')

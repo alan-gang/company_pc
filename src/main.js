@@ -64,10 +64,7 @@ import filter from './filter'
 filter(Vue)
 
 // Router
-import VueRouter from 'vue-router'
-import routerConfig from './router/index.v2'
-Vue.use(VueRouter)
-let router = routerConfig(VueRouter)
+import router from './router/index.v2.js'
 
 // Touch
 // import VueTouch from 'vue-touch'

@@ -156,6 +156,13 @@
   &.new-game-info
     background-size auto !important
 
+.ds-icon-game-hlK3:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/ks_icon_05.png) center no-repeat
+  // background url(../NDS/src/assets/game/k3.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+
 .ds-icon-game-bjK3:not(.ds-button)
   background-size 80px !important
   background url(../NDS/src/assets/game/ks_icon_04.png) center no-repeat
@@ -239,7 +246,7 @@ H = 1.04rem
     display none
 #app.classic.v2 .lefter
   top 1.15rem
-  z-index 9999
+  z-index 1900
   .el-menu
     padding-left .1rem
     padding-right .1rem
@@ -600,7 +607,7 @@ body
         .the-number
           width .25rem
           height .25rem
-          line-height .25rem
+          line-height .25rem !important
 
     &:not(.long):not(.game-K3)
       .number
@@ -667,6 +674,7 @@ body
         .the-number
           color #666 !important
           background-color #fff !important
+          
   .game-page .game-side-buttons
     top -.25rem
     &>.ds-button:not(.recent-codes)

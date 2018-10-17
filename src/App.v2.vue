@@ -22,6 +22,12 @@
 
     // ggl
     GGL(v-if="ggl")
+    
+    // Login
+    Modal.common-login(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-if="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
+      .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
+        L
+
       
 
 
@@ -30,7 +36,8 @@
 </template>
 
 <script>
-// import util from './util'
+import Modal from './components/Modal'
+import L from './components/L'
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
@@ -40,7 +47,7 @@ import Print from './components/Print'
 // import Chat from './components/Chat'
 import base from './components/base'
 import store from './store'
-import cookie from 'js-cookie'
+// import cookie from 'js-cookie'
 import api from './http/api'
 export default {
   name: 'App',
@@ -82,12 +89,13 @@ export default {
           class: 'ds-icon-group',
           hide: true,
           url: 'group',
+          removed: true,
           groups: [
             {
               items: [
                 {
                   id: '3-3-2',
-                  // menuid: '29',
+                  menuid: '45',
                   title: '分红详情',
                   url: 'StockDetail',
                   position: {
@@ -239,6 +247,7 @@ export default {
                 {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
                 // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
                 {class: 'ds-icon-game-jlK3 sign new', id: '1-4-6', menuid: '19', title: '欢乐快三', volume: true, gameid: 33}
+
               ]
             },
             {
@@ -249,7 +258,10 @@ export default {
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
-                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-6', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
+                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
+                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
@@ -290,7 +302,8 @@ export default {
           title: '体育竞技',
           big: true,
           // hide: true,
-          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe'}
+          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe'}
+          info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'}
         },
         {
           menuid: '98',
@@ -931,7 +944,15 @@ export default {
       menuids: '',
       activeMenu: [],
       audio: null,
-      ggl: false
+      ggl: false,
+      // 弹出登录框
+      popuLogin: false,
+      Ptitle: '登录',
+      Pbtn: [],
+      PboxStyle: {
+        backgroundColor: '#e9e9e9'
+      },
+      redirect: ''
     }
   },
   computed: {
@@ -970,7 +991,11 @@ export default {
           if (this.mi === 6) {
             this.activeMenu = [this.menus[this.mi]]
           } else {
-            this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
+            if (this.Me.login) {
+              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
+            } else {
+              this.activeMenu = [this.menus[12 + 5]]
+            }
           }
         }
       }, this.mi ? 0 : 0)
@@ -1015,12 +1040,27 @@ export default {
     // 登录isTop = 1
     this.setPages(this._getPages())
     window.NProgress.done()
-    // console.log(this.$router)
-    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) {
-      // this.tryLogin()
+    // 如果去趋势图不用尝试登录了
+    if (this.$route.path.indexOf('/trend') === -1) {
+      this.tryLogin()
     }
   },
   methods: {
+    __setUser () {
+      return this.setUser()
+    },
+    Pclose () {
+      this.popuLogin = false
+      window.NProgress.done()
+      this.redirect = ''
+      return false
+    },
+    __popLogin (au) {
+      if (typeof au === 'string') {
+        this.redirect = au.split(':')[1]
+      }
+      this.popuLogin = !!au
+    },
     __setGGL () {
       this.ggl = !this.ggl
     },
@@ -1038,14 +1078,14 @@ export default {
             content: '<pre class="text-666" style="text-align: left;">' + n.content + '</pre>',
             btn: ['知道了'],
             ok () {
-              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+              if (!store.state.user.isTry && !(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
                 modal.btn = ['立即前往设置']
                 modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
                 return false
               }
             },
             close () {
-              if (!(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
+              if (!store.state.user.isTry && !(store.state.user.cashPwd) && modal.btn[0] === '知道了') {
                 modal.btn = ['立即前往设置']
                 modal.content = '尊敬的用户，您还未设置资金密码，为了不影响您的提款，请立即前往设置资金密码'
                 return false
@@ -1063,6 +1103,19 @@ export default {
     },
     openRoute ({path, params: {url}}) {
       if (!url) store.actions.updateAllPages({active: false})
+      else {
+        // [0, 50, 100, 150, 200, 250].forEach(t => {
+        //   setTimeout(() => {
+        //     if (this.$route.params.url && !this.ctabs[0]) this.openTab(url)
+        //   }, 50)
+        // })
+        setTimeout(() => {
+          this.openTab(url)
+        }, 0)
+        // setTimeout(() => {
+        //   !this.ctabs[0] && this.$router.push('/')
+        // }, 300)
+      }
     },
     __music () {
       if (!this.audio) this.audio = new window.Audio('/static/media/24_Ctu.mp3')
@@ -1081,30 +1134,31 @@ export default {
       this.showPrint = false
     },
     tryLogin () {
-      let M = this.$modal.info({
-        content: '授权登录中...',
-        btn: [],
-        close () {
-          M = null
-        },
-        O: this
-      })
+      // let M = this.$modal.info({
+      //   content: '授权登录中...',
+      //   btn: [],
+      //   close () {
+      //     M = null
+      //   },
+      //   O: this
+      // })
       this.$http.get(api.validate, {isAuto: 1}).then(({data}) => {
         // success
         if (data.success === 1) {
-          setTimeout(() => {
-            this.loginSuccess(data)
-            M.type = 'success'
-            M.content = '登录成功！'
-          }, 500)
-          setTimeout(M._close, 1000)
+          this.loginSuccess(data)
+          // setTimeout(() => {
+          //   this.loginSuccess(data)
+          //   M.type = 'success'
+          //   M.content = '登录成功！'
+          // }, 500)
+          // setTimeout(M._close, 1000)
         } else {
           this.setUser({login: false})
-          M._close()
+          // M._close()
         }
       }, (rep) => {
         this.setUser({login: false})
-        M._close()
+        // M._close()
       }).finally(() => {
       })
     },
@@ -1122,6 +1176,7 @@ export default {
     loginSuccess (data) {
       // this.__setCall({fn: '__getUserFund', callId: undefined})
       // setTimeout(this.getUserPrefence, 1000)
+      if (this.redirect) this.$router.push(this.redirect)
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()
@@ -1142,7 +1197,7 @@ export default {
           vip: data.isVip,
           isVip: data.isVip
         })
-        this.$router.push('/')
+        // this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
           id: data.userId,
@@ -1223,7 +1278,7 @@ export default {
       // some url likes /form/4-2-1 !== page.id != 4-2-1
       if (url && url.indexOf('/') !== -1) url = url.slice(url.lastIndexOf('/') + 1)
       // console.log(this.$route.params.url === url, url, '|||||')
-      if (this.$route.params.url === url) !this.openPage(url) && this.$router.push('/')
+      if (this.$route.params.url === url && url) !this.openPage(url) && this.$router.push('/')
       else this.openAnotherPage(url)
     },
     openAnotherPage (url) {
@@ -1266,10 +1321,11 @@ export default {
       this.$http.get(api.logout)
       this.setUser()
       document.body.className = this.Me.css
-      cookie.remove('JSESSIONID')
-      if (!args) this.$router.push('/login/login')
+      // cookie.remove('JSESSIONID')
+      // if (!args) this.$router.push('/login/login')
       if (args && args.fn) args.fn()
       this.__logoutChat()
+      if (this.$route.meta.rl) this.$router.push('/')
     },
     __logout (args) {
       this.logout(args)
@@ -1299,20 +1355,18 @@ export default {
             this.menuids += ',!98,'
           }
           this.setUser({menuids: this.menuids, canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-          // this.setPages(
           let pages = this._getPages()
           let x = []
           this.tabs.forEach((t, i) => {
             if (!pages.find(x => x.id === t.id)) {
-              // this.tabs.splice(i, 1)
             } else {
-              // console.log(t.id)
-              // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
               x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
             }
           })
           this.tabs = x
           this.setPages(pages)
+          this.openTab(this.$route.params.url)
+
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
               store.actions.updatePage(d.menuId + '', {star: true})
@@ -1349,11 +1403,24 @@ export default {
     Print,
     dsLefter,
     dsRighter,
-    GGL
+    GGL,
+    Modal,
+    L
     // Chat
   }
 }
 </script>
+<style lang="stylus">
+  .common-login.modal
+    .box
+      box-shadow 0 0 10px rgba(0,0,0, .5)
+    .box-wrapper
+      .header-bar
+        padding-left .3rem !important
+        .title
+          padding-top .05rem
+</style>
+
 <style lang="stylus">
   @import './var.stylus'
   @import './path.stylus'
@@ -1421,6 +1488,7 @@ export default {
   @import url('./chat.wap.less');
 </style>
 <style lang="stylus">
+  @import './common.stylus'
   @import './var.stylus'
   @import './path.stylus'
   @import './main.stylus'
@@ -1522,6 +1590,7 @@ export default {
   opacity 0
   &.dialog-container
     transition all linear 0s // @static 2
+
 
 
 

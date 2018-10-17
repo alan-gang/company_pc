@@ -1,39 +1,39 @@
 <template lang="jade">
   .game-selection
-    transition-group(name="slide" appear=true tag="div")
-      GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
+    //- transition-group(name="slide" appear=true tag="div")
+    GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
 
-    transition(name="slide-down" appear=true)
-      .f(v-if="rows.length === 0")
-        p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
-        el-row
-          el-col(:span="20")
-            // .el-textarea
-            //   textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
-            el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
-          el-col.btn-groups(:span="4")
-            .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
-            br
-            .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
-              input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
-            br
-            .ds-button.outline(@click=" __clearValue ") 清空
+    //- transition(name="slide-down" appear=true)
+    .f(v-if="rows.length === 0")
+      p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
+      el-row
+        el-col(:span="20")
+          // .el-textarea
+          //   textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
+          el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
+        el-col.btn-groups(:span="4")
+          .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
+          br
+          .ds-button.outline(v-bind:class="{disabled: !upload}") {{ upload ? '导入文件' : '浏览器不支持' }}
+            input(ref="file" type="file" @change="selectFiles" multiple v-if="upload")
+          br
+          .ds-button.outline(@click=" __clearValue ") 清空
 
-        p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .3rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
+      p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .3rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
 
 
-    transition(name="slide-down" appear=true)
-      el-row.pos(v-if="show[0]")
-        el-col(v-bind:span="13")
-          label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
-            span.ds-checkbox 
-            | {{ p.title[show[1]] }}
-        el-col.notice(:span="11")
-          | 温馨提示：你选择了 
-          span.count {{ psl }}
-          |  个位置， 系统自动根据位置组合成 
-          span.comb {{ comb }}
-          |  个方案
+    //- transition(name="slide-down" appear=true)
+    el-row.pos(v-if="show[0]")
+      el-col(v-bind:span="13")
+        label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
+          span.ds-checkbox 
+          | {{ p.title[show[1]] }}
+      el-col.notice(:span="11")
+        | 温馨提示：你选择了 
+        span.count {{ psl }}
+        |  个位置， 系统自动根据位置组合成 
+        span.comb {{ comb }}
+        |  个方案
 </template>
 
 <script>
