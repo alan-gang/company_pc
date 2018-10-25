@@ -1,7 +1,12 @@
 <template lang="jade">
   el-row.game-recent-order
     br
-    p.text-blue 最近投注记录
+    p 最近投注记录&nbsp;&nbsp;
+      span.x-small.ds-button.text-button.blue(@click=" pageSize = 5 ") 5条
+      | /
+      span.x-small.ds-button.text-button.blue(@click=" pageSize = 10 ") 10条
+      | /
+      span.x-small.ds-button.text-button.blue(@click=" pageSize = 15 ") 15条
 
     el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;" empty-text="投注记录当前为空！")
 
@@ -177,7 +182,8 @@ export default {
       row: {prizeCode: ''},
       expandList: [],
       MODES: ['元', '角', '分', '厘'],
-      fullCode: '获取失败...'
+      fullCode: '获取失败...',
+      pageSize: window.localStorage.getItem('gron') || 5
     }
   },
   computed: {
@@ -194,6 +200,10 @@ export default {
     },
     'ME.login' () {
       if (this.ME.login) this.Orderlist()
+    },
+    pageSize () {
+      this.Orderlist()
+      window.localStorage.setItem('gron', this.pageSize)
     }
   },
   mounted () {
@@ -238,7 +248,7 @@ export default {
         scope: 0,
         lotteryId: this.gameid,
         page: 1,
-        pageSize: 5
+        pageSize: this.pageSize
       }).then(({data}) => {
         // success
         if (data.success === 1) {

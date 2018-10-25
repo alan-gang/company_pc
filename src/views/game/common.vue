@@ -438,11 +438,23 @@ export default {
     getUserpoint () {
       this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
+        // fix to array
+        // let a = []
+        // Object.entries(data.items).forEach(([k, v]) => {
+        //   v.forEach(x => {
+        //     x.methodid = k
+        //     a.push(x)
+        //   })
+        // })
+        // data.items = a
         if (data.success > 0) this.PS = data.items
         this.menuItemArray.forEach(mi => {
           // console.log(M[mi.id + this.idType].split(':')[0], data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
           this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
         })
+        setTimeout(() => {
+          window.localStorage.getItem('point') && (this.point = window.localStorage.getItem('point'))
+        }, 0)
       }, (rep) => {
         // error
       })
@@ -474,10 +486,15 @@ export default {
       }
       if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
-        return this.$modal.warn({
+        return this.$modal.question({
           target: this.$el,
           content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
-          btn: ['确定']
+          btn: [(this.checked ? '确定' : '去充值')],
+          ok () {
+            if (!this.checked) {
+              this.$router.push('/me/2-4-1')
+            }
+          }
         })
       }
 
@@ -572,10 +589,16 @@ export default {
     quickbook () {
       if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if (this.pay > (this.checked ? this.free : this.money)) {
-        return this.$modal.warn({
+        return this.$modal.question({
           target: this.$el,
           content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
-          btn: ['确定']
+          btn: [(this.checked ? '确定' : '去充值')],
+          ok () {
+            if (!this.checked) {
+              this.$router.push('/me/2-4-1')
+            }
+          },
+          O: this
         })
       }
       let loading = this.$loading({
@@ -760,6 +783,7 @@ export default {
     setPoint (p, b) {
       this.point = p
       this.bonus = b
+      if (parseFloat(p) > 0) window.localStorage.setItem('point', p)
     },
     // beforeOrder () {
     //   this.__setCall({fn: '__removeRepeat'})

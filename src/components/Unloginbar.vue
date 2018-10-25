@@ -1,9 +1,9 @@
 <template lang="jade">
   .unloginbar
     .content-width
-      el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false" v-model="show")
+      el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false" v-model="show" @show=" __setCall({fn: '__LARCODE'}) ")
         span(slot="reference")
-          span.a 登录 | 注册
+          span.a(@mouseover="") 登录 | 注册
         slot
           LAR
 
@@ -52,12 +52,12 @@ export default {
 .lt-popover
   transform translateX(0) translateY(-.05rem)
   background rgba(0,0,0, .95) !important
-  // background #e9e9e9 !important
   .login-test 
     h2
       display none
-    // .routers .col-content
-    //   background-color rgba(0, 0, 0, .2)
+    .routers
+      padding-bottom .15rem
+
   
   
   

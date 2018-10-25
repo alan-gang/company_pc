@@ -90,11 +90,14 @@ export default {
     this.tag = this.$route.query.tag
     if (this.tag) {
       this.getCodeByTag()
-      this.getStrangerInfo()
+      // this.getStrangerInfo()
       this.__setCall({fn: '__LAR'})
     }
   },
   methods: {
+    __LARCODE () {
+      this._getVerifyImage()
+    },
     // 登录
     login () {
       if (!this.l.un || !this.l.pwd || !this.code_) {

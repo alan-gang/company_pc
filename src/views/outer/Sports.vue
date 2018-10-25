@@ -13,16 +13,15 @@ export default {
   props: [],
   data () {
     return {
-      prebg: '',
       bgStyle: {
         backgroundImage: 'url(/static/skins/sports.jpg)'
       },
-      title: '',
-      href: '',
+      ifsrc: '',
       waitmsg: '请耐心等待，精彩内容正在加载中',
       t: 0,
       s: 1,
-      tt: 0
+      tt: 0,
+      show: false
     }
   },
   watch: {

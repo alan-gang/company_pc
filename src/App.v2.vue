@@ -198,17 +198,9 @@ export default {
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj sign new', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
-                // {class: 'ds-icon-game-bjssc', id: '1-1-4', menuid: '73', title: '北京时时彩', volume: true, gameid: 17},
                 {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
-                // {class: 'ds-icon-game-twssc', id: '1-1-5', menuid: '76', title: '台湾5分彩', volume: true, gameid: 20},
-                // {class: 'ds-icon-game-ffcqq sign hot', id: '1-2-6', menuid: '8', title: 'QQ分分彩', volume: false, gameid: 2},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29}
-                // {class: 'ds-icon-game-cb30 sign hot', id: '1-2-1', menuid: '13', title: '快投30秒', volume: false, gameid: 16},
-                // {class: 'ds-icon-game-cb60', id: '1-2-2', menuid: '79', title: '快投1分彩', volume: false, gameid: 12},
-                // {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '快投2分彩', volume: false, gameid: 21},
-                // {class: 'ds-icon-game-hg15', id: '1-2-4', menuid: '74', title: '韩国1.5分彩', volume: false, gameid: 18},
-                // {class: 'ds-icon-game-dj15', id: '1-2-5', menuid: '75', title: '东京1.5分彩', volume: false, gameid: 19}
               ]
             },
             {
@@ -245,9 +237,7 @@ export default {
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
                 {class: 'ds-icon-game-jlK3 ', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
                 {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
-                // {class: 'ds-icon-game-ktK3', id: '1-4-5', menuid: '19', title: '快投快三', volume: true, gameid: 15}
-                {class: 'ds-icon-game-jlK3 sign new', id: '1-4-6', menuid: '19', title: '欢乐快三', volume: true, gameid: 33}
-
+                {class: 'ds-icon-game-xfK3', id: '1-4-5', menuid: '19', title: '幸福快三', volume: true, gameid: 33}
               ]
             },
             {
@@ -259,40 +249,25 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
-                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
-                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
-                {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
+                // {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
+                // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
+                // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
-                // {url: 'SSL', class: 'ds-icon-game-pl5', id: '1-5-4', menuid: '10', title: '快投排列五', volume: true, gameid: 5},
-                // {url: 'SSL3D', class: 'ds-icon-game-kt3D sign new', id: '1-5-5', menuid: '17', title: '快投3D', volume: false, gameid: 14},
                 {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
                 {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
-            },
-            {
-              title: 'VR游戏',
-              // hide: true,
-              url: 'VR',
-              items: [
-                {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR1.5分彩', fn: '1'},
-                {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: '11'},
-                {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: '2'},
-                {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: '13'},
-                {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR百家乐', fn: '15'}
-                // {menuid: '98', class: 'ds-icon-game-vr2', id: '1-7-2', title: 'VR火星5分彩', fn: 'window'.env !== 'pro' ? 12 : 0},
-                // {class: 'ds-icon-game-vr7', id: '1-7-7', title: 'VR六合彩', fn: window.env !== 'pro' ? 16 : 0}
-              ]
             }
             // {
-            //   title: '老虎机',
-            //   hide: true,
-            //   url: 'LHG',
+            //   title: 'VR游戏',
+            //   url: 'VR',
             //   items: [
-            //     {menuid: '!98', class: 'ds-icon-game-lhg01', id: '1-6-1', title: 'Sugar parade'},
-            //     {menuid: '!98', class: 'ds-icon-game-lhg02', id: '1-6-2', title: 'Sugar Lion'},
-            //     {menuid: '!98', class: 'ds-icon-game-lhg00', title: 'more'}
+            //     {menuid: '98', class: 'ds-icon-game-vr', id: '1-7-1', title: 'VR1.5分彩', fn: '1'},
+            //     {menuid: '98', class: 'ds-icon-game-vr3', id: '1-7-3', title: 'VR3分彩', fn: '11'},
+            //     {menuid: '98', class: 'ds-icon-game-vr4', id: '1-7-4', title: 'VR赛车', fn: '2'},
+            //     {menuid: '98', class: 'ds-icon-game-vr5', id: '1-7-5', title: 'VR快艇', fn: '13'},
+            //     {menuid: '98', class: 'ds-icon-game-vr6', id: '1-7-6', title: 'VR百家乐', fn: '15'}
             //   ]
             // }
           ]
@@ -1009,6 +984,9 @@ export default {
             if (t.opened && !t.active) t.opened = false
           })
         } else this.maxPages = 5
+        if (this.Me.login) {
+          this.popuLogin = false
+        }
       }
     },
     menus () {
@@ -1056,6 +1034,7 @@ export default {
       return false
     },
     __popLogin (au) {
+      if (this.Me.login) return (this.popuLogin = false)
       if (typeof au === 'string') {
         this.redirect = au.split(':')[1]
       }
@@ -1177,6 +1156,7 @@ export default {
       // this.__setCall({fn: '__getUserFund', callId: undefined})
       // setTimeout(this.getUserPrefence, 1000)
       if (this.redirect) this.$router.push(this.redirect)
+      this.redirect = ''
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()

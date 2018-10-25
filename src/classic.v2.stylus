@@ -170,6 +170,13 @@
   &.new-game-info
     background-size auto !important
 
+.ds-icon-game-xfK3:not(.ds-button)
+  background-size 80px !important
+  background url(../NDS/src/assets/game/ks_icon_06.png) center no-repeat
+  // background url(../NDS/src/assets/game/k3.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
+
 
 .ds-icon-game-bjpk10:not(.ds-button)
   background-size 90px !important

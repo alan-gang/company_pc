@@ -22,7 +22,7 @@
 
             .text-black(:class="[typeIcon[type]]" )
               slot(:class="[typeIcon[type]]" name="my-content")
-                div(v-html="content")
+                div(v-html="content" v-bind:class=" { showpd4: !btn[0] } ")
 
           .footer-bar(:class="[ 'btn' + btn.length ]" v-if=" btn[0] ")
             a(:href=" href[i] " target="_blank").ds-button.large.bold(v-for="(b, i) in btn" @click.stop="btnClick(i)" v-bind:class="[ btnClass[type][i] || btnClass[type][1] ]") {{ b }}
@@ -130,6 +130,9 @@
 
 <style lang="stylus" scoped>
   @import '../var.stylus' 
+  .showpd4
+    padding-bottom .4rem
+    
   .dialog-page > .modal
       top TH
   .modal 

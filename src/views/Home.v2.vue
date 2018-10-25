@@ -25,7 +25,7 @@
               router-link.ds-button.a-more(:to=" '/game/1-1-1' ") 来一注
                 .el-icon-arrow-right
             .line
-            p.t_l 时时彩是中国福利彩票时时彩的简称，时时彩是一种经中国国家财政部批准，由中国福利彩票发行管理中心在重庆市所辖区域内发行，由重庆市福利彩票发行中心承销的彩票。
+            p.t_l 时时彩是中国福利彩票时时彩的简称，重庆时时彩是一种经中国国家财政部批准，由中国福利彩票发行管理中心在重庆市所辖区域内发行，由重庆市福利彩票发行中心承销的彩票。
 
 
           el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
@@ -263,7 +263,7 @@ export default {
     this.t1 = setInterval(() => {
       if (this.ri === 0) this.ri = 1
       else this.ri = 0
-    }, 60 * 1000)
+    }, 10 * 1000)
     this.t2 = setInterval(this.leaderBoard, 5 * 60 * 1000)
   },
   beforeDestroy () {

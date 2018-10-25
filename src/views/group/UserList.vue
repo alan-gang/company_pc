@@ -101,7 +101,7 @@
 
               .ds-button.text-button.blue(v-if=" (scope.row.userId !== id) && isAddAccount"  style="padding: 0 .05rem" @click=" (stepType = 'open') && ++stepIndex && (user = scope.row) && showUserAddCount()  ") 开户额
               
-              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.daySalary) || ( oo = scope.row.winSalary ))   ") 调整工资
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
               .ds-button.text-button.blue(style="padding: 0 .05rem;" @click="getTeamBalance(scope.row)") 团队余额
                 
@@ -173,7 +173,7 @@
             span.text-danger *
             日工资：&nbsp;&nbsp;
             el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
-              el-option(v-for="O in OL" v-bind:label="O.name" v-bind:value="O.value")
+              el-option(v-for="O in OL.filter(x => x.value >= user.daySalary) " v-bind:label="O.name" v-bind:value="O.value")
 
           p(style="padding-left: 30%; margin-top: .15rem") 
             | 团队销量：
@@ -206,7 +206,7 @@
           div(style="text-align: center; margin-top: .1rem")
             .ds-button-group(style="margin: 0")
               .ds-button.text-button(:class=" { selected: pointType === 'up' } " @click=" pointType='up' ") 升点
-              .ds-button.text-button(:class=" { selected: pointType === 'down' }" @click=" pointType='down'  ") 降点
+              //- .ds-button.text-button(:class=" { selected: pointType === 'down' }" @click=" pointType='down'  ") 降点
 
 
           .notice(style="margin: .2rem" v-if=" pointType === 'down' ")
@@ -428,6 +428,16 @@
       this.getUserList()
     },
     methods: {
+      AS (row) {
+        this.stepType = 'salary'
+        this.stepIndex++
+        this.user = row
+        this.o = row.daySalary
+        this.oo = row.winSalary
+        this.teamSales = row.teamSales
+        this.activityCount = row.actUser
+        // (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.daySalary) || ( oo = scope.row.winSalary ))
+      },
       // &salary=20&teamSale=200&actvityCount=0&userId=7
       // 设置日工资：
       setSalary () {

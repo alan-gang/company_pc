@@ -44,8 +44,8 @@ export default {
       regard: false
     }
   },
-  created () {
-    this._getVerifyImage()
+  mounted () {
+    setTimeout(this._getVerifyImage, 1000)
   },
   methods: {
     // 登录
