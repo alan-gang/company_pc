@@ -3,7 +3,7 @@
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
 
-      el-col(:span="24")
+      el-col(:span="row.innertitle? 18 : 24")
         el-row(v-if="row.innertitle")
           el-col.innertitle.text-black(:span="24") {{ row.innertitle }}
 
@@ -361,11 +361,13 @@
 
 <style lang="stylus" scoped>
   .innertitle
+    color #666 !important
     text-align center
     min-height .3rem !important
     height .3rem
     line-height .3rem !important
     background-color #d3d3d3
+    margin .1rem 0
 </style>
 
 <style lang="stylus">
@@ -377,6 +379,11 @@
       padding 0 .15rem
       font-size .2rem
       color #ff0
+  .el-col.square.code
+    .code-input.times.my-center
+      input
+        color #333
+  
   .el-col.circle:not(.hover) .code-input.times.my-center 
     input
       font-size .16rem
@@ -578,13 +585,27 @@
             .code-input
               opacity 1
               
-          &.square    
+          &.square
+            &:hover
+              background-color BLUE
+              color #333
+              .after
+                color #fff
+            margin 0 .18rem
             line-height GCH
+            color #666
             .after
               top .35rem
+              color BLUE
             .code-input
-              top .6rem
-              // opacity 1
+              top .65rem
+              opacity 1
+              background  #fff
+            
+            &.selected
+              color #333
+              .after
+                color #fff
               
         
         &.number-array

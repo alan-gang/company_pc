@@ -114,6 +114,8 @@ export default {
       nsnsTitle: '',
       // 投注号码倍数表示
       nsnsTimes: '',
+      // 投注号码万千百十个表示
+      nsnsATitle: '',
       // 倍数
       times: 1,
       // 金额单位
@@ -572,6 +574,100 @@ export default {
         }, 100)
       })
     },
+    kqquickbook () {
+      let loading = this.$loading({
+        text: '投注中...',
+        target: this.$el
+      }, 10000, '投注超时...')
+      let items = []
+      this.nsns.split(',').forEach((n, i) => {
+        items.push({
+          methodId: parseInt(this.methodid), // 玩法编号
+          projs: 1,
+          money: (this.nsnsTimes.split(',') || [])[i] || 0,
+          content: (this.nsnsATitle.split('|') || [])[i] || '' + '-' + (this.nsnsTitle.split(',') || [])[i] || ''
+        })
+      })
+      this.$http.post(api.booking, {
+        lotteryId: parseInt(this.page.gameid), // 游戏代码
+        issue: String(this.CNPER), // 起始期号
+        totProjs: this.n, // 总注数
+        totMoney: this.pay, // 总投注金额
+        isusefree: 0, // 是否使用优惠券，0-否，1-是
+        betList: JSON.stringify(items)
+      }).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          // this.$message.success('投注成功')
+          loading.text = '投注成功'
+          this.$modal.success({
+            target: this.$el,
+            content: '投注成功',
+            btn: ['确定']
+          })
+          this.__setCall({fn: '__clearSelectedNumbers'})
+          setTimeout(() => {
+            this.__setCall({fn: '__clearValue'})
+          }, 0)
+          setTimeout(() => {
+            this.__setCall({fn: '__getUserFund', callId: undefined})
+          }, 200)
+          setTimeout(() => {
+            this.__setCall({fn: '__orderlist'})
+          }, 400)
+
+          // this.__loading({
+          //   text: '投注成功.',
+          //   target: this.$el
+          // }, 1000)
+          // this.__setCall({fn: '__getOrderList'})
+          // this.__setCall({fn: '__getFollowList'})
+          // this.__setCall({fn: '__getUserFund', callId: undefined})
+          // this.ns = []
+          // this.follow.items = []
+        } else {
+          // this.$message.warning('投注失败！')
+          // let temp = []
+          // data.failItems.split(',').map(i => parseInt(i)).sort((a, b) => b - a).forEach(i => {
+          //   this.ns.splice(i, 1)
+          // })
+          loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
+          !data.msg && this.$modal.warn({
+            target: this.$el,
+            content: parseInt(data.msg) ? '投注失败！' : data.msg,
+            btn: ['确定']
+          })
+          // if (parseInt(data.msg)) {
+          //   data.msg.split(',').map(i => parseInt(i)).forEach(i => {
+          //     temp.push(this.ns[i - 1])
+          //   })
+          //   this.ns = temp
+          //   loading.close()
+          //   this.$modal.warn({
+          //     target: this.$el,
+          //     content: '投注列表中的第' + data.msg + '项投注失败！',
+          //     btn: ['确定']
+          //   })
+          // }
+        }
+      }, (rep) => {
+        loading.text = '投注失败！'
+        this.$modal.warn({
+          target: this.$el,
+          content: '投注失败！',
+          btn: ['确定']
+        })
+        // this.__loading({
+        //   text: '投注失败！',
+        //   target: this.$el
+        // }, 1000)
+        // error
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
     quickbook () {
       if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if (this.pay > (this.checked ? this.free : this.money)) {
@@ -587,6 +683,8 @@ export default {
           O: this
         })
       }
+      if (this.mt === 'kq') this.kqquickbook()
+
       let loading = this.$loading({
         text: '投注中...',
         target: this.$el
@@ -750,10 +848,11 @@ export default {
       this.hasUnable = hasUnable
     },
     // 当前注的号码
-    setNsns (nsns, nsnsTitle, nsnsTimes) {
+    setNsns (nsns, nsnsTitle, nsnsTimes, nsnsATitle) {
       this.nsns = nsns.replace(/[,]+/g, ',').replace(/^[,]+/g, '').replace(/[,]+$/g, '')
       this.nsnsTitle = nsnsTitle
       this.nsnsTimes = nsnsTimes
+      this.nsnsATitle = nsnsATitle
     },
     // 当前注的位置
     setPs (ps) {
