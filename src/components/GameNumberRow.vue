@@ -2,7 +2,11 @@
     el-row.row(:class="{pd25: isDice}" style="clear: both")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
+
       el-col(:span="24")
+        el-row(v-if="row.innertitle")
+          el-col.innertitle.text-black(:span="24") {{ row.innertitle }}
+
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
@@ -355,6 +359,15 @@
   }
 </script>
 
+<style lang="stylus" scoped>
+  .innertitle
+    text-align center
+    min-height .3rem !important
+    height .3rem
+    line-height .3rem !important
+    background-color #d3d3d3
+</style>
+
 <style lang="stylus">
   .number-array.selected .code-input
     input
@@ -521,6 +534,9 @@
           height  2 * GCH
           line-height 1.5 * GCH
           transition all linear .2s
+          &.square
+            radius(0)
+            
           
           .code-input
             width 100%
@@ -550,7 +566,7 @@
             .code-input
               opacity 1
               
-          &.selected    
+          &.selected
             color #fff
             line-height .9 * GCH
             &:not(.has-after)
@@ -561,11 +577,15 @@
               opacity .6
             .code-input
               opacity 1
-          
-          // &.selected:not(.hover)
-          //   line-height 2 * GCH
-          //   .code-input
-          //     top .2 * GCH
+              
+          &.square    
+            line-height GCH
+            .after
+              top .35rem
+            .code-input
+              top .6rem
+              // opacity 1
+              
         
         &.number-array
           width 100%

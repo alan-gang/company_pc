@@ -55,6 +55,7 @@
         defaultRowToRowJoin: '|',
         // 所有玩法号码工作区
         allRows: [
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '万位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: 0, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
           /***
           ** 五星[直选复式,五星组合] | 四星[前四[直选复式,四星组合]] | 前三[直选复式] | 前二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/

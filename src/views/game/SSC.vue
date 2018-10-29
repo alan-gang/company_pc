@@ -4,8 +4,21 @@ export default {
   mixins: [common],
   data () {
     return {
+      kqmenus: [
+        {
+          title: '双面',
+          groups: [
+            {
+              items: [
+                {id: '9-1-1', title: '大小单双'},
+                {id: '9-1-2', title: '龙虎和'}
+              ]
+            }
+          ]
+        }
+      ],
       gameType: 'SSC',
-      menus: [
+      normalmenus: [
         {
           title: '五星',
           groups: [
@@ -366,6 +379,8 @@ export default {
             return '龙虎'
           case '-5':
             return '斗牛'
+          case '9-':
+            return '双面'
         }
       },
       // 玩法信息
@@ -375,6 +390,35 @@ export default {
         title: '',
         // 玩法描述
         description: ''
+      },
+      mt: 'normal'
+    }
+  },
+  computed: {
+    menus () {
+      return ({normal: this.normalmenus, kq: this.kqmenus})[this.mt]
+    }
+  },
+  methods: {
+    __switchMT () {
+      if (this.mt === 'normal') {
+        this.mt = 'kq'
+        this.type = {
+          id: '9-1-1',
+          // 玩法名
+          title: '',
+          // 玩法描述
+          description: ''
+        }
+      } else if (this.mt === 'kq') {
+        this.mt = 'normal'
+        this.type = {
+          id: '-3-1-1',
+          // 玩法名
+          title: '',
+          // 玩法描述
+          description: ''
+        }
       }
     }
   }

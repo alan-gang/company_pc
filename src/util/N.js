@@ -45,6 +45,9 @@ let A = (nsl) => {
 }
 
 let SSC = {
+  '9-1-1' ({nsl}) {
+    return A(nsl)
+  },
   /*
   所有参数集：{
     // 号码集
