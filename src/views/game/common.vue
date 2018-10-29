@@ -617,7 +617,7 @@ export default {
             times: (this.nsnsTimes.split(',') || [])[i] || 0,
             money: ((this.nsnsTimes.split(',') || [])[i] || 0) * this.currency.value,
             mode: this.currency.model,
-            userpoint: this.point
+            userpoint: Number(this.point).toFixed(4)
           })
         })
       } else {
@@ -630,7 +630,7 @@ export default {
           times: this.times,
           money: this.pay,
           mode: this.currency.model,
-          userpoint: this.point
+          userpoint: Number(this.point).toFixed(4)
         })
       }
       this.$http.post(api.booking, {
@@ -866,7 +866,7 @@ export default {
           times: this.follow.show ? 1 : item.times,
           money: this.follow.show ? item.money / item.times : item.money,
           mode: item.mode,
-          userpoint: item.userpoint
+          userpoint: Number(item.userpoint).toFixed(4)
         })
       })
       return items
