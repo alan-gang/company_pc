@@ -3,7 +3,7 @@
     .content-width
       el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false" v-model="show" @show=" __setCall({fn: '__LARCODE'}) ")
         span(slot="reference")
-          span.a(@mouseover="") 登录 | 注册
+          span.a(@click=" __setCall({fn: '__popLogin', args: true}) ") 登录 | 注册
         slot
           LAR
 

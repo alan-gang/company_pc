@@ -15,21 +15,14 @@
 
           label.item 时间 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
-
-
-          //- label.item 范围 
-            el-select(clearable v-bind:disabled=" !ZONES[0] "  v-model="zone" style="width: 1rem" placeholder="默认")
-              el-option(v-for="(U, i) in ZONES" v-bind:label="U" v-bind:value="i")
-
-
-          //- el-select(v-model="S" placeholder="默认排序")
-            el-option(v-for="(F, i) in SS" v-bind:label="F" v-bind:value="i")
-
-          //- | &nbsp;&nbsp;
-
-          //- label.item
-            el-select(clearable v-model=" btos " placeholder="默认" style="width: .8rem")
-              el-option(v-for="(F, i) in ['升序', '降序']" v-bind:label="F" v-bind:value=" i ")
+          
+          label.item
+            .ds-radio-label(:class="{active: ot === 0 }" @click=" ot = 0 " style="padding-right: 0")
+              .ds-radio.white
+              | 仅显示投注的
+            .ds-radio-label(:class="{active: ot === 1 }" @click=" ot = 1 ")
+              .ds-radio.white
+              | 显示全部
 
           .ds-button.primary.large.bold(@click="profitList()") 搜索
           //- .buttons(style="margin-left: .3rem")
@@ -38,46 +31,46 @@
             el-breadcrumb(separator=">")
               el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-          el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName"  v-bind:max-height=" MH " )
+          el-table.header-bold.nopadding(:data="data"  style="; margin: 0"   ref="table" stripe  show-summary v-bind:summary-method="getSummaries" @cell-click="cellClick" v-bind:row-class-name="tableRowClassName"  v-bind:max-height=" MH " @sort-change="sortChange")
 
             el-table-column(class-name="pl2" prop="userName" label="用户名" )
               template(scope="scope")
-                span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ") {{ scope.row.userName }}
 
-            el-table-column(prop="userPoint" label="返点级别" align="center")
+            el-table-column(prop="userPoint" label="返点级别" align="center" )
 
-            el-table-column(align="right" prop="betAmount" label="投注总额")
+            el-table-column(align="right" prop="betAmount" label="投注总额" sortable="custom")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.betAmount) }}
 
-            el-table-column(align="right" prop="pointAmount" label="返点总额" )
+            el-table-column(align="right" prop="pointAmount" label="返点总额" sortable="custom")
 
-            el-table-column(align="right" prop="prizeAmount" label="派奖总额" )
+            el-table-column(align="right" prop="prizeAmount" label="派奖总额" sortable="custom")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.prizeAmount) }}
 
-            el-table-column(align="right" prop="vrBetAmount" label="VR投注" )
-            el-table-column(align="right" prop="vrPointAmount" label="VR返点" )
-            el-table-column(align="right" prop="vrPrizeAmount" label="VR派奖" )
+            el-table-column(align="right" prop="vrBetAmount" label="VR投注" sortable="custom")
+            el-table-column(align="right" prop="vrPointAmount" label="VR返点" sortable="custom")
+            el-table-column(align="right" prop="vrPrizeAmount" label="VR派奖" sortable="custom")
 
 
-            el-table-column(align="right" prop="activityAmount" label="彩票活动")
+            el-table-column(align="right" prop="activityAmount" label="彩票活动" sortable="custom")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.activityAmount) }}
 
-            el-table-column(align="right" prop="salaryAmount" label="工资")
+            el-table-column(align="right" prop="salaryAmount" label="工资" sortable="custom")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.salaryAmount) }}
 
 
-            el-table-column(align="right" prop="settleAmount" label="总盈亏"  )
+            el-table-column(align="right" prop="settleAmount" label="总盈亏"  sortable="custom")
               template(scope="scope")
                 span(:class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } ")  {{ scope.row.settleAmount &&scope.row.settleAmount._nwc() }}
                 
 
             el-table-column(prop="userpoint" label="操作" align="center")
               template(scope="scope")
-                .ds-button.text-button.blue(v-if="!scope.row.lst" style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)") 明细
+                .ds-button.text-button.blue( style="padding: 0 .05rem" @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)") 明细
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -184,7 +177,8 @@
             return time.getTime() > Date.now()
           }
         },
-        stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         data: [],
         pageSize: 20,
         total: 0,
@@ -194,18 +188,16 @@
           {title: '自己'},
           {}
         ],
-        ZONES: ['直接下级', '所有下级'],
-        zone: '',
         name: '',
-        SS: ['投注总额', '盈亏金额', '工资总额', '返点级别'],
-        S: '',
-        btos: '',
-        totalJson: {},
         I: 0,
         cdata: [],
         ctotal: 0,
         ccurrentPage: 1,
-        cpreOptions: {}
+        cpreOptions: {},
+        ot: 0,
+        orderBy: 'betAmount',
+        ascOrDesc: 1,
+        totalJson: {}
       }
     },
     computed: {
@@ -215,12 +207,20 @@
         if (this.I === 0) {
           setTimeout(this.profitList)
         }
+      },
+      ot () {
+        this.profitList()
       }
     },
     mounted () {
       this.profitList()
     },
     methods: {
+      sortChange ({ column, prop, order }) {
+        this.ascOrDesc = order === 'ascending' ? 2 : 1
+        this.orderBy = prop
+        this.profitList()
+      },
       sm (a, b) {
         console.log(a, b, '???')
         return a - b
@@ -233,7 +233,7 @@
         const sums = []
         columns.forEach((column, index) => {
           if (index === 0) {
-            sums[index] = '总计'
+            sums[index] = '团队总计'
             return
           } else {
             sums[index] = numberWithCommas(this.totalJson[column.property])
@@ -252,11 +252,12 @@
         })
       },
       cellClick (row, column, cell, event) {
-        if (column.property === 'userName') {
+        if (column.property === 'userName' && row.hasSub) {
           // this.BL.push({
           //   id: row.userId,
           //   title: row.userName
           // })
+          this.name = row.userName
           this.profitList(undefined, undefined, row.userId)
         }
       },
@@ -265,6 +266,7 @@
           // this.BL = this.BL.slice(0, i + 1)
           // this.profitList()
         // }
+        this.name = i === 0 ? '' : B.userName || ''
         this.profitList(undefined, undefined, B.userId)
       },
       // 盈亏报表列表
@@ -272,6 +274,7 @@
       // profitList: api + 'report/profit.do?method=list',
       // api.getTeamProfit
       profitList (page, fn, id) {
+        this.totalJson = {}
         let loading = this.$loading({
           text: '加载中...',
           target: this.$refs['table'].$el
@@ -283,10 +286,13 @@
             userId: id || this.BL[this.BL.length - 2].userId,
             parentId: this.zone !== '' ? this.zone + 1 : '',
             username: this.name,
-            orderType: this.S === '' ? '' : this.S + 1,
-            sort: this.btos === '' ? 2 : this.btos + 1,
+            // orderType: this.S === '' ? '' : this.S + 1,
+            // sort: this.btos === '' ? 2 : this.btos + 1,
             page: 1,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            listAll: this.ot,
+            orderBy: this.orderBy || '',
+            ascOrDesc: this.ascOrDesc || ''
           }
         } else {
           this.preOptions.page = page
@@ -294,9 +300,10 @@
         this.$http.myget(api.profitList, this.preOptions).then(({data}) => {
           // success
           if (data.success === 1) {
-            // this.totalJson = data.totalJson
-            // data.pageTotalJson.lst = true
-            // data.pageNum > 1 && data.allDate.push(data.pageTotalJson)
+            if (data.items.filter(x => x.userName === '团队合计：')[0]) {
+              this.totalJson = data.items.pop()
+            }
+            // data.items[1] && (data.items[data.items.length - 1].lst = true)
             this.data = data.items
             this.BL = (data.userBreads).concat([{}])
             this.total = data.totalSize || this.data.length
@@ -355,12 +362,15 @@
           }, 100)
         })
       },
-      tableRowClassName (row) {
+      tableRowClassName (row, index) {
         // if (this.me.account === row.userName) return 'text-danger'
+        if (row.lst) return 'lst-row lst-row-greybg'
       }
     }
   }
 </script>
+
+
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'

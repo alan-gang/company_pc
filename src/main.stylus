@@ -1,5 +1,19 @@
 @import './var.stylus'
 @import './ie.stylus'
+.el-table
+  tr.lst-row-greybg td
+    background-color #ddd !important
+#app.night
+  .el-table
+  tr.lst-row-greybg td
+    background-color #444 !important
+  .el-table__empty-text
+    color #ccc
+  .page-tool-bar .tabs .tab
+    background #555
+    &.selected
+      background #333 
+    
 // .el-table__header-wrapper
 // .el-table__body-wrapper
 // .el-table__footer-wrapper
@@ -429,13 +443,6 @@ pre
     .el-table__header
       border-bottom 1px solid #bbb
       
-      
-
-    // .el-table__body th
-    //   border-bottom 1px solid #666
-    // .el-table__fixed-right-patch
-    //   border-bottom x
-      
 
   table-header-font-weight(x = normal)
     th 
@@ -445,9 +452,6 @@ pre
     .el-table--enable-row-hover .el-table__body tr:hover>td
       background-color x
 
-    // tr.hover-row td
-    //   background-color x
-  
   table-row-selected(x = #f1e0e1)
     tr.selected-row td
       background-color x
@@ -465,6 +469,10 @@ pre
   .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
     color inherit
     background-color inherit
+    
+  #app.night .el-table--striped .el-table__body tr td
+    background #444
+    
   #app.night .el-table--striped .el-table__body tr:nth-child(2n) td
     background #555
   #app.night .el-table__header-wrapper th
@@ -477,11 +485,14 @@ pre
   .el-table__fixed::before
   .el-table__fixed::after
     display none
+    
   .el-table--enable-row-hover .el-table__body tr:hover>td
+  .el-table--enable-row-hover .el-table__body tr.el-table__row--striped:hover>td
     background-color #d8e6ef
 
   #app.night .el-table
     background #666
+  
 
   .el-table
     table tr
@@ -509,7 +520,7 @@ pre
     table-header-height()
     
     .el-table__body tr.el-table__row--striped td
-      background-image: linear-gradient(#f8f8f8, #f8f8f8), linear-gradient(#f8f8f8, #f8f8f8);
+      background-color #f8f8f8
 
     &.header-bold
       th
