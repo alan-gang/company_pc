@@ -3,7 +3,7 @@
 
 
 
-    el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow" v-bind:popper-class="'popover-blue popover-times ' + (fts.length > 0 ? true : false)")
+    el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (fts.length > 0 ? true : false)")
       dl.submenu
         dd(v-for="i in fts" @click="(ftshow = false) || (ft = i)") {{ i }}
     
@@ -11,7 +11,7 @@
 
 
 
-    el-popover(ref="times" placement="top" v-bind:offset="0" trigger="click" v-model="show" v-bind:popper-class="'popover-blue popover-times ' + (ts.length > 0 ? true : false)")
+    el-popover(ref="times" placement="top" v-bind:offset="0" trigger="click" v-model="show" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (ts.length > 0 ? true : false)")
       dl.submenu
         dd(v-for="i in tss" @click="(show = false) || (t = i)") {{ i }}
     

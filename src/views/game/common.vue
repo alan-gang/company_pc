@@ -494,7 +494,8 @@ export default {
             if (!this.checked) {
               this.$router.push('/me/2-4-1')
             }
-          }
+          },
+          O: this
         })
       }
 
