@@ -55,11 +55,11 @@
         defaultRowToRowJoin: '|',
         // 所有玩法号码工作区
         allRows: [
-          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '万位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
-          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '千位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
-          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '百位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
-          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '十位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
-          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '个位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '和', value: '6', times: 0, after: 18.8}]},
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '万位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '千位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '百位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '十位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
+          {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '个位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
           /***
           ** 五星[直选复式,五星组合] | 四星[前四[直选复式,四星组合]] | 前三[直选复式] | 前二[直选复式] | 一星[定位胆] | 任选[任*[直选复式]]
           ***/
@@ -357,6 +357,7 @@
         nsTitle: [],
         // 号码的倍数集
         nsTimes: [],
+        nsAtitle: [],
         // 导入文件
         upload: true,
         titleSpan: 0,
@@ -583,7 +584,7 @@
           if (this.rows[i].join) this.ns[i] = ns.join(this.rows[i].join || ',')
         })
         // fixed 当只有有join的时候才需要forEach *****
-        this.$emit('set-nsns', this.ns.join(this.rowToRowJoin), this.nsTitle.join(','), this.nsTimes.join(','), this.rows.map(x => (x = x.title || x.innertitle)).join('|'))
+        this.$emit('set-nsns', this.ns.join(this.rowToRowJoin), this.nsTitle.join(','), this.nsTimes.join(','), this.nsAtitle.join(','))
       },
       ps () {
         this.$emit('set-ps', this.ps)
@@ -655,6 +656,9 @@
         })
         this.nsTimes = this.rows.filter(x => x.nsTimes).map(r => {
           return (r = r.nsTimes || '')
+        })
+        this.nsAtitle = this.rows.filter(x => x.nsAtitle).map(r => {
+          return (r = r.nsAtitle || '')
         })
       },
       // on number row selecting

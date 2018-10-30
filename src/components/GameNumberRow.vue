@@ -95,6 +95,11 @@
           return (n = n.times)
         })
       },
+      nsAtitle () {
+        return this.numbers.filter(n => n.selected).map(n => {
+          return (n = this.row.title || this.row.innertitle)
+        })
+      },
       // nsValue () {
       //   if (this.row.join) {
       //     return [this.ns.join(this.row.join)]
@@ -133,6 +138,7 @@
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
         this.row.nsTimes = this.nsTimes.join(',')
+        this.row.nsAtitle = this.nsAtitle.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },
@@ -140,6 +146,7 @@
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
         this.row.nsTimes = this.nsTimes.join(',')
+        this.row.nsAtitle = this.nsAtitle.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },

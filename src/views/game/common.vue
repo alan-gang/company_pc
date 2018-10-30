@@ -23,12 +23,22 @@
 
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt")
+
+      //- 快钱下单
+      GameKQOrderBar.onbefore(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"   v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+
+
       <!-- 选号区 -->
       GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+
+      //- 快钱下单
+      GameKQOrderBar.onafter( v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"   v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+
+
       <!-- 下单 -->
-      GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+      GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' ")
       <!-- 投注单 -->
-      GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book")
+      GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" )
       <!-- 追号栏 -->
       transition(name="slide-left" appear=true key="follow")
         GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
@@ -56,6 +66,7 @@ import NewGameInfo from 'components/NewGameInfo'
 import GameMenu from 'components/GameMenu'
 import GameSelection from 'components/GameSelection'
 import GameOrderBar from 'components/GameOrderBar'
+import GameKQOrderBar from 'components/GameKQOrderBar'
 import GameOrderList from 'components/GameOrderList'
 import GameAmountBar from 'components/GameAmountBar'
 import GameFollowbar from 'components/GameFollowbar'
@@ -115,7 +126,7 @@ export default {
       // 投注号码倍数表示
       nsnsTimes: '',
       // 投注号码万千百十个表示
-      nsnsATitle: '',
+      nsnsAtitle: '',
       // 倍数
       times: 1,
       // 金额单位
@@ -585,16 +596,18 @@ export default {
           methodId: parseInt(this.methodid), // 玩法编号
           projs: 1,
           money: (this.nsnsTimes.split(',') || [])[i] || 0,
-          content: (this.nsnsATitle.split('|') || [])[i] || '' + '-' + (this.nsnsTitle.split(',') || [])[i] || ''
+          content: ((this.nsnsAtitle.split(',') || [])[i] || '') + '-' + ((this.nsnsTitle.split(',') || [])[i] || '')
         })
       })
-      this.$http.post(api.booking, {
-        lotteryId: parseInt(this.page.gameid), // 游戏代码
-        issue: String(this.CNPER), // 起始期号
-        totProjs: this.n, // 总注数
-        totMoney: this.pay, // 总投注金额
-        isusefree: 0, // 是否使用优惠券，0-否，1-是
-        betList: JSON.stringify(items)
+      this.$http.post(api.doBet, {
+        betData: JSON.stringify({
+          lotteryId: parseInt(this.page.gameid), // 游戏代码
+          issue: String(this.CNPER), // 起始期号
+          totProjs: this.n, // 总注数
+          totMoney: this.pay / this.currency.value, // 总投注金额
+          isusefree: 0, // 是否使用优惠券，0-否，1-是
+          betList: items
+        })
       }).then(({data}) => {
         // success
         if (data.success > 0) {
@@ -683,7 +696,7 @@ export default {
           O: this
         })
       }
-      if (this.mt === 'kq') this.kqquickbook()
+      if (this.mt === 'kq') return this.kqquickbook()
 
       let loading = this.$loading({
         text: '投注中...',
@@ -848,11 +861,11 @@ export default {
       this.hasUnable = hasUnable
     },
     // 当前注的号码
-    setNsns (nsns, nsnsTitle, nsnsTimes, nsnsATitle) {
+    setNsns (nsns, nsnsTitle, nsnsTimes, nsnsAtitle) {
       this.nsns = nsns.replace(/[,]+/g, ',').replace(/^[,]+/g, '').replace(/[,]+$/g, '')
       this.nsnsTitle = nsnsTitle
       this.nsnsTimes = nsnsTimes
-      this.nsnsATitle = nsnsATitle
+      this.nsnsAtitle = nsnsAtitle
     },
     // 当前注的位置
     setPs (ps) {
@@ -1034,7 +1047,8 @@ export default {
     GameFollowbar,
     GameFollowList,
     GameLuckyNumberHistory,
-    GameRecentOrder
+    GameRecentOrder,
+    GameKQOrderBar
     // GameOrderHistory,
     // GameFollowHistory
   }

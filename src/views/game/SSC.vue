@@ -10,7 +10,7 @@ export default {
           groups: [
             {
               items: [
-                {id: '9-1-1', title: '大小单双'},
+                {id: '9-1-1', title: '大小单双', join: ','},
                 {id: '9-1-2', title: '龙虎和'}
               ]
             }
@@ -408,7 +408,8 @@ export default {
           // 玩法名
           title: '',
           // 玩法描述
-          description: ''
+          description: '',
+          join: ','
         }
       } else if (this.mt === 'kq') {
         this.mt = 'normal'
