@@ -38,10 +38,11 @@
 <script>
 import store from '../store'
 export default {
-  props: ['n', 'pay', 'canOrder'],
+  props: ['times', 'n', 'pay', 'canOrder'],
   data () {
     return {
       me: store.state.user,
+      t: 1,
       // 快速金额
       ft: 2,
       fts: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
@@ -59,13 +60,20 @@ export default {
       if (this.ft >= 0) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})
       }
+    },
+    t () {
+      this.setTimes(parseInt(this.t))
     }
   },
   mounted () {
+    this.t = this.ft
   },
   methods: {
     quickbook () {
       this.$emit('quickbook')
+    },
+    setTimes (t) {
+      this.$emit('set-times', t)
     }
   },
   components: {

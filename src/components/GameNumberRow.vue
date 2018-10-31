@@ -3,9 +3,9 @@
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
 
-      el-col(:span="row.innertitle? 18 : 24")
-        el-row(v-if="row.innertitle")
-          el-col.innertitle.text-black(:span="24") {{ row.innertitle }}
+      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 18 : 24")
+        el-row(v-if="row.innertitle || row.innertitleCopy")
+          el-col.innertitle.text-black(:span="24") {{ row.innertitle || row.innertitleCopy }} {{ row.afterONtitle ? '@' + row.afterONtitle : '' }}
 
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
@@ -85,8 +85,8 @@
       },
       // 选号的号码title集
       nsTitle () {
-        return this.numbers.filter(n => n.selected && typeof n.title === 'string').map(n => {
-          return (n = n.title)
+        return this.numbers.filter(n => n.selected).map(n => {
+          return (n = n.vtitle || n.title || n.value)
         })
       },
       // 选号的号码倍数集
@@ -110,6 +110,9 @@
       },
       isCode () {
         return this.row.class ? this.row.class.indexOf('code') !== -1 : false
+      },
+      isSquare () {
+        return this.row.class ? this.row.class.indexOf('square') !== -1 : false
       },
       isNA () {
         return this.row.class ? this.row.class.indexOf('number-array') !== -1 : false
@@ -209,7 +212,7 @@
             value: this.row.min + index,
             title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0'),
             // 单个号码样式
-            class: this.isCode && this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
+            class: this.isCode && !this.isSquare && this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
             // 单个号码的倍数
             times: this.row.times,
             // 赔率
@@ -415,6 +418,15 @@
         width 50%
         display inline-block
         margin 0 !important
+      &.halfhalf-row
+        width 25%
+        display inline-block
+        margin 0 !important
+      &.third-half-row
+        width 33%
+        display inline-block
+        margin 0 !important
+        
       &.row
         padding 0 .2rem
         margin .05rem 0
@@ -483,6 +495,9 @@
         
         // margin 0 .01rem
         cursor pointer
+        &.sb-adjust
+          margin 0 .13rem
+          
         &.default
           width GCH
           border-radius 50%
@@ -598,7 +613,7 @@
               color #333
               .after
                 color #fff
-            margin 0 .18rem
+            margin .05rem .18rem
             line-height GCH
             color #666
             .after
@@ -613,6 +628,11 @@
               color #333
               .after
                 color #fff
+            
+            &.small-space
+              margin 0 .1rem
+            &.small-space-s
+              margin 0 .055rem
               
         
         &.number-array

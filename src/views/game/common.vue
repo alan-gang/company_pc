@@ -25,14 +25,14 @@
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt")
 
       //- 快钱下单
-      GameKQOrderBar.onbefore(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"   v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+      GameKQOrderBar.onbefore(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
 
 
       <!-- 选号区 -->
       GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
 
       //- 快钱下单
-      GameKQOrderBar.onafter( v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"   v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+      GameKQOrderBar.onafter( v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
 
 
       <!-- 下单 -->
@@ -196,7 +196,7 @@ export default {
       }, [])
     },
     pricePerOrder () {
-      return this.gameType === 'HC6' ? 1 : 2
+      return this.gameType === 'HC6' || this.mt === 'kq' ? 1 : 2
     },
     callId () {
       return this.page.gameid + '|' + this.type.id
@@ -228,10 +228,23 @@ export default {
         return (p += n.pay / n.times)
       }, 0)
     },
+    // P () {
+    //   return this.PS.find(p => {
+    //     return (p.methodid + '') === this.methodid
+    //   }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}
+    // },
+    // newUserPoint
     P () {
-      return this.PS.find(p => {
-        return (p.methodid + '') === this.methodid
-      }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}
+      return (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}])[0]
+    },
+    PA () {
+      return (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}])
+    },
+    AFTERS () {
+      return this.PA.reduce((p, x, i) => {
+        p.push(x.maxprize)
+        return p
+      }, [])
     },
     methodid () {
       return M[this.type.id + this.idType].split(':')[0]
@@ -261,9 +274,11 @@ export default {
     methodid () {
       this.__setCall({
         fn: '__setRowsSl',
-        args: (this.PS.find(p => {
-          return (p.methodid + '') === this.methodid
-        }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}).singleRowMaxLen})
+        args: (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}])[0].singleRowMaxLen || 0
+        // args: (this.PS.find(p => {
+          // return (p.methodid + '') === this.methodid
+        // }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}).singleRowMaxLen})
+      })
     },
     n (n, o) {
       clearTimeout(this.wnt)
@@ -334,7 +349,8 @@ export default {
       }
     },
     P () {
-      this.__setCall({fn: '__setAfters', args: this.P.maxprize})
+      // this.__setCall({fn: '__setAfters', args: this.P.maxprize})
+      this.__setCall({fn: '__setAfters', args: this.AFTERS})
     }
   },
   created () {
@@ -448,8 +464,8 @@ export default {
         // data.items = a
         if (data.success > 0) this.PS = data.items
         this.menuItemArray.forEach(mi => {
-          // console.log(M[mi.id + this.idType].split(':')[0], data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
-          this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
+          // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
+          this.$set(mi, 'hide', !data.items[M[mi.id + this.idType].split(':')[0]])
         })
         setTimeout(() => {
           window.localStorage.getItem('point') && (this.point = window.localStorage.getItem('point'))
@@ -585,20 +601,39 @@ export default {
         }, 100)
       })
     },
+    extract () {
+      let items = []
+      this.nsns.split('|')[0].split(',').forEach((n, i) => {
+        this.nsns.split('|')[1].split(',').forEach((m, j) => {
+          items.push({
+            methodId: parseInt(this.methodid), // 玩法编号
+            projs: 1,
+            money: this.times,
+            content: n + ',' + m
+          })
+        })
+      })
+      return items
+    },
     kqquickbook () {
       let loading = this.$loading({
         text: '投注中...',
         target: this.$el
       }, 10000, '投注超时...')
       let items = []
-      this.nsns.split(',').forEach((n, i) => {
-        items.push({
-          methodId: parseInt(this.methodid), // 玩法编号
-          projs: 1,
-          money: (this.nsnsTimes.split(',') || [])[i] || 0,
-          content: ((this.nsnsAtitle.split(',') || [])[i] || '') + '-' + ((this.nsnsTitle.split(',') || [])[i] || '')
+      if (this.type.extract) {
+        // 解析出组合的各种结果
+        items = this.extract()
+      } else {
+        this.nsns.split(',').forEach((n, i) => {
+          items.push({
+            methodId: parseInt(this.methodid), // 玩法编号
+            projs: 1,
+            money: (this.nsnsTimes.split(',') || [])[i] || 0,
+            content: ((this.nsnsAtitle.split(',') || [])[i] ? (this.nsnsAtitle.split(',') || [])[i] + '-' : '') + ((this.nsnsTitle.split(',') || [])[i] || '')
+          })
         })
-      })
+      }
       this.$http.post(api.doBet, {
         betData: JSON.stringify({
           lotteryId: parseInt(this.page.gameid), // 游戏代码

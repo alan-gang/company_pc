@@ -10,8 +10,73 @@ export default {
           groups: [
             {
               items: [
-                {id: '9-1-1', title: '大小单双', join: ','},
-                {id: '9-1-2', title: '龙虎和'}
+                {id: '9-1-1', title: '大小单双', join: ',', toporderbar: true},
+                {id: '9-1-2', title: '总和、龙虎和', join: ',', toporderbar: false}
+              ]
+            }
+          ]
+        },
+        {
+          title: '数字盘',
+          groups: [
+            {
+              items: [
+                {id: '9-2-1', title: '数字盘', join: ',', toporderbar: true}
+              ]
+            }
+          ]
+        },
+        {
+          title: '定位',
+          groups: [
+            {
+              items: [
+                {id: '9-3-1', title: '一字定位', join: ',', toporderbar: true}
+              ]
+            }
+          ]
+        },
+        {
+          title: '一字组合',
+          groups: [
+            {
+              items: [
+                {id: '9-4-1', title: '全五一字', join: ','},
+                {id: '9-4-2', title: '前三一字', join: ','},
+                {id: '9-4-3', title: '中三一字', join: ','},
+                {id: '9-4-4', title: '后三一字', join: ','}
+              ]
+            }
+          ]
+        },
+        {
+          title: '二字组合',
+          groups: [
+            {
+              items: [
+                {id: '9-5-1', title: '前三二字', extract: true},
+                {id: '9-5-2', title: '中三字', extract: true},
+                {id: '9-5-3', title: '后三二字', extract: true}
+              ]
+            }
+          ]
+        },
+        {
+          title: '二字和数',
+          groups: [
+            {
+              items: [
+                {id: '9-6-1', title: '二字和数', join: ','}
+              ]
+            }
+          ]
+        },
+        {
+          title: '龙虎',
+          groups: [
+            {
+              items: [
+                {id: '9-7-1', title: '龙虎', join: ','}
               ]
             }
           ]
@@ -380,7 +445,22 @@ export default {
           case '-5':
             return '斗牛'
           case '9-':
-            return '双面'
+            switch (this.type.id.slice(0, 3)) {
+              case '9-1':
+                return '双面'
+              case '9-2':
+                return '数字盘'
+              case '9-3':
+                return '定位'
+              case '9-4':
+                return '一字组合'
+              case '9-5':
+                return '二字组合'
+              case '9-6':
+                return '二字和数'
+              case '9-7':
+                return '龙虎'
+            }
         }
       },
       // 玩法信息
