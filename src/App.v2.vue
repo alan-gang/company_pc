@@ -49,6 +49,7 @@ import base from './components/base'
 import store from './store'
 // import cookie from 'js-cookie'
 import api from './http/api'
+import Socket from './socket'
 export default {
   name: 'App',
   mixins: [base],
@@ -1168,6 +1169,7 @@ export default {
           cashPwd: data.hasSecurityPwd === 1,
           type: data.identity,
           account: data.userName,
+          userId: data.userId,
           shareCycle: data.shareCycle,
           role: data.roleId,
           hasBankCard: data.hasBankCard === 1,
@@ -1191,7 +1193,18 @@ export default {
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
+        !Socket.sockets.user && Socket.connect('user', this.connected)
+        // !Socket.notify.messages.find(fn => fn.name === this.__message.name) && Socket.notify.messages.push(this.__message)
       })
+    },
+    connected (socket) {
+      socket.send(JSON.stringify({
+        parameter: {
+          userId: this.Me.userId,
+          app: 'web'
+        },
+        action: 'auth'
+      }))
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -1307,6 +1320,7 @@ export default {
       if (args && args.fn) args.fn()
       this.__logoutChat()
       if (this.$route.meta.rl) this.$router.push('/')
+      Socket.close('user')
     },
     __logout (args) {
       this.logout(args)
