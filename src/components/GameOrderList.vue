@@ -6,7 +6,7 @@
 
       el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2")
         template(scope="scope") 
-          span {{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
+          span {{ scope.row.ttitle ? scope.row.ttitle + '-' : '' }}{{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
       el-table-column(prop="$" label="模式" )
       el-table-column(prop="n" label="注数"  align="right")

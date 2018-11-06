@@ -177,7 +177,7 @@
 
             p 可能中奖的情况：
             
-            el-table.header-bold.nopadding.vtop(:data="expandList" v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
+            el-table.header-bold.nopadding.vtop(:data="expandList" stripe v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
               el-table-column(class-name="pl2" prop="projectid" label="编号" width="160" )
 

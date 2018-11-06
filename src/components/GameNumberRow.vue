@@ -2,7 +2,11 @@
     el-row.row(:class="{pd25: isDice}" style="clear: both")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
-      el-col(:span="24")
+
+      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 18 : 24")
+        el-row(v-if="row.innertitle || row.innertitleCopy")
+          el-col.innertitle.text-black(:span="24") {{ row.innertitle || row.innertitleCopy }} {{ row.afterONtitle ? '@' + row.afterONtitle : '' }}
+
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
             el-row
@@ -81,14 +85,19 @@
       },
       // 选号的号码title集
       nsTitle () {
-        return this.numbers.filter(n => n.selected && typeof n.title === 'string').map(n => {
-          return (n = n.title)
+        return this.numbers.filter(n => n.selected).map(n => {
+          return (n = n.vtitle || n.title || n.value)
         })
       },
       // 选号的号码倍数集
       nsTimes () {
         return this.numbers.filter(n => n.selected && n.times > 0).map(n => {
           return (n = n.times)
+        })
+      },
+      nsAtitle () {
+        return this.numbers.filter(n => n.selected).map(n => {
+          return (n = this.row.title || this.row.innertitle)
         })
       },
       // nsValue () {
@@ -101,6 +110,9 @@
       },
       isCode () {
         return this.row.class ? this.row.class.indexOf('code') !== -1 : false
+      },
+      isSquare () {
+        return this.row.class ? this.row.class.indexOf('square') !== -1 : false
       },
       isNA () {
         return this.row.class ? this.row.class.indexOf('number-array') !== -1 : false
@@ -129,6 +141,7 @@
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
         this.row.nsTimes = this.nsTimes.join(',')
+        this.row.nsAtitle = this.nsAtitle.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },
@@ -136,6 +149,7 @@
         this.row.ns = this.ns
         this.row.nsTitle = this.nsTitle.join(',')
         this.row.nsTimes = this.nsTimes.join(',')
+        this.row.nsAtitle = this.nsAtitle.join(',')
         this.$emit('numbers-change')
         this.btnIndex = this.getBtnIndex()
       },
@@ -198,7 +212,7 @@
             value: this.row.min + index,
             title: !this.row.l ? (this.row.min + index) : padStart(this.row.min + index, this.row.l, '0'),
             // 单个号码样式
-            class: this.isCode && this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
+            class: this.isCode && !this.isSquare && this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+,', 'g')) ? this.codeClass.match(new RegExp(',' + (this.row.min + index) + '' + ':\\w+', 'g'))[0].split(':')[1] : '',
             // 单个号码的倍数
             times: this.row.times,
             // 赔率
@@ -355,6 +369,17 @@
   }
 </script>
 
+<style lang="stylus" scoped>
+  .innertitle
+    color #666 !important
+    text-align center
+    min-height .3rem !important
+    height .3rem
+    line-height .3rem !important
+    background-color #d3d3d3
+    margin .05rem 0
+</style>
+
 <style lang="stylus">
   .number-array.selected .code-input
     input
@@ -364,6 +389,11 @@
       padding 0 .15rem
       font-size .2rem
       color #ff0
+  .el-col.square.code
+    .code-input.times.my-center
+      input
+        color #333
+  
   .el-col.circle:not(.hover) .code-input.times.my-center 
     input
       font-size .16rem
@@ -388,6 +418,15 @@
         width 50%
         display inline-block
         margin 0 !important
+      &.halfhalf-row
+        width 25%
+        display inline-block
+        margin 0 !important
+      &.third-half-row
+        width 33%
+        display inline-block
+        margin 0 !important
+        
       &.row
         padding 0 .2rem
         margin .05rem 0
@@ -456,6 +495,9 @@
         
         // margin 0 .01rem
         cursor pointer
+        &.sb-adjust
+          margin 0 .13rem
+          
         &.default
           width GCH
           border-radius 50%
@@ -521,6 +563,8 @@
           height  2 * GCH
           line-height 1.5 * GCH
           transition all linear .2s
+          &.square
+            radius(0)
           
           .code-input
             width 100%
@@ -550,7 +594,7 @@
             .code-input
               opacity 1
               
-          &.selected    
+          &.selected
             color #fff
             line-height .9 * GCH
             &:not(.has-after)
@@ -561,11 +605,39 @@
               opacity .6
             .code-input
               opacity 1
-          
-          // &.selected:not(.hover)
-          //   line-height 2 * GCH
-          //   .code-input
-          //     top .2 * GCH
+              
+          &.square
+            &:hover
+              background-color BLUE
+              color #333
+              .after
+                color #fff
+            min-height .5rem    
+            height .64rem            
+            margin .05rem .18rem
+            padding .05rem .05rem
+            line-height 1.2
+            color #666
+            .after
+              position relative
+              top 0
+              color BLUE
+              float right
+              padding-right .05rem
+            .code-input
+              opacity 1
+              background  #fff
+            
+            &.selected
+              color #333
+              .after
+                color #fff
+            
+            &.small-space
+              margin 0 .1rem
+            &.small-space-s
+              margin 0 .055rem
+              
         
         &.number-array
           width 100%

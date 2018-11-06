@@ -45,6 +45,51 @@ let A = (nsl) => {
 }
 
 let SSC = {
+  '9-1-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-1-2' ({nsl}) {
+    return A(nsl)
+  },
+  '9-1-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-1-2' ({nsl}) {
+    return A(nsl)
+  },
+  '9-2-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-3-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-4-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-4-2' ({nsl}) {
+    return A(nsl)
+  },
+  '9-4-3' ({nsl}) {
+    return A(nsl)
+  },
+  '9-4-4' ({nsl}) {
+    return A(nsl)
+  },
+  '9-5-1' ({nsl}) {
+    return P(nsl)
+  },
+  '9-5-2' ({nsl}) {
+    return P(nsl)
+  },
+  '9-5-3' ({nsl}) {
+    return P(nsl)
+  },
+  '9-6-1' ({nsl}) {
+    return A(nsl)
+  },
+  '9-7-1' ({nsl}) {
+    return A(nsl)
+  },
   /*
   所有参数集：{
     // 号码集

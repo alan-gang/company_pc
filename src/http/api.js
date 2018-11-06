@@ -26,6 +26,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  doBet: '/game/fastBet.do?method=doBet',
   leaderBoard: '/home/notices.do?method=leaderBoard',
   getCodeByTag: '/team/createAccount.do?method=getCodeByTag',
   activityReportDetail: '/report/activityReport.do?method=detailList',
@@ -184,7 +185,8 @@ let Game = {
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
   // 4.返点信息
-  getUserpoint: '/userpoint.do?method=myPoint',
+  // getUserpoint: '/userpoint.do?method=myPoint',
+  getUserpoint: '/userpoint.do?method=myNewPoint',
   // http://192.168.169.44:9901/cagamesclient/userpoint.do?method=myPoint&gameid=1
 
   // 5.投注接口
