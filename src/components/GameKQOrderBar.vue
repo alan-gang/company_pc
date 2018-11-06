@@ -25,7 +25,7 @@
         | 已选 
         span.count {{ n }} 
         | 注&nbsp;&nbsp;共 
-        span.pay {{ pay.toFixed(3) }}
+        span.pay {{ PAY.toFixed(3) }}
         |  元
         .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && quickbook()") 一键下单
         .ds-button.cancel.random.bold.large(@click="__setCall({fn: '__clearSelectedNumbers'})") 重置
@@ -38,7 +38,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['times', 'n', 'pay', 'canOrder'],
+  props: ['times', 'n', 'pay', 'canOrder', 'currency'],
   data () {
     return {
       me: store.state.user,
@@ -50,6 +50,9 @@ export default {
     }
   },
   computed: {
+    PAY () {
+      return this.pay / this.currency.value
+    }
   },
   watch: {
     ft () {
@@ -132,8 +135,9 @@ export default {
     background-image url(../assets/kqorderbar/icon_kq_qian_50.png)
     background-repeat no-repeat
     background-position center
+    transition transform linear .3s
     &:hover
-      transform rotateX(30deg)
+      transform rotateX(40deg)
     &.a100
        background-image url(../assets/kqorderbar/icon_kq_qian_100.png)
     &.a500
