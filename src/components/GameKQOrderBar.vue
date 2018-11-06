@@ -9,7 +9,7 @@
       
 
 
-      el-col.left(:span="12")
+      el-col.left(:span="11")
         span 快速金额&nbsp;
         el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft")
         span.kq_icon.a50(@click=" ft = 50 ")
@@ -21,7 +21,7 @@
 
 
 
-      el-col.right(:span=" 12 ")
+      el-col.right(:span=" 13 ")
         | 已选 
         span.count {{ n }} 
         | 注&nbsp;&nbsp;共 
@@ -59,6 +59,7 @@ export default {
       this.t = this.ft
       if (this.ft >= 0) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+        this.__setCall({fn: '__updateFT', args: this.ft})
       }
     },
     t () {
@@ -66,7 +67,9 @@ export default {
     }
   },
   mounted () {
+    if (this.times > 1) this.ft = this.times
     this.t = this.ft
+    this.__setCall({fn: '__updateFT', args: this.ft})
   },
   methods: {
     quickbook () {
@@ -74,6 +77,9 @@ export default {
     },
     setTimes (t) {
       this.$emit('set-times', t)
+    },
+    __updateFT (ft) {
+      this.ft = ft
     }
   },
   components: {

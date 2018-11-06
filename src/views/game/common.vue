@@ -22,7 +22,7 @@
       NewGameInfo(v-bind:volume="page.volume" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
       <!-- 游戏菜单 -->
-      GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt")
+      GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
 
       //- 快钱下单
       GameKQOrderBar.onbefore(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
@@ -649,7 +649,7 @@ export default {
           // this.$message.success('投注成功')
           loading.text = '投注成功'
           this.$modal.success({
-            target: this.$el,
+            target: this.mt === 'kq' && this.type.toporderbar ? undefined : this.$el,
             content: '投注成功',
             btn: ['确定']
           })
@@ -681,7 +681,7 @@ export default {
           // })
           loading.text = parseInt(data.msg) ? '投注失败！' : data.msg
           !data.msg && this.$modal.warn({
-            target: this.$el,
+            target: this.mt === 'kq' && this.type.toporderbar ? undefined : this.$el,
             content: parseInt(data.msg) ? '投注失败！' : data.msg,
             btn: ['确定']
           })
@@ -701,7 +701,7 @@ export default {
       }, (rep) => {
         loading.text = '投注失败！'
         this.$modal.warn({
-          target: this.$el,
+          target: this.mt === 'kq' && this.type.toporderbar ? undefined : this.$el,
           content: '投注失败！',
           btn: ['确定']
         })
@@ -851,6 +851,7 @@ export default {
     setType (type) {
       this.type = type
       this.__setCall({fn: '__clearSelectedNumbers'})
+      this.__setCall({fn: '__setDefaultTimes', args: this.times})
       setTimeout(() => {
         this.__setCall({fn: '__clearValue'})
       }, 0)
@@ -961,7 +962,7 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       } else {
-        this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+        this.ns.unshift(Object.assign({ttitle: this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g

@@ -377,7 +377,7 @@
     height .3rem
     line-height .3rem !important
     background-color #d3d3d3
-    margin .1rem 0
+    margin .05rem 0
 </style>
 
 <style lang="stylus">
@@ -565,7 +565,6 @@
           transition all linear .2s
           &.square
             radius(0)
-            
           
           .code-input
             width 100%
@@ -613,14 +612,19 @@
               color #333
               .after
                 color #fff
+            min-height .5rem    
+            height .64rem            
             margin .05rem .18rem
-            line-height GCH
+            padding .05rem .05rem
+            line-height 1.2
             color #666
             .after
-              top .35rem
+              position relative
+              top 0
               color BLUE
+              float right
+              padding-right .05rem
             .code-input
-              top .65rem
               opacity 1
               background  #fff
             

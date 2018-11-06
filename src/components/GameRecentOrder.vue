@@ -2,11 +2,11 @@
   el-row.game-recent-order
     br
     p 最近投注记录&nbsp;&nbsp;
-      span.x-small.ds-button.text-button.blue(@click=" pageSize = 5 ") 5条
+      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 5}" @click=" pageSize = 5 ") 5条
       | /
-      span.x-small.ds-button.text-button.blue(@click=" pageSize = 10 ") 10条
+      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 10}" @click=" pageSize = 10 ") 10条
       | /
-      span.x-small.ds-button.text-button.blue(@click=" pageSize = 15 ") 15条
+      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 15}" @click=" pageSize = 15 ") 15条
 
     el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;" empty-text="投注记录当前为空！")
 
@@ -183,7 +183,7 @@ export default {
       expandList: [],
       MODES: ['元', '角', '分', '厘'],
       fullCode: '获取失败...',
-      pageSize: window.localStorage.getItem('gron') || 5
+      pageSize: Number(window.localStorage.getItem('gron')) || 5
     }
   },
   computed: {
@@ -345,7 +345,8 @@ export default {
     right 0
     top "calc(100% - %s)" % 1.85rem
     min-height 1rem
-    max-height 1.9rem
+    // max-height 1.9rem
+    max-height 10.9rem !important
     
   #app.nds.classic.night .game-page .game-recent-order
     .el-dialog
@@ -364,6 +365,11 @@ export default {
   bg = #d8d8d8
   bg-hover = #ececec
   bg-active = #e2e2e2
+  .p-b
+    &.active
+      text-decoration underline
+      color DANGER
+      
   .tool-bar
     height TH
     line-height TH 

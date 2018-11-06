@@ -9,7 +9,7 @@
               span {{ group.title }}
             dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}") {{ item.title }}
   
-      dd.title.switch(v-if="mt" @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '任选玩法' }}
+      dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '任选玩法' }}
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
@@ -21,7 +21,7 @@
 
 <script>
   export default {
-    props: ['type', 'menus', 'getTitle', 'mt'],
+    props: ['type', 'menus', 'getTitle', 'mt', 'gameid'],
     mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
     },

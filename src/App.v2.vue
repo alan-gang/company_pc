@@ -1406,6 +1406,8 @@ export default {
   @import './var.stylus'
   @import './path.stylus'
   // @import './chat.stranger.phone.stylus'
+  html, body
+    position static !important
   html
     height 100%
     width 100%
