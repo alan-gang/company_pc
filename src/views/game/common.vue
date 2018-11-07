@@ -391,11 +391,10 @@ export default {
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
-            // if (this.gameType === 'KL8') {
-            //   d.lucknumbers = util.groupArray(d.lucknumbers, 5)
-            // }
           })
           let lst = data.items[0] || {}
+          // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
+          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) return
           if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
@@ -1065,10 +1064,17 @@ export default {
     },
     fetchTimeout () {
       this.timeout = 0
+    },
+    __openWinCode (x) {
+      if (String(this.page.gameid) === String(x.lottId) && this.NPER !== x.issue) {
+        x.lucknumbers = x.code.split(',')
+        this.overtime = false
+        this.NPER = x.issue + ''
+        this.lucknumbers = x.lucknumbers
+        parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
+        this.allLuckyNumbers.splice(0, 0, x)
+      }
     }
-    // setCall (call) {
-    //   this.call = Object.assign(this.call, call)
-    // }
   },
   components: {
     GameLuckyNumber,

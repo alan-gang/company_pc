@@ -18,13 +18,12 @@ let Socket = {
       if (name === 'all' || name === k) v && v.close && (this.closeType[k] = true) && v.close(1000, 'close<-' + k)
     })
   },
-  connect (name, opencb) {
+  connect (name) {
     let socket = new window.WebSocket(this.url)
     if (socket) {
       this.closeType[name] = false
       socket.binaryType = 'arraybuffer'
       socket.onopen = (evt) => {
-        opencb(socket)
       }
       socket.onmessage = (evt) => {
         this.notify.messages.forEach(fn => fn(JSON.parse(evt.data)))

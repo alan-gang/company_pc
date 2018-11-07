@@ -1024,6 +1024,7 @@ export default {
     if (this.$route.path.indexOf('/trend') === -1) {
       this.tryLogin()
     }
+    !Socket.sockets.user && Socket.connect('user')
   },
   methods: {
     __setUser () {
@@ -1193,8 +1194,8 @@ export default {
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
-        !Socket.sockets.user && Socket.connect('user', this.connected)
-        // !Socket.notify.messages.find(fn => fn.name === this.__message.name) && Socket.notify.messages.push(this.__message)
+        Socket.notify.messages.push(this.message)
+        Socket.sockets.user && this.connected(Socket.sockets.user)
       })
     },
     connected (socket) {
@@ -1390,6 +1391,23 @@ export default {
       }, (rep) => {
         // error
       })
+    },
+    message (msg) {
+      if (!msg || !msg.type) return
+      switch (msg.type) {
+        case 'openWinCode':
+          this.__setCall({fn: '__openWinCode', args: msg.content[0]})
+          break
+        case 'prizeNotice':
+          this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了'})
+          break
+        case 'saveSucc':
+          this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
+          break
+        case 'drawSucc':
+          this.$message.success({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
+          break
+      }
     }
   },
   components: {
