@@ -44,8 +44,8 @@ export default {
       me: store.state.user,
       t: 1,
       // 快速金额
-      ft: 2,
-      fts: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
+      ft: 100,
+      fts: [50, 100, 200, 500, 1000, 10000],
       ftshow: false
     }
   },
@@ -73,6 +73,7 @@ export default {
     if (this.times > 1) this.ft = this.times
     this.t = this.ft
     this.__setCall({fn: '__updateFT', args: this.ft})
+    this.__setCall({fn: '__setDefaultTimes', args: this.ft})
   },
   methods: {
     quickbook () {
