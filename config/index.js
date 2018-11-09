@@ -23,14 +23,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/dscagamesclient': {
-            target: 'http://cb510.net/dscagamesclient',
+            target: 'http://192.168.169.49:9901/dscagamesclient',
             changeOrigin: true,
             pathRewrite: {
               '^/cagamesclient': ''
             }
         },
         '/xy_activity': {
-            target: 'http://cb510.net/xy_activity',
+            target: 'http://192.168.169.49/xy_activity',
             changeOrigin: true,
             pathRewrite: {
               '^/xy_activity': ''

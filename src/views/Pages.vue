@@ -89,6 +89,7 @@ import VIP from './help/VIP'
 // 活动中心
 import Activity from './activity/Activity.new'
 import Gift from './activity/Gift'
+import MyCoupon from './activity/MyCoupon'
 
 // 活动详情
 import ForRegister from './activity/ForRegister'
@@ -180,6 +181,7 @@ export default {
     // 活动
     Activity,
     Gift,
+    MyCoupon,
     // 活动详情
     ForRegister,
     ForNewUser,
