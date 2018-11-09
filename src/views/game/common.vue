@@ -468,7 +468,7 @@ export default {
           this.$set(mi, 'hide', !data.items[M[mi.id + this.idType].split(':')[0]])
         })
         setTimeout(() => {
-          window.localStorage.getItem('point') && (this.point = window.localStorage.getItem('point'))
+          window.localStorage.getItem('point') && Number(this.P.maxpoint) >= Number(window.localStorage.getItem('point')) && (this.point = window.localStorage.getItem('point'))
         }, 0)
       }, (rep) => {
         // error

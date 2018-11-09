@@ -117,7 +117,7 @@ export default {
   },
   watch: {
     point () {
-      this.p = Math.min(this.P.maxpoint, Math.max(this.point, this.P.minpoint)) * 10000
+      this.p = Math.min(Number(this.P.maxpoint), Math.max(this.point, Number(this.P.minpoint))) * 10000
     },
     tt () {
       if (this.tt !== 0) {
