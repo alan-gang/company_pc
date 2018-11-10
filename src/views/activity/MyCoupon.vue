@@ -86,7 +86,7 @@
         })
       },
       use () {
-        if (!Number(this.m)) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
+        if (!Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
         this.$http.get(api.transferToBG, {amount: this.m, platid: this.current.plat, entry: this.current.entry}).then(({data}) => {
           if (data.success === 1) {
             this.$message.warning({target: this.$el, message: data.msg || '优惠券使用成功'})
