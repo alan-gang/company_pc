@@ -1015,6 +1015,7 @@ export default {
     '$route': 'openRoute'
   },
   mounted () {
+    this.getCfgInfo()
     this.chatUrl()
     this.setUser({mode: 'classic v2'})
     // 登录isTop = 1
@@ -1024,7 +1025,6 @@ export default {
     if (this.$route.path.indexOf('/trend') === -1) {
       this.tryLogin()
     }
-    !Socket.sockets.user && Socket.connect('user')
   },
   methods: {
     __setUser () {
@@ -1194,7 +1194,6 @@ export default {
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
-        Socket.notify.messages.push(this.message)
         Socket.sockets.user && this.connected(Socket.sockets.user)
       })
     },
@@ -1407,6 +1406,22 @@ export default {
         case 'drawSucc':
           this.$message.success({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
           break
+      }
+    },
+    getCfgInfo () {
+      this.$http.get(api.getCfgInfo).then(({data: {success, broadcaseWSUrl}}) => {
+        if (success) {
+          !Socket.sockets.user && Socket.connect('user', broadcaseWSUrl)
+          Socket.notify.messages.push(this.message)
+          Socket.notify.opens.push(this.open)
+        }
+      })
+    },
+    open () {
+      if (this.Me.login) {
+        this.connected(Socket.sockets.user)
+      } else {
+        Socket.sockets.user && Socket.sockets.user.send(JSON.stringify({action: 'noauth'}))
       }
     }
   },

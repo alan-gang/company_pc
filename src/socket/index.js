@@ -5,7 +5,8 @@ let Socket = {
   url: 'ws://192.168.169.46:5000/ws',
   data: {},
   notify: {
-    messages: []
+    messages: [],
+    opens: []
   },
   time: 3000,
   sockets: {},
@@ -18,12 +19,13 @@ let Socket = {
       if (name === 'all' || name === k) v && v.close && (this.closeType[k] = true) && v.close(1000, 'close<-' + k)
     })
   },
-  connect (name) {
-    let socket = new window.WebSocket(this.url)
+  connect (name, url) {
+    let socket = new window.WebSocket(url || this.url)
     if (socket) {
       this.closeType[name] = false
       socket.binaryType = 'arraybuffer'
       socket.onopen = (evt) => {
+        this.notify.opens.forEach(fn => fn())
       }
       socket.onmessage = (evt) => {
         this.notify.messages.forEach(fn => fn(JSON.parse(evt.data)))
