@@ -75,6 +75,7 @@
       outReportVFish(v-if=" I === 3 ")
       outReportViCard(v-if=" I === 4 ")
       OtherProfit(v-if=" I === 5 ")
+      TOtherProfit(v-if=" I === 6 ")
 
 
     .modal(v-show="showDetail" )
@@ -130,6 +131,7 @@
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
   import OtherProfit from './OtherProfit'
+  import TOtherProfit from './TOtherProfit'
   import outReportVideo from './outReport/outReportVideo'
   import outReportGame from './outReport/outReportGame'
   import outReportVFish from './outReport/outReportFish'
@@ -142,6 +144,7 @@
     components: {
       ProfitLossDetail,
       OtherProfit,
+      TOtherProfit,
       outReportVideo,
       outReportGame,
       outReportVFish,

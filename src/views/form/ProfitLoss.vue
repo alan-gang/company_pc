@@ -75,6 +75,7 @@
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
       Stock(v-if=" I === 1 ")
+      TStock(v-if=" I === 2 ")
 
     .modal(v-show="showDetail" )
       .mask
@@ -129,6 +130,7 @@
 
 <script>
   import Stock from '../group/Stock'
+  import TStock from '../group/TStock'
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import ProfitLossDetail from './ProfitLossDetail'
   import { numberWithCommas } from '../../util/Number'
@@ -139,7 +141,8 @@
     mixins: [setTableMaxHeight],
     components: {
       ProfitLossDetail,
-      Stock
+      Stock,
+      TStock
     },
     data () {
       return {

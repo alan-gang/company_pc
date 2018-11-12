@@ -26,6 +26,8 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  myExpectedBonus: '/team/contractBonus.do?method=myExpectedBonus',
+  mySubExpectedBouns: '/team/contractBonus.do?method=mySubExpectedBouns',
   queryMygoods: '/ext/bg.do?method=queryMygoods',
   doBet: '/game/fastBet.do?method=doBet',
   leaderBoard: '/home/notices.do?method=leaderBoard',

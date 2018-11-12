@@ -492,7 +492,7 @@ export default {
                   id: '4-5-1',
                   menuid: '58',
                   title: '彩票报表',
-                  tabs: ['彩票报表', '彩票分红:45'],
+                  tabs: ['彩票报表', '彩票分红:45', '预期分红:45'],
                   tabfn: '__setProfitLossI',
                   url: 'ProfitLoss'
                 },
@@ -508,7 +508,7 @@ export default {
                   id: '4-5-8',
                   menuid: '58',
                   title: '其它报表',
-                  tabs: ['体育报表', '真人报表', '电游报表', '捕鱼报表', '棋牌报表', '佣金报表'],
+                  tabs: ['体育报表', '真人报表', '电游报表', '捕鱼报表', '棋牌报表', '佣金报表', '预期佣金'],
                   url: 'OutProfitLoss',
                   tabfn: '__setGOI',
                   position: {
