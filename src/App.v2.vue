@@ -1321,6 +1321,8 @@ export default {
       this.__logoutChat()
       if (this.$route.meta.rl) this.$router.push('/')
       Socket.close('user')
+      // re-connect after logout
+      this.getCfgInfo()
     },
     __logout (args) {
       this.logout(args)
@@ -1392,19 +1394,21 @@ export default {
       })
     },
     message (msg) {
+      // console.log('messge', msg.content[0])
       if (!msg || !msg.type) return
       switch (msg.type) {
         case 'openWinCode':
           this.__setCall({fn: '__openWinCode', args: msg.content[0]})
           break
         case 'prizeNotice':
-          this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了'})
+          this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了' + msg.content[0].amt + '元'})
+          this.__setCall({fn: '__orderlist'})
           break
         case 'saveSucc':
           this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
           break
         case 'drawSucc':
-          this.$message.success({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
+          this.$message[['error', 'error', 'success'][msg.content[0].succ]]({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
           break
       }
     },
@@ -1412,12 +1416,13 @@ export default {
       this.$http.get(api.getCfgInfo).then(({data: {success, broadcaseWSUrl}}) => {
         if (success) {
           !Socket.sockets.user && Socket.connect('user', broadcaseWSUrl)
-          Socket.notify.messages.push(this.message)
-          Socket.notify.opens.push(this.open)
+          !Socket.notify.messages.find(fn => fn.name === this.message.name) && Socket.notify.messages.push(this.message)
+          !Socket.notify.messages.find(fn => fn.name === this.open.name) && Socket.notify.opens.push(this.open)
         }
       })
     },
     open () {
+      // console.log('open')
       if (this.Me.login) {
         this.connected(Socket.sockets.user)
       } else {

@@ -1073,6 +1073,7 @@ export default {
         this.lucknumbers = x.lucknumbers
         parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
         this.allLuckyNumbers.splice(0, 0, x)
+        this.__setCall({fn: '__orderlist'})
       }
     }
   },
