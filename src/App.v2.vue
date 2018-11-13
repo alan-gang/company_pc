@@ -841,7 +841,7 @@ export default {
               items: [
                 {id: '5-1-1', menuid: '71', title: '活动中心', url: 'Activity'},
                 {id: '5-1-2', menuid: '72', title: '礼品箱', url: 'Gift'},
-                {id: '5-1-3', menuid: '72', title: '优惠券', url: 'MyCoupon'}
+                {id: '5-1-3', menuid: '110', title: '优惠券', url: 'MyCoupon'}
               ]
             }
           ]
