@@ -286,8 +286,8 @@ export default {
       this.$router.push('/activity/5-1-1')
     },
     scrollHander (evt) {
-      this.lefter = this.lefter || document.getElementsByClassName('lefter')[0]
-      if (this.lefter) {
+      this.lefter = (this.lefter || document.getElementsByClassName('lefter')[0])
+      if (this.lefter && document.querySelector('#app.game')) {
         this.lefter.style.transition = 'transform linear 0s'
         this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
       }
