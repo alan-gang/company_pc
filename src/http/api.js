@@ -29,6 +29,7 @@ let Login = {
   myExpectedBonus: '/team/contractBonus.do?method=myExpectedBonus',
   mySubExpectedBouns: '/team/contractBonus.do?method=mySubExpectedBouns',
   queryMygoods: '/ext/bg.do?method=queryMygoods',
+  getCfgInfo: '/login/login.do?method=getCfgInfo',
   doBet: '/game/fastBet.do?method=doBet',
   leaderBoard: '/home/notices.do?method=leaderBoard',
   getCodeByTag: '/team/createAccount.do?method=getCodeByTag',

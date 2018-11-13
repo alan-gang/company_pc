@@ -11,6 +11,7 @@ let store = {
       // Home & Me
       name: '游客',
       account: '',
+      userId: '',
       type: '',
       money: '',
       amoney: '',
@@ -78,6 +79,7 @@ let store = {
         // Home & Me
         name: '游客',
         account: '',
+        userId: '',
         type: '',
         money: '',
         amoney: '',

@@ -49,6 +49,7 @@ import base from './components/base'
 import store from './store'
 // import cookie from 'js-cookie'
 import api from './http/api'
+import Socket from './socket'
 export default {
   name: 'App',
   mixins: [base],
@@ -1016,6 +1017,7 @@ export default {
     '$route': 'openRoute'
   },
   mounted () {
+    this.getCfgInfo()
     this.chatUrl()
     this.setUser({mode: 'classic v2'})
     // 登录isTop = 1
@@ -1025,6 +1027,8 @@ export default {
     if (this.$route.path.indexOf('/trend') === -1) {
       this.tryLogin()
     }
+    // this.message({type: 'drawSucc', content: [{succ: '2', amt: '100.00'}]})
+    // this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}]})
   },
   methods: {
     __setUser () {
@@ -1170,6 +1174,7 @@ export default {
           cashPwd: data.hasSecurityPwd === 1,
           type: data.identity,
           account: data.userName,
+          userId: data.userId,
           shareCycle: data.shareCycle,
           role: data.roleId,
           hasBankCard: data.hasBankCard === 1,
@@ -1193,7 +1198,17 @@ export default {
         setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
+        Socket.sockets.user && this.connected(Socket.sockets.user)
       })
+    },
+    connected (socket) {
+      socket.send(JSON.stringify({
+        parameter: {
+          userId: this.Me.userId,
+          app: 'web'
+        },
+        action: 'auth'
+      }))
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
@@ -1309,6 +1324,9 @@ export default {
       if (args && args.fn) args.fn()
       this.__logoutChat()
       if (this.$route.meta.rl) this.$router.push('/')
+      Socket.close('user')
+      // re-connect after logout
+      this.getCfgInfo()
     },
     __logout (args) {
       this.logout(args)
@@ -1378,6 +1396,54 @@ export default {
       }, (rep) => {
         // error
       })
+    },
+    message (msg) {
+      // console.log('messge', msg.content[0])
+      if (!msg || !msg.type) return
+      switch (msg.type) {
+        case 'openWinCode':
+          this.__setCall({fn: '__openWinCode', args: msg.content[0]})
+          break
+        case 'prizeNotice':
+          this.$modal.success({
+            content: '<div style="text-align: left">恭喜您在<span class="text-blue">' + msg.content[0].lottName + msg.content[0].issue + '</span>中奖了<span class="text-danger">' + msg.content[0].amt + '</span>元</div>',
+            btn: []
+          })
+          // this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了' + msg.content[0].amt + '元'})
+          this.__setCall({fn: '__orderlist'})
+          break
+        case 'saveSucc':
+          this.$modal.success({
+            content: '<div style="text-align: left">您通过<span class="text-blue">' + msg.content[0].bankName + '</span>充值<span class="text-danger">' + msg.content[0].amt + '</span>元已到帐，请注意查收</div>',
+            btn: []
+          })
+          // this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
+          break
+        case 'drawSucc':
+          this.$modal[['warn', 'warn', 'success'][msg.content[0].succ]]({
+            content: '<div style="text-align: left">您申请提款<span class="text-blue">' + msg.content[0].amt + '</span>元<span class="' + ['', 'text-danger', 'text-green'][msg.content[0].succ] + '">' + ['', '失败', '成功'][msg.content[0].succ] + '</span>，请注意查看</div>',
+            btn: []
+          })
+          // this.$message[['error', 'error', 'success'][msg.content[0].succ]]({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
+          break
+      }
+    },
+    getCfgInfo () {
+      this.$http.get(api.getCfgInfo).then(({data: {success, broadcaseWSUrl}}) => {
+        if (success) {
+          !Socket.sockets.user && Socket.connect('user', broadcaseWSUrl)
+          !Socket.notify.messages.find(fn => fn.name === this.message.name) && Socket.notify.messages.push(this.message)
+          !Socket.notify.messages.find(fn => fn.name === this.open.name) && Socket.notify.opens.push(this.open)
+        }
+      })
+    },
+    open () {
+      // console.log('open')
+      if (this.Me.login) {
+        this.connected(Socket.sockets.user)
+      } else {
+        Socket.sockets.user && Socket.sockets.user.send(JSON.stringify({action: 'noauth'}))
+      }
     }
   },
   components: {
