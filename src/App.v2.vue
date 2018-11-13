@@ -1025,6 +1025,8 @@ export default {
     if (this.$route.path.indexOf('/trend') === -1) {
       this.tryLogin()
     }
+    // this.message({type: 'drawSucc', content: [{succ: '2', amt: '100.00'}]})
+    // this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}]})
   },
   methods: {
     __setUser () {
@@ -1401,14 +1403,26 @@ export default {
           this.__setCall({fn: '__openWinCode', args: msg.content[0]})
           break
         case 'prizeNotice':
-          this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了' + msg.content[0].amt + '元'})
+          this.$modal.success({
+            content: '<div style="text-align: left">恭喜您在<span class="text-blue">' + msg.content[0].lottName + msg.content[0].issue + '</span>中奖了<span class="text-danger">' + msg.content[0].amt + '</span>元</div>',
+            btn: []
+          })
+          // this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了' + msg.content[0].amt + '元'})
           this.__setCall({fn: '__orderlist'})
           break
         case 'saveSucc':
-          this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
+          this.$modal.success({
+            content: '<div style="text-align: left">您通过<span class="text-blue">' + msg.content[0].bankName + '</span>充值<span class="text-danger">' + msg.content[0].amt + '</span>元已到帐，请注意查收</div>',
+            btn: []
+          })
+          // this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
           break
         case 'drawSucc':
-          this.$message[['error', 'error', 'success'][msg.content[0].succ]]({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
+          this.$modal[['warn', 'warn', 'success'][msg.content[0].succ]]({
+            content: '<div style="text-align: left">您申请提款<span class="text-blue">' + msg.content[0].amt + '</span>元<span class="' + ['', 'text-danger', 'text-green'][msg.content[0].succ] + '">' + ['', '失败', '成功'][msg.content[0].succ] + '</span>，请注意查看</div>',
+            btn: []
+          })
+          // this.$message[['error', 'error', 'success'][msg.content[0].succ]]({message: '您申请提款' + msg.content[0].amt + '元' + ['', '失败', '成功'][msg.content[0].succ] + '，请注意查看'})
           break
       }
     },
