@@ -58,12 +58,12 @@ export default {
     ft () {
       setTimeout(() => {
         this.ft = parseInt(this.ft)
+        this.t = this.ft
+        if (this.ft >= 0) {
+          this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+          this.__setCall({fn: '__updateFT', args: this.ft})
+        }
       }, 0)
-      this.t = this.ft
-      if (this.ft >= 0) {
-        this.__setCall({fn: '__setDefaultTimes', args: this.ft})
-        this.__setCall({fn: '__updateFT', args: this.ft})
-      }
     },
     t () {
       this.setTimes(parseInt(this.t))
