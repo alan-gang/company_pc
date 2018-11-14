@@ -1202,13 +1202,15 @@ export default {
       })
     },
     connected (socket) {
-      socket.send(JSON.stringify({
-        parameter: {
-          userId: this.Me.userId,
-          app: 'web'
-        },
-        action: 'auth'
-      }))
+      setTimeout(() => {
+        socket.send(JSON.stringify({
+          parameter: {
+            userId: this.Me.userId,
+            app: 'web'
+          },
+          action: 'auth'
+        }))
+      }, 3000)
     },
     // openRoute ({path}) {
     //   // 如果出现在登录页面并且用户是登录状态
