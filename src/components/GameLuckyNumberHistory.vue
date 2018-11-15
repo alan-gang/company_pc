@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-luck-number-history(:class=" {empty: allLuckyNumbers.length === 0} ")
     <!-- 开奖信息 -->
-    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true") 
+    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true" v-bind:methodid = "methodid" v-bind:codeStyle = "l.codeStyle") 
 
 </template>
 
@@ -12,7 +12,8 @@ export default {
   props: {
     gameid: Number,
     gameType: String,
-    allLuckyNumbers: Array
+    allLuckyNumbers: Array,
+    methodid: String
   },
   data () {
     return {
