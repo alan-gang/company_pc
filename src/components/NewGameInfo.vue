@@ -16,7 +16,7 @@
         // GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
       div.static(style="float: right; padding-left: .2rem; width: 2.7rem; line-height: .3rem; font-size: .12rem" @click="expand = !expand")
-        span(style="color: #fff; font-size: .12rem; float: left") 近期开奖号码
+        //- span(style="color: #fff; font-size: .12rem; float: left") 近期开奖号码
        
 
 

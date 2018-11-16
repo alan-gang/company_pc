@@ -15,7 +15,7 @@
       span.number(style="opacity: 0" v-if="onlyNumber")
         span.the-number 100
       
-      span {{ ccs && ccs.value.join ? ccs.value.join(' ') : '' }}
+      pre(style="display: inline" v-if="ccs") {{ ccs && ccs.value.join ? ccs.value.map((x, i) => ccs.title && x.length < ccs.title[i].length ? (x = padStart(x, ccs.title[i].length, ' ')) : x ).join(' ') : '' }}
 
       // span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
@@ -30,6 +30,7 @@
 
 <script>
 import Dice from './Dice'
+import { padStart } from '../util/base'
 import { getAnimalOfNumber, getColorOfNumber } from '../util/Number'
 // import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
@@ -51,7 +52,8 @@ export default {
   data () {
     return {
       type: 1,
-      getColorOfNumber: getColorOfNumber
+      getColorOfNumber: getColorOfNumber,
+      padStart: padStart
     }
   },
   computed: {
