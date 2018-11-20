@@ -55,36 +55,62 @@
       el-col.r(:span="14")
         // Menus(:menus="menus")
 
-        el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
+        el-popover.footer-more(placement="top-end" trigger="click" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
             span.name(v-if="hide") {{ Me.name }}
             span.money(v-if="!hide") 余额：{{ numberWithCommas(Me.amoney) }}
           slot
-            dl.text-999
+            .me-box
+              .half-width.a
+                dl.text-999.level-box(:class=" 'level-' + (Me.level + 1) ")
 
-              dd
-                span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}} 
-                  span.text-666 {{ Me.name }}
+                  dd
+                    span  贵族等级： 
+                      span.text-666 {{ Me.levelName || '' }}
 
-              dd
-                span.account-type 用户类型：
-                  span.text-666 {{ Me.isVip ? 'VIP会员' : '普通用户' }}
+                  dd
+                    span  当前经验：
+                      span.text-666 {{ Me.exp || 0 }}
+                  
+                   dd
+                    span  升级还需：
+                      span.text-666 {{ Me.diffExp || 0 }}
+                  
 
-              dd(title="我的钱包")
-                span.money.ds-icon-money
-                  span  主余额：
-                  span.text-666 {{ numberWithCommas(Me.amoney || '0.000') }}
-              dd
+                dl(style="padding-top: .12rem")
+                  dd
+                    el-progress(v-bind:text-inside="true" v-bind:stroke-width="30" v-bind:percentage="95" status="exception")
 
-              dd
-                router-link.ds-button.primary.full(:to=" '/me/2-1-1' ") 进入我的钱包
+                //- dd.text-center
+                  p.text-black 最后登录
+                  p {{ Me.lastLoginTime }} {{ Me.location }}
 
-              dd
-              dd
+              dl.text-999.half-width
 
-              dd.text-center
-                p.text-black 最后登录
-                p {{ Me.lastLoginTime }} {{ Me.location }}
+                dd
+                  span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}} 
+                    span.text-666 {{ Me.name }}
+
+                dd
+                  span.account-type 用户类型：
+                    span.text-666 {{ Me.isVip ? 'VIP会员' : '普通用户' }}
+
+                dd(title="我的钱包")
+                  span.money.ds-icon-money
+                    span  主余额：
+                    span.text-666 {{ numberWithCommas(Me.amoney || '0.000') }}
+                dd
+
+                dd
+                  router-link.ds-button.primary.full(:to=" '/me/2-1-1' ") 进入我的钱包
+                dd
+                dd
+
+
+              dl.lst-login
+                dd.text-center
+                  p.text-black 最后登录
+                  p {{ Me.lastLoginTime }} {{ Me.location }}
 
    
 
@@ -157,8 +183,17 @@ export default {
     this.sysNotices()
     this.switchI()
     this.getBalance()
+    this.getUserIdentity()
   },
   methods: {
+    getUserIdentity () {
+      this.$http.get(api.getUserIdentity).then(({data}) => {
+        if (data.success) {
+          delete data.success
+          store.actions.setUser(data)
+        }
+      })
+    },
     acctSecureInfo () {
       this.$http.get(api.acctSecureInfo).then(({data}) => {
         if (data.success === 1) {
@@ -285,7 +320,7 @@ body.cb.v2
   .el-popover .popper__arrow
     display block
   .footer-popover.more
-    transform none
+    transform translateY(0)
   .footer-popover.message
     transform: translateY(-0.2rem) translateX(0.2rem);
   .footer-popover
@@ -297,9 +332,8 @@ body.cb.v2
         padding-top PW
         dd
           padding .05rem PWX
-          &:last-child
-            background #e9e9e9
-            padding PWX
+          
+            
       .account-type
         padding: 0.1rem 0;
         padding-left: 0.29rem;
@@ -390,5 +424,33 @@ body.cb.v2
         &.logout
           background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         
-    
+  .me-box
+    width 5rem
+  .half-width
+    box-sizing border-box
+    width 50%
+    display inline-block  
+    vertical-align top
+    position relative
+    &.a
+      &:after
+        content ''
+        position absolute
+        top 10%
+        right 0
+        height 80%
+        border-right 2px solid #efefef
+      
+  .lst-login
+    background #e9e9e9
+    padding PWX
+  .level-box
+    padding-left 35%
+    background-size .9rem
+    background-repeat no-repeat
+    background-position 5% .2rem
+  for n in (1..10)
+    &.level-{n}
+      background-image url('../assets/level/' + n + '.png')
+      
 </style>
