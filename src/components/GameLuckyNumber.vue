@@ -3,7 +3,7 @@
     el-col.left(:span="onlyNumber ? 24: 20")
       span.NPER(style="letter-spacing: 1px") {{ NPER }} 
       | 期 &nbsp;
-      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class=" ['ds-icon-' + gameType + '-' +  (i + 1), gameType === 'HC6' ? getColorOfNumber(n) : '' ]") 
+      span.number(v-if="isNumber" v-for=" (n, i) in lucknumbers " v-bind:class=" ['ds-icon-' + gameType + '-' +  (i + 1), gameType === 'HC6' ? getColorOfNumber(n) : '', setPosColor(i) ]") 
         span.the-number(:class="") {{ displayLuckNumbers[i] }}
 
       span.number-array(v-if = " isArray " v-for=" ns in lucknumbers ")
@@ -14,7 +14,8 @@
 
       span.number(style="opacity: 0" v-if="onlyNumber")
         span.the-number 100
-
+      
+      pre(style="display: inline" v-if="ccs") {{ ccs && ccs.value.join ? ccs.value.map((x, i) => ccs.title && x.length < ccs.title[i].length ? (x = padStart(x, ccs.title[i].length, ' ')) : x ).join(' ') : '' }}
 
       // span.timeout(v-if="!longNumbers && !onlyNumber && overtime" @click="fresh") &nbsp;开奖中，点击刷新
     el-col.right(:span="4" v-bind:class="{ 'line-2': longNumbers }" v-if="!onlyNumber")
@@ -29,6 +30,7 @@
 
 <script>
 import Dice from './Dice'
+import { padStart } from '../util/base'
 import { getAnimalOfNumber, getColorOfNumber } from '../util/Number'
 // import GameLuckyNumberHistory from './GameLuckyNumberHistory'
 export default {
@@ -43,15 +45,24 @@ export default {
       type: Boolean,
       default: false
     },
-    gameid: Number
+    gameid: Number,
+    methodid: String,
+    codeStyle: String
   },
   data () {
     return {
       type: 1,
-      getColorOfNumber: getColorOfNumber
+      getColorOfNumber: getColorOfNumber,
+      padStart: padStart
     }
   },
   computed: {
+    cs () {
+      return this.codeStyle ? JSON.parse(this.codeStyle) : []
+    },
+    ccs () {
+      return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+    },
     callId () {
       return this.gameid
     },
@@ -91,6 +102,29 @@ export default {
     },
     __setLuckNumberType (type) {
       this.type = type
+    },
+    setPosColor (i) {
+      if (this.ccs) {
+        switch (this.ccs.pos) {
+          case 'q2':
+            if (i < 2) return 'text-danger'
+            break
+          case 'q3':
+            if (i < 3) return 'text-danger'
+            break
+          case 'z3':
+            if (i < 4 && i > 0) return 'text-danger'
+            break
+          case 'h2':
+            if (i > 2) return 'text-danger'
+            break
+          case 'h3':
+            if (i > 1) return 'text-danger'
+            break
+        }
+      } else {
+        return ''
+      }
     }
   },
   components: {
@@ -178,6 +212,8 @@ export default {
       background-color DANGER
       radius(50%)
       box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
+      &.text-danger
+        color DANGER !important
       
       
         

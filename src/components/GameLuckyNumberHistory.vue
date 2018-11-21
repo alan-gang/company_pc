@@ -1,7 +1,11 @@
 <template lang="jade">
+div.game-luck-number-history-box
+  pre.c_f.t-head(v-if=" ccs ")    期号         号码        {{ ccs.title.join(' ') }}
+  p.c_f.t-head(v-if=" !ccs ") 近期开奖号码
   .game-luck-number-history(:class=" {empty: allLuckyNumbers.length === 0} ")
     <!-- 开奖信息 -->
-    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true") 
+    
+    GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue.substr(-5) " v-bind:onlyNumber="true" v-bind:methodid = "methodid" v-bind:codeStyle = "l.codeStyle") 
 
 </template>
 
@@ -12,7 +16,8 @@ export default {
   props: {
     gameid: Number,
     gameType: String,
-    allLuckyNumbers: Array
+    allLuckyNumbers: Array,
+    methodid: String
   },
   data () {
     return {
@@ -21,6 +26,15 @@ export default {
     }
   },
   computed: {
+    codeStyle () {
+      return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : this.allLuckyNumbers[1] ? this.allLuckyNumbers[1].codeStyle : ''
+    },
+    cs () {
+      return this.codeStyle ? JSON.parse(this.codeStyle) : []
+    },
+    ccs () {
+      return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+    }
   },
   mounted () {
     // this.t = setInterval(() => {
@@ -64,7 +78,7 @@ export default {
     transition all linear .2s
     max-width 9.3rem
     margin 0 auto
-    padding 0 PW
+    // padding 0 PW
     overflow auto
     z-index 1999
     // background-color #666
@@ -94,6 +108,7 @@ export default {
     .lucky-numbers:nth-of-type(even)
       // bg-gradient(180deg, #444, #222)
       
-      
+  .t-head
+    margin 0
   
 </style>

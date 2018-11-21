@@ -19,7 +19,7 @@
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
 
       <!-- 东森专用 -->
-      NewGameInfo(v-bind:volume="page.volume" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers")
+      NewGameInfo(v-bind:volume="page.volume" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid")
 
       <!-- 游戏菜单 -->
       GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
@@ -394,7 +394,10 @@ export default {
           })
           let lst = data.items[0] || {}
           // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
-          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) return
+          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
+            if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
+            return
+          }
           if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {

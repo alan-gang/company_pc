@@ -16,12 +16,12 @@
         // GameLuckyNumber(v-for="l in allLuckyNumbers.slice(1)" v-bind:game-type="gameType" v-bind:gameid = "gameid" v-bind:lucknumbers="l.lucknumbers" v-bind:NPER="l.issue" v-bind:onlyNumber="true")
 
       div.static(style="float: right; padding-left: .2rem; width: 2.7rem; line-height: .3rem; font-size: .12rem" @click="expand = !expand")
-        span(style="color: #fff; font-size: .12rem; float: left") 近期开奖号码
+        //- span(style="color: #fff; font-size: .12rem; float: left") 近期开奖号码
        
 
 
         br
-        GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class="{ expand: expand }" @mouseleave.native="expand = false")
+        GameLuckyNumberHistory(v-bind:game-type="gameType" v-bind:gameid="gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:class="{ expand: expand }" @mouseleave.native="expand = false" v-bind:methodid="methodid")
 
       router-link.ds-button.small.fix-right(:to=" {path: '/form/4-5-3', query: { gameid:  gameid}}  " @click.native.stop="" v-if=" !HC6 " style="padding: .05rem .1rem;position: absolute; right: -.4rem; width: .4rem; top: 0; line-height: 1.5; z-index: 9999") 遗漏分析
       
@@ -113,7 +113,8 @@ export default {
     type: Object,
     gameid: Number,
     gameType: String,
-    allLuckyNumbers: Array
+    allLuckyNumbers: Array,
+    methodid: String
     // title: String
   },
   data () {
