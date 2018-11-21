@@ -331,135 +331,62 @@ export default {
           groups: [
             {
               id: '2-1',
-              title: '个人中心',
+              title: '资金中心',
               innerurl: 'me',
               items: [
                 {
-                  id: '2-1-1',
-                  menuid: '20',
-                  title: '我的钱包',
-                  url: 'Me'
-                },
-                {
-                  id: '2-2-1',
-                  menuid: '87',
-                  title: '安全中心',
-                  url: 'SafeCenter'
-                },
-                {
-                  id: '2-3-1',
-                  menuid: '29',
-                  title: '奖金详情',
-                  url: 'Bonus'
-                },
-                {
                   id: '2-4-1',
                   menuid: '30',
-                  title: '充值中心',
+                  title: '充值',
                   url: 'TopUp'
                 },
                 {
                   id: '2-5-1',
                   menuid: '32',
-                  title: '提现中心',
+                  title: '提现',
                   url: 'WithDraw'
                 },
                 {
-                  id: '2-7-1',
-                  // menuid: '34',
-                  title: '转帐记录',
-                  url: 'BGTransaction'
-                },
-                {
-                  id: '2-6-1',
-                  menuid: '34',
-                  title: '我的银行卡',
-                  url: 'Bank'
+                  id: '2-1-1',
+                  menuid: '20',
+                  title: '转帐',
+                  url: 'Me'
                 }
+                // {
+                //   id: '2-2-1',
+                //   menuid: '87',
+                //   title: '安全中心',
+                //   url: 'SafeCenter'
+                // },
+                // {
+                //   id: '2-3-1',
+                //   menuid: '29',
+                //   title: '奖金详情',
+                //   url: 'Bonus'
+                // },
+                // {
+                //   id: '2-7-1',
+                //   title: '转帐记录',
+                //   url: 'BGTransaction'
+                // },
+                // {
+                //   id: '2-6-1',
+                //   menuid: '34',
+                //   title: '我的银行卡',
+                //   url: 'Bank'
+                // }
               ]
             },
             {
               id: '3-1',
-              title: '团队管理',
+              title: '个人中心',
               innerurl: 'group',
-              items: [
-                {
-                  id: '3-1-1',
-                  menuid: '38',
-                  title: '用户列表',
-                  url: 'UserList',
-                  // size: 'full',
-                  position: {
-                    width: '11rem'
-                  }
-                },
-                {
-                  id: '3-2-1',
-                  menuid: '42',
-                  title: '增加用户',
-                  url: 'AddUser'
-                },
-                {
-                  id: '3-2-2',
-                  menuid: '43',
-                  title: '推广设置',
-                  url: 'Ad'
-                },
-                {
-                  id: '3-3-3',
-                  menuid: '44',
-                  title: '契约设置',
-                  tabs: ['彩票契约', '佣金契约'],
-                  url: 'Contract',
-                  tabfn: '__setGCI',
-                  position: {
-                    width: '12rem'
-                  }
-                },
-                {
-                  id: '3-3-4',
-                  menuid: '88',
-                  hide: true,
-                  title: '契约详情',
-                  url: 'ContractDetail',
-                  position: {
-                    width: '5.4rem',
-                    height: '6.8rem'
-                  }
-                },
-                // {
-                //   id: '3-2-3',
-                //   // menuid: '93',
-                //   title: '设置日工资',
-                //   url: 'SetDaySalary'
-                // },
-                {
-                  id: '3-4-1',
-                  menuid: '47',
-                  title: '团队统计',
-                  url: 'DataAnalysis'
-                },
-                {
-                  id: '3-4-2',
-                  menuid: '48',
-                  title: '团队分析',
-                  url: 'ChartAnalysis',
-                  position: {
-                    'min-width': '9.5rem'
-                  }
-                }
-              ]
-            },
-            {
-              id: '4-1',
-              title: '报表管理',
-              innerurl: 'form',
               items: [
                 {
                   id: '4-1-1',
                   menuid: '50',
-                  title: '彩票投注',
-                  tabs: ['彩票投注', 'VR投注'],
+                  title: '游戏记录',
+                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setGOI',
                   url: 'Order',
                   position: {
@@ -467,10 +394,117 @@ export default {
                   }
                 },
                 {
+                  id: '2-7-1',
+                  title: '资金记录',
+                  tabs: ['帐变明细', '充值记录', '提现记录', '转帐记录'],
+                  url: 'BGTransaction'
+                },
+                {
+                  id: '2-2-1',
+                  menuid: '87',
+                  title: '帐户安全',
+                  url: 'SafeCenter'
+                },
+                {
+                  id: '2-6-1',
+                  menuid: '34',
+                  title: '银行卡管理',
+                  url: 'Bank'
+                },
+                {
+                  id: '2-3-1',
+                  menuid: '29',
+                  title: '奖金详情',
+                  url: 'Bonus'
+                }
+                // {
+                //   id: '3-1-1',
+                //   menuid: '38',
+                //   title: '用户列表',
+                //   url: 'UserList',
+                //   // size: 'full',
+                //   position: {
+                //     width: '11rem'
+                //   }
+                // },
+                // {
+                //   id: '3-2-1',
+                //   menuid: '42',
+                //   title: '增加用户',
+                //   url: 'AddUser'
+                // },
+                // {
+                //   id: '3-2-2',
+                //   menuid: '43',
+                //   title: '推广设置',
+                //   url: 'Ad'
+                // },
+                // {
+                //   id: '3-3-3',
+                //   menuid: '44',
+                //   title: '契约设置',
+                //   tabs: ['彩票契约', '佣金契约'],
+                //   url: 'Contract',
+                //   tabfn: '__setGCI',
+                //   position: {
+                //     width: '12rem'
+                //   }
+                // },
+                // {
+                //   id: '3-3-4',
+                //   menuid: '88',
+                //   hide: true,
+                //   title: '契约详情',
+                //   url: 'ContractDetail',
+                //   position: {
+                //     width: '5.4rem',
+                //     height: '6.8rem'
+                //   }
+                // },
+                // {
+                //   id: '3-2-3',
+                //   // menuid: '93',
+                //   title: '设置日工资',
+                //   url: 'SetDaySalary'
+                // },
+                // {
+                //   id: '3-4-1',
+                //   menuid: '47',
+                //   title: '团队统计',
+                //   url: 'DataAnalysis'
+                // },
+                // {
+                //   id: '3-4-2',
+                //   menuid: '48',
+                //   title: '团队分析',
+                //   url: 'ChartAnalysis',
+                //   position: {
+                //     'min-width': '9.5rem'
+                //   }
+                // }
+              ]
+            },
+            {
+              id: '4-1',
+              title: '代理中心',
+              innerurl: 'form',
+              items: [
+                {
+                  id: '4-1-1',
+                  menuid: '50',
+                  title: '团队报表',
+                  tabs: ['总帐', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabfn: '__setTotalAccountI',
+                  url: 'TotalAccount',
+                  position: {
+                    width: '13rem'
+                  }
+                },
+                {
                   id: '4-2-1',
                   menuid: '53',
-                  title: '彩票追号',
-                  tabs: ['彩票追号', 'VR追号'],
+                  title: '下级游戏记录',
+                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setGFI',
                   url: 'Follow',
                   position: {
@@ -480,10 +514,10 @@ export default {
                 {
                   id: '4-9-9',
                   menuid: '53',
-                  title: '其它投注',
+                  title: '下级资金记录',
                   url: 'Sports',
                   // tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录'],
-                  tabs: ['体育记录', '真人记录', '电游记录', '捕鱼记录', '棋牌记录'],
+                  tabs: ['帐变明细'],
                   tabfn: '__setGRPTI',
                   position: {
                     width: '12rem'
@@ -492,8 +526,8 @@ export default {
                 {
                   id: '4-5-1',
                   menuid: '58',
-                  title: '彩票报表',
-                  tabs: ['彩票报表', '彩票分红:45', '预期分红:45'],
+                  title: '下级管理',
+                  tabs: ['下级列表'],
                   tabfn: '__setProfitLossI',
                   url: 'ProfitLoss'
                 },
@@ -501,21 +535,55 @@ export default {
                   id: '3-3-1',
                   menuid: '45',
                   // size: 'full',
-                  title: '彩票分红',
+                  title: '开户管理',
+                  tabs: ['新增下级', '推广设置'],
                   hide: true,
                   url: 'Stock'
                 },
                 {
                   id: '4-5-8',
                   menuid: '58',
-                  title: '其它报表',
-                  tabs: ['体育报表', '真人报表', '电游报表', '捕鱼报表', '棋牌报表', '佣金报表', '预期佣金'],
+                  title: '日工资管理',
+                  tabs: ['我的日工资', '下级日工资'],
                   url: 'OutProfitLoss',
                   tabfn: '__setGOI',
                   position: {
                     width: '12rem'
                   }
                 },
+                {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '日工资管理',
+                  tabs: ['我的日工资', '下级日工资'],
+                  url: 'OutProfitLoss',
+                  tabfn: '__setGOI',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '彩票分红管理',
+                  tabs: ['我的分红', '下级分红'],
+                  url: 'OutProfitLoss',
+                  tabfn: '__setGOI',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                {
+                  id: '4-5-8',
+                  menuid: '58',
+                  title: '其它分红管理',
+                  tabs: ['我的分红', '下级分红'],
+                  url: 'OutProfitLoss',
+                  tabfn: '__setGOI',
+                  position: {
+                    width: '12rem'
+                  }
+                }
                 // {
                 //   id: '4-5-9',
                 //   // menuid: '89',
@@ -542,33 +610,33 @@ export default {
                 //   title: '今日报表',
                 //   url: 'Today'
                 // },
-                {
-                  id: '4-9-8',
-                  menuid: '57',
-                  title: '总账报表',
-                  tabs: ['汇总报表', '工资报表', '活动报表', '充提报表', '今日报表'],
-                  tabfn: '__setTotalAccountI',
-                  url: 'TotalAccount'
-                },
-                {
-                  id: '4-5-2',
-                  menuid: '67',
-                  title: '帐变明细',
-                  position: {
-                    width: '12rem'
-                  },
-                  url: 'Account'
-                },
-                {
-                  id: '4-5-3',
-                  menuid: '89',
-                  title: '走势图',
-                  hide: true,
-                  position: {
-                    width: '16.3rem'
-                  },
-                  url: 'TrendChart'
-                }
+                // {
+                //   id: '4-9-8',
+                //   menuid: '57',
+                //   title: '总账报表',
+                //   tabs: ['汇总报表', '工资报表', '活动报表', '充提报表', '今日报表'],
+                //   tabfn: '__setTotalAccountI',
+                //   url: 'TotalAccount'
+                // }
+                // {
+                //   id: '4-5-2',
+                //   menuid: '67',
+                //   title: '帐变明细',
+                //   position: {
+                //     width: '12rem'
+                //   },
+                //   url: 'Account'
+                // },
+                // {
+                //   id: '4-5-3',
+                //   menuid: '89',
+                //   title: '走势图',
+                //   hide: true,
+                //   position: {
+                //     width: '16.3rem'
+                //   },
+                //   url: 'TrendChart'
+                // }
               ]
             }
           ]
@@ -577,7 +645,7 @@ export default {
           id: 2,
           menuid: '3',
           class: 'ds-icon-me',
-          title: '个人',
+          title: '资金中心',
           url: 'me',
           hide: true,
           groups: [
@@ -586,47 +654,47 @@ export default {
               title: '个人中心',
               items: [
                 {
-                  id: '2-1-1',
-                  menuid: '20',
-                  title: '我的钱包',
-                  url: 'Me'
-                },
-                {
-                  id: '2-2-1',
-                  menuid: '87',
-                  title: '安全中心',
-                  url: 'SafeCenter'
-                },
-                {
-                  id: '2-3-1',
-                  menuid: '29',
-                  title: '奖金详情',
-                  url: 'Bonus'
-                },
-                {
                   id: '2-4-1',
                   menuid: '30',
-                  title: '充值中心',
+                  title: '充值',
                   url: 'TopUp'
                 },
                 {
                   id: '2-5-1',
                   menuid: '32',
-                  title: '提现中心',
+                  title: '提现',
                   url: 'WithDraw'
                 },
                 {
-                  id: '2-7-1',
-                  // menuid: '34',
-                  title: '转帐记录',
-                  url: 'BGTransaction'
-                },
-                {
-                  id: '2-6-1',
-                  menuid: '34',
-                  title: '我的银行卡',
-                  url: 'Bank'
+                  id: '2-1-1',
+                  menuid: '20',
+                  title: '转帐',
+                  url: 'Me'
                 }
+                // {
+                //   id: '2-2-1',
+                //   menuid: '87',
+                //   title: '安全中心',
+                //   url: 'SafeCenter'
+                // },
+                // {
+                //   id: '2-3-1',
+                //   menuid: '29',
+                //   title: '奖金详情',
+                //   url: 'Bonus'
+                // },
+                // {
+                //   id: '2-7-1',
+                //   menuid: '34',
+                //   title: '转帐记录',
+                //   url: 'BGTransaction'
+                // },
+                // {
+                //   id: '2-6-1',
+                //   menuid: '34',
+                //   title: '我的银行卡',
+                //   url: 'Bank'
+                // }
               ]
             }
           ]
@@ -634,7 +702,7 @@ export default {
         {
           id: 3,
           class: 'ds-icon-group',
-          title: '团队',
+          title: '个人中心',
           menuid: '4',
           url: 'group',
           hide: true,
@@ -644,59 +712,99 @@ export default {
               title: '用户中心',
               items: [
                 {
-                  id: '3-1-1',
-                  menuid: '38',
-                  title: '用户列表',
-                  url: 'UserList',
-                  // size: 'full',
+                  id: '4-1-1',
+                  menuid: '50',
+                  title: '游戏记录',
+                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabfn: '__setGOI',
+                  url: 'Order',
                   position: {
-                    width: '11rem'
+                    width: '13rem'
                   }
                 },
                 {
-                  id: '3-2-1',
-                  menuid: '42',
-                  title: '增加用户',
-                  url: 'AddUser'
-                },
-                {
-                  id: '3-2-2',
-                  menuid: '43',
-                  title: '推广设置',
-                  url: 'Ad'
-                },
-                {
-                  id: '3-3-3',
-                  menuid: '44',
-                  title: '契约设置',
-                  url: 'Contract'
-                },
-                {
-                  id: '3-3-4',
-                  menuid: '88',
-                  hide: true,
-                  title: '契约详情',
-                  url: 'ContractDetail',
+                  id: '4-5-2',
+                  menuid: '67',
+                  title: '资金记录',
+                  tabs: ['帐变明细', '充值记录', '提现记录', '转帐记录'],
+                  url: 'Account',
+                  tabfn: '__setCRI',
                   position: {
-                    width: '5.4rem',
-                    height: '6.8rem'
+                    width: '12rem'
                   }
                 },
                 {
-                  id: '3-4-1',
-                  menuid: '47',
-                  title: '团队统计',
-                  url: 'DataAnalysis'
+                  id: '2-2-1',
+                  menuid: '87',
+                  title: '帐户安全',
+                  url: 'SafeCenter'
                 },
                 {
-                  id: '3-4-2',
-                  menuid: '48',
-                  title: '团队分析',
-                  url: 'ChartAnalysis',
-                  position: {
-                    'min-width': '9.5rem'
-                  }
+                  id: '2-6-1',
+                  menuid: '34',
+                  title: '银行卡管理',
+                  url: 'Bank'
+                },
+                {
+                  id: '2-3-1',
+                  menuid: '29',
+                  title: '奖金详情',
+                  url: 'Bonus'
                 }
+                // {
+                //   id: '3-1-1',
+                //   menuid: '38',
+                //   title: '用户列表',
+                //   url: 'UserList',
+                //   // size: 'full',
+                //   position: {
+                //     width: '11rem'
+                //   }
+                // },
+                // {
+                //   id: '3-2-1',
+                //   menuid: '42',
+                //   title: '增加用户',
+                //   url: 'AddUser'
+                // },
+                // {
+                //   id: '3-2-2',
+                //   menuid: '43',
+                //   title: '推广设置',
+                //   url: 'Ad'
+                // },
+                // {
+                //   id: '3-3-3',
+                //   menuid: '44',
+                //   title: '契约设置',
+                //   url: 'Contract'
+                // },
+                // {
+                //   id: '3-3-4',
+                //   menuid: '88',
+                //   hide: true,
+                //   title: '契约详情',
+                //   url: 'ContractDetail',
+                //   position: {
+                //     width: '5.4rem',
+                //     height: '6.8rem'
+                //   }
+                // },
+                // {
+                //   id: '3-4-1',
+                //   menuid: '47',
+                //   title: '团队统计',
+                //   url: 'DataAnalysis'
+                // },
+                // {
+                //   id: '3-4-2',
+                //   menuid: '48',
+                //   title: '团队分析',
+                //   url: 'ChartAnalysis',
+                //   position: {
+                //     'min-width': '9.5rem'
+                //   }
+                // }
               ]
             }
           ]
@@ -704,7 +812,7 @@ export default {
         {
           id: 4,
           class: 'ds-icon-record',
-          title: '报表',
+          title: '代理中心',
           menuid: '5',
           url: 'form',
           hide: true,
@@ -715,14 +823,36 @@ export default {
               title: '游戏记录',
               items: [
                 {
-                  id: '4-1-1',
-                  menuid: '50',
-                  title: '彩票投注',
-                  url: 'Order',
+                  id: '4-9-8',
+                  menuid: '57',
+                  title: '团队报表',
+                  tabs: ['总帐', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabfn: '__setTotalAccountI',
+                  url: 'TotalAccount',
                   position: {
                     width: '13rem'
                   }
                 },
+                {
+                  id: '4-2-1',
+                  menuid: '53',
+                  title: '下级游戏记录',
+                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabfn: '__setGFI',
+                  url: 'Order',
+                  position: {
+                    width: '12rem'
+                  }
+                },
+                // {
+                //   id: '4-1-1',
+                //   menuid: '50',
+                //   title: '彩票投注',
+                //   url: 'Order',
+                //   position: {
+                //     width: '13rem'
+                //   }
+                // },
                 {
                   id: '4-2-1',
                   menuid: '53',
@@ -755,15 +885,6 @@ export default {
                   title: '其它报表',
                   url: 'OutProfitLoss'
                 },
-                // {
-                //   id: '4-5-9',
-                //   // menuid: '89',
-                //   title: '充提报表',
-                //   position: {
-                //     width: '12rem'
-                //   },
-                //   url: 'LUL'
-                // },
                 {
                   id: '3-3-1',
                   menuid: '45',
@@ -773,30 +894,13 @@ export default {
                   url: 'Stock'
                 },
                 // {
-                //   id: '4-5-10',
-                //   title: '活动报表',
-                //   url: 'ActivityReport'
-                // },
-                // {
-                //   id: '4-5-5',
-                //   menuid: '78',
-                //   title: '工资报表',
-                //   url: 'DaySalary'
-                // },
-                // {
-                //   id: '4-4-1',
+                //   id: '4-9-8',
                 //   menuid: '57',
-                //   title: '今日报表',
-                //   url: 'Today'
+                //   title: '总账报表',
+                //   tabs: ['汇总报表', '工资报表', '活动报表', '充提报表', '今日报表'],
+                //   tabfn: '__setTotalAccountI',
+                //   url: 'TotalAccount'
                 // },
-                {
-                  id: '4-9-8',
-                  menuid: '57',
-                  title: '总账报表',
-                  tabs: ['汇总报表', '工资报表', '活动报表', '充提报表', '今日报表'],
-                  tabfn: '__setTotalAccountI',
-                  url: 'TotalAccount'
-                },
                 {
                   id: '4-5-2',
                   menuid: '67',

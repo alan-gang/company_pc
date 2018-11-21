@@ -6,105 +6,111 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-
-      .form.form-filters
+      div(v-if=" I === 0 ")
         
-        label.item 类型 
-          el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
-            el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
-
-        label.item 时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" @change="detectDate")
-
-        
-        label.item 资金 
-          el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
-            el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
-
-        label.item 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
-        
-        .item
-          el-select(clearable  v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
-            el-option(v-for="(U, i) in QUERYS" v-bind:label="U" v-bind:value="i")
-          el-input(v-model="id" style="width: 1rem")
-        
-        label.item 游戏 
-          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
-
-
-       
-        
-
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="list") 搜索
-          .ds-button.cancel.large(@click="clear(true)") 清空
-          .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
-          label.item(style="margin-left: .32rem") 自身快捷查询：
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
-      
-      .table-list(style="padding: .15rem .2rem ")
-      
-        el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
-
-          el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
-            template(scope="scope")
-              div
-                .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.entry }}
-                span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
-
-
-          el-table-column(prop="userName" label="用户名" )
-            template(scope="scope")
-              span(v-if="!scope.row.last") {{ scope.row.userName }}
-              span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+        .form.form-filters
           
-          el-table-column(prop="times" label="时间" min-width="120")
+          label.item 类型 
+            el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
+              el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
-          el-table-column(prop="orderType" label="类型"  )
+          label.item 时间 
+            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" @change="detectDate")
 
-          el-table-column(prop="lotteryName" label="游戏"  )
-
-          el-table-column(prop="issue" label="期号"  )
-
-          el-table-column(prop="inout" label="收支"  align="right")
-            template(scope="scope")
-              span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
-
-
-          el-table-column(prop="balance" label="主帐户余额"  align="right")
-            template(scope="scope")
-              span{{ numberWithCommas(scope.row.balance) }}
           
-          el-table-column(prop="speBalance"  label="特殊余额"  align="right")
-            template(scope="scope")
-              span{{ numberWithCommas(scope.row.speBalance) }}
+          label.item 资金 
+            el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
+              el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
-          //- el-table-column(prop="isFree"  label="优惠券"  align="right")
-            template(scope="scope")
-              span{{ numberWithCommas(scope.row.speBalance) }}
+          label.item 用户 
+            input.ds-input.small(v-model="name" style="width: 1rem")
+          
+          .item
+            el-select(clearable  v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
+              el-option(v-for="(U, i) in QUERYS" v-bind:label="U" v-bind:value="i")
+            el-input(v-model="id" style="width: 1rem")
+          
+          label.item 游戏 
+            el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
+              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
 
-          el-table-column(label="备注" align="center")
-            template(scope="scope")
-              span {{ ISFREE[scope.row.isFree] }}
+         
+          
+
+          .buttons(style="margin-left: .3rem")
+            .ds-button.primary.large.bold(@click="list") 搜索
+            .ds-button.cancel.large(@click="clear(true)") 清空
+            .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
+            label.item(style="margin-left: .32rem") 自身快捷查询：
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+              span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
+        
+        .table-list(style="padding: .15rem .2rem ")
+        
+          el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
+
+            el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
+              template(scope="scope")
+                div
+                  .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.entry }}
+                  span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
 
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+            el-table-column(prop="userName" label="用户名" )
+              template(scope="scope")
+                span(v-if="!scope.row.last") {{ scope.row.userName }}
+                span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
+            
+            el-table-column(prop="times" label="时间" min-width="120")
 
-    
+            el-table-column(prop="orderType" label="类型"  )
+
+            el-table-column(prop="lotteryName" label="游戏"  )
+
+            el-table-column(prop="issue" label="期号"  )
+
+            el-table-column(prop="inout" label="收支"  align="right")
+              template(scope="scope")
+                span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
+
+
+            el-table-column(prop="balance" label="主帐户余额"  align="right")
+              template(scope="scope")
+                span{{ numberWithCommas(scope.row.balance) }}
+            
+            el-table-column(prop="speBalance"  label="特殊余额"  align="right")
+              template(scope="scope")
+                span{{ numberWithCommas(scope.row.speBalance) }}
+
+            //- el-table-column(prop="isFree"  label="优惠券"  align="right")
+              template(scope="scope")
+                span{{ numberWithCommas(scope.row.speBalance) }}
+
+
+            el-table-column(label="备注" align="center")
+              template(scope="scope")
+                span {{ ISFREE[scope.row.isFree] }}
+
+
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
+      LoadRecord.scroll-content(v-if=" I === 1 ")
+      WithdrawRecord.scroll-content(v-if=" I === 2 ")
+      TransferRecord.scroll-content(v-if=" I === 3 ")
       
 </template>
 
 <script>
+  // import LoadRecord from './LoadRecord'
+  // import WithdrawRecord from './WithdrawRecord'
+  import TransferRecord from '../me/BGTransaction'
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import { digitUppercase, numberWithCommas } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
@@ -112,37 +118,15 @@
   import store from '../../store'
   export default {
     mixins: [setTableMaxHeight],
+    components: {
+      TransferRecord
+    },
     data () {
       return {
         ME: store.state.user,
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
         pickerOptions: {
-          // shortcuts: [{
-          //   text: '最近一周',
-          //   onClick (picker) {
-          //     const end = new Date()
-          //     const start = new Date()
-          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-          //     picker.$emit('pick', [start, end])
-          //   }
-          // }, {
-          //   text: '最近一个月',
-          //   onClick (picker) {
-          //     const end = new Date()
-          //     const start = new Date()
-          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-          //     picker.$emit('pick', [start, end])
-          //   }
-          // }, {
-          //   text: '最近三个月',
-          //   onClick (picker) {
-          //     const end = new Date()
-          //     const start = new Date()
-          //     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-          //     picker.$emit('pick', [start, end])
-          //   }
-          // }],
           disabledDate (time) {
             return time.getTime() > Date.now()
           }
@@ -176,7 +160,8 @@
         currentPage: 1,
         preOptions: {},
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
-        hideNumber: false
+        hideNumber: false,
+        I: 0
       }
     },
     computed: {
@@ -235,6 +220,9 @@
       }
     },
     methods: {
+      __setCRI (i) {
+        this.I = i
+      },
       getSummaries (param) {
         const { columns, data } = param
         const sums = []
