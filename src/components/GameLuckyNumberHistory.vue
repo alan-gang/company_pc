@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     codeStyle () {
-      return this.allLuckyNumbers[0] ? this.allLuckyNumbers[0].codeStyle : ''
+      return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : this.allLuckyNumbers[1] ? this.allLuckyNumbers[1].codeStyle : ''
     },
     cs () {
       return this.codeStyle ? JSON.parse(this.codeStyle) : []

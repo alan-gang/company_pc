@@ -394,7 +394,10 @@ export default {
           })
           let lst = data.items[0] || {}
           // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
-          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) return
+          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
+            if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
+            return
+          }
           if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
             this.lucknumbersTimeout = setTimeout(() => {
