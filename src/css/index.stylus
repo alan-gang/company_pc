@@ -1,1 +1,3 @@
+@import './commonModal.stylus'
 @import './Modal.stylus'
+@import './Notice.stylus'

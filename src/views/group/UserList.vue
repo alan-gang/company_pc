@@ -598,7 +598,7 @@
           // this.getUserList()
         // }
         this.clear()
-        this.getUserList(B.id)
+        this.getUserList(B.userId)
       },
       searNow () {
         this.BL = this.BL.slice(0, 1)

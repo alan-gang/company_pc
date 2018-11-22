@@ -11,7 +11,7 @@
       .form
         .form-filters(style="padding: .15rem; margin: .1rem 0 .2rem 0;")
           div(style="text-align: center; min-height: .2rem" )
-            .ds-button-group(v-if="me.role >= 2")
+            .ds-button-group(v-if="me.role >= 2" style="margin: 0")
               .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的预期分红
               .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级预期分红
 

@@ -159,7 +159,6 @@
 
     
   .stock-list
-    top TH
     .form
       padding PWX PWX*2
 

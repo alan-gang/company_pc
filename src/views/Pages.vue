@@ -1,12 +1,12 @@
 <template lang="jade">
 
   transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]" v-moveable="" v-resizeable="" @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]"  @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
-        .move-bar(slot="movebar")
-        .resize-x(slot="resize-x")
-        .resize-y(slot="resize-y")
+        //- .move-bar(slot="movebar")
+        //- .resize-x(slot="resize-x")
+        //- .resize-y(slot="resize-y")
         ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:tabs="page.tabs" v-bind:tabfn="page.tabfn" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)")
 
 </template>
@@ -15,7 +15,7 @@
 import api from '../http/api'
 import base from 'components/base'
 import ToolBar from 'components/ToolBar'
-import util from '../util'
+// import util from '../util'
 // game
 import SSC from './game/SSC'
 import SSL from './game/SSL'
@@ -29,11 +29,11 @@ import HC6 from './game/HC6'
 import IFRAME from './game/IFRAME'
 
 // me
-import Me from './me/Me'
+// import Me from './me/Me'
 import SafeCenter from './me/SafeCenter'
 import Bonus from './me/Bonus'
-import TopUp from './me/TopUp'
-import WithDraw from './me/WithDraw'
+// import TopUp from './me/TopUp'
+// import WithDraw from './me/WithDraw'
 import Bank from './me/Bank'
 import BGTransaction from './me/BGTransaction'
 
@@ -110,8 +110,41 @@ import ReturnPoint from './activity/ReturnPoint'
 // 下载
 import Download from './download/Download'
 
+// new============================================================
+// 资金中心
+import Load from './cashcenter/Load'
+import Withdraw from './cashcenter/Withdraw'
+import Transfer from './cashcenter/Transfer'
+// 个人中心
+import myCashRecord from './myCashRecord'
+
+// 代理中心
+import subGameRecord from './subGameRecord'
+import myGameRecord from './myGameRecord'
+import openAccount from './openAccount'
+import salary from './salary'
+import lotteryStock from './lotteryStock'
+import otherStock from './otherStock'
+import subCashRecord from './subCashRecord'
+
 export default {
   components: {
+    // new======================================
+    // 资金中心
+    Load,
+    Withdraw,
+    Transfer,
+    // 个人中心
+    myCashRecord,
+    // 代理中心
+    myGameRecord,
+    subGameRecord,
+    openAccount,
+    salary,
+    lotteryStock,
+    otherStock,
+    subCashRecord,
+    // new
     ToolBar,
     // game
     SSC,
@@ -125,11 +158,11 @@ export default {
     HC6,
     IFRAME,
     // me
-    Me,
+    // Me,
     SafeCenter,
     Bonus,
-    WithDraw,
-    TopUp,
+    // WithDraw,
+    // TopUp,
     Bank,
     BGTransaction,
     // group
@@ -494,211 +527,211 @@ export default {
       }
       this.updatePage(page.id, {position: position}, page)
     }
-  },
-  directives: {
-    moveable: {
-      // inserted () {
-      // },
-      inserted (el, binding, vnode) {
-        let canMove = false
-        let wantMove = false
-        let {top, left, width, height} = util.getOffset(el, 0)
-        let boxOffset = util.getOffset(el.parentNode)
-        let target = el.querySelector('.move-bar')
-        let sx = 0
-        let sy = 0
-        let dx = 0
-        let dy = 0
-        util.addEvent('click', target, (evt) => {
-          if (wantMove) {
-            // 移动时， 窗口不上浮为当前活动窗口
-            // evt.preventDefault()
-            // evt.stopPropagation()
-            wantMove = false
-          }
-        })
-        util.addEvent('mousedown', target, (evt) => {
-          target.setAttribute('expand', 'expand')
-          el.setAttribute('adjusting', 'adjusting')
-          el.parentNode.setAttribute('adjusting', 'adjusting')
-          // el.parentNode.parentNode.setAttribute('adjusting', 'adjusting')
-          let offset = util.getOffset(el, 0)
-          top = offset.top
-          left = offset.left
-          width = offset.width
-          height = offset.height
-          boxOffset = util.getOffset(el.parentNode)
-          canMove = true
-          sx = evt.clientX
-          sy = evt.clientY
-        })
-        util.addEvent('mousemove', target, (evt) => {
-          if (!canMove) return
-          wantMove = true
-          el.style.transition = 'none'
-          dx = evt.movementX || (evt.clientX - sx)
-          dy = evt.movementY || (evt.clientY - sy)
-          if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
-          else el.setAttribute('h-align', 'left')
-          if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
-          else el.setAttribute('v-align', 'top')
-          if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
-          if (dx < 0 && left <= 15) dx = 0
-          if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
-          if (dy < 0 && top <= (15 + 36)) dy = 0
-          if (dx === 0 && dy === 0) return
-          left += dx
-          el.style.left = left + 'px'
-          sx = evt.clientX
-          top += dy
-          el.style.top = top + 'px'
-          sy = evt.clientY
-        })
-        util.addEvent('mouseup', target, (evt) => {
-          target.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
-          canMove = false
-          el.style.transition = ''
-        })
-        util.addEvent('mouseleave', target, (evt) => {
-          target.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
-          canMove = false
-          el.style.transition = ''
-        })
-      },
-      unbind (el) {
-      }
-    },
-    resizeable: {
-      inserted (el, binding) {
-        let canResizeX = false
-        let canResizeY = false
-        let {top, left, width, height} = util.getOffset(el, 0)
-        let boxOffset = util.getOffset(el.parentNode)
-        let targetX = el.querySelector('.resize-x')
-        let targetY = el.querySelector('.resize-y')
-        let sx = 0
-        let sy = 0
-        let dx = 0
-        let dy = 0
-        util.addEvent('click', targetX, (evt) => {
-          // 窗口不上浮为当前活动窗口
-          // evt.preventDefault()
-          // evt.stopPropagation()
-        })
-        util.addEvent('click', targetY, (evt) => {
-          // 窗口不上浮为当前活动窗口
-          // evt.preventDefault()
-          // evt.stopPropagation()
-        })
-        // X
-        util.addEvent('mousedown', targetX, (evt) => {
-          targetX.setAttribute('expand', 'expand')
-          el.setAttribute('adjusting', 'adjusting')
-          el.parentNode.setAttribute('adjusting', 'adjusting')
-
-          evt.preventDefault()
-          evt.stopPropagation()
-          let offset = util.getOffset(el, 0)
-          top = offset.top
-          left = offset.left
-          width = offset.width
-          height = offset.height
-          boxOffset = util.getOffset(el.parentNode)
-          canResizeX = true
-          el.style.transition = 'none'
-          sx = evt.clientX
-        })
-        util.addEvent('mousemove', targetX, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
-          if (!canResizeX) return
-          // if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
-          // else el.setAttribute('h-align', 'left')
-          // if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
-          // else el.setAttribute('v-align', 'top')
-          dx = evt.movementX || (evt.clientX - sx)
-          if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
-          width += dx
-          el.style.width = width + 'px'
-          if (width > 800) el.removeAttribute('w')
-          if (width < 800) el.setAttribute('w', '800')
-          if (width < 700) el.setAttribute('w', '700')
-          sx = evt.clientX
-        })
-        util.addEvent('mouseup', targetX, (evt) => {
-          targetX.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          evt.preventDefault()
-          evt.stopPropagation()
-          canResizeX = false
-          el.style.transition = ''
-        })
-        util.addEvent('mouseleave', targetX, (evt) => {
-          targetX.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          canResizeX = false
-          el.style.transition = ''
-        })
-        // Y
-        util.addEvent('mousedown', targetY, (evt) => {
-          targetY.setAttribute('expand', 'expand')
-          el.setAttribute('adjusting', 'adjusting')
-          el.parentNode.setAttribute('adjusting', 'adjusting')
-          evt.preventDefault()
-          evt.stopPropagation()
-          let offset = util.getOffset(el)
-          top = offset.top
-          left = offset.left
-          width = offset.width
-          height = offset.height
-          boxOffset = util.getOffset(el.parentNode)
-          canResizeY = true
-          el.style.transition = 'none'
-          sy = evt.clientY
-        })
-        util.addEvent('mousemove', targetY, (evt) => {
-          evt.preventDefault()
-          evt.stopPropagation()
-          if (!canResizeY) return
-          // if (left > boxOffset.width / 2) el.setAttribute('h-align', 'right')
-          // else el.setAttribute('h-align', 'left')
-          // if (top > boxOffset.height / 2) el.setAttribute('v-align', 'bottom')
-          // else el.setAttribute('v-align', 'top')
-          dy = evt.movementY || (evt.clientY - sy)
-          if (dy > 0 && (boxOffset.height - 15 <= top + height)) return
-          height += dy
-          el.style.height = height + 'px'
-          sy = evt.clientY
-        })
-        util.addEvent('mouseup', targetY, (evt) => {
-          targetY.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          evt.preventDefault()
-          evt.stopPropagation()
-          canResizeY = false
-          el.style.transition = ''
-        })
-        util.addEvent('mouseleave', targetY, (evt) => {
-          targetY.removeAttribute('expand')
-          el.removeAttribute('adjusting')
-          el.parentNode.removeAttribute('adjusting')
-          canResizeY = false
-          el.style.transition = ''
-        })
-      },
-      unbind (el) {
-      }
-    }
   }
+  // directives: {
+  //   moveable: {
+  //     // inserted () {
+  //     // },
+  //     inserted (el, binding, vnode) {
+  //       let canMove = false
+  //       let wantMove = false
+  //       let {top, left, width, height} = util.getOffset(el, 0)
+  //       let boxOffset = util.getOffset(el.parentNode)
+  //       let target = el.querySelector('.move-bar')
+  //       let sx = 0
+  //       let sy = 0
+  //       let dx = 0
+  //       let dy = 0
+  //       util.addEvent('click', target, (evt) => {
+  //         if (wantMove) {
+  //           // 移动时， 窗口不上浮为当前活动窗口
+  //           // evt.preventDefault()
+  //           // evt.stopPropagation()
+  //           wantMove = false
+  //         }
+  //       })
+  //       util.addEvent('mousedown', target, (evt) => {
+  //         target.setAttribute('expand', 'expand')
+  //         el.setAttribute('adjusting', 'adjusting')
+  //         el.parentNode.setAttribute('adjusting', 'adjusting')
+  //         // el.parentNode.parentNode.setAttribute('adjusting', 'adjusting')
+  //         let offset = util.getOffset(el, 0)
+  //         top = offset.top
+  //         left = offset.left
+  //         width = offset.width
+  //         height = offset.height
+  //         boxOffset = util.getOffset(el.parentNode)
+  //         canMove = true
+  //         sx = evt.clientX
+  //         sy = evt.clientY
+  //       })
+  //       util.addEvent('mousemove', target, (evt) => {
+  //         if (!canMove) return
+  //         wantMove = true
+  //         el.style.transition = 'none'
+  //         dx = evt.movementX || (evt.clientX - sx)
+  //         dy = evt.movementY || (evt.clientY - sy)
+  //         if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
+  //         else el.setAttribute('h-align', 'left')
+  //         if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
+  //         else el.setAttribute('v-align', 'top')
+  //         if (dx > 0 && (boxOffset.width - 15 <= left + width)) (dx = 0)
+  //         if (dx < 0 && left <= 15) dx = 0
+  //         if (dy > 0 && (boxOffset.height - 15 <= top + height)) dy = 0
+  //         if (dy < 0 && top <= (15 + 36)) dy = 0
+  //         if (dx === 0 && dy === 0) return
+  //         left += dx
+  //         el.style.left = left + 'px'
+  //         sx = evt.clientX
+  //         top += dy
+  //         el.style.top = top + 'px'
+  //         sy = evt.clientY
+  //       })
+  //       util.addEvent('mouseup', target, (evt) => {
+  //         target.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
+  //         canMove = false
+  //         el.style.transition = ''
+  //       })
+  //       util.addEvent('mouseleave', target, (evt) => {
+  //         target.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         // el.parentNode.parentNode.removeAttribute('adjusting', 'adjusting')
+  //         canMove = false
+  //         el.style.transition = ''
+  //       })
+  //     },
+  //     unbind (el) {
+  //     }
+  //   },
+  //   resizeable: {
+  //     inserted (el, binding) {
+  //       let canResizeX = false
+  //       let canResizeY = false
+  //       let {top, left, width, height} = util.getOffset(el, 0)
+  //       let boxOffset = util.getOffset(el.parentNode)
+  //       let targetX = el.querySelector('.resize-x')
+  //       let targetY = el.querySelector('.resize-y')
+  //       let sx = 0
+  //       let sy = 0
+  //       let dx = 0
+  //       let dy = 0
+  //       util.addEvent('click', targetX, (evt) => {
+  //         // 窗口不上浮为当前活动窗口
+  //         // evt.preventDefault()
+  //         // evt.stopPropagation()
+  //       })
+  //       util.addEvent('click', targetY, (evt) => {
+  //         // 窗口不上浮为当前活动窗口
+  //         // evt.preventDefault()
+  //         // evt.stopPropagation()
+  //       })
+  //       // X
+  //       util.addEvent('mousedown', targetX, (evt) => {
+  //         targetX.setAttribute('expand', 'expand')
+  //         el.setAttribute('adjusting', 'adjusting')
+  //         el.parentNode.setAttribute('adjusting', 'adjusting')
+
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         let offset = util.getOffset(el, 0)
+  //         top = offset.top
+  //         left = offset.left
+  //         width = offset.width
+  //         height = offset.height
+  //         boxOffset = util.getOffset(el.parentNode)
+  //         canResizeX = true
+  //         el.style.transition = 'none'
+  //         sx = evt.clientX
+  //       })
+  //       util.addEvent('mousemove', targetX, (evt) => {
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         if (!canResizeX) return
+  //         // if (left > (boxOffset.width - width - left)) el.setAttribute('h-align', 'right')
+  //         // else el.setAttribute('h-align', 'left')
+  //         // if (top > (boxOffset.height - height - top)) el.setAttribute('v-align', 'bottom')
+  //         // else el.setAttribute('v-align', 'top')
+  //         dx = evt.movementX || (evt.clientX - sx)
+  //         if (dx > 0 && (boxOffset.width - 15 <= left + width)) return
+  //         width += dx
+  //         el.style.width = width + 'px'
+  //         if (width > 800) el.removeAttribute('w')
+  //         if (width < 800) el.setAttribute('w', '800')
+  //         if (width < 700) el.setAttribute('w', '700')
+  //         sx = evt.clientX
+  //       })
+  //       util.addEvent('mouseup', targetX, (evt) => {
+  //         targetX.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         canResizeX = false
+  //         el.style.transition = ''
+  //       })
+  //       util.addEvent('mouseleave', targetX, (evt) => {
+  //         targetX.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         canResizeX = false
+  //         el.style.transition = ''
+  //       })
+  //       // Y
+  //       util.addEvent('mousedown', targetY, (evt) => {
+  //         targetY.setAttribute('expand', 'expand')
+  //         el.setAttribute('adjusting', 'adjusting')
+  //         el.parentNode.setAttribute('adjusting', 'adjusting')
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         let offset = util.getOffset(el)
+  //         top = offset.top
+  //         left = offset.left
+  //         width = offset.width
+  //         height = offset.height
+  //         boxOffset = util.getOffset(el.parentNode)
+  //         canResizeY = true
+  //         el.style.transition = 'none'
+  //         sy = evt.clientY
+  //       })
+  //       util.addEvent('mousemove', targetY, (evt) => {
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         if (!canResizeY) return
+  //         // if (left > boxOffset.width / 2) el.setAttribute('h-align', 'right')
+  //         // else el.setAttribute('h-align', 'left')
+  //         // if (top > boxOffset.height / 2) el.setAttribute('v-align', 'bottom')
+  //         // else el.setAttribute('v-align', 'top')
+  //         dy = evt.movementY || (evt.clientY - sy)
+  //         if (dy > 0 && (boxOffset.height - 15 <= top + height)) return
+  //         height += dy
+  //         el.style.height = height + 'px'
+  //         sy = evt.clientY
+  //       })
+  //       util.addEvent('mouseup', targetY, (evt) => {
+  //         targetY.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         evt.preventDefault()
+  //         evt.stopPropagation()
+  //         canResizeY = false
+  //         el.style.transition = ''
+  //       })
+  //       util.addEvent('mouseleave', targetY, (evt) => {
+  //         targetY.removeAttribute('expand')
+  //         el.removeAttribute('adjusting')
+  //         el.parentNode.removeAttribute('adjusting')
+  //         canResizeY = false
+  //         el.style.transition = ''
+  //       })
+  //     },
+  //     unbind (el) {
+  //     }
+  //   }
+  // }
 }
 </script>
 

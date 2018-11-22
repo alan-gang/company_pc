@@ -539,6 +539,7 @@ pre
       th > div.cell
         padding 0.05rem .02rem
         line-height .2rem
+        background none
   
   .el-table.trend-table
     td

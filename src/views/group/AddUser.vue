@@ -179,7 +179,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .add-user
-    top TH
+    top 0
     .form
       padding PWX
       
