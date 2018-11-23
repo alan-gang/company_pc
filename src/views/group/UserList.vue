@@ -302,7 +302,7 @@
           span.text-danger *
           返水级别：&nbsp;&nbsp;
           el-select(v-model=" bw " style="width: 1.8rem; position: relative; top: -.01rem")
-            el-option(v-for=" bw in BWL " v-bind:label=" bw " v-bind:value=" bw ")
+            el-option(v-for=" bw in BWL " v-bind:label=" bw.toFixed(1) " v-bind:value=" bw ")
           span.text-blue  ‰
           span  (千分符)
           br
@@ -430,7 +430,8 @@
         teamSales: 0,
         activityCount: 0,
         bwi: 0,
-        bw: ''
+        bw: '',
+        BWL: null
       }
     },
     computed: {
@@ -439,26 +440,40 @@
       },
       CBW () {
         return this.user.backWaterComb ? this.user.backWaterComb[this.bwi] : undefined
-      },
-      BWL () {
-        if (this.CBW && this.CBW.maxBackWater) {
-          let A = []
-          let Max = this.CBW.maxBackWater * 1000
-          let Min = this.CBW.minBackWater * 1000
-          for (let i = Min; i <= Max; i += 0.1) {
-            i = Number(i.toFixed(1))
-            A.push(i.toFixed(1))
-          }
-          return A
-        } else {
-          return []
-        }
       }
+      // BWL () {
+      //   if (this.CBW && this.CBW.maxBackWater) {
+      //     let A = []
+      //     let Max = this.CBW.maxBackWater * 1000
+      //     let Min = this.CBW.minBackWater * 1000
+      //     for (let i = Min; i <= Max; i += 0.1) {
+      //       i = Number(i.toFixed(1))
+      //       A.push(i)
+      //     }
+      //     return A
+      //   } else {
+      //     return []
+      //   }
+      // }
     },
     watch: {
       CBW () {
-        if (this.CBW) this.bw = this.CBW.backWater ? (Number(this.CBW.backWater) * 1000).toFixed(1) : ''
+        if (this.CBW) this.bw = this.CBW.backWater !== undefined ? Number((this.CBW.backWater * 1000).toFixed(1)) : ''
         else this.bw = ''
+        setTimeout(() => {
+          if (this.CBW && this.CBW.maxBackWater) {
+            let A = []
+            let Max = this.CBW.maxBackWater * 1000
+            let Min = this.CBW.minBackWater * 1000
+            for (let i = Min; i <= Max; i += 0.1) {
+              i = Number(i.toFixed(1))
+              A.push(i)
+            }
+            this.BWL = A
+          } else {
+            this.BWL = []
+          }
+        }, 0)
       },
       // point () {
       //   setTimeout(() => {
@@ -511,6 +526,7 @@
           userId: row.userId
         }).then(({data: {success, backWaterComb}}) => {
           if (success === 1) {
+            backWaterComb.forEach
             this.$set(row, 'backWaterComb', backWaterComb)
             // row.backWaterComb = backWaterComb
           }
@@ -518,7 +534,7 @@
       },
       // &userId=590472&backWater=0.003&groupId=4
       setBackWater () {
-        if (!this.bw) return
+        if (this.bw === '') return
         this.$http.get(api.setBackWater, {
           userId: this.user.userId,
           backWater: this.bw ? this.bw / 1000 : '',
