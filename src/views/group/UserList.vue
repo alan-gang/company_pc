@@ -103,6 +103,8 @@
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
+              .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" me.showBackWater && scope.row.isSub" @click.stop=" ABW(scope.row) ") 调整返水
+
               .ds-button.text-button.blue(style="padding: 0 .05rem;" @click="getTeamBalance(scope.row)") 团队余额
                 
                 div(v-if="scope.row.showTeanBalance")
@@ -112,180 +114,212 @@
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
       // 充值
-      transition-group(name="slide" appear=true tag="div")
-        div(key="1" v-show="stepIndex === 1 && stepType === 'topUp' ")
-          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
+
+      div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
+        p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          span.text-blue {{ user.userName }}
+          |  进行充值
+          span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
+
+        p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 
+          
+          | 资金密码：&nbsp;&nbsp;&nbsp;
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
+          span(v-if=" me.safeCheck ")
+            br
+            br
+            label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
+                input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+                  span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
+                  span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
+                    span.text-999 秒后可重新发送
+
+            label(v-if="me.safeCheck === 3 " style="margin: .2rem 0") 信游安全码：
+                input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
+          br
+          span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
+
+
+        p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 
+          | 代充来源：&nbsp;&nbsp;&nbsp;
+          el-select(v-model=" mtype " style="width: 2.2rem; position: relative; top: -.01rem")
+            el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
+          br
+          br
+          | 可用余额：&nbsp;&nbsp;&nbsp;&nbsp;{{ mtype ? me.smoney : me.amoney }}
+          br
+          br
+          |充值金额：&nbsp;&nbsp;&nbsp;
+          el-input-number.large(style="width: 2.2rem" v-model="money" @keyup.enter.native=" checkTopup ") 
+          span.text-money  {{ textMoney }}
+          span.text-999(v-if=" topUpMax || topUpMin ")  ({{ topUpMin }} - {{ topUpMax }}元)
+
+          <br>
+          span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click=" checkTopup") 下一步
+
+        p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 2") 充值金额：
+          span.amount {{ money }}
+          | 元   
+          span.text-money  {{ textMoney }}
+          br
+          span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="recharge") 确认
+
+      div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
+        p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          span.text-blue {{ user.userName }}
+          |  调整工资级别
+          span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
+
+        p(style="padding-left: 30%; margin-top: .7rem")
+          span.text-danger *
+          日工资：&nbsp;&nbsp;
+          el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
+            el-option(v-for="O in OL.filter(x => x.value >= user.daySalary) " v-bind:label="O.name" v-bind:value="O.value")
+
+        p(style="padding-left: 30%; margin-top: .15rem") 
+          | 团队销量：
+          el-input-number(v-model="teamSales")
+          |  万
+
+        p(style="padding-left: 30%; margin-top: .15rem") 
+          | 有效用户：
+          el-input-number(v-model="activityCount")
+          |  人
+          span.text-999（投注达到500为有效用户）
+          br
+          span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem" @click="setSalary") 确认
+
+
+
+
+      // 升点、降点
+      div(key="3" v-if="stepIndex === 1 && stepType === 'point' ")
+
+        p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          span.text-blue {{ user.userName }}
+          |  进行调点
+          span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
+
+        p(style="text-align: center; margin-top: .2rem") 
+          | &nbsp;&nbsp;&nbsp;&nbsp;您的返点级别：
+          span.text-danger {{ myPoint }}
+          
+        div(style="text-align: center; margin-top: .1rem")
+          .ds-button-group(style="margin: 0")
+            .ds-button.text-button(:class=" { selected: pointType === 'up' } " @click=" pointType='up' ") 升点
+            //- .ds-button.text-button(:class=" { selected: pointType === 'down' }" @click=" pointType='down'  ") 降点
+
+
+        .notice(style="margin: .2rem" v-if=" pointType === 'down' ")
+          p.content
+            | 降点必须量
+            span.text-danger 低于
+            | 最低量要求，才能降点
+
+        div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
+
+          el-table.header-bold(:data="pointData[pointType]"  style="margin: .2rem 0")
+
+            el-table-column(prop="level" label="返点等级" )
+
+            el-table-column(prop="prize" label="最高奖金" )
+
+            el-table-column(prop="30Days" label="30天投注量(万)" )
+
+        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
+      
+        p(style="padding: .1rem .4rem" v-if=" pointType === 'down' ") 该帐户30天总量：
+          span.text-danger {{ thirtyDaysAmount }}
+
+
+        p(style="padding: .1rem .4rem" v-if="PS.length !== 0") 剩余开户额：&nbsp;&nbsp;
+          label(style="display: inline-block")
+            span(style="margin: 0 .15rem " v-for="P in PS")
+              span.text-blue [{{ P.point }}]:
+              span.text-danger {{ P.n }}个
+
+
+        p(style="padding: 0rem .4rem") 您下级( 
+          span.text-blue {{ user.userName }}
+          |  )的返点级别：
+          span.amount {{ user.userPoint }}
+          | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
+          el-input( v-model="point" style="width: .6rem")
+
+          span.text-money  (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
+
+
+        div.buttons(style="padding: .1rem .4rem")
+          .ds-button.primary.large.bold(@click="adjustPoint") {{ pointType === 'up' ? '升点' : '降点' }}
+
+      
+      // 开户额
+      div(key="4" v-if="stepIndex === 1 && stepType === 'open' ")
+        p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
             span.text-blue {{ user.userName }}
-            |  进行充值
-            span.ds-button.text-button.blue(style="float: right" @click="topUpIndex > 0 ? topUpIndex-- : stepIndex--") {{ '<返回上一页' }} 
-
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 0") 
-            
-            | 资金密码：&nbsp;&nbsp;&nbsp;
-            input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
-            span(v-if=" me.safeCheck ")
-              br
-              br
-              label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
-                  input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-                  button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
-                    span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
-                    span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
-                      span.text-999 秒后可重新发送
-
-              label(v-if="me.safeCheck === 3 " style="margin: .2rem 0") 信游安全码：
-                  input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-            br
-            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click="checkNow") 下一步
-
-
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 1") 
-            | 代充来源：&nbsp;&nbsp;&nbsp;
-            el-select(v-model=" mtype " style="width: 2.2rem; position: relative; top: -.01rem")
-              el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
-            br
-            br
-            | 可用余额：&nbsp;&nbsp;&nbsp;&nbsp;{{ mtype ? me.smoney : me.amoney }}
-            br
-            br
-            |充值金额：&nbsp;&nbsp;&nbsp;
-            el-input-number.large(style="width: 2.2rem" v-model="money" @keyup.enter.native=" checkTopup ") 
-            span.text-money  {{ textMoney }}
-            span.text-999(v-if=" topUpMax || topUpMin ")  ({{ topUpMin }} - {{ topUpMax }}元)
-
-            <br>
-            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .2rem" @click=" checkTopup") 下一步
-
-          p(style="padding-left: 30%; margin-top: .7rem" v-if="topUpIndex === 2") 充值金额：
-            span.amount {{ money }}
-            | 元   
-            span.text-money  {{ textMoney }}
-            br
-            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="recharge") 确认
-
-        div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
-          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
-            span.text-blue {{ user.userName }}
-            |  调整工资级别
-            span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
-
-          p(style="padding-left: 30%; margin-top: .7rem")
-            span.text-danger *
-            日工资：&nbsp;&nbsp;
-            el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
-              el-option(v-for="O in OL.filter(x => x.value >= user.daySalary) " v-bind:label="O.name" v-bind:value="O.value")
-
-          p(style="padding-left: 30%; margin-top: .15rem") 
-            | 团队销量：
-            el-input-number(v-model="teamSales")
-            |  万
-
-          p(style="padding-left: 30%; margin-top: .15rem") 
-            | 有效用户：
-            el-input-number(v-model="activityCount")
-            |  人
-            span.text-999（投注达到500为有效用户）
-            br
-            span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem" @click="setSalary") 确认
-
-
-
-
-        // 升点、降点
-        div(key="3" v-show="stepIndex === 1 && stepType === 'point' ")
-
-          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
-            span.text-blue {{ user.userName }}
-            |  进行调点
+            |  调整开户额
             span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
 
-          p(style="text-align: center; margin-top: .2rem") 
-            | &nbsp;&nbsp;&nbsp;&nbsp;您的返点级别：
-            span.text-danger {{ myPoint }}
-            
-          div(style="text-align: center; margin-top: .1rem")
-            .ds-button-group(style="margin: 0")
-              .ds-button.text-button(:class=" { selected: pointType === 'up' } " @click=" pointType='up' ") 升点
-              //- .ds-button.text-button(:class=" { selected: pointType === 'down' }" @click=" pointType='down'  ") 降点
+          p(style="text-align: center; margin-top: .2rem") 帐号: 
+            span.text-blue {{ user.name }} 
+            | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
+            span.text-black {{ user.userName }} 
+            | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
+            span.text-danger {{ user.userPoint }}
 
+        div(style="padding: 0 1rem")
 
-          .notice(style="margin: .2rem" v-if=" pointType === 'down' ")
-            p.content
-              | 降点必须量
-              span.text-danger 低于
-              | 最低量要求，才能降点
+          el-table.header-bold.margin(:data="openUserData" style="margin: .2rem auto; width: 6rem")
 
-          div(style="padding: 0 .2rem" v-if=" pointType === 'down' ")
+            el-table-column(prop="name" label="开户级别" align="center" width="120" v-if=" platform !== 'ds' ")
 
-            el-table.header-bold(:data="pointData[pointType]"  style="margin: .2rem 0")
+            el-table-column(prop="src" label="我的剩余开户额" width="150" align="right")
 
-              el-table-column(prop="level" label="返点等级" )
+            el-table-column(prop="dest" label="下级剩余开户额" width="150" align="right")
 
-              el-table-column(prop="prize" label="最高奖金" )
+            el-table-column(label="为下级增加开户额" align="center")
+              template(scope="scope")
+                el-input-number.center(v-model="scope.row.i" v-bind:min="0" v-bind:max="scope.row.src")
+                
+  
+        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
+        div.buttons(style="padding: .1rem .4rem; text-align: center")
+          .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开户额
+      
+      //- 调整反水
+      div(key="5" v-if="stepIndex === 1 && stepType === 'rebate' ")
+        p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
+          span.text-blue {{ user.userName }}
+          |  调整返水级别
+          span.ds-button.text-button.blue(style="float: right" @click=" (user = {}) && stepIndex--") {{ '<返回上一页' }} 
 
-              el-table-column(prop="30Days" label="30天投注量(万)" )
+        div(style="text-align: center; margin-top: .1rem")
+          .ds-button-group(style="margin: 0")
+            .ds-button.text-button(v-for=" (bw, i) in user.backWaterComb  " v-bind:class=" { selected: bwi === i } " @click=" bwi= i ") {{ bw.groupName || bw.groupId }}
 
-          hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
-        
-          p(style="padding: .1rem .4rem" v-if=" pointType === 'down' ") 该帐户30天总量：
-            span.text-danger {{ thirtyDaysAmount }}
+        p(style="padding-left: 30%; margin-top: .7rem")
+          span.text-danger *
+          返水级别：&nbsp;&nbsp;
+          el-select(v-model=" bw " style="width: 1.8rem; position: relative; top: -.01rem")
+            el-option(v-for=" bw in BWL " v-bind:label=" bw " v-bind:value=" bw ")
+          span.text-blue  ‰
+          span  (千分符)
+          br
+          span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="setBackWater") 确认
 
+        //- p(style="padding-left: 30%; margin-top: .15rem") 
+        //-   |  &nbsp;&nbsp;团队销量：&nbsp;
+        //-   el-input-number(v-model="teamSales")
+        //-   |  万
 
-          p(style="padding: .1rem .4rem" v-if="PS.length !== 0") 剩余开户额：&nbsp;&nbsp;
-            label(style="display: inline-block")
-              span(style="margin: 0 .15rem " v-for="P in PS")
-                span.text-blue [{{ P.point }}]:
-                span.text-danger {{ P.n }}个
-
-
-          p(style="padding: 0rem .4rem") 您下级( 
-            span.text-blue {{ user.userName }}
-            |  )的返点级别：
-            span.amount {{ user.userPoint }}
-            | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ pointType === 'up' ? '上升返点：' : '下降返点：' }}
-            el-input( v-model="point" style="width: .6rem")
-
-            span.text-money  (可填范围：{{ range[pointType].min }}~{{ range[pointType].max }})
-
-
-          div.buttons(style="padding: .1rem .4rem")
-            .ds-button.primary.large.bold(@click="adjustPoint") {{ pointType === 'up' ? '升点' : '降点' }}
-
-        
-        // 开户额
-        div(key="4" v-show="stepIndex === 1 && stepType === 'open' ")
-          p.title.text-black(style="padding: .2rem 0 .2rem .2rem") 您正在给下级用户 
-              span.text-blue {{ user.userName }}
-              |  调整开户额
-              span.ds-button.text-button.blue(style="float: right" @click=" stepIndex-- ") {{ '<返回上一页' }} 
-
-            p(style="text-align: center; margin-top: .2rem") 帐号: 
-              span.text-blue {{ user.name }} 
-              | &nbsp;&nbsp;&nbsp;&nbsp;昵称: 
-              span.text-black {{ user.userName }} 
-              | &nbsp;&nbsp;&nbsp;&nbsp;返点级别：
-              span.text-danger {{ user.userPoint }}
-
-          div(style="padding: 0 1rem")
-
-            el-table.header-bold.margin(:data="openUserData" style="margin: .2rem auto; width: 6rem")
-
-              el-table-column(prop="name" label="开户级别" align="center" width="120" v-if=" platform !== 'ds' ")
-
-              el-table-column(prop="src" label="我的剩余开户额" width="150" align="right")
-
-              el-table-column(prop="dest" label="下级剩余开户额" width="150" align="right")
-
-              el-table-column(label="为下级增加开户额" align="center")
-                template(scope="scope")
-                  el-input-number.center(v-model="scope.row.i" v-bind:min="0" v-bind:max="scope.row.src")
-                  
-    
-          hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin:  .1rem")
-          div.buttons(style="padding: .1rem .4rem; text-align: center")
-            .ds-button.primary.large.bold(v-if="openUserData[0]" @click="distriAddCount") 分配开户额
-
-
+        //- p(style="padding-left: 30%; margin-top: .15rem") 
+        //-   |  &nbsp;&nbsp;有效用户：&nbsp;
+        //-   el-input-number(v-model="activityCount")
+        //-   |  人
+        //-   span.text-999（投注达到500为有效用户）
+        //-   br
+        //-   span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem" @click="setSalary") 确认
 
 
 
@@ -394,15 +428,38 @@
         moneyTypes: ['可用余额', '特殊金额'],
         mtype: 0,
         teamSales: 0,
-        activityCount: 0
+        activityCount: 0,
+        bwi: 0,
+        bw: ''
       }
     },
     computed: {
       textMoney () {
         return digitUppercase(this.money)
+      },
+      CBW () {
+        return this.user.backWaterComb ? this.user.backWaterComb[this.bwi] : undefined
+      },
+      BWL () {
+        if (this.CBW && this.CBW.maxBackWater) {
+          let A = []
+          let Max = this.CBW.maxBackWater * 1000
+          let Min = this.CBW.minBackWater * 1000
+          for (let i = Min; i <= Max; i += 0.1) {
+            i = Number(i.toFixed(1))
+            A.push(i.toFixed(1))
+          }
+          return A
+        } else {
+          return []
+        }
       }
     },
     watch: {
+      CBW () {
+        if (this.CBW) this.bw = this.CBW.backWater ? (Number(this.CBW.backWater) * 1000).toFixed(1) : ''
+        else this.bw = ''
+      },
       // point () {
       //   setTimeout(() => {
       //     let i = (this.point + '').lastIndexOf('.')
@@ -437,6 +494,41 @@
         this.teamSales = row.teamSales
         this.activityCount = row.actUser
         // (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.daySalary) || ( oo = scope.row.winSalary ))
+      },
+      ABW (row) {
+        this.stepType = 'rebate'
+        this.stepIndex++
+        this.user = row
+        this.o = row.daySalary
+        this.oo = row.winSalary
+        this.teamSales = row.teamSales
+        this.activityCount = row.actUser
+        this.getBackWater(row)
+        // (stepType = 'salary') && ++stepIndex && (user = scope.row) && ((o = scope.row.daySalary) || ( oo = scope.row.winSalary ))
+      },
+      getBackWater (row) {
+        this.$http.get(api.getBackWater, {
+          userId: row.userId
+        }).then(({data: {success, backWaterComb}}) => {
+          if (success === 1) {
+            this.$set(row, 'backWaterComb', backWaterComb)
+            // row.backWaterComb = backWaterComb
+          }
+        })
+      },
+      // &userId=590472&backWater=0.003&groupId=4
+      setBackWater () {
+        if (!this.bw) return
+        this.$http.get(api.setBackWater, {
+          userId: this.user.userId,
+          backWater: this.bw ? this.bw / 1000 : '',
+          groupId: this.CBW.groupId
+        }).then(({data: {success}}) => {
+          if (success === 1) {
+            this.stepIndex = 0
+            // row.backWaterComb = backWaterComb
+          }
+        })
       },
       // &salary=20&teamSale=200&actvityCount=0&userId=7
       // 设置日工资：

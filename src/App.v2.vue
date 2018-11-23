@@ -1169,6 +1169,7 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
+          showBackWater: data.showBackWater,
           showSalary: data.showSalary === 1,
           name: data.nickName,
           pwd: data.hasLogPwd === 1,
