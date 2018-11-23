@@ -458,10 +458,10 @@ export default {
       // }).catch(rep => {
       //   this.$message.error({target: this.$el, message: '充值请求失败！'})
       // })
-      this.$router.push('/me/2-4-1')
+      this.$router.push('/me/2-1-1')
     },
     withDraw () {
-      this.$router.push('/me/2-5-1')
+      this.$router.push('/me/2-1-2')
     }
   }
 }

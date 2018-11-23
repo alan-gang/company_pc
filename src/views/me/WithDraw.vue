@@ -358,7 +358,7 @@ export default {
               content: '您还未曾绑定过银行卡，请绑定银行卡后再进行提现！',
               target: this.$el,
               close () {
-                this.$emit('close', '2-5-1', '2-6-1')
+                this.$emit('close', '2-1-2', '2-2-4')
                 // this.$router.push('/me/2-6-1')
               },
               O: this

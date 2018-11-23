@@ -42,7 +42,7 @@
       },
       withDraw () {
         // block8/3 console.log('提现')
-        this.$router.push('/me/2-5-1')
+        this.$router.push('/me/2-1-2')
       },
       doRecharge () {
         // this.$http.get(api.doRecharge).then(({data}) => {
@@ -62,7 +62,7 @@
         // }).catch(rep => {
         //   this.$message.error({target: this.$el, message: '充值请求失败！'})
         // })
-        this.$router.push('/me/2-4-1')
+        this.$router.push('/me/2-1-1')
       }
     }
   }

@@ -879,7 +879,7 @@ export default {
                 return false
               }
               if (modal.btn[0] === '立即前往设置') {
-                this.$router.push('/me/2-2-1')
+                this.$router.push('/me/2-2-3')
               }
             },
             O: this

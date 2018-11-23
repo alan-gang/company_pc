@@ -151,7 +151,7 @@
             // this.point = ''
             this.u = {}
             this.showRegistUser()
-            this.$router.push('/group/3-1-1')
+            this.$router.push('/group/2-3-4')
           } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
           // error
