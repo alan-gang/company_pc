@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' " unique-opened ref="M")
+  el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' " unique-opened ref="M" v-if="menus[0]")
 
     el-submenu(v-for="(m, i) in menus" v-if="(m.title && menus.length > 1 || m.url === 'help') && !m.removed" v-bind:index="m.url")
       template(slot="title")
@@ -40,10 +40,19 @@ export default {
   },
   watch: {
     '$route' ({path}) {
-      this.$refs.M.closeMenu(this.defaultUrl.split('/')[1])
+      // console.log(path, '...', this.defaultUrl)
+      let b = this.defaultUrl
       this.defaultUrl = path
-      this.$refs.M.openMenu(path.split('/')[1])
+      setTimeout(() => {
+        this.$refs.M.closeMenu(b.split('/')[1])
+        this.$refs.M.openMenu(path.split('/')[1])
+      }, 300)
     }
+  },
+  mounted () {
+    // console.log(this.$refs.M)
+  },
+  beforeDestroy () {
   }
 }
 </script>

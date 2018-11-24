@@ -28,12 +28,19 @@
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
         L
 
-
+    // Guide
+    .modal.menu-guide-modal(v-show=" showMenuGuide " )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 12.8rem")
+          MenuGuide(v-bind:showMenuGuide.sync="showMenuGuide" v-on:hideMenuGuide="hideMenuGuide")
+    
 
 </template>
 
 <script>
 import Modal from './components/Modal'
+import MenuGuide from './components/MenuGuide'
 import L from './components/L'
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
@@ -52,6 +59,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      showMenuGuide: false,
       showPrint: false,
       printData: {},
       collapseFooter: false,
@@ -470,7 +478,7 @@ export default {
         {
           id: 2,
           menuid: '3',
-          class: 'ds-icon-me',
+          class: 'ds-icon-cash',
           title: '资金中心',
           url: 'me',
           hide: true,
@@ -503,7 +511,7 @@ export default {
         },
         {
           id: 3,
-          class: 'ds-icon-group',
+          class: 'ds-icon-me',
           title: '个人中心',
           menuid: '4',
           url: 'group',
@@ -553,7 +561,7 @@ export default {
         },
         {
           id: 4,
-          class: 'ds-icon-record',
+          class: 'ds-icon-agent',
           title: '代理中心',
           menuid: '5',
           url: 'form',
@@ -833,6 +841,10 @@ export default {
     // this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}]})
   },
   methods: {
+    hideMenuGuide () {
+      this.showMenuGuide = false
+      window.localStorage.setItem('menu_guide', 'true')
+    },
     __setUser () {
       return this.setUser()
     },
@@ -1002,6 +1014,7 @@ export default {
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
         Socket.sockets.user && this.connected(Socket.sockets.user)
+        this.showMenuGuide = !window.localStorage.getItem('menu_guide')
       })
     },
     connected (socket) {
@@ -1271,7 +1284,8 @@ export default {
     dsRighter,
     GGL,
     Modal,
-    L
+    L,
+    MenuGuide
     // Chat
   }
 }

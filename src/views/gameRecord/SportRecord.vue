@@ -32,7 +32,7 @@
 
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
-          el-table-column(class-name="pl2" prop="username" label="用户名"  width="150")
+          el-table-column(class-name="pl2" prop="username" label="用户名"  width="150" v-if="!noname")
           el-table-column(prop="betTime" label="时间" width="150")
           el-table-column(prop="oddstype" label="盘口" width="100")
           el-table-column(prop="odds" label="赔率"  align="center"  width="100")

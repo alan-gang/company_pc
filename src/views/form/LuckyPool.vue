@@ -123,7 +123,7 @@
         STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
         // STATUS: ['未开奖', '已中奖', '未中奖'],
         status: '',
-        ISFREE: ['现金', '优惠券'],
+        ISFREE: ['现金', '信游币'],
         isFree: '',
         gameList: [],
         gameid: '',

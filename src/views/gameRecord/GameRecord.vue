@@ -32,7 +32,7 @@
       
         el-table.header-bold.nopadding(:data="data"  style="" ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
           el-table-column(class-name="pl2 pr2" prop="orderId" label="订单号" show-overflow-tooltip=true)
-          el-table-column(class-name="pl2" prop="userName" label="用户名"  )
+          el-table-column(class-name="pl2" prop="userName" label="用户名"  v-if="!noname")
           el-table-column(prop="platName" label="平台"  )
           el-table-column(prop="betTime" label="投注时间（北京）"  width="150" show-overflow-tooltip=true)
           //- el-table-column(prop="betTimeEst" label="投注时间（美东）"  width="150" show-overflow-tooltip=true)

@@ -42,7 +42,7 @@
               div
                 span.text-blue( @click=" ") {{ scope.row.serialNumber }}
 
-          el-table-column(class-name="pl2" prop="playerName" label="用户" )
+          el-table-column(class-name="pl2" prop="playerName" label="用户" v-if="!noname")
             template(scope="scope")
               span() {{ scope.row.playerName }}
           

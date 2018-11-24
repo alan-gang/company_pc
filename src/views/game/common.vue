@@ -505,7 +505,7 @@ export default {
       if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
         return this.$modal.question({
           target: this.$el,
-          content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
+          content: (this.checked ? '信游币' : '余额') + '不足, 请充值。',
           btn: [(this.checked ? '确定' : '去充值')],
           ok () {
             if (!this.checked) {

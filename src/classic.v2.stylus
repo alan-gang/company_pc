@@ -360,29 +360,29 @@ H = 1.04rem
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right .02rem
+    margin -.03rem .02rem 0 0
     shadow(none)
-    background url(../DSM/src/assets/icon_01.png) center no-repeat
+    background url(../DSM/src/assets/2.png) center no-repeat
     background-size .2rem .2rem
     
-  .ds-icon-group-menu
+  .ds-icon-cash-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right .02rem
+    margin -.03rem .02rem 0 0
     shadow(none)
-    background url(../DSM/src/assets/icon_02.png) center no-repeat
+    background url(../DSM/src/assets/1.png) center no-repeat
     background-size .2rem .2rem
     
-  .ds-icon-record-menu
+  .ds-icon-agent-menu
     display inline-block
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right .02rem
+    margin -.03rem .02rem 0 0
     shadow(none)
-    background url(../DSM/src/assets/icon_03.png) center no-repeat
+    background url(../DSM/src/assets/3.png) center no-repeat
     background-size .2rem .2rem
     
   .ds-icon-gift-menu
@@ -390,9 +390,9 @@ H = 1.04rem
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right .02rem
+    margin -.03rem .02rem 0 0
     shadow(none)
-    background url(assets/gift.png) center no-repeat
+    background url(../DSM/src/assets/4.png) center no-repeat
     background-size .2rem .2rem
     
   .ds-icon-help-menu
@@ -400,9 +400,9 @@ H = 1.04rem
     width .26rem
     height .26rem
     vertical-align middle
-    margin-right .02rem
+    margin -.03rem .02rem 0 0
     shadow(none)
-    background url(assets/help.png) center no-repeat
+    background url(../DSM/src/assets/5.png) center no-repeat
     background-size .2rem .2rem
 
 #app.classic.v2:not(.game) .new-home

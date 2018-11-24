@@ -192,7 +192,7 @@
         et: '',
         STATUS: ['未开奖', '未中奖', '已中奖', '已撤单'],
         status: '',
-        ISFREE: ['现金', '优惠券'],
+        ISFREE: ['现金', '信游币'],
         isFree: '',
         gameList: [],
         game: '',

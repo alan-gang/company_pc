@@ -289,7 +289,7 @@
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
         status: '',
-        ISFREE: ['现金', '优惠券'],
+        ISFREE: ['现金', '信游币'],
         isFree: '',
         gameList: [],
         gameid: '',

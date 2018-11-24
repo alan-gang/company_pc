@@ -44,7 +44,7 @@
       
       .ds-checkbox-label(v-bind:class="{active: checked}" @click="toggle" style="margin-right: 0")
         .ds-checkbox
-        | 使用优惠券&nbsp;&nbsp;
+        | 使用信游币&nbsp;&nbsp;
 
       label.text-666(style="display: inline-block" v-if="!show") &nbsp;&nbsp;起始期：
         el-select(v-model="nper" style="position: relative; top: -0.01rem; width: 2rem")

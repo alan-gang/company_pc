@@ -10,7 +10,7 @@
       div(v-if=" I === 0 ")
         .form.form-filters
 
-          label.item 用户 111
+          label.item 用户 
             input.ds-input.small(v-model="name" style="width: 1rem")
 
           label.item 时间 

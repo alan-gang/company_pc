@@ -42,7 +42,7 @@
                 div
                   span( style="padding: 0") {{ scope.row.taskId }}
 
-            el-table-column(prop="userName" label="用户")
+            el-table-column(prop="userName" label="用户" v-if="!noname")
             
             el-table-column(prop="beginTime" label="追号时间"  min-width="120")
               template(scope="scope")
@@ -153,7 +153,7 @@
         STATUS: ['进行中', '已取消', '已完成'],
         STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
         status: '',
-        ISFREE: ['现金', '优惠券'],
+        ISFREE: ['现金', '信游币'],
         isFree: '',
         gameList: [],
         gameid: '',

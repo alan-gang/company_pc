@@ -59,7 +59,7 @@
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
 
-          el-table-column(prop="userName" label="用户名" )
+          el-table-column(prop="userName" label="用户名" v-if="!noname")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.userName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
@@ -122,7 +122,7 @@
         },
         defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        ISFREE: ['现金', '优惠券', '积分'],
+        ISFREE: ['现金', '信游币', '积分'],
         isFree: '',
         gameList: [],
         gameid: '',
@@ -421,6 +421,10 @@
         this.$http.get(api.getOrderType).then(({data}) => {
           // success
           if (data.success === 1) {
+            this.ME.showSalary && data.orderTypeList.push({
+              cnTitle: '日工资',
+              ordertypeId: 37
+            })
             this.TYPES = data.orderTypeList
           }
         }, (rep) => {

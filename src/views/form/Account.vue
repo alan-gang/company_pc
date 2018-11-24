@@ -133,7 +133,7 @@
         },
         defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        ISFREE: ['现金', '优惠券', '积分'],
+        ISFREE: ['现金', '信游币', '积分'],
         isFree: '',
         gameList: [],
         gameid: '',

@@ -49,7 +49,7 @@
 
         .c
           br
-          p 优惠券
+          p 信游币
           p.amount.text-black {{ numberWithCommas(ME.free) }}
             // span.text-666 元
       
