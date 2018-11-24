@@ -326,31 +326,31 @@ export default {
           title: '管理中心',
           url: 'me',
           groups: [
-            {
-              id: '2-1',
-              title: '资金中心',
-              innerurl: 'me',
-              items: [
-                {
-                  id: '2-1-1',
-                  menuid: '30',
-                  title: '充值',
-                  url: 'Load'
-                },
-                {
-                  id: '2-1-2',
-                  menuid: '32',
-                  title: '提现',
-                  url: 'Withdraw'
-                },
-                {
-                  id: '2-1-3',
-                  menuid: '20',
-                  title: '转帐',
-                  url: 'Transfer'
-                }
-              ]
-            },
+            // {
+            //   id: '2-1',
+            //   title: '资金中心',
+            //   innerurl: 'me',
+            //   items: [
+            //     {
+            //       id: '2-1-1',
+            //       menuid: '30',
+            //       title: '充值',
+            //       url: 'Load'
+            //     },
+            //     {
+            //       id: '2-1-2',
+            //       menuid: '32',
+            //       title: '提现',
+            //       url: 'Withdraw'
+            //     },
+            //     {
+            //       id: '2-1-3',
+            //       menuid: '20',
+            //       title: '转帐',
+            //       url: 'Transfer'
+            //     }
+            //   ]
+            // },
             {
               id: '2-2',
               title: '个人中心',

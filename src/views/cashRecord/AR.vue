@@ -21,7 +21,7 @@
           el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
             el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
-        label.item 用户 
+        label.item(v-if=" !noname ") 用户 
           input.ds-input.small(v-model="name" style="width: 1rem")
         
         .item
@@ -348,7 +348,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.zone,
+            scope: this.noname ? 0 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,

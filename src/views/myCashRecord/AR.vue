@@ -4,6 +4,7 @@
     mixins: [BaseAR],
     data () {
       return {
+        noname: true
       }
     }
   }
