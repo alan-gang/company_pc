@@ -442,7 +442,7 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .user-list
-    top TH
+    // top TH
     .form
       padding PWX
 

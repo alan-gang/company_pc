@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import Order from './Order'
-import VROrder from './VROrder'
+import Order from './OF'
+import VROrder from './VROF'
 import SportRecord from './SportRecord'
 import VideoRecord from './VideoRecord'
 import GameRecord from './GameRecord'
