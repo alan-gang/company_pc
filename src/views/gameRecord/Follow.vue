@@ -199,8 +199,10 @@
     watch: {
       '$route': 'openRoute',
       gameid () {
-        this.getMethods()
-        this.getRecentIssueList()
+        if (this.gameid) {
+          this.getMethods()
+          this.getRecentIssueList()
+        }
       },
       I () {
         if (this.I === 0) {
