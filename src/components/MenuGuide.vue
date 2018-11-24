@@ -44,5 +44,25 @@
     margin .2rem -.1rem 0 0
     &:hover
       opacity .95
-    
+      
+  @media(max-height: 768px)
+    img:nth-child(1)
+      width 5.7rem
+      margin 0 .2rem 0 0
+      
+    img:nth-child(2)
+      width 6rem
+      margin-bottom 0
+      margin-right .35rem
+      
+    img:nth-child(3)
+      width 10rem
+      margin-right 1.8rem
+      
+    .t_c img
+      width 1.8rem
+      cursor pointer
+      margin .1rem -.1rem 0 0
+      &:hover
+        opacity .95
 </style>

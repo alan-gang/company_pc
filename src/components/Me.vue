@@ -93,8 +93,8 @@
           span(v-show="hide") 展开
 
         router-link.topup(:to=" '/me/2-1-1' " v-if="!Me.isTry && Me.canTopUp") 充值
-        router-link.topup(:to=" '/me/2-1-2' " v-if="!Me.isTry && Me.canWithDraw") 提现
-        router-link.topup(:to=" '/me/2-1-3' " v-if="!Me.isTry && Me.canWithDraw") 转帐
+        router-link.withdraw(:to=" '/me/2-1-2' " v-if="!Me.isTry && Me.canWithDraw") 提现
+        router-link.transfer(:to=" '/me/2-1-3' " v-if="!Me.isTry && Me.canWithDraw") 转帐
         Menus(:menus=" meRightMenu " v-on:open-page="openTab" style="left: 0")        
         span.logout(@click="logout" ) 安全退出
 
@@ -367,6 +367,8 @@ body.cb.v2
     .r .name
     .r .money
     .r .topup
+    .r .withdraw
+    .r .transfer
     .r .logout
       position relative
       display inline-block
@@ -379,14 +381,21 @@ body.cb.v2
         background url(../assets/v2/icon03.png) .1rem center no-repeat
       &.topup
         background url(../assets/v2/icon04.png) .1rem center no-repeat
+      &.withdraw
+        background url(../assets/v2/icon08.png) .1rem center no-repeat
+      &.transfer
+        background url(../assets/v2/icon09.png) .1rem center no-repeat
       &.logout
         background url(../assets/v2/icon05.png) .1rem center no-repeat
+        
       &:hover
         &.name
           background url(../assets/v2/icon02.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.money
           background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5) 
         &.topup
+        &.withdraw
+        &.transfer
           background url(../assets/v2/icon04.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.logout
           background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)

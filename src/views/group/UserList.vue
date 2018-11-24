@@ -713,7 +713,7 @@
         this.getUserList()
       },
       addUserNow () {
-        this.$router.push('/group/3-2-1')
+        this.$router.push('/group/2-3-5')
       },
       getUserList (id, page, fn) {
         // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
