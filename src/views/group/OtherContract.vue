@@ -5,32 +5,32 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .scroll-content
+    .stock-list.scroll-content
 
       .form(v-if="stepIndex === 0 ")
+        .form-filters
+          div(style="text-align: center; min-height: .2rem")
+            .ds-button-group(v-if="me.role >= 2" style="margin: 0")
+              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的佣金契约
+              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级佣金契约
 
-        div(style="text-align: center; min-height: .2rem")
-          .ds-button-group(v-if="me.role >= 2")
-            .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的佣金
-            .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级佣金
+          label.item(v-if="type === 1") 用户名&nbsp;
+            input.ds-input.small(v-model="name" style="width: 1rem")
 
-        label.item(v-if="type === 1") 用户名&nbsp;
-          input.ds-input.small(v-model="name" style="width: 1rem")
+          // label.item 时间
+          //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-        // label.item 时间
-        //   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+          label.item  &nbsp;状态&nbsp;
+            el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
+              el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
 
-        label.item  &nbsp;状态&nbsp;
-          el-select(clearable v-model="s"  placeholder="全" style="width: .8rem")
-            el-option( v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id")
-
-        | &nbsp;&nbsp;
+          | &nbsp;&nbsp;
 
 
 
-        .ds-button.primary.large.bold(@click="contract") 搜索
+          .ds-button.primary.large.bold(@click="contract") 搜索
 
-        el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName")
+        el-table.header-bold.nopadding(:data="data"  stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" ref="table")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名" v-if="type === 1")
 
@@ -461,7 +461,7 @@
       contract (page, fn) {
         let loading = this.$loading({
           text: '契约列表加载中...',
-          target: this.$el
+          target: this.$refs['table'].$el
         }, 10000, '加载超时...')
 
         if (!fn) {
@@ -601,10 +601,11 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .stock-list
-    top TH
-    .form
-      padding 0 PWX
-
+    padding .1rem .2rem
+  .form-filters
+    padding .15rem
+    margin 0 0 .2rem 0 !important
+    
   .item
     display inline-block
     margin 0 PW .1rem 0

@@ -6,7 +6,7 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-       div(v-if=" I === 0 ")
+      div(v-if=" I === 0 ")
         .form.form-filters
 
           label.item 用户 
@@ -89,8 +89,16 @@
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-       VROrder.scroll-content(v-if=" I === 1 ")
+      VROrder.scroll-content(v-if=" I === 1 ")
+      SportsRecord.scroll-content(v-if=" I === 2 ")
+      VedioRecord.scroll-content(v-if=" I === 3 ")
+      GameRecord.scroll-content(v-if=" I === 4 ")
+      FishRecord.scroll-content(v-if=" I === 5 ")
+      CardsRecord.scroll-content(v-if=" I === 6 ")
+      VRTip.scroll-content(v-if=" I === 7 ")
       
+
+
     .modal(v-show="show" )
       .mask
       .box-wrapper
@@ -198,8 +206,6 @@
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
               .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 确认撤单
-
-    
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
@@ -214,9 +220,17 @@
 </template>
 
 <script>
-  import setTableMaxHeight from 'components/setTableMaxHeight'
-  import Follow from './FollowDetail'
+  // ohter compontents
   import VROrder from './VROrder'
+  import SportsRecord from './Sports'
+  import VedioRecord from './BGVedioRecord'
+  import GameRecord from './BGGameRecord'
+  import FishRecord from './BGFishRecord'
+  import CardsRecord from './BGCardsRecord'
+  import VRTip from './VRTip'
+  import Follow from './FollowDetail'
+  //
+  import setTableMaxHeight from 'components/setTableMaxHeight'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
@@ -224,8 +238,14 @@
   // import util from '../../util'
   export default {
     components: {
-      Follow,
-      VROrder
+      VROrder,
+      SportsRecord,
+      VedioRecord,
+      GameRecord,
+      FishRecord,
+      CardsRecord,
+      VRTip,
+      Follow
     },
     mixins: [setTableMaxHeight],
     data () {

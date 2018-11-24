@@ -77,7 +77,7 @@
               dd
 
               dd
-                router-link.ds-button.primary.full(:to=" '/me/2-1-1' ") 进入我的钱包
+                router-link.ds-button.primary.full(:to=" '/me/2-1-3' ") 进入我的钱包
 
               dd
               dd
@@ -92,8 +92,9 @@
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
 
-        router-link.topup(:to=" '/me/2-4-1' " v-if="!Me.isTry && Me.canTopUp") 充值
-        router-link.topup(:to=" '/me/2-5-1' " v-if="!Me.isTry && Me.canWithDraw") 提现
+        router-link.topup(:to=" '/me/2-1-1' " v-if="!Me.isTry && Me.canTopUp") 充值
+        router-link.topup(:to=" '/me/2-1-2' " v-if="!Me.isTry && Me.canWithDraw") 提现
+        router-link.topup(:to=" '/me/2-1-3' " v-if="!Me.isTry && Me.canWithDraw") 转帐
         Menus(:menus=" meRightMenu " v-on:open-page="openTab" style="left: 0")        
         span.logout(@click="logout" ) 安全退出
 

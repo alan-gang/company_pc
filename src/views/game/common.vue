@@ -509,7 +509,7 @@ export default {
           btn: [(this.checked ? '确定' : '去充值')],
           ok () {
             if (!this.checked) {
-              this.$router.push('/me/2-4-1')
+              this.$router.push('/me/2-1-1')
             }
           },
           O: this
@@ -728,7 +728,7 @@ export default {
           btn: [(this.checked ? '确定' : '去充值')],
           ok () {
             if (!this.checked) {
-              this.$router.push('/me/2-4-1')
+              this.$router.push('/me/2-1-1')
             }
           },
           O: this

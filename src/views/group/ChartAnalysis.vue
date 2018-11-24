@@ -534,7 +534,6 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .chart
-    top TH
     text-align center
 
   .ds-radio-label

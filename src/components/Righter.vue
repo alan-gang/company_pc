@@ -92,7 +92,7 @@
         left 8px
 
       left auto !important
-      right 20px !important
+      right 10px !important
       top calc(50% + 0.35rem) !important
       z-index 5
       border-radius 0 !important
@@ -160,7 +160,7 @@
   .righter
     position fixed
     top 50%
-    right 20px
+    right 10px
     width RW
     transform translateY(-75%)
     background-color rgba(0,0,0,.2)

@@ -32,15 +32,15 @@
         .ds-button-group
           .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.cnName }}
       .table-list(style="padding: 0 0 0 .15rem")
-        el-table.header-bold.bonus-table(:data="data" stripe v-bind:row-class-name="tableRowClassName" style="max-width: 8rem; margin: 0 auto; padding: 0rem 0")
+        el-table.header-bold.bonus-table.nopadding(:data="data" stripe v-bind:row-class-name="tableRowClassName" style="max-width: 8rem; margin: 0 auto; padding: 0rem 0")
           
-          el-table-column(prop="methodName" label="玩法" )
+          el-table-column(prop="methodName" label="玩法" class-name="pl2")
           
           el-table-column(label="奖级")
             template(scope="scope") 
               .level(v-for=" l in ((scope.row.level + '').split(',')) ") {{ l }}
 
-          el-table-column(label="奖金" align="right")
+          el-table-column(label="奖金" align="right" class-name="pr2")
             template(scope="scope") 
               .level(v-for=" p in ((scope.row.prize + '').split(',')) ") {{ p  }}
 

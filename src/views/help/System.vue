@@ -108,7 +108,7 @@
     .content
       background #e6e6e6
       position absolute
-      left 0
+      left .2rem
       top 0
       bottom 0
       overflow auto
@@ -168,7 +168,7 @@
           
 </style>
 <style lang="stylus">
-
+    
   .night .function-help .item:hover .text-666
     color #fff
 

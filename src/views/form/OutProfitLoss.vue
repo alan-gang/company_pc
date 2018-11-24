@@ -337,7 +337,6 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .stock-list
-    top TH
     .form
       padding PWX
 

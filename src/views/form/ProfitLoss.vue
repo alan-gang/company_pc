@@ -10,7 +10,7 @@
       div(v-if=" I === 0 ")
         .form.form-filters
 
-          label.item 用户 
+          label.item 用户 111
             input.ds-input.small(v-model="name" style="width: 1rem")
 
           label.item 时间 
@@ -200,7 +200,8 @@
         ot: 0,
         orderBy: 'betAmount',
         ascOrDesc: 1,
-        totalJson: {}
+        totalJson: {},
+        showDetail: ''
       }
     },
     computed: {
@@ -378,7 +379,6 @@
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .stock-list
-    top TH
     .form
       padding PWX
 
