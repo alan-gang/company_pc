@@ -381,9 +381,9 @@ body.cb.v2
         background url(../assets/v2/icon03.png) .1rem center no-repeat
       &.topup
         background url(../assets/v2/icon04.png) .1rem center no-repeat
-      &.withdraw
-        background url(../assets/v2/icon08.png) .1rem center no-repeat
       &.transfer
+        background url(../assets/v2/icon08.png) .1rem center no-repeat
+      &.withdraw
         background url(../assets/v2/icon09.png) .1rem center no-repeat
       &.logout
         background url(../assets/v2/icon05.png) .1rem center no-repeat
@@ -395,9 +395,9 @@ body.cb.v2
           background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5) 
         &.topup
           background url(../assets/v2/icon04.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.withdraw
-          background url(../assets/v2/icon08.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.transfer
+          background url(../assets/v2/icon08.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
+        &.withdraw
           background url(../assets/v2/icon09.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.logout
           background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)

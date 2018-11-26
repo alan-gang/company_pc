@@ -1,11 +1,14 @@
 <template lang="jade">
   .menu-guide
+   
     img(src="/static/pic/menu_guide/1.png")
     img(src="/static/pic/menu_guide/2.png")
     img(src="/static/pic/menu_guide/3.png")
     .t_c
       img(src="/static/pic/menu_guide/4.png" @click=" $emit('hideMenuGuide') ")
 
+     .close
+      el-button.close(icon="close" @click=" $emit('hideMenuGuide') ")
 </template>
 
 <script>
@@ -15,6 +18,25 @@
     }
   }
 </script>
+<style lang="stylus" scoped>
+@import '../var.stylus'
+.menu-guide
+  position relative
+.close
+  position absolute
+  top 1.55rem
+  right .7rem
+  .el-button
+    background none
+    border none
+    color DANGER
+    font-size .24rem
+    &:hover
+      color DANGER-HOVER 
+    &:active
+      color DANGER-ACTIVE 
+      
+</style>
 
 <style lang="stylus">
 .menu-guide-modal.modal
@@ -25,6 +47,8 @@
     background none
     max-height none
     text-align right
+  
+    
   img:nth-child(1)
     width 5.7rem
     margin 0 .2rem 0 0
@@ -65,4 +89,6 @@
       margin .1rem -.1rem 0 0
       &:hover
         opacity .95
+  
+        
 </style>

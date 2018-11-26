@@ -215,13 +215,14 @@
       getSummaries (param) {
         const { columns, data } = param
         const sums = []
+        let N = this.noname ? 5 : 6
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计'
             return
           }
           const values = data.map(item => Number(item[column.property]))
-          if (index === 6) {
+          if (index === N) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr)
               if (!isNaN(value)) {
@@ -230,7 +231,7 @@
                 return prev
               }
             }, 0)
-            sums[index] = (sums[index] > 0 ? '+' : '') + numberWithCommas(sums[index].toFixed(this.hideNumber ? 0 : 6))
+            sums[index] = (sums[index] > 0 ? '+' : '') + numberWithCommas(sums[index].toFixed(this.hideNumber ? 0 : N))
           } else {
             sums[index] = ''
           }

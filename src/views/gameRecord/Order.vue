@@ -333,13 +333,14 @@
       getSummaries (param) {
         const { columns, data } = param
         const sums = []
+        let N = this.noname ? [4, 5, 6] : [5, 6, 7]
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计'
             return
           }
           const values = data.map(item => Number(item[column.property]))
-          if (values.every(value => !isNaN(value)) && index !== 5 && index !== 6) {
+          if (values.every(value => !isNaN(value)) && index !== N[0] && index !== N[1]) {
             sums[index] = values.reduce((prev, curr) => {
               const value = Number(curr)
               if (!isNaN(value)) {
@@ -349,7 +350,7 @@
               }
             }, 0)
             // sums[index] += ' 元'
-            sums[index] = ((index === 7 ? '-' : '+') + sums[index].toFixed(4))._nwc()
+            sums[index] = ((index === N[2] ? '-' : '+') + sums[index].toFixed(4))._nwc()
           } else {
             sums[index] = ''
           }
