@@ -48,11 +48,11 @@
         span.ds-button.primary(@click="transferNowBG") 确认转入
 
     el-row.content-width
-      el-col.l(:span="10")
+      el-col.l(:span="9")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
         // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         
-      el-col.r(:span="14")
+      el-col.r(:span="15")
         // Menus(:menus="menus")
 
         el-popover.footer-more(placement="top-start" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
