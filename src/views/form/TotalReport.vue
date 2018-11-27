@@ -127,16 +127,16 @@
               picker.$emit('pick', [start, end])
             }
           }, {
-            text: '最近三个月',
+            text: '最近二个月',
             onClick (picker) {
               const end = new Date()._setHMS('23:59:59')
               const start = new Date()._setHMS('0:0:0')
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 60)
               picker.$emit('pick', [start, end])
             }
           }],
           disabledDate (time) {
-            return time.getTime() > Date.now()
+            return time.getTime() > Date.now() || (time.getTime() + 3600 * 1000 * 24 * 60) < Date.now()
           }
         },
         stEt: [new Date()._setD(1)._setHMS('0:0:0'), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],

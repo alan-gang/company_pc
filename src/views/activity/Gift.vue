@@ -19,7 +19,7 @@
         .ticket(:class=" [ ticketType[0] ] " v-for=" t in tickets ")
           h1
             span ￥
-            | {{ t.prizeAmount }}
+            | {{ Number(t.prizeAmount).toFixed(2) }}
           p {{ t.prizeAmount }}元{{ t.isFree ? '优惠券' : '礼金' }}
           p.describe {{ t.activityName }}
 
