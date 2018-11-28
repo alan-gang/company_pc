@@ -356,7 +356,7 @@ export default {
             //     {
             //       id: '2-1-3',
             //       menuid: '20',
-            //       title: '转帐',
+            //       title: '转账',
             //       url: 'Transfer'
             //     }
             //   ]
@@ -378,14 +378,14 @@ export default {
                   id: '2-2-2',
                   menuid: '67',
                   title: '资金记录',
-                  tabs: ['帐变明细', '充值记录', '提现记录', '转帐记录'],
+                  tabs: ['账变明细', '充值记录', '提现记录', '转账记录'],
                   tabfn: '__setMyCashRecordI',
                   url: 'myCashRecord'
                 },
                 {
                   id: '2-2-3',
                   menuid: '87',
-                  title: '帐户安全',
+                  title: '账户安全',
                   url: 'SafeCenter'
                 },
                 {
@@ -411,7 +411,7 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总帐', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['总账', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -430,7 +430,7 @@ export default {
                   id: '2-3-3',
                   menuid: '67',
                   title: '下级资金记录',
-                  tabs: ['帐变明细'],
+                  tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -504,7 +504,7 @@ export default {
                 {
                   id: '2-1-3',
                   menuid: '20',
-                  title: '转帐',
+                  title: '转账',
                   url: 'Transfer'
                 }
               ]
@@ -535,14 +535,14 @@ export default {
                   id: '2-2-2',
                   menuid: '67',
                   title: '资金记录',
-                  tabs: ['帐变明细', '充值记录', '提现记录', '转帐记录'],
+                  tabs: ['账变明细', '充值记录', '提现记录', '转账记录'],
                   tabfn: '__setMyCashRecordI',
                   url: 'myCashRecord'
                 },
                 {
                   id: '2-2-3',
                   menuid: '87',
-                  title: '帐户安全',
+                  title: '账户安全',
                   url: 'SafeCenter'
                 },
                 {
@@ -577,7 +577,7 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总帐', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['总账', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -596,7 +596,7 @@ export default {
                   id: '2-3-3',
                   menuid: '67',
                   title: '下级资金记录',
-                  tabs: ['帐变明细'],
+                  tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -1249,13 +1249,13 @@ export default {
             },
             O: this,
             content: msg.content.reduce((p, x, i) => {
-              p += '<div style="text-align: left">您通过<span class="text-blue">' + x.bankName + '</span>充值<span class="text-danger">' + x.amt + '</span>元已到帐，请注意查收</div>'
+              p += '<div style="text-align: left">您通过<span class="text-blue">' + x.bankName + '</span>充值<span class="text-danger">' + x.amt + '</span>元已到账，请注意查收</div>'
               return p
             }, ''),
-            // content: '<div style="text-align: left">您通过<span class="text-blue">' + msg.content[0].bankName + '</span>充值<span class="text-danger">' + msg.content[0].amt + '</span>元已到帐，请注意查收</div>',
+            // content: '<div style="text-align: left">您通过<span class="text-blue">' + msg.content[0].bankName + '</span>充值<span class="text-danger">' + msg.content[0].amt + '</span>元已到账，请注意查收</div>',
             btn: []
           }))
-          // this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到帐，请注意查收'})
+          // this.$message.success({message: '您通过' + msg.content[0].bankName + '充值' + msg.content[0].amt + '元已到账，请注意查收'})
           break
         case 'drawSucc':
           !this.NotifyModal && (this.NotifyModal = this.$modal[['warn', 'warn', 'success'][msg.content[0].succ]]({

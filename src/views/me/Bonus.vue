@@ -29,6 +29,12 @@
           label(style="margin: 0 .1rem" v-if="salary") 工资：
             span.account.text-blue {{ salary }}
 
+        div.info.mt05(v-if=" userBackWater[0] ")
+
+          label(style="margin: 0 .1rem" v-for=" x in userBackWater ") {{ x.groupName }}返水：
+            span.account.text-blue {{ x.backWater }}
+
+
         .ds-button-group
           .ds-button.x-small.text-button(v-for="key in keys" v-bind:class="{selected: skey === key.enName}" @click="skey = key.enName" v-bind:title="key.cnName") {{ key.cnName }}
       .table-list(style="padding: 0 0 0 .15rem")
@@ -65,7 +71,8 @@ export default {
       userPoint: '',
       salary: '',
       teamsales: '',
-      activityuser: ''
+      activityuser: '',
+      userBackWater: []
       // data: [
       //  {title: '五星直选', bonusLevel: '奖金', bonus: '180000.00', point: '7.5', status: '使用中'}
       // ]
@@ -110,6 +117,7 @@ export default {
           this.keys = data.cnNames
           this.games = data.lotteryPrizeInfo
           this.skey = Object.keys(this.games)[0]
+          this.userBackWater = data.userBackWater
         }
       }).catch(rep => {
       }).finally(() => {
@@ -158,7 +166,7 @@ export default {
 <style lang="stylus">
   #app.cb.v2 .bonus-page 
     .base-info
-      max-width 8rem
+      max-width 10rem
       margin 0 auto
       // max-width 5rem
 </style>

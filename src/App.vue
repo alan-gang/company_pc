@@ -608,7 +608,7 @@ export default {
                 {
                   id: '4-5-2',
                   menuid: '67',
-                  title: '帐变列表',
+                  title: '账变列表',
                   position: {
                     width: '12rem'
                   },

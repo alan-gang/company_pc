@@ -297,16 +297,16 @@
         div(style="text-align: center; margin-top: .1rem")
           .ds-button-group(style="margin: 0")
             .ds-button.text-button(v-for=" (bw, i) in user.backWaterComb  " v-bind:class=" { selected: bwi === i } " @click=" bwi= i ") {{ bw.groupName || bw.groupId }}
-
-        p(style="padding-left: 30%; margin-top: .7rem")
-          span.text-danger *
-          返水级别：&nbsp;&nbsp;
-          el-select(v-model=" bw " style="width: 1.8rem; position: relative; top: -.01rem")
-            el-option(v-for=" bw in BWL " v-bind:label=" bw.toFixed(1) " v-bind:value=" bw ")
-          span.text-blue  ‰
-          span  (千分符)
-          br
-          span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="setBackWater") 确认
+        div(style="margin: 0 auto; max-width: 8rem")
+          p(style="padding-left: 25%; margin-top: .7rem")
+            span.text-danger *
+            返水级别：&nbsp;&nbsp;
+            el-select(v-model=" bw " style="width: 1.8rem; position: relative; top: -.01rem")
+              el-option(v-for=" bw in BWL " v-bind:label=" bw.toFixed(1) " v-bind:value=" bw ")
+            span.text-blue  ‰
+            span  (千分符)
+            br
+            span.ds-button.primary.large.bold(style="margin-left: .85rem; margin-top: .15rem" @click="setBackWater") 确认
 
         //- p(style="padding-left: 30%; margin-top: .15rem") 
         //-   |  &nbsp;&nbsp;团队销量：&nbsp;
