@@ -4,7 +4,7 @@
       el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
 
 
-            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") {{ menu.title }}
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
               .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
               
 
@@ -15,7 +15,8 @@
               .info(v-if=" menu.big && !menu.info[0]" v-bind:class=" [ menu.info.class ] ")
                 h3 {{ menu.info.title }}
                 h4 {{ menu.info.descrb }}
-                .ds-button.primary(@click="open(menu.info)" title="第一次点击可能会被拦截，再点一次即可") 点击进入
+                .ds-button.primary(v-if=" !menu.outerhref " @click="open(menu.info)" title="第一次点击可能会被拦截，再点一次即可") 点击进入
+                .ds-button.primary(v-if="menu.outerhref" @click=" window.open(menu.outerhref) " title="第一次点击可能会被拦截，再点一次即可") 点击进入
 
               .infos(v-if=" menu.big && menu.info[0]")
                 .info(v-bind:class=" [ m.class ] " v-for=" m in menu.info ")
@@ -38,7 +39,6 @@
       
       .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="!menu.href && !menu.removed && menu.hideSub"  @click="open(menu.groups[0].items[0])" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
 
-      .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="menu.outerhref "  @click=" window.open(menu.outerhref) " v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
 </template>
 
 <script>
@@ -275,6 +275,9 @@ body.cb.v2
       background url(../assets/v2/005.png) .2rem center no-repeat
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
+    .ds-icon-vipclub
+      padding-left 3rem
+      background url(../assets/v2/vipclub.png) left center no-repeat
       
 
 </style>

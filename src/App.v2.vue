@@ -644,6 +644,15 @@ export default {
           ]
         },
         {
+          id: 8,
+          class: 'ds-icon-gift',
+          title: '贵族俱乐部',
+          outerhref: '/xy_activity/vipClub.html',
+          hot: true,
+          big: true,
+          info: {class: 'ds-icon-vipclub ', id: '9-9-9', title: '贵族俱乐部', descrb: '多种VIP等级展示，更加好玩'}
+        },
+        {
           id: 5,
           class: 'ds-icon-gift',
           title: '优惠活动',
@@ -663,13 +672,6 @@ export default {
               ]
             }
           ]
-        },
-        {
-          id: 8,
-          class: 'ds-icon-gift',
-          title: '成长系统',
-          outerhref: '/xy_activity/vipClub.html',
-          hot: true
         },
         {
           id: 6,

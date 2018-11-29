@@ -55,7 +55,7 @@
       el-col.r(:span="15")
         // Menus(:menus="menus")
 
-        el-popover.footer-more(placement="top-end" trigger="click" v-model="more" v-bind:popper-class="'footer-popover more'" )
+        el-popover.footer-more(placement="top-end" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
             span.name(v-if="hide") {{ Me.name }}
             span.money(v-if="!hide") 余额：{{ numberWithCommas(Me.amoney) }}
