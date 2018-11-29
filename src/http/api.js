@@ -28,6 +28,7 @@ api = window.localStorage.getItem('tapi') || api
 let Login = {
   setBackWater: '/team/setBackWater.do?method=setBackWater',
   getBackWater: '/team/useList.do?method=getBackWater',
+  getUserIdentity: '/home/userInfo.do?method=getUserIdentity',
   myExpectedBonus: '/team/contractBonus.do?method=myExpectedBonus',
   mySubExpectedBouns: '/team/contractBonus.do?method=mySubExpectedBouns',
   queryMygoods: '/ext/bg.do?method=queryMygoods',

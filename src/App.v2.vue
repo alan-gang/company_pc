@@ -665,6 +665,13 @@ export default {
           ]
         },
         {
+          id: 8,
+          class: 'ds-icon-gift',
+          title: '成长系统',
+          outerhref: '/xy_activity/vipClub.html',
+          hot: true
+        },
+        {
           id: 6,
           class: 'ds-icon-help',
           title: '帮助',

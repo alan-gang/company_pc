@@ -53,7 +53,12 @@ let store = {
       platform: 'cb',
       skin: 0,
       chatUrl: '',
-      menuids: ''
+      menuids: '',
+      level: 0,
+      levelName: '',
+      exp: 0,
+      diffExp: 0,
+      nexMinExp: 0
     },
     pages: []
   },
@@ -120,7 +125,12 @@ let store = {
         platform: 'cb',
         skin: 0,
         chatUrl: '',
-        menuids: ''
+        menuids: '',
+        level: 0,
+        levelName: '',
+        exp: 0,
+        diffExp: 0,
+        nexMinExp: 0
       }
       Object.assign(store.state.user, user)
     },

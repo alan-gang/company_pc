@@ -3,7 +3,7 @@
     Me(v-if="me.login" v-bind:menus="menus" v-on:open-page="openTab" )
     Unloginbar(v-else)
     
-    MyMenu(:menus="menus.slice(0, 12).concat(menus[16])" v-on:open-page="openTab")
+    MyMenu(:menus="menus.slice(0, 12).concat(menus[16]).concat(menus[17])" v-on:open-page="openTab")
 
     router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" )
 

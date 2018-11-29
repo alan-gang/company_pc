@@ -37,6 +37,8 @@
                     | {{ item.title }}
       
       .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="!menu.href && !menu.removed && menu.hideSub"  @click="open(menu.groups[0].items[0])" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
+
+      .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="menu.outerhref "  @click=" window.open(menu.outerhref) " v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
 </template>
 
 <script>
@@ -296,7 +298,7 @@ body.cb.v2
     .icon-button
       position relative
       display inline-block
-      padding 0 .2rem
+      padding 0 .15rem
 
       height FH
       line-height FH
