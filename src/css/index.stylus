@@ -1,3 +1,4 @@
+@import './carousel.stylus'
 @import './commonModal.stylus'
 @import './Modal.stylus'
 @import './Notice.stylus'

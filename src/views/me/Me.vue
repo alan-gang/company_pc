@@ -86,7 +86,7 @@
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
             button.ds-button.primary.full(@click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
 
-            
+
 
 
 

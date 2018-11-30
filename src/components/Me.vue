@@ -66,7 +66,7 @@
 
                   dd
                     span  贵族等级： 
-                      span.text-666 {{ Me.levelName || '' }}
+                      span.text-666 {{ Me.levelName || '' }} {{ Me.subLevel ? '(Lv' + Me.subLevel +')' : '' }}
 
                   dd
                     span  当前经验：
@@ -93,18 +93,19 @@
                   span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}} 
                     span.text-666 {{ Me.name }}
 
-                dd
-                  span.account-type 用户类型：
-                    span.text-666 {{ Me.isVip ? 'VIP会员' : '普通用户' }}
 
                 dd(title="我的钱包")
                   span.money.ds-icon-money
                     span  主余额：
                     span.text-666 {{ numberWithCommas(Me.amoney || '0.000') }}
+
+                dd
+                  span.account-type 特殊余额：
+                    span.text-666 {{ numberWithCommas(Me.smoney || '0.000') }}
                 dd
 
                 dd
-                  router-link.ds-button.primary.full(:to=" '/me/2-1-1' ") 进入我的钱包
+                  router-link.ds-button.primary.full(:to=" '/me/2-1-3' ") 进入我的钱包
                 dd
                 dd
 
@@ -164,9 +165,12 @@ export default {
       this.m = 0
     },
     more () {
-      this.getBalance()
-      this.acctSecureInfo()
-      this.more && this.__setCall({fn: '__getUserFund', callId: undefined})
+      if (this.more) {
+        this.getBalance()
+        this.acctSecureInfo()
+        this.getUserIdentity()
+        this.__setCall({fn: '__getUserFund', callId: undefined})
+      }
     }
   },
   computed: {
@@ -439,7 +443,7 @@ body.cb.v2
           background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         
   .me-box
-    width 5rem
+    width 5.5rem
   .half-width
     box-sizing border-box
     width 50%
@@ -459,7 +463,7 @@ body.cb.v2
     background #e9e9e9
     padding PWX
   .level-box
-    padding-left 35%
+    padding-left 30%
     background-size .9rem
     background-repeat no-repeat
     background-position 5% .2rem

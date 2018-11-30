@@ -702,12 +702,12 @@ export default {
                   title: '常见问题',
                   url: 'QuestionHelp',
                   menuid: '70'
-                },
-                {
-                  id: '6-1-4',
-                  title: 'VIP介绍',
-                  url: 'VIP'
                 }
+                // {
+                //   id: '6-1-4',
+                //   title: 'VIP介绍',
+                //   url: 'VIP'
+                // }
               ]
             },
             {
@@ -791,9 +791,9 @@ export default {
             this.activeMenu = [this.menus[this.mi]]
           } else {
             if (this.Me.login) {
-              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5]]
+              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5], this.menus[13 + 5]]
             } else {
-              this.activeMenu = [this.menus[12 + 5]]
+              this.activeMenu = [this.menus[13 + 5]]
             }
           }
         }
