@@ -6,6 +6,10 @@ let store = {
     hasHeader: false,
     hasFooter: false,
     user: {
+      t1: false,
+      t2: false,
+      t3: false,
+      showIngots: false,
       showSalary: false,
       showBackWater: 0,
       login: '',
@@ -80,6 +84,10 @@ let store = {
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
       user = user || {
+        t1: false,
+        t2: false,
+        t3: false,
+        showIngots: false,
         showSalary: false,
         showBackWater: 0,
         login: '',

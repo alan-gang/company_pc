@@ -26,6 +26,9 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  getIngotsPrize: '/activity.do?method=getIngotsPrize',
+  getIngotsTaskProgress: '/activity.do?method=getIngotsTaskProgress',
+  canGetIngots: '/activity.do?method=canGetIngots',
   setBackWater: '/team/setBackWater.do?method=setBackWater',
   getBackWater: '/team/useList.do?method=getBackWater',
   getUserIdentity: '/home/userInfo.do?method=getUserIdentity',
