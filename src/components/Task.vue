@@ -20,7 +20,7 @@
           .bb.text-999 现在充值就可以直接进入您想玩的游戏了
             p 信游平台有一流的网速银行支付渠道，充值秒速到账，
             p 提现三分钟搞定
-        .inlb.bc.t_c.ft18(:class=" { done: ME.t2 } " @click=" !ME.t1 && $router.push('/me/2-1-1') ") {{ ME.t2 ? '已完成' : '去充值'}}
+        .inlb.bc.t_c.ft18(:class=" { done: ME.t2 } " @click=" !ME.t2 && $router.push('/me/2-1-1') ") {{ ME.t2 ? '已完成' : '去充值'}}
 
       .line
 
@@ -28,12 +28,12 @@
         .inlb(style="width: 70%; vertical-align: middle")
           .ba 任务三：进行一次有效投注
           .bb.text-999 各类玩法应有尽有，快来试试您的运气吧！
-        .inlb.bc.t_c.ft18(:class=" { done: ME.t3 } " @click=" !ME.t1 && $router.push('/game/1-1-1') ") {{ ME.t3 ? '已完成' : '去投注'}}
+        .inlb.bc.t_c.ft18(:class=" { done: ME.t3 } " @click=" !ME.t3 && $router.push('/game/1-1-1') ") {{ ME.t3 ? '已完成' : '去投注'}}
 
       .line
       
       .c.t_c
-        .ca.c_f.ft18.inlb.pointer(@click=" getIngotsPrize ") 领取18元礼金
+        .ca.c_f.ft18.inlb.pointer(:class=" { done: geted } " @click=" getIngotsPrize ") 领取18元礼金
         .pt15
         .cb.text-999 您还未完成以上任务，暂时无法领取
 
@@ -49,13 +49,20 @@
   export default {
     data () {
       return {
-        ME: store.state.user
+        ME: store.state.user,
+        geted: false
       }
     },
     methods: {
       getIngotsPrize () {
         this.$http.get(api.getIngotsPrize).then(({data: {success}}) => {
-          if (success) this.$message.success({message: '恭喜您，奖励领取成功'})
+          if (success === 1) {
+            this.$modal.success({
+              content: '恭喜您，奖励领取成功',
+              btn: []
+            })
+            this.geted = true
+          }
         })
       }
     }
@@ -134,8 +141,10 @@
     line-height .6rem
     background-color #faaf07
     border-radius .30rem
-    &:hover
+    &:not(.done):hover
       opacity .8
+    &.done
+      background-color #bababa
 
 </style>
 

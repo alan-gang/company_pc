@@ -22,6 +22,7 @@
 
     .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
+      span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
 
 
 
@@ -33,10 +34,13 @@
 <script>
   import store from '../store'
   import api from '../http/api'
+  import { timeFormat } from '../util/Date'
   export default {
     data () {
       return {
+        time: 0,
         window: window,
+        timeFormat: timeFormat,
         Me: store.state.user,
         store: store,
         amount: 0,
@@ -53,9 +57,10 @@
           document.body.className = this.Me.css
         }
       },
-      // 'Me.skin' () {
-      //   document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
-      // },
+      'Me.taskTime' (n, o) {
+        this.time = parseInt(this.Me.taskTime / 1000)
+        if (!o) this.countDown()
+      },
       // 'Me.css' () {
       //   document.body.className = this.Me.css
       // },
@@ -67,6 +72,18 @@
       this.__getUserScratch()
     },
     methods: {
+      countDown () {
+        if (this.time > 0) {
+          setTimeout(() => {
+            this.time -= 60
+            if (this.time < 0) {
+              this.time = 0
+              store.actions.setUser({ showIngots: false })
+            }
+            this.countDown()
+          }, 1000 * 60)
+        }
+      },
       __getUserScratch () {
         if (!this.Me.login) return
         this.$http.get(api.getUserScratch).then(({data}) => {

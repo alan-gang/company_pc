@@ -866,8 +866,11 @@ export default {
   },
   methods: {
     canGetIngots () {
-      this.$http.get(api.canGetIngots).then(({data: {success, showIngots}}) => {
-        if (success) this.setUser({showIngots: showIngots})
+      this.$http.get(api.canGetIngots).then(({data: {success, showIngots, beginTime, endTime}}) => {
+        if (success) {
+          this.setUser({showIngots: showIngots})
+          if (beginTime && endTime) this.setUser({taskTime: (new Date(endTime)) - (new Date(beginTime))})
+        }
       })
     },
     __showTask () {
