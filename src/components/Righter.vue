@@ -21,7 +21,7 @@
       .expand-left 刮刮乐
 
     .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
-      el-button.close.absolute(icon="close" size="small" @click.native=" __setCall({fn: '__hideTask'}) ")
+      el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
 
 
 
