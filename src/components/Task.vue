@@ -35,7 +35,7 @@
       .c.t_c
         .ca.c_f.ft18.inlb.pointer(:class=" { done: geted } " @click=" getIngotsPrize ") 领取18元礼金
         .pt15
-        .cb.text-999 您还未完成以上任务，暂时无法领取
+        .cb.text-999(v-show=" !ME.t1 || !ME.t2 || !ME.t3 ") 您还未完成以上任务，暂时无法领取
 
 
 

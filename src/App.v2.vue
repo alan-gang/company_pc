@@ -661,7 +661,7 @@ export default {
           outerhref: '/xy_activity/vipClub.html',
           hot: true,
           big: true,
-          info: {class: 'ds-icon-vipclub ', id: '9-9-9', title: '贵族俱乐部', descrb: '多种VIP等级展示，更加好玩'}
+          info: {class: 'ds-icon-vipclub ', id: '9-9-9', title: '贵族俱乐部', descrb: '全民VIP 贵气来袭'}
         },
         {
           id: 5,
