@@ -130,6 +130,13 @@
   // background url(../NDS/src/assets/game/fucai3d.png) center no-repeat
   &.new-game-info
     background-size auto !important
+
+.ds-icon-game-xysc:not(.ds-button)
+  background-size 90px !important
+  background url(../NDS/src/assets/game/23.png) center no-repeat
+  // background url(../NDS/src/assets/game/fucai3d.png) center no-repeat
+  &.new-game-info
+    background-size auto !important
     
 .ds-icon-game-pk10ft:not(.ds-button)
   background-size 90px !important
