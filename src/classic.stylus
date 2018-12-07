@@ -378,14 +378,17 @@ body.classic:not(.v2)
         & > div:first-child
           height .36rem
           padding-left .05rem
-          bg-gradient(90deg, BLUE, BLUE-ACTIVE)
+          // bg-gradient(90deg, BLUE, BLUE-ACTIVE)
+          background-color #eee
+          position relative
+          z-index 1
           
         height auto
         .row
           display block
         dd
           height .34rem
-          color #fff
+          color #666
           padding 0
           width .7rem
           radius 0
@@ -394,15 +397,16 @@ body.classic:not(.v2)
           box-shadow none
           border-top 2px solid rgba(0,0,0,0)
           &:hover
-            background #f7f7f7
+            background #fff
             color BLUE
-            border-color BLUE
+            box-shadow: 0px 3px 3px 0px #e3e3e3
+            border-color #d8dee8
             
           .submenu-group
             display none
           &.selected
-            background #fff
-            color BLUE
+            background BLUE
+            color #fff
             border-color BLUE
            
         

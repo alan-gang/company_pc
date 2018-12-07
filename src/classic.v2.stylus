@@ -266,7 +266,7 @@ H = 1.04rem
     padding-left .1rem
     padding-right .1rem
 #app.classic.v2.game .lefter
-  background-color rgba(0,0,0, .5)
+  background-color rgba(255,255,255, .3)
 #app.classic.v2:not(.game) .lefter
   // @media(max-width: 1190px)
     // display block
@@ -647,7 +647,6 @@ body
 
     // display none
   .game-info
-    display none
     &.new-game-info
       background-size 1rem
       // padding-bottom PW

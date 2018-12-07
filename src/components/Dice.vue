@@ -120,6 +120,7 @@
     top 0 
     left 0
     background-color #4121e0
+    box-sizing border-box
     // transition background-color .5s linear
     
   .side:not(.front) .dot

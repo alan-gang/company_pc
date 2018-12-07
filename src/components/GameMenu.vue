@@ -9,7 +9,9 @@
               span {{ group.title }}
             dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}") {{ item.title }}
   
-      dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
+      //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
+      dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 ") 
+        el-switch(v-model=" mmt " on-text="快钱玩法" off-text="经典玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
@@ -22,8 +24,24 @@
 <script>
   export default {
     props: ['type', 'menus', 'getTitle', 'mt', 'gameid'],
+    data () {
+      return {
+        mmt: 0,
+        t: -1
+      }
+    },
     mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
+      this.mmt = (this.mt !== 'normal')
+    },
+    watch: {
+      mt () {
+        // this.mmt = (this.mt !== 'normal')
+      },
+      mmt () {
+        this.t++
+        this.t && this.__setCall({fn: '__switchMT'})
+      }
     },
     computed: {
       title () {
@@ -140,13 +158,14 @@
     
     .title.switch
       float right
-      background-color #302b2a
+      // background-color #302b2a
       margin .03rem
       height .28rem !important
       line-height .28rem !important
       border none !important
+      width 1rem !important
       &:hover
-        background-color #302b2a !important
+        background none !important
         
       
     .row
@@ -176,18 +195,20 @@
           
       .ds-button
         font-size .12rem
-        border 1px solid rgba(0,0,0,0)
+        border 1px solid #d8dee8
         margin 0 .02rem
         &.text-666
           color #666
         
         &:hover
           color BLUE
-          border-color BLUE
           text-decoration none
+          box-shadow 0px 3px 3px 0px #e3e3e3
+          
         &.selected
           background-color BLUE
           color #FFF
+          border-color rgba(0,0,0,0)
           
 
 </style>
