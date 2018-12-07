@@ -81,8 +81,8 @@
       {10% * i}
         transform perspective(100px) translateZ(-100px) rotateX(180deg * i) rotateY(180deg * 1) rotateZ(180deg * (i - 1))
     
-  W = .52rem
-  w-1 = .22rem
+  W = .4rem
+  w-1 = .15rem
   w-2 = .1rem
   
   .dice  
@@ -138,15 +138,15 @@
     // 1
     &.front
       .dot
-        margin  PW 0 0 PW 
+        margin  .12rem 0 0 .12rem 
         background-color #db0000
     
     // 2
     &.top
       .dot.dtop.dleft
-        margin .11rem 0 0 .21rem
+        margin .10rem 0 0 .15rem
       .dot.dbottom.dright
-        margin .31rem 0 0 .21rem
+        margin .23rem 0 0 .15rem
     
     // 3
     &.right

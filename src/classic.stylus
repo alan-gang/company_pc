@@ -359,7 +359,7 @@ body.classic:not(.v2)
           // display none
 
       .game-content
-      .inner-bar
+      // .inner-bar
       .game-info
         max-width 10rem !important
         min-width 980px !important
@@ -390,7 +390,8 @@ body.classic:not(.v2)
           height .34rem
           color #666
           padding 0
-          width .7rem
+          width auto
+          padding 0 .1rem
           radius 0
           text-align center
           text-shadow none

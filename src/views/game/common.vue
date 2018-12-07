@@ -21,39 +21,39 @@
 
       <!-- 东森专用 -->
       //- NewGameInfo(v-bind:volume="page.volume" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', { 'my-hide' : scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid")
+      div(style="width: 75%")
+        <!-- 游戏菜单 -->
+        GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
 
-      <!-- 游戏菜单 -->
-      GameMenu(v-bind:type="type" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
-
-      //- 快钱下单
-      GameKQOrderBar.onbefore(v-bind:currency="currency" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
-
-
-      <!-- 选号区 -->
-      GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
-
-      //- 快钱下单
-      GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+        //- 快钱下单
+        GameKQOrderBar.onbefore(v-bind:currency="currency" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
 
 
-      <!-- 下单 -->
-      GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' ")
-      <!-- 投注单 -->
-      GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" )
-      <!-- 追号栏 -->
-      transition(name="slide-left" appear=true key="follow")
-        GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
-      <!-- 追号单 -->
-      transition(name="slide-left" appear=true key="follow")
-        GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues" v-bind:ns="ns" v-bind:nsl="ns.length")
-      
-      <!-- 总计栏 -->
-      GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
+        <!-- 选号区 -->
+        GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+
+        //- 快钱下单
+        GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if="mt === 'kq'")
+
+
+        <!-- 下单 -->
+        GameOrderBar.inner-bar(v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' ")
+        <!-- 投注单 -->
+        GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" )
+        <!-- 追号栏 -->
+        transition(name="slide-left" appear=true key="follow")
+          GameFollowbar.inner-bar(v-if="follow.show" v-bind:stop="follow.stop" v-bind:CNPER="CNPER" v-bind:issues="issues" v-on:close-follow="closeFollow"  v-on:set-follow="setFollow")
+        <!-- 追号单 -->
+        transition(name="slide-left" appear=true key="follow")
+          GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues" v-bind:ns="ns" v-bind:nsl="ns.length")
+        
+        <!-- 总计栏 -->
+        GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
 
       GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
 
     <!-- 下单 -->
-    GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
+    //- GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
 
 </template>
@@ -490,8 +490,18 @@ export default {
         // error
       })
     },
+    __storeHistoryItem () {
+      let pre = JSON.parse(window.localStorage.getItem('historyItems') || '[]')
+      let index = pre.findIndex(x => x.id === this.type.id)
+      if (index !== -1) pre.splice(index, 1)
+      pre.unshift(this.type)
+      if (pre.length > 5) pre.length = 5
+      window.localStorage.setItem('historyItems', JSON.stringify(pre))
+      this.__setCall({fn: '__getHistoryItems', callId: undefined})
+    },
     book (pot, nper) {
       this.booking(pot, nper)
+      this.__storeHistoryItem()
     },
     // 投注
     booking (pot, nper) {
@@ -721,6 +731,7 @@ export default {
       })
     },
     quickbook () {
+      this.__storeHistoryItem()
       if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
       if (this.pay > (this.checked ? this.free : this.money)) {
         return this.$modal.question({

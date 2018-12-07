@@ -37,7 +37,7 @@
 
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click=" btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
+            .ds-button.outline(v-for="(btn, index) in row.buttons" @click=" btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
 
 </template>
 <script>
@@ -488,8 +488,9 @@
         position relative
         text-align center
         radius()
+        margin 0 .02rem
         // &:not(.dice)
-        //   border 1px solid currentColor
+          // border 1px solid currentColor
         &.selected
           transition background-color .5s linear
         
@@ -501,20 +502,28 @@
         &.default
           width GCH
           border-radius 50%
+          background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          
         &.signal
           background-color #ddd
         &.default:hover
         &.default.selected
           // box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
-          font-shadow()
+          // font-shadow()
           color #fff
           .after
             color #fff
+            
         &.default:hover
           // background-color BLUE
           background-color rgba(241, 125, 11, .5)
+          background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          color BLUE
         &.default.selected
           background-color BLUE
+          background BLUE
+          color #fff
+          
         &.square
           radius()
           padding 0 .2rem
@@ -766,22 +775,26 @@
         width .3rem
         line-height .3rem
         padding 0 
-        // margin 0 .05rem
+        margin 0 .01rem
         color #666
         box-shadow none
-        text-shadow none
-        
+        // text-shadow none
+        border: solid 1px #d8dee8;
           
         &:hover
-          color WHITE
-          background-color BLUE
-          shadow()
-          font-shadow()
-        &.selected
-          color WHITE
-          background-color DANGER
-          shadow()
-          font-shadow()
+          color BLUE
+          // background-color BLUE
+          // shadow()
+          // font-shadow()
+          box-shadow: 0px 3px 3px 0px #e3e3e3;
+          border: solid 1px #d8dee8 !important
+          
+        // &.selected
+          // color WHITE
+          // background-color DANGER
+          // shadow()
+          // font-shadow()
+
         &.disabled
           opacity .5
     

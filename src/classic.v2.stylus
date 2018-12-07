@@ -1,5 +1,5 @@
 #app.classic .dialog-page.game-page .game-content,
-#app.classic .dialog-page.game-page .inner-bar,
+// #app.classic .dialog-page.game-page .inner-bar,
 #app.classic .dialog-page.game-page .game-info,
 #app.classic .dialog-page.game-page
   min-width 10.8rem !important

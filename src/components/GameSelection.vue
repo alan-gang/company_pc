@@ -5,7 +5,7 @@
 
     //- transition(name="slide-down" appear=true)
     .f(v-if="rows.length === 0")
-      p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
+      //- p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
       el-row
         el-col(:span="20")
           // .el-textarea
@@ -820,7 +820,8 @@
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .game-selection
-    padding PW 0
+    background-color #f9f9f9 !important
+    padding .05rem 0
     .pos
       padding-left .3rem
   .el-textarea

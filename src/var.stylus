@@ -16,7 +16,7 @@ GH = 1rem
 // gameMenu heights
 GMH = .3rem
 // gamecenter heights
-GCH = .52rem
+GCH = .4rem
 // gameorderbar heights
 GOH = .5rem
 // game amoutbar heights

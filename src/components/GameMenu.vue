@@ -17,6 +17,29 @@
       .subtitle(v-if="g.title")
         span {{ g.title }}
       .ds-button.text-button.text-666.small(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+    
+
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .1rem; border-bottom: 1px solid #e2daa9")
+      div(style="border-top: 1px dashed #ccc; padding-bottom: .1rem ")
+      .subtitle
+        span(style="color: #f17d0b") 历史玩法
+      
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+
+
+    el-row.row.ins(style="background: #f9f9f9; padding-top: .1rem; padding-bottom: 0")
+      .subtitle(style="padding-left: .1rem; color: #333") 后三直选复式
+
+      label(@click=" showIns = !showIns ")
+        .ds-checkbox(:class=" {active: showIns} " ) 
+        | 玩法说明
+
+      .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) ") 机选
+
+      p.text-999(v-if=" showIns " style="padding-left: .1rem") {{ type.description }}
+
+
+
 
 
 </template>
@@ -27,7 +50,9 @@
     data () {
       return {
         mmt: 0,
-        t: -1
+        t: -1,
+        historyItems: JSON.parse(window.localStorage.getItem('historyItems') || '[]'),
+        showIns: window.localStorage.getItem('showIns') === 'true'
       }
     },
     mounted () {
@@ -41,6 +66,9 @@
       mmt () {
         this.t++
         this.t && this.__setCall({fn: '__switchMT'})
+      },
+      showIns () {
+        window.localStorage.setItem('showIns', this.showIns)
       }
     },
     computed: {
@@ -57,6 +85,9 @@
       },
       setMenu (m) {
         if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0]) this.$emit('type', m.groups[0].items[0])
+      },
+      __getHistoryItems () {
+        this.historyItems = JSON.parse(window.localStorage.getItem('historyItems') || '[]')
       }
     }
   }
@@ -71,6 +102,15 @@
     & > .menu-con + .row
       padding-top .1rem
       
+    .menu-con
+      border: solid 1px #e4e4e4;
+      background-image: linear-gradient(
+    #eeeeee, 
+    #eeeeee), 
+  linear-gradient(0deg, 
+    #ffffff 0%, 
+    #e3e3e3 100%);
+
     height GMH
     line-height GMH
     margin 0
@@ -172,7 +212,7 @@
       &:last-child
         padding-bottom .1rem
       display none
-      background-color #fff
+      background-color #f3f3f3
       padding .02rem .2rem
       clear both
       // height GMH
@@ -209,7 +249,14 @@
           background-color BLUE
           color #FFF
           border-color rgba(0,0,0,0)
-          
+    
+    .row.history
+      .ds-button
+        background-image: linear-gradient(0deg, #fff8d0 0%, #fffbe1 100%);
+        border: solid 1px #e2daa9;
+        color #666
+        &:hover
+          color BLUE
 
 </style>
 
