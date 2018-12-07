@@ -88,6 +88,7 @@ export default {
       scrollAtBottom: false,
       // 页面的url
       // url: 'one',
+      updateFromSocket: false,
       // 最近的已开奖期数
       NPER: '100000000',
       CNPER: '100000000',
@@ -396,7 +397,10 @@ export default {
           // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
           if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
             if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
-            return
+            if (this.updateFromSocket) {
+              this.updateFromSocket = false
+              return
+            }
           }
           if (this.NPER === lst.issue + '' && !noloop) {
             this.overtime = true
@@ -1077,6 +1081,7 @@ export default {
         parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
         this.allLuckyNumbers.splice(0, 0, x)
         this.__setCall({fn: '__orderlist'})
+        this.updateFromSocket = true
       }
     }
   },
