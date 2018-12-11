@@ -3,8 +3,8 @@
     
     .number(v-if=" gameType !== 'K3' " v-for=" (n, i) in numbers " v-bind:class=" {hl: setPosColor(i)} ") 
      
-      .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (Numbers20 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
-        .the-number(v-for=" (xx, nn ) in Array(Numbers20 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayNumbers[i] : nn }}
+      .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (numbers.length > 10 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
+        .the-number(v-for=" (xx, nn ) in Array(numbers.length > 10 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayNumbers[i] : nn }}
 
 
 

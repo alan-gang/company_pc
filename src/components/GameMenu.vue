@@ -27,7 +27,7 @@
       .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
 
 
-    el-row.row.ins(style="background: #f9f9f9; padding-top: .1rem; padding-bottom: 0")
+    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
       .subtitle(style="padding-left: .1rem; color: #333") 后三直选复式
 
       label(@click=" showIns = !showIns ")
@@ -36,7 +36,7 @@
 
       .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) ") 机选
 
-      p.text-999(v-if=" showIns " style="padding-left: .1rem") {{ type.description }}
+      p.text-999(v-if=" showIns " style="padding-left: .1rem; ") {{ type.description }}
 
 
 
@@ -46,12 +46,12 @@
 
 <script>
   export default {
-    props: ['type', 'menus', 'getTitle', 'mt', 'gameid'],
+    props: ['type', 'menus', 'getTitle', 'mt', 'gameid', 'gameType'],
     data () {
       return {
         mmt: 0,
         t: -1,
-        historyItems: JSON.parse(window.localStorage.getItem('historyItems') || '[]'),
+        historyItems: JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]'),
         showIns: window.localStorage.getItem('showIns') === 'true'
       }
     },
@@ -87,7 +87,7 @@
         if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0]) this.$emit('type', m.groups[0].items[0])
       },
       __getHistoryItems () {
-        this.historyItems = JSON.parse(window.localStorage.getItem('historyItems') || '[]')
+        this.historyItems = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
       }
     }
   }
@@ -213,7 +213,7 @@
         padding-bottom .1rem
       display none
       background-color #f3f3f3
-      padding .02rem .2rem
+      padding .02rem .12rem
       clear both
       // height GMH
       font-size .12rem

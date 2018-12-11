@@ -2,7 +2,7 @@
   .game-header
     .wrap
       .game-logo
-      .volume.ds-icon-volume.pointer(:class="{ on: volume }" @click=" setVolume() ")
+      .volume.ds-icon-volume.pointer(:class="{ on: !volume }" @click=" setVolume() ")
       .game-countdow.inlb.text-666
         .vm.inlb.t_r
           span.title {{ CNPER.slice(-6) }}
@@ -37,6 +37,7 @@ export default {
     timeout: Number,
     gameType: String,
     allLuckyNumbers: Array,
+    lucknumbers: Array,
     methodid: String,
     overtime: Boolean
   },
@@ -53,7 +54,7 @@ export default {
   },
   computed: {
     numbers () {
-      return (this.allLuckyNumbers[0] || {lucknumbers: [0, 0, 0, 0, 0]}).lucknumbers
+      return (this.allLuckyNumbers[0] || {lucknumbers: this.lucknumbers}).lucknumbers
     },
     showTime () {
       return util.timeFormat(this.time)
@@ -109,34 +110,47 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc
       &.game-header-ds-icon-game-{n}
         .wrap
-          background-image url('../assets/gameheader/' + n '.jpg')
+          background-image url('../assets/gameheader/ng/' + n '.png')
+          
+
     .wrap
       height .8rem
       background-color #fff
       background-repeat no-repeat
       background-position left .2rem center      
-      background-size 2rem
-      padding-left 2.4rem
+      background-size 2.3rem
+      padding-left 2.5rem
     
     .volume
       position absolute
-      left 2.2rem
-      top .14rem
+      left 2.3rem
+      top .05rem
       width .2rem
       height .2rem
+      padding .05rem
+      background url(../assets/gameheader/off.png) center no-repeat
+      &.on
+          background url(../assets/gameheader/on.png) center no-repeat
+      
+      &:hover
+        border: solid 1px #d8dee8;
+        background-color #fefefe
+        box-shadow: 0px 3px 3px 0px #e3e3e3;
+
     .vm
       vertical-align middle
     
     .game-countdow
-      padding .12rem .2rem
+      padding .12rem .4rem
       height .56rem
+      
     .time-box
       height 100%
       line-height .56rem
-      margin-left .2rem
+      margin-left .1rem
       font-family Arial-BoldMT
       border-radius 5px
       box-shadow 0 0 10px rgba(0,0,0, .4) inset

@@ -1,7 +1,8 @@
 <template lang="jade">
+
   el-row.kqorderbar(v-bind:class="['game-' + gameType]")
 
-    el-col(:span="18")
+    el-col(:span="24")
 
       el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow"  v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times kq ' + (fts.length > 0 ? true : false)")
         dl.submenu
@@ -44,7 +45,7 @@ export default {
       me: store.state.user,
       t: 1,
       // 快速金额
-      ft: 100,
+      ft: 2,
       fts: [50, 100, 200, 500, 1000, 10000],
       ftshow: false
     }

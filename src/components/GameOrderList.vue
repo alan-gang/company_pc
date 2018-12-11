@@ -1,25 +1,25 @@
 <template lang="jade">
   .order-list(style="position: relative;")
     span(style="z-index: 1; background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
+    div(style="margin: 0 .12rem")
+      el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0; margin: 0 0 -.02rem 0;")
 
-    el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0")
+        el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2")
+          template(scope="scope") 
+            span {{ scope.row.ttitle ? scope.row.ttitle + '-' : '' }}{{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
-      el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2")
-        template(scope="scope") 
-          span {{ scope.row.ttitle ? scope.row.ttitle + '-' : '' }}{{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
+        el-table-column(prop="$" label="模式" )
+        el-table-column(prop="n" label="注数"  align="right")
+        el-table-column(prop="times" label="倍投"  align="right")
+        el-table-column(prop="pay" label="金额"  align="right" inline-template)
+          span {{ row.pay ? row.pay.toFixed(3) : row.pay }}
+        el-table-column(prop="bonus" label="奖金"  align="right")
+        el-table-column(prop="point" label="返点"  align="right")
+        el-table-column(inline-template label="清除全部" min-width="60" class-name="actions" align="center")
+          .ds-button.text-button(@click="remove($index)") 
+            i.el-icon-close(v-show="row.title")
 
-      el-table-column(prop="$" label="模式" )
-      el-table-column(prop="n" label="注数"  align="right")
-      el-table-column(prop="times" label="倍投"  align="right")
-      el-table-column(prop="pay" label="金额"  align="right" inline-template)
-        span {{ row.pay ? row.pay.toFixed(3) : row.pay }}
-      el-table-column(prop="bonus" label="奖金"  align="right")
-      el-table-column(prop="point" label="返点"  align="right")
-      el-table-column(inline-template label="清除全部" min-width="60" class-name="actions" align="center")
-        .ds-button.text-button(@click="remove($index)") 
-          i.el-icon-close(v-show="row.title")
-
-    el-pagination(:total="ns.length" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if="ns.length > pageSize" v-on:current-change="pageChanged")
+      el-pagination(:total="ns.length" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if="ns.length > pageSize" v-on:current-change="pageChanged")
     
     <!-- 总计栏 -->
     GameAmountBar.inner-bar.inner-amount-bar(:show="show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="n" v-bind:pay="pay"  v-bind:NPER="NPER" v-bind:PAY="PAY.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-bind:followButton="true" v-if="ns.length > 0 && !show")
@@ -123,6 +123,7 @@
   @import '../var.stylus'
   .order-list
     padding-top .1rem
+    background-color #fff
     // border-top 1px solid #ddd
   .ds-button
     text-shadow none

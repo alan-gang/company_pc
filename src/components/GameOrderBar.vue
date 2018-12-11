@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row(v-bind:class="['game-' + gameType]")
+  el-row(v-bind:class="['game-' + gameType]" style="background: #f4f4f4; line-height: 1; ")
 
 
 
@@ -20,34 +20,68 @@
         
 
 
+    
 
-    el-col.left(:span="14")
-      span(v-show="HC6") 快速金额
-      el-input-number.input.times.my-center(style="width: .5rem;" v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
-      .ds-button.xx-small.outline.minus(@click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
-      el-input-number.input.times.my-center(style="width: .5rem;" v-model="t" v-bind:min="0" v-popover:times="times" v-show="!HC6") 
-      .ds-button.xx-small.outline.plus(size="mini" @click="t++" v-show="!HC6") 十
-      span.bei(v-show="!HC6") &nbsp;倍
-      .ds-button-group
-        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+    el-col.left(:span="12" v-if=" !HC6 " style="padding: .1rem 0 ")
       
-      el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
-      span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") {{ ps}} - {{ prize }}
+      .ds-button-group(style="vertical-align: top; margin-left: .08rem")
+        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+    
+      .inlb()
+        .ds-button.x-small.outline.minus(style="margin: 0; height: .3rem" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
+        el-input-number.input.times.my-center(style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0" v-popover:times="times" v-show="!HC6") 
+        .ds-button.x-small.outline.plus(style="margin: 0; height: .3rem" size="mini" @click="t++" v-show="!HC6") 十
+        span.bei(v-show="!HC6") &nbsp;倍
+      
+      
+      //- el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
+      div(style="margin-left: .08rem; margin-top: -.1rem")
+        .ds-button.x-small.outline.minus(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;" @click="p > min && (p -= 10) "  v-show="!HC6") 一
+        el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
+        .ds-button.x-small.outline.minus(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;" @click=" p < max && (p += 10) "  v-show="!HC6") 十
+        span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") 奖金：{{ prize }} / 返点：{{ ps}} 
 
-    el-col.right(:span=" 10 ")
+    
+      
+      
+
+    el-col.right(:span=" 12 " v-if=" !HC6 " style="padding: .1rem 0 ")
+      
+      //- .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6") 机选
+      //- .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
+      .buttons(v-show="!HC6")
+        .f_r
+          .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
+            span.ft16 一键投注
+            p.amoney 余额： {{ me.amoney || '0.00' }}
+        .f_r
+          p
+            | 已选 
+            span.count {{ n }} 
+            | 注&nbsp;&nbsp;共 
+            span.pay {{ pay.toFixed(3) }}
+            |  元
+          
+          .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
+          .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 加入购物车
+
+    el-col.left(:span="12" v-if=" HC6 " style="line-height: .5rem")
+      span(v-show="HC6") 快速金额
+      el-input-number.input.times.my-center(style="width: .5rem;  " v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
+      .ds-button-group(style="vertical-align: middle")
+        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+
+    el-col.right(:span=" 12 " v-if=" HC6 " style="line-height: .5rem")
+      
       | 已选 
       span.count {{ n }} 
       | 注&nbsp;&nbsp;共 
       span.pay {{ pay.toFixed(3) }}
       |  元
-      .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6") 机选
-      // .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()" v-show="!HC6") 选号
-      .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
-      .buttons(v-show="!HC6")
-        .ds-button.danger.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
-        .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)") 一键下单
-        .ds-button.success.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})") 机选
-        .ds-button.primary.bold.large(v-bind:class="{disabled: !canOrder}" @click="canOrder && order()") 选号
+      
+      .ds-button.primary.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6" style="vertical-align: middle") 一键投注
+
+        
 
 
 
@@ -261,11 +295,18 @@ export default {
     input
       text-align center
       padding 0 .05rem
+  
+  .inner-bar
+    .el-slider__button-wrapper .el-tooltip
+      vertical-align middle
 </style>
 
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
+  .inner-bar
+    padding 0 .12rem
+    
   .el-row
     transition height .5s linear
     overflow hidden
@@ -333,6 +374,8 @@ export default {
       top -.02rem
       // color #666
       text-shadow none
+      box-shadow none
+      
       radius(0)
       &:last-child
         border-top-right-radius .05rem
@@ -344,13 +387,15 @@ export default {
         background-color BLUE
         color #fff
         
-    
+        
   .right
     line-height .3rem
     text-align right
     .ds-button
-      vertical-align middle
+      vertical-align bottom
       margin-left 0.05rem
+      box-shadow none
+      
   
   .count
   .pay
@@ -358,6 +403,43 @@ export default {
     font-weight bold
   .p
     padding 0 PW
-    color BLUE
+    
+  .btn1
+  .btn2
+  .btn3
+    border 1px solid #d8d8d8
+    background-color #fff
+    color #666
+    text-shadow none
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(0deg, #f2f2f2 0%, #ffffff 100%);
+    &:hover
+      box-shadow: 0px 3px 3px 0px #e3e3e3;
+      color BLUE
+      border 1px solid #d8d8d8
+  
+  .btn1:not(.disabled)
+    color #fff
+    bg-gradient(90deg, BLUE, BLUE-ACTIVE) 
+    &:not(.disabled):hover
+      // bg-gradient(90deg, #33b0ff, #24ddce) 
+      bg-gradient(90deg, #ff8b1a, #ff643d) 
+    &:not(.disabled):active
+      background BLUE-ACTIVE 
+
+  .btn3:not(.disabled)
+    color #fff
+    background OBLUE
+    &:hover
+      color #fff
+      background OBLUE-HOVER
+      
+  
+  .amoney
+    margin-top -.07rem
+    padding-bottom .02rem
+  
+  .amoney
+    padding-bottom .04rem
+    opacity .6
   
 </style>

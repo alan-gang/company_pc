@@ -503,6 +503,7 @@ export default {
           description: ''
         }
       }
+      this.__setCall({fn: '__getHistoryItems', callId: undefined})
     }
   }
 }

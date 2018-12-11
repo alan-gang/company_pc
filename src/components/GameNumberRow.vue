@@ -3,7 +3,7 @@
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
 
-      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 18 : 24")
+      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 24 : 24")
         el-row(v-if="row.innertitle || row.innertitleCopy")
           el-col.innertitle.text-black(:span="24") {{ row.innertitle || row.innertitleCopy }} {{ row.afterONtitle ? '@' + row.afterONtitle : '' }}
 
@@ -60,7 +60,7 @@
         // 不同的码有不同的色彩
         defaultTimes: 0,
         codeClass:
-          ',0:danger,1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:blue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
+          ',0:danger,1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:oblue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:oblue,4:oblue,9:oblue,10:oblue,14:oblue,20:oblue,25:oblue,26:oblue,31:oblue,36:oblue,37:oblue,41:oblue,42:oblue,47:oblue,48:oblue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
       }
     },
     computed: {
@@ -428,7 +428,7 @@
         margin 0 !important
         
       &.row
-        padding 0 .2rem
+        padding 0 .12rem
         margin .05rem 0
         &.pd25
           padding-bottom .25rem
@@ -456,6 +456,10 @@
       position absolute
       & + .el-col
           padding-left .75rem
+      &.span-1
+        min-width .4rem
+        & + .el-col
+          padding-left .4rem
       &.span-3
         min-width .85rem
         & + .el-col
@@ -479,7 +483,7 @@
     // 数字区
     .numbers
       font-size .2rem
-      color #333
+      color #666
       &.has-btn
         padding-right 2rem
       .el-col
@@ -488,7 +492,7 @@
         position relative
         text-align center
         radius()
-        margin 0 .02rem
+        margin .02rem .02rem
         // &:not(.dice)
           // border 1px solid currentColor
         &.selected
@@ -502,6 +506,7 @@
         &.default
           width GCH
           border-radius 50%
+          // border 1px solid #efefef
           background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
           
         &.signal
@@ -528,7 +533,7 @@
           radius()
           padding 0 .2rem
           width 1.1rem
-          margin 0 .01rem
+          margin .02rem
         // dice dice dice
         &.double-width
           width  2 * GCH
@@ -537,15 +542,28 @@
           width  3 * GCH
           
         &.dice
-          margin-right .1rem
+          width .52rem
+          line-height .52rem
+          margin-right .05rem
           .the-number
             display none
           .after
             line-height .25rem
+          
+           &.double-width
+            width  2 * 0.52rem
+          
+          &.third-width
+            width  3 * 0.52rem
+            
+
+
         &.width1-8.code
-          width  1.8 * GCH
-          height 1.8 * GCH
+          width  1.8 * 0.52rem
+          height 1.8 * 0.52rem
+          
         &.code
+          line-height .52rem
           &.danger
             &:not(.default-color):not(.selected)
               color DANGER
@@ -561,6 +579,14 @@
             // &.hover
             &.selected
               background-color BLUE
+          
+          &.oblue
+            color OBLUE
+            // &:hover
+            // &.hover
+            &.selected
+              background-color OBLUE
+
           &.green
             color CODEGREEN
             // &:hover
@@ -569,8 +595,8 @@
               background-color CODEGREEN
             
           radius(50%)
-          height  2 * GCH
-          line-height 1.5 * GCH
+          height  2 * .52rem
+          line-height 1.5 * .52rem
           transition all linear .2s
           &.square
             radius(0)
@@ -578,13 +604,13 @@
           .code-input
             width 100%
             position absolute
-            top .65 * GCH
+            top .65 * .52rem
             left 0
             z-index 1
             opacity 0
             transition all linear .2s
           .after
-            bottom 0.5 * GCH
+            bottom 0.5 * .52rem
 
           // &:hover
           &.hover
@@ -595,9 +621,9 @@
           
           &.hover
             // color #fff
-            line-height GCH
+            line-height .52rem
             .after
-              bottom 0.2 * GCH
+              bottom 0.2 * .52rem
               // color #fff
               // opacity .6
             .code-input
@@ -605,11 +631,11 @@
               
           &.selected
             color #fff
-            line-height .9 * GCH
+            line-height 0.9 * .52rem
             &:not(.has-after)
-              line-height 2GCH
+              // line-height 2 * 0.52rem
             .after
-              bottom 0.2 * GCH
+              bottom 0.2 * .52rem
               color #fff
               opacity .6
             .code-input
@@ -623,7 +649,7 @@
                 color #fff
             min-height .5rem    
             height .64rem            
-            margin .05rem .18rem
+            margin .05rem .05rem
             padding .05rem .05rem
             line-height 1.2
             color #666
@@ -636,6 +662,7 @@
             .code-input
               opacity 1
               background  #fff
+              top .34rem
             
             &.selected
               color #333
@@ -651,18 +678,20 @@
         &.number-array
           width 100%
           color #fff
-          padding-left .5rem
+          padding-left .6rem
           
           .el-row
             text-align left
-            margin .1rem 0
+            margin .05rem 0
+
           .after
-            top .18rem
+            top .1rem
             bottom auto
             left 0
             right auto
             color DANGER
             font-size .2rem
+            
           .el-col.o0
             opacity 0
           .el-col.danger
@@ -694,6 +723,16 @@
               background-color BLUE
               border none
           
+          .el-col.oblue
+            // background-color BLUE
+            background-color inherit
+            border 1px solid OBLUE
+            color OBLUE
+            &.selected
+              color #fff
+              background-color OBLUE
+              border none
+          
           .small-circle
             margin 0 2px
             font-size .14rem
@@ -706,6 +745,9 @@
             border-bottom 1px solid #ccc
             &:hover
               background-color #fff
+          
+          &.full-width .code-input
+            margin-left 0 !important
               
           
 
@@ -810,13 +852,19 @@
         width: 100%;
         height: 100%;
         border-radius: 100%;
-        color #aaa
+        color #ddd
+        
       &::before
         border: 2px solid transparent; // We're animating border-color again
         transition:
           border-top-color 0.15s linear 0.30s, // Stagger border appearances
           border-right-color 0.15s linear 0.20s,
           border-bottom-color 0.15s linear 0.10s;
+        border 1px solid #ededed
+
+        
+        
+      
       &.selected:before
       // &:hover::before
         color #fff
@@ -835,6 +883,8 @@
           transform 0.4s linear 0s,
           border-color 0s linear 0.4s,
           border-width 0s linear 0.4s; // Solid edge post-rotation
+        border 1px solid #ededed
+        
           
       &.selected:after
       // &:hover::after
@@ -850,6 +900,8 @@
     .square
       // box-shadow: inset 0 0 0 2px #f45e61;
       transition: color 0.25s
+      border 1px solid #ededed
+      
       &::before,
       &::after {
         box-sizing: inherit;
@@ -861,7 +913,7 @@
         width: 0;
         height: 0;
         radius()
-        color #aaa
+        color #ddd
       }
       &::before {
         top: 0;

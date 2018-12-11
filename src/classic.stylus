@@ -387,16 +387,16 @@ body.classic:not(.v2)
         .row
           display block
         dd
-          height .34rem
+          height .36rem
           color #666
           padding 0
           width auto
-          padding 0 .1rem
+          padding 0 .15rem
           radius 0
           text-align center
           text-shadow none
           box-shadow none
-          border-top 2px solid rgba(0,0,0,0)
+          // border-top 2px solid rgba(0,0,0,0)
           &:hover
             background #fff
             color BLUE
