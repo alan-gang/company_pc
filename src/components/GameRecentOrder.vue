@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row.game-recent-order
+  el-row.game-recent-order(style="background: #fff")
     br
     p
       span.p-a 投注记录&nbsp;&nbsp;
@@ -390,7 +390,7 @@ export default {
     overflow-y auto
     padding 0 PW
     radius()
-    background #ededed
+    background #f4f4f4
     display none
     position absolute
     left 0

@@ -53,7 +53,7 @@
         .f_r
           .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
             span.ft16 一键投注
-            p.amoney 余额： {{ me.amoney || '0.00' }}
+            p.amoney 余额： {{ (me.amoney || '0.00')._nwc() }}
         .f_r
           p
             | 已选 

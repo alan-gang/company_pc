@@ -4,17 +4,17 @@
     div(style="margin: 0 .12rem")
       el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0; margin: 0 0 -.02rem 0;")
 
-        el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2")
+        el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2" width="150")
           template(scope="scope") 
             span {{ scope.row.ttitle ? scope.row.ttitle + '-' : '' }}{{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
-        el-table-column(prop="$" label="模式" )
-        el-table-column(prop="n" label="注数"  align="right")
-        el-table-column(prop="times" label="倍投"  align="right")
-        el-table-column(prop="pay" label="金额"  align="right" inline-template)
+        el-table-column( prop="$" label="模式" )
+        el-table-column( prop="n" label="注数"  align="center")
+        el-table-column( prop="times" label="倍投"  align="center")
+        el-table-column( prop="pay" label="金额"  align="center" inline-template)
           span {{ row.pay ? row.pay.toFixed(3) : row.pay }}
-        el-table-column(prop="bonus" label="奖金"  align="right")
-        el-table-column(prop="point" label="返点"  align="right")
+        el-table-column( prop="bonus" label="奖金"  align="center")
+        el-table-column( prop="point" label="返点"  align="center")
         el-table-column(inline-template label="清除全部" min-width="60" class-name="actions" align="center")
           .ds-button.text-button(@click="remove($index)") 
             i.el-icon-close(v-show="row.title")

@@ -13,16 +13,16 @@
       span.ba.bold 近期开奖号码
       span.bb.f_r.pointer(@click=" ME.login ? $router.push('/form/4-5-3?gameid=' + gameid) : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
 
-    .c.t_c(:class=" gameType ")
+    .c.t_c.ft12(:class=" gameType ")
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
         span.cac.inlb(v-if=" ccs ") {{ ccs.title.join(' ') }}
 
-    .c.t_c.absolute(:class=" gameType ")
+    .c.t_c.absolute.ft12(:class=" gameType ")
 
       .ca.hlh36(v-for=" (r, i) in allLuckyNumbers ")
-        span.caa.inlb {{ r.issue }}
+        span.caa.inlb {{ r.issue.substr(-4) }}
         span.cab.inlb 
           span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }} 
         pre.cac.inlb(v-if=" row_ccs(r) ") {{ row_ccs(r) && row_ccs(r).value.join ? row_ccs(r).value.map((x, i) => row_ccs(r).title && x.length < row_ccs(r).title[i].length ? (x = padStart(x, row_ccs(r).title[i].length, ' ')) : x ).join(' ') : '' }}

@@ -502,6 +502,7 @@ export default {
       let pre = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
       let index = pre.findIndex(x => x.id === this.type.id)
       if (index !== -1) pre.splice(index, 1)
+      // this.type.upTi
       pre.unshift(this.type)
       if (pre.length > 6) pre.length = 6
       window.localStorage.setItem('historyItems' + this.gameType + this.gameid + this.mt, JSON.stringify(pre))

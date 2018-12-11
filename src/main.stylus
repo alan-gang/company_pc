@@ -407,12 +407,15 @@ pre
   table-header-bg(x = transparent)
     th 
       background-color x
-      bg-gradient(180deg, #ddd, #eee)
-      background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+      // bg-gradient(180deg, #ddd, #eee)
+      // background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+      background: #eee
+      
       .cell
         background-color x
-        bg-gradient(180deg, #ddd, #eee)
-        background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+        // bg-gradient(180deg, #ddd, #eee)
+        // background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+        background: #eee
         
   table-header-color(x = #333)
     th

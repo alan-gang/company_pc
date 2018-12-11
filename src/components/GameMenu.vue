@@ -2,41 +2,41 @@
 <template lang="jade">
   dl.menu
     .menu-con
-      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] ") {{menu.title}}
+      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] " style="line-height: .36rem") {{menu.title}}
         .submenu-group(v-if="menu.groups")
           dl.submenu(v-for="group in menu.groups")
             dt(v-if="group.title") 
               span {{ group.title }}
-            dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}") {{ item.title }}
+            dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}" style="height: .26rem; line-height: .26rem") {{ item.title }}
   
       //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
       dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 ") 
-        el-switch(v-model=" mmt " on-text="快钱玩法" off-text="经典玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
+        el-switch(v-model=" mmt " on-text="快钱玩法" off-text="官方玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
         span {{ g.title }}
-      .ds-button.text-button.text-666.small(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+      .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
     
 
-    el-row.row.history(style="padding-top: .1rem; padding-bottom: .1rem; border-bottom: 1px solid #e2daa9")
-      div(style="border-top: 1px dashed #ccc; padding-bottom: .1rem ")
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #e2daa9")
+      div(style="border-top: 1px dashed #ccc; padding-bottom: .05rem ")
       .subtitle
         span(style="color: #f17d0b") 历史玩法
       
-      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
 
 
     el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
-      .subtitle(style="padding-left: .1rem; color: #333") 后三直选复式
+      .subtitle(style="padding-left: .1rem; color: #333") {{ title + '_' + type.title }}
 
       label(@click=" showIns = !showIns ")
         .ds-checkbox(:class=" {active: showIns} " ) 
         | 玩法说明
 
-      .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) ") 机选
+      .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) " style="height: .26rem; line-height: .26rem") 机选
 
-      p.text-999(v-if=" showIns " style="padding-left: .1rem; ") {{ type.description }}
+      p.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem ") {{ type.description }}
 
 
 
@@ -257,7 +257,10 @@
         color #666
         &:hover
           color BLUE
-
+  
+  .btn1.ds-button
+    background-color #fff
+    
 </style>
 
 
