@@ -16,10 +16,17 @@
       .expand-left 联系上级
     .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
-
     .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
       span.badge {{ amount }} 
       .expand-left 刮刮乐
+
+    .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
+      el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
+      span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
+
+
+
+
 
 
 </template>
@@ -27,10 +34,13 @@
 <script>
   import store from '../store'
   import api from '../http/api'
+  import { timeFormat } from '../util/Date'
   export default {
     data () {
       return {
+        time: 0,
         window: window,
+        timeFormat: timeFormat,
         Me: store.state.user,
         store: store,
         amount: 0,
@@ -47,9 +57,10 @@
           document.body.className = this.Me.css
         }
       },
-      // 'Me.skin' () {
-      //   document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
-      // },
+      'Me.taskTime' (n, o) {
+        this.time = parseInt(this.Me.taskTime / 1000)
+        if (!o) this.countDown()
+      },
       // 'Me.css' () {
       //   document.body.className = this.Me.css
       // },
@@ -61,6 +72,18 @@
       this.__getUserScratch()
     },
     methods: {
+      countDown () {
+        if (this.time > 0) {
+          setTimeout(() => {
+            this.time -= 60
+            if (this.time < 0) {
+              this.time = 0
+              store.actions.setUser({ showIngots: false })
+            }
+            this.countDown()
+          }, 1000 * 60)
+        }
+      },
       __getUserScratch () {
         if (!this.Me.login) return
         this.$http.get(api.getUserScratch).then(({data}) => {
@@ -154,7 +177,30 @@
 
 
 </style>
+<style lang="stylus" scoped>
+  @import '../var.stylus'
+  .righter
+    .a
+      right 1.5rem
+      bottom -1rem
+      width 1.41rem
+      height 1.51rem
+      background-image url(../assets/righter/float_1.png)
+      background-repeat no-repeat
+      background-size 100%
+      .close
+        background-color rgba(255, 255, 255, .1)
+        border 0
+        color #fff
+        font-size .1rem
+        padding .1rem
+        right -.3rem
+        &:hover
+          background-color rgba(255, 255, 255, .5)
+          color DANGER
+        
 
+</style>
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .righter

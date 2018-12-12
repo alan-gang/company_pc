@@ -34,6 +34,15 @@
       .box-wrapper
         .box(ref="box" style="width: 12.8rem")
           MenuGuide(v-bind:showMenuGuide.sync="showMenuGuide" v-on:hideMenuGuide="hideMenuGuide")
+
+    // Task
+    .modal.task-modal(v-show=" showTask " )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 7.5rem; border-radius: 10px; max-height: none")
+
+          Task(v-bind:showTask.sync="showTask" v-on:hideTask="__hideTask")
+
     
 
 </template>
@@ -41,6 +50,7 @@
 <script>
 import Modal from './components/Modal'
 import MenuGuide from './components/MenuGuide'
+import Task from './components/Task'
 import L from './components/L'
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
@@ -59,6 +69,7 @@ export default {
   mixins: [base],
   data () {
     return {
+      showTask: false,
       // 开奖通知只存在一个Modal
       NotifyModal: null,
       showMenuGuide: false,
@@ -650,7 +661,7 @@ export default {
           outerhref: '/xy_activity/vipClub.html',
           hot: true,
           big: true,
-          info: {class: 'ds-icon-vipclub ', id: '9-9-9', title: '贵族俱乐部', descrb: '多种VIP等级展示，更加好玩'}
+          info: {class: 'ds-icon-vipclub ', id: '9-9-9', title: '贵族俱乐部', descrb: '全民VIP 贵气来袭'}
         },
         {
           id: 5,
@@ -854,6 +865,28 @@ export default {
     // }
   },
   methods: {
+    canGetIngots () {
+      this.$http.get(api.canGetIngots).then(({data: {success, showIngots, beginTime, endTime}}) => {
+        if (success) {
+          this.setUser({showIngots: showIngots})
+          if (beginTime && endTime) this.setUser({taskTime: (new Date(endTime)) - (new Date(beginTime))})
+        }
+      })
+    },
+    __showTask () {
+      this.getIngotsTaskProgress()
+    },
+    getIngotsTaskProgress () {
+      this.$http.get(api.getIngotsTaskProgress).then(({data: {success, userBankProgress, userPayRecordProgress, userProjectProgress}}) => {
+        if (success) {
+          this.showTask = true
+          this.setUser({t1: userBankProgress === '1', t2: userPayRecordProgress === '1', t3: userProjectProgress === '1'})
+        }
+      })
+    },
+    __hideTask () {
+      this.showTask = false
+    },
     hideMenuGuide () {
       this.showMenuGuide = false
       window.localStorage.setItem('menu_guide', 'true')
@@ -1029,6 +1062,7 @@ export default {
         Socket.sockets.user && this.connected(Socket.sockets.user)
         this.showMenuGuide = !window.localStorage.getItem('menu_guide')
       })
+      this.canGetIngots()
     },
     connected (socket) {
       setTimeout(() => {
@@ -1302,6 +1336,7 @@ export default {
     }
   },
   components: {
+    Task,
     dsHeader,
     // dsFooter,
     Print,
