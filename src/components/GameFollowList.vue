@@ -201,6 +201,7 @@
   @import '../var.stylus'
   .follow-list
     text-align center
+    background-color #fff
     .el-button-group
       padding PW
   .el-button

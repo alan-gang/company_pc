@@ -39,7 +39,7 @@
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-        span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") 奖金：{{ prize }} / 返点：{{ ps}} 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") 奖金：{{ prize1 ? (prize1 * t) + ' - ' : '' }} {{ prize * t }}   / 返点：{{ ps}} 
 
     
       
@@ -56,8 +56,8 @@
             span(style="color: #f11b1b") {{ showTime }}&nbsp;
           .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
             span.ft16 一键投注
-            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) < 1000000 ") 余额： {{ ( Number(me.amoney).toFixed(3) || '0.000')._nwc() }}
-            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) > 1000000  ") 余额： ***{{ (Number(me.amoney).toFixed(3) || '0.000')._nwc().substr(-8) }}
+            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) < 10000000 ") 余额： {{ ( Number(me.amoney).toFixed(3) || '0.000')._nwc() }}
+            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) >= 10000000  ") 余额： ***{{ (Number(me.amoney).toFixed(3) || '0.000')._nwc().substr(-8) }}
             
 
         .f_r(style="margin-top: .08rem; vertical-align: bottom")
@@ -98,7 +98,7 @@
 import util from '../util'
 import store from '../store'
 export default {
-  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout'],
+  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout', 'PA'],
   data () {
     return {
       me: store.state.user,
@@ -156,6 +156,14 @@ export default {
     },
     prize () {
       return ((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
+    },
+    prize1 () {
+      if (this.PA[1]) {
+        let MAX = this.PA[1].maxprize - parseFloat((this.PA[1].scale * this.PA[1].minpoint * 100).toFixed(3))
+        let max = Math.floor(this.PA[1].maxpoint * 10000) || 800
+        let min = Math.floor(this.PA[1].minpoint * 10000) || 0
+        return ((MAX - (this.p - min) * (MAX - this.PA[1].minprize) / (max - min)) * this.currencies[this.cIndex].value).toFixed(3)
+      }
     },
     MAX () {
       return this.P.maxprize - parseFloat((this.P.scale * this.P.minpoint * 100).toFixed(3))

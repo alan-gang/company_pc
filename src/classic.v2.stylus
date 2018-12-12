@@ -260,7 +260,7 @@ H = 1.04rem
   .ds-icon-classic
     display none
 #app.classic.v2 .lefter
-  top 0.98rem
+  top 1.05rem
   z-index 1900
   .el-menu
     padding-left .1rem
