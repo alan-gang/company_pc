@@ -388,15 +388,12 @@ pre
     width 1.5rem
     vertical-align middle
     .el-slider__bar
-      background-color BLUE
+      background-color #444
     .el-slider__runway
       background-color #ddd
     .el-slider__button
       background-color #fff
-      border 2px solid BLUE
-      shadow()
-      &.hover
-        border-color BLUE-ACTIVE
+      border 1px solid #444
 /*
  *rewrite el-table
  */
@@ -455,7 +452,8 @@ pre
     .el-table--enable-row-hover .el-table__body tr:hover>td
       background-color x
 
-  table-row-selected(x = #f1e0e1)
+  // table-row-selected(x = #f1e0e1)
+  table-row-selected(x = #ffe9d6)
     tr.selected-row td
       background-color x
   table-row-height(x = .36rem)
@@ -491,7 +489,8 @@ pre
     
   .el-table--enable-row-hover .el-table__body tr:hover>td
   .el-table--enable-row-hover .el-table__body tr.el-table__row--striped:hover>td
-    background-color #d8e6ef
+    // background-color #d8e6ef
+    background-color #fffde5
 
   #app.night .el-table
     background #666

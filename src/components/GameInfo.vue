@@ -4,7 +4,7 @@
       .game-logo
       .volume.ds-icon-volume.pointer(:class="{ on: !volume }" @click=" setVolume() ")
       .game-countdow.inlb.text-666
-        .vm.inlb.t_r
+        .vm.inlb.t_r.ft12
           span.title {{ CNPER.slice(-6) }}
           span &nbsp;&nbsp;期
           p 截止时间
@@ -16,7 +16,7 @@
           span {{ showTime.split(':')[2] }}
 
       .game-win.inlb.text-666
-        .vm.inlb.t_r
+        .vm.inlb.t_r.ft12
           span.title {{ NPER }}
           span &nbsp;&nbsp;期
           p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
@@ -144,19 +144,21 @@ export default {
       vertical-align middle
     
     .game-countdow
-      padding .12rem .4rem
+      padding .12rem .55rem
       height .56rem
       
     .time-box
       height 100%
       line-height .56rem
       margin-left .1rem
-      font-family Arial-BoldMT
+      // font-family Arial-BoldMT
       border-radius 5px
       box-shadow 0 0 10px rgba(0,0,0, .4) inset
       padding 0 .2rem
+      font-weight bold
+      letter-spacing: 0px;
     .time-dot
-      padding 0 .1rem
+      padding 0 .04rem
       
 </style>
 

@@ -22,23 +22,23 @@
 
     
 
-    el-col.left(:span="12" v-if=" !HC6 " style="padding: .1rem 0 ")
+    el-col.left(:span="12" v-if=" !HC6 " style="padding: .18rem 0 .02rem 0 ")
       
-      .ds-button-group(style="vertical-align: top; margin-left: .08rem")
-        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+      .ds-button-group(style="vertical-align: top; margin-left: .08rem; box-shadow: none")
+        .ds-button.x-small.text-button.shadow-affect.yjfl(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
     
       .inlb()
-        .ds-button.x-small.outline.minus(style="margin: 0; height: .3rem" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
+        .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
         el-input-number.input.times.my-center(style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0" v-popover:times="times" v-show="!HC6") 
-        .ds-button.x-small.outline.plus(style="margin: 0; height: .3rem" size="mini" @click="t++" v-show="!HC6") 十
+        .ds-button.x-small.outline.plus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" size="mini" @click="t++" v-show="!HC6") 十
         span.bei(v-show="!HC6") &nbsp;倍
       
       
       //- el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
       div(style="margin-left: .08rem; margin-top: -.1rem")
-        .ds-button.x-small.outline.minus(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;" @click="p > min && (p -= 10) "  v-show="!HC6") 一
+        .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
-        .ds-button.x-small.outline.minus(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;" @click=" p < max && (p += 10) "  v-show="!HC6") 十
+        .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
         span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") 奖金：{{ prize }} / 返点：{{ ps}} 
 
     
@@ -51,10 +51,16 @@
       //- .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
         .f_r
+          p.ft12(style="line-height: 1; padding-bottom: 2px") 
+            span.text-999 投注截止 
+            span(style="color: #f11b1b") {{ showTime }}&nbsp;
           .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
             span.ft16 一键投注
-            p.amoney 余额： {{ (me.amoney || '0.00')._nwc() }}
-        .f_r
+            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) < 1000000 ") 余额： {{ ( Number(me.amoney).toFixed(3) || '0.000')._nwc() }}
+            p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) > 1000000  ") 余额： ***{{ (Number(me.amoney).toFixed(3) || '0.000')._nwc().substr(-8) }}
+            
+
+        .f_r(style="margin-top: .08rem; vertical-align: bottom")
           p
             | 已选 
             span.count {{ n }} 
@@ -89,9 +95,10 @@
 </template>
 
 <script>
+import util from '../util'
 import store from '../store'
 export default {
-  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns'],
+  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout'],
   data () {
     return {
       me: store.state.user,
@@ -116,10 +123,15 @@ export default {
       fts: [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 10000],
       ftshow: false,
       // for random
-      tt: 0
+      tt: 0,
+      time: 0,
+      interval: 0
     }
   },
   computed: {
+    showTime () {
+      return util.timeFormat(this.time)
+    },
     HC6 () {
       return this.gameType === 'HC6'
     },
@@ -150,6 +162,9 @@ export default {
     }
   },
   watch: {
+    timeout () {
+      this.time = Math.floor(this.timeout)
+    },
     point () {
       this.p = Math.min(Number(this.P.maxpoint), Math.max(this.point, Number(this.P.minpoint))) * 10000
     },
@@ -198,6 +213,15 @@ export default {
     // setTimeout(() => {
     //   this.$emit('set-point', this.p / 10000, this.prize)
     // }, 0)
+    this.time = this.timeout
+    this.interval = setInterval(() => {
+      if (this.time > 0) {
+        this.time--
+      }
+    }, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.interval)
   },
   methods: {
     __setFt () {
@@ -299,6 +323,7 @@ export default {
   .inner-bar
     .el-slider__button-wrapper .el-tooltip
       vertical-align middle
+  
 </style>
 
 
@@ -348,6 +373,7 @@ export default {
     vertical-align bottom
     position relative
     top -.09rem
+      
   .times
     margin 0 .05rem
       
@@ -442,4 +468,13 @@ export default {
     padding-bottom .04rem
     opacity .6
   
+  .shadow-affect
+    &:hover
+      color BLUE
+      box-shadow: 0px 3px 3px 0px #e3e3e3 !important
+      border-color #d8d8d8 !important
+    &.yjfl.selected
+      background #444 !important
+      
+      
 </style>

@@ -21,7 +21,7 @@
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
-      .ca.hlh36(v-for=" (r, i) in allLuckyNumbers ")
+      .ca.hlh3(v-for=" (r, i) in allLuckyNumbers ")
         span.caa.inlb {{ r.issue.substr(-4) }}
         span.cab.inlb 
           span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }} 
@@ -75,19 +75,19 @@ export default {
       if (this.ccs) {
         switch (this.ccs.pos) {
           case 'q2':
-            if (i < 2) return 'text-danger'
+            if (i < 2) return 'text-blue'
             break
           case 'q3':
-            if (i < 3) return 'text-danger'
+            if (i < 3) return 'text-blue'
             break
           case 'z3':
-            if (i < 4 && i > 0) return 'text-danger'
+            if (i < 4 && i > 0) return 'text-blue'
             break
           case 'h2':
-            if (i > 2) return 'text-danger'
+            if (i > 2) return 'text-blue'
             break
           case 'h3':
-            if (i > 1) return 'text-danger'
+            if (i > 1) return 'text-blue'
             break
         }
       } else {

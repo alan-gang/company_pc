@@ -206,6 +206,7 @@
       width 1rem !important
       &:hover
         background none !important
+        box-shadow none !important
         
       
     .row

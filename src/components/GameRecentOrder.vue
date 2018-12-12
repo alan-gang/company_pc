@@ -5,8 +5,8 @@
       span.p-a 投注记录&nbsp;&nbsp;
       span.p-b(:class="{active: pageSize === 5}" @click=" pageSize = 5 ") 5期
       span.p-b(:class="{active: pageSize === 10}" @click=" pageSize = 10 ") 10期
-      span.p-b(:class="{active: pageSize === 20}" @click=" pageSize = 20 ") 20期
-      span.p-b(:class="{active: pageSize === 50}" @click=" pageSize = 50 ") 50期
+      span.p-b(:class="{active: pageSize === 20}" @click=" pageSize = 20 ") 15期
+      span.p-b(:class="{active: pageSize === 50}" @click=" pageSize = 50 ") 20期
 
     el-table.header-bold.nopadding(:data="data" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;" empty-text="投注记录当前为空！")
 

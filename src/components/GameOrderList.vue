@@ -1,8 +1,8 @@
 <template lang="jade">
-  .order-list(style="position: relative;")
+  .order-list(style="position: relative; ")
     span(style="z-index: 1; background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem") {{ ns.length }}
     div(style="margin: 0 .12rem")
-      el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0; margin: 0 0 -.02rem 0;")
+      el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0;  border: 1px solid #d8d8d8")
 
         el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2" width="150")
           template(scope="scope") 
@@ -123,6 +123,7 @@
   @import '../var.stylus'
   .order-list
     padding-top .1rem
+    padding-bottom .01rem
     background-color #fff
     // border-top 1px solid #ddd
   .ds-button

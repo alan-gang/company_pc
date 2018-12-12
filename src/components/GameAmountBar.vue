@@ -46,12 +46,12 @@
         .ds-checkbox
         | 使用信游币&nbsp;&nbsp;
 
-      label.text-666(style="display: inline-block" v-if="!show") &nbsp;&nbsp;起始期：
+      //- label.text-666(style="display: inline-block" v-if="!show") &nbsp;&nbsp;起始期：
         el-select(v-model="nper" style="position: relative; top: -0.01rem; width: 2rem")
           el-option(v-for="(i, index) in issues.slice(0, length)" v-bind:label="i.issue + (i.issue === CNPER? '（当前期）' : '期') " v-bind:value="i.issue")
       br(v-if=" followButton ")
       .ds-button.success.bold(@click="showFollow" v-if=" followButton " style="margin-right: .05rem") 追号
-      .ds-button.positive.bold.large(@click.self="book") 投注
+      .ds-button.positive.bold.large(@click.self="book") 立即投注
         // span(v-if="!show")
         //   |  起始期：
         //   el-select(v-model="nper" style="position: relative; top: -0.01rem")
@@ -161,5 +161,10 @@ export default {
     opacity 0
     padding-left 0
     padding-right 0
+  
+  .ds-button.success
+    background #444
+    &:hover
+      background #333 !important
   
 </style>
