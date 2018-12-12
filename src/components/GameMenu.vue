@@ -18,17 +18,18 @@
         span {{ g.title }}
       .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
     
+    div(style="padding-bottom: .05rem; background: #f4f4f4 " v-if=" !historyItems[0] ")
 
-    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #e2daa9")
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #e2daa9" v-if=" historyItems[0] ")
       div(style="border-top: 1px dashed #ccc; padding-bottom: .05rem ")
       .subtitle
         span(style="color: #f17d0b") 历史玩法
       
-      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
 
 
     el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
-      .subtitle(style="padding-left: .1rem; color: #333") {{ title + '_' + type.title }}
+      .subtitle(style="padding-left: .1rem; color: #333") {{ title !== type.title ? title + '_' + type.title : title }}
 
       label(@click=" showIns = !showIns ")
         .ds-checkbox(:class=" {active: showIns} " ) 

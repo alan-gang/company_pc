@@ -17,7 +17,8 @@
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
-        span.cac.inlb(v-if=" ccs ") {{ ccs.title.join(' ') }}
+        span.cac.inlb(v-if=" ccs ") 
+          span(v-for=" t in  ccs.title ") {{ t }}
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
@@ -25,7 +26,11 @@
         span.caa.inlb {{ r.issue.substr(-4) }}
         span.cab.inlb 
           span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }} 
-        pre.cac.inlb(v-if=" row_ccs(r) ") {{ row_ccs(r) && row_ccs(r).value.join ? row_ccs(r).value.map((x, i) => row_ccs(r).title && x.length < row_ccs(r).title[i].length ? (x = padStart(x, row_ccs(r).title[i].length, ' ')) : x ).join(' ') : '' }}
+        pre.cac.inlb(v-if=" row_ccs(r) ")
+          span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
+          span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ")
+            {{ row_ccs(r).title && v.length < row_ccs(r).title[i].length ? padStart(v, row_ccs(r).title[i].length, ' ') : v }}
+  
 
 
 
@@ -93,6 +98,14 @@ export default {
       } else {
         return ''
       }
+    },
+    colorOfV (v) {
+      switch (v) {
+        case '组三':
+          return 'text-oblue'
+        default:
+          return 'text-blue'
+      }
     }
   }
 }
@@ -151,6 +164,9 @@ export default {
     bottom 0
     border-left inherit
     overflow auto
+    &::-webkit-scrollbar
+      width 5px
+      height 5px
     .ca
       // margin 0 .05rem
       border-bottom 1px dashed #ddd

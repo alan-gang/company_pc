@@ -108,6 +108,7 @@ export default {
       &.hl
         background-image linear-gradient(#f17d0b, #f17d0b), linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
         color #fff
+        border none
   
   .rolling-numbers.PK10
     .number

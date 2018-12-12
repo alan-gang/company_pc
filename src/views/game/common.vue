@@ -505,7 +505,9 @@ export default {
       let pre = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
       let index = pre.findIndex(x => x.id === this.type.id)
       if (index !== -1) pre.splice(index, 1)
-      // this.type.upTi
+      console.log(this.getUpTitle, this.getTitle)
+      this.type.upTitle = (this.getUpTitle || this.getTitle)()
+
       pre.unshift(this.type)
       if (pre.length > 6) pre.length = 6
       window.localStorage.setItem('historyItems' + this.gameType + this.gameid + this.mt, JSON.stringify(pre))
@@ -989,7 +991,7 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       } else {
-        this.ns.unshift(Object.assign({ttitle: this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+        this.ns.unshift(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g

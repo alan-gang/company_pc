@@ -69,7 +69,7 @@
             |  元
           
           .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
-          .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 加入购物车
+          .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 添加选号
 
     el-col.left(:span="12" v-if=" HC6 " style="line-height: .5rem")
       span(v-show="HC6") 快速金额

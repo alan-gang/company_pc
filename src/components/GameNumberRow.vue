@@ -482,7 +482,7 @@
           
     // 数字区
     .numbers
-      font-size .2rem
+      font-size .24rem
       color #666
       &.has-btn
         padding-right 2rem
