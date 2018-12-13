@@ -35,7 +35,7 @@
       
       
       //- el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
-      div(style="margin-left: .08rem; margin-top: -.1rem")
+      div(style="margin-left: .08rem; margin-top: -.1rem" v-if=" P && !(P.maxpoint === P.minpoint) ")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十

@@ -5,7 +5,7 @@
       .volume.ds-icon-volume.pointer(:class="{ on: !volume }" @click=" setVolume() ")
       .game-countdow.inlb.text-666
         .vm.inlb.t_r.ft12
-          span.title {{ CNPER.slice(-6) }}
+          span.title {{ CNPER }}
           span &nbsp;&nbsp;期
           p 截止时间
         .vm.inlb.time-box.text-black.ft36
@@ -144,7 +144,7 @@ export default {
       vertical-align middle
     
     .game-countdow
-      padding .12rem .55rem
+      padding .12rem .25rem
       height .56rem
       
     .time-box
@@ -159,6 +159,10 @@ export default {
       letter-spacing: 0px;
     .time-dot
       padding 0 .04rem
+      
+    .game-win
+      // padding .12rem 0
+      
       
 </style>
 

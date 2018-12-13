@@ -255,7 +255,7 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
-                {url: 'PK10', class: 'ds-icon-game-pk10sc sign new', id: '1-5-10', menuid: '109', title: '欢乐PK10', volume: true, gameid: 43},
+                {url: 'PK10', class: 'ds-icon-game-pk10sc sign new', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
                 {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
@@ -1497,6 +1497,12 @@ export default {
   opacity 0
   &.dialog-container
     transition all linear 0s // @static 2
+
+.from-down-leave-up-enter
+  transform translateY(100%)
+
+
+  
 
 
 

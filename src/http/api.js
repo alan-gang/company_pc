@@ -26,6 +26,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  rewardInfo: '/home/notices.do?method=rewardInfo',
   setBackWater: '/team/setBackWater.do?method=setBackWater',
   getBackWater: '/team/useList.do?method=getBackWater',
   getUserIdentity: '/home/userInfo.do?method=getUserIdentity',

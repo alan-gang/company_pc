@@ -20,7 +20,7 @@ export default {
           ]
         },
         {
-          title: '猜三四五名',
+          title: '猜三四名',
           groups: [
             {
               // title: '北京PK10',

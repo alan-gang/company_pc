@@ -505,7 +505,7 @@ pre
     color #666
     // 头部文字按钮
     th.actions .cell
-      color BLUE 
+      color #999 
       cursor pointer
       
     table-bg()

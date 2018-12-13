@@ -50,6 +50,12 @@ export default {
     },
     setPosColor (i) {
       switch (this.hl) {
+        case 'q5':
+          if (i < 5) return 'hl'
+          break
+        case 'q4':
+          if (i < 4) return 'hl'
+          break
         case 'q2':
           if (i < 2) return 'hl'
           break
@@ -64,6 +70,9 @@ export default {
           break
         case 'h3':
           if (i > 1) return 'hl'
+          break
+        case 'h4':
+          if (i > 0) return 'hl'
           break
       }
     }
@@ -125,7 +134,7 @@ export default {
       font-size F2
   
   .rolling-numbers.KL8
-    max-width 3.5rem
+    max-width 3.6rem
     .number
       width W3
       height W3

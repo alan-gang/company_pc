@@ -385,7 +385,7 @@ body.classic:not(.v2)
           color #666
           padding 0
           width auto
-          padding 0 .15rem
+          padding 0 .13rem
           radius 0
           text-align center
           text-shadow none

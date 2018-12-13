@@ -46,9 +46,9 @@
             .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
 
     
-    .a.t_c.pb15(v-if=" pageSize > 5 ")
+    .a.t_c.pb15(v-if=" pageSize > 5 && maxp > 0 ")
       .p-b.aa(:class="{ disabled: p === 0 }" @click=" p > 0 && p-- ") 上一页
-      .p-b.aa(:class="{ disabled: p === maxp }" @click=" p < maxp && p++ ") 下一页
+      .p-b.aa(:class="{ disabled: p >= maxp }" @click=" p < maxp && p++ ") 下一页
     
     el-dialog(title="订单详情" v-model="show" custom-class="dialog-collect" v-bind:modal="modal" size="auto")
       .box(ref="box")

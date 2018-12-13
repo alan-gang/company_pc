@@ -505,7 +505,6 @@ export default {
       let pre = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
       let index = pre.findIndex(x => x.id === this.type.id)
       if (index !== -1) pre.splice(index, 1)
-      console.log(this.getUpTitle, this.getTitle)
       this.type.upTitle = (this.getUpTitle || this.getTitle)()
 
       pre.unshift(this.type)
