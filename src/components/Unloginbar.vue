@@ -65,8 +65,8 @@ export default {
   text-align right
   background-color #ffa930
   color #302b2a
-  height .3rem
-  line-height .3rem
+  height .365rem
+  line-height .365rem
   .a, .b
     padding  0 .2rem
     cursor pointer
