@@ -32,20 +32,20 @@
             p {{ c.title }}
 
           .absolute.rank.t_l(@mouseover="leaderBoard")
-            p.ft18 赢家榜 
+            p.ft18 中奖排行榜 
             transition(name="slide-left" appear=true)
               dl.absolute(v-show=" ri === 0 " key="0")
                 dd(v-for=" (r, i) in rank.slice(0, 10) ")
                   span.rank-index {{ i + 1 }}
                   span.rank-un.inlb {{ r.username }}
-                  | 赢得¥
+                  | 喜中 ¥
                   span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
             transition(name="slide" appear=true )
               dl.absolute(v-show=" ri === 1 " key="1")
                 dd(v-for=" (r, i) in rank.length > 10 ? rank.slice(10, 20) : rank ")
                   span.rank-index {{ (rank.length > 10 ? 11 : 1) + i }}
                   span.rank-un.inlb {{ r.username }}
-                  | 赢得¥
+                  | 喜中 ¥
                   span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
 
 
