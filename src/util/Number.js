@@ -115,7 +115,7 @@ let getNumberOfAnimal = (s) => {
     return a.sort()
 }
 
-let codeClass = ',1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:blue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
+let codeClass = ',1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:oblue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:oblue,4:oblue,9:oblue,10:oblue,14:oblue,20:oblue,25:oblue,26:oblue,31:oblue,36:oblue,37:oblue,41:oblue,42:oblue,47:oblue,48:oblue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
 let getColorOfNumber = (n) => {
     n = Math.min(parseInt(n), 49)
     n = Math.max(n, 1)

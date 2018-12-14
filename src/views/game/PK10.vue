@@ -20,7 +20,7 @@ export default {
           ]
         },
         {
-          title: '猜三四五名',
+          title: '猜三四名',
           groups: [
             {
               // title: '北京PK10',
@@ -60,9 +60,9 @@ export default {
       type: {
         id: '-1-1-1-PK10',
         // 玩法名
-        title: '',
+        title: '猜冠军',
         // 玩法描述
-        description: ''
+        description: '从01-10中共10个号码中选择1个号码，每注由1个号码组成，只要当期冠军号码为所选号码，即为中奖。'
       },
       lucknumbers: ['01', '01', '01', '01', '01', '01', '01', '01', '01', '01'],
       getTitle () {
@@ -94,6 +94,38 @@ export default {
           case '-1-2-4':
             return '猜三四五名'
         }
+      }
+    }
+  },
+  methods: {
+    getUpTitle () {
+      switch (this.type.id.slice(0, 6)) {
+        case '-1-1-1':
+          return '猜冠亚军'
+        case '-1-1-2':
+          return '猜冠亚军'
+        case '-1-1-3':
+          return '猜三四五名'
+        case '-1-1-4':
+          return '猜三四五名'
+        case '-1-1-5':
+          return '猜三四五名'
+        case '-1-1-8':
+          return '猜冠亚军'
+        case '-1-1-6':
+          return '趣味龙虎'
+        case '-1-1-7':
+          return '趣味龙虎'
+        case '-1-1-9':
+          return '猜三四五名'
+        case '-1-2-1':
+          return '猜三四五名'
+        case '-1-2-2':
+          return '猜三四五名'
+        case '-1-2-3':
+          return '猜三四五名'
+        case '-1-2-4':
+          return '猜三四五名'
       }
     }
   }

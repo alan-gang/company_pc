@@ -1,5 +1,5 @@
 #app.classic .dialog-page.game-page .game-content,
-#app.classic .dialog-page.game-page .inner-bar,
+// #app.classic .dialog-page.game-page .inner-bar,
 #app.classic .dialog-page.game-page .game-info,
 #app.classic .dialog-page.game-page
   min-width 10.8rem !important
@@ -257,7 +257,7 @@ H = 1.04rem
       bottom .3rem !important
     .dialog-page
       radius(0)
-      top .1rem !important
+      top 0 !important
       shadow(none)
 
 
@@ -267,13 +267,13 @@ H = 1.04rem
   .ds-icon-classic
     display none
 #app.classic.v2 .lefter
-  top 1.15rem
+  top 1.05rem
   z-index 1900
   .el-menu
     padding-left .1rem
     padding-right .1rem
 #app.classic.v2.game .lefter
-  background-color rgba(0,0,0, .5)
+  background-color rgba(255,255,255, .3)
 #app.classic.v2:not(.game) .lefter
   // @media(max-width: 1190px)
     // display block
@@ -654,7 +654,6 @@ body
 
     // display none
   .game-info
-    display none
     &.new-game-info
       background-size 1rem
       // padding-bottom PW

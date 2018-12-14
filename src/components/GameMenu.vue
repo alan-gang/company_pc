@@ -2,28 +2,75 @@
 <template lang="jade">
   dl.menu
     .menu-con
-      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] ") {{menu.title}}
+      dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] " style="line-height: .36rem") {{menu.title}}
         .submenu-group(v-if="menu.groups")
           dl.submenu(v-for="group in menu.groups")
             dt(v-if="group.title") 
               span {{ group.title }}
-            dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}") {{ item.title }}
+            dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}" style="height: .26rem; line-height: .26rem") {{ item.title }}
   
-      dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
+      //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
+      dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 ") 
+        el-switch(v-model=" mmt " on-text="快钱玩法" off-text="官方玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
         span {{ g.title }}
-      .ds-button.text-button.text-666.small(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)") {{ item.title }}
+      .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
+    
+    div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !historyItems[0] ")
+
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" historyItems[0] ")
+      div(style="border-top: 1px dashed #d8d8d8; padding-bottom: .05rem ")
+      .subtitle
+        span(style="color: #f17d0b") 历史玩法
+      
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
+
+
+    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
+      .subtitle(style="padding-left: .1rem; color: #333") {{ title !== type.title ? title + '_' + type.title : title }}
+
+      label(@click=" showIns = !showIns ")
+        .ds-checkbox(:class=" {active: showIns} " ) 
+        | 玩法说明
+
+      .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) " style="height: .26rem; line-height: .26rem") 机选
+
+      p.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem ") {{ type.description }}
+
+
+
 
 
 </template>
 
 <script>
   export default {
-    props: ['type', 'menus', 'getTitle', 'mt', 'gameid'],
+    props: ['type', 'menus', 'getTitle', 'mt', 'gameid', 'gameType'],
+    data () {
+      return {
+        mmt: 0,
+        t: -1,
+        historyItems: JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]'),
+        showIns: window.localStorage.getItem('showIns') === 'true'
+      }
+    },
     mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
+      this.mmt = (this.mt !== 'normal')
+    },
+    watch: {
+      mt () {
+        // this.mmt = (this.mt !== 'normal')
+      },
+      mmt () {
+        this.t++
+        this.t && this.__setCall({fn: '__switchMT'})
+      },
+      showIns () {
+        window.localStorage.setItem('showIns', this.showIns)
+      }
     },
     computed: {
       title () {
@@ -39,6 +86,9 @@
       },
       setMenu (m) {
         if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0]) this.$emit('type', m.groups[0].items[0])
+      },
+      __getHistoryItems () {
+        this.historyItems = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
       }
     }
   }
@@ -53,6 +103,15 @@
     & > .menu-con + .row
       padding-top .1rem
       
+    .menu-con
+      border: solid 1px #e4e4e4;
+      background-image: linear-gradient(
+    #eeeeee, 
+    #eeeeee), 
+  linear-gradient(0deg, 
+    #ffffff 0%, 
+    #e3e3e3 100%);
+
     height GMH
     line-height GMH
     margin 0
@@ -140,21 +199,23 @@
     
     .title.switch
       float right
-      background-color #302b2a
+      // background-color #302b2a
       margin .03rem
       height .28rem !important
       line-height .28rem !important
       border none !important
+      width 1rem !important
       &:hover
-        background-color #302b2a !important
+        background none !important
+        box-shadow none !important
         
       
     .row
       &:last-child
         padding-bottom .1rem
       display none
-      background-color #fff
-      padding .02rem .2rem
+      background-color #fafafa
+      padding .02rem .12rem
       clear both
       // height GMH
       font-size .12rem
@@ -176,20 +237,32 @@
           
       .ds-button
         font-size .12rem
-        border 1px solid rgba(0,0,0,0)
+        border 1px solid #d8dee8
         margin 0 .02rem
         &.text-666
           color #666
         
         &:hover
           color BLUE
-          border-color BLUE
           text-decoration none
+          box-shadow 0px 3px 3px 0px #e3e3e3
+          
         &.selected
           background-color BLUE
           color #FFF
-          
-
+          border-color rgba(0,0,0,0)
+    
+    .row.history
+      .ds-button
+        background-image: linear-gradient(0deg, #fff8d0 0%, #fffbe1 100%);
+        border: solid 1px #e2daa9;
+        color #666
+        &:hover
+          color BLUE
+  
+  .btn1.ds-button
+    background-color #fff
+    
 </style>
 
 

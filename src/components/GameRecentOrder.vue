@@ -1,14 +1,14 @@
 <template lang="jade">
-  el-row.game-recent-order
+  el-row.game-recent-order(style="background: #fff")
     br
-    p 最近投注记录&nbsp;&nbsp;
-      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 5}" @click=" pageSize = 5 ") 5条
-      | /
-      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 10}" @click=" pageSize = 10 ") 10条
-      | /
-      span.x-small.ds-button.text-button.blue.p-b(:class="{active: pageSize === 15}" @click=" pageSize = 15 ") 15条
+    p
+      span.p-a 投注记录&nbsp;&nbsp;
+      span.p-b(:class="{active: pageSize === 5}" @click="  pageSize === 5  ? Orderlist() : (pageSize = 5) ") 5条
+      span.p-b(:class="{active: pageSize === 10}" @click=" pageSize === 10 ? Orderlist() : (pageSize = 10) ") 10条
+      span.p-b(:class="{active: pageSize === 15}" @click=" pageSize === 15 ? Orderlist() : (pageSize = 15) ") 15条
+      span.p-b(:class="{active: pageSize === 20}" @click=" pageSize === 20 ? Orderlist() : (pageSize = 20) ") 20条
 
-    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;" empty-text="投注记录当前为空！")
+    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;border: 1px solid #d8d8d8" empty-text="投注记录当前为空！")
 
       el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
          template(scope="scope")
@@ -45,7 +45,11 @@
             .ds-button.text-button.blue(v-if=" scope.row.canCancel === 1 " style="padding: 0 .05rem" @click=" cancel(scope.row) ") 撤消
             .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
 
-
+    
+    .a.t_c.pb15(v-if=" maxp > p || p > 1 ")
+      .p-b.aa(:class="{ disabled: p ===  1 }" @click=" p > 1 && p-- ") 上一页
+      .p-b.aa(:class="{ disabled: p >= maxp }" @click=" p < maxp && p++ ") 下一页
+    
     el-dialog(title="订单详情" v-model="show" custom-class="dialog-collect" v-bind:modal="modal" size="auto")
       .box(ref="box")
           // .tool-bar
@@ -183,10 +187,15 @@ export default {
       expandList: [],
       MODES: ['元', '角', '分', '厘'],
       fullCode: '获取失败...',
-      pageSize: Number(window.localStorage.getItem('gron')) || 5
+      pageSize: Number(window.localStorage.getItem('gron')) || 5,
+      p: 1,
+      totalSize: 0
     }
   },
   computed: {
+    maxp () {
+      return Math.ceil(this.totalSize / this.pageSize)
+    },
     callId () {
       return this.gameid + '|' + this.type.id
     },
@@ -201,8 +210,15 @@ export default {
     'ME.login' () {
       if (this.ME.login) this.Orderlist()
     },
-    pageSize () {
+    p () {
       this.Orderlist()
+    },
+    pageSize () {
+      if (this.p === 1) {
+        this.Orderlist()
+      } else {
+        this.p = 1
+      }
       window.localStorage.setItem('gron', this.pageSize)
     }
   },
@@ -247,12 +263,13 @@ export default {
       this.$http.mypost(api.Orderlist, {
         scope: 0,
         lotteryId: this.gameid,
-        page: 1,
+        page: this.p,
         pageSize: this.pageSize
       }).then(({data}) => {
         // success
         if (data.success === 1) {
           this.Cdata = data.recordList
+          this.totalSize = data.totalSize
         }
       }, (rep) => {
         // error
@@ -331,6 +348,46 @@ export default {
 }
 </script>
 
+<style lang="stylus" scoped>
+  @import '../var.stylus'
+  .game-recent-order
+    .p-a
+      color #000
+      font-weight bold
+      
+    .p-b
+      display inline-block
+      color #666
+      height .3rem
+      line-height .3rem
+      padding 0
+      width .5rem
+      text-align center
+      margin 0 .02rem
+      border 1px solid  rgba(0,0,0,0)
+      cursor pointer
+      &:hover
+        color BLUE
+        border 1px solid  #d8d8d8
+        background-image: linear-gradient(#ffffff, #ffffff),  linear-gradient(0deg, #f2f2f2 0%, #ffffff 100%);
+        box-shadow: 0px 3px 3px 0px #e3e3e3;
+      
+      &.active
+        color BLUE
+        border 1px solid  #d8d8d8
+        background-image: linear-gradient(#ffffff, #ffffff),  linear-gradient(0deg, #f2f2f2 0%, #ffffff 100%);
+      
+    .aa
+      width .8rem
+      border 1px solid  #d8d8d8
+      background-image: linear-gradient(#ffffff, #ffffff),  linear-gradient(0deg, #f2f2f2 0%, #ffffff 100%);
+      &.disabled
+        cursor not-allowed
+        color #bbbbbb
+        background-image: linear-gradient(#f6f6f6, #f6f6f6), linear-gradient(0deg, #f2f2f2 0%, #ffffff 100%);
+      
+
+</style>
 
 <style lang="stylus" scoped>
   @import '../var.stylus'
@@ -338,7 +395,7 @@ export default {
     overflow-y auto
     padding 0 PW
     radius()
-    background #ededed
+    background #f4f4f4
     display none
     position absolute
     left 0
@@ -365,10 +422,6 @@ export default {
   bg = #d8d8d8
   bg-hover = #ececec
   bg-active = #e2e2e2
-  .p-b
-    &.active
-      text-decoration underline
-      color DANGER
       
   .tool-bar
     height TH

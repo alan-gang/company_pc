@@ -76,9 +76,9 @@ export default {
       type: {
         id: '1-1-1-HC6',
         // 玩法名
-        title: '',
+        title: '特码',
         // 玩法描述
-        description: '',
+        description: '香港六合彩公司当期开出的最后一码为特别号或特码',
         join: '|',
         mutilpOrderPerRow: true
       },
@@ -96,6 +96,22 @@ export default {
           case '5-':
             return '尾数'
         }
+      }
+    }
+  },
+  methods: {
+    getUpTitle () {
+      switch (this.type.id.slice(0, 2)) {
+        case '1-':
+          return '特码'
+        case '2-':
+          return '连肖'
+        case '3-':
+          return '特码'
+        case '4-':
+          return '大小单双'
+        case '5-':
+          return '尾数'
       }
     }
   }

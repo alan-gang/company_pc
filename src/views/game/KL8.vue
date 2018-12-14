@@ -49,9 +49,9 @@ export default {
       type: {
         id: '-1-1-1-KL8',
         // 玩法名
-        title: '',
+        title: '任选一',
         // 玩法描述
-        description: ''
+        description: '从01-80中任选1个及以上号码。'
       },
       // lucknumbers: [[50, 50, 50, 50, 50], [50, 50, 50, 50, 50], [50, 50, 50, 50, 50], [50, 50, 50, 50, 50]],
       lucknumbers: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -62,6 +62,16 @@ export default {
           case '0-':
             return '趣味'
         }
+      }
+    }
+  },
+  methods: {
+    getUpTitle () {
+      switch (this.type.id.slice(0, 2)) {
+        case '-1':
+          return '任选'
+        case '0-':
+          return '趣味'
       }
     }
   }

@@ -498,10 +498,64 @@ export default {
         this.type = {
           id: '-3-1-1',
           // 玩法名
-          title: '',
+          title: '直接选',
           // 玩法描述
-          description: ''
+          description: '从百位、十位、个位中选择一个3位数号码组成一注，所选号码与开奖号码的后3位相同，且顺序一致，即为中奖。'
         }
+      }
+      this.__setCall({fn: '__getHistoryItems', callId: undefined})
+    },
+    getUpTitle () {
+      switch (this.type.id.slice(0, 2)) {
+        case '5-':
+          return '五星'
+        case '4-':
+          return '四星'
+        case '3-':
+          return '中三'
+        case '-3':
+          return '后三'
+        case '+3':
+          return '前三'
+        case '2-':
+          return '二星'
+        case '1-':
+          return '一星'
+        case '0-':
+          return '不定位'
+        case '-1':
+          switch (this.type.id.slice(0, 4)) {
+            case '-1-1':
+              return '任二'
+            case '-1-2':
+              return '任三'
+            case '-1-3':
+              return '任四'
+          }
+          break
+        case '-2':
+          return '趣味'
+        case '-4':
+          return '龙虎'
+        case '-5':
+          return '斗牛'
+        case '9-':
+          switch (this.type.id.slice(0, 3)) {
+            case '9-1':
+              return '双面'
+            case '9-2':
+              return '数字盘'
+            case '9-3':
+              return '定位'
+            case '9-4':
+              return '一字组合'
+            case '9-5':
+              return '二字组合'
+            case '9-6':
+              return '二字和数'
+            case '9-7':
+              return '龙虎'
+          }
       }
     }
   }

@@ -1,6 +1,10 @@
 @import './var.stylus'
 @import './ie.stylus'
 .el-table
+  tr.twinkle
+    animation Twinkle 1.5s linear 1
+
+.el-table
   tr.lst-row-greybg td
     background-color #ddd !important
 #app.night
@@ -388,15 +392,12 @@ pre
     width 1.5rem
     vertical-align middle
     .el-slider__bar
-      background-color BLUE
+      background-color #444
     .el-slider__runway
       background-color #ddd
     .el-slider__button
       background-color #fff
-      border 2px solid BLUE
-      shadow()
-      &.hover
-        border-color BLUE-ACTIVE
+      border 1px solid #444
 /*
  *rewrite el-table
  */
@@ -407,12 +408,15 @@ pre
   table-header-bg(x = transparent)
     th 
       background-color x
-      bg-gradient(180deg, #ddd, #eee)
-      background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+      // bg-gradient(180deg, #ddd, #eee)
+      // background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+      background: #eee
+      
       .cell
         background-color x
-        bg-gradient(180deg, #ddd, #eee)
-        background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+        // bg-gradient(180deg, #ddd, #eee)
+        // background-image: linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%);
+        background: #eee
         
   table-header-color(x = #333)
     th
@@ -452,7 +456,8 @@ pre
     .el-table--enable-row-hover .el-table__body tr:hover>td
       background-color x
 
-  table-row-selected(x = #f1e0e1)
+  // table-row-selected(x = #f1e0e1)
+  table-row-selected(x = #ffe9d6)
     tr.selected-row td
       background-color x
   table-row-height(x = .36rem)
@@ -488,7 +493,8 @@ pre
     
   .el-table--enable-row-hover .el-table__body tr:hover>td
   .el-table--enable-row-hover .el-table__body tr.el-table__row--striped:hover>td
-    background-color #d8e6ef
+    // background-color #d8e6ef
+    background-color #fffde5
 
   #app.night .el-table
     background #666
@@ -503,8 +509,9 @@ pre
     color #666
     // 头部文字按钮
     th.actions .cell
-      color BLUE 
+      color #999 
       cursor pointer
+      
     table-bg()
     table-header-bg()
     table-header-color()

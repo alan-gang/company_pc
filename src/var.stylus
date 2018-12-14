@@ -16,7 +16,7 @@ GH = 1rem
 // gameMenu heights
 GMH = .3rem
 // gamecenter heights
-GCH = .52rem
+GCH = .4rem
 // gameorderbar heights
 GOH = .5rem
 // game amoutbar heights
@@ -64,6 +64,7 @@ OBLUE = #1a9ff3
 OBLUE-HOVER = #2aadff
 // BLUE-HOVER = #42b6ff
 OBLUE-ACTIVE = #038adf
+
 // new blue
 BLUE = #f17d0b
 BLUE-HOVER = #ff5429

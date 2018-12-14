@@ -246,7 +246,7 @@ body.classic:not(.v2)
       padding-left .5rem
       background none
       ul
-        margin .15rem 0
+        margin .07rem 0
       .el-menu-item-group__title
         position relative
         left -.1rem
@@ -259,20 +259,14 @@ body.classic:not(.v2)
         position relative
         padding-left .2rem !important
         &.notis-active:hover
-          color #ffd400
-          background-image: linear-gradient(
-    rgba(255, 255, 255, 0.2), 
-    rgba(255, 255, 255, 0.2)), 
-  linear-gradient(
-    #595555, 
-    #595555);
+          color BLUE
+          background-image: linear-gradient(#000000, #000000), linear-gradient(0deg, #3f3f3f 0%, #353535 100%), linear-gradient(#302b2a, #302b2a); 
+
         &.is-active
-          // background BLUE
           bg-gradient(90deg, BLUE, BLUE-ACTIVE)
         &.notis-active
-          // background none
           background-color: #3b3635;
-          background-image: linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05)), linear-gradient(#3b3635, #3b3635);
+          background-image: linear-gradient(0deg, #3f3f3f 0%, #353535 100%), linear-gradient(#302b2a, #302b2a);
 
         &:before
           content '.'
@@ -359,7 +353,7 @@ body.classic:not(.v2)
           // display none
 
       .game-content
-      .inner-bar
+      // .inner-bar
       .game-info
         max-width 10rem !important
         min-width 980px !important
@@ -378,31 +372,36 @@ body.classic:not(.v2)
         & > div:first-child
           height .36rem
           padding-left .05rem
-          bg-gradient(90deg, BLUE, BLUE-ACTIVE)
+          // bg-gradient(90deg, BLUE, BLUE-ACTIVE)
+          background-color #eee
+          position relative
+          z-index 1
           
         height auto
         .row
           display block
         dd
-          height .34rem
-          color #fff
+          height .36rem
+          color #666
           padding 0
-          width .7rem
+          width auto
+          padding 0 .13rem
           radius 0
           text-align center
           text-shadow none
           box-shadow none
-          border-top 2px solid rgba(0,0,0,0)
+          // border-top 2px solid rgba(0,0,0,0)
           &:hover
-            background #f7f7f7
+            background #fff
             color BLUE
-            border-color BLUE
+            box-shadow: 0px 3px 3px 0px #e3e3e3
+            border-color #d8dee8
             
           .submenu-group
             display none
           &.selected
-            background #fff
-            color BLUE
+            background BLUE
+            color #fff
             border-color BLUE
            
         

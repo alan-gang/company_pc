@@ -3,7 +3,7 @@
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
         span {{ row.title }}
 
-      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 18 : 24")
+      el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 24 : 24")
         el-row(v-if="row.innertitle || row.innertitleCopy")
           el-col.innertitle.text-black(:span="24") {{ row.innertitle || row.innertitleCopy }} {{ row.afterONtitle ? '@' + row.afterONtitle : '' }}
 
@@ -37,7 +37,7 @@
 
 
           el-col.action-buttons(:span="row.btnClass ? 24 : 7" v-if="row.buttons" v-bind:class="row.btnClass")
-            .ds-button(v-for="(btn, index) in row.buttons" @click=" btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
+            .ds-button.outline(v-for="(btn, index) in row.buttons" @click=" btnStatus[btn.split(':')[0]] && click(btn)" v-bind:class="{selected: (btn.split(':')[0] !== '清') && (btnIndex === index), 'disabled': !btnStatus[btn.split(':')[0]] }") {{ btn.split(':')[0] }}
 
 </template>
 <script>
@@ -60,7 +60,7 @@
         // 不同的码有不同的色彩
         defaultTimes: 0,
         codeClass:
-          ',0:danger,1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:blue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:blue,4:blue,9:blue,10:blue,14:blue,20:blue,25:blue,26:blue,31:blue,36:blue,37:blue,41:blue,42:blue,47:blue,48:blue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
+          ',0:danger,1:danger,2:danger,7:danger,8:danger,12:danger,13:danger,15:oblue,18:danger,19:danger,23:danger,24:danger,29:danger,30:danger,34:danger,35:danger,40:danger,45:danger,46:danger,3:oblue,4:oblue,9:oblue,10:oblue,14:oblue,20:oblue,25:oblue,26:oblue,31:oblue,36:oblue,37:oblue,41:oblue,42:oblue,47:oblue,48:oblue,5:green,6:green,11:green,16:green,17:green,21:green,22:green,27:green,28:green,32:green,33:green,38:green,39:green,43:green,44:green,49:green,'
       }
     },
     computed: {
@@ -428,7 +428,7 @@
         margin 0 !important
         
       &.row
-        padding 0 .2rem
+        padding 0 .02rem
         margin .05rem 0
         &.pd25
           padding-bottom .25rem
@@ -456,6 +456,10 @@
       position absolute
       & + .el-col
           padding-left .75rem
+      &.span-1
+        min-width .4rem
+        & + .el-col
+          padding-left .4rem
       &.span-3
         min-width .85rem
         & + .el-col
@@ -478,8 +482,8 @@
           
     // 数字区
     .numbers
-      font-size .2rem
-      color #333
+      font-size .24rem
+      color #666
       &.has-btn
         padding-right 2rem
       .el-col
@@ -488,8 +492,9 @@
         position relative
         text-align center
         radius()
+        margin .02rem .02rem
         // &:not(.dice)
-        //   border 1px solid currentColor
+          // border 1px solid currentColor
         &.selected
           transition background-color .5s linear
         
@@ -501,25 +506,49 @@
         &.default
           width GCH
           border-radius 50%
+          // border 1px solid #efefef
+          // background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          background url(../assets/gameheader/gameball_s__bg.png)
+          background-size 100% 100%
+          // border 1px solid #ededed
+          // box-sizing border-box
+          
         &.signal
           background-color #ddd
         &.default:hover
         &.default.selected
           // box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
-          font-shadow()
+          // font-shadow()
           color #fff
           .after
             color #fff
+            
         &.default:hover
           // background-color BLUE
-          background-color rgba(241, 125, 11, .5)
+          // background-color rgba(241, 125, 11, .5)
+          // background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          background url(../assets/gameheader/gameball_s__bg_ahover.png)
+          
+          color BLUE
         &.default.selected
           background-color BLUE
+          background BLUE
+          color #fff
+          
         &.square
           radius()
           padding 0 .2rem
           width 1.1rem
-          margin 0 .01rem
+          margin .02rem
+          background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          border 1px solid #ededed
+          
+          &:hover
+            background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          &.selected
+            background BLUE 
+            
+          
         // dice dice dice
         &.double-width
           width  2 * GCH
@@ -528,15 +557,28 @@
           width  3 * GCH
           
         &.dice
-          margin-right .1rem
+          width .52rem
+          line-height .52rem
+          margin-right .05rem
           .the-number
             display none
           .after
             line-height .25rem
+          
+           &.double-width
+            width  2 * 0.52rem
+          
+          &.third-width
+            width  3 * 0.52rem
+            
+
+
         &.width1-8.code
-          width  1.8 * GCH
-          height 1.8 * GCH
+          width  1.8 * 0.52rem
+          height 1.8 * 0.52rem
+          
         &.code
+          line-height .52rem
           &.danger
             &:not(.default-color):not(.selected)
               color DANGER
@@ -552,6 +594,14 @@
             // &.hover
             &.selected
               background-color BLUE
+          
+          &.oblue
+            color OBLUE
+            // &:hover
+            // &.hover
+            &.selected
+              background-color OBLUE
+
           &.green
             color CODEGREEN
             // &:hover
@@ -560,8 +610,8 @@
               background-color CODEGREEN
             
           radius(50%)
-          height  2 * GCH
-          line-height 1.5 * GCH
+          height  2 * .52rem
+          line-height 1.5 * .52rem
           transition all linear .2s
           &.square
             radius(0)
@@ -569,13 +619,13 @@
           .code-input
             width 100%
             position absolute
-            top .65 * GCH
+            top .65 * .52rem
             left 0
             z-index 1
             opacity 0
             transition all linear .2s
           .after
-            bottom 0.5 * GCH
+            bottom 0.5 * .52rem
 
           // &:hover
           &.hover
@@ -586,9 +636,9 @@
           
           &.hover
             // color #fff
-            line-height GCH
+            line-height .52rem
             .after
-              bottom 0.2 * GCH
+              bottom 0.2 * .52rem
               // color #fff
               // opacity .6
             .code-input
@@ -596,25 +646,26 @@
               
           &.selected
             color #fff
-            line-height .9 * GCH
+            line-height 0.9 * .52rem
             &:not(.has-after)
-              line-height 2GCH
+              // line-height 2 * 0.52rem
             .after
-              bottom 0.2 * GCH
+              bottom 0.2 * .52rem
               color #fff
               opacity .6
             .code-input
               opacity 1
               
           &.square
-            &:hover
-              background-color BLUE
-              color #333
-              .after
-                color #fff
+            // &:hover
+            //   background-color BLUE
+            //   color #333
+            //   .after
+            //     color #fff
+                
             min-height .5rem    
             height .64rem            
-            margin .05rem .18rem
+            margin .05rem .05rem
             padding .05rem .05rem
             line-height 1.2
             color #666
@@ -627,6 +678,7 @@
             .code-input
               opacity 1
               background  #fff
+              top .34rem
             
             &.selected
               color #333
@@ -634,26 +686,28 @@
                 color #fff
             
             &.small-space
-              margin 0 .1rem
+              margin .02rem 0.02rem
             &.small-space-s
-              margin 0 .055rem
+              margin .02rem 0.02rem
               
         
         &.number-array
           width 100%
           color #fff
-          padding-left .5rem
+          padding-left .6rem
           
           .el-row
             text-align left
-            margin .1rem 0
+            margin .05rem 0
+
           .after
-            top .18rem
+            top .1rem
             bottom auto
             left 0
             right auto
             color DANGER
             font-size .2rem
+            
           .el-col.o0
             opacity 0
           .el-col.danger
@@ -685,6 +739,16 @@
               background-color BLUE
               border none
           
+          .el-col.oblue
+            // background-color BLUE
+            background-color inherit
+            border 1px solid OBLUE
+            color OBLUE
+            &.selected
+              color #fff
+              background-color OBLUE
+              border none
+          
           .small-circle
             margin 0 2px
             font-size .14rem
@@ -697,6 +761,9 @@
             border-bottom 1px solid #ccc
             &:hover
               background-color #fff
+          
+          &.full-width .code-input
+            margin-left 0 !important
               
           
 
@@ -766,210 +833,224 @@
         width .3rem
         line-height .3rem
         padding 0 
-        // margin 0 .05rem
+        margin 0 .01rem
         color #666
         box-shadow none
-        text-shadow none
-        
+        // text-shadow none
+        border: solid 1px #d8dee8;
           
         &:hover
-          color WHITE
-          background-color BLUE
-          shadow()
-          font-shadow()
-        &.selected
-          color WHITE
-          background-color DANGER
-          shadow()
-          font-shadow()
+          color BLUE
+          // background-color BLUE
+          // shadow()
+          // font-shadow()
+          box-shadow: 0px 3px 3px 0px #e3e3e3;
+          border: solid 1px #d8dee8 !important
+          
+        // &.selected
+          // color WHITE
+          // background-color DANGER
+          // shadow()
+          // font-shadow()
+
         &.disabled
           opacity .5
     
     // https://codepen.io/giana/pen/yYBpVY
     .circle:not(.dice):not(.square):not(.ds-icon-PK10):not(.number-array)
-      &::before,
-      &::after
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-        color #aaa
-      &::before
-        border: 2px solid transparent; // We're animating border-color again
-        transition:
-          border-top-color 0.15s linear 0.30s, // Stagger border appearances
-          border-right-color 0.15s linear 0.20s,
-          border-bottom-color 0.15s linear 0.10s;
-      &.selected:before
-      // &:hover::before
-        color #fff
-        border-top-color: currentColor; // Show borders
-        border-right-color: currentColor;
-        border-bottom-color: currentColor;
+      // &::before,
+      // &::after
+      //   top: 0;
+      //   left: 0;
+      //   box-sizing: border-box;
+      //   content: '';
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 100%;
+      //   border-radius: 100%;
+      //   color #ddd
+        
+      // &::before
+      //   border: 2px solid transparent; // We're animating border-color again
+      //   transition:
+      //     border-top-color 0.15s linear 0.30s, // Stagger border appearances
+      //     border-right-color 0.15s linear 0.20s,
+      //     border-bottom-color 0.15s linear 0.10s;
+      //   border 1px solid #ededed
 
-        transition:
-          border-top-color 0.15s linear, // Stagger border appearances
-          border-right-color 0.15s linear 0.10s,
-          border-bottom-color 0.15s linear 0.20s;
+        
+        
+      
+      // &.selected:before
+      // // &:hover::before
+      //   color #fff
+      //   border-top-color: currentColor; // Show borders
+      //   border-right-color: currentColor;
+      //   border-bottom-color: currentColor;
 
-      &::after
-        border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
-        transition:
-          transform 0.4s linear 0s,
-          border-color 0s linear 0.4s,
-          border-width 0s linear 0.4s; // Solid edge post-rotation
+      //   transition:
+      //     border-top-color 0.15s linear, // Stagger border appearances
+      //     border-right-color 0.15s linear 0.10s,
+      //     border-bottom-color 0.15s linear 0.20s;
+
+      // &::after
+      //   border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
+      //   transition:
+      //     transform 0.4s linear 0s,
+      //     border-color 0s linear 0.4s,
+      //     border-width 0s linear 0.4s; // Solid edge post-rotation
+      //   border 1px solid #ededed
+        
           
-      &.selected:after
-      // &:hover::after
-        color #fff
-        border-top: 2px solid currentColor; // Shows border
-        border-left-width: 2px; // Solid edges, invisible borders
-        border-right-width: 2px; // Solid edges, invisible borders
-        transform: rotate(270deg); // Rotate around circle
-        transition:
-          transform 0.4s linear 0s,
-          border-left-width 0s linear 0.35s; // Solid edge post-rotation
+      // &.selected:after
+      // // &:hover::after
+      //   color #fff
+      //   border-top: 2px solid currentColor; // Shows border
+      //   border-left-width: 2px; // Solid edges, invisible borders
+      //   border-right-width: 2px; // Solid edges, invisible borders
+      //   transform: rotate(270deg); // Rotate around circle
+      //   transition:
+      //     transform 0.4s linear 0s,
+      //     border-left-width 0s linear 0.35s; // Solid edge post-rotation
     
     .square
       // box-shadow: inset 0 0 0 2px #f45e61;
-      transition: color 0.25s
-      &::before,
-      &::after {
-        box-sizing: inherit;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 2px solid transparent;
-        width: 0;
-        height: 0;
-        radius()
-        color #aaa
-      }
-      &::before {
-        top: 0;
-        left: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.75s, // Width expands first
-          height 0.25s ease-out 0.5s; // And then height
-      }
-
-      // And this the bottom & left borders (expands left, then up)
-      &::after {
-        bottom: 0;
-        right: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.25s, // Width expands first
-          height 0.25s ease-out; // And then height
-      }
+      // transition: color 0.25s
+      // // border 1px solid #ededed
       
-      &:hover {
-        color: currentColor;
-      }
-       // Hover styles
-      &.selected::before,
-      &.selected::after {
-        width: 100%;
-        height: 100%;
-        color #fff
-      }
+      // &::before,
+      // &::after {
+      //   box-sizing: inherit;
+      //   content: '';
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 100%;
+      //   border: 2px solid transparent;
+      //   width: 0;
+      //   height: 0;
+      //   radius()
+      //   color #ddd
+      // }
+      // &::before {
+      //   top: 0;
+      //   left: 0;
+      //   border-top-color: transparent; // Make borders visible
+      //   border-right-color: transparent;
+      //   transition:
+      //     border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.75s, // Width expands first
+      //     height 0.25s ease-out 0.5s; // And then height
+      // }
 
-      &.selected::before {
-        border-top-color: currentColor; // Make borders visible
-        border-right-color: currentColor;
-        transition:
-          width 0.25s ease-out, // Width expands first
-          height 0.25s ease-out 0.25s; // And then height
-      }
+      // // And this the bottom & left borders (expands left, then up)
+      // &::after {
+      //   bottom: 0;
+      //   right: 0;
+      //   border-top-color: transparent; // Make borders visible
+      //   border-right-color: transparent;
+      //   transition:
+      //     border-color 0.5s ease-out, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.25s, // Width expands first
+      //     height 0.25s ease-out; // And then height
+      // }
+      
+      // &:hover {
+      //   color: currentColor;
+      // }
+      //  // Hover styles
+      // &.selected::before,
+      // &.selected::after {
+      //   width: 100%;
+      //   height: 100%;
+      //   color #fff
+      // }
 
-      &.selected::after {
-        border-bottom-color: currentColor; // Make borders visible
-        border-left-color: currentColor;
-        transition:
-          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.5s, // And then exanding width
-          height 0.25s ease-out 0.75s; // And finally height
-      }
+      // &.selected::before {
+      //   border-top-color: currentColor; // Make borders visible
+      //   border-right-color: currentColor;
+      //   transition:
+      //     width 0.25s ease-out, // Width expands first
+      //     height 0.25s ease-out 0.25s; // And then height
+      // }
+
+      // &.selected::after {
+      //   border-bottom-color: currentColor; // Make borders visible
+      //   border-left-color: currentColor;
+      //   transition:
+      //     border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.5s, // And then exanding width
+      //     height 0.25s ease-out 0.75s; // And finally height
+      // }
       
 </style>
 
 <style lang="stylus">
 @import '../var.stylus'
-    .dices
-      .dice
-        transition: color 0.25s
-        color #666
-      &.selected .dice
-        color #fff
-      // box-shadow: inset 0 0 0 2px #f45e61;
-      .dice::before,
-      .dice::after {
-        box-sizing: inherit;
-        content: '';
-        position: absolute;
-        box-sizing: border-box;
-        border: 2px solid transparent;
-        width: 0;
-        height: 0;
-        radius(.1rem)
-        z-index 1
-        color #ccc
-      }
-      .dice::before {
-        top: 0;
-        left: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.75s, // Width expands first
-          height 0.25s ease-out 0.5s; // And then height
-      }
+    // .dices
+    //   .dice
+    //     transition: color 0.25s
+    //     color #666
+    //   &.selected .dice
+    //     color #fff
+    //   // box-shadow: inset 0 0 0 2px #f45e61;
+    //   .dice::before,
+    //   .dice::after {
+    //     box-sizing: inherit;
+    //     content: '';
+    //     position: absolute;
+    //     box-sizing: border-box;
+    //     border: 2px solid transparent;
+    //     width: 0;
+    //     height: 0;
+    //     radius(.1rem)
+    //     z-index 1
+    //     color #ccc
+    //   }
+    //   .dice::before {
+    //     top: 0;
+    //     left: 0;
+    //     border-top-color: transparent; // Make borders visible
+    //     border-right-color: transparent;
+    //     transition:
+    //       border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.75s, // Width expands first
+    //       height 0.25s ease-out 0.5s; // And then height
+    //   }
 
-      // And this the bottom & left borders (expands left, then up)
-      .dice::after {
-        bottom: 0;
-        right: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out , // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.25s, // Width expands first
-          height 0.25s ease-out; // And then height
-      }
+    //   // And this the bottom & left borders (expands left, then up)
+    //   .dice::after {
+    //     bottom: 0;
+    //     right: 0;
+    //     border-top-color: transparent; // Make borders visible
+    //     border-right-color: transparent;
+    //     transition:
+    //       border-color 0.5s ease-out , // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.25s, // Width expands first
+    //       height 0.25s ease-out; // And then height
+    //   }
       
-       // Hover styles
-      &.selected .dice::before,
-      &.selected .dice::after {
-        width: 100%;
-        height: 100%;
-        color #fff
-      }
+    //    // Hover styles
+    //   &.selected .dice::before,
+    //   &.selected .dice::after {
+    //     width: 100%;
+    //     height: 100%;
+    //     color #fff
+    //   }
 
-      &.selected .dice::before {
-        border-top-color: currentColor; // Make borders visible
-        border-right-color: currentColor;
-        transition:
-          width 0.25s ease-out, // Width expands first
-          height 0.25s ease-out 0.25s; // And then height
-      }
+    //   &.selected .dice::before {
+    //     border-top-color: currentColor; // Make borders visible
+    //     border-right-color: currentColor;
+    //     transition:
+    //       width 0.25s ease-out, // Width expands first
+    //       height 0.25s ease-out 0.25s; // And then height
+    //   }
 
-      &.selected .dice::after {
-        border-bottom-color: currentColor; // Make borders visible
-        border-left-color: currentColor;
-        transition:
-          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.5s, // And then exanding width
-          height 0.25s ease-out 0.75s; // And finally height
-      }
+    //   &.selected .dice::after {
+    //     border-bottom-color: currentColor; // Make borders visible
+    //     border-left-color: currentColor;
+    //     transition:
+    //       border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.5s, // And then exanding width
+    //       height 0.25s ease-out 0.75s; // And finally height
+    //   }
 </style>

@@ -78,4 +78,9 @@
   .el-select
     display inline-block
     width 2rem
+    
+  .primary
+    background #444 !important
+    &:hover
+      background #333 !important
 </style>

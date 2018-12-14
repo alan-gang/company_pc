@@ -29,6 +29,7 @@ let Login = {
   getIngotsPrize: '/activity.do?method=getIngotsPrize',
   getIngotsTaskProgress: '/activity.do?method=getIngotsTaskProgress',
   canGetIngots: '/activity.do?method=canGetIngots',
+  rewardInfo: '/home/notices.do?method=rewardInfo',
   setBackWater: '/team/setBackWater.do?method=setBackWater',
   getBackWater: '/team/useList.do?method=getBackWater',
   getUserIdentity: '/home/userInfo.do?method=getUserIdentity',

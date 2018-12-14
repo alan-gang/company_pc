@@ -1,11 +1,11 @@
 <template lang="jade">
-  .game-selection
+  .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } ")
     //- transition-group(name="slide" appear=true tag="div")
     GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
 
     //- transition(name="slide-down" appear=true)
     .f(v-if="rows.length === 0")
-      p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
+      //- p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
       el-row
         el-col(:span="20")
           // .el-textarea
@@ -24,16 +24,17 @@
 
     //- transition(name="slide-down" appear=true)
     el-row.pos(v-if="show[0]")
-      el-col(v-bind:span="13")
+      el-col(v-bind:span="24")
         label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
           span.ds-checkbox 
           | {{ p.title[show[1]] }}
-      el-col.notice(:span="11")
-        | 温馨提示：你选择了 
-        span.count {{ psl }}
-        |  个位置， 系统自动根据位置组合成 
-        span.comb {{ comb }}
-        |  个方案
+      el-col(:span="24" )
+        .notice(style="line-height: 1; margin: 0 .2rem 0 0; padding: .1rem;")
+          | 温馨提示：你选择了 
+          span.count {{ psl }}
+          |  个位置， 系统自动根据位置组合成 
+          span.comb {{ comb }}
+          |  个方案
 </template>
 
 <script>
@@ -188,7 +189,7 @@
           {ids: '+3-3-3, 3-3-3, -3-3-3', title: '和值尾数', min: 0, max: 9},
           /***
           ** 前三[特殊号] | 中三[特殊号] | 后三[特殊号]          ***/
-          {ids: '+3-3-4, 3-3-4, -3-3-4', title: '特殊号', values: [{selected: false, title: '豹子', value: '1'}, {selected: false, title: '顺子', value: '2'}, {selected: false, title: '对子', value: '3'}]},
+          {ids: '+3-3-4, 3-3-4, -3-3-4', title: '特殊号', values: [{selected: false, title: '豹', value: '1'}, {selected: false, title: '顺', value: '2'}, {selected: false, title: '对', value: '3'}]},
           /***
           ** 前二[组选复式] | 后二[组选复式] | 任二[组选复式] | 任三[组选复式]
           ***/
@@ -302,7 +303,7 @@
           {ids: '1-1-1-HC6', class: 'code width1-8', title: '特码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '1-1-2-HC6', class: 'code width1-8', title: '正码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('鼠').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('鼠')), checkbox: true, after: 47.7, value: 1}]},
-          // {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: '10, 22, 34, 46', numbers: ['10:blue', '22:green', '34:danger', '46:danger', '-1:o0'], checkbox: true, after: 47.7, value: 1}]},
+          // {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: '10, 22, 34, 46', numbers: ['10:oblue', '22:green', '34:danger', '46:danger', '-1:o0'], checkbox: true, after: 47.7, value: 1}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('牛').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('牛')), checkbox: true, after: 47.7, value: 2}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('虎').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('虎')), checkbox: true, after: 47.7, value: 3}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('兔').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('兔')), checkbox: true, after: 47.7, value: 4}]},
@@ -327,7 +328,7 @@
           {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '狗', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('狗').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('狗')), input: true, times: 0, after: 47.7, value: 11}]},
           {ids: '1-1-3-HC6, ', class: 'number-array full-width', title: '猪', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('猪').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('猪')), input: true, times: 0, after: 47.7, value: 12}]},
           {ids: '3-1-1-HC6', class: 'number-array full-width', title: '红波', values: [{class: 'small-circle', selected: false, title: '1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46', numbers: ['1:danger', '2:danger', '7:danger', '8:danger', '12:danger', '13:danger', '18:danger', '19:danger', '23:danger', '24:danger', '29:danger', '30:danger', '34:danger', '35:danger', '40:danger', '45:danger', '46:danger'], input: true, times: 0, after: 47.7, value: 1}]},
-          {ids: '3-1-1-HC6', class: 'number-array full-width', title: '蓝波', values: [{class: 'small-circle', selected: false, title: '3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48', numbers: ['3:blue', '4:blue', '9:blue', '10:blue', '14:blue', '15:blue', '20:blue', '25:blue', '26:blue', '31:blue', '36:blue', '37:blue', '41:blue', '42:blue', '47:blue', '48:blue', '-1:o0'], input: true, times: 0, after: 47.7, value: 2}]},
+          {ids: '3-1-1-HC6', class: 'number-array full-width', title: '蓝波', values: [{class: 'small-circle', selected: false, title: '3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48', numbers: ['3:oblue', '4:oblue', '9:oblue', '10:oblue', '14:oblue', '15:oblue', '20:oblue', '25:oblue', '26:oblue', '31:oblue', '36:oblue', '37:oblue', '41:oblue', '42:oblue', '47:oblue', '48:oblue', '-1:o0'], input: true, times: 0, after: 47.7, value: 2}]},
           {ids: '3-1-1-HC6', class: 'number-array full-width', title: '绿波', values: [{class: 'small-circle', selected: false, title: '5,6,11,16,17,21,22,27,28,32,33,38,39,43,44,49', numbers: ['5:green', '6:green', '11:green', '16:green', '17:green', '21:green', '22:green', '27:green', '28:green', '32:green', '33:green', '38:green', '39:green', '43:green', '44:green', '49:green', '-1:o0'], input: true, times: 0, after: 47.7, value: 3}]},
           // {ids: '4-1-1-HC6:1', title: '正一码', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           // {ids: '4-1-2-HC6:1', title: '正二码', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
@@ -820,7 +821,11 @@
 <style lang="stylus" scoped>
   @import '../var.stylus'
   .game-selection
-    padding PW 0
+    &:not(.iskq)
+      background-color #fff !important
+      
+    padding .05rem 0
+
     .pos
       padding-left .3rem
   .el-textarea
