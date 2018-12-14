@@ -542,6 +542,7 @@
           margin .02rem
           background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
           border 1px solid #ededed
+          font-size .18rem
           
           &:hover
             background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  

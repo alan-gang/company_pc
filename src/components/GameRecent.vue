@@ -146,15 +146,12 @@ export default {
     colorOfV (v) {
       switch (v) {
         // 五星
-        case '组120':
-        case '组24':
+        case '组选120':
+        case '组选24':
         case '组六':
         case '顺子':
         case '大单':
         case '龙':
-        case '没牛':
-        case '牛1':
-        case '牛2':
           return 'type-color-1'
         case '组选60':
         case '组选12':
@@ -162,6 +159,8 @@ export default {
         case '对子':
         case '大双':
         case '虎':
+        case '牛1':
+        case '牛2':
         case '牛3':
         case '牛4':
         case '牛5':
@@ -172,18 +171,20 @@ export default {
         case '小单':
         case '和':
         case '牛6':
+        case '牛7':
+        case '牛8':
+        case '牛9':
+        case '牛牛':
           return 'type-color-3'
         case '组选20':
         case '组选4':
         case '小双':
-        case '牛7':
-        case '牛8':
           return 'type-color-4'
         case '组选10':
-        case '牛9':
           return 'type-color-5'
         case '组选5':
-        case '牛牛':
+        case '没牛':
+
           return 'type-color-6'
         default:
           return 'type-color-6'
