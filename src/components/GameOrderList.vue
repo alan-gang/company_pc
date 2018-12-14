@@ -2,13 +2,13 @@
   .order-list(style="position: relative; ")
     span(style="z-index: 1; background: red; font-size: 9px; color: #fff; border-radius: 50%; display: inline-block; width: .16rem; height: .16rem; text-align: center; position: absolute; left: .05rem; top: .05rem; line-height: .18rem" v-show=" ns.length ") {{ ns.length }}
     div(style="margin: 0 .12rem")
-      el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="彩票购物车当前为空！" style="padding-bottom: 0;  border: 1px solid #d8d8d8")
+      el-table.ghost.header-bold.nopadding(:data="data" stripe  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" v-on:header-click="headerClick" empty-text="购彩车当前为空！" style="padding-bottom: 0;  border: 1px solid #d8d8d8")
 
         el-table-column(:render-header="renderHeader" label="玩法、投注号码"  show-overflow-tooltip=true class-name="pl2" width="150")
           template(scope="scope") 
             span {{ scope.row.ttitle ? scope.row.ttitle + '_' : '' }}{{ scope.row.title ? scope.row.title  + '[' + (scope.row.nsnsTitle || scope.row.codes) + '] ' : '' }}
 
-        el-table-column( prop="$" label="模式" )
+        el-table-column( prop="$" label="模式" align="center")
         el-table-column( prop="n" label="注数"  align="center")
         el-table-column( prop="times" label="倍投"  align="center")
         el-table-column( prop="pay" label="金额"  align="center" inline-template)
@@ -81,6 +81,7 @@
       },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
+        if (row.new) return 'twinkle'
       },
       remove (index) {
         this.$emit('remove-order', index)

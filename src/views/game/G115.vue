@@ -147,9 +147,29 @@ export default {
       type: {
         id: '3-1-1-115',
         // 玩法名
-        title: '',
+        title: '直选复式',
         // 玩法描述
-        description: ''
+        description: '11共11个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。'
+      }
+    }
+  },
+  methods: {
+    getUpTitle () {
+      switch (this.type.id.slice(0, 2)) {
+        case '3-':
+          return '三星'
+        case '2-':
+          return '二星'
+        case '1-':
+          return '一星'
+        case '0-':
+          return '不定位'
+        case '-1':
+          return '任选'
+        case '-2':
+          return '趣味'
+        case '-3':
+          return '龙虎'
       }
     }
   }

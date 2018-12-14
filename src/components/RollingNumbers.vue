@@ -110,6 +110,8 @@ export default {
       color #000
       font-weight bold
       background-image linear-gradient(0deg, #dadde2 0%, #ffffff 100%);
+      // background url(../assets/gameheader/gameball_l__bg.png)
+      
       border 1px solid #ccc
       overflow hidden
       radius(50%)

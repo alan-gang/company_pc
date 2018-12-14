@@ -428,7 +428,7 @@
         margin 0 !important
         
       &.row
-        padding 0 .12rem
+        padding 0 .02rem
         margin .05rem 0
         &.pd25
           padding-bottom .25rem
@@ -507,7 +507,11 @@
           width GCH
           border-radius 50%
           // border 1px solid #efefef
-          background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          // background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          background url(../assets/gameheader/gameball_s__bg.png)
+          background-size 100% 100%
+          // border 1px solid #ededed
+          // box-sizing border-box
           
         &.signal
           background-color #ddd
@@ -521,8 +525,10 @@
             
         &.default:hover
           // background-color BLUE
-          background-color rgba(241, 125, 11, .5)
-          background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          // background-color rgba(241, 125, 11, .5)
+          // background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          background url(../assets/gameheader/gameball_s__bg_ahover.png)
+          
           color BLUE
         &.default.selected
           background-color BLUE
@@ -534,6 +540,15 @@
           padding 0 .2rem
           width 1.1rem
           margin .02rem
+          background-image: linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%);
+          border 1px solid #ededed
+          
+          &:hover
+            background-image: linear-gradient(0deg, #eae2ce 0%, #ffffff 100%);  
+          &.selected
+            background BLUE 
+            
+          
         // dice dice dice
         &.double-width
           width  2 * GCH
@@ -642,11 +657,12 @@
               opacity 1
               
           &.square
-            &:hover
-              background-color BLUE
-              color #333
-              .after
-                color #fff
+            // &:hover
+            //   background-color BLUE
+            //   color #333
+            //   .after
+            //     color #fff
+                
             min-height .5rem    
             height .64rem            
             margin .05rem .05rem
@@ -670,9 +686,9 @@
                 color #fff
             
             &.small-space
-              margin 0 .1rem
+              margin .02rem 0.02rem
             &.small-space-s
-              margin 0 .055rem
+              margin .02rem 0.02rem
               
         
         &.number-array
@@ -842,199 +858,199 @@
     
     // https://codepen.io/giana/pen/yYBpVY
     .circle:not(.dice):not(.square):not(.ds-icon-PK10):not(.number-array)
-      &::before,
-      &::after
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-        color #ddd
+      // &::before,
+      // &::after
+      //   top: 0;
+      //   left: 0;
+      //   box-sizing: border-box;
+      //   content: '';
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 100%;
+      //   border-radius: 100%;
+      //   color #ddd
         
-      &::before
-        border: 2px solid transparent; // We're animating border-color again
-        transition:
-          border-top-color 0.15s linear 0.30s, // Stagger border appearances
-          border-right-color 0.15s linear 0.20s,
-          border-bottom-color 0.15s linear 0.10s;
-        border 1px solid #ededed
+      // &::before
+      //   border: 2px solid transparent; // We're animating border-color again
+      //   transition:
+      //     border-top-color 0.15s linear 0.30s, // Stagger border appearances
+      //     border-right-color 0.15s linear 0.20s,
+      //     border-bottom-color 0.15s linear 0.10s;
+      //   border 1px solid #ededed
 
         
         
       
-      &.selected:before
-      // &:hover::before
-        color #fff
-        border-top-color: currentColor; // Show borders
-        border-right-color: currentColor;
-        border-bottom-color: currentColor;
+      // &.selected:before
+      // // &:hover::before
+      //   color #fff
+      //   border-top-color: currentColor; // Show borders
+      //   border-right-color: currentColor;
+      //   border-bottom-color: currentColor;
 
-        transition:
-          border-top-color 0.15s linear, // Stagger border appearances
-          border-right-color 0.15s linear 0.10s,
-          border-bottom-color 0.15s linear 0.20s;
+      //   transition:
+      //     border-top-color 0.15s linear, // Stagger border appearances
+      //     border-right-color 0.15s linear 0.10s,
+      //     border-bottom-color 0.15s linear 0.20s;
 
-      &::after
-        border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
-        transition:
-          transform 0.4s linear 0s,
-          border-color 0s linear 0.4s,
-          border-width 0s linear 0.4s; // Solid edge post-rotation
-        border 1px solid #ededed
+      // &::after
+      //   border: 0 solid transparent; // Makes border thinner at the edges? I forgot what I was doing
+      //   transition:
+      //     transform 0.4s linear 0s,
+      //     border-color 0s linear 0.4s,
+      //     border-width 0s linear 0.4s; // Solid edge post-rotation
+      //   border 1px solid #ededed
         
           
-      &.selected:after
-      // &:hover::after
-        color #fff
-        border-top: 2px solid currentColor; // Shows border
-        border-left-width: 2px; // Solid edges, invisible borders
-        border-right-width: 2px; // Solid edges, invisible borders
-        transform: rotate(270deg); // Rotate around circle
-        transition:
-          transform 0.4s linear 0s,
-          border-left-width 0s linear 0.35s; // Solid edge post-rotation
+      // &.selected:after
+      // // &:hover::after
+      //   color #fff
+      //   border-top: 2px solid currentColor; // Shows border
+      //   border-left-width: 2px; // Solid edges, invisible borders
+      //   border-right-width: 2px; // Solid edges, invisible borders
+      //   transform: rotate(270deg); // Rotate around circle
+      //   transition:
+      //     transform 0.4s linear 0s,
+      //     border-left-width 0s linear 0.35s; // Solid edge post-rotation
     
     .square
       // box-shadow: inset 0 0 0 2px #f45e61;
-      transition: color 0.25s
-      border 1px solid #ededed
+      // transition: color 0.25s
+      // // border 1px solid #ededed
       
-      &::before,
-      &::after {
-        box-sizing: inherit;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 2px solid transparent;
-        width: 0;
-        height: 0;
-        radius()
-        color #ddd
-      }
-      &::before {
-        top: 0;
-        left: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.75s, // Width expands first
-          height 0.25s ease-out 0.5s; // And then height
-      }
+      // &::before,
+      // &::after {
+      //   box-sizing: inherit;
+      //   content: '';
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 100%;
+      //   border: 2px solid transparent;
+      //   width: 0;
+      //   height: 0;
+      //   radius()
+      //   color #ddd
+      // }
+      // &::before {
+      //   top: 0;
+      //   left: 0;
+      //   border-top-color: transparent; // Make borders visible
+      //   border-right-color: transparent;
+      //   transition:
+      //     border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.75s, // Width expands first
+      //     height 0.25s ease-out 0.5s; // And then height
+      // }
 
-      // And this the bottom & left borders (expands left, then up)
-      &::after {
-        bottom: 0;
-        right: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.25s, // Width expands first
-          height 0.25s ease-out; // And then height
-      }
+      // // And this the bottom & left borders (expands left, then up)
+      // &::after {
+      //   bottom: 0;
+      //   right: 0;
+      //   border-top-color: transparent; // Make borders visible
+      //   border-right-color: transparent;
+      //   transition:
+      //     border-color 0.5s ease-out, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.25s, // Width expands first
+      //     height 0.25s ease-out; // And then height
+      // }
       
-      &:hover {
-        color: currentColor;
-      }
-       // Hover styles
-      &.selected::before,
-      &.selected::after {
-        width: 100%;
-        height: 100%;
-        color #fff
-      }
+      // &:hover {
+      //   color: currentColor;
+      // }
+      //  // Hover styles
+      // &.selected::before,
+      // &.selected::after {
+      //   width: 100%;
+      //   height: 100%;
+      //   color #fff
+      // }
 
-      &.selected::before {
-        border-top-color: currentColor; // Make borders visible
-        border-right-color: currentColor;
-        transition:
-          width 0.25s ease-out, // Width expands first
-          height 0.25s ease-out 0.25s; // And then height
-      }
+      // &.selected::before {
+      //   border-top-color: currentColor; // Make borders visible
+      //   border-right-color: currentColor;
+      //   transition:
+      //     width 0.25s ease-out, // Width expands first
+      //     height 0.25s ease-out 0.25s; // And then height
+      // }
 
-      &.selected::after {
-        border-bottom-color: currentColor; // Make borders visible
-        border-left-color: currentColor;
-        transition:
-          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.5s, // And then exanding width
-          height 0.25s ease-out 0.75s; // And finally height
-      }
+      // &.selected::after {
+      //   border-bottom-color: currentColor; // Make borders visible
+      //   border-left-color: currentColor;
+      //   transition:
+      //     border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+      //     width 0.25s ease-out 0.5s, // And then exanding width
+      //     height 0.25s ease-out 0.75s; // And finally height
+      // }
       
 </style>
 
 <style lang="stylus">
 @import '../var.stylus'
-    .dices
-      .dice
-        transition: color 0.25s
-        color #666
-      &.selected .dice
-        color #fff
-      // box-shadow: inset 0 0 0 2px #f45e61;
-      .dice::before,
-      .dice::after {
-        box-sizing: inherit;
-        content: '';
-        position: absolute;
-        box-sizing: border-box;
-        border: 2px solid transparent;
-        width: 0;
-        height: 0;
-        radius(.1rem)
-        z-index 1
-        color #ccc
-      }
-      .dice::before {
-        top: 0;
-        left: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.75s, // Width expands first
-          height 0.25s ease-out 0.5s; // And then height
-      }
+    // .dices
+    //   .dice
+    //     transition: color 0.25s
+    //     color #666
+    //   &.selected .dice
+    //     color #fff
+    //   // box-shadow: inset 0 0 0 2px #f45e61;
+    //   .dice::before,
+    //   .dice::after {
+    //     box-sizing: inherit;
+    //     content: '';
+    //     position: absolute;
+    //     box-sizing: border-box;
+    //     border: 2px solid transparent;
+    //     width: 0;
+    //     height: 0;
+    //     radius(.1rem)
+    //     z-index 1
+    //     color #ccc
+    //   }
+    //   .dice::before {
+    //     top: 0;
+    //     left: 0;
+    //     border-top-color: transparent; // Make borders visible
+    //     border-right-color: transparent;
+    //     transition:
+    //       border-color 0.5s ease-out 0.5s, // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.75s, // Width expands first
+    //       height 0.25s ease-out 0.5s; // And then height
+    //   }
 
-      // And this the bottom & left borders (expands left, then up)
-      .dice::after {
-        bottom: 0;
-        right: 0;
-        border-top-color: transparent; // Make borders visible
-        border-right-color: transparent;
-        transition:
-          border-color 0.5s ease-out , // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.25s, // Width expands first
-          height 0.25s ease-out; // And then height
-      }
+    //   // And this the bottom & left borders (expands left, then up)
+    //   .dice::after {
+    //     bottom: 0;
+    //     right: 0;
+    //     border-top-color: transparent; // Make borders visible
+    //     border-right-color: transparent;
+    //     transition:
+    //       border-color 0.5s ease-out , // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.25s, // Width expands first
+    //       height 0.25s ease-out; // And then height
+    //   }
       
-       // Hover styles
-      &.selected .dice::before,
-      &.selected .dice::after {
-        width: 100%;
-        height: 100%;
-        color #fff
-      }
+    //    // Hover styles
+    //   &.selected .dice::before,
+    //   &.selected .dice::after {
+    //     width: 100%;
+    //     height: 100%;
+    //     color #fff
+    //   }
 
-      &.selected .dice::before {
-        border-top-color: currentColor; // Make borders visible
-        border-right-color: currentColor;
-        transition:
-          width 0.25s ease-out, // Width expands first
-          height 0.25s ease-out 0.25s; // And then height
-      }
+    //   &.selected .dice::before {
+    //     border-top-color: currentColor; // Make borders visible
+    //     border-right-color: currentColor;
+    //     transition:
+    //       width 0.25s ease-out, // Width expands first
+    //       height 0.25s ease-out 0.25s; // And then height
+    //   }
 
-      &.selected .dice::after {
-        border-bottom-color: currentColor; // Make borders visible
-        border-left-color: currentColor;
-        transition:
-          border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
-          width 0.25s ease-out 0.5s, // And then exanding width
-          height 0.25s ease-out 0.75s; // And finally height
-      }
+    //   &.selected .dice::after {
+    //     border-bottom-color: currentColor; // Make borders visible
+    //     border-left-color: currentColor;
+    //     transition:
+    //       border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+    //       width 0.25s ease-out 0.5s, // And then exanding width
+    //       height 0.25s ease-out 0.75s; // And finally height
+    //   }
 </style>

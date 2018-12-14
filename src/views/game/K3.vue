@@ -79,9 +79,9 @@ export default {
       type: {
         id: '2-1-1-K3',
         // 玩法名
-        title: '',
+        title: '二同复选',
         // 玩法描述
-        description: ''
+        description: '对三个号码中两个指定的相同号码进行投注。(选择范围11-66)'
       },
       lucknumbers: [1, 1, 1],
       getTitle () {
@@ -101,6 +101,26 @@ export default {
           case '0-':
             return '趣味'
         }
+      }
+    }
+  },
+  methods: {
+    getUpTitle () {
+      switch (this.type.id.slice(0, 2)) {
+        case '2-':
+          return '二同号'
+        case '-2':
+          return '二不同号'
+        case '+3':
+          return '三连号'
+        case '3-':
+          return '三同号'
+        case '-3':
+          return '三不同号'
+        case '-4':
+          return '二同号'
+        case '0-':
+          return '趣味'
       }
     }
   }

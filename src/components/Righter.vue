@@ -170,7 +170,7 @@
     color #fff
     // padding PWX
     radius()
-    z-index 4
+    z-index 99
     & > [class*=ds-icon]
       height RW
       cursor pointer

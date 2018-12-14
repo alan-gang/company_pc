@@ -246,7 +246,7 @@ body.classic:not(.v2)
       padding-left .5rem
       background none
       ul
-        margin .15rem 0
+        margin .07rem 0
       .el-menu-item-group__title
         position relative
         left -.1rem

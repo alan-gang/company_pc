@@ -1,6 +1,10 @@
 @import './var.stylus'
 @import './ie.stylus'
 .el-table
+  tr.twinkle
+    animation Twinkle 1.5s linear 1
+
+.el-table
   tr.lst-row-greybg td
     background-color #ddd !important
 #app.night

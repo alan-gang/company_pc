@@ -498,9 +498,9 @@ export default {
         this.type = {
           id: '-3-1-1',
           // 玩法名
-          title: '',
+          title: '直接选',
           // 玩法描述
-          description: ''
+          description: '从百位、十位、个位中选择一个3位数号码组成一注，所选号码与开奖号码的后3位相同，且顺序一致，即为中奖。'
         }
       }
       this.__setCall({fn: '__getHistoryItems', callId: undefined})

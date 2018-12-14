@@ -6,9 +6,8 @@
           .aa.inlb.hlh36(v-for=" (w, i) in winners ") 
             span.aaa {{ w.name }}
             span  喜中 
-            span.aab.text-oblue {{ w.game }}{{ w.issue }}
-            span 期
-            span.aac.text-blue {{ w.prize._nwc() }}
+            span.aab.text-oblue {{ w.game }} 
+            span.aac.text-blue {{ w.prize._nwc() }} 
             span 元
 
 
@@ -27,8 +26,12 @@
 
       .ca.hlh3(v-for=" (r, i) in allLuckyNumbers ")
         span.caa.inlb {{ r.issue.substr(-4) }}
+
         span.cab.inlb 
-          span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }} 
+          span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
+              br(v-if=" i === 9 ")
+
+
         pre.cac.inlb(v-if=" row_ccs(r) ")
           | &nbsp;
           span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
@@ -218,12 +221,13 @@ export default {
     background-color #fff
     &.PK10
       .caa
+        width 25%
       .cab
-        margin 0 .1rem
+        width 75%
          
     &.PK10.absolute 
       .ca
-        height .48rem
+        height .24rem
         line-height .24rem
 
     &.KL8

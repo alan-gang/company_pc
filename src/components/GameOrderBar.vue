@@ -1,9 +1,9 @@
 <template lang="jade">
-  el-row(v-bind:class="['game-' + gameType]" style="background: #f4f4f4; line-height: 1; ")
+  el-row(v-bind:class="['game-' + gameType]" style="background: #f4f4f4; line-height: 1; border: 1px solid #d8d8d8 ")
 
 
 
-    el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (fts.length > 0 ? true : false)")
+    //- el-popover(ref="ft" placement="top" v-bind:offset="0" trigger="click" v-model="ftshow" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (fts.length > 0 ? true : false)")
       dl.submenu
         dd(v-for="i in fts" @click="(ftshow = false) || (ft = i)") {{ i }}
     
@@ -11,7 +11,7 @@
 
 
 
-    el-popover(ref="times" placement="top" v-bind:offset="0" trigger="click" v-model="show" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (ts.length > 0 ? true : false)")
+    //- el-popover(ref="times" placement="top" v-bind:offset="0" trigger="click" v-model="show" v-bind:visible-arrow="false" v-bind:popper-class="'popover-blue popover-times ' + (ts.length > 0 ? true : false)")
       dl.submenu
         dd(v-for="i in tss" @click="(show = false) || (t = i)") {{ i }}
     
@@ -29,7 +29,7 @@
     
       .inlb()
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
-        el-input-number.input.times.my-center(style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0" v-popover:times="times" v-show="!HC6") 
+        el-input-number.input.times.my-center(ref="t" style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0"  v-show="!HC6" @click.native="focusInputInside($refs['t'])") 
         .ds-button.x-small.outline.plus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" size="mini" @click="t++" v-show="!HC6") 十
         span.bei(v-show="!HC6") &nbsp;倍
       
@@ -39,7 +39,11 @@
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-        span.p(v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6") 奖金：{{ prize1 ? (prize1 * t) + ' - ' : '' }} {{ prize * t }}   / 返点：{{ ps}} 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ prize1 ? prize1 + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
+          span 奖金： 
+          span.text-danger 超出奖金限制
+          span  / 返点：{{ ps}} 
 
     
       
@@ -73,7 +77,7 @@
 
     el-col.left(:span="12" v-if=" HC6 " style="line-height: .5rem")
       span(v-show="HC6") 快速金额
-      el-input-number.input.times.my-center(style="width: .5rem;  " v-model="ft" v-bind:min="0" v-popover:ft="ft" v-show="HC6")
+      el-input-number.input.times.my-center(ref="ft" style="width: .5rem;  " v-model="ft" v-bind:min="0"  v-show="HC6" @click.native="focusInputInside($refs['ft'])")
       .ds-button-group(style="vertical-align: middle")
         .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
 
@@ -152,17 +156,17 @@ export default {
     // },
     // point string
     ps () {
-      return (this.p / 100).toFixed(2) + '%'
+      return (this.p / 100).toFixed(1) + '%'
     },
     prize () {
-      return ((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value).toFixed(3)
+      return (((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
     },
     prize1 () {
       if (this.PA[1]) {
         let MAX = this.PA[1].maxprize - parseFloat((this.PA[1].scale * this.PA[1].minpoint * 100).toFixed(3))
         let max = Math.floor(this.PA[1].maxpoint * 10000) || 800
         let min = Math.floor(this.PA[1].minpoint * 10000) || 0
-        return ((MAX - (this.p - min) * (MAX - this.PA[1].minprize) / (max - min)) * this.currencies[this.cIndex].value).toFixed(3)
+        return (((MAX - (this.p - min) * (MAX - this.PA[1].minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
       }
     },
     MAX () {
@@ -198,6 +202,12 @@ export default {
     // p changing or prize changing need update point and bonus in game/common.vue
     prize () {
       this.$emit('set-point', (this.p / 10000).toFixed(4), this.prize)
+      // if (Number(this.prize) > 400000) {
+      //   this.$modal.warn({
+      //     content: '超出奖金限制',
+      //     btn: ['确定']
+      //   })
+      // }
     },
     ft () {
       setTimeout(() => {
@@ -232,6 +242,11 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    focusInputInside (e) {
+      if (e && e.$el.querySelector('input')) {
+        e.$el.querySelector('input').select()
+      }
+    },
     __setFt () {
       if (this.ft >= 0 && (!(this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display) || ((this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display !== 'none')) {
         this.__setCall({fn: '__setDefaultTimes', args: this.ft})

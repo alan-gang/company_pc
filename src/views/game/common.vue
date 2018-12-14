@@ -508,7 +508,7 @@ export default {
       this.type.upTitle = (this.getUpTitle || this.getTitle)()
 
       pre.unshift(this.type)
-      if (pre.length > 6) pre.length = 6
+      if (pre.length > 5) pre.length = 5
       window.localStorage.setItem('historyItems' + this.gameType + this.gameid + this.mt, JSON.stringify(pre))
       this.__setCall({fn: '__getHistoryItems', callId: undefined})
     },
@@ -960,7 +960,7 @@ export default {
           btn: ['确定', '取消'],
           target: this.$el,
           ok () {
-            this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+            this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false}, {
               methodid: parseInt(this.methodid), // 玩法编号
               type: parseInt(this.methodidtype),
               pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
@@ -990,7 +990,7 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       } else {
-        this.ns.unshift(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(2) + '%', selected: false}, {
+        this.ns.unshift(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
