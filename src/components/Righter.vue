@@ -120,7 +120,7 @@
       right 10px !important
       // top calc(50% + 0.35rem) !important
       top 50% !important
-      z-index 5
+      z-index 1000
       border-radius 0 !important
       padding 0
       height RW !important

@@ -72,11 +72,11 @@ export default {
           case '-1-1-2':
             return '猜冠亚军'
           case '-1-1-3':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-1-4':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-1-5':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-1-8':
             return '猜冠亚军'
           case '-1-1-6':
@@ -84,15 +84,15 @@ export default {
           case '-1-1-7':
             return '趣味龙虎'
           case '-1-1-9':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-2-1':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-2-2':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-2-3':
-            return '猜三四五名'
+            return '猜三四名'
           case '-1-2-4':
-            return '猜三四五名'
+            return '猜三四名'
         }
       }
     }
@@ -105,11 +105,11 @@ export default {
         case '-1-1-2':
           return '猜冠亚军'
         case '-1-1-3':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-1-4':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-1-5':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-1-8':
           return '猜冠亚军'
         case '-1-1-6':
@@ -117,15 +117,15 @@ export default {
         case '-1-1-7':
           return '趣味龙虎'
         case '-1-1-9':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-2-1':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-2-2':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-2-3':
-          return '猜三四五名'
+          return '猜三四名'
         case '-1-2-4':
-          return '猜三四五名'
+          return '猜三四名'
       }
     }
   }
