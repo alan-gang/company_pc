@@ -16,7 +16,7 @@
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
         .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
-          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click="radioIndex = index" v-bind:class="{ active: radioIndex === index }")
+          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click=" ((radioIndex = index) || true) && (selectBank = epay[type - 3].more[radioIndex].channelCodes[0])" v-bind:class="{ active: radioIndex === index }")
             span.ds-radio.white
             | {{ r.tongdName }}
 
