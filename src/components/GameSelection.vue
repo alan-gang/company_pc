@@ -1,5 +1,5 @@
 <template lang="jade">
-  .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } ")
+  .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } " style="padding-left: .1rem; padding-right: .1rem")
     //- transition-group(name="slide" appear=true tag="div")
     GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
 

@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-row(v-bind:class="['game-' + gameType]" style="background: #f4f4f4; line-height: 1; border: 1px solid #d8d8d8 ")
+  el-row(v-bind:class="['game-' + gameType]" v-bind:style=" s " )
 
 
 
@@ -22,12 +22,12 @@
 
     
 
-    el-col.left(:span="12" v-if=" !HC6 " style="padding: .18rem 0 .02rem 0 ")
+    el-col.left(:span="24" v-if=" !HC6 " style="padding: .18rem 0 .02rem 0; position: absolute; top: -.6rem; left: 0; background: #fff; border-bottom: 1px solid #d8d8d8 ")
       
       .ds-button-group(style="vertical-align: top; margin-left: .08rem; box-shadow: none")
         .ds-button.x-small.text-button.shadow-affect.yjfl(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
     
-      .inlb()
+      .inlb(style="vertical-align: middle")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
         el-input-number.input.times.my-center(ref="t" style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0"  v-show="!HC6" @click.native="focusInputInside($refs['t'])") 
         .ds-button.x-small.outline.plus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" size="mini" @click="t++" v-show="!HC6") 十
@@ -35,7 +35,7 @@
       
       
       //- el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
-      div(style="margin-left: .08rem; margin-top: -.1rem" v-if=" P && !(P.maxpoint === P.minpoint) ")
+      .inlb(style="margin-left: .08rem; margin-top: -.1rem; vertical-align: middle" v-if=" P && !(P.maxpoint === P.minpoint) ")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
@@ -47,33 +47,73 @@
 
     
       
+    el-col.left(:span="12" v-if=" !HC6 " style="padding: .18rem 0 .02rem 0; ")
       
+      //- .ds-button-group(style="vertical-align: top; margin-left: .08rem; box-shadow: none")
+      //-   .ds-button.x-small.text-button.shadow-affect.yjfl(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+    
+      //- .inlb(style="vertical-align: middle")
+      //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" @click="t > 1 && t--" v-bind:class="{disabled: times === 1 }" v-show="!HC6") 一
+      //-   el-input-number.input.times.my-center(ref="t" style="width: .5rem; margin: 0; " v-model="t" v-bind:min="0"  v-show="!HC6" @click.native="focusInputInside($refs['t'])") 
+      //-   .ds-button.x-small.outline.plus.shadow-affect(style="margin: 0; height: .3rem;box-shadow: none" size="mini" @click="t++" v-show="!HC6") 十
+      //-   span.bei(v-show="!HC6") &nbsp;倍
+      
+      
+      //- //- el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-if="P && !(P.maxpoint === P.minpoint)" v-show="!HC6")
+      //- .inlb(style="margin-left: .08rem; margin-top: -.1rem; vertical-align: middle" v-if=" P && !(P.maxpoint === P.minpoint) ")
+      //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
+      //-   el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
+      //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
+      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ prize1 ? prize1 + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
+      //-     span 奖金： 
+      //-     span.text-danger 超出奖金限制
+      //-     span  / 返点：{{ ps}} 
+      div(style="margin-top: 0rem; vertical-align: bottom; line-height: 1.6")
+        p
+          | 已选 
+          span.count {{ n }} 
+          | 注&nbsp;&nbsp;共 
+          span.pay {{ pay.toFixed(3) }}
+          |  元
+        p
+          | 最高可中奖
+          span.text-blue.text-bold 100,000.00
+          | 元，最高可盈利
+          span.text-blue.text-bold 100,000.00
+          | 元
+
+
 
     el-col.right(:span=" 12 " v-if=" !HC6 " style="padding: .1rem 0 ")
       
       //- .ds-button.success.random.bold.large(@click="!tt && (tt = 750) && __setCall({fn: '__random', args: {}})" v-show="HC6") 机选
       //- .ds-button.danger.bold(v-bind:class="{disabled: !canOrder}" @click="canOrder && order(true)"  v-show="HC6") 一键下单
       .buttons(v-show="!HC6")
-        .f_r
-          p.ft12(style="line-height: 1; padding-bottom: 2px") 
-            span.text-999 投注截止 
+        .f_r(style="margin-top: .08rem; vertical-align: bottom")
+          //- p
+            | 已选 
+            span.count {{ n }} 
+            | 注&nbsp;&nbsp;共 
+            span.pay {{ pay.toFixed(3) }}
+            |  元
+
+          p.ft12.t_l(style="line-height: 1.2; padding-bottom: 2px; padding-left: .1rem") 
+            span.text-999 本期投注截止 
             span(style="color: #f11b1b") {{ showTime }}&nbsp;
+          
+          .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 添加选号
+          .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 一键梭哈
+
+        .f_r
+          
           .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
             span.ft16 一键投注
             p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) < 10000000 ") 余额： {{ ( Number(me.amoney).toFixed(3) || '0.000')._nwc() }}
             p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) >= 10000000  ") 余额： ***{{ (Number(me.amoney).toFixed(3) || '0.000')._nwc().substr(-8) }}
             
 
-        .f_r(style="margin-top: .08rem; vertical-align: bottom")
-          p
-            | 已选 
-            span.count {{ n }} 
-            | 注&nbsp;&nbsp;共 
-            span.pay {{ pay.toFixed(3) }}
-            |  元
-          
-          .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 梭哈
-          .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 添加选号
+        
 
     el-col.left(:span="12" v-if=" HC6 " style="line-height: .5rem")
       span(v-show="HC6") 快速金额
@@ -133,6 +173,16 @@ export default {
     }
   },
   computed: {
+    s () {
+      return {
+        overflow: 'visible',
+        background: '#f4f4f4',
+        lineHeight: 1,
+        border: '1px solid #d8d8d8',
+        'margin-top': this.HC6 ? '' : '.6rem !important',
+        'border-top': !this.HC6 ? 'none' : '1px solid #d8d8d8'
+      }
+    },
     showTime () {
       return util.timeFormat(this.time)
     },
