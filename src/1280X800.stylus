@@ -29,7 +29,8 @@
             background-size 72% !important
         // slider
         .el-slider__button-wrapper
-            top -11px
+            // top -11px
+            
         .step-tabs:not(.text) .tab:not(:first-child):before
             // border-top 0.155rem solid currentColor
             display none
