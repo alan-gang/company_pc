@@ -327,7 +327,7 @@ body.cb.v2
   .el-popover .popper__arrow
     display block
   .footer-popover.more
-    transform translateY(0)
+    transform translateY(-0.02rem)
   .footer-popover.message
     transform: translateY(-0.2rem) translateX(0.2rem);
   .footer-popover
