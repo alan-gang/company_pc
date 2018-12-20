@@ -14,6 +14,8 @@
           .content-width
             LT
 
+      a.b(href="/xy_activity/dns.html" target="_blank") 防劫持教程
+
 </template>
 
 <script>
@@ -46,11 +48,11 @@ export default {
 // 建议不添加scoped， 所有样式最多嵌套2层
 .lar-popover
 .lt-popover
-  transform translateX(.7rem) translateY(-.01rem)
+  transform translateX(1.8rem) translateY(-.01rem)
   padding 0 !important
   z-index 1901 !important
 .lt-popover
-  transform translateX(0) translateY(-.01rem)
+  transform translateX(1.1rem) translateY(-.01rem)
   background rgba(0,0,0, .95) !important
   .login-test 
     h2
