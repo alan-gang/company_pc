@@ -527,10 +527,9 @@ export default {
 
   .btn3:not(.disabled)
     color #fff
-    background OBLUE
+    background #444 !important
     &:hover
-      color #fff
-      background OBLUE-HOVER
+      background #333 !important
       
   
   .amoney
