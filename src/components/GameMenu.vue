@@ -13,6 +13,8 @@
       dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 ") 
         el-switch(v-model=" mmt " on-text="快钱玩法" off-text="官方玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
+      dd.df(v-if=" gameType === 'PK10' " @click=" showDF =  !showDF ") {{ showDF? '收起动画' : '展开动画' }}
+
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
         span {{ g.title }}
@@ -53,12 +55,14 @@
         mmt: 0,
         t: -1,
         historyItems: JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]'),
-        showIns: window.localStorage.getItem('showIns') === 'true'
+        showIns: window.localStorage.getItem('showIns') === 'true',
+        showDF: window.localStorage.getItem('showDF') === 'true'
       }
     },
     mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
       this.mmt = (this.mt !== 'normal')
+      // if (this.showDF) this.__setCall({fn: '__startpk10Game', callId: undefined})
     },
     watch: {
       mt () {
@@ -70,9 +74,17 @@
       },
       showIns () {
         window.localStorage.setItem('showIns', this.showIns)
+      },
+      showDF () {
+        this.__setCall({fn: '__showDF', args: this.showDF, callId: undefined})
+        window.localStorage.setItem('showDF', this.showDF)
+        if (this.showDF) this.__setCall({fn: '__startpk10Game', callId: undefined})
       }
     },
     computed: {
+      // callId () {
+      //   return this.gameid + '|' + this.type.id
+      // },
       title () {
         return typeof this.getTitle === 'function' ? this.getTitle() : ''
       },
@@ -262,6 +274,19 @@
   
   .btn1.ds-button
     background-color #fff
+  
+  .df
+    float right
+    background #444
+    color #fff !important
+    height .2rem !important
+    line-height .2rem !important
+    cursor pointer
+    &:hover
+      background-color #333 !important
+
+    
+    
     
 </style>
 

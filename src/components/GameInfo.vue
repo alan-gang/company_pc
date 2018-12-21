@@ -1,5 +1,5 @@
 <template lang="jade">
-  .game-header
+  .game-header.relative
     .wrap
       .game-logo
       .volume.ds-icon-volume.pointer(:class="{ on: !volume }" @click=" setVolume() ")
@@ -77,8 +77,12 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
+    setTimeout(this.__startpk10Game, 3000)
   },
   watch: {
+    overtime () {
+      if (!this.overtime) this.openpk10Game()
+    },
     t () {
       if (this.t !== 0) {
         setTimeout(() => {
@@ -90,6 +94,7 @@ export default {
       this.time = Math.floor(this.timeout)
     },
     time () {
+      if (this.time === 30) this.__startpk10Game()
       if (this.time <= 0) {
         this.$emit('set-timeout', 0)
       }
@@ -99,6 +104,26 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    __startpk10Game () {
+      let e = document.querySelector('#pk10df')
+      if (!e) return
+      let w = e.contentWindow
+      setTimeout(() => {
+        w.createGame(this.CNPER, this.time)
+      }, 3000)
+    },
+    openpk10Game () {
+      let e = document.querySelector('#pk10df')
+      if (!e) return
+      let w = e.contentWindow
+      // if (this.allLuckyNumbers[0] && this.allLuckyNumbers[0].code)
+      w.endGame(this.lucknumbers.map(e => {
+        return parseInt(e)
+      }))
+      setTimeout(() => {
+        this.__startpk10Game()
+      }, 20 * 1000)
+    },
     setVolume () {
       this.volume = !this.volume
       window.localStorage.setItem('volume', this.volume ? 1 : 0)
