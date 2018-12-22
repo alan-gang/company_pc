@@ -77,7 +77,6 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
-    setTimeout(this.__startpk10Game, 3000)
   },
   watch: {
     overtime () {
@@ -94,7 +93,6 @@ export default {
       this.time = Math.floor(this.timeout)
     },
     time () {
-      if (this.time === 30) this.__startpk10Game()
       if (this.time <= 0) {
         this.$emit('set-timeout', 0)
       }
@@ -108,9 +106,13 @@ export default {
       let e = document.querySelector('#pk10df')
       if (!e) return
       let w = e.contentWindow
-      setTimeout(() => {
-        w.createGame(this.CNPER, this.time)
-      }, 3000)
+      w.createGame(this.CNPER, this.time, (e) => {
+        switch (e.action) {
+          case 'finish_game':
+            this.__startpk10Game()
+            break
+        }
+      })
     },
     openpk10Game () {
       let e = document.querySelector('#pk10df')
@@ -120,9 +122,6 @@ export default {
       w.endGame(this.lucknumbers.map(e => {
         return parseInt(e)
       }))
-      setTimeout(() => {
-        this.__startpk10Game()
-      }, 20 * 1000)
     },
     setVolume () {
       this.volume = !this.volume

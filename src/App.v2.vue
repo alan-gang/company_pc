@@ -863,6 +863,7 @@ export default {
     //   this.message({type: 'prizeNotice', content: [{lottName: '时时彩', issue: '19202020', amt: '100.00'}, {lottName: 'xxxx', issue: 'xxxxx', amt: '100.00'}, {lottName: 'xxxx', issue: 'xxxxx', amt: '100.00'}, {lottName: 'xxxx', issue: 'xxxxx', amt: '100.00'}, {lottName: 'xxxx', issue: 'xxxxx', amt: '100.00'}, {lottName: 'xxxx', issue: 'xxxxx', amt: '100.00'}]})
     //   this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}]})
     // }
+    if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
   },
   methods: {
     canGetIngots () {

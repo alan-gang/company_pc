@@ -62,7 +62,6 @@
     mounted () {
       this.setType((this.menus.find(m => m.title === this.title) || {}).groups ? this.menus.find(m => m.title === this.title).groups[this.type.id.match(/\d/g)[1] - 1].items.find(m => m.id === this.type.id) : this.menus.find(m => m.id === this.type.id))
       this.mmt = (this.mt !== 'normal')
-      // if (this.showDF) this.__setCall({fn: '__startpk10Game', callId: undefined})
     },
     watch: {
       mt () {
@@ -78,7 +77,6 @@
       showDF () {
         this.__setCall({fn: '__showDF', args: this.showDF, callId: undefined})
         window.localStorage.setItem('showDF', this.showDF)
-        if (this.showDF) this.__setCall({fn: '__startpk10Game', callId: undefined})
       }
     },
     computed: {
