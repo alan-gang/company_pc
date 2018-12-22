@@ -16,7 +16,7 @@
       <!-- 开奖信息 -->
       //- GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
 
-      iframe(ref="pk10df" src=" /xy_activity/pk10/index.html " v-if=" gameType === 'PK10' && showDF  " style="border: 0; width: 100%; height: 6.1rem" id="pk10df" @load=" pk10dfload() ")
+      iframe(ref="pk10df" src=" /xy_activity/pk10/index.html " v-if=" gameType === 'PK10' && showDF && gameid !==  39 " style="border: 0; width: 100%; height: 6.1rem" id="pk10df" @load=" pk10dfload() ")
       
       <!-- 游戏信息 -->
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="['game-header-' + page.class]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers")

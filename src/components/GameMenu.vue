@@ -13,7 +13,7 @@
       dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 ") 
         el-switch(v-model=" mmt " on-text="快钱玩法" off-text="官方玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
-      dd.df(v-if=" gameType === 'PK10' " @click=" showDF =  !showDF ") {{ showDF? '收起动画' : '展开动画' }}
+      dd.df(v-if=" gameType === 'PK10' && gameid !==  39 " @click=" showDF =  !showDF ") {{ showDF? '收起动画' : '展开动画' }}
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
