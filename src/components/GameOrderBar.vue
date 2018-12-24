@@ -78,9 +78,9 @@
           |  元
         p
           | 最高可中奖
-          span.text-blue.text-bold 100,000.00
+          span.text-blue.text-bold {{ maxWinAmount.toFixed(3)._nwc() }}
           | 元，最高可盈利
-          span.text-blue.text-bold 100,000.00
+          span.text-blue.text-bold {{ maxWinProfit.toFixed(3)._nwc() }}
           | 元
 
 
@@ -173,6 +173,12 @@ export default {
     }
   },
   computed: {
+    maxWinAmount () {
+      return this.n * this.prize
+    },
+    maxWinProfit () {
+      return this.maxWinAmount - this.pay
+    },
     s () {
       return {
         overflow: 'visible',
