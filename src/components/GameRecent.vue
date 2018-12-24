@@ -221,6 +221,7 @@ export default {
   .c
     background-color #fff
     &.PK10
+    &.HC6
       .caa
         width 25%
       .cab
@@ -241,6 +242,8 @@ export default {
        .ca
          height .48rem
          line-height .24rem
+    
+      
         
     
 

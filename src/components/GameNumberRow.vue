@@ -14,7 +14,7 @@
               el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
                 // 正常的显示
                 span.after(v-if=" n.after ") {{ n.after }}
-                span.the-number(v-if="showTitle" v-bind:class="{ selected: n.selected, circle: row.class === 'ds-icon-PK10' }") {{ n.title }}
+                span.the-number(v-if="showTitle" v-bind:class="[{ selected: n.selected, circle: row.class === 'ds-icon-PK10'}, 'len-' + n.title.length]" ) {{ n.title }}
 
                 // 选码还得有输入框
                 el-input-number.code-input.times.my-center.ds-icon-rmb-sign(v-bind:id=" index "   v-model=" n.times " v-if=" isCode " v-bind:max="10000" v-bind:step="1" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @change.native="ntimeChange(n) ")
@@ -577,6 +577,17 @@
         &.width1-8.code
           width  1.8 * 0.52rem
           height 1.8 * 0.52rem
+          &.square
+            width  1.55 * 0.52rem
+            height 1.25 * 0.52rem
+            &.selected
+              width  1.55 * 0.52rem
+              height 1.25 * 0.52rem
+            
+            .the-number.len-2
+              font-size .1rem
+            
+          
           
         &.code
           line-height .52rem
