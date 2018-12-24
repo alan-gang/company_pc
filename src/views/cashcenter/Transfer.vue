@@ -84,7 +84,9 @@
             input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
-            button.ds-button.primary.full(@click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
+            button.ds-button.danger(style="float: left" @click="refund") 一键转回
+            button.ds-button.primary(style="" @click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
+
 
         .notice(style="margin: 0")
           p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录     
@@ -294,6 +296,17 @@ export default {
         this.btn = false
         clearTimeout(t)
         t = 0
+      })
+    },
+    refund () {
+      this.$http.get(api.withdrawAll).then(({data: {success, msg}}) => {
+        if (success === 1) {
+          this.$message.success({target: this.$el, message: msg || '一键转回成功'})
+          setTimeout(this.getBalance, 1000)
+          this.__setCall({fn: '__getUserFund', args: undefined})
+        } else {
+          this.$message.error({target: this.$el, message: msg || '一键转回失败'})
+        }
       })
     }
   },
