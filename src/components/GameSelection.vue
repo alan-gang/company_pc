@@ -216,7 +216,7 @@
           ** 趣味[后二大小单双]
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
-          {ids: '-4-1-1:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+          {ids: '-4-1-1:1, -4-1-2:1, -4-1-3:1, -4-1-4:1, -4-1-5:1, -4-1-6:1, -4-1-7:1, -4-1-8:1, -4-1-9:1, -4-1-10:1, -4-1-11:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
           {ids: '-5-1-1', title: '斗牛', class: 'default square', values: [{selected: false, title: '牛一', value: '1'}, {selected: false, title: '牛二', value: '2'}, {selected: false, title: '牛三', value: '3'}, {selected: false, title: '牛四', value: '4'}, {selected: false, title: '牛五', value: '5'}, {selected: false, title: '牛六', value: '6'}, {selected: false, title: '牛七', value: '7'}, {selected: false, title: '牛八', value: '8'}, {selected: false, title: '牛九', value: '9'}, {selected: false, title: '牛牛', value: '10'}, {selected: false, title: '没牛', value: '11'}], buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           /***
@@ -249,7 +249,7 @@
           {ids: '-1-1-8-115', title: '选8中5', min: 1, max: 11, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-2-1-1-115', title: '定单双', class: 'default square', values: [{selected: false, title: '0单5双', value: '1'}, {selected: false, title: '5单0双', value: '2'}, {selected: false, title: '1单4双', value: '3'}, {selected: false, title: '4单1双', value: '4'}, {selected: false, title: '2单3双', value: '5'}, {selected: false, title: '3单2双', value: '6'}]},
           {ids: '-2-1-2-115', title: '猜中位', min: 3, max: 9, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-3-1-3-115:1', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
+          {ids: '-3-1-3-115:1, -3-1-4-115:1, -3-1-5-115:1, -3-1-6-115:1, -3-1-7-115:1, -3-1-8-115:1, -3-1-9-115:1, -3-1-10-115:1, -3-1-11-115:1, -3-1-12-115:1, -3-1-13-115:1', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
 
           // =========================================================PK10========================================================
           /***

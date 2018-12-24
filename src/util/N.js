@@ -1116,7 +1116,37 @@ let SSC = {
   '-4-1-1' ({nsl, psl}) {
     return C(nsl[0], 1) *  C(psl, 2)
   },
-  /*
+  '-4-1-2' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-3' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-4' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-5' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-6' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-7' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-8' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-9' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-10' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  },
+  '-4-1-11' ({nsl, psl}) {
+    return this['-4-1-1']({nsl, psl: 2})
+  }, 
+ /*
     斗牛
   */
   '-5-1-1' ({nsl}) {
@@ -1361,6 +1391,36 @@ let G115 = {
    // '龙虎',
   '-3-1-3-115' ({nsl, psl}) {
     return C(nsl[0], 1) * C(psl, 2)
+  },
+  '-3-1-4-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-5-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-6-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-7-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-8-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-9-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-10-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-11-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-12-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
+  },
+  '-3-1-13-115' ({nsl, psl}) {
+    return this['-3-1-3-115']({nsl, psl: 2})
   }
 }
 let KL8 = {

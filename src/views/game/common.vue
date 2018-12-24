@@ -1071,6 +1071,7 @@ export default {
       return items
     },
     _getPsstring () {
+      if (this.type.ps) return this.type.ps
       let psstring = ''
       this.ps.forEach(ps => {
         switch (ps) {
