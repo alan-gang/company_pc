@@ -23,13 +23,13 @@
 
 
     //- transition(name="slide-down" appear=true)
-    el-row.pos(v-if="show[0]")
+    el-row.pos(v-if="show[0]" style="padding-left: .1rem")
       el-col(v-bind:span="24")
         label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
           span.ds-checkbox 
           | {{ p.title[show[1]] }}
       el-col(:span="24" )
-        .notice(style="line-height: 1; margin: 0 .2rem 0 0; padding: .1rem;")
+        .notice(style="line-height: 1; margin: 0 0 0 0; padding: .1rem;")
           | 温馨提示：你选择了 
           span.count {{ psl }}
           |  个位置， 系统自动根据位置组合成 
