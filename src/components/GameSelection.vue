@@ -10,7 +10,7 @@
         el-col(:span="20")
           // .el-textarea
           //   textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
-          el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="")
+          el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="" style="padding: 0 .1rem 0 .1rem")
         el-col.btn-groups(:span="4")
           .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
           br
@@ -19,17 +19,17 @@
           br
           .ds-button.outline(@click=" __clearValue ") 清空
 
-      p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .3rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
+      p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .15rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
 
 
     //- transition(name="slide-down" appear=true)
-    el-row.pos(v-if="show[0]")
+    el-row.pos(v-if="show[0]" style="padding-left: .1rem")
       el-col(v-bind:span="24")
         label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
           span.ds-checkbox 
           | {{ p.title[show[1]] }}
       el-col(:span="24" )
-        .notice(style="line-height: 1; margin: 0 .2rem 0 0; padding: .1rem;")
+        .notice(style="line-height: 1; margin: 0 0 0 0; padding: .1rem;")
           | 温馨提示：你选择了 
           span.count {{ psl }}
           |  个位置， 系统自动根据位置组合成 
@@ -48,6 +48,7 @@
     // getColorOfNumber
   } from '../util/Number'
   import N from '../util/N'
+  import WN from '../util/WN'
   import { C, removeDuplicate } from '../util/base'
   export default {
     props: ['type', 'gameid'],
@@ -494,6 +495,17 @@
       n () {
         return typeof this.no === 'object' ? this.no[0] : this.no
       },
+      // win n 可能中奖的注数
+      wn () {
+        return WN[this.type.id] ? WN[this.type.id]({
+          ns: this.ns,
+          nsl: this.nsl,
+          ps: this.ps,
+          psl: this.psl,
+          value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
+          r: this.r
+        }) : 1
+      },
       // 位置组合
       comb () {
         let min = this.allChecks.filter(check => check.ids.match(
@@ -561,7 +573,6 @@
               this.positions[m].selected = true
             })
           } else if (typeof min.min === 'number') {
-            console.log(21321)
             for (let k = 0; k < min.min; k++) {
               this.positions[4 - k].selected = true
             }
@@ -570,6 +581,9 @@
       },
       n () {
         this.$emit('n-change', this.n, this.hasUnable)
+      },
+      wn () {
+        this.$emit('wn-change', this.wn)
       },
       hasUnable () {
         this.$emit('n-change', this.n, this.hasUnable)

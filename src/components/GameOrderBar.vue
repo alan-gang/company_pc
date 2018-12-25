@@ -39,7 +39,7 @@
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ prize1 ? prize1 + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
         span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
           span 奖金： 
           span.text-danger 超出奖金限制
@@ -64,7 +64,7 @@
       //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
       //-   el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
       //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ prize1 ? prize1 + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
       //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
       //-     span 奖金： 
       //-     span.text-danger 超出奖金限制
@@ -76,11 +76,11 @@
           | 注&nbsp;&nbsp;共 
           span.pay {{ pay.toFixed(3) }}
           |  元
-        p
+        p(v-show="n")
           | 最高可中奖
-          span.text-blue.text-bold {{ maxWinAmount.toFixed(3)._nwc() }}
+          span.text-blue.text-bold  {{ maxWinAmount.toFixed(3)._nwc() }} 
           | 元，最高可盈利
-          span.text-blue.text-bold {{ maxWinProfit.toFixed(3)._nwc() }}
+          span.text-blue.text-bold  {{ maxWinProfit.toFixed(3)._nwc() }} 
           | 元
 
 
@@ -142,7 +142,7 @@
 import util from '../util'
 import store from '../store'
 export default {
-  props: ['model', 'times', 'currency', 'point', 'n', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout', 'PA'],
+  props: ['model', 'times', 'currency', 'point', 'n', 'wn', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout', 'PA'],
   data () {
     return {
       me: store.state.user,
@@ -173,8 +173,32 @@ export default {
     }
   },
   computed: {
+    P0 () {
+      return this.PA[0]
+    },
+    P1 () {
+      return this.PA[1]
+    },
+    P2 () {
+      return this.PA[2]
+    },
+    P3 () {
+      return this.PA[3]
+    },
+    P4 () {
+      return this.PA[4]
+    },
+    LP () {
+      return this.PA[Math.max(this.PA.length - 1, 1)]
+    },
     maxWinAmount () {
-      return this.n * this.prize
+      if (typeof this.wn === 'number') return this.prize * this.wn
+      else if (typeof this.wn === 'object') {
+        return this.wn.reduce((p, x, i) => {
+          p += x * this['prize' + i]
+          return p
+        }, 0)
+      }
     },
     maxWinProfit () {
       return this.maxWinAmount - this.pay
@@ -217,12 +241,52 @@ export default {
     prize () {
       return (((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
     },
+    lprize () {
+      if (this.LP) {
+        let MAX = this.LP.maxprize - parseFloat((this.LP.scale * this.LP.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.LP.maxpoint * 10000) || 800
+        let min = Math.floor(this.LP.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.LP.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      }
+    },
+    prize0 () {
+      if (this.P0) {
+        let MAX = this.P0.maxprize - parseFloat((this.P0.scale * this.P0.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.P0.maxpoint * 10000) || 800
+        let min = Math.floor(this.P0.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.P0.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      }
+    },
     prize1 () {
-      if (this.PA[1]) {
-        let MAX = this.PA[1].maxprize - parseFloat((this.PA[1].scale * this.PA[1].minpoint * 100).toFixed(3))
-        let max = Math.floor(this.PA[1].maxpoint * 10000) || 800
-        let min = Math.floor(this.PA[1].minpoint * 10000) || 0
-        return (((MAX - (this.p - min) * (MAX - this.PA[1].minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      if (this.P1) {
+        let MAX = this.P1.maxprize - parseFloat((this.P1.scale * this.P1.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.P1.maxpoint * 10000) || 800
+        let min = Math.floor(this.P1.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.P1.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      }
+    },
+    prize2 () {
+      if (this.P2) {
+        let MAX = this.P2.maxprize - parseFloat((this.P2.scale * this.P2.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.P2.maxpoint * 10000) || 800
+        let min = Math.floor(this.P2.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.P2.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      }
+    },
+    prize3 () {
+      if (this.P3) {
+        let MAX = this.P3.maxprize - parseFloat((this.P3.scale * this.P3.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.P3.maxpoint * 10000) || 800
+        let min = Math.floor(this.P3.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.P3.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      }
+    },
+    prize4 () {
+      if (this.P4) {
+        let MAX = this.P4.maxprize - parseFloat((this.P4.scale * this.P4.minpoint * 100).toFixed(3))
+        let max = Math.floor(this.P4.maxpoint * 10000) || 800
+        let min = Math.floor(this.P4.minpoint * 10000) || 0
+        return (((MAX - (this.p - min) * (MAX - this.P4.minprize) / (max - min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
       }
     },
     MAX () {
@@ -303,11 +367,11 @@ export default {
         e.$el.querySelector('input').select()
       }
     },
-    __setFt () {
-      if (this.ft >= 0 && (!(this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display) || ((this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display !== 'none')) {
-        this.__setCall({fn: '__setDefaultTimes', args: this.ft})
-      }
-    },
+    // __setFt () {
+    //   if (this.ft >= 0 && (!(this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display) || ((this.$el.currentStyle ? this.$el.currentStyle : window.getComputedStyle(this.$el, null)).display !== 'none')) {
+    //     this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+    //   }
+    // },
     setTimes (t) {
       this.$emit('set-times', t)
     },
