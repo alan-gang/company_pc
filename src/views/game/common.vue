@@ -224,7 +224,7 @@ export default {
     //   return this.NPER + 1
     // },
     canOrder () {
-      return this.n && (this.ns.length < 10) && this.pay > 0
+      return this.n && this.pay > 0
     },
     // 已投注注数
     N () {
@@ -305,13 +305,6 @@ export default {
     },
     ns () {
       if (this.ns.length === 0) this.closeFollow()
-      if (this.ns.length === 10) {
-        this.$modal.warn({
-          content: '<div class="text-666" style="text-align: center; line-height: .3rem;text-indent: .15rem">一次最多只能投注：<span class="text-danger">10</span> 个方案',
-          btn: ['确定'],
-          target: this.$el
-        })
-      }
     },
     // P () {
     //   this.p && (this.point = this.P.minpoint)
@@ -976,6 +969,13 @@ export default {
           btn: ['确定', '取消'],
           target: this.$el,
           ok () {
+            if (this.ns.length === 10) {
+              return this.$modal.warn({
+                content: '<div class="text-666" style="text-align: center; line-height: .3rem;text-indent: .15rem">一次最多只能投注：<span class="text-danger">10</span> 个方案',
+                btn: ['确定'],
+                target: this.$el
+              })
+            }
             this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false}, {
               methodid: parseInt(this.methodid), // 玩法编号
               type: parseInt(this.methodidtype),
@@ -1006,6 +1006,13 @@ export default {
           this.__setCall({fn: '__clearValue'})
         }, 0)
       } else {
+        if (this.ns.length === 10) {
+          return this.$modal.warn({
+            content: '<div class="text-666" style="text-align: center; line-height: .3rem;text-indent: .15rem">一次最多只能投注：<span class="text-danger">10</span> 个方案',
+            btn: ['确定'],
+            target: this.$el
+          })
+        }
         this.ns.unshift(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
