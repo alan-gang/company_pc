@@ -5,8 +5,14 @@
      
       .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (numbers.length > 10 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
         .the-number(v-for=" (xx, nn ) in Array(numbers.length > 10 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayNumbers[i] : nn }}
-
-
+    
+    .number-gaps(v-if=" gameType === 'PCDD' ")
+      .number-gap +
+      .number-gap +
+      .number-gap =
+      .number.number-gap
+        .the-number-box
+          .the-number {{ numbers[0] * 1 + numbers[1] * 1 + numbers[2] * 1 }}
 
     .dice-box.inlb(v-if=" gameType === 'K3' " v-for=" (n, i) in numbers.slice(0, 3) ")
       Dice.dead(v-for=" (xx, nn ) in Array(6) " v-bind:value=" nn + 1 " v-bind:style=" {transform: 'translateY(' + (-100 * (n - 1))  + '%)' , transition: 'transform ' + (1 + (1 * i)) + 's ease' } ")
@@ -156,6 +162,36 @@ export default {
     .dice
       position relative
       box-shadow none
+  
+  .rolling-numbers.PCDD
+    position relative
+    .number-gap
+      position absolute
+      top 0
+      width .3rem
+      line-height .5rem
+      font-size .3rem
+      display inline-block
+      text-align center
+      // border 1px solid
+      &:nth-child(1)
+        left .67rem
+      &:nth-child(2)
+        left 1.53rem
+      &:nth-child(3)
+        left 2.39rem
+      &:nth-child(4)
+        width .5rem
+        left 2.69rem
+      
+    .number:nth-child(1)
+    .number:nth-child(2)
+    .number:nth-child(3)
+      margin-right .3rem
+        
+      
+
+      
     
       
         

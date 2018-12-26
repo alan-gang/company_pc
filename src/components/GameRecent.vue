@@ -28,8 +28,14 @@
         span.caa.inlb {{ r.issue.substr(-4) }}
 
         span.cab.inlb 
-          span(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
+          span.caba(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
               br(v-if=" i === 9 ")
+
+          .number-gaps(v-if=" gameType === 'PCDD' ")
+            .number-gap +
+            .number-gap +
+            .number-gap =
+            .number.number-gap {{ r.code.split(',')[0] * 1 + r.code.split(',')[1] * 1 + r.code.split(',')[2] * 1 }}
 
 
         pre.cac.inlb(v-if=" row_ccs(r) ")
@@ -238,12 +244,44 @@ export default {
       .cab
         width 75%
     
-     &.KL8.absolute
+    &.KL8.absolute
        .ca
          height .48rem
          line-height .24rem
     
-      
+    &.PCDD
+      .caa
+        width 25%
+      .cab
+        width 75%
+        
+      .cab
+        position relative
+        
+      .number-gap
+        position absolute
+        top 0
+        width .1rem
+        line-height .3rem
+        font-size .12rem
+        display inline-block
+        text-align center
+        // border 1px solid red
+        &:nth-child(1)
+          left .67rem
+        &:nth-child(2)
+          left 1.05rem
+        &:nth-child(3)
+          left 1.45rem
+        &:nth-child(4)
+          width .24rem
+          left 1.55rem
+        
+      .caba
+        display inline-block
+        width .24rem
+        margin-right .12rem
+        
         
     
 

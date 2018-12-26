@@ -573,7 +573,7 @@
             width  3 * 0.52rem
             
 
-
+        
         &.width1-8.code
           width  1.8 * 0.52rem
           height 1.8 * 0.52rem
@@ -582,6 +582,17 @@
             height 1.25 * 0.52rem
             &.selected
               width  1.55 * 0.52rem
+              height 1.25 * 0.52rem
+            
+            .the-number.len-2
+              font-size .1rem
+        
+        &.width1-8.code.width1-9
+          &.square
+            width  1.8 * 0.52rem
+            height 1.25 * 0.52rem
+            &.selected
+              width  1.8 * 0.52rem
               height 1.25 * 0.52rem
             
             .the-number.len-2

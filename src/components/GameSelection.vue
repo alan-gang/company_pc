@@ -56,6 +56,11 @@
         defaultRowToRowJoin: '|',
         // 所有玩法号码工作区
         allRows: [
+          // PCDD
+          {ids: '1-1-1-PCDD', class: 'code square width1-8 width1-9 blue default-color', min: 0, max: 27, times: 0, afters: Array(28).fill(0).map(n => (n = 47))},
+          {ids: '1-1-2-PCDD', class: 'code square width1-8 width1-9 blue default-color', titleClass: '', values: [{selected: false, title: '极大', value: '1', times: null, after: 18.8}, {selected: false, title: '极小', value: '2', times: 0, after: 18.8}]},
+          {ids: '1-1-3-PCDD', class: 'code square width1-8 width1-9 blue default-color', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}]},
+          {ids: '1-1-4-PCDD', class: 'code square width1-8 width1-9 blue default-color', titleClass: '', values: [{selected: false, title: '大单', value: '1', times: null, after: 18.8}, {selected: false, title: '大双', value: '2', times: 0, after: 18.8}, {selected: false, title: '小单', value: '3', times: 0, after: 18.8}, {selected: false, title: '小双', value: '4', times: 0, after: 18.8}]},
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '万位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '千位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '百位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
@@ -635,9 +640,21 @@
     },
     methods: {
       // 动态改变afters
-      __setAfters ([x, y, z]) {
+      __setAfters (arg) {
+        let x = arg[0]
+        let y = arg[1]
+        let z = arg[2]
         this.rows.forEach(r => {
-          if (r.afters && r.afters[0]) r.afters = r.afters.map(n => (n = x))
+          // set after for all numbers, if
+          if (r.afters && r.afters[0] !== undefined) {
+            r.afters = r.afters.map((n, i) => {
+              if (!y) n = x
+              else {
+                n = arg[i] ? arg[i] : arg[arg.length - (i - arg.length) - 1]
+              }
+              return n
+            })
+          }
           if (r.values) {
             r.values.forEach(v => {
               if (v.after && !v.afterIndex) v.after = x

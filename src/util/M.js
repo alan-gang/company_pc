@@ -781,4 +781,10 @@ let HC6 = {
   // '尾数'
   '5-1-1-HC6': '7017:1'
 }
-module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3, HC6)
+let PCDD = {
+  '1-1-1-PCDD': '8001:1',
+  '1-1-2-PCDD': '8002:1',
+  '1-1-3-PCDD': '8003:1',
+  '1-1-4-PCDD': '8004:1'
+}
+module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3, HC6, PCDD)

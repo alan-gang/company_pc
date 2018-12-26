@@ -26,6 +26,7 @@ import KL8 from './game/KL8'
 import K3 from './game/K3'
 import LHG from './game/LHG'
 import HC6 from './game/HC6'
+import PCDD from './game/PCDD'
 import IFRAME from './game/IFRAME'
 
 // me
@@ -156,6 +157,7 @@ export default {
     K3,
     LHG,
     HC6,
+    PCDD,
     IFRAME,
     // me
     // Me,

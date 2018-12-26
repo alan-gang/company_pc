@@ -1620,5 +1620,18 @@ let HC6 = {
     return C(nsl, 1)
   }
 }
-
-module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3, HC6)
+let PCDD = {
+  '1-1-1-PCDD' ({nsl}) {
+    return nsl[0]
+  },
+  '1-1-2-PCDD' ({nsl}) {
+    return nsl[0]
+  },
+  '1-1-3-PCDD' ({nsl}) {
+    return nsl[0]
+  },
+  '1-1-4-PCDD' ({nsl}) {
+    return nsl[0]
+  }
+}
+module.exports = Object.assign(SSC, SSL, G115, KL8, PK10, K3, HC6, PCDD)

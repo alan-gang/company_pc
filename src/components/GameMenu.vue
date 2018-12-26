@@ -39,7 +39,7 @@
 
       .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random'}) " style="height: .26rem; line-height: .26rem") 机选
 
-      p.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem ") {{ type.description }}
+      pre.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem; margin: 0") {{ type.description }}
 
 
 
