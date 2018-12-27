@@ -5,13 +5,14 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    el-row.game-info(:class="[ gg.class, gg.class + '-middle' ]" style="background-position: .2rem .2rem; padding-left: 1rem")
-
-        el-col.left(:span="4" style="min-width: 1.8rem")
+    .game-info()
+      .wrap
+        .left(:span="4" style="min-width: 1.8rem" v-bind:class=" gg.class ")
           .item 
             el-select(v-model="game" style="width: 1.5rem")
               el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
-        el-col.right(:span="20")
+
+        .right(:span="20")
           .item 
             .ds-checkbox-label(:class="{ active: polyline }" @click=" polyline = !polyline ")
               .ds-checkbox
@@ -428,18 +429,15 @@ export default {
     font-size .1rem
   .scroll-content
     overflow-x auto
-    top TH * 4
+    top 1.3rem
     // bottom TH * 1.7
   .game-info
     text-align left
     padding PWX
-    padding-left .8rem
     .text-button
       padding 0 .05rem
     
-    @media (max-width: 1200px)
-      .right
-        width 100%
+
   .trend-chart
     padding 0 PWX 
     text-align center
@@ -468,5 +466,23 @@ export default {
   .item
     display inline-block
     margin .1rem PW
+  
+  .wrap
+    margin 0 auto
+    max-width 1300px
+
+  .left
+  .right
+    display inline-block
+    vertical-align top
+
+  .left
+    width 2.6rem
+    padding-top .65rem
+    background-position top center
+    background-repeat no-repeat
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd
+      &.ds-icon-game-{n}
+        background-image url('../../assets/gameheader/ng/' + n '.png')
 </style>
 

@@ -727,6 +727,7 @@ pre
     background url($ASSETS/VR/vr_bjl.png) center no-repeat
   .ds-icon-game-vr7
     background url($ASSETS/VR/vr_lhc.png) center no-repeat
+  
   // game icons
   .ds-icon-game-lhg00
       background url($ASSETS/game/new/lhg00.png) center no-repeat
