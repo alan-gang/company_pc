@@ -94,6 +94,30 @@
                 div(style="text-align: center; ")
                   input.ds-input.large(:placeholder="nicknamePlaceholder" v-model="nickname" maxlength="20")
                   .ds-button.primary.large(style="margin-left: .15rem" @click="changNickName") 提交
+
+      // 修改生日
+      el-row.nickname(v-bind:class="{expand: index === 9 }")
+          el-col
+            el-row.static
+              el-col(:span="6").title.ds-icon-birthday 设置生日
+
+              el-col(:span="14")
+                span.text-green.ds-icon-set(v-if="me.birthday") 已设置
+                span.text-ellipsis( v-if="me.birthday" style="max-width: 70%; "  v-bind:title="me.birthday") &nbsp;&nbsp;{{ me.birthday }}
+                span.text-danger.ds-icon-unset(v-if="!me.birthday") 未设置
+                span(style="font-size: .12rem") （生日只能设置一次）
+
+              el-col(:span="4").toggle(v-show=" !me.birthday ")
+                .ds-button.text-button.blue(@click="index === 9 ? index = 0 : index = 9") {{ index === 9 ? '收起' : !me.birthday ? '立即设置' : '立即修改' }}
+
+            el-row.action(v-if="index === 9" style="padding-left: 0")
+              
+              .nickname-form.form
+                div(style="text-align: center; ")
+                  
+                  el-date-picker(v-model="birthday" placeholder="选择您的生日")
+                  //- input.ds-input.large(:placeholder="nicknamePlaceholder" v-model="nickname" maxlength="20")
+                  .ds-button.primary.large(style="margin-left: .15rem" @click="changBirthday()") 提交
             
 
       // 登录问候语
@@ -347,7 +371,8 @@ export default {
       tabIndex: 1,
       stepIndex: 0,
       qrStr: '',
-      qrDescrb: ''
+      qrDescrb: '',
+      birthday: ''
     }
   },
   computed: {
@@ -422,6 +447,17 @@ export default {
     this.createCBqr()
   },
   methods: {
+    changBirthday () {
+      if (!this.birthday) return
+      this.$http.get(api.setBirthday + this.birthday._toDayString()).then(({data: {success, msg}}) => {
+        if (success) {
+          store.actions.setUser({birthday: this.birthday._toDayString()})
+          this.$message.success('恭喜您，生日设置成功')
+        } else {
+          this.$message.error(msg || '生日设置失败')
+        }
+      })
+    },
     createCBqr (type) {
       this.$http.get(api.createCBqr).then(({data}) => {
         // success
@@ -486,9 +522,11 @@ export default {
             cbsafe: !!data.isOpenKey,
             safeScore: data.accountPoint,
             location: data.location,
-            lastLoginTime: data.lastLoginTime
+            lastLoginTime: data.lastLoginTime,
+            birthday: data.birthday
           })
           this.safeCheck = data.isSetVerifytype
+          this.birthday = data.birthday
         }
       })
     },

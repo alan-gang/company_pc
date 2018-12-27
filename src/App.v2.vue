@@ -277,7 +277,7 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
-                {url: 'PCDD', class: 'ds-icon-game-pcdd sign new', id: '1-1-8', menuid: '95', title: 'PC蛋蛋', volume: false, gameid: 45},
+                {url: 'PCDD', class: 'ds-icon-game-pcdd sign new', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
                 {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             }

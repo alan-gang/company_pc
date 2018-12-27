@@ -1093,6 +1093,8 @@ pre
   
   .ds-icon-lock
     background url($ASSETS/lock.png) left center no-repeat
+  .ds-icon-birthday
+    background url($ASSETS/birthday.png) left center no-repeat
   .ds-icon-nickname
     background url($ASSETS/nickname.png) left center no-repeat
   .ds-icon-safecheck

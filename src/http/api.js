@@ -26,6 +26,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  setBirthday: '/person/accountSecur.do?method=setBirthday&date=',
   withdrawAll: '/ext/bg.do?method=withdrawAll',
   getIngotsPrize: '/activity.do?method=getIngotsPrize',
   getIngotsTaskProgress: '/activity.do?method=getIngotsTaskProgress',
