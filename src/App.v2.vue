@@ -382,7 +382,7 @@ export default {
                   id: '2-2-1',
                   menuid: '50',
                   title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
                 },
@@ -434,7 +434,7 @@ export default {
                   id: '2-3-2',
                   menuid: '50',
                   title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
@@ -539,7 +539,7 @@ export default {
                   id: '2-2-1',
                   menuid: '50',
                   title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
                 },
@@ -600,7 +600,7 @@ export default {
                   id: '2-3-2',
                   menuid: '50',
                   title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
