@@ -387,7 +387,7 @@ export default {
       &:nth-child(7)
         background url(../../assets/v2/qb_icon_08.png) center .25rem no-repeat
       &:nth-child(8)
-        background url(../../assets/v2/qb_icon_08.png) center .25rem no-repeat
+        background url(../../assets/v2/qb_icon_09.png) center .25rem no-repeat
       &:nth-child(9)
         background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
     
