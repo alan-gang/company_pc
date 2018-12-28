@@ -32,7 +32,7 @@
           span.title 温馨提示：
           p.content
             | 每天可成功提款 
-            span.text-danger 5
+            span.text-danger {{ maxTimes }}
             |  次，今天您已经发起了 
             span.text-danger {{ times }}
             |  次提现申请。
@@ -345,6 +345,7 @@ export default {
       this.$http.get(api.withdrawTimes).then(({data}) => {
         if (data.success === 1) {
           this.times = data.times
+          this.maxTimes = data.maxTimes
         }
       }).catch(rep => {
       })
