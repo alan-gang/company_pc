@@ -33,14 +33,15 @@
 
 
           <!-- 选号区 -->
-          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
 
           //- 快钱下单
           GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
 
 
           <!-- 下单 -->
-          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
+          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:wn="nw" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
+
 
           <!-- 投注单 -->
           GameOrderList(v-bind:ns="ns" v-on:remove-order="removeOrder" ref="orders" v-bind:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" )
@@ -130,6 +131,8 @@ export default {
       wn: 0,
       // 选择的注数
       n: 0,
+      // 可能中奖的注数
+      nw: 1,
       // 投注列表
       ns: [],
       // 投注号码
@@ -932,6 +935,10 @@ export default {
     Nchange (n, hasUnable) {
       this.n = n
       this.hasUnable = hasUnable
+    },
+    // 注数
+    WNchange (nw) {
+      this.nw = nw
     },
     // 当前注的号码
     setNsns (nsns, nsnsTitle, nsnsTimes, nsnsAtitle) {
