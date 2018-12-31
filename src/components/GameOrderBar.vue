@@ -428,17 +428,17 @@ export default {
           O: this,
           ok () {
             // store.actions.setUser({minOrderPop: false})
-            this.$emit(quick ? 'quickbook' : 'order')
+            this.$emit(quick ? 'quickbook' : 'order', {maxWinAmount: this.maxWinAmount})
           },
           cancel (i) {
             if (i === 2) {
               store.actions.setUser({minOrderPop: false})
-              this.$emit(quick ? 'quickbook' : 'order')
+              this.$emit(quick ? 'quickbook' : 'order', {maxWinAmount: this.maxWinAmount})
             }
           }
         })
       }
-      this.$emit(quick ? 'quickbook' : 'order')
+      this.$emit(quick ? 'quickbook' : 'order', {maxWinAmount: this.maxWinAmount})
     }
   },
   components: {

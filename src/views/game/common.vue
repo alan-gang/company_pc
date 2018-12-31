@@ -969,7 +969,8 @@ export default {
     // __order () {
     //   this.order()
     // },
-    order () {
+    order ({maxWinAmount}) {
+      console.log(maxWinAmount, '???')
       if (this.hasUnable) {
         return this.$modal.warn({
           content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">您输入了<span class="text-danger">无效号码</span>，系统已自动删除无效号码</div>',
@@ -983,7 +984,7 @@ export default {
                 target: this.$el
               })
             }
-            this.ns.unshift(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false}, {
+            this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false}, {
               methodid: parseInt(this.methodid), // 玩法编号
               type: parseInt(this.methodidtype),
               pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
@@ -1020,7 +1021,7 @@ export default {
             target: this.$el
           })
         }
-        this.ns.unshift(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true}, {
+        this.ns.push(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true}, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
