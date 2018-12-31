@@ -30,7 +30,7 @@
           el-select(clearable v-model="s" style="width: .8rem" placeholder="无")
             el-option(v-for="(n, i) in S" v-bind:label="n" v-bind:value="i" v-if="n")
 
-        .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem") 搜索
+        .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem; margin-top: .1rem") 搜索
         //- .buttons(style="margin-left: .6rem; margin-top: .1rem")
         
       .table-list(style="padding: .15rem .2rem " stripe)
@@ -77,7 +77,7 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户', '棋牌帐户:7', 'PT帐户:5'],
+        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户', '棋牌帐户:7', 'PT帐户:5', '一本帐户:9'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],
@@ -147,4 +147,5 @@
     .item
       display inline-block
       margin-top .1rem
+      vertical-align top
 </style>

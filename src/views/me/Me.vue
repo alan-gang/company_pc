@@ -49,6 +49,12 @@
 
         .c
           br
+          p 一本帐户
+          p.amount.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
+            // span.text-666 元
+
+        .c
+          br
           p 信游币
           p.amount.text-black {{ numberWithCommas(ME.free) }}
             // span.text-666 元
@@ -107,7 +113,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '一本帐户:9'],
       t: '',
       m: '',
       cpwd: '',
@@ -131,12 +137,14 @@ export default {
           return this.ME.ptmoney
         case 6:
           return this.ME.agmoney
+        case 7:
+          return this.ME.sbmoney
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney][this.t]
         case 1:
           return this.ME.amoney
         case 2:
@@ -148,6 +156,8 @@ export default {
         case 5:
           return this.ME.amoney
         case 6:
+          return this.ME.amoney
+        case 7:
           return this.ME.amoney
       }
     },
@@ -167,13 +177,15 @@ export default {
           return this.froms.slice(0, 1)
         case 6:
           return this.froms.slice(0, 1)
+        case 7:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 7 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -236,6 +248,11 @@ export default {
         setTimeout(() => {
           this.t = 4
         })
+      } else if (this.f === 7) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 5
+        })
       }
     },
     ok () {
@@ -245,7 +262,7 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0})
+          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})

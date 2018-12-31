@@ -250,7 +250,11 @@ body.cb.v2
       &.ds-icon-logo-bg
         background-image url(../assets/v2/logo_bg_big.png)
       &.ds-icon-logo-pt
-        background-image url(../assets/v2/logo_pt_big.png)
+        background-image url(../assets/v2/logo_pt_big.png) 
+      &.ds-icon-logo-saba
+        background-image url(../assets/v2/logo_ibc_big.png)
+      &.ds-icon-logo-spb
+        background-image url(../assets/v2/logo_onebook_big.png)
         
         
         

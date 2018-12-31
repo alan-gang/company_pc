@@ -77,11 +77,16 @@
               span.t2 CASINO
 
         el-row(:gutter=15 style="padding: .3rem 0")
-          el-col.picture.sport(:span="12" @click.native=" $router.push('/sports') ")
+          el-col.picture.sport(:span="12")
             .co
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
-                el-col.t_c.ft18.sb(:span="24") 
+                //- el-col.t_c.ft18.sb(:span="24") 
+                el-col(:span="4")
+                el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
+                el-col.spb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '9:403:iframe:/sports'}}) ") 
+                el-col(:span="4")
+
             p
               span.t1 体育竞技 &nbsp;&nbsp;
               span.t2 SPORTS
@@ -654,6 +659,9 @@ export default {
           background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky
           background-image url(../assets/newhome/logo_ky_big.png)
+        
+        &.spb
+          background-image url(../assets/newhome/logo_onebook_big.png)
       
       
       
