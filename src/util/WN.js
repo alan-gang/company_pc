@@ -413,7 +413,14 @@ let SSC = {
   '+3-3-4' ({ns}) {
     let wn = [0, 0, 0]
     let m = Math.min.apply(Math, ns[0])
-    return [m === 1 ? 1 : 0, m === 2 ? 1 : 0, m === 3 ? 1 : 0]
+    if (m === 1) {
+      wn[0] = 1
+    } else if (m === 2) {
+      wn[1] = 1
+    } else {
+      wn[2] = 1
+    }
+    return wn
   },
   /*
   特殊号
@@ -429,6 +436,45 @@ let SSC = {
   '-3-3-4' ({ns}) {
     return this['+3-3-4']({ns})
   },
+  '-4-1-1' ({ns}) {
+    let wn = [0, 0]
+    if (ns[0][0] === '3') {
+      wn[0] = 1
+    } else {
+      wn[1] = 1
+    }
+    return wn
+  },
+  '-4-1-2' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-3' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-4' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-5' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-6' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-7' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-8' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-9' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-10' ({ns}) {
+    return this['-4-1-1']({ns})
+  },
+  '-4-1-11' ({ns}) {
+    return this['-4-1-1']({ns})
+  }
 }
 let SSL = {
 }

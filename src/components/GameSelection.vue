@@ -223,6 +223,7 @@
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           {ids: '-4-1-1:1, -4-1-2:1, -4-1-3:1, -4-1-4:1, -4-1-5:1, -4-1-6:1, -4-1-7:1, -4-1-8:1, -4-1-9:1, -4-1-10:1, -4-1-11:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+          {ids: '-6-1-1:1, -6-1-2:1, -6-1-3:1, -6-1-4:1, -6-1-5:1, -6-1-6:1, -6-1-7:1, -6-1-8:1, -6-1-9:1, -6-1-10:1, -6-1-11:1', title: '龙虎斗', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
           {ids: '-5-1-1', title: '斗牛', class: 'default square', values: [{selected: false, title: '牛一', value: '1'}, {selected: false, title: '牛二', value: '2'}, {selected: false, title: '牛三', value: '3'}, {selected: false, title: '牛四', value: '4'}, {selected: false, title: '牛五', value: '5'}, {selected: false, title: '牛六', value: '6'}, {selected: false, title: '牛七', value: '7'}, {selected: false, title: '牛八', value: '8'}, {selected: false, title: '牛九', value: '9'}, {selected: false, title: '牛牛', value: '10'}, {selected: false, title: '没牛', value: '11'}], buttons: ['全', '大', '小', '奇', '偶', '清']},
 
           /***
@@ -389,13 +390,13 @@
         allChecks: [
           // 最少2个位置
           {ids: '-1-1-2, -1-1-3, -1-1-4', min: 2},
-          {ids: '-4-1-1, -3-1-3-115', min: 2, ps: [0, 4]},
+          {ids: '-6-1-1, -4-1-1, -3-1-3-115', min: 2, ps: [0, 4]},
           // 最少3个位置
           {ids: '-1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7', min: 3},
           // 最少4个位置
           {ids: '-1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6', min: 4}
         ],
-        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1, -3-1-3-115,',
+        ids: '-1-1-2, -1-1-3, -1-1-4, -1-2-2, -1-2-3, -1-2-4, -1-2-5, -1-2-6, -1-2-7, -1-3-2, -1-3-3, -1-3-4, -1-3-5, -1-3-6, -4-1-1,  -6-1-1, -3-1-3-115,',
         // 号码集
         ns: [],
         // 号码的文字表示集

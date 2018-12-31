@@ -1145,7 +1145,43 @@ let SSC = {
   },
   '-4-1-11' ({nsl, psl}) {
     return this['-4-1-1']({nsl, psl: 2})
-  }, 
+  },
+  /*
+    龙虎斗
+  */
+  '-6-1-1' ({nsl, psl}) {
+    return C(nsl[0], 1) *  C(psl, 2)
+  },
+  '-6-1-2' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-3' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-4' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-5' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-6' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-7' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-8' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-9' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-10' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
+  '-6-1-11' ({nsl, psl}) {
+    return this['-6-1-1']({nsl, psl: 2})
+  },
  /*
     斗牛
   */

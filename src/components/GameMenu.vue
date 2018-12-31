@@ -211,6 +211,7 @@
       float right
       // background-color #302b2a
       margin .03rem
+      padding 0 .05rem !important
       height .28rem !important
       line-height .28rem !important
       border none !important
