@@ -18,14 +18,9 @@
         | &nbsp;&nbsp;最低收益：
         el-input-number.center.get(v-model="get")
         |  %
-    el-table.ghost(:data="data" stripe max-height="350" min-width="400" @selection-change="getSelection" ref="multipleTable")
+    el-table.ghost(:data="data" stripe max-height="350" min-width="400" @selection-change="getSelection" ref="multipleTable" style="margin-bottom: 0")
 
       el-table-column(width="80"  type="selection")
-
-      // el-table-column(width="80" label="选择")
-      //  template(scope="scope")
-      //    .ds-checkbox-label(:class="{ active: scope.row.selected}" @click=" scope.row.selected = !scope.row.selected ")
-      //      .ds-checkbox(:class="{ active: scope.row.selected}"  )
 
       el-table-column(prop="issue" label="投注编号" width="200" inline-template)
         span {{ row.issue + (row.issue === CNPER? '(当前期)' : '期' ) }}
