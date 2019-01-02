@@ -1,15 +1,15 @@
 <template lang="jade">
   .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } " style="padding-left: .1rem; padding-right: .1rem")
-    //- transition-group(name="slide" appear=true tag="div")
+    
     GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
+    
+    //- column - selected - bar
+    .column-action-bar(v-if=" showColumnActionBar ")
+      span.column-btn(v-for=" (x, i) in Array(10) " @click=" columnSelect(i) ") 全
 
-    //- transition(name="slide-down" appear=true)
     .f(v-if="rows.length === 0")
-      //- p.text-999(style="font-size: .12rem; padding: 0 .15rem .1rem .3rem") {{ type.description }}
       el-row
         el-col(:span="20")
-          // .el-textarea
-          //   textarea.el-textarea__inner(v-model="V" type="textarea" autofocus  rows="5" max-rows="6" placeholder="")
           el-input(v-model="V" type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="" style="padding: 0 .1rem 0 .1rem")
         el-col.btn-groups(:span="4")
           .ds-button.outline.isworking(@click="removeRepeat") 删除重复号
@@ -22,7 +22,6 @@
       p.text-999(style="font-size: .12rem; padding: .1rem .15rem .1rem .15rem") 每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开
 
 
-    //- transition(name="slide-down" appear=true)
     el-row.pos(v-if="show[0]" style="padding-left: .1rem")
       el-col(v-bind:span="24")
         label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
@@ -35,6 +34,7 @@
           |  个位置， 系统自动根据位置组合成 
           span.comb {{ comb }}
           |  个方案
+
 </template>
 
 <script>
@@ -411,6 +411,9 @@
       }
     },
     computed: {
+      showColumnActionBar () {
+        return ',1-1-1,'.indexOf(',' + this.type.id + ',') !== -1
+      },
       rowToRowJoin () {
         return this.type.join || this.defaultRowToRowJoin
       },
@@ -654,6 +657,9 @@
       this.$emit('set-ps', this.ps)
     },
     methods: {
+      columnSelect (i) {
+        this.__setCall({fn: '__select', args: i})
+      },
       // 动态改变afters
       __setAfters (arg) {
         let x = arg[0]
@@ -843,6 +849,25 @@
     }
   }
 </script>
+
+<style lang="stylus">
+@import '../var.stylus'
+.column-action-bar
+  padding-left 0.75rem
+  .column-btn
+    cursor pointer
+    display inline-block
+    text-align center
+    width .4rem
+    margin .05rem .02rem
+    &:hover
+      color BLUE
+    
+    
+</style>
+
+
+
 <style lang="stylus">
   .el-textarea 
     box-sizing border-box

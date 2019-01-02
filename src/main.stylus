@@ -464,12 +464,12 @@ pre
     td
       height .36rem
       .cell
-        line-height 1
+        // line-height 1
    table-header-height(x = .36rem)
     th
       height .36rem
       .cell
-        line-height 1
+        // line-height 1
 
   .el-table__fixed-header-wrapper thead div, .el-table__header-wrapper thead div
     color inherit

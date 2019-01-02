@@ -283,6 +283,9 @@
         this.__unselectFromSelf = true
         this.$emit('select', {args: n.value})
       },
+      __select (i) {
+        this.select(this.numbers[i])
+      },
       // if i just addCLass signal
       select (n, i) {
         if (i) {
