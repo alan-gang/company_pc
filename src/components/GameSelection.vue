@@ -5,7 +5,7 @@
     
     //- column - selected - bar
     .column-action-bar(v-if=" showColumnActionBar ")
-      span.column-btn(v-for=" (x, i) in Array(10) " @click=" columnSelect(i) ") 全
+      span.column-btn(v-for=" (x, i) in columnBtns " @click=" columnSelect(i) ") {{ !x ? '全' : '清' }}
 
     .f(v-if="rows.length === 0")
       el-row
@@ -407,7 +407,19 @@
         // 导入文件
         upload: true,
         titleSpan: 0,
-        legalValue: ''
+        legalValue: '',
+        columnBtns: {
+          '0': 0,
+          '1': 0,
+          '2': 0,
+          '3': 0,
+          '4': 0,
+          '5': 0,
+          '6': 0,
+          '7': 0,
+          '8': 0,
+          '9': 0
+        }
       }
     },
     computed: {
@@ -658,7 +670,8 @@
     },
     methods: {
       columnSelect (i) {
-        this.__setCall({fn: '__select', args: i})
+        this.__setCall({fn: !this.columnBtns[i] ? '__select' : '__unselect', args: i})
+        this.columnBtns[i] = !this.columnBtns[i]
       },
       // 动态改变afters
       __setAfters (arg) {

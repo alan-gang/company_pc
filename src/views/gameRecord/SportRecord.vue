@@ -79,7 +79,7 @@
           }
         },
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        PL: ['沙巴:3', '一本:9'],
+        PL: ['TCG:3', '沙巴:9'],
         platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',

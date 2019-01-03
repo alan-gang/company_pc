@@ -25,7 +25,7 @@
             // span.text-666 元
         .c
           br
-          p 体育帐户
+          p TCG帐户
           p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
             // span.text-666 元
 
@@ -49,7 +49,7 @@
 
         .c
           br
-          p 一本帐户
+          p 沙巴帐户
           p.amount.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
             // span.text-666 元
 

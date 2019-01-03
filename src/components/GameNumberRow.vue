@@ -294,6 +294,9 @@
           this.toggle(n)
         }
       },
+      __unselect (i) {
+        this.unSelect(this.numbers[i])
+      },
       unSelect (n, i) {
         if (i) n.signal = false
         else n.selected = false

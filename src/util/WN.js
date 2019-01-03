@@ -474,6 +474,18 @@ let SSC = {
   },
   '-4-1-11' ({ns}) {
     return this['-4-1-1']({ns})
+  },
+  /*
+    斗牛
+  */
+  '-5-1-1' ({ns}) {
+    let wn = [0, 0]
+    if (ns[0][0] === '11') {
+      wn[1] = 1
+    } else {
+      wn[0] = 1
+    }
+    return wn
   }
 }
 let SSL = {
