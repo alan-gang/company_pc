@@ -383,7 +383,7 @@ export default {
               ]
             },
             {
-              title: '猜遗漏',
+              title: '猜遗漏   ',
               items: [
                 {id: '-2-2-1', title: '猜一', description: '在0-9共10个号码中任选1个号码为一注，当期开出的5个号码中没有出现所选号码即为中奖', example: '投注方案：1，开奖号码23456，即中猜一'},
                 {id: '-2-2-2', title: '猜二', description: '在0-9共10个号码中任选2个号码为一注，当期开出的5个号码中没有出现所选号码即为中奖', example: '投注方案：12，开奖号码34567，即中猜二'},
@@ -551,7 +551,15 @@ export default {
         case '+3':
           return '前三'
         case '2-':
-          return '二星'
+          switch (this.type.id.slice(0, 4)) {
+            case '2-1-':
+            case '2-2-':
+              return '前二'
+            case '2-3-':
+            case '2-4-':
+              return '后二'
+          }
+          break
         case '1-':
           return '一星'
         case '0-':

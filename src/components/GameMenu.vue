@@ -17,7 +17,8 @@
 
     el-row.row(v-for=" g in cm.groups " v-if="cm.groups && g.items.filter(function(x){return !x.hide})[0]")
       .subtitle(v-if="g.title")
-        span {{ g.title }}
+        pre(style="margin: 0")
+          span {{ g.title }}
       .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
     
     div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !historyItems[0] ")
@@ -31,7 +32,7 @@
 
 
     el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
-      .subtitle(style="padding-left: .1rem; color: #333") {{ title !== type.title ? title + '_' + type.title : title }}
+      .subtitle(style="padding-left: .1rem; color: #333") {{ upTitle !== type.title ? upTitle + '_' + type.title : upTitle }}
 
       label(@click=" showIns = !showIns ")
         .ds-checkbox(:class=" {active: showIns} " ) 
@@ -49,7 +50,7 @@
 
 <script>
   export default {
-    props: ['type', 'menus', 'getTitle', 'mt', 'gameid', 'gameType'],
+    props: ['type', 'menus', 'getTitle', 'getUpTitle', 'mt', 'gameid', 'gameType'],
     data () {
       return {
         mmt: 0,
@@ -83,6 +84,9 @@
       // callId () {
       //   return this.gameid + '|' + this.type.id
       // },
+      upTitle () {
+        return typeof this.getUpTitle === 'function' ? this.getUpTitle() : ''
+      },
       title () {
         return typeof this.getTitle === 'function' ? this.getTitle() : ''
       },

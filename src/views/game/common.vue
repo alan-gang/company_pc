@@ -26,7 +26,7 @@
       .relative
         .inlb(style="width: 75%")
           <!-- 游戏菜单 -->
-          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
+          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:getUpTitle="getUpTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
 
           //- 快钱下单
           GameKQOrderBar.onbefore(v-bind:currency="currency" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
