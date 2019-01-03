@@ -475,6 +475,9 @@ export default {
         this.timeout += 0.05
       })
     },
+    __upDatePoints () {
+      this.getUserpoint()
+    },
     // 获得该游戏所有返点信息
     getUserpoint () {
       this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {

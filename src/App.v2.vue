@@ -1069,6 +1069,7 @@ export default {
         this.showMenuGuide = !window.localStorage.getItem('menu_guide')
       })
       this.canGetIngots()
+      if (this.$route.path.indexOf('game') !== -1) this.__setCall({fn: '__upDatePoints', callId: undefined})
     },
     connected (socket) {
       setTimeout(() => {

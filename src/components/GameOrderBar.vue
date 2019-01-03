@@ -109,7 +109,7 @@
 
         .f_r
           
-          .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem") 
+          .ds-button.btn1(v-bind:class="{'disabled': !canOrder}" @click="canOrder && order(true)" style="padding-top: .05rem; padding-left: .1rem; padding-right: .1rem; min-width: 1.5rem") 
             span.ft16 一键投注
             p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) < 10000000 ") 余额： {{ ( Number(me.amoney).toFixed(3) || '0.000')._nwc() }}
             p.amoney(style="padding-bottom: .1rem;margin-top: -.05rem; line-height: 1" v-if=" Number(me.amoney) >= 10000000  ") 余额： ***{{ (Number(me.amoney).toFixed(3) || '0.000')._nwc().substr(-8) }}
