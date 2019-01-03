@@ -95,7 +95,9 @@
         this.$emit('type', item)
       },
       setMenu (m) {
-        if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0]) this.$emit('type', m.groups[0].items[0])
+        if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0] && !m.groups[0].items[0].hide) this.$emit('type', m.groups[0].items[0])
+        else if (m.groups && m.groups[1] && m.groups[1].items && m.groups[1].items[1] && !m.groups[1].items[1].hide) this.$emit('type', m.groups[1].items[1])
+        else if (m.groups && m.groups[2] && m.groups[2].items && m.groups[2].items[2] && !m.groups[2].items[2].hide) this.$emit('type', m.groups[2].items[2])
       },
       __getHistoryItems () {
         this.historyItems = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
