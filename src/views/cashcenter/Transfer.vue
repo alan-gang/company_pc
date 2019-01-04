@@ -114,7 +114,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '一本帐户:9'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'TCG帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9'],
       t: '',
       m: '',
       cpwd: '',
@@ -297,7 +297,7 @@ export default {
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', '体育', '棋牌', 'PT', 'AG', '一本帐户'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'TCG', '棋牌', 'PT', 'AG', '沙巴'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
