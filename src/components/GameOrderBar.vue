@@ -39,8 +39,8 @@
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
         el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
         .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 单注奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
-        span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint) && maxWinAmount <= 400000" v-show="!HC6") 单注奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+        span.p(v-if="P && !(P.maxpoint === P.minpoint) && maxWinAmount > 400000" v-show="!HC6") 
           span 单注奖金： 
           span.text-danger 超出奖金限制
           span  / 返点：{{ ps}} 
@@ -64,8 +64,8 @@
       //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click="p > min && (p -= 10) "  v-show="!HC6") 一
       //-   el-slider(v-model="p" v-bind:max="max" v-bind:min="min" v-bind:show-stops="true" v-bind:step="10" v-show="!HC6" style="vertical-align: middle; margin: 0 .1rem; width: .5rem")
       //-   .ds-button.x-small.outline.minus.shadow-affect(style="margin: 0; height: .2rem; line-height: .2rem; vertical-align: middle; padding: 0; width: .2rem; margin-top: .15rem;box-shadow: none" @click=" p < max && (p += 10) "  v-show="!HC6") 十
-      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize <= 400000" v-show="!HC6") 奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
-      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && prize > 400000" v-show="!HC6") 
+      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && maxWinAmount <= 400000" v-show="!HC6") 奖金：{{ lprize ? lprize + ' - ' : '' }} {{ prize }}   / 返点：{{ ps}} 
+      //-   span.p(v-if="P && !(P.maxpoint === P.minpoint) && maxWinAmount > 400000" v-show="!HC6") 
       //-     span 奖金： 
       //-     span.text-danger 超出奖金限制
       //-     span  / 返点：{{ ps}} 
@@ -76,13 +76,13 @@
           | 注&nbsp;&nbsp;共 
           span.pay {{ pay.toFixed(3) }}
           |  元
-        p(v-show=" n && prize <= 400000 ")
+        p(v-show=" n && maxWinAmount <= 400000 ")
           | 最高可中奖
           span.text-blue.text-bold  {{ maxWinAmount.toFixed(3)._nwc() }} 
           | 元，最高可盈利
           span.text-blue.text-bold  {{ maxWinProfit.toFixed(3)._nwc() }} 
           | 元
-        p(v-show=" n && prize > 400000 ")
+        p(v-show=" n && maxWinAmount > 400000 ")
           span.text-danger 超出奖金限制
 
 
