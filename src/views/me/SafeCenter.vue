@@ -33,6 +33,15 @@
               p 旧密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="oldPwd" type="password")
 
+              p(v-if=" me.phone ") 手机验证码：
+                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                  span(v-if="!pt_") 发送验证码
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
+
+                span.mynotice （旧密码与手机验证码输入其一）
+
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="newPwd" type="password")
                 span.mynotice 由字母和数字组成6-16个字符;
@@ -59,6 +68,16 @@
 
               p 旧密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(type="password" v-model="oldCashPwd")
+              
+              p(v-if=" me.phone ") 手机验证码：
+                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                  span(v-if="!pt_") 发送验证码
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
+
+                span.mynotice （旧密码与手机验证码输入其一）
+
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(type="password"  v-model="newCashPwd")
                 span.mynotice 由字母和数字组成6-16个字符;
@@ -541,12 +560,16 @@ export default {
     changePwd () {
       // 修改登录密码
       if (this.tabIndex === 1) {
-        if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+        if (this.me.phone) {
+          if (!this.oldPwd && !this.pc_) return this.$message.warning({target: this.$el, message: '请输入旧密码或手机验证码！'})
+        } else {
+          if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+        }
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd}).then(({data}) => {
+        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
@@ -562,14 +585,18 @@ export default {
       // 资金密码
         // 修改
         if (this.me.cashPwd) {
-          if (!this.oldCashPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+          if (this.me.phone) {
+            if (!this.oldCashPwd && !this.pc_) return this.$message.warning({target: this.$el, message: '请输入旧密码或手机验证码！'})
+          } else {
+            if (!this.oldCashPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+          }
         } else {}
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
-        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd}).then(({data}) => {
+        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             let message = '恭喜您， 资金密码修改成功。'
             if (!this.me.cashPwd) message = '恭喜您， 资金密码设置成功。'
@@ -590,6 +617,7 @@ export default {
       this.clearCashPwd()
     },
     clearCashPwd () {
+      this.pc_ = ''
       this.oldCashPwd = ''
       this.newCashPwd = ''
       this.newCashPwdAgain = ''
@@ -812,6 +840,14 @@ export default {
   @import '../../var.stylus'
   H = .7rem
   W = .5rem
+  .secondary
+    position relative
+    top -3px
+    
+  .ds-input
+    // height .32rem
+    // line-height .32rem
+
   .text-ellipsis
     color #000
   .me-page[w='800']
