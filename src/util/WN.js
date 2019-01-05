@@ -261,7 +261,12 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-7' ({psl, value}) {
-    return Math.min(C(psl, 3) * ON(value, 3, 2).length, 10)
+    let wn = [0, Math.min(C(psl, 3) * ON(value, 3, 2).length, 10)]
+    if (N(value, 3, 2).length) {
+      wn[0] = wn[1]
+      wn[1] = 0
+    }
+    return wn
   },
 
   /* ..............任四............... */
@@ -405,6 +410,24 @@ let SSC = {
    */
   '5-1-3' ({nsl, PA}) {
     return 5 * P(nsl) ? [1, nsl[1], nsl[1] * nsl[2], nsl[1] * nsl[2] * nsl[3], nsl[1] * nsl[2] * nsl[3] * nsl[4]] : 1
+  },
+  /*
+  混合组选
+  N=输入的号码个数 N
+  */
+  '+3-2-5' ({value}) {
+    let wn = [0, 1]
+    if (N(value, 3, 2).length) {
+      wn[0] = wn[1]
+      wn[1] = 0
+    }
+    return wn
+  },
+  '3-2-5' ({value}) {
+    return this['+3-2-5']({value})
+  },
+  '-3-2-5' ({value}) {
+    return this['+3-2-5']({value})
   },
   /*
   特殊号
