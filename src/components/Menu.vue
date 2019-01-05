@@ -252,9 +252,9 @@ body.cb.v2
       &.ds-icon-logo-pt
         background-image url(../assets/v2/logo_pt_big.png) 
       &.ds-icon-logo-saba
-        background-image url(../assets/v2/logo_tcg_big.png)
-      &.ds-icon-logo-spb
         background-image url(../assets/v2/logo_ibc_big.png)
+      &.ds-icon-logo-spb
+        background-image url(../assets/v2/logo_sb_big.png)
         
         
         

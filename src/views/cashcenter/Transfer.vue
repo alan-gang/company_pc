@@ -25,7 +25,7 @@
             // span.text-666 元
         .c
           br
-          p TCG帐户
+          p IBC帐户
           p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
             // span.text-666 元
 
@@ -114,7 +114,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'TCG帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9'],
       t: '',
       m: '',
       cpwd: '',
@@ -297,7 +297,7 @@ export default {
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'TCG', '棋牌', 'PT', 'AG', '沙巴'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -377,7 +377,7 @@ export default {
         background url(../../assets/v2/qb_icon_02.png) center .25rem no-repeat
 
       &:nth-child(4)
-        background url(../../assets/v2/qb_icon_04.png) center .25rem no-repeat
+        background url(../../assets/v2/qb_icon_11.png) center .25rem no-repeat
 
       &:nth-child(5)
         background url(../../assets/v2/qb_icon_05.png) center .25rem no-repeat

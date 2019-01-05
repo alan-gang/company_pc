@@ -656,12 +656,12 @@ export default {
         &.dy
           background-image url(../assets/newhome/logo_bg_big.png)
         &.sb
-          background-image url(../assets/newhome/logo_tcg_big.png)
+          background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky
           background-image url(../assets/newhome/logo_ky_big.png)
         
         &.spb
-          background-image url(../assets/newhome/logo_ibc_big.png)
+          background-image url(../assets/newhome/logo_sb_big.png)
       
       
       
