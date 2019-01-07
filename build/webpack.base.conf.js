@@ -10,6 +10,12 @@ var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
+if (process.env.NODE_ENV_BUILD) {
+  console.log('========================= ' + process.env.NODE_ENV_BUILD + ' info start ===========================')
+  console.log(JSON.stringify(config[process.env.NODE_ENV_BUILD], null, 10))
+  console.log('========================= ' + process.env.NODE_ENV_BUILD + ' info end ===========================')
+}
+
 module.exports = {
   entry: {
     app: './src/main.js'
