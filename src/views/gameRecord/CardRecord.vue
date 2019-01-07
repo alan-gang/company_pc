@@ -101,7 +101,7 @@
           }
         },
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        PL: ['开元:7'],
+        PL: ['开元:7', '乐游:15'],
         platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',

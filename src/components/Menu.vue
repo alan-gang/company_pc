@@ -255,6 +255,11 @@ body.cb.v2
         background-image url(../assets/v2/logo_ibc_big.png)
       &.ds-icon-logo-spb
         background-image url(../assets/v2/logo_sb_big.png)
+      &.ds-icon-logo-ky
+        background-image url(../assets/v2/logo_ky_big.png)
+      
+      &.ds-icon-logo-ly
+        background-image url(../assets/v2/logo_ly_big.png)
         
         
         
