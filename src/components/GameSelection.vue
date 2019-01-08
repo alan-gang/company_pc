@@ -599,6 +599,7 @@
             }
           }
         }
+        // this.__resetColumnActionBar()
       },
       n () {
         this.$emit('n-change', this.n, this.hasUnable)
@@ -669,6 +670,9 @@
       this.$emit('set-ps', this.ps)
     },
     methods: {
+      __resetColumnActionBar () {
+        Object.entries(this.columnBtns).forEach(([k, v]) => (this.columnBtns[k] = 0))
+      },
       columnSelect (i) {
         this.__setCall({fn: !this.columnBtns[i] ? '__select' : '__unselect', args: i})
         this.columnBtns[i] = !this.columnBtns[i]
@@ -738,6 +742,7 @@
       __clearValue () {
         this.V = ''
         this.$el.querySelector('textarea') && (this.$el.querySelector('textarea').value = '')
+        this.__resetColumnActionBar()
       },
       // 选择号码发生变化
       numbersChange () {
