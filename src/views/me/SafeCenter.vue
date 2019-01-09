@@ -32,9 +32,19 @@
             .pwd-form.form(v-if="tabIndex === 1")
               p 旧密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="oldPwd" type="password")
+
+              p(v-if=" me.phone ") 手机验证码：
+                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                  span(v-if="!pt_") 发送验证码
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
+
+                span.mynotice （旧密码与手机验证码输入其一）
+
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="newPwd" type="password")
-                span.notice 由字母和数字组成6-16个字符;
+                span.mynotice 由字母和数字组成6-16个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
@@ -46,7 +56,7 @@
 
               p 设置密码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="newCashPwd" type="password")
-                span.notice 由字母和数字组成6-16个字符;
+                span.mynotice 由字母和数字组成6-16个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
               p 确认密码：&nbsp;&nbsp;&nbsp;
@@ -58,9 +68,19 @@
 
               p 旧密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(type="password" v-model="oldCashPwd")
+              
+              p(v-if=" me.phone ") 手机验证码：
+                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                  span(v-if="!pt_") 发送验证码
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
+
+                span.mynotice （旧密码与手机验证码输入其一）
+
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(type="password"  v-model="newCashPwd")
-                span.notice 由字母和数字组成6-16个字符;
+                span.mynotice 由字母和数字组成6-16个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
@@ -141,39 +161,39 @@
                 input.ds-input(:placeholder="greetingPlaceholder" style="width: 82%" v-model="greeting" maxlength="50")
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
-      // 手机绑定
-      // el-row.phone(v-bind:class="{expand: index === 4 }")
-      //   el-col
-      //     el-row.static
-      //       el-col(:span="6").title.ds-icon-phone 手机绑定
-      //       el-col(:span="14").phone
-      //         span.text-green.ds-icon-set(v-if="me.phone") 已设置
-      //         span.text-black(v-if="me.phone")  {{ me.phone }}
-      //         span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
-      //       el-col(:span="4").toggle
-      //         .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
-      //    el-row.action(v-if="index === 4" )
-      //      .phone-form.form
-      //        p 资金密码：
-      //          input.ds-input.large(v-model="newCashPwd" type="password")
-      //        p(v-if="!me.phone") 绑定手机：
-      //          input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
-      //          button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
-      //             span(v-if="!pt_") 发送验证码
-      //             span.text-333(v-if="pt_") {{ pt_ }} 
-      //               span.text-999 秒后可重新发送
-      //         p(v-if="me.phone") 解绑手机：
-      //           span {{ me.phone }}
-      //           button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
-      //            span(v-if="!pt_") 发送验证码
-      //            span.text-black(v-if="pt_") {{ pt_ }} 
-      //              span.text-999 秒后可重新发送
-      //        p 验证码：&nbsp;&nbsp;&nbsp;
-      //          input.ds-input.large(v-model="pc_")
-      //      .buttons(style="margin-left: .65rem")
-      //        button.ds-button.primary.large(@click="bindPhone" v-if="!me.phone") 提交
-      //        button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 提交
-      //        .ds-button.cancel.large(@click="clearPhone") 清空
+      //- 手机绑定
+      el-row.phone(v-bind:class="{expand: index === 4 }")
+        el-col
+          el-row.static
+            el-col(:span="6").title.ds-icon-phone 手机绑定
+            el-col(:span="14").phone
+              span.text-green.ds-icon-set(v-if="me.phone") 已设置
+              span.text-black(v-if="me.phone")  {{ me.phone }}
+              span.text-danger.ds-icon-unset(v-if="!me.phone") 未设置
+            el-col(:span="4").toggle
+              .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
+          el-row.action(v-if="index === 4" )
+           .phone-form.form
+             //- p 资金密码：
+               input.ds-input.large(v-model="newCashPwd" type="password")
+             p(v-if="!me.phone") 绑定手机：
+               input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
+               button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                  span(v-if="!pt_") 发送验证码
+                  span.text-333(v-if="pt_") {{ pt_ }} 
+                    span.text-999 秒后可重新发送
+              p(v-if="me.phone") 解绑手机：
+                span {{ me.phone }}
+                button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
+                 span(v-if="!pt_") 发送验证码
+                 span.text-black(v-if="pt_") {{ pt_ }} 
+                   span.text-999 秒后可重新发送
+             p 验证码：&nbsp;&nbsp;&nbsp;
+               input.ds-input.large(v-model="pc_")
+           .buttons(style="margin-left: .65rem")
+             button.ds-button.primary.large(@click="bindPhone" v-if="!me.phone") 提交
+             button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 解绑
+             .ds-button.cancel.large(@click="clearPhone") 清空
 
       // 邮箱绑定
       el-row.email(v-bind:class="{expand: index === 5 }")
@@ -473,7 +493,7 @@ export default {
     switchGoogleAuth (type) {
       this.$http.post(api.switchGoogleAuth, {verifyCode: this.cb_, type: type}).then(({data}) => {
         // success
-        // if (data.success !== 1) this.notice = '验证码输入不正确！'
+        // if (data.success !== 1) this.mynotice = '验证码输入不正确！'
         this.newCashPwd = ''
         this.cb_ = ''
         if (data.success === 1) {
@@ -540,12 +560,16 @@ export default {
     changePwd () {
       // 修改登录密码
       if (this.tabIndex === 1) {
-        if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+        if (this.me.phone) {
+          if (!this.oldPwd && !this.pc_) return this.$message.warning({target: this.$el, message: '请输入旧密码或手机验证码！'})
+        } else {
+          if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+        }
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd}).then(({data}) => {
+        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
@@ -561,14 +585,18 @@ export default {
       // 资金密码
         // 修改
         if (this.me.cashPwd) {
-          if (!this.oldCashPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+          if (this.me.phone) {
+            if (!this.oldCashPwd && !this.pc_) return this.$message.warning({target: this.$el, message: '请输入旧密码或手机验证码！'})
+          } else {
+            if (!this.oldCashPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
+          }
         } else {}
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
-        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd}).then(({data}) => {
+        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             let message = '恭喜您， 资金密码修改成功。'
             if (!this.me.cashPwd) message = '恭喜您， 资金密码设置成功。'
@@ -589,6 +617,7 @@ export default {
       this.clearCashPwd()
     },
     clearCashPwd () {
+      this.pc_ = ''
       this.oldCashPwd = ''
       this.newCashPwd = ''
       this.newCashPwdAgain = ''
@@ -624,7 +653,8 @@ export default {
       let bind = !this.me.phone
       if (bind && !Validate.phone(this.phone)) return this.$message.error({target: this.$el, message: '手机号码输入不正确，请输入11位手机号！'})
 
-      this.$http.post(api.person_sendSms, bind ? {mobile: this.phone} : {}).then(({data}) => {
+      // this.$http.post(api.person_sendSms, bind ? {mobile: this.phone} : {}).then(({data}) => {
+      this.$http.post(api.getSMSCode, bind ? {mobile: this.phone} : {}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机验证码发送成功，请注意查收。'})
           this.pt_ = this.time_
@@ -635,9 +665,9 @@ export default {
       })
     },
     bindPhone () {
-      if (!this.newCashPwd || !this.phone || !this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
-      // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
-      this.$http.post(api.bindMobil, {mobile: this.phone, password: this.newCashPwd, verifyCode: this.pc_, type: 0}).then(({data}) => {
+      if (!this.phone || !this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      // this.$http.post(api.bindMobil, {mobile: this.phone, password: this.newCashPwd, verifyCode: this.pc_, type: 0}).then(({data}) => {
+      this.$http.post(api.bindMobile, {mobile: this.phone, smsCode: this.pc_}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机绑定成功。'})
           store.actions.setUser({phone: this.phone})
@@ -649,13 +679,13 @@ export default {
       })
     },
     unbindPhone () {
-      if (!this.newCashPwd || !this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      if (!this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
-      this.$http.post(api.bindMobil, {password: this.newCashPwd, verifyCode: this.pc_, type: 1}).then(({data}) => {
+      this.$http.post(api.unbindMobile, {smsCode: this.pc_}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机解绑成功。'})
           store.actions.setUser({phone: ''})
-          if (this.me.safeCheck === 2) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
+          // if (this.me.safeCheck === 2) (this.safeCheck = 0) || store.actions.setUser({safeCheck: 0})
         } else {
           this.$message.error({target: this.$el, message: data.msg || '手机解绑失败！'})
         }
@@ -810,6 +840,14 @@ export default {
   @import '../../var.stylus'
   H = .7rem
   W = .5rem
+  .secondary
+    position relative
+    top -3px
+    
+  .ds-input
+    // height .32rem
+    // line-height .32rem
+
   .text-ellipsis
     color #000
   .me-page[w='800']
@@ -858,7 +896,7 @@ export default {
   .nickname-form
     padding .2rem 0
     
-  .notice
+  .mynotice
     display inline-block
     vertical-align middle
     padding-left .1rem

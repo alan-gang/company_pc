@@ -1,6 +1,7 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
 // let api = 'http://cb510.net/dscagamesclient'
 let api = 'http://192.168.169.49:9901/dscagamesclient'
+// api = 'http://192.168.169.70:8080/cagamesclient'
 // jork
 // let api = 'http://192.168.169.46:9901/dscagamesclient'
 // steven
@@ -26,6 +27,9 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  bindMobile: '/person/accountSecur.do?method=bindMobile',
+  unbindMobile: '/person/accountSecur.do?method=unbindMobile',
+  getSMSCode: '/person/accountSecur.do?method=getSMSCode',
   setBirthday: '/person/accountSecur.do?method=setBirthday&date=',
   withdrawAll: '/ext/bg.do?method=withdrawAll',
   getIngotsPrize: '/activity.do?method=getIngotsPrize',
