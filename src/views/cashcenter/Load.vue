@@ -706,7 +706,7 @@ export default {
           // this.merBankList = data.merBankList || []
           this.epay = []
           // 在线支付 快捷支付 QQ 微信
-          let epays = ['bankList:网银转帐', 'online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付', 'zfb2Bank:支付宝转帐', 'zfbwap:支付宝H5']
+          let epays = ['bigonline:大额网银', 'bankList:网银转帐', 'online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付', 'zfb2Bank:支付宝转帐', 'zfbwap:支付宝H5']
           epays.forEach(m => {
             data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
               f.channelCodes.forEach(b => {
