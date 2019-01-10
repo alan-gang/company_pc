@@ -180,7 +180,7 @@ export default {
     },
     // apply on Me.vue right menu
     meRightMenu () {
-      return [this.menus[12]]
+      return [this.menus[13]]
     },
     bgAPI () {
       return [api.withdrawFromBG, api.transferToBG][this.bg]

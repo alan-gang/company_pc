@@ -200,7 +200,7 @@ export default {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
-          title: '彩票游戏',
+          title: '彩票',
           url: 'game',
           hideIcon: false,
           // size: 'full',
@@ -296,7 +296,39 @@ export default {
         },
         {
           menuid: '98',
-          title: '体育竞技',
+          title: '棋牌',
+          big: true,
+          info: [
+            {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
+            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
+          ]
+        },
+        {
+          menuid: '98',
+          title: '真人',
+          big: true,
+          info: [
+            {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'}
+          ]
+        },
+        {
+          menuid: '98',
+          title: '电游',
+          big: true,
+          info: [
+            {class: 'ds-icon-game-bg2 ', title: '电子游戏', descrb: '趣味玩法 回味经典'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:203:iframe:/egame'}
+          ]
+        },
+        {
+          menuid: '98',
+          title: '体育',
           big: true,
           // hide: true,
           // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
@@ -308,45 +340,24 @@ export default {
         },
         {
           menuid: '98',
-          title: '真人娱乐',
+          title: '电竞',
           big: true,
+          // hide: true,
+          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
           info: [
-            {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'}
+            {class: 'ds-icon-game-sports ', title: '电竞赛事', descrb: '五大联赛，硝烟再起'},
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
           ]
         },
         {
           menuid: '98',
-          title: '电子游戏',
-          big: true,
-          info: [
-            {class: 'ds-icon-game-bg2 ', title: '电子游戏', descrb: '趣味玩法 回味经典'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:203:iframe:/egame'}
-          ]
-        },
-        {
-          menuid: '98',
-          title: '捕鱼达人',
+          title: '捕鱼',
           big: true,
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'}
-          ]
-        },
-        {
-          menuid: '98',
-          title: '棋牌游戏',
-          big: true,
-          info: [
-            {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
-            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
-            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
           ]
         },
         {
@@ -811,9 +822,9 @@ export default {
             this.activeMenu = [this.menus[this.mi]]
           } else {
             if (this.Me.login) {
-              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5], this.menus[13 + 5]]
+              this.activeMenu = [this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5], this.menus[13 + 5], this.menus[14 + 5]]
             } else {
-              this.activeMenu = [this.menus[13 + 5]]
+              this.activeMenu = [this.menus[14 + 5]]
             }
           }
         }
