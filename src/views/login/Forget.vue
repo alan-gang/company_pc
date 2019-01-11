@@ -112,7 +112,7 @@ export default {
       stepIndex: 0,
       steps: ['输入基本信息', '验证信息', '修改密码'],
       radioIndex: 0,
-      radios: ['邮箱找回', '', '安全问题找回', '博盾安全找回'],
+      radios: ['邮箱找回', '手机找回', '安全问题找回', '博盾安全找回'],
       finish: false,
       time: 5,
       newpwd: '',
