@@ -287,6 +287,10 @@ body.cb.v2
       background url(../assets/v2/004.png) .2rem center no-repeat
     .ds-icon-game-bg5
       background url(../assets/v2/005.png) .2rem center no-repeat
+    
+    .ds-icon-game-egaming
+      background url(../assets/v2/006.png) left center no-repeat
+    
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
     .ds-icon-vipclub

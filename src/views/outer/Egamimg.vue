@@ -85,10 +85,13 @@ export default {
     width 1260px
     margin 0 auto
     min-height 8rem
+    text-align center
+    background-color rgba(0, 0, 0, .5)
   iframe
     background-color #fff
-    width 100%
-    min-height 8rem
+    width 1034px
+    // width 100%
+    min-height 963px
     margin-right .2rem
     border none
     &.plat-2
