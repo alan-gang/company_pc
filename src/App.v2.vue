@@ -317,10 +317,10 @@ export default {
         },
         {
           menuid: '98',
-          title: '电游',
+          title: '老虎机',
           big: true,
           info: [
-            {class: 'ds-icon-game-bg2 ', title: '电子游戏', descrb: '趣味玩法 回味经典'},
+            {class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:203:iframe:/egame'}
@@ -334,7 +334,7 @@ export default {
           // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
           info: [
             {class: 'ds-icon-game-sports ', title: '体育赛事', descrb: '五大联赛，硝烟再起'},
-            {menuid: '98', class: 'ds-icon-logo-saba', id: '9-9-9', fn: '3:301:iframe:/sports'},
+            // {menuid: '98', class: 'ds-icon-logo-saba', id: '9-9-9', fn: '3:301:iframe:/sports'},
             {menuid: '98', class: 'ds-icon-logo-spb ', id: '9-9-9', fn: '9:203:iframe:/sports'}
           ]
         },
@@ -1065,7 +1065,8 @@ export default {
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType,
           vip: data.isVip,
-          isVip: data.isVip
+          isVip: data.isVip,
+          vipChatUrl: data.vipChatUrl
         })
         // this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')

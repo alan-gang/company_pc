@@ -16,7 +16,7 @@
       .expand-left  下载中心
     .ds-icon-(v-if="Me.login")
       .expand-left 联系上级
-    .ds-icon-contact-(@click=" window.open(Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
+    .ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.vipChatUrl || Me.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
       .expand-left 联系客服
     .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
       span.badge {{ amount }} 
@@ -235,6 +235,9 @@
       background url(../assets/v2/helpcenter.png) center no-repeat
     .ds-icon-contact-
       background url(../assets/righter/04.png) center no-repeat
+    .isvip
+      background url(../assets/righter/vipChat.png) center no-repeat
+        
     .ds-icon-ggl
       background url(../assets/righter/06.png) center no-repeat
       position relative

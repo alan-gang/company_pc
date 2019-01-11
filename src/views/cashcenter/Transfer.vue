@@ -23,7 +23,7 @@
           p BG帐户
           p.amount.text-black {{ numberWithCommas(ME.bgmoney) }}
             // span.text-666 元
-        .c
+        .c(v-show="false")
           br
           p IBC帐户
           p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
@@ -76,7 +76,7 @@
           p.title.text-black 帐户互转 
           label.item 转出帐户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
           p 可用余额：
             span.text-blue {{ numberWithCommas(fm) }}
             | 元
@@ -86,7 +86,7 @@
         
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i")
+              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
 
           p 现有余额：
             span.text-blue {{ numberWithCommas(tm) }}

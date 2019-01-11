@@ -67,7 +67,8 @@ let store = {
       levelName: '',
       exp: 0,
       diffExp: 0,
-      nexMinExp: 0
+      nexMinExp: 0,
+      vipChatUrl: ''
     },
     pages: []
   },
@@ -148,7 +149,8 @@ let store = {
         levelName: '',
         exp: 0,
         diffExp: 0,
-        nexMinExp: 0
+        nexMinExp: 0,
+        vipChatUrl: ''
       }
       Object.assign(store.state.user, user)
     },

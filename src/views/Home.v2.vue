@@ -82,10 +82,10 @@
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
                 //- el-col.t_c.ft18.sb(:span="24") 
-                el-col(:span="4")
-                el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
+                el-col(:span="8")
+                //- el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
                 el-col.spb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '9:403:iframe:/sports'}}) ") 
-                el-col(:span="4")
+                el-col(:span="8")
 
             p
               span.t1 体育竞技 &nbsp;&nbsp;
