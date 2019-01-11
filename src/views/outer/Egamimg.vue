@@ -2,7 +2,7 @@
 .outer-egaming(:style=" bgStyle ")
   .cw
     iframe(:src="ifsrc" v-if="ifsrc" v-show="show" @load=" load ")
-    p(style="color: #fff; font-size: 16px;" v-if="!show") {{ waitmsg }}
+    p(style="color: #fff; font-size: 16px; text-align: left; padding: 15px" v-if="!show") {{ waitmsg }}
       span(v-for=" n in Array(s) ") .
     
 </template>
