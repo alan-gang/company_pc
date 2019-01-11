@@ -346,7 +346,8 @@ export default {
           // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
           info: [
             {class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率'},
-            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
+            // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'}
           ]
         },
         {
