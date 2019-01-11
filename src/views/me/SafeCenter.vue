@@ -34,7 +34,7 @@
                 input.ds-input.large(v-model="oldPwd" type="password")
 
               p(v-if=" me.phone ") 手机验证码：
-                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                input.ds-input.large(v-model="pc_"  style="width: 1.0rem")
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
                   span.text-333(v-if="pt_") {{ pt_ }} 
@@ -70,7 +70,7 @@
                 input.ds-input.large(type="password" v-model="oldCashPwd")
               
               p(v-if=" me.phone ") 手机验证码：
-                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                input.ds-input.large(v-model="pc_"  style="width: 1.0rem")
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
                   span.text-333(v-if="pt_") {{ pt_ }} 
