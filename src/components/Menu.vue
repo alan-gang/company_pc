@@ -228,6 +228,10 @@ body.cb.v2
       &.VR
         background url(../assets/v2/nav_icon_vr.png) 0 center no-repeat
 
+      &.KG
+        min-height .36rem
+        background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
+
   
   .footer-popover
     .infos .info
