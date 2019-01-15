@@ -185,11 +185,11 @@ export default {
         case 7:
           return this.ME.amoney
         case 8:
-          return this.ME.lymoney
+          return this.ME.amoney
         case 9:
-          return this.ME.uwinmoney
+          return this.ME.amoney
         case 10:
-          return this.ME.kgmoney
+          return this.ME.amoney
       }
     },
     ctos () {
