@@ -169,7 +169,7 @@ export default {
         case 7:
           return this.ME.amoney
         case 8:
-          return this.ME.lymoney
+          return this.ME.amoney
       }
     },
     ctos () {
