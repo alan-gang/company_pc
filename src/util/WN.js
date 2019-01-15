@@ -409,7 +409,7 @@ let SSC = {
   5*N1*N2*N3*N4*N5
    */
   '5-1-3' ({nsl, PA}) {
-    return 5 * P(nsl) ? [1, nsl[1], nsl[1] * nsl[2], nsl[1] * nsl[2] * nsl[3], nsl[1] * nsl[2] * nsl[3] * nsl[4]] : 1
+    return 5 * P(nsl) ? [1, nsl[0], nsl[0] * nsl[1], nsl[0] * nsl[1] * nsl[2], nsl[0] * nsl[1] * nsl[2] * nsl[3]] : 1
   },
   /*
   混合组选
@@ -509,6 +509,16 @@ let SSC = {
       wn[0] = 1
     }
     return wn
+  },
+  /*
+  直选组合
+  (N1*N2*N3*N4)*4 N1千，N2百，N3十，N4个n>=1
+  */
+  '4-1-3' ({nsl}) {
+    return 4 * P(nsl) ? [1, nsl[0], nsl[0] * nsl[1], nsl[0] * nsl[1] * nsl[2]] : 1
+  },
+  '4-3-3' ({nsl}) {
+    return 4 * P(nsl) ? [1, nsl[0], nsl[0] * nsl[1], nsl[0] * nsl[1] * nsl[2]] : 1
   }
 }
 let SSL = {
