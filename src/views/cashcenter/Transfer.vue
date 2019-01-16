@@ -23,7 +23,7 @@
           p BG帐户
           p.amount.text-black {{ numberWithCommas(ME.bgmoney) }}
             // span.text-666 元
-        .c
+        .c(v-show="false")
           br
           p IBC帐户
           p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
@@ -58,6 +58,24 @@
           p 乐游帐户
           p.amount.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
             // span.text-666 元
+        
+        .c(style="display: none")
+          br
+          p U赢帐户
+          p.amount.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
+            // span.text-666 元
+
+        .c
+          br
+          p KG帐户
+          p.amount.text-black {{ numberWithCommas(ME.kgmoney.toFixed(4)) }}
+            // span.text-666 元
+
+        .c
+          br
+          p 微游帐户
+          p.amount.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
+            // span.text-666 元
 
         .c
           br
@@ -70,7 +88,7 @@
           p.title.text-black 帐户互转 
           label.item 转出帐户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
           p 可用余额：
             span.text-blue {{ numberWithCommas(fm) }}
             | 元
@@ -80,7 +98,7 @@
         
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i")
+              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
 
           p 现有余额：
             span.text-blue {{ numberWithCommas(tm) }}
@@ -120,7 +138,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
       t: '',
       m: '',
       cpwd: '',
@@ -148,12 +166,18 @@ export default {
           return this.ME.sbmoney
         case 8:
           return this.ME.lymoney
+        case 9:
+          return this.ME.uwinmoney
+        case 10:
+          return this.ME.kgmoney
+        case 11:
+          return this.ME.litAmount
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount][this.t]
         case 1:
           return this.ME.amoney
         case 2:
@@ -169,6 +193,12 @@ export default {
         case 7:
           return this.ME.amoney
         case 8:
+          return this.ME.amoney
+        case 9:
+          return this.ME.amoney
+        case 10:
+          return this.ME.amoney
+        case 11:
           return this.ME.amoney
       }
     },
@@ -192,13 +222,17 @@ export default {
           return this.froms.slice(0, 1)
         case 8:
           return this.froms.slice(0, 1)
+        case 9:
+          return this.froms.slice(0, 1)
+        case 10:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -242,6 +276,9 @@ export default {
       else if (this.f === 0 && this.t === 4) (this.f = 6) && (this.t = 0)
       else if (this.f === 0 && this.t === 5) (this.f = 7) && (this.t = 0)
       else if (this.f === 0 && this.t === 6) (this.f = 8) && (this.t = 0)
+      else if (this.f === 0 && this.t === 7) (this.f = 9) && (this.t = 0)
+      else if (this.f === 0 && this.t === 8) (this.f = 10) && (this.t = 0)
+      else if (this.f === 0 && this.t === 9) (this.f = 11) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -273,6 +310,21 @@ export default {
         setTimeout(() => {
           this.t = 6
         })
+      } else if (this.f === 9) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 7
+        })
+      } else if (this.f === 10) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 8
+        })
+      } else if (this.f === 11) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 9
+        })
       }
     },
     ok () {
@@ -282,7 +334,7 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0, lymoney: data.lyAmount})
+          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0, lymoney: data.lyAmount, uwinmoney: data.uwinAmount, kgmoney: data.kgAmount, litAmount: data.litAmount})
         }
       }).catch(rep => {
         // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
@@ -315,7 +367,7 @@ export default {
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -407,11 +459,19 @@ export default {
       &:nth-child(8)
         background url(../../assets/v2/qb_icon_09.png) center .25rem no-repeat
       
-      &:nth-child(10)
+      &:nth-child(13)
         background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
       
       &:nth-child(9)
         background url(../../assets/v2/qb_icon_12.png) center .25rem no-repeat
+      
+      &:nth-child(10)
+        background url(../../assets/v2/qb_icon_13.png) center .25rem no-repeat
+
+      &:nth-child(11)
+        background url(../../assets/v2/qb_icon_14.png) center .25rem no-repeat
+      &:nth-child(12)
+        background url(../../assets/v2/qb_icon_15.png) center .25rem no-repeat
     
     .cc
       max-width 3.1rem

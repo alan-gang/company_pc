@@ -16,6 +16,7 @@ const Forget = r => require.ensure([], () => r(require('../views/login/Forget'))
 
 const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
 const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
+const Egamimg = r => require.ensure([], () => r(require('../views/outer/Egamimg')), 'pages-part')
 const Sports = r => require.ensure([], () => r(require('../views/outer/Sports')), 'pages-part')
 
 let router = new VueRouter({
@@ -40,6 +41,13 @@ let router = new VueRouter({
             rl: true
           },
           component: Egame
+        },
+        {
+          path: '/egaming',
+          meta: {
+            rl: true
+          },
+          component: Egamimg
         },
         {
           path: '/game/:url',

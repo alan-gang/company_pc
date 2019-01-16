@@ -35,6 +35,9 @@ let store = {
       agmoney: 0,
       sbmoney: 0,
       lymoney: 0,
+      uwinmoney: 0,
+      kgmoney: 0,
+      litAmount: 0,
       email: '',
       phone: '',
       greeting: '',
@@ -66,7 +69,8 @@ let store = {
       levelName: '',
       exp: 0,
       diffExp: 0,
-      nexMinExp: 0
+      nexMinExp: 0,
+      vipChatUrl: ''
     },
     pages: []
   },
@@ -114,6 +118,9 @@ let store = {
         agmoney: 0,
         sbmoney: 0,
         lymoney: 0,
+        uwinmoney: 0,
+        kgmoney: 0,
+        litAmount: 0,
         // safeCenter
         email: '',
         phone: '',
@@ -146,7 +153,8 @@ let store = {
         levelName: '',
         exp: 0,
         diffExp: 0,
-        nexMinExp: 0
+        nexMinExp: 0,
+        vipChatUrl: ''
       }
       Object.assign(store.state.user, user)
     },

@@ -3,7 +3,7 @@
     Me(v-if="me.login" v-bind:menus="menus" v-on:open-page="openTab" )
     Unloginbar(v-else)
     
-    MyMenu(:menus="menus.slice(0, 12).concat(menus[16]).concat(menus[17])" v-on:open-page="openTab")
+    MyMenu(:menus="menus.slice(0, 13).concat(menus[17]).concat(menus[18])" v-on:open-page="openTab")
 
     router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
 
@@ -82,10 +82,10 @@
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
                 //- el-col.t_c.ft18.sb(:span="24") 
-                el-col(:span="4")
-                el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
+                el-col(:span="8")
+                //- el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
                 el-col.spb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '9:403:iframe:/sports'}}) ") 
-                el-col(:span="4")
+                el-col(:span="8")
 
             p
               span.t1 体育竞技 &nbsp;&nbsp;
@@ -120,6 +120,9 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_06.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
+                //- el-col(:span="8" ) 
+                //- el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ") 
+                //- el-col(:span="8" ) 
                 el-col.t_c.ft18(:span="24") 敬请期待
 
             p
@@ -669,6 +672,8 @@ export default {
         
         &.spb
           background-image url(../assets/newhome/logo_sb_big.png)
+        &.uwin
+          background-image url(../assets/newhome/logo_uw_big.png)
       
       
       

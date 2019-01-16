@@ -33,7 +33,7 @@
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH "  v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
 
           el-table-column(class-name="pl2" prop="username" label="用户名"  width="150" v-if="!noname")
-          el-table-column(prop="betTime" label="时间" width="150")
+          el-table-column(prop="betTime" label="时间" width="150" class-name="pl2")
           el-table-column(prop="oddstype" label="盘口" width="100")
           el-table-column(prop="odds" label="赔率"  align="center"  width="100")
           el-table-column(prop="betAmount" label="下注金额"  align="right" width="100")
@@ -79,7 +79,7 @@
           }
         },
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        PL: ['IBC:3', '沙巴:9'],
+        PL: ['沙巴:9'],
         platid: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',

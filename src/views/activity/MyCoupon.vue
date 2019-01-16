@@ -10,7 +10,7 @@
         el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height="MH")
          
           el-table-column(class-name="" prop="getTime" label="领取时间" align="center" )
-          el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" )
+          el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" min-width="200")
           el-table-column(class-name="" prop="desc" label="优惠金额" align="center" )
             template(scope="scope")
               span {{ scope.row.isUsed ? scope.row.prizeAmount : scope.row.desc }}
@@ -33,7 +33,7 @@
         //- p 使用说明： 使用此优惠券， 需要向 【{{ froms[current.plat].split(':')[0] }}】 充值 {{ current.exAmount }} 以上
         p 优惠金额： {{ current.desc }}
         p 转出帐户： 主帐户
-        p 转入帐户： {{ froms[current.plat].split(':')[0] }}
+        p 转入帐户： {{ froms[current.plat] }}
         p 输入金额：
           input.ds-input(v-model="m" style="width: 1.8rem" @keyup.enter="use")
         .text-center(style="position: relative; top: .1rem")
@@ -59,7 +59,22 @@
         PboxStyle: {
           width: '6rem'
         },
-        froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', 'AG帐户:4', 'PT帐户:5', '', '棋牌帐户:7'],
+        // froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
+        froms: {
+          '0': '主帐户',
+          '1': '特殊帐户',
+          '2': 'BG帐户',
+          '3': 'IBC帐户',
+          '7': '棋牌帐户',
+          '5': 'PT帐户',
+          '4': 'AG帐户',
+          '9': '沙巴帐户',
+          '15': '乐游帐户',
+          '17': 'U赢帐户',
+          '18': 'KG帐户',
+          '25': '微游帐户'
+        },
+        // froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', 'AG帐户:4', 'PT帐户:5', '', '棋牌帐户:7'],
         m: ''
       }
     },

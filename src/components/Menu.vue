@@ -4,7 +4,7 @@
       el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
 
 
-            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub && !menu.temp" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
               .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
               
 
@@ -228,6 +228,10 @@ body.cb.v2
       &.VR
         background url(../assets/v2/nav_icon_vr.png) 0 center no-repeat
 
+      &.KG
+        min-height .36rem
+        background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
+
   
   .footer-popover
     .infos .info
@@ -260,6 +264,11 @@ body.cb.v2
       
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)
+      
+      &.ds-icon-logo-uwin
+        background-image url(../assets/v2/logo_uw_big.png)
+      
+
         
         
         
@@ -282,6 +291,10 @@ body.cb.v2
       background url(../assets/v2/004.png) .2rem center no-repeat
     .ds-icon-game-bg5
       background url(../assets/v2/005.png) .2rem center no-repeat
+    
+    .ds-icon-game-egaming
+      background url(../assets/v2/006.png) left center no-repeat
+    
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
     .ds-icon-vipclub

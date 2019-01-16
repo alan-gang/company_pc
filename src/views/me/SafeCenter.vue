@@ -34,7 +34,7 @@
                 input.ds-input.large(v-model="oldPwd" type="password")
 
               p(v-if=" me.phone ") 手机验证码：
-                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                input.ds-input.large(v-model="pc_"  style="width: 1.0rem")
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
                   span.text-333(v-if="pt_") {{ pt_ }} 
@@ -70,7 +70,7 @@
                 input.ds-input.large(type="password" v-model="oldCashPwd")
               
               p(v-if=" me.phone ") 手机验证码：
-                input.ds-input.large(v-model="pc_" v-bind:disabled="pt_ > 0" style="width: 1.0rem")
+                input.ds-input.large(v-model="pc_"  style="width: 1.0rem")
                 button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="sendSms" v-bind:class="{ disabled: pt_ }" v-bind:disabled="pt_ > 0") 
                   span(v-if="!pt_") 发送验证码
                   span.text-333(v-if="pt_") {{ pt_ }} 
@@ -567,7 +567,7 @@ export default {
         }
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
-        if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
+        if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
         this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
@@ -576,7 +576,7 @@ export default {
               this.__setCall({fn: '__logout', args: undefined, callId: undefined})
             }, 1500)
           } else {
-            this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
+            this.$message.error({target: this.$el, message: data.msg || '旧密码或手机验证码错误！'})
             this.clearPwd()
           }
         }, (rep) => {
@@ -594,7 +594,7 @@ export default {
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
-        if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次输入密码不一致！'})
+        if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
         this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
@@ -603,7 +603,7 @@ export default {
             this.$message.success({target: this.$el, message: message})
             if (!this.me.cashPwd) store.actions.setUser({cashPwd: true})
           } else {
-            this.$message.error({target: this.$el, message: data.msg || '旧密码错误！'})
+            this.$message.error({target: this.$el, message: data.msg || '旧密码或手机验证码错误！'})
             this.clearCashPwd()
           }
         }, (rep) => {

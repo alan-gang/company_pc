@@ -200,7 +200,7 @@ export default {
           id: 1,
           menuid: '2',
           class: 'ds-icon-game',
-          title: '彩票游戏',
+          title: '彩票',
           url: 'game',
           hideIcon: false,
           // size: 'full',
@@ -278,7 +278,15 @@ export default {
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
                 {url: 'PCDD', class: 'ds-icon-game-pcdd sign new', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
+                // {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: 'KG', fn: '18:203'},
                 {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
+              ]
+            },
+            {
+              title: '基诺彩票',
+              url: 'KG',
+              items: [
+                {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: 'KG', fn: '18:203'}
               ]
             }
             // {
@@ -296,19 +304,17 @@ export default {
         },
         {
           menuid: '98',
-          title: '体育竞技',
+          title: '棋牌',
           big: true,
-          // hide: true,
-          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
           info: [
-            {class: 'ds-icon-game-sports ', title: '体育赛事', descrb: '五大联赛，硝烟再起'},
-            {menuid: '98', class: 'ds-icon-logo-saba', id: '9-9-9', fn: '3:301:iframe:/sports'},
-            {menuid: '98', class: 'ds-icon-logo-spb ', id: '9-9-9', fn: '9:203:iframe:/sports'}
+            {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
+            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
           ]
         },
         {
           menuid: '98',
-          title: '真人娱乐',
+          title: '真人',
           big: true,
           info: [
             {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
@@ -319,10 +325,10 @@ export default {
         },
         {
           menuid: '98',
-          title: '电子游戏',
+          title: '老虎机',
           big: true,
           info: [
-            {class: 'ds-icon-game-bg2 ', title: '电子游戏', descrb: '趣味玩法 回味经典'},
+            {class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:203:iframe:/egame'}
@@ -330,23 +336,38 @@ export default {
         },
         {
           menuid: '98',
-          title: '捕鱼达人',
+          title: '体育',
+          big: true,
+          // hide: true,
+          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
+          info: [
+            {class: 'ds-icon-game-sports ', title: '体育赛事', descrb: '五大联赛，硝烟再起'},
+            // {menuid: '98', class: 'ds-icon-logo-saba', id: '9-9-9', fn: '3:301:iframe:/sports'},
+            {menuid: '98', class: 'ds-icon-logo-spb ', id: '9-9-9', fn: '9:203:iframe:/sports'}
+          ]
+        },
+        {
+          menuid: '98',
+          title: '电竞',
+          temp: true,
+          big: true,
+          // hide: true,
+          // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
+          info: [
+            {class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率'},
+            // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'}
+          ]
+        },
+        {
+          menuid: '98',
+          title: '捕鱼',
           big: true,
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'}
-          ]
-        },
-        {
-          menuid: '98',
-          title: '棋牌游戏',
-          big: true,
-          info: [
-            {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
-            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
-            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
           ]
         },
         {
@@ -811,9 +832,9 @@ export default {
             this.activeMenu = [this.menus[this.mi]]
           } else {
             if (this.Me.login) {
-              this.activeMenu = [this.menus[8 + 5], this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5], this.menus[13 + 5]]
+              this.activeMenu = [this.menus[9 + 5], this.menus[10 + 5], this.menus[11 + 5], this.menus[12 + 5], this.menus[13 + 5], this.menus[14 + 5]]
             } else {
-              this.activeMenu = [this.menus[13 + 5]]
+              this.activeMenu = [this.menus[14 + 5]]
             }
           }
         }
@@ -1054,7 +1075,8 @@ export default {
           cbsafe: !!data.isOpenKey,
           safeCheck: data.verifyType,
           vip: data.isVip,
-          isVip: data.isVip
+          isVip: data.isVip,
+          vipChatUrl: data.vipChatUrl
         })
         // this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
