@@ -6,8 +6,13 @@
         .ds-button.x-small.text-button(v-bind:class="{selected: tabIndex === 3}" @click="tabIndex = 3" v-if="nsl === 1") 利润率追号
     .form
       | 追号期数：
-      el-select(v-model="nper")
+        
+
+      el-autocomplete.inline-input(v-model=" nper " v-bind:fetch-suggestions=" getNpers " placeholder="请选择追号期数" style="width: .5rem;")
+
+      //- el-select(v-model="nper")
         el-option(v-for="i in npers" v-bind:label="i + '期' " v-bind:value="i")
+
       |  &nbsp;&nbsp;起始倍数：
       el-input-number.center.times.my-center(v-model="times" v-bind:min="1" v-bind:max="10000")
       |  倍
@@ -54,8 +59,19 @@
     },
     data () {
       return {
-        nper: 5,
+        nper: '5',
         npers: [5, 10, 15, 20, 25, 30, 50, 100, 120],
+        nperss: [
+          {label: '5 期', value: '5'},
+          {label: '10 期', value: '10'},
+          {label: '15 期', value: '15'},
+          {label: '20 期', value: '20'},
+          {label: '25 期', value: '25'},
+          {label: '30 期', value: '30'},
+          {label: '50 期', value: '50'},
+          {label: '100 期', value: '100'},
+          {label: '120 期', value: '120'}
+        ],
         times: 1,
         xtimes: 2,
         get: 50,
@@ -146,6 +162,10 @@
       }
     },
     methods: {
+      getNpers (s, cb) {
+        // cb(this.nperss.filter(x => String(x.value).indexOf(s) !== -1))
+        cb(this.nperss)
+      },
       selectAll () {
         this.data.forEach(row => {
           // console.log('rowowowo')

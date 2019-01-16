@@ -37,6 +37,7 @@ let store = {
       lymoney: 0,
       uwinmoney: 0,
       kgmoney: 0,
+      litAmount: 0,
       email: '',
       phone: '',
       greeting: '',
@@ -119,6 +120,7 @@ let store = {
         lymoney: 0,
         uwinmoney: 0,
         kgmoney: 0,
+        litAmount: 0,
         // safeCenter
         email: '',
         phone: '',

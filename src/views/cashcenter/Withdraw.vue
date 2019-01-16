@@ -36,9 +36,12 @@
             |  次，今天您已经发起了 
             span.text-danger {{ times }}
             |  次提现申请。
-            // br
-            // | 每天的提现处理时间为：
-            // span.text-danger 早上 10:00 至 次日凌晨 2:00
+            br
+            | 每日最大提款金额 
+            span.text-danger {{ maxAmount._nwc() }}
+            | ，今天您已提款金额 
+            span.text-danger {{ amount._nwc() }}
+            | 。
             br
             | 新绑定的提款银行卡需要绑定时间超过 
             span.text-danger 6
@@ -196,7 +199,9 @@ export default {
         return row.index
       },
       // 要展开的行，数值的元素是row的key值
-      expands: []
+      expands: [],
+      amount: 0,
+      maxAmount: 0
     }
   },
   computed: {
@@ -346,6 +351,8 @@ export default {
         if (data.success === 1) {
           this.times = data.times
           this.maxTimes = data.maxTimes
+          this.amount = data.amount
+          this.maxAmount = data.maxAmount
         }
       }).catch(rep => {
       })

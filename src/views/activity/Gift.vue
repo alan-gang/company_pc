@@ -43,6 +43,9 @@
                 br
                 | {{ scope.row.activityName }}
 
+          el-table-column(prop="date" label="发放日期" align="left")
+
+
           el-table-column(prop="prizeDate" label="领取时间" align="left")
 
           // el-table-column(prop="taskprice" label="数量" width="100" align="right")
