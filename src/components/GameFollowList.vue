@@ -8,7 +8,7 @@
       | 追号期数：
         
 
-      el-autocomplete.inline-input(v-model=" nper " v-bind:fetch-suggestions=" getNpers " placeholder="请选择追号期数" style="width: .5rem;")
+      el-autocomplete.inline-input(v-model=" nper_copy " v-bind:fetch-suggestions=" getNpers " placeholder="请选择追号期数" style="width: .5rem;")
 
       //- el-select(v-model="nper")
         el-option(v-for="i in npers" v-bind:label="i + '期' " v-bind:value="i")
@@ -59,7 +59,7 @@
     },
     data () {
       return {
-        nper: '5',
+        nper_copy: '5',
         npers: [5, 10, 15, 20, 25, 30, 50, 100, 120],
         nperss: [
           {label: '5 期', value: '5'},
@@ -81,6 +81,9 @@
       }
     },
     computed: {
+      nper () {
+        return Number(this.nper_copy) || 0
+      },
       // data () {
       //   return Array(this.nper).fill(0).map((d, index) => {
       //     return (d = {

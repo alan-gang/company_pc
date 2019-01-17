@@ -169,12 +169,12 @@ let SSC = {
   C(选择有号码的位置, 2), 再对这些位置上的号码个数相乘"
   */
   '-1-1-1' ({nsl}) {
-    let N1 = nsl[0]
-    let N2 = nsl[1]
-    let N3 = nsl[2]
-    let N4 = nsl[3]
-    let N5 = nsl[4]
-    return Math.min(N1 * N2 + N1 * N3 + N1 * N4 + N1 * N5 + N2 * N3 + N2 * N4 + N2 * N5 + N3 * N4 + N3 * N5 + N4 * N5, 10)
+    let N1 = nsl[0] ? 1 : 0
+    let N2 = nsl[1] ? 1 : 0
+    let N3 = nsl[2] ? 1 : 0
+    let N4 = nsl[3] ? 1 : 0
+    let N5 = nsl[4] ? 1 : 0
+    return C(A([N1, N2, N3, N4, N5]), 2)
   },
 
   /*
@@ -182,7 +182,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 2) * N
   */
   '-1-1-2' ({value, psl}) {
-    return Math.min(C(psl, 2) * N(value, 2).length, 10)
+    return C(psl, 2) * (N(value, 2).length ? 1 : 0)
   },
 
   /*
@@ -190,7 +190,7 @@ let SSC = {
   p位置选择的个数，n选择的号码个数 C(p, 2) * C(n, 2)
   */
   '-1-1-3' ({nsl, psl}) {
-    return Math.min(C(psl, 2) * C(nsl[0], 2), 10)
+    return C(psl, 2) * (C(nsl[0], 2) ? 1 : 0)
   },
 
   /*
@@ -198,7 +198,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 2) * N
   */
   '-1-1-4' ({psl, value}) {
-    return Math.min(C(psl, 2) * N(value, 2).length, 10)
+    return C(psl, 2) * (N(value, 2).length ? 1 : 0)
   },
 
   /* ..............任三............... */
@@ -209,12 +209,12 @@ let SSC = {
   C(选择有号码的位置, 3), 再对这些位置上的号码个数相乘"
   */
   '-1-2-1' ({nsl}) {
-    let N1 = nsl[0]
-    let N2 = nsl[1]
-    let N3 = nsl[2]
-    let N4 = nsl[3]
-    let N5 = nsl[4]
-    return Math.min(N1 * N2 * N3 + N1 * N2 * N4 + N1 * N2 * N5 + N1 * N3 * N4 + N1 * N3 * N5 + N1 * N4 * N5 + N2 * N3 * N4 + N2 * N3 * N5 + N2 * N4 * N5 + N3 * N4 * N5, 10)
+    let N1 = nsl[0] ? 1 : 0
+    let N2 = nsl[1] ? 1 : 0
+    let N3 = nsl[2] ? 1 : 0
+    let N4 = nsl[3] ? 1 : 0
+    let N5 = nsl[4] ? 1 : 0
+    return C(A([N1, N2, N3, N4, N5]), 3)
   },
 
   /*
@@ -222,7 +222,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-2' ({psl, value}) {
-    return Math.min(C(psl, 3) * N(value, 3).length, 10)
+    return C(psl, 3) * (N(value, 3).length ? 1 : 0)
   },
 
   /*
@@ -231,7 +231,7 @@ let SSC = {
   C(p, 3) * C(n, 2) * 2"
   */
   '-1-2-3' ({nsl, psl}) {
-    return Math.min(2 * C(psl, 3) * C(nsl[0], 2), 10)
+    return C(psl, 3) * (C(nsl[0], 2) ? 1 : 0)
   },
 
   /*
@@ -239,7 +239,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-4' ({psl, value}) {
-    return Math.min(C(psl, 3) * N(value, 3, 2).length, 10)
+    return C(psl, 3) * (N(value, 3, 2) ? 1 : 0)
   },
 
   /*
@@ -247,21 +247,21 @@ let SSC = {
   p位置选择的个数，n选择的号码个数 C(p, 3) * C(n, 3)
   */
   '-1-2-5' ({nsl, psl}) {
-    return Math.min(C(psl, 3) * C(nsl[0], 3), 10)
+    return C(psl, 3) * (C(nsl[0], 3) ? 1 : 0)
   },
   /*
   组六单式
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-6' ({psl, value}) {
-    return Math.min(C(psl, 3) * N(value, 3, 1).length, 10)
+    return C(psl, 3) * (N(value, 3, 1) ? 1 : 0)
   },
   /*
   混合组选
   N录入的号码个数，p位置选择的个数 C(p, 3) * N
   */
   '-1-2-7' ({psl, value}) {
-    let wn = [0, Math.min(C(psl, 3) * ON(value, 3, 2).length, 10)]
+    let wn = [0, C(psl, 3) * (ON(value, 3, 2).length ? 1 : 0)]
     if (N(value, 3, 2).length) {
       wn[0] = wn[1]
       wn[1] = 0
@@ -277,12 +277,12 @@ let SSC = {
   C(选择有号码的位置, 4), 再对这些位置上的号码个数相乘"
   */
   '-1-3-1' ({nsl}) {
-    let N1 = nsl[0]
-    let N2 = nsl[1]
-    let N3 = nsl[2]
-    let N4 = nsl[3]
-    let N5 = nsl[4]
-    return Math.min(N1 * N2 * N3 * N4 + N1 * N2 * N3 * N5 + N1 * N2 * N4 * N5 + N1 * N3 * N4 * N5 + N2 * N3 * N4 * N5, 5)
+    let N1 = nsl[0] ? 1 : 0
+    let N2 = nsl[1] ? 1 : 0
+    let N3 = nsl[2] ? 1 : 0
+    let N4 = nsl[3] ? 1 : 0
+    let N5 = nsl[4] ? 1 : 0
+    return C(A([N1, N2, N3, N4, N5]), 4)
   },
 
   /*
@@ -290,7 +290,7 @@ let SSC = {
   N录入的号码个数，p位置选择的个数 C(p, 4) * N
   */
   '-1-3-2' ({psl, value}) {
-    return Math.min(C(psl, 4) * N(value, 4).length, 5)
+    return C(psl, 4) * (N(value, 4).length ? 1 : 0)
   },
 
   /*
@@ -298,7 +298,7 @@ let SSC = {
   p位置选择的个数，n选择的号码个数 C(psl, 4) * C(n, 4)
   */
   '-1-3-3' ({nsl, psl}) {
-    return Math.min(C(psl, 4) * C(nsl[0], 4), 5)
+    return C(psl, 4) * (C(nsl[0], 4) ? 1 : 0)
   },
 
   /*
@@ -307,14 +307,14 @@ let SSC = {
   C(psl, 4) * (C(m, 1) * C(nsl[0], 2) - C(h, 1) * C(nsl[0]-1, 1))
   */
   '-1-3-4' ({nsl, psl, r}) {
-    return Math.min(C(psl, 4) * (C(nsl[0], 1) * C(nsl[1], 2) - C(r, 1) * C(nsl[1] - 1, 1)), 5)
+    return C(psl, 4) * (C(nsl[0], 1) * C(nsl[1], 2) - C(r, 1) * C(nsl[1] - 1, 1) ? 1 : 0)
   },
 
   /*
   组选6 p位置选择的个数，n选择的号码个数 C(psl, 4) * C(nsl[0], 2)
   */
   '-1-3-5' ({nsl, psl}) {
-    return Math.min(C(psl, 4) * C(nsl[0], 2), 5)
+    return C(psl, 4) * (C(nsl[0], 2) ? 1 : 0)
   },
 
   /*
@@ -322,7 +322,7 @@ let SSC = {
   C(psl, 4) * (C(m, 1) * C(nsl[0], 1) - C(h, 1))
   */
   '-1-3-6' ({nsl, psl, r}) {
-    return Math.min(C(psl, 4) * (C(nsl[0], 1) * C(nsl[1], 1) - C(r, 1)), 5)
+    return C(psl, 4) * (C(nsl[0], 1) * C(nsl[1], 1) - C(r, 1) ? 1 : 0)
   },
   /* *************************************趣味*********************************** */
   /* ..............大小单双............... */
