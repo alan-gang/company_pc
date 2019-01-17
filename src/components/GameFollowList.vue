@@ -178,7 +178,7 @@
       setTa () {
         if (this.tabIndex === 3) {
           // let getTimesArray = (min, rate, len, capital, reward) => {
-          let ta = getTimesArray(this.times, this.get / 100, this.nper, this.pay, (this.ns[0] || {}).bonus)
+          let ta = getTimesArray(this.times, this.get / 100, this.nper, this.pay, (this.ns[0] || {}).bonus.replace(',', ''))
           this.ta = ta.length === this.nper ? ta : []
           if (this.ta.length !== this.nper) {
             this.$modal.warn({

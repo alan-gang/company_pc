@@ -973,7 +973,6 @@ export default {
     //   this.order()
     // },
     order ({maxWinAmount}) {
-      console.log(maxWinAmount, '???')
       if (this.hasUnable) {
         return this.$modal.warn({
           content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">您输入了<span class="text-danger">无效号码</span>，系统已自动删除无效号码</div>',
