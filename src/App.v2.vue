@@ -349,7 +349,7 @@ export default {
         {
           menuid: '98',
           title: '电竞',
-          temp: true,
+          // temp: true,
           big: true,
           // hide: true,
           // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},

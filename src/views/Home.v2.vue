@@ -120,10 +120,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_06.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
-                //- el-col(:span="8" ) 
-                //- el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ") 
-                //- el-col(:span="8" ) 
-                el-col.t_c.ft18(:span="24") 敬请期待
+                el-col(:span="8" ) 
+                el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ") 
+                el-col(:span="8" ) 
+                //- el-col.t_c.ft18(:span="24") 敬请期待
 
             p
               span.t1 电子竞技 &nbsp;&nbsp;

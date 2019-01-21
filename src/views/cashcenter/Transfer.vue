@@ -59,7 +59,8 @@
           p.amount.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
             // span.text-666 元
         
-        .c(style="display: none")
+        //- .c(style="display: none")
+        .c
           br
           p U赢帐户
           p.amount.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
@@ -88,7 +89,8 @@
           p.title.text-black 帐户互转 
           label.item 转出帐户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
+              //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
           p 可用余额：
             span.text-blue {{ numberWithCommas(fm) }}
             | 元
@@ -98,7 +100,8 @@
         
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
-              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
+              //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
+              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
 
           p 现有余额：
             span.text-blue {{ numberWithCommas(tm) }}
