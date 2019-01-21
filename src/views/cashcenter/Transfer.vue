@@ -226,6 +226,8 @@ export default {
           return this.froms.slice(0, 1)
         case 10:
           return this.froms.slice(0, 1)
+        case 11:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
