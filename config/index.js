@@ -28,15 +28,22 @@ var config = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/dscagamesclient': {
-            target: 'http://192.168.169.49:9901/dscagamesclient',
+        '/test': {
+            target: 'https://www.xy-test.net/dscagamesclient/',
             changeOrigin: true,
             pathRewrite: {
-              '^/cagamesclient': ''
+              '^/test': ''
+            }
+        },
+        '/dev': {
+            target: 'http://192.168.169.49:9901/dscagamesclient/',
+            changeOrigin: true,
+            pathRewrite: {
+              '^/dev': ''
             }
         },
         '/xy_activity': {
-            target: 'http://192.168.169.49/xy_activity',
+            target: 'http://192.168.169.49/dscagamesclient/',
             changeOrigin: true,
             pathRewrite: {
               '^/xy_activity': ''
