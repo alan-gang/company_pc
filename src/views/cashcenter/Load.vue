@@ -407,7 +407,7 @@ export default {
       }
     },
     radioIndex () {
-      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
+      // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
     },
     type () {
       // this.max = 0
@@ -416,7 +416,7 @@ export default {
       this.radioIndex = 0
       // if (this.type !== 2) this.TopUpGetBankList()
       if (this.type === 2) this.qryRecharge()
-      if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
+      // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
       // if (this.type > 2) this.selectBank = this.otherPay
     },
     Ctime () {
