@@ -547,6 +547,12 @@ export default {
                   menuid: '20',
                   title: '转账',
                   url: 'Transfer'
+                },
+                {
+                  id: '2-1-4',
+                  menuid: '20',
+                  title: '信游宝',
+                  url: 'XYB'
                 }
               ]
             }

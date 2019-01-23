@@ -116,6 +116,7 @@ import Download from './download/Download'
 import Load from './cashcenter/Load'
 import Withdraw from './cashcenter/Withdraw'
 import Transfer from './cashcenter/Transfer'
+import XYB from './cashcenter/XYB'
 // 个人中心
 import myCashRecord from './myCashRecord'
 
@@ -135,6 +136,7 @@ export default {
     Load,
     Withdraw,
     Transfer,
+    XYB,
     // 个人中心
     myCashRecord,
     // 代理中心
