@@ -27,6 +27,9 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  p2pBuyProduct: '/p2p/product.do?method=buyProduct',
+  p2pAccount: '/p2p/product.do?method=productAccount',
+  p2pList: '/p2p/product.do?method=list',
   bindMobile: '/person/accountSecur.do?method=bindMobile',
   unbindMobile: '/person/accountSecur.do?method=unbindMobile',
   getSMSCode: '/person/accountSecur.do?method=getSMSCode',

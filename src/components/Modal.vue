@@ -118,9 +118,9 @@
       if (this.Pok) this.ok = this.Pok
       if (this.Pcancel) this.cancel = this.Pcancel
       if (this.Pclose) this.close = this.Pclose
-      if (this.PboxStyle) this.boxStyle = this.PboxStyle
+      // if (this.PboxStyle) this.boxStyle = this.PboxStyle
       if (this.Ptitle) this.title = this.Ptitle
-      if (this.PboxStyle) this.boxStyle = Object.assign(this.boxStyle, this.PboxStyle)
+      if (this.PboxStyle || this.PPboxStyle) this.boxStyle = Object.assign(this.boxStyle, this.PboxStyle || {}, this.PPboxStyle || {})
     },
     mounted () {
     }
