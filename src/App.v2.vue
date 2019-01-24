@@ -349,7 +349,7 @@ export default {
         {
           menuid: '98',
           title: '电竞',
-          temp: true,
+          // temp: true,
           big: true,
           // hide: true,
           // info: {menuid: '98', class: 'ds-icon-game-sports ', id: '9-9-9', title: '体育赛事', descrb: '五大联赛，硝烟再起', fn: '3:301:iframe:/sports'},
@@ -452,7 +452,7 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总账', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -618,7 +618,7 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总账', '彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
