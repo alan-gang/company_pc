@@ -263,7 +263,7 @@
         }, 10000, '加载超时...')
         if (!fn) {
           this.cpreOptions = {
-            gameType: 5,
+            gameType: 1,
             username: this.name,
             userId: id,
             scope: this.zone !== '' ? this.zone + 1 : '',
