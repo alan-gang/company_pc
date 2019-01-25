@@ -40,18 +40,31 @@
       
       .l.t_c
         .ds-button-group
-          .ds-button(v-bind:class=" {selected: i === 1} " @click=" i = 1 ") 资金明细
-          .ds-button(v-bind:class=" {selected: i === 2} " @click=" i = 2 ") 结算记录
+          .ds-button(v-bind:class=" {selected: i === 0} " @click=" (i = 0) || list() ") 资金明细
+          .ds-button(v-bind:class=" {selected: i === 1} " @click=" (i = 1) && list() ") 结算记录
         
-        el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height=" MH ")
+        el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height=" MH " v-show=" !i ")
 
-          el-table-column(class-name="pl2" prop="projectId" align="center" label="交易时间" )
-          el-table-column(class-name="pl2" prop="projectId" align="center" label="交易类型" )
-          el-table-column(class-name="pl2" prop="projectId" align="center" label="交易金额" )
-          el-table-column(class-name="pl2" prop="projectId" align="center" label="交易后账户金额" )
-          el-table-column(class-name="pl2" prop="projectId" align="center" label="备注" )
+          el-table-column(class-name="pl2" prop="createdateBack" align="center" label="交易时间" )
+          el-table-column(class-name="pl2" prop="remark" align="center" label="交易类型" )
+
+          el-table-column(class-name="pl2" prop="changemoney" align="center" label="交易金额" )
+            template(scope="scope")
+              span.text-green(v-if=" scope.row.changemoney && scope.row.changemoney._o0() ") +{{ scope.row.changemoney && scope.row.changemoney._nwc() }}
+              span.text-danger(v-if=" scope.row.changemoney && scope.row.changemoney._l0() ") {{ scope.row.changemoney && scope.row.changemoney._nwc() }}
+
+          el-table-column(class-name="pl2" prop="amount" align="center" label="交易后账户金额" )
+          el-table-column(class-name="pl2" prop="remark" align="center" label="备注" )
+
+        el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height=" MH " v-show=" i ")
+
+          el-table-column(class-name="pl2" prop="createdateBack" align="center" label="结算时间" )
+          el-table-column(class-name="pl2" prop="unit" align="center" label="结算周期" width="300")
+          el-table-column(class-name="pl2" prop="base" align="center" label="有效资金" )
+          el-table-column(class-name="pl2" prop="changemoney" align="center" label="收益" )
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+
 
     
     Modal.xyb-modal(v-if=" t " v-bind:Pbtn="Pbtn " v-bind:PboxStyle="PboxStyle" v-bind:Pclose="Pclose")
@@ -62,7 +75,7 @@
           el-select(v-model="s" style="width: 1.7rem" placeholder="无")
             el-option(v-for=" (n, i) in source "  v-bind:value=" i " v-bind:label=" n ")
 
-        p {{ ['', '可转入金额', '信游宝余额'][t] }}：&nbsp;&nbsp;
+        p {{ ['', '可转入金额', '信游宝余额'][t] }}：&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-blue {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
       
         label.item.inlb 转{{ ['', '入', '出'][t]}}金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -89,8 +102,9 @@ export default {
   props: [],
   data () {
     return {
+      TH: 350,
       ME: store.state.user,
-      i: 1,
+      i: 0,
       data: [],
       t: 0,
       Pbtn: [],
@@ -101,7 +115,12 @@ export default {
       products: [],
       xyb: {},
       m: '',
-      s: 0
+      s: 0,
+      type: {
+        settlement: '结算收益',
+        transfer: '转入',
+        transferOut: '转出'
+      }
     }
   },
   computed: {
@@ -109,9 +128,11 @@ export default {
       return [[], ['主帐户', '特殊帐户'], ['主帐户']][this.t]
     }
   },
-  created () {
+  mounted () {
     this.p2pList()
+    this.list()
   },
+  // selectAccountChange: '/p2p/product.do?method=selectAccountChange',
   // p2pBuyProduct: '/p2p/product.do?method=buyProduct',
   // p2pAccount: '/p2p/product.do?method=productAccount',
   // p2pList: '/p2p/product.do?method=list',
@@ -128,11 +149,18 @@ export default {
       })
     },
     p2pBuyProduct () {
+      if (!Number(this.m)) return this.$message.error({message: '请输入金额'})
       this.$http.get(api.p2pBuyProduct, {productId: this.xyb.id, action: ['', 'buy', 'withdraw'][this.t], amount: this.m, accountType: this.s}).then(({data: {success, status, msg, t1, t}}) => {
         if (success === 1 || status === 1) {
           store.actions.setUser({amoney: t1.availablebalance + '', smoney: t1.specialBalance + ''})
           this.xyb.balance = t.balance
           this.ok()
+        } else {
+          this.$modal.warn({
+            content: msg || '转入/转出失败',
+            PPboxStyle: {width: '3.6rem'},
+            btn: ['确定']
+          })
         }
       })
     },
@@ -141,13 +169,13 @@ export default {
         text: '加载中...',
         target: this.$refs['table'].$el
       }, 10000, '加载超时...')
-      this.$http.post(api.qryRecharge, Object.assign({
-      }, option)).then(({data: {success, payRecordData, totalSize}}) => {
-        if (success === 1) {
-          this.data = payRecordData
-          this.total = totalSize || this.data.length
-          cb()
-        }
+      this.$http.post(api.selectAccountChange, Object.assign({
+        action: !this.i ? '' : '1',
+        productId: this.xyb.id
+      }, option)).then(({data: {data, totalSize}}) => {
+        this.data = data
+        this.total = totalSize || this.data.length
+        cb()
       }).finally(() => {
         setTimeout(() => {
           loading.close()
