@@ -148,6 +148,9 @@ export default {
         this.xyb = Object.assign(p, {balance: data.balance, income: data.income})
       })
     },
+    resetBuyModalParams () {
+      this.s = 0
+    },
     p2pBuyProduct () {
       if (!Number(this.m)) return this.$message.error({message: '请输入金额'})
       this.$http.get(api.p2pBuyProduct, {productId: this.xyb.id, action: ['', 'buy', 'withdraw'][this.t], amount: this.m, accountType: this.s}).then(({data: {success, status, msg, t1, t}}) => {
@@ -155,6 +158,7 @@ export default {
           store.actions.setUser({amoney: t1.availablebalance + '', smoney: t1.specialBalance + ''})
           this.xyb.balance = t.balance
           this.ok()
+          this.resetBuyModalParams()
         } else {
           this.$modal.warn({
             content: msg || '转入/转出失败',
@@ -186,9 +190,12 @@ export default {
       this.t = 0
       return false
     },
+    isTransferIn () {
+      return this.t === 1
+    },
     ok () {
       this.$modal.success({
-        content: '<p class="text-333 ">操作成功！</p><p class="text-999 ft14">资金已转' + [[], ['入信游宝'], ['出至主帐户', '出至特殊帐户']][this.t][this.s] + '</p>',
+        content: '<p class="text-333 ">操作成功！</p><p class="text-999 ft14">资金已转' + [[], ['入信游宝'], ['出至主帐户', '出至特殊帐户']][this.t][this.isTransferIn() ? 0 : this.s] + '</p>',
         PPboxStyle: {width: '3.6rem'},
         btn: ['确定']
       })
