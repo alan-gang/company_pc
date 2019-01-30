@@ -79,7 +79,7 @@
           span.text-blue {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
       
         label.item.inlb 转{{ ['', '入', '出'][t]}}金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          input.ds-input(v-model=" m ")
+          input.ds-input(v-model=" m " maxlength="12")
 
 
         .text-center(style="position: relative; top: .1rem")
