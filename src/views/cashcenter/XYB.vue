@@ -43,7 +43,7 @@
           .ds-button(v-bind:class=" {selected: i === 0} " @click=" (i = 0) || list() ") 资金明细
           .ds-button(v-bind:class=" {selected: i === 1} " @click=" (i = 1) && list() ") 结算记录
         
-        el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height=" MH " v-show=" !i ")
+        el-table.header-bold.nopadding(:data="data0" ref="table" stripe v-bind:max-height=" MH " v-show=" !i " class="r-tb")
 
           el-table-column(class-name="pl2" prop="createdateBack" align="center" label="交易时间" )
           el-table-column(class-name="pl2" prop="remark" align="center" label="交易类型" )
@@ -56,7 +56,7 @@
           el-table-column(class-name="pl2" prop="amount" align="center" label="交易后账户金额" )
           el-table-column(class-name="pl2" prop="remark" align="center" label="备注" )
 
-        el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height=" MH " v-show=" i ")
+        el-table.header-bold.nopadding(:data="data1" ref="table" stripe v-bind:max-height=" MH " v-show=" i " class="r-tb")
 
           el-table-column(class-name="pl2" prop="createdateBack" align="center" label="结算时间" )
           el-table-column(class-name="pl2" prop="unit" align="center" label="结算周期" width="300")
@@ -105,7 +105,8 @@ export default {
       TH: 350,
       ME: store.state.user,
       i: 0,
-      data: [],
+      data0: [],
+      data1: [],
       t: 0,
       Pbtn: [],
       PboxStyle: {
@@ -177,8 +178,8 @@ export default {
         action: !this.i ? '' : '1',
         productId: this.xyb.id
       }, option)).then(({data: {data, totalSize}}) => {
-        this.data = data
-        this.total = totalSize || this.data.length
+        this['data' + this.i] = data
+        this.total = totalSize || this['data' + this.i].length
         cb()
       }).finally(() => {
         setTimeout(() => {
@@ -275,7 +276,6 @@ export default {
   .k
     font-size .36rem
     color #333
-        
     
   
     
