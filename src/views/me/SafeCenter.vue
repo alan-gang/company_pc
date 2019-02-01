@@ -162,7 +162,7 @@
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       //- 手机绑定
-      //- el-row.phone(v-bind:class="{expand: index === 4 }")
+      el-row.phone(v-bind:class="{expand: index === 4 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-phone 手机绑定
