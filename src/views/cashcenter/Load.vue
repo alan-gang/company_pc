@@ -793,7 +793,8 @@ export default {
       }).then(({data}) => {
         if (data.success === 1) {
           // if (this.type === 0) {
-          if (this.type >= 3 && (this.epay[this.type - 3].title === '网银转帐' || this.epay[this.type - 3].title === '支付宝转帐' || this.epay[this.type - 3].title === '大额网银')) {
+          // if (this.type >= 3 && (this.epay[this.type - 3].title === '网银转帐' || this.epay[this.type - 3].title === '支付宝转帐' || this.epay[this.type - 3].title === '大额网银')) {
+          if (data.data) {
             data = data.data
             this.dataXamount = data.amount
             this.dataXbankName = data.bankName

@@ -105,7 +105,7 @@
             span(style="color: #f11b1b") {{ showTime }}&nbsp;
           
           .ds-button.btn3(v-bind:class="{'disabled': !canOrder, btn2: canOrder}" @click="canOrder && order()") 添加选号
-          .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 一键梭哈
+          .ds-button.btn2(v-bind:class="{disabled: !canOrder}" @click="canOrder && sh()") 全押
 
         .f_r
           
