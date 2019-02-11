@@ -82,24 +82,40 @@ let getNumberOfAnimal = (s) => {
     let a = []
     let index = -1
     if (typeof n !== 'string' && (index = '鼠牛虎兔龙蛇马羊猴鸡狗猪金木水火土'.indexOf(s)) === -1 ) return a
-    if (window.newDate().getTime() >= 1518710400000) {
-      if (index < 12) {
-        index--
-        if (index === -1) index = 11
-       }
-    }
-    if (index === 0 ) a = [10, 22, 34, 46]
-    if (index === 1 ) a = [9, 21, 33, 45]
-    if (index === 2 ) a = [8, 20, 32, 44]
-    if (index === 3 ) a = [7, 19, 31, 43]
-    if (index === 4 ) a = [6, 18, 30, 42]
-    if (index === 5 ) a = [5, 17, 29, 41]
-    if (index === 6 ) a = [4, 16, 28, 40]
-    if (index === 7 ) a = [3, 15, 27, 39]
-    if (index === 8 ) a = [2, 14, 26, 38]
-    if (index === 9 ) a = [1, 13, 25, 37, 49]
-    if (index === 10 ) a = [12, 24, 36, 48]
-    if (index === 11 ) a = [11, 23, 35, 47]
+    // if (window.newDate().getTime() >= 1518710400000) {
+    //   if (index < 12) {
+    //     index--
+    //     if (index === -1) index = 11
+    //    }
+    // }
+    // if (index === 0 ) a = [10, 22, 34, 46]
+    // if (index === 1 ) a = [9, 21, 33, 45]
+    // if (index === 2 ) a = [8, 20, 32, 44]
+    // if (index === 3 ) a = [7, 19, 31, 43]
+    // if (index === 4 ) a = [6, 18, 30, 42]
+    // if (index === 5 ) a = [5, 17, 29, 41]
+    // if (index === 6 ) a = [4, 16, 28, 40]
+    // if (index === 7 ) a = [3, 15, 27, 39]
+    // if (index === 8 ) a = [2, 14, 26, 38]
+    // if (index === 9 ) a = [1, 13, 25, 37, 49]
+    // if (index === 10 ) a = [12, 24, 36, 48]
+    // if (index === 11 ) a = [11, 23, 35, 47]
+
+    if (index === 0 ) a = [12, 24, 36, 48]
+    if (index === 1 ) a = [11, 23, 35, 47]
+    if (index === 2 ) a = [10, 22, 34, 46]
+    if (index === 3 ) a = [9, 21, 33, 45]
+    if (index === 4 ) a = [8, 20, 32, 44]
+    if (index === 5 ) a = [7, 19, 31, 43]
+    if (index === 6 ) a = [6, 18, 30, 42]
+    if (index === 7 ) a = [5, 17, 29, 41]
+    if (index === 8 ) a = [4, 16, 28, 40]
+    if (index === 9 ) a = [3, 15, 27, 39]
+    if (index === 10 ) a = [2, 14, 26, 38] 
+    if (index === 11 ) a = [1, 13, 25, 37, 49]
+    
+
+
     // ...
     if (index === 12 ) return getNumberOfAnimal('猴').concat(getNumberOfAnimal('鸡'))
     if (index === 13 ) return getNumberOfAnimal('虎').concat(getNumberOfAnimal('兔'))
