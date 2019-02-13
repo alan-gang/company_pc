@@ -397,6 +397,7 @@ export default {
     showWithDraw () {
       if (this.selectBank.entry === undefined) return this.$message.warning({target: this.$el, message: '您还未选择银行卡。'})
       if (this.money === 0) return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
+      if ((this.money % 1) !== 0) return this.$message.warning({target: this.$el, message: '您输入的提现金额不是整数。'})
       this.$http.post(api.showWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
         if (data.success === 1) {
           this.get = data.realmoney
