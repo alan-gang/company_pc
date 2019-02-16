@@ -285,7 +285,7 @@ export default {
               title: '基诺彩票',
               url: 'KG',
               items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: '基诺彩', fn: '18:203'},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27}
               ]
             }

@@ -90,6 +90,7 @@ pre
 .modal .box-wrapper .box
   max-height 6rem
   overflow-y auto
+  overflow-x hidden
 
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee
