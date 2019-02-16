@@ -99,9 +99,20 @@
         this.$emit('type', item)
       },
       setMenu (m) {
-        if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0] && !m.groups[0].items[0].hide) this.$emit('type', m.groups[0].items[0])
-        else if (m.groups && m.groups[1] && m.groups[1].items && m.groups[1].items[0] && !m.groups[1].items[0].hide) this.$emit('type', m.groups[1].items[0])
-        else if (m.groups && m.groups[2] && m.groups[2].items && m.groups[2].items[0] && !m.groups[2].items[0].hide) this.$emit('type', m.groups[2].items[0])
+        let type = null
+        if (m.groups) {
+          m.groups.forEach(x => {
+            if (x.items) {
+              x.items.forEach(y => {
+                if (!type && !y.hide) type = y
+              })
+            }
+          })
+        }
+        this.$emit('type', type)
+        // if (m.groups && m.groups[0] && m.groups[0].items && m.groups[0].items[0] && !m.groups[0].items[0].hide) this.$emit('type', m.groups[0].items[0])
+        // else if (m.groups && m.groups[1] && m.groups[1].items && m.groups[1].items[0] && !m.groups[1].items[0].hide) this.$emit('type', m.groups[1].items[0])
+        // else if (m.groups && m.groups[2] && m.groups[2].items && m.groups[2].items[0] && !m.groups[2].items[0].hide) this.$emit('type', m.groups[2].items[0])
       },
       __getHistoryItems () {
         this.historyItems = JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]')
