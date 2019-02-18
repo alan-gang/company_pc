@@ -220,7 +220,7 @@ export default {
                 {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
                 {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-9', menuid: '75', title: '微博2分彩', volume: false, gameid: 150}
+                {class: 'ds-icon-game-wbwfc sign hot', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150}
               ]
             },
             {
