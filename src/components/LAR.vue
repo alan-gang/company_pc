@@ -25,7 +25,7 @@
         
       el-col.b.text-center(:span="5")
         p.ba.ft18 24小时客服
-        .bb.primary.ds-button._36rem.bold.jnewWin( @click=" window.open(ME.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') " ) 立即联系
+        .bb.primary.ds-button._36rem.bold.jnewWin 立即联系
 
       el-col.c.text-center(:span="5")
         p.ba.ft18 我的上级
