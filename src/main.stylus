@@ -54,6 +54,8 @@
 a
   text-decoration none
   color #666
+  &.default
+    color OBLUE
 h1, h2, h3, h4, h5, p, dl, dd, dt
   margin 0
 input
@@ -90,6 +92,7 @@ pre
 .modal .box-wrapper .box
   max-height 6rem
   overflow-y auto
+  overflow-x hidden
 
 .el-textarea.is-disabled .el-textarea__inner
   background-color #eee

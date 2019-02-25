@@ -214,13 +214,13 @@ export default {
               // width: '8rem',
               items: [
                 {class: 'ds-icon-game-chq sign hot', id: '1-1-1', menuid: '11', title: '重庆时时彩', volume: true, gameid: 1},
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
+                {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
+                {class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
+                {class: 'ds-icon-game-wbwfc sign new', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
-                {class: 'ds-icon-game-hlj sign new', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
-                {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
-                {class: 'ds-icon-game-cb120', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
-                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
-                {class: 'ds-icon-game-wbwfc sign hot', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150}
+                {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35}
               ]
             },
             {
@@ -241,9 +241,9 @@ export default {
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', volume: true, gameid: 7},
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
-                {class: 'ds-icon-game-js115 sign new', id: '1-3-8', menuid: '102', title: '江苏11选5', volume: true, gameid: 36},
-                {class: 'ds-icon-game-sh115 sign new', id: '1-3-6', menuid: '103', title: '上海11选5', volume: true, gameid: 37},
-                {class: 'ds-icon-game-ah115 sign new', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38},
+                {class: 'ds-icon-game-js115', id: '1-3-8', menuid: '102', title: '江苏11选5', volume: true, gameid: 36},
+                {class: 'ds-icon-game-sh115', id: '1-3-6', menuid: '103', title: '上海11选5', volume: true, gameid: 37},
+                {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38},
                 // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
                 {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
@@ -267,27 +267,27 @@ export default {
               // url: 'K3',
               items: [
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
-                {url: 'PK10', class: 'ds-icon-game-pk10sc sign new', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
-                {url: 'PK10', class: 'ds-icon-game-pk10ft sign new', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
-                // {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
+                {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
+                {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
+                // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
                 {url: 'SSL3D', class: 'ds-icon-game-fc', id: '1-5-2', menuid: '60', title: '福彩3D', volume: true, gameid: 9},
-                {url: 'SSL3D', class: 'ds-icon-game-hl3d sign new', id: '1-5-8', menuid: '17', title: '欢乐3D', volume: true, gameid: 32},
-                {url: 'SSL3D', class: 'ds-icon-game-shssl sign new', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
+                {url: 'SSL3D', class: 'ds-icon-game-hl3d', id: '1-5-8', menuid: '17', title: '欢乐3D', volume: true, gameid: 32},
+                {url: 'SSL3D', class: 'ds-icon-game-shssl', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
                 {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
-                {url: 'PCDD', class: 'ds-icon-game-pcdd sign new', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
-                // {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: 'KG', fn: '18:203'},
-                {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc sign new', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
+                {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
+                // {menuid: '98', class: 'ds-icon-game-jn sign', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             },
             {
               title: '基诺彩票',
               url: 'KG',
               items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign new', id: '1-7-1', title: 'KG', fn: '18:203'},
-                {url: 'KL8', class: 'ds-icon-game-kl8 sign new', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27}
+                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27}
               ]
             }
             // {
