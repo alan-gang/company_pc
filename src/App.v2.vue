@@ -17,8 +17,8 @@
     dsLefter.scroll-content.in-classic(:menus="activeMenu" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:smoney="state.user.smoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-show="state.user.mode.indexOf('classic') !== -1 && activeMenu[0] " v-on:logout="logout" v-bind:hideme="true")
 
     // righter
-    transition(name="slide-right" appear=true)
-      dsRighter(v-if="state.hasFooter")
+    //- transition(name="slide-right" appear=true)
+    dsRighter
 
     // ggl
     GGL(v-if="ggl")

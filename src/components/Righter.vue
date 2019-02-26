@@ -14,7 +14,7 @@
       .expand-left  帮助中心
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
-    .ds-icon-(v-if="Me.login")
+    .ds-icon-(v-show="Me.login")
       .expand-left 联系上级
     .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
