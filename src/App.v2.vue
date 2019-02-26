@@ -238,14 +238,14 @@ export default {
               // width: '1.8rem',
               items: [
                 {url: 'G115', class: 'ds-icon-game-11ydj sign hot', id: '1-3-4', menuid: '16', title: '11运夺金', volume: true, gameid: 6},
+                {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11},
                 {class: 'ds-icon-game-jx115', id: '1-3-2', menuid: '62', title: '多乐彩', volume: true, gameid: 7},
                 {class: 'ds-icon-game-gd', id: '1-3-1', menuid: '15', title: '广东11选5', volume: true, gameid: 8},
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
                 {class: 'ds-icon-game-js115', id: '1-3-8', menuid: '102', title: '江苏11选5', volume: true, gameid: 36},
                 {class: 'ds-icon-game-sh115', id: '1-3-6', menuid: '103', title: '上海11选5', volume: true, gameid: 37},
-                {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38},
+                {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38}
                 // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
-                {url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11}
               ]
             },
             {
@@ -266,9 +266,9 @@ export default {
               // class: 'ds-icon-item',
               // url: 'K3',
               items: [
+                {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
-                {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
