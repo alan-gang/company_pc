@@ -1,6 +1,6 @@
 <template lang="jade">
   section.new-home(@scroll="scrollHander" @resize="onResize")
-    Me(v-show=" me.login " v-bind:menus="menus" v-on:open-page="openTab" )
+    Me(v-if=" me.login " v-bind:menus="menus" v-on:open-page="openTab" )
     Unloginbar(v-show=" !me.login ")
     
     MyMenu(:menus="menus.slice(0, 13).concat(menus[17]).concat(menus[18])" v-on:open-page="openTab")
