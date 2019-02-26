@@ -54,6 +54,8 @@
 a
   text-decoration none
   color #666
+  &.default
+    color OBLUE
 h1, h2, h3, h4, h5, p, dl, dd, dt
   margin 0
 input

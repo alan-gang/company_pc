@@ -23,7 +23,26 @@
         .vm.inlb
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ") 
-        
+    
+      el-popover(ref="popover4" placement="bottom-end"  trigger="hover" v-bind:popper-class=" 'wb-intro' " v-bind:visible-arrow=" va ") 
+        span.text-blue.mr10(slot="reference" v-if=" gameid === 150 ") 开奖号码说明
+        slot
+          p 微博5分彩，开奖数据源于每5分钟微博热搜榜前20名关键词的搜索次数。
+          br
+          p 取排名第1、第6、第11、第16名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【万位】的开奖号码；
+          p 取排名第2、第7、第12、第17名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【千位】的开奖号码；
+          p 取排名第3、第8、第13、第18名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【百位】的开奖号码；
+          p 取排名第4、第9、第14、第19名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【十位】的开奖号码；
+          p 取排名第5、第10、第15、第20名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【个位】的开奖号码。
+          br
+          p 以开奖号码的【万位】为例：
+          p 00:05分第1名关键词的搜索次数为 80000 次（尾数为0），
+          p 00:05分第6名关键词的搜索次数为 56789 次（尾数为9）， 
+          p 00:05分第11名关键词的搜索次数为 36748次（尾数为8），
+          p 00:05分第16名关键词的搜索次数为 17890 次（尾数为0），
+          p 则：0+9+8+0=27，27的尾数为7 ，所以01期开奖号码的【万位】就是7。
+          br
+          p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
         
 </template>
 
@@ -39,13 +58,15 @@ export default {
     allLuckyNumbers: Array,
     lucknumbers: Array,
     methodid: String,
-    overtime: Boolean
+    overtime: Boolean,
+    gameid: Number
   },
   components: {
     RollingNumbers
   },
   data () {
     return {
+      va: false,
       time: 0,
       interval: 0,
       t: 0,
@@ -134,10 +155,12 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
+      &.game-header-ds-icon-game-wbwfc .wrap
+          background-size 1.85rem
           
 
     .wrap
@@ -187,6 +210,8 @@ export default {
     .game-win
       // padding .12rem 0
       
-      
+  .wb-intro.el-popover
+    margin-top 34px
+    background-color #fffde8   
 </style>
 
