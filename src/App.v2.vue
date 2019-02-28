@@ -269,6 +269,7 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
+                {url: 'PK10', class: 'ds-icon-game-pk10sc sign new', id: '1-5-10', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
@@ -344,7 +345,8 @@ export default {
           info: [
             {class: 'ds-icon-game-sports ', title: '体育赛事', descrb: '五大联赛，硝烟再起'},
             // {menuid: '98', class: 'ds-icon-logo-saba', id: '9-9-9', fn: '3:301:iframe:/sports'},
-            {menuid: '98', class: 'ds-icon-logo-spb ', id: '9-9-9', fn: '9:203:iframe:/sports'}
+            {menuid: '98', class: 'ds-icon-logo-spb ', id: '9-9-9', fn: '9:203:iframe:/sports'},
+            {menuid: '98', class: 'ds-icon-logo-pb ', id: '9-9-9', fn: '19:203:iframe:/sports'}
           ]
         },
         {
