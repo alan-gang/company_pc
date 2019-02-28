@@ -139,7 +139,7 @@ export default {
   // p2pList: '/p2p/product.do?method=list',
   methods: {
     p2pList () {
-      this.$http.get(api.p2pList).then(({data}) => {
+      this.$http.get(api.p2pList).then(({data: {data}}) => {
         this.products = data
         this.p2pAccount(data[0])
       })
