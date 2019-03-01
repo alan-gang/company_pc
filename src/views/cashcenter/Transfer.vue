@@ -77,6 +77,11 @@
           p 微游帐户
           p.amount.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
             // span.text-666 元
+        .c
+          br
+          p 平博帐户
+          p.amount.text-black {{ numberWithCommas(ME.pbAmount.toFixed(4)) }}
+            // span.text-666 元
 
         .c
           br
@@ -141,11 +146,12 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19'],
       t: '',
       m: '',
       cpwd: '',
-      btn: false
+      btn: false,
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount']
     }
   },
   computed: {
@@ -175,12 +181,14 @@ export default {
           return this.ME.kgmoney
         case 11:
           return this.ME.litAmount
+        case 12:
+          return this.ME.pbAmount
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount][this.t]
         case 1:
           return this.ME.amoney
         case 2:
@@ -202,6 +210,8 @@ export default {
         case 10:
           return this.ME.amoney
         case 11:
+          return this.ME.amoney
+        case 12:
           return this.ME.amoney
       }
     },
@@ -231,13 +241,15 @@ export default {
           return this.froms.slice(0, 1)
         case 11:
           return this.froms.slice(0, 1)
+        case 12:
+          return this.froms.slice(0, 1)
       }
     },
     cm () {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -284,6 +296,7 @@ export default {
       else if (this.f === 0 && this.t === 7) (this.f = 9) && (this.t = 0)
       else if (this.f === 0 && this.t === 8) (this.f = 10) && (this.t = 0)
       else if (this.f === 0 && this.t === 9) (this.f = 11) && (this.t = 0)
+      else if (this.f === 0 && this.t === 10) (this.f = 12) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -330,20 +343,35 @@ export default {
         setTimeout(() => {
           this.t = 9
         })
+      } else if (this.f === 12) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 10
+        })
       }
     },
     ok () {
       if (this.f === 1) this.transferNow()
       else this.transferNowBG()
     },
-    getBalance () {
-      this.$http.get(api.getBalance).then(({data}) => {
-        if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0, lymoney: data.lyAmount, uwinmoney: data.uwinAmount, kgmoney: data.kgAmount, litAmount: data.litAmount})
-        }
-      }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+    getBalance (a) {
+      (a || this.a).forEach(x => {
+        let [, platId, prop] = x.split(':')
+        this.$http.myget(api.getBalanceByPID, {platId: platId}).then(({data: {bal, success}}) => {
+          if (success) {
+            let b = {}
+            b[prop] = Number(bal)
+            store.actions.setUser(b)
+          }
+        })
       })
+      // this.$http.get(api.getBalance).then(({data}) => {
+      //   if (data.success === 1) {
+      //     store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0, lymoney: data.lyAmount, uwinmoney: data.uwinAmount, kgmoney: data.kgAmount, litAmount: data.litAmount})
+      //   }
+      // }).catch(rep => {
+      //   // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      // })
     },
     transferNow () {
       if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
@@ -372,12 +400,14 @@ export default {
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
           this.m = ''
-          setTimeout(this.getBalance, 1000)
+          setTimeout(() => {
+            this.getBalance([this.a[Math.max(this.f, this.t + 2) - 2]])
+          }, 1000)
           this.__setCall({fn: '__getUserFund', args: undefined})
           // this.getBalance()
         } else {
@@ -464,7 +494,7 @@ export default {
       &:nth-child(8)
         background url(../../assets/v2/qb_icon_09.png) center .25rem no-repeat
       
-      &:nth-child(13)
+      &:nth-child(14)
         background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
       
       &:nth-child(9)
@@ -477,6 +507,8 @@ export default {
         background url(../../assets/v2/qb_icon_14.png) center .25rem no-repeat
       &:nth-child(12)
         background url(../../assets/v2/qb_icon_15.png) center .25rem no-repeat
+      &:nth-child(13)
+        background url(../../assets/v2/qb_icon_16.png) center .25rem no-repeat
     
     .cc
       max-width 3.1rem

@@ -268,6 +268,9 @@ body.cb.v2
       &.ds-icon-logo-uwin
         background-image url(../assets/v2/logo_uw_big.png)
       
+      &.ds-icon-logo-pb
+        background-image url(../assets/newhome/logo_pb_big.png)
+      
 
         
         
