@@ -728,7 +728,6 @@ export default {
             })
             if (data[m.split(':')[0]] && data[m.split(':')[0]][0]) this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
             this.curChannelNumCode = this.epay.length > 0 && this.epay[0].more && this.epay[0].more.length > 0 && this.epay[0].more[0].tongdCode
-            console.log('this.epay=', JSON.stringify(this.epay))
           })
           // 在线支付
           // data.online.forEach(f => {
@@ -917,8 +916,8 @@ export default {
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .bank-qr-wp
-    margin-bottom 0
-    height 1.5rem
+    margin-bottom 0 !important
+    height 1.5rem !important
   .ds-radio-label
     color #999
   .ds-radio-label.active
