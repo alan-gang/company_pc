@@ -12,11 +12,11 @@
           // 无多通道
           // .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
           // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
-          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) " ) {{ bb.title }}
+          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) && (curChannelNumCode = bb.more[radioIndex].tongdCode)" ) {{ bb.title }}
           .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
 
         .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
-          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click=" ((radioIndex = index) || true) && (selectBank = epay[type - 3].more[radioIndex].channelCodes[0])" v-bind:class="{ active: radioIndex === index }")
+          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click=" ((radioIndex = index) || true) && (selectBank = epay[type - 3].more[radioIndex].channelCodes[0]) && (curChannelNumCode = r.tongdCode)"  v-bind:class="{ active: radioIndex === index }")
             span.ds-radio.white
             | {{ r.tongdName }}
 
@@ -62,8 +62,8 @@
           input.ds-input(v-model="name" @keyup.enter.native="topUpNow" style="width: 1.8rem")
           span(style="padding: 0 .2rem") （请输入支付宝真实姓名）
 
-
-
+        .item(style="line-height: .5rem" v-if=" canShowTruthName ") 真实姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          input.ds-input(v-model="name" style="width: 1.8rem")
 
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
           el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
@@ -167,7 +167,10 @@
         p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-
+        p(v-if="this.canShowTruthName") 
+          span 支付宝
+          span 
+            .QR.ds-icon-QR.bank-qr-wp(:style="myQR")
     .modal(v-show="showRequest" )
       .mask
       .box-wrapper
@@ -330,7 +333,9 @@ export default {
       // 非银行转帐类
       epay: [],
       radioIndex: 0,
-      name: ''
+      name: '',
+      curChannelNumCode: '',
+      zfbQrCode: ''
     }
   },
   computed: {
@@ -371,6 +376,9 @@ export default {
     // },
     banksO () {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
+    },
+    canShowTruthName () {
+      return this.curChannelNumCode === 'khb'
     }
     // ,
     // otherPay () {
@@ -719,6 +727,8 @@ export default {
               })
             })
             if (data[m.split(':')[0]] && data[m.split(':')[0]][0]) this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
+            this.curChannelNumCode = this.epay.length > 0 && this.epay[0].more && this.epay[0].more.length > 0 && this.epay[0].more[0].tongdCode
+            console.log('this.epay=', JSON.stringify(this.epay))
           })
           // 在线支付
           // data.online.forEach(f => {
@@ -804,6 +814,7 @@ export default {
             this.dataXappendix = data.appendix
             this.dataXnow = true
             this.Phref[0] = data.payUrl
+            this.Qr = data.zfb
             if (this.epay[this.type - 3].title === '支付宝转帐') {
               this.Pbtn = ['进入支付宝']
             } else this.Pbtn = ['进入网上银行']
@@ -863,6 +874,7 @@ export default {
       })
     },
     topUpNow () {
+      if (this.canShowTruthName && !this.name) return this.$message.warning({message: '请输入您的真实姓名!'})
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
       if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
@@ -904,7 +916,9 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-
+  .bank-qr-wp
+    margin-bottom 0
+    height 1.5rem
   .ds-radio-label
     color #999
   .ds-radio-label.active
