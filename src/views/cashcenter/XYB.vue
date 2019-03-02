@@ -36,7 +36,7 @@
         .b.inlb
           .j
             .full.ds-button.positive(@click=" t = 1 ") 转入
-            .full.ds-button.outline.blue(@click=" t = 2 ") 转出
+            .full.ds-button.outline.blue(@click=" (t = 2) && (s = 0) ") 转出
       
       .l.t_c
         .ds-button-group
@@ -177,10 +177,12 @@ export default {
       this.$http.post(api.selectAccountChange, Object.assign({
         action: !this.i ? '' : '1',
         productId: this.xyb.id
-      }, option)).then(({data: {data, totalSize}}) => {
-        this['data' + this.i] = data
-        this.total = totalSize || this['data' + this.i].length
-        cb()
+      }, option)).then(({data: {data, totalSize, success}}) => {
+        if (success) {
+          this['data' + this.i] = data
+          this.total = totalSize || this['data' + this.i].length
+          cb()
+        }
       }).finally(() => {
         setTimeout(() => {
           loading.close()
