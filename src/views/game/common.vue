@@ -577,8 +577,10 @@ export default {
           this.$modal.success({
             target: this.$el,
             content: '投注成功',
-            btn: ['确定']
+            btn: ['确定'],
+            timeout: 3000
           })
+          setTimeout()
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
@@ -617,7 +619,8 @@ export default {
             this.$modal.warn({
               target: this.$el,
               content: '投注成功',
-              btn: ['确定']
+              btn: ['确定'],
+              timeout: 3000
             })
           }
           // this.__loading({
@@ -693,7 +696,8 @@ export default {
           this.$modal.success({
             target: this.mt === 'kq' && this.type.toporderbar ? undefined : this.$el,
             content: '投注成功',
-            btn: ['确定']
+            btn: ['确定'],
+            timeout: 3000
           })
           this.__setCall({fn: '__clearSelectedNumbers'})
           setTimeout(() => {
@@ -826,7 +830,8 @@ export default {
           this.$modal.success({
             target: this.$el,
             content: '投注成功',
-            btn: ['确定']
+            btn: ['确定'],
+            timeout: 3000
           })
           this.__setCall({fn: '__clearSelectedNumbers'})
           setTimeout(() => {

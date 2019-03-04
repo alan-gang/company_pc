@@ -123,6 +123,7 @@
       if (this.PboxStyle || this.PPboxStyle) this.boxStyle = Object.assign(this.boxStyle, this.PboxStyle || {}, this.PPboxStyle || {})
     },
     mounted () {
+      if (this.timeout) setTimeout(this._close, this.timeout || 3000)
     }
   }
 </script>
