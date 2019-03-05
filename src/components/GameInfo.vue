@@ -20,7 +20,7 @@
           span.title {{ NPER }}
           span &nbsp;&nbsp;期
           //- p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
-          el-popover(ref="popover4" placement="bottom"  trigger="click" v-bind:popper-class=" 'wb-intro' " v-bind:visible-arrow=" va ") 
+          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' " v-bind:visible-arrow=" va ") 
             p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 " style="cursor: pointer;") 开奖号码说明
             slot
               div(style="width: 8.5rem")
