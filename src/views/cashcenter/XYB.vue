@@ -17,7 +17,7 @@
               span {{ xyb.rate }}
               span %
             p.f 年化收益率
-            p 每12小时结算一次收益
+            p 每{{ xyb.time }}小时结算一次收益
             p 随存随取
 
         .b.inlb
