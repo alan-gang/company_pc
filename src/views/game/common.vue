@@ -580,7 +580,7 @@ export default {
             btn: ['确定'],
             timeout: 3000
           })
-          setTimeout()
+          // setTimeout()
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
