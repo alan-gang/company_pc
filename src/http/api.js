@@ -28,6 +28,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
 window.env = env
 api = window.localStorage.getItem('tapi') || api
 let Login = {
+  getTimeByProductId: '/p2p/product.do?method=getTime',
   getBalanceByPID: '/ext/bg.do?method=getBalanceByPID',
   selectAccountChange: '/p2p/product.do?method=selectAccountChange',
   p2pBuyProduct: '/p2p/product.do?method=buyProduct',

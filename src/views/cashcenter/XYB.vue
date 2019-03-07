@@ -76,7 +76,7 @@
             el-option(v-for=" (n, i) in source "  v-bind:value=" i " v-bind:label=" n ")
 
         p {{ ['', '可转入金额', '信游宝余额'][t] }}：&nbsp;&nbsp;&nbsp;&nbsp;
-          span.text-blue {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
+          span.text-blue.text-bold {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
       
         label.item.inlb 转{{ ['', '入', '出'][t]}}金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           input.ds-input(v-model=" m " maxlength="12")
@@ -84,6 +84,9 @@
 
         .text-center(style="position: relative; top: .1rem")
           .ds-button.positive.full(@click="p2pBuyProduct") 确定
+
+        p.text-center.pt15(v-if=" t === 1 && xyb.profitTime ") 预计收益到账时间 
+          span.text-blue {{ new Date(xyb.profitTime)._toMonthDayStringCN() }}({{ new Date(xyb.profitTime)._toWeek() }})
 
 </template>
 
@@ -129,6 +132,11 @@ export default {
       return [[], ['主帐户', '特殊帐户'], ['主帐户']][this.t]
     }
   },
+  watch: {
+    t (n, o) {
+      if (n === 1) this.getTimeByProductId(this.xyb.id)
+    }
+  },
   mounted () {
     this.p2pList()
     this.list()
@@ -138,6 +146,11 @@ export default {
   // p2pAccount: '/p2p/product.do?method=productAccount',
   // p2pList: '/p2p/product.do?method=list',
   methods: {
+    getTimeByProductId (id = 1) {
+      this.$http.get(api.getTimeByProductId, {productId: id}).then(({data: {dataTime, success}}) => {
+        if (success) this.$set(this.xyb, 'profitTime', dataTime)
+      })
+    },
     p2pList () {
       this.$http.get(api.p2pList).then(({data: {data}}) => {
         this.products = data

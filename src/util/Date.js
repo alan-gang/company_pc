@@ -84,3 +84,8 @@ window.Date.prototype._toAllString = function () {
 window.Date.prototype._toMonthDayStringCN = function () {
   return (this.getMonth() + 1) + '月' + this.getDate() + '日'
 }
+let week = ['日', '一', '二', '三', '四', '五', '六']
+let prefix = '星期'
+window.Date.prototype._toWeek = function () {
+  return prefix + week[this.getDay()]
+}
