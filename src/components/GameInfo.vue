@@ -56,6 +56,21 @@
         .vm.inlb
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ") 
+
+        el-popover(ref="popover5" placement="bottom"  trigger="hover" v-bind:popper-class=" 'hot-rank' " v-bind:visible-arrow=" va ") 
+          span(slot="reference" v-if=" gameid === 150 " style="cursor: pointer;" @mouseover=" getWBhotRanks ") 热搜排名 >
+          slot
+            div(style="width: 3.7rem")
+              dl
+                dt.text-black.text-bold
+                  .th.inlb 排名
+                  .th.inlb 搜索关键词
+                  .th.inlb 搜索次数
+                dd.text-center.text-999.ptb15(v-if=" !ranks[0] ") 暂无数据...
+                dd(v-for=" r in ranks ")
+                  .th.inlb {{  }}
+                  .th.inlb {{  }}
+                  .th.inlb {{  }}
     
       
         
@@ -85,7 +100,8 @@ export default {
       time: 0,
       interval: 0,
       t: 0,
-      volume: false
+      volume: false,
+      ranks: []
     }
   },
   computed: {
@@ -162,6 +178,11 @@ export default {
     setVolume () {
       this.volume = !this.volume
       window.localStorage.setItem('volume', this.volume ? 1 : 0)
+    },
+    getWBhotRanks () {
+      this.$http.get('http://www.qiju.info/weiboHot/listByNum/' + this.NPER).then(({data: {items}}) => {
+        this.ranks = items
+      })
     }
   }
 }
@@ -228,6 +249,21 @@ export default {
   .wb-intro.el-popover
     margin-top 25px
     background-color #fffde8   
+    
+  .hot-rank.el-popover
+    margin-top 35px
+    transform translateX(-1.5rem)
+    background-color #fffde8
+    .th
+      &:nth-child(1)
+        width 20%
+        text-align center
+      &:nth-child(2)
+        width 50%
+        padding-left 5%
+      &:nth-child(3)
+        width 25%
+
 </style>
 
 
