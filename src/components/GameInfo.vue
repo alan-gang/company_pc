@@ -43,13 +43,13 @@
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
 
                 div(v-if=" gameid === 151 ")
-                  p 腾讯PK10，每期开奖号码以【腾讯在线人数】与【统计时间】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
+                  p 腾讯PK10，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
                   br
-                  p 例如：统计时间为： 2019-03-01 19:52:00，当时的腾讯在线人数为：328941452。
-                  p 用【腾讯在线人数】+【统计时间】，即： 3289414522019-03-01 19:52:00 来执行SHA512哈希算法，并得到哈希值：
-                  p(style="word-break: break-all") es<span class="text-danger">3</span>3<span class="text-danger">7</span>ff<span class="text-danger">9</span>9b<span class="text-danger">8</span>e<span class="text-danger">2</span><span class="text-danger">0</span>c<span class="text-danger">1</span>c<span class="text-danger">6</span>bd<span class="text-danger">5</span><span class="text-danger">4</span>f12e33c2401bdf88627bfdffea2c04d47f8373b1b597f52339e0fd97fc0a2ebf9f9de675136d481e0c672ba7185d714c4de0e77cf19
-                  p 在这个哈希值中，数字3最先出现，数字7次之，再是数字9，之后分别是数字8、数字2、数字0、数字1、数字6、数字5、数字4。
-                  p 因此当期的赛车结果为：3,7,9,8,2,10,1,6,5,4。
+                  p 例如：统计时间为： 2019-03-06 21:58:00，当时的腾讯在线人数为：322446581，在线人数数字之和为：3+2+2+4+4+6+5+8+1=35。
+                  p 用【腾讯在线人数】+【统计时间】+【在线人数数字之和】，即： 3224465812019-03-06 21:58:0035 来执行SHA512哈希算法，并得到哈希值：
+                  p(style="word-break: break-all") <span class="text-danger">6354</span>6e<span class="text-danger">9</span>46<span class="text-danger">1</span>136bb5e1<span class="text-danger">0</span>e3cf1bc<span class="text-danger">8</span>1a03<span class="text-danger">2</span>4cbe36e231360<span class="text-danger">7</span>bcf2b1cb5da1f121e3f4e4a7c7b699251922483c5f63d5fed714f4a2387ad6282eced6386e9c3551c6
+                  p 在这个哈希值中，数字6最先出现，数字3次之，再是数字5，之后分别是数字4、数字9、数字1、数字0、数字8、数字2、数字7。
+                  p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
                   p 腾讯PK10的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
 
