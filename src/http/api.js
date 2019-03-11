@@ -27,7 +27,12 @@ if (window.location.host.indexOf('cb510') !== -1) {
 }
 window.env = env
 api = window.localStorage.getItem('tapi') || api
+
+// api = window.localStorage.getItem('xy_api') || 'dev'
+
 let Login = {
+  getTimeByProductId: '/p2p/product.do?method=getTime',
+  getWeiBoHot: '/issue.do?method=getWeiBoHot&issue=',
   getBalanceByPID: '/ext/bg.do?method=getBalanceByPID',
   selectAccountChange: '/p2p/product.do?method=selectAccountChange',
   p2pBuyProduct: '/p2p/product.do?method=buyProduct',

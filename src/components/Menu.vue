@@ -168,7 +168,8 @@ body.cb.v2
         float none
         background none
         height auto
-        width 1.35rem
+        // width 1.35rem
+        width 1.45rem
         height .34rem
         color #666
         margin: 0 0 0.05rem -0.02rem;
@@ -181,7 +182,7 @@ body.cb.v2
         color #333
         background-color #fff
         margin 0 .03rem
-        width 1.3rem
+        width 1.4rem
         height .34rem
         line-height .34rem
         &:hover
@@ -205,6 +206,23 @@ body.cb.v2
         &.sign.new:after
           content '新'
           background OBLUE
+        &.sign.odd:after
+        &.sign.even:after
+          border-radius 0
+          width .35rem
+          height .2rem
+          top 0
+          right 0
+        &.sign.odd:after
+          content '奇数'
+          background DANGER
+        &.sign.even:after
+          border-radius 0
+          width .35rem
+          height .2rem
+          content '偶数'
+          background OBLUE
+          
      .submenu
         padding-left 1rem
         &.me:first-child

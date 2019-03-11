@@ -378,8 +378,8 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      // return this.curChannelNumCode === 'khb'
-      return false
+      return this.curChannelNumCode === 'khb'
+      // return false
     }
     // ,
     // otherPay () {
@@ -814,7 +814,7 @@ export default {
             this.dataXappendix = data.appendix
             this.dataXnow = true
             this.Phref[0] = data.payUrl
-            // this.Qr = data.zfb
+            this.Qr = data.zfb
             if (this.epay[this.type - 3].title === '支付宝转帐') {
               this.Pbtn = ['进入支付宝']
             } else this.Pbtn = ['进入网上银行']

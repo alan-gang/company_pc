@@ -24,14 +24,14 @@
           .g.t_c
             .h.inlb
             p.f 当前余额(元)
-            p.k {{ xyb.balance }}
+            p.k {{ Number(xyb.balance).toFixed(3) }}
 
 
         .b.inlb
           .i.t_c
             .h.inlb
             p.f 累计收入(元)
-            p.k {{ xyb.income }}
+            p.k {{ Number(xyb.income).toFixed(3) }}
 
         .b.inlb
           .j
@@ -50,10 +50,14 @@
 
           el-table-column(class-name="pl2" prop="changemoney" align="center" label="交易金额" )
             template(scope="scope")
-              span.text-green(v-if=" scope.row.changemoney && scope.row.changemoney._o0() ") +{{ scope.row.changemoney && scope.row.changemoney._nwc() }}
-              span.text-danger(v-if=" scope.row.changemoney && scope.row.changemoney._l0() ") {{ scope.row.changemoney && scope.row.changemoney._nwc() }}
+              span(v-if=" !Number(scope.row.changemoney) ") 0.000
+              span.text-green(v-if=" scope.row.changemoney && scope.row.changemoney._o0() " ) +{{ scope.row.changemoney && Number(scope.row.changemoney).toFixed(3)._nwc() }}
+              span.text-danger(v-if=" scope.row.changemoney && scope.row.changemoney._l0() " ) {{ scope.row.changemoney && Number(scope.row.changemoney).toFixed(3)._nwc() }}
 
           el-table-column(class-name="pl2" prop="amount" align="center" label="交易后账户金额" )
+            template(scope="scope")
+              span {{ Number(scope.row.amount).toFixed(3)._nwc() }}
+
           el-table-column(class-name="pl2" prop="remark" align="center" label="备注" )
 
         el-table.header-bold.nopadding(:data="data1" ref="table" stripe v-bind:max-height=" MH " v-show=" i " class="r-tb")
@@ -76,7 +80,7 @@
             el-option(v-for=" (n, i) in source "  v-bind:value=" i " v-bind:label=" n ")
 
         p {{ ['', '可转入金额', '信游宝余额'][t] }}：&nbsp;&nbsp;&nbsp;&nbsp;
-          span.text-blue {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
+          span.text-blue.text-bold {{ Number([[], [ME.amoney, ME.smoney], [xyb.balance]][t][s]).toFixed(3) }}
       
         label.item.inlb 转{{ ['', '入', '出'][t]}}金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           input.ds-input(v-model=" m " maxlength="12")
@@ -84,6 +88,9 @@
 
         .text-center(style="position: relative; top: .1rem")
           .ds-button.positive.full(@click="p2pBuyProduct") 确定
+
+        p.text-center.pt15(v-if=" t === 1 && xyb.profitTime ") 预计收益到账时间 
+          span.text-blue {{ new Date(xyb.profitTime)._toMonthDayStringCN() }}({{ new Date(xyb.profitTime)._toWeek() }})
 
 </template>
 
@@ -129,6 +136,11 @@ export default {
       return [[], ['主帐户', '特殊帐户'], ['主帐户']][this.t]
     }
   },
+  watch: {
+    t (n, o) {
+      if (n === 1) this.getTimeByProductId(this.xyb.id)
+    }
+  },
   mounted () {
     this.p2pList()
     this.list()
@@ -138,6 +150,11 @@ export default {
   // p2pAccount: '/p2p/product.do?method=productAccount',
   // p2pList: '/p2p/product.do?method=list',
   methods: {
+    getTimeByProductId (id = 1) {
+      this.$http.get(api.getTimeByProductId, {productId: id}).then(({data: {dataTime, success}}) => {
+        if (success) this.$set(this.xyb, 'profitTime', dataTime)
+      })
+    },
     p2pList () {
       this.$http.get(api.p2pList).then(({data: {data}}) => {
         this.products = data
