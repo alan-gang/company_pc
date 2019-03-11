@@ -28,11 +28,11 @@ var config = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/test': {
+        '/xytest': {
             target: 'https://www.xy-test.net/dscagamesclient/',
             changeOrigin: true,
             pathRewrite: {
-              '^/test': ''
+              '^/xytest': ''
             }
         },
         '/dev': {

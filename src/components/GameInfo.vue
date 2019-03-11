@@ -43,19 +43,34 @@
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
 
                 div(v-if=" gameid === 151 ")
-                  p 腾讯PK10，每期开奖号码以【腾讯在线人数】与【统计时间】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
+                  p 腾讯PK10，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
                   br
-                  p 例如：统计时间为： 2019-03-01 19:52:00，当时的腾讯在线人数为：328941452。
-                  p 用【腾讯在线人数】+【统计时间】，即： 3289414522019-03-01 19:52:00 来执行SHA512哈希算法，并得到哈希值：
-                  p(style="word-break: break-all") es<span class="text-danger">3</span>3<span class="text-danger">7</span>ff<span class="text-danger">9</span>9b<span class="text-danger">8</span>e<span class="text-danger">2</span><span class="text-danger">0</span>c<span class="text-danger">1</span>c<span class="text-danger">6</span>bd<span class="text-danger">5</span><span class="text-danger">4</span>f12e33c2401bdf88627bfdffea2c04d47f8373b1b597f52339e0fd97fc0a2ebf9f9de675136d481e0c672ba7185d714c4de0e77cf19
-                  p 在这个哈希值中，数字3最先出现，数字7次之，再是数字9，之后分别是数字8、数字2、数字0、数字1、数字6、数字5、数字4。
-                  p 因此当期的赛车结果为：3,7,9,8,2,10,1,6,5,4。
+                  p 例如：统计时间为： 2019-03-06 21:58:00，当时的腾讯在线人数为：322446581，在线人数数字之和为：3+2+2+4+4+6+5+8+1=35。
+                  p 用【腾讯在线人数】+【统计时间】+【在线人数数字之和】，即： 3224465812019-03-06 21:58:0035 来执行SHA512哈希算法，并得到哈希值：
+                  p(style="word-break: break-all") <span class="text-danger">6354</span>6e<span class="text-danger">9</span>46<span class="text-danger">1</span>136bb5e1<span class="text-danger">0</span>e3cf1bc<span class="text-danger">8</span>1a03<span class="text-danger">2</span>4cbe36e231360<span class="text-danger">7</span>bcf2b1cb5da1f121e3f4e4a7c7b699251922483c5f63d5fed714f4a2387ad6282eced6386e9c3551c6
+                  p 在这个哈希值中，数字6最先出现，数字3次之，再是数字5，之后分别是数字4、数字9、数字1、数字0、数字8、数字2、数字7。
+                  p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
                   p 腾讯PK10的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
 
         .vm.inlb
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ") 
+
+        el-popover(ref="popover5" placement="bottom"  trigger="hover" v-bind:popper-class=" 'hot-rank' " v-bind:visible-arrow=" va ") 
+          span(slot="reference" v-if=" gameid === 150 " @mouseover=" getWeiBoHot ") 热搜排名 >
+          slot
+            div(style="width: 5rem")
+              dl
+                dt.text-black.text-bold
+                  .th.inlb 排名
+                  .th.inlb 搜索关键词
+                  .th.inlb 搜索次数
+                dd.text-center.text-999(v-if=" !ranks[0] ") 暂无数据...
+                dd(v-for=" r in ranks ")
+                  .th.inlb {{ r.rank }}
+                  .th.inlb {{ r.title }}
+                  .th.inlb {{ r.num }}
     
       
         
@@ -64,6 +79,7 @@
 <script>
 import util from '../util'
 import RollingNumbers from './RollingNumbers'
+import api from 'src/http/api'
 export default {
   props: {
     NPER: String,
@@ -85,7 +101,8 @@ export default {
       time: 0,
       interval: 0,
       t: 0,
-      volume: false
+      volume: false,
+      ranks: []
     }
   },
   computed: {
@@ -162,6 +179,11 @@ export default {
     setVolume () {
       this.volume = !this.volume
       window.localStorage.setItem('volume', this.volume ? 1 : 0)
+    },
+    getWeiBoHot () {
+      this.$http.get(api.getWeiBoHot + this.NPER).then(({data: {items}}) => {
+        this.ranks = items.reverse()
+      })
     }
   }
 }
@@ -170,7 +192,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
@@ -228,6 +250,29 @@ export default {
   .wb-intro.el-popover
     margin-top 25px
     background-color #fffde8   
+    
+  .hot-rank.el-popover
+    margin-top 35px
+    transform translateX(-1.85rem)
+    background-color #fffde8
+    padding 10px 0
+    dd
+    dt
+      height .36rem
+      line-height .36rem
+      
+    dd:nth-child(even)
+      background-color #f7f1da
+    .th
+      &:nth-child(1)
+        width 20%
+        text-align center
+      &:nth-child(2)
+        width 50%
+        padding-left 5%
+      &:nth-child(3)
+        width 25%
+
 </style>
 
 

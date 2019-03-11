@@ -24,14 +24,14 @@
           .g.t_c
             .h.inlb
             p.f 当前余额(元)
-            p.k {{ xyb.balance }}
+            p.k {{ Number(xyb.balance).toFixed(3) }}
 
 
         .b.inlb
           .i.t_c
             .h.inlb
             p.f 累计收入(元)
-            p.k {{ xyb.income }}
+            p.k {{ Number(xyb.income).toFixed(3) }}
 
         .b.inlb
           .j
@@ -50,10 +50,14 @@
 
           el-table-column(class-name="pl2" prop="changemoney" align="center" label="交易金额" )
             template(scope="scope")
-              span.text-green(v-if=" scope.row.changemoney && scope.row.changemoney._o0() ") +{{ scope.row.changemoney && scope.row.changemoney._nwc() }}
-              span.text-danger(v-if=" scope.row.changemoney && scope.row.changemoney._l0() ") {{ scope.row.changemoney && scope.row.changemoney._nwc() }}
+              span(v-if=" !Number(scope.row.changemoney) ") 0.000
+              span.text-green(v-if=" scope.row.changemoney && scope.row.changemoney._o0() " ) +{{ scope.row.changemoney && Number(scope.row.changemoney).toFixed(3)._nwc() }}
+              span.text-danger(v-if=" scope.row.changemoney && scope.row.changemoney._l0() " ) {{ scope.row.changemoney && Number(scope.row.changemoney).toFixed(3)._nwc() }}
 
           el-table-column(class-name="pl2" prop="amount" align="center" label="交易后账户金额" )
+            template(scope="scope")
+              span {{ Number(scope.row.amount).toFixed(3)._nwc() }}
+
           el-table-column(class-name="pl2" prop="remark" align="center" label="备注" )
 
         el-table.header-bold.nopadding(:data="data1" ref="table" stripe v-bind:max-height=" MH " v-show=" i " class="r-tb")
@@ -76,7 +80,7 @@
             el-option(v-for=" (n, i) in source "  v-bind:value=" i " v-bind:label=" n ")
 
         p {{ ['', '可转入金额', '信游宝余额'][t] }}：&nbsp;&nbsp;&nbsp;&nbsp;
-          span.text-blue.text-bold {{ [[], [ME.amoney, ME.smoney], [xyb.balance]][t][s] }}
+          span.text-blue.text-bold {{ Number([[], [ME.amoney, ME.smoney], [xyb.balance]][t][s]).toFixed(3) }}
       
         label.item.inlb 转{{ ['', '入', '出'][t]}}金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           input.ds-input(v-model=" m " maxlength="12")
