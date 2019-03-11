@@ -555,8 +555,8 @@ export default {
                 },
                 {
                   id: '2-1-4',
-                  menuid: '20',
-                  hide: true,
+                  menuid: '115',
+                  // hide: true,
                   title: '信游宝',
                   url: 'XYB'
                 }

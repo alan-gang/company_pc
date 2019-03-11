@@ -43,7 +43,7 @@
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
 
                 div(v-if=" gameid === 151 ")
-                  p 腾讯PK10，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
+                  p 腾讯赛车，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
                   br
                   p 例如：统计时间为： 2019-03-06 21:58:00，当时的腾讯在线人数为：322446581，在线人数数字之和为：3+2+2+4+4+6+5+8+1=35。
                   p 用【腾讯在线人数】+【统计时间】+【在线人数数字之和】，即： 3224465812019-03-06 21:58:0035 来执行SHA512哈希算法，并得到哈希值：
@@ -51,7 +51,7 @@
                   p 在这个哈希值中，数字6最先出现，数字3次之，再是数字5，之后分别是数字4、数字9、数字1、数字0、数字8、数字2、数字7。
                   p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
-                  p 腾讯PK10的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
+                  p 腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
 
         .vm.inlb
 
