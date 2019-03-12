@@ -178,11 +178,11 @@ export default {
           this.ok()
           this.resetBuyModalParams()
         } else {
-          this.$modal.warn({
-            content: msg || '转入/转出失败',
-            PPboxStyle: {width: '3.6rem'},
-            btn: ['确定']
-          })
+          // this.$modal.warn({
+          //   content: msg || '转入/转出失败',
+          //   PPboxStyle: {width: '3.6rem'},
+          //   btn: ['确定']
+          // })
         }
       })
     },
