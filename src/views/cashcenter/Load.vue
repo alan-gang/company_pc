@@ -62,7 +62,7 @@
           input.ds-input(v-model="name" @keyup.enter.native="topUpNow" style="width: 1.8rem")
           span(style="padding: 0 .2rem") （请输入支付宝真实姓名）
 
-        .item(style="line-height: .5rem" v-if=" canShowTruthName ") 真实姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+        .item(style="line-height: .5rem" v-if=" canShowTruthName &&  epay[type - 3].title !== '支付宝转帐' ") 真实姓名：&nbsp;&nbsp;&nbsp;&nbsp;
           input.ds-input(v-model="name" style="width: 1.8rem")
 
         .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -378,8 +378,8 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      return this.curChannelNumCode === 'khb'
-      // return false
+      // return this.curChannelNumCode === 'khb'
+      return false
     }
     // ,
     // otherPay () {
@@ -814,7 +814,7 @@ export default {
             this.dataXappendix = data.appendix
             this.dataXnow = true
             this.Phref[0] = data.payUrl
-            this.Qr = data.zfb
+            // this.Qr = data.zfb
             if (this.epay[this.type - 3].title === '支付宝转帐') {
               this.Pbtn = ['进入支付宝']
             } else this.Pbtn = ['进入网上银行']
