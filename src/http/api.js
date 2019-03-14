@@ -31,6 +31,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getNoActivatePrize: '/ext/bg.do?method=getNoActivatePrize',
   getTimeByProductId: '/p2p/product.do?method=getTime',
   getWeiBoHot: '/issue.do?method=getWeiBoHot&issue=',
   getBalanceByPID: '/ext/bg.do?method=getBalanceByPID',

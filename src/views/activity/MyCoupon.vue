@@ -10,8 +10,8 @@
         el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height="MH")
          
           el-table-column(class-name="" prop="getTime" label="领取时间" align="center" )
-          el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" min-width="200")
-          el-table-column(class-name="" prop="desc" label="优惠金额" align="center" )
+          el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" min-width="180")
+          el-table-column(class-name="" prop="desc" label="优惠说明" align="center" )
             template(scope="scope")
               span {{ scope.row.isUsed ? scope.row.prizeAmount : scope.row.desc }}
 
@@ -30,15 +30,28 @@
     Modal.in-mycoupon(v-if=" current " v-bind:Pbtn="Pbtn " v-bind:PboxStyle="PboxStyle" v-bind:Pclose="Pclose")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .36rem; user-select: text; position: relative; top: -.36rem")
         p.text-center.text-bold.text-333.ft18 {{ current.goodsName }}
-        //- p 使用说明： 使用此优惠券， 需要向 【{{ froms[current.plat].split(':')[0] }}】 充值 {{ current.exAmount }} 以上
-        p 优惠金额： {{ current.desc }}
-        p 转出帐户： 主帐户
-        p 转入帐户： {{ froms[current.plat] }}
-        p 输入金额：
+        p 优惠说明： {{ current.desc }}
+        div 使用说明： 
+          .inlb(style="width: 80% ;vertical-align: top") {{ current.goodsdesc }}
+        p(v-if=" current.goodsType !== 5 ") 选择游戏： 
+          span(v-if=" current.gameGroupId !== '0' ") {{ current.gameGroupName }}
+          el-select(v-else clearable v-model=" groupId " style="width: 1.6rem" placeholder=" --选择游戏-- ")
+            el-option(v-for="(g, i) in current.gameGroupPlatArr" v-bind:label=" g.groupName " v-bind:value=" i ")
+
+        p(v-if=" current.goodsType !== 5 ") 选择平台： 
+          template(v-if=" current.gameGroupId !== '0' ")
+            span(v-if=" current.platList.length === 1 ") {{ current.platList[0].platName }}
+            el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
+              el-option(v-for="(g, i) in current.platList" v-bind:label=" g.platName " v-bind:value=" g.platId ")
+
+          el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
+              el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" g.platId ")
+
+        p(v-if=" current.goodsType === 3 ") 输入金额：
           input.ds-input(v-model="m" style="width: 1.8rem" @keyup.enter="use")
         .text-center(style="position: relative; top: .1rem")
-          .ds-button.cancel.a(@click=" Pclose ") 暂不使用
-          .ds-button.primary.a(@click="use") 立即使用
+          .ds-button.cancel.a(@click=" Pclose ") 关闭
+          .ds-button.primary.a(@click="use") {{  current.goodsType === 5 ? '立即激活' : '立即使用' }}
 
 </template>
 
@@ -60,22 +73,24 @@
           width: '6rem'
         },
         // froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
-        froms: {
-          '0': '主帐户',
-          '1': '特殊帐户',
-          '2': 'BG帐户',
-          '3': 'IBC帐户',
-          '7': '棋牌帐户',
-          '5': 'PT帐户',
-          '4': 'AG帐户',
-          '9': '沙巴帐户',
-          '15': '乐游帐户',
-          '17': 'U赢帐户',
-          '18': 'KG帐户',
-          '25': '微游帐户'
-        },
+        // froms: {
+        //   '0': '主帐户',
+        //   '1': '特殊帐户',
+        //   '2': 'BG帐户',
+        //   '3': 'IBC帐户',
+        //   '7': '棋牌帐户',
+        //   '5': 'PT帐户',
+        //   '4': 'AG帐户',
+        //   '9': '沙巴帐户',
+        //   '15': '乐游帐户',
+        //   '17': 'U赢帐户',
+        //   '18': 'KG帐户',
+        //   '25': '微游帐户'
+        // },
         // froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', 'AG帐户:4', 'PT帐户:5', '', '棋牌帐户:7'],
-        m: ''
+        m: '',
+        groupId: undefined,
+        platId: undefined
       }
     },
     mounted () {
@@ -101,10 +116,31 @@
         })
       },
       use () {
-        if (!Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
-        this.$http.get(api.transferToBG, {amount: this.m, platid: this.current.plat, entry: this.current.entry}).then(({data}) => {
+        if (this.current.goodsType === 5) this.activeCoupon()
+        else this.transferToBG(this.current.goodsType === 3)
+      },
+      transferToBG (hasMoney) {
+        if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
+        let args = {
+          gameGroupId: this.current.gameGroupId !== '0' ? this.current.gameGroupId : this.groupId,
+          platid: this.current.platList && this.current.platList.length === 1 ? this.current.platList[0].platId : this.platId,
+          entry: this.current.entry
+        }
+        if (hasMoney) args.amount = this.m
+
+        this.$http.get(api.transferToBG, args).then(({data}) => {
           if (data.success === 1) {
-            this.$message.warning({target: this.$el, message: data.msg || '优惠券使用成功'})
+            this.$message.success({target: this.$el, message: data.msg || '优惠券使用成功'})
+            this.list()
+            this.current = null
+            this.__setCall({fn: '__getUserFund', args: undefined})
+          }
+        })
+      },
+      activeCoupon () {
+        this.$http.get(api.getNoActivatePrize, {entry: this.current.entry}).then(({data}) => {
+          if (data.success === 1) {
+            this.$message.success({target: this.$el, message: data.msg || '优惠券已激活'})
             this.list()
             this.current = null
             this.__setCall({fn: '__getUserFund', args: undefined})
