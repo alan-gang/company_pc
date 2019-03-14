@@ -121,7 +121,11 @@ export default {
         padding: '.1rem .2rem'
       },
       products: [],
-      xyb: {},
+      xyb: {
+        rate: '',
+        balance: 0,
+        income: 0
+      },
       m: '',
       s: 0,
       type: {
