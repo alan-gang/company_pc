@@ -117,7 +117,16 @@
       },
       use () {
         if (this.current.goodsType === 5) this.activeCoupon()
+        else if (this.current.gameGroupId === '0' || this.current.gameGroupId === '99') this.getLotteryGoodPrize()
         else this.transferToBG(this.current.goodsType === 3)
+      },
+      // &gameGroupId=0&platId=1&entry=1279
+      getLotteryGoodPrize () {
+        this.$http.get(api.getLotteryGoodPrize, {
+          gameGroupId: this.groupId,
+          platId: this.current.platList && this.current.platList.length === 1 ? this.current.platList[0].platId : this.platId,
+          entry: this.current.entry
+        }).then(this.then)
       },
       transferToBG (hasMoney) {
         if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
@@ -128,24 +137,18 @@
         }
         if (hasMoney) args.amount = this.m
 
-        this.$http.get(api.transferToBG, args).then(({data}) => {
-          if (data.success === 1) {
-            this.$message.success({target: this.$el, message: data.msg || '优惠券使用成功'})
-            this.list()
-            this.current = null
-            this.__setCall({fn: '__getUserFund', args: undefined})
-          }
-        })
+        this.$http.get(api.transferToBG, args).then(this.then)
       },
       activeCoupon () {
-        this.$http.get(api.getNoActivatePrize, {entry: this.current.entry}).then(({data}) => {
-          if (data.success === 1) {
-            this.$message.success({target: this.$el, message: data.msg || '优惠券已激活'})
-            this.list()
-            this.current = null
-            this.__setCall({fn: '__getUserFund', args: undefined})
-          }
-        })
+        this.$http.get(api.getNoActivatePrize, {entry: this.current.entry}).then(this.then)
+      },
+      then ({data}) {
+        if (data.success === 1) {
+          this.$message.success({target: this.$el, message: data.msg || '优惠券已使用'})
+          this.list()
+          this.current = null
+          this.__setCall({fn: '__getUserFund', args: undefined})
+        }
       },
       Pclose () {
         this.current = null

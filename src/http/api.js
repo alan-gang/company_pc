@@ -31,6 +31,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getLotteryGoodPrize: '/ext/bg.do?method=getLotteryGoodPrize',
   getNoActivatePrize: '/ext/bg.do?method=getNoActivatePrize',
   getTimeByProductId: '/p2p/product.do?method=getTime',
   getWeiBoHot: '/issue.do?method=getWeiBoHot&issue=',
