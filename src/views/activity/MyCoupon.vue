@@ -123,7 +123,7 @@
       // &gameGroupId=0&platId=1&entry=1279
       getLotteryGoodPrize () {
         this.$http.get(api.getLotteryGoodPrize, {
-          gameGroupId: this.groupId,
+          gameGroupId: this.current.gameGroupId,
           platId: this.current.platList && this.current.platList.length === 1 ? this.current.platList[0].platId : this.platId,
           entry: this.current.entry
         }).then(this.then)
