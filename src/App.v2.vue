@@ -1107,7 +1107,7 @@ export default {
           vipChatUrl: data.vipChatUrl
           // isOldUser: data.isOldUser
         })
-        this.showAnnual = data.isOldUser
+        this.showAnnual = !!data.isOldUser
         this.oldUserInfo = {
           //  string  年（周年庆活动弹出框使用）
           year: data.year,
