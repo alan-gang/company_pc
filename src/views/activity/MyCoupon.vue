@@ -34,17 +34,17 @@
         div 使用说明： 
           .inlb(style="width: 80% ;vertical-align: top") {{ current.goodsdesc }}
         p(v-if=" current.goodsType !== 5 ") 选择游戏： 
-          span(v-if=" current.gameGroupId !== '0' ") {{ current.gameGroupName }}
-          el-select(v-else clearable v-model=" groupId " style="width: 1.6rem" placeholder=" --选择游戏-- ")
+          //- span(v-if=" current.gameGroupId !== '0' ") {{ current.gameGroupName }}
+          el-select(clearable v-model=" groupId " style="width: 1.6rem" placeholder=" --选择游戏-- ")
             el-option(v-for="(g, i) in current.gameGroupPlatArr" v-bind:label=" g.groupName " v-bind:value=" i ")
 
         p(v-if=" current.goodsType !== 5 ") 选择平台： 
-          template(v-if=" current.gameGroupId !== '0' ")
+          //- template(v-if=" current.gameGroupId !== '0' ")
             span(v-if=" current.platList.length === 1 ") {{ current.platList[0].platName }}
             el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in current.platList" v-bind:label=" g.platName " v-bind:value=" g.platId ")
 
-          el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
+          el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" g.platId ")
 
         p(v-if=" current.goodsType === 3 ") 输入金额：
@@ -72,25 +72,14 @@
         PboxStyle: {
           width: '6rem'
         },
-        // froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
-        // froms: {
-        //   '0': '主帐户',
-        //   '1': '特殊帐户',
-        //   '2': 'BG帐户',
-        //   '3': 'IBC帐户',
-        //   '7': '棋牌帐户',
-        //   '5': 'PT帐户',
-        //   '4': 'AG帐户',
-        //   '9': '沙巴帐户',
-        //   '15': '乐游帐户',
-        //   '17': 'U赢帐户',
-        //   '18': 'KG帐户',
-        //   '25': '微游帐户'
-        // },
-        // froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', 'AG帐户:4', 'PT帐户:5', '', '棋牌帐户:7'],
         m: '',
         groupId: undefined,
         platId: undefined
+      }
+    },
+    watch: {
+      groupId () {
+        this.platId = undefined
       }
     },
     mounted () {
@@ -117,22 +106,22 @@
       },
       use () {
         if (this.current.goodsType === 5) this.activeCoupon()
-        else if (this.current.gameGroupId === '0' || this.current.gameGroupId === '99') this.getLotteryGoodPrize()
+        else if (this.current.gameGroupPlatArr[this.groupId].groupId === '0' || this.current.gameGroupPlatArr[this.groupId].groupId === '99') this.getLotteryGoodPrize()
         else this.transferToBG(this.current.goodsType === 3)
       },
       // &gameGroupId=0&platId=1&entry=1279
       getLotteryGoodPrize () {
         this.$http.get(api.getLotteryGoodPrize, {
-          gameGroupId: this.current.gameGroupId,
-          platId: this.current.platList && this.current.platList.length === 1 ? this.current.platList[0].platId : this.platId,
+          gameGroupId: this.current.gameGroupPlatArr[this.groupId].groupId,
+          platId: this.platId,
           entry: this.current.entry
         }).then(this.then)
       },
       transferToBG (hasMoney) {
         if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
         let args = {
-          gameGroupId: this.current.gameGroupId !== '0' ? this.current.gameGroupId : this.groupId,
-          platid: this.current.platList && this.current.platList.length === 1 ? this.current.platList[0].platId : this.platId,
+          gameGroupId: this.current.gameGroupPlatArr[this.groupId].groupId,
+          platid: this.platId,
           entry: this.current.entry
         }
         if (hasMoney) args.amount = this.m
@@ -146,12 +135,14 @@
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: data.msg || '优惠券已使用'})
           this.list()
-          this.current = null
+          this.Pclose()
           this.__setCall({fn: '__getUserFund', args: undefined})
         }
       },
       Pclose () {
         this.current = null
+        this.groupId = undefined
+        this.platid = undefined
         return false
       }
     }
