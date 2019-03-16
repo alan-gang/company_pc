@@ -46,7 +46,9 @@
         el-table.header-bold.nopadding(:data="data0" ref="table" stripe v-bind:max-height=" MH " v-show=" !i " class="r-tb")
 
           el-table-column(class-name="pl2" prop="createdateBack" align="center" label="交易时间" )
-          el-table-column(class-name="pl2" prop="remark" align="center" label="交易类型" )
+          el-table-column(class-name="pl2" prop="action" align="center" label="交易类型" )
+            template(scope="scope")
+              span {{ type[scope.row.action] }}
 
           el-table-column(class-name="pl2" prop="changemoney" align="center" label="交易金额" )
             template(scope="scope")
@@ -224,6 +226,7 @@ export default {
         btn: ['确定']
       })
       this.t = 0
+      this.list()
     }
   }
 }

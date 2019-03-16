@@ -168,8 +168,8 @@ body.cb.v2
         float none
         background none
         height auto
-        // width 1.35rem
-        width 1.45rem
+        width 1.35rem
+        // width 1.45rem
         height .34rem
         color #666
         margin: 0 0 0.05rem -0.02rem;
@@ -182,7 +182,8 @@ body.cb.v2
         color #333
         background-color #fff
         margin 0 .03rem
-        width 1.4rem
+        width 1.3rem
+        // width 1.4rem
         height .34rem
         line-height .34rem
         &:hover
@@ -228,6 +229,11 @@ body.cb.v2
         &.me:first-child
             margin-top 0
     .submenu.game
+      dd
+        width 1.45rem
+      dd:not(.inner-submenu) .ds-button.card
+        width 1.4rem
+        
       dt
         display none
 
