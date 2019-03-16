@@ -10,7 +10,7 @@
           span  年的 
           span.aa {{ data.month }}
           span  月 
-          sapn.aa {{ data.day }}
+          span.aa {{ data.day }}
           span  日，您第一次来到信游娱乐平台，您还记得吗？感谢您在这些年来对平台的支持，为了纪念这个难忘的日子，信游娱乐为您准备了纪念礼包哦！
       .b.t_c.ptb15
         .ba.inlb.pointer.scratch(v-if=" data.scratch ")
@@ -138,6 +138,7 @@
     background-image url(../assets/annual-ceremony/5.png)
     background-position center
     background-repeat no-repeat
+    background-size auto 100%
   .eb
     margin .3rem 0
   .eba
