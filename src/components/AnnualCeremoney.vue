@@ -60,7 +60,6 @@
     props: ['data'],
     data () {
       return {
-        // ME: store.state.user,
         success: false
       }
     },
@@ -84,6 +83,8 @@
   padding 2.2rem .8rem
   box-sizing border-box
   background-image url(../assets/annual-ceremony/1.png)
+  background-size 100% 100%
+  
   .close
     right 0
     top .8rem
@@ -106,6 +107,7 @@
     position relative
     width 1.68rem
     height 1.88rem
+    background-size 100% 100%
     &:hover
       opacity .8
 
@@ -130,6 +132,7 @@
     width 2.7rem
     height .67rem
     background-image url(../assets/annual-ceremony/7.png)
+    background-size 100% 100%
     &:hover
       background-image url(../assets/annual-ceremony/8.png)
   .ea

@@ -29,14 +29,14 @@
         L
 
     // Guide
-    .modal.menu-guide-modal(v-show=" showMenuGuide " )
+    .modal.menu-guide-modal(v-if=" showMenuGuide " )
       .mask
       .box-wrapper
         .box(ref="box" style="width: 12.8rem")
           MenuGuide(v-bind:showMenuGuide.sync="showMenuGuide" v-on:hideMenuGuide="hideMenuGuide")
 
     // Task
-    .modal.task-modal(v-show=" showTask " )
+    .modal.task-modal(v-if=" showTask " )
       .mask
       .box-wrapper
         .box(ref="box" style="width: 7.5rem; border-radius: 10px; max-height: none")
@@ -44,7 +44,7 @@
           Task(v-bind:showTask.sync="showTask" v-on:hideTask="__hideTask")
 
     // Task
-    .modal.annual-ceremony-modal(v-show=" showAnnual " )
+    .modal.annual-ceremony-modal(v-if=" showAnnual " )
       .mask
       .box-wrapper
         .box(ref="box" style="width: 7rem; border-radius: 10px; height: 6.45rem; max-height: none; background: none")
