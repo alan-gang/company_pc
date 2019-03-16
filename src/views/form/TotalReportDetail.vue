@@ -46,8 +46,8 @@
             template(scope="scope")
               span(:class=" { 'text-danger': scope.row.totProfit._l0(), 'text-green': scope.row.totProfit._o0() } ") {{ scope.row.totProfit }}
 
-          el-table-column(class-name="" prop="otherPoint" label="返水" align="right")
-          el-table-column(class-name="" prop="salaryAmount" label="工资" align="right")
+          el-table-column(class-name="" prop="otherPoint" label="返水" align="right" v-if=" ME.showBackWater ")
+          el-table-column(class-name="" prop="salaryAmount" label="工资" align="right" v-if=" ME.showSalary ")
             //- template(scope="scope")
               span.text-green(v-if=" scope.row.totSettle._o0 ") +{{ scope.row.totSettle }}
 
