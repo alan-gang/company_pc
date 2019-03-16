@@ -47,8 +47,9 @@
           el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" g.platId ")
 
-        p(v-if=" current.goodsType === 3 ") 输入金额：
-          input.ds-input(v-model="m" style="width: 1.8rem" @keyup.enter="use")
+        p(v-if=" current.goodsType === 3 ") 输入金额： 
+          input.ds-input(v-model="m" style="width: 1.6rem" @keyup.enter="use")
+
         .text-center(style="position: relative; top: .1rem")
           .ds-button.cancel.a(@click=" Pclose ") 关闭
           .ds-button.primary.a(@click="use") {{  current.goodsType === 5 ? '立即激活' : '立即使用' }}
@@ -65,7 +66,7 @@
     components: {Modal},
     data () {
       return {
-        stateText: ['未使用', '已使用'],
+        stateText: ['未使用', '已使用', '已失效'],
         stateActionText: ['立即使用', ''],
         TH: 125,
         Pbtn: [],
