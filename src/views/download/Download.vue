@@ -70,15 +70,15 @@ export default {
             buttons: [
               {title: 'IOS下载', class: 'ds-icon-download-ios', id: 'chat_ios'}
             ]
+          },
+          {
+            title: '挂机软件',
+            intro: '专注彩票游戏平台',
+            class: 'ds-icon-download-onhook',
+            buttons: [
+              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: ''}
+            ]
           }
-          // {
-          //   title: '挂机软件',
-          //   intro: '专注彩票游戏平台',
-          //   class: 'ds-icon-download-onhook',
-          //   buttons: [
-          //     {title: 'PC下载', class: 'ds-icon-download-windows primary', download: ''}
-          //   ]
-          // }
         ]
       }
     },
@@ -107,7 +107,8 @@ export default {
         this.$http.get(api.getWinClient).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.downloads[0].buttons[2].download = data.cbClient
+            this.downloads[0].buttons[4].download = data.cbClient
+            this.downloads[3].buttons[0].download = data.cbClient
             // this.downloads[0].buttons[2].download = data.cbClient
             delete data.success
             delete data.cbClient
