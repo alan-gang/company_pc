@@ -50,6 +50,7 @@
             template(scope="scope")
               span {{ type[scope.row.action] }}
 
+
           el-table-column(class-name="pl2" prop="changemoney" align="center" label="交易金额" )
             template(scope="scope")
               span(v-if=" !Number(scope.row.changemoney) ") 0.000
@@ -202,8 +203,11 @@ export default {
         productId: this.xyb.id
       }, option)).then(({data: {data, totalSize, success}}) => {
         if (success) {
+          /* eslint-disable */
+          // data = [{'action': 'transfer', 'amount': '2679.544', 'base': '2500.544', 'changemoney': '15.000', 'createdate': '2019-03-16 11:30:13.0', 'createdateBack': '2019-03-16 11:30:13', 'id':14696,'productid': '1', 'remark': '从【主账户】转入', 'serviceCode': '100', 'userid':166},{'action': 'transfer', 'amount': '2664.544', 'base': '2500.544', 'changemoney': '15.000', 'createdate': '2019-03-16 11:29:56.0', 'createdateBack': '2019-03-16 11:29:56', 'id':14695,'productid': '1', 'remark': '从【主账户】转入', 'serviceCode': '100', 'userid':166},{'action': 'transferOut', 'amount': '2649.544', 'base': '2500.544', 'changemoney': '-1.000', 'createdate': '2019-03-16 11:26:57.0', 'createdateBack': '2019-03-16 11:26:57', 'id':14694,'productid': '1', 'remark': '转出至【主账户】', 'serviceCode': '100', 'userid':166},{'action': 'transfer', 'amount': '2650.544', 'base': '2500.544', 'changemoney': '150.000', 'createdate': '2019-03-16 11:26:10.0', 'createdateBack': '2019-03-16 11:26:10', 'id':14693,'productid': '1', 'remark': '从【主账户】转入', 'serviceCode': '100', 'userid':166},{'action': 'settlement', 'amount': '2500.544', 'base': '2500.441', 'changemoney': '0.103', 'createdate': '2019-03-16 00:00:00.0', 'createdateBack': '2019-03-16 00:00:00', 'id':14681,'productid': '1', 'rate': '3.000', 'remark': '结算收益', 'serviceCode': '100', 'unit': '2019-03-15 12:00至2019-03-16 00:00', 'userid':166},{'action': 'settlement', 'amount': '2500.235', 'base': '2500.132', 'changemoney': '0.103', 'createdate': '2019-03-15 12:00:00.0', 'createdateBack': '2019-03-15 12:00:00', 'id':14656,'productid': '1', 'rate': '3.000', 'remark': '结算收益', 'serviceCode': '100', 'unit': '2019-03-15 00:00至2019-03-15 12:00', 'userid':166},{'action': 'settlement', 'amount': '2500.338', 'base': '2500.235', 'changemoney': '0.103', 'createdate': '2019-03-15 12:00:00.0', 'createdateBack': '2019-03-15 12:00:00', 'id':14657,'productid': '1', 'rate': '3.000', 'remark': '结算收益', 'serviceCode': '100', 'unit': '2019-03-15 00:00至2019-03-15 12:00', 'userid':166},{'action': 'settlement', 'amount': '2500.441', 'base': '2500.338', 'changemoney': '0.103', 'createdate': '2019-03-15 00:00:00.0', 'createdateBack': '2019-03-15 00:00:00', 'id':14673,'productid': '1', 'rate': '3.000', 'remark': '结算收益', 'serviceCode': '100', 'unit': '2019-03-14 12:00至2019-03-15 00:00', 'userid':166}]
           this['data' + this.i] = data
           this.total = totalSize || this['data' + this.i].length
+          /* eslint-enable */
           cb()
         }
       }).finally(() => {

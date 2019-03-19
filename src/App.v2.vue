@@ -29,19 +29,27 @@
         L
 
     // Guide
-    .modal.menu-guide-modal(v-show=" showMenuGuide " )
+    .modal.menu-guide-modal(v-if=" showMenuGuide " )
       .mask
       .box-wrapper
         .box(ref="box" style="width: 12.8rem")
           MenuGuide(v-bind:showMenuGuide.sync="showMenuGuide" v-on:hideMenuGuide="hideMenuGuide")
 
     // Task
-    .modal.task-modal(v-show=" showTask " )
+    .modal.task-modal(v-if=" showTask " )
       .mask
       .box-wrapper
         .box(ref="box" style="width: 7.5rem; border-radius: 10px; max-height: none")
 
           Task(v-bind:showTask.sync="showTask" v-on:hideTask="__hideTask")
+
+    // Task
+    .modal.annual-ceremony-modal(v-if=" showAnnual " )
+      .mask
+      .box-wrapper
+        .box(ref="box" style="width: 7rem; border-radius: 10px; height: 6.45rem; max-height: none; background: none")
+
+          AnnualCeremoney(v-bind:showAnnual.sync="showAnnual" v-on:hideAnnual="__hideAnnual" v-bind:data=" oldUserInfo ")
 
     
 
@@ -51,6 +59,7 @@
 import Modal from './components/Modal'
 import MenuGuide from './components/MenuGuide'
 import Task from './components/Task'
+import AnnualCeremoney from './components/AnnualCeremoney'
 import L from './components/L'
 import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
@@ -69,6 +78,8 @@ export default {
   mixins: [base],
   data () {
     return {
+      oldUserInfo: {},
+      showAnnual: false,
       showTask: false,
       // 开奖通知只存在一个Modal
       NotifyModal: null,
@@ -915,9 +926,6 @@ export default {
         }
       })
     },
-    __showTask () {
-      this.getIngotsTaskProgress()
-    },
     getIngotsTaskProgress () {
       this.$http.get(api.getIngotsTaskProgress).then(({data: {success, userBankProgress, userPayRecordProgress, userProjectProgress}}) => {
         if (success) {
@@ -925,6 +933,15 @@ export default {
           this.setUser({t1: userBankProgress === '1', t2: userPayRecordProgress === '1', t3: userProjectProgress === '1'})
         }
       })
+    },
+    __showAnnual () {
+      // this.getIngotsTaskProgress()
+    },
+    __hideAnnual () {
+      this.showAnnual = false
+    },
+    __showTask () {
+      this.getIngotsTaskProgress()
     },
     __hideTask () {
       this.showTask = false
@@ -1088,7 +1105,27 @@ export default {
           vip: data.isVip,
           isVip: data.isVip,
           vipChatUrl: data.vipChatUrl
+          // isOldUser: data.isOldUser
         })
+        this.showAnnual = !!data.isOldUser
+        this.oldUserInfo = {
+          //  string  年（周年庆活动弹出框使用）
+          year: data.year,
+          // string  月（周年庆活动弹出框使用）
+          month: data.month,
+          // string  日（周年庆活动弹出框使用）
+          day: data.day,
+          // string  刮刮卡数量（周年庆活动弹出框使用）
+          scratch: data.scratch,
+          //  string  游戏体验金券金额（周年庆活动弹出框使用）
+          giftTicket: data.giftTicket,
+          // string  待激活礼金券金额（周年庆活动弹出框使用）
+          expTicket: data.expTicket,
+          //  string  待激活礼金券充值要求金额（周年庆活动弹出框使用）
+          rechargeAmount: data.rechargeAmount,
+          // string  待激活礼金券投注要求金额（周年庆活动弹出框使用）
+          buyAmount: data.buyAmount
+        }
         // this.$router.push('/')
         // this.$router.push(this.state.user.guide ? '/' : '/help/6-2-1')
         window.accessAngular.setUser({
@@ -1389,7 +1426,8 @@ export default {
     GGL,
     Modal,
     L,
-    MenuGuide
+    MenuGuide,
+    AnnualCeremoney
     // Chat
   }
 }
