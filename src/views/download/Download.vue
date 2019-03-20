@@ -21,7 +21,7 @@
           p.intro.text-999 {{ d.intro }}
         el-col.title(:span="18")
           .buttons
-            a(v-for="b in d.buttons" v-bind:href="b.download" target="_blank" download="xy")
+            a(v-for="b in d.buttons" v-bind:href="b.download" download="xy")
               .ds-button.tall.wide(:class="[ b.class ]") {{ b.title }}
                 .before
                 .after {{ b.title }}
