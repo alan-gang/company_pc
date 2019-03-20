@@ -22,7 +22,7 @@
         .ba.inlb.pointer.giftTicket(v-if=" data.giftTicket ")
           .baa {{ data.giftTicket }}
             span.baaa 元
-      .c.c_f.t_c 在线支付渠道充值 {{ data.rechargeAmount }} 元以上，投注 {{ data.buyAmount }} 以上，即可激活礼金，激活后可直接提现
+      .c.c_f.t_c 凡充值 {{ data.rechargeAmount }} 元以上，投注 {{ data.buyAmount }} 以上，即可激活礼金，激活后可直接提现
       
       .d.t_c.pt15
         .da.inlb.pointer(@click=" getOldUserPrize ")
