@@ -21,7 +21,7 @@
           p.intro.text-999 {{ d.intro }}
         el-col.title(:span="18")
           .buttons
-            a(v-for="b in d.buttons" v-bind:href="b.download" target="_blank")
+            a(v-for="b in d.buttons" v-bind:href="b.download" target="_blank" download="xy")
               .ds-button.tall.wide(:class="[ b.class ]") {{ b.title }}
                 .before
                 .after {{ b.title }}
@@ -50,7 +50,7 @@ export default {
 
               {title: 'Android下载1', class: 'ds-icon-download-android', id: 'plat_andr'},
               {title: 'Android下载2', class: 'ds-icon-download-android', id: 'plat_andr2'},
-              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: ''}
+              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: 'http://52.175.9.139:2018/xyClient.7z'}
             ]
           },
           {
@@ -76,7 +76,7 @@ export default {
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-onhook',
             buttons: [
-              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: ''}
+              {title: 'PC下载', class: 'ds-icon-download-windows primary', download: 'http://52.175.9.139:2019/xybet_product.rar'}
             ]
           }
         ]
@@ -107,8 +107,8 @@ export default {
         this.$http.get(api.getWinClient).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.downloads[0].buttons[4].download = data.cbClient
-            this.downloads[3].buttons[0].download = data.cbClient
+            // this.downloads[0].buttons[4].download = data.cbClient
+            // this.downloads[3].buttons[0].download = data.cbClient
             // this.downloads[0].buttons[2].download = data.cbClient
             delete data.success
             delete data.cbClient
