@@ -70,6 +70,7 @@ let defaultUser = {
   vipChatUrl: '',
   isOldUser: 0
 }
+let defaultUserString = JSON.stringify(defaultUser)
 let store = {
   state: {
 
@@ -95,7 +96,7 @@ let store = {
       // block8/3 console.log('user: ', user)
       // login !== undefined && (store.state.user.login = login)
       // name !== undefined && (store.state.user.name = name)
-      user = user || defaultUser
+      user = user || JSON.parse(defaultUserString)
       Object.assign(store.state.user, user)
     },
     /*
