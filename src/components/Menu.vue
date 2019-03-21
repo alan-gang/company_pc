@@ -295,6 +295,9 @@ body.cb.v2
       &.ds-icon-logo-pb
         background-image url(../assets/newhome/logo_pb_big.png)
       
+      &.ds-icon-logo-lg
+        background-image url(../assets/newhome/logo_lg_big.png)
+      
 
         
         

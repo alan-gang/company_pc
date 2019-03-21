@@ -59,9 +59,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
               el-row.absolute
-                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
-                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
-                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}}) ") 
+                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}}) ") 
+                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '21:201'}}) ") 
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
@@ -676,7 +677,11 @@ export default {
           background-image url(../assets/newhome/logo_uw_big.png)
         &.pb
           background-image url(../assets/newhome/logo_pb_big.png)
-      
+        &.lg
+          background-image url(../assets/newhome/logo_lg_big.png)
+        
+        &.el-col-6
+          background-size 1.4rem
       
       
 
