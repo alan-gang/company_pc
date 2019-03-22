@@ -59,10 +59,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
               el-row.absolute
-                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/2', fn: '5:203:iframe:/egame/2'}}) ") 
                 el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
-                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}}) ") 
-                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '21:201'}}) ") 
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ") 
+                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ") 
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
@@ -350,7 +350,6 @@ export default {
     },
     openBG (fn) {
       if (fn.split(':')[2] === 'iframe') this.$router.push(fn.split(':')[3] || '/game/1-8-1')
-      // this.formData = {}
       this.$http.get(api.gameUrl, {gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0]}).then(({data}) => {
         //
         if (data.success) {

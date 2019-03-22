@@ -89,6 +89,9 @@ export default {
       //   this.openPage(item.id)
       // })
       if (item.id) {
+        if (item.ff) {
+          return this.$router.push(item.ff)
+        }
         if (item.fn) {
           return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
           // return this.openWindowWithPost(this.formData[item.fn] || {})

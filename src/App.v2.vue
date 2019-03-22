@@ -344,10 +344,10 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:203:iframe:/egame'},
-            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', fn: '21:203'}
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', ff: '/egame/1', fn: '2:203:iframe:/egame/1'},
+            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', ff: '/egame/3', fn: '21:203:iframe:/egame/3'}
           ]
         },
         {

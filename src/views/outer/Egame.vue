@@ -1,7 +1,7 @@
 <template lang="jade">
 .outer-egame(:style=" bgStyle ")
   .cw
-    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: ii === i} " @click="  ((ii = i) || true) && __setCall({fn: '__openWindowWithPost', args: fns[i]}) ") {{t}}
+    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: $route.params.tabIndex == (i + 1) } " @click=" $router.push('/egame/' + (i + 1)) ") {{t}}
   .cw(v-if=" href ")
     iframe( :src="href"  @load="load" ref="iframe" v-bind:class=" 'plat-' + key ")
 
@@ -21,15 +21,23 @@ export default {
       title: '',
       href: '',
       key: '',
-      ii: 0,
-      tabs: ['BG电子游戏', 'PT游戏'],
-      fns: ['2:203:iframe:/egame', '5:203:iframe:/egame']
+      tabs: ['BG电子游戏', 'PT游戏', 'LG游戏'],
+      fns: ['2:203:iframe:/egame/1', '5:203:iframe:/egame/2', ''],
+      hrefs: ['', '', '/lg_egame/index.html']
+    }
+  },
+  computed: {
+    tabIndex () {
+      return this.$route.params.tabIndex
     }
   },
   watch: {
+    tabIndex () {
+      this.init()
+    }
   },
   created () {
-    this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:203:iframe:/egame'}})
+    this.init()
   },
   mounted () {
     // this.prebg = document.body.style.background
@@ -42,6 +50,13 @@ export default {
     this.clearIframe()
   },
   methods: {
+    init () {
+      if (!this.tabIndex) return
+      let fn = this.fns[this.tabIndex - 1]
+      let href = this.hrefs[this.tabIndex - 1]
+      if (href) this.__setIframeSrc(href)
+      else if (fn) this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: fn}})
+    },
     __setIframeSrcKey (key) {
       this.key = (key || '').split(':')[0]
       if (this.key === '2') {

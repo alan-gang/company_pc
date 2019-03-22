@@ -36,7 +36,7 @@ let router = new VueRouter({
           component: Sports
         },
         {
-          path: '/egame',
+          path: '/egame/:tabIndex',
           meta: {
             rl: true
           },
