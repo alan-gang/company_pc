@@ -52,19 +52,14 @@ export default {
   methods: {
     init () {
       if (!this.tabIndex) return
+      this.key = this.tabIndex
       let fn = this.fns[this.tabIndex - 1]
       let href = this.hrefs[this.tabIndex - 1]
       if (href) this.__setIframeSrc(href)
       else if (fn) this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: fn}})
     },
     __setIframeSrcKey (key) {
-      this.key = (key || '').split(':')[0]
-      if (this.key === '2') {
-        this.ii = 0
-      }
-      if (this.key === '5') {
-        this.ii = 1
-      }
+      // this.key = (key || '').split(':')[0]
     },
     __setIframeSrc (src) {
       if (src.startsWith('?un=')) src = '/pt_egame/index.html' + src
@@ -136,12 +131,15 @@ export default {
     min-height 8rem
     margin-right .2rem
     border none
-    &.plat-2
+    &.plat-1
       width 1280px
       min-height 1100px
-    &.plat-5
+    &.plat-2
       width 1280px
       min-height 850px
+    &.plat-3
+      width 1280px
+      min-height 400px
     
   
 </style>
