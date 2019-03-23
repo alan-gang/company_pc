@@ -174,7 +174,7 @@
               .ds-button.text-button.blue(@click="index === 4 ? index = 0 : index = 4") {{ index === 4 ? '收起' : !me.phone ? '立即设置' : '立即修改' }}
           el-row.action(v-if="index === 4" )
            .phone-form.form
-             //- p 资金密码：
+             p 资金密码：
                input.ds-input.large(v-model="newCashPwd" type="password")
              p(v-if="!me.phone") 绑定手机：
                input.ds-input.large(v-model="phone" v-bind:disabled="pt_ > 0")
@@ -665,9 +665,9 @@ export default {
       })
     },
     bindPhone () {
-      if (!this.phone || !this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      if (!this.phone || !this.pc_ || !this.newCashPwd) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$http.post(api.bindMobil, {mobile: this.phone, password: this.newCashPwd, verifyCode: this.pc_, type: 0}).then(({data}) => {
-      this.$http.post(api.bindMobile, {mobile: this.phone, smsCode: this.pc_}).then(({data}) => {
+      this.$http.post(api.bindMobile, {mobile: this.phone, smsCode: this.pc_, password: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机绑定成功。'})
           store.actions.setUser({phone: this.phone})
@@ -679,9 +679,9 @@ export default {
       })
     },
     unbindPhone () {
-      if (!this.pc_) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
+      if (!this.pc_ || !this.newCashPwd) return this.$message.error({target: this.$el, message: '请输入必要的信息！'})
       // this.$message.success({target: this.$el, message: '恭喜您， 验证码输入正确。'})
-      this.$http.post(api.unbindMobile, {smsCode: this.pc_}).then(({data}) => {
+      this.$http.post(api.unbindMobile, {smsCode: this.pc_, password: this.newCashPwd}).then(({data}) => {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: '恭喜您， 手机解绑成功。'})
           store.actions.setUser({phone: ''})
