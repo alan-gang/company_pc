@@ -20,7 +20,6 @@ let defaultUser = {
   // 特殊金额
   smoney: '',
   free: '',
-  // bg
   bgmoney: 0,
   // ctg
   tcgmoney: 0,
@@ -35,6 +34,7 @@ let defaultUser = {
   litAmount: 0,
   pbAmount: 0,
   lgAmount: 0,
+  // safeCenter
   email: '',
   phone: '',
   greeting: '',
@@ -67,16 +67,16 @@ let defaultUser = {
   exp: 0,
   diffExp: 0,
   nexMinExp: 0,
-  vipChatUrl: '',
-  isOldUser: 0
+  vipChatUrl: ''
 }
 let defaultUserString = JSON.stringify(defaultUser)
+delete defaultUser.mode
+delete defaultUser.model
 let store = {
   state: {
-
     hasHeader: false,
     hasFooter: false,
-    user: defaultUser,
+    user: JSON.parse(defaultUserString),
     pages: []
   },
   actions: {
@@ -93,10 +93,7 @@ let store = {
      *for login
      */
     setUser (user) {
-      // block8/3 console.log('user: ', user)
-      // login !== undefined && (store.state.user.login = login)
-      // name !== undefined && (store.state.user.name = name)
-      user = user || JSON.parse(defaultUserString)
+      user = user || defaultUser
       Object.assign(store.state.user, user)
     },
     /*
