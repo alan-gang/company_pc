@@ -9,7 +9,8 @@
       .table-list(style="padding: .15rem .2rem ")
         el-table.header-bold.nopadding(:data="data" ref="table" stripe v-bind:max-height="MH")
          
-          el-table-column(class-name="" prop="getTime" label="领取时间" align="center" )
+          el-table-column(class-name="" prop="createTime" label="领取时间" align="center" )
+          el-table-column(class-name="" prop="getTime" label="使用时间" align="center" )
           el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" min-width="180")
           el-table-column(class-name="" prop="desc" label="优惠说明" align="center" )
             template(scope="scope")
