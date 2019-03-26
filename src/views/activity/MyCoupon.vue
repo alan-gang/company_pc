@@ -47,7 +47,7 @@
           el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" g.platId ")
 
-        p(v-if=" current.goodsType === 3 ") 输入金额： 
+        p(v-if=" current.goodsType === 3 && Number(current.prizeAmount) <= 0 ") 输入金额： 
           input.ds-input(v-model="m" style="width: 1.6rem" @keyup.enter="use")
 
         .text-center(style="position: relative; top: .1rem")
@@ -108,7 +108,7 @@
       use () {
         if (this.current.goodsType === 5) this.activeCoupon()
         else if (this.current.gameGroupPlatArr[this.groupId].groupId === '0' || this.current.gameGroupPlatArr[this.groupId].groupId === '99') this.getLotteryGoodPrize()
-        else this.transferToBG(this.current.goodsType === 3)
+        else this.transferToBG(this.current.goodsType === 3 && Number(this.current.prizeAmount) <= 0)
       },
       // &gameGroupId=0&platId=1&entry=1279
       getLotteryGoodPrize () {
