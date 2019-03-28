@@ -137,6 +137,7 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
+    setTimeout(this.getHisIssue, 1000)
   },
   watch: {
     NPER () {
@@ -169,6 +170,7 @@ export default {
   methods: {
     getHisIssue () {
       this.preissue = ''
+      if (this.gameid !== 155) return
       this.$http.get(api.getHisIssue, {gameid: this.gameid, issue: this.NPER}).then(({data: {issue, success}}) => {
         if (success) this.preissue = issue
       })
