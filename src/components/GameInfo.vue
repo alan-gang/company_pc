@@ -137,10 +137,9 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
-    this.getHisIssue()
   },
   watch: {
-    lucknumbers () {
+    NPER () {
       if (this.gameid === 115) {
         this.getHisIssue()
       }
@@ -170,7 +169,7 @@ export default {
   methods: {
     getHisIssue () {
       this.preissue = ''
-      this.$http.myget(api.getHisIssue, {gameid: this.gameid, issue: this.NPER}).then(({data: {issue, success}}) => {
+      this.$http.get(api.getHisIssue, {gameid: this.gameid, issue: this.NPER}).then(({data: {issue, success}}) => {
         if (success) this.preissue = issue
       })
     },
