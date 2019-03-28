@@ -31,6 +31,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getHisIssue: '/issuehistory.do?method=getHisIssue',
   getOldUserPrize: '/activity.do?method=getOldUserPrize',
   getLotteryGoodPrize: '/ext/bg.do?method=getLotteryGoodPrize',
   getNoActivatePrize: '/ext/bg.do?method=getNoActivatePrize',

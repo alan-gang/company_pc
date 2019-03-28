@@ -55,7 +55,13 @@
 
         .vm.inlb
 
-          RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ") 
+          RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
+          p.pl20.ft12(v-if="gameid === 155 && preissue ")
+            | 取自
+            span.text-blue 重庆时时彩
+            | 第
+            span {{ preissue }}
+            | 期开奖 
 
         el-popover(ref="popover5" placement="bottom"  trigger="hover" v-bind:popper-class=" 'hot-rank' " v-bind:visible-arrow=" va ") 
           span(slot="reference" v-if=" gameid === 150 " @mouseover=" getWeiBoHot ") 热搜排名 >
@@ -102,7 +108,8 @@ export default {
       interval: 0,
       t: 0,
       volume: false,
-      ranks: []
+      ranks: [],
+      preissue: ''
     }
   },
   computed: {
@@ -130,8 +137,14 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
+    this.getHisIssue()
   },
   watch: {
+    lucknumbers () {
+      if (this.gameid === 115) {
+        this.getHisIssue()
+      }
+    },
     overtime () {
       if (!this.overtime) this.openpk10Game()
     },
@@ -155,6 +168,12 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    getHisIssue () {
+      this.preissue = ''
+      this.$http.myget(api.getHisIssue, {gameid: this.gameid, issue: this.NPER}).then(({data: {issue, success}}) => {
+        if (success) this.preissue = issue
+      })
+    },
     __startpk10Game () {
       let e = document.querySelector('#pk10df')
       if (!e) return
@@ -192,7 +211,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos hjssc_cq
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
