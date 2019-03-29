@@ -542,7 +542,7 @@ let Form = {
   Orderlist: '/report/buyReport.do?method=list',
   // 根据投注号Id查询投注详情
   // http://192.168.169.44:9901/cagamesclient/report/buyReport.do?method=list&projectId=2290
-  OrderDetail: '/report/buyReport.do?method=detail',
+  OrderDetail: '/report/buyReport.do?method=detail&entireCode=1',
   // 撤单
   // http://192.168.169.44:9901/cagamesclient/booking.do?method=cancel&id=1304
   cancel: '//booking.do?method=cancel',
