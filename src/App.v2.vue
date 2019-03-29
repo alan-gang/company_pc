@@ -333,7 +333,7 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'}
           ]
@@ -382,7 +382,7 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', fn: '5:203:iframe:/egame'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'}
           ]
