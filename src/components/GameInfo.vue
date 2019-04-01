@@ -58,7 +58,7 @@
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if="gameid === 155 && preissue ")
             | 取自
-            span.text-blue 重庆时时彩
+            span.text-blue 重庆欢乐生肖
             | 第
             span {{ preissue }}
             | 期开奖 
@@ -212,7 +212,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos hjssc_cq
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos cqhjssc hlsx_cq
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')

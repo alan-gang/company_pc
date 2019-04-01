@@ -31,7 +31,7 @@
 
                 dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
 
-                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.title }} 
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }} 
                   
                   // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                     span.text-gold {{ item.pretitle }}
