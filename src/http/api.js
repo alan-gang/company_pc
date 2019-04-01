@@ -1,6 +1,10 @@
 // let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
 // let api = 'http://cb510.net/dscagamesclient'
-let api = 'http://192.168.169.49:9901/dscagamesclient'
+// let api = 'http://192.168.169.49:9901/dscagamesclient'
+// let prefix = localStorage.getItem('xy_api') || '/xy49'
+// localStorage.setItem('xy_api', prefix)
+// let api = '/api'
+let api = '/dscagamesclient'
 // let api = 'dev'
 // api = 'http://192.168.169.70:8080/cagamesclient'
 // jork
@@ -31,6 +35,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getHisIssue: '/issuehistory.do?method=getHisIssue',
   getOldUserPrize: '/activity.do?method=getOldUserPrize',
   getLotteryGoodPrize: '/ext/bg.do?method=getLotteryGoodPrize',
   getNoActivatePrize: '/ext/bg.do?method=getNoActivatePrize',

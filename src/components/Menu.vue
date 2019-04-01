@@ -31,7 +31,7 @@
 
                 dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
 
-                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.title }} 
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }} 
                   
                   // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                     span.text-gold {{ item.pretitle }}
@@ -212,11 +212,14 @@ body.cb.v2
           background OBLUE
         &.sign.odd:after
         &.sign.even:after
+        &.sign.old:after
           border-radius 0
           width .35rem
           height .2rem
           top 0
           right 0
+        
+          
         &.sign.odd:after
           content '奇数'
           background DANGER
@@ -226,6 +229,9 @@ body.cb.v2
           height .2rem
           content '偶数'
           background OBLUE
+          
+        &.sign.old:after
+          content '怀旧'
           
      .submenu
         padding-left 1rem

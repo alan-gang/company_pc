@@ -224,7 +224,8 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                {class: 'ds-icon-game-chq sign hot', id: '1-1-1', menuid: '11', title: '重庆时时彩', volume: true, gameid: 1},
+                {class: 'ds-icon-game-hlsx_cq sign hot', id: '1-1-1', menuid: '11', title: '重庆欢乐生肖', volume: true, gameid: 1},
+                {class: 'ds-icon-game-cqhjssc sign old new', id: '1-1-12', menuid: '116', title: '重庆怀旧时时彩', atitle: '重庆时时彩', subTitle: '怀旧', volume: true, gameid: 155},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
                 {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
                 {class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
