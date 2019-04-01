@@ -38,7 +38,7 @@
             .number.number-gap {{ r.code.split(',')[0] * 1 + r.code.split(',')[1] * 1 + r.code.split(',')[2] * 1 }}
 
 
-        pre.cac.inlb(v-if=" css && row_ccs(r) ")
+        pre.cac.inlb(v-if=" codeStyle && row_ccs(r) ")
           | &nbsp;
           span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
 
@@ -76,8 +76,8 @@ export default {
       }
     },
     codeStyle () {
-      // return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : ''
-      return ''
+      return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : ''
+      // return ''
     },
     cs () {
       return this.codeStyle ? JSON.parse(this.codeStyle) : []
