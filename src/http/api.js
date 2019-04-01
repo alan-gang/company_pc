@@ -3,7 +3,8 @@
 // let api = 'http://192.168.169.49:9901/dscagamesclient'
 // let prefix = localStorage.getItem('xy_api') || '/xy49'
 // localStorage.setItem('xy_api', prefix)
-let api = '/api'
+// let api = '/api'
+let api = '/dscagamesclient'
 // let api = 'dev'
 // api = 'http://192.168.169.70:8080/cagamesclient'
 // jork

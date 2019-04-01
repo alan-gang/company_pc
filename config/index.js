@@ -35,6 +35,13 @@ var config = {
               '^/api': ''
             }
         },
+        '/dscagamesclient': {
+            target: 'http://192.168.169.49:9901/',
+            changeOrigin: true,
+            pathRewrite: {
+              '^/dscagamesclient': ''
+            }
+        },
         '/xytest': {
             target: 'https://www.xy-test.net/dscagamesclient/',
             changeOrigin: true,
