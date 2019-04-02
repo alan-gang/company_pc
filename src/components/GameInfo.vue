@@ -137,7 +137,7 @@ export default {
       }
     }, 1000)
     this.volume = !!parseInt(window.localStorage.getItem('volume')) || false
-    setTimeout(this.getHisIssue, 1000)
+    // setTimeout(this.getHisIssue, 1000)
   },
   watch: {
     NPER () {
