@@ -141,7 +141,7 @@ export default {
   },
   watch: {
     NPER () {
-      if (this.gameid === 115) {
+      if (this.gameid === 155) {
         this.getHisIssue()
       }
     },
