@@ -67,6 +67,7 @@
           span(slot="reference" v-if=" gameid === 150 " @mouseover=" getWeiBoHot ") 热搜排名 >
           slot
             div(style="width: 5rem")
+              .text-blue.t_c.text-bold.bg.hlh45(v-if=" lstt " style="background: #fff") 统计时间：{{ lstt }}
               dl
                 dt.text-black.text-bold
                   .th.inlb 排名
@@ -109,7 +110,8 @@ export default {
       t: 0,
       volume: false,
       ranks: [],
-      preissue: ''
+      preissue: '',
+      lstt: ''
     }
   },
   computed: {
@@ -203,6 +205,9 @@ export default {
     getWeiBoHot () {
       this.$http.get(api.getWeiBoHot + this.NPER).then(({data: {items}}) => {
         this.ranks = items.reverse()
+        if (items[0]) {
+          this.lstt = items[0].tm
+        }
       })
     }
   }
@@ -273,9 +278,9 @@ export default {
     
   .hot-rank.el-popover
     margin-top 35px
-    transform translateX(-1.85rem)
+    transform translateX(-1.86rem)
     background-color #fffde8
-    padding 10px 0
+    padding 0 0 10px 0
     dd
     dt
       height .36rem
