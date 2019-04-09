@@ -73,6 +73,9 @@ export default (Vue) => {
       //   return req
       // },
       response (rep) {
+        if (rep && rep.headers && rep.headers('date')) {
+          window.lstt = (new Date(rep.headers('date'))).getTime()
+        }
         // 测速
         // if (!rep.data) return rep
         // 用户过期

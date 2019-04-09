@@ -54,7 +54,9 @@ function C (n, m) {
   if (!n || !m || n < m || n < 0 || m < 0) return 0
   else if (n === m) return 1
   else if (m === 1) return n
-  else return parseInt(permutationChoice(n, m) / factorial(m))
+  else {
+    return Math.ceil(permutationChoice(n, m) / factorial(m))
+  }
 }
 /**
  * [factorial description]

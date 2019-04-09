@@ -114,6 +114,7 @@ export default {
       // 即将开奖倒计时
       // 秒
       timeout: (100 * 3600) - 1,
+      // timeout: 10,
       // 剩余的奖期数
       FNPER: 0,
       // 开过的奖期数

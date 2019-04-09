@@ -28,39 +28,46 @@ var config = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-            target: 'http://192.168.169.49:9901/',
+        '/xy95': {
+            target: 'https://www.ds95.net/',
             changeOrigin: true,
             pathRewrite: {
-              '^/api': ''
+              '^/xy95': ''
             }
         },
-        '/dscagamesclient': {
+        '/xy49': {
             target: 'http://192.168.169.49:9901/',
             changeOrigin: true,
             pathRewrite: {
-              '^/dscagamesclient': ''
+              '^/xy49': ''
             }
         },
         '/xytest': {
-            target: 'https://www.xy-test.net/dscagamesclient/',
+            target: 'https://www.xy-test.net/',
             changeOrigin: true,
             pathRewrite: {
               '^/xytest': ''
             }
         },
-        '/dev': {
-            target: 'http://192.168.169.49:9901/dscagamesclient/',
+        '/xy_activity': {
+            target: 'http://192.168.169.49/',
             changeOrigin: true,
             pathRewrite: {
-              '^/dev': ''
+              '^/xy_activity': '/xy_activity'
             }
         },
-        '/xy_activity': {
-            target: 'http://192.168.169.49/dscagamesclient/',
+        '/lg_egame': {
+            target: 'http://192.168.169.49/',
             changeOrigin: true,
             pathRewrite: {
-              '^/xy_activity': ''
+              '^/lg_egame': '/lg_egame'
+            }
+        },
+        '/pt_egame': {
+            target: 'http://192.168.169.49/',
+            changeOrigin: true,
+            pathRewrite: {
+              '^/pt_egame': '/pt_egame'
             }
         }
     },
