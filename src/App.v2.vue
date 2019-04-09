@@ -231,6 +231,7 @@ export default {
                 {class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
                 {class: 'ds-icon-game-wbwfc sign new', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150},
                 {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
+                {class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
