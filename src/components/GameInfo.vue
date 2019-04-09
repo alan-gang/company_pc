@@ -56,9 +56,9 @@
         .vm.inlb
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
-          p.pl20.ft12(v-if="gameid === 155 && preissue ")
+          p.pl20.ft12(v-if=" fromold && preissue ")
             | 取自
-            span.text-blue 重庆欢乐生肖
+            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : '' }} 
             | 第
             span {{ preissue }}
             | 期开奖 
@@ -129,6 +129,9 @@ export default {
     },
     ccs () {
       return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+    },
+    fromold () {
+      return this.gameid === 155 || this.gameid === 156
     }
   },
   mounted () {
@@ -143,7 +146,7 @@ export default {
   },
   watch: {
     NPER () {
-      if (this.gameid === 155) {
+      if (this.fromold) {
         this.getHisIssue()
       }
     },
@@ -172,7 +175,7 @@ export default {
   methods: {
     getHisIssue () {
       this.preissue = ''
-      if (this.gameid !== 155) return
+      if (!this.fromold) return
       this.$http.get(api.getHisIssue, {gameid: this.gameid, issue: this.NPER}).then(({data: {issue, success}}) => {
         if (success) this.preissue = issue
       })
