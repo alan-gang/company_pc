@@ -57,7 +57,7 @@
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if=" fromold && preissue ")
-            | 取自
+            | 取自 
             span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : '' }} 
             | 第
             span {{ preissue }}
@@ -72,12 +72,12 @@
                 dt.text-black.text-bold
                   .th.inlb 排名
                   .th.inlb 搜索关键词
-                  .th.inlb 搜索次数
+                  .th.inlb.t_r 搜索次数
                 dd.text-center.text-999(v-if=" !ranks[0] ") 暂无数据...
                 dd(v-for=" r in ranks ")
                   .th.inlb {{ r.rank }}
                   .th.inlb {{ r.title }}
-                  .th.inlb {{ r.num }}
+                  .th.inlb.t_r {{ r.num }}
     
       
         
@@ -299,7 +299,9 @@ export default {
         width 50%
         padding-left 5%
       &:nth-child(3)
+        box-sizing border-box
         width 25%
+        padding-right .5rem
 
 </style>
 

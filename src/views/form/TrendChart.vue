@@ -481,7 +481,7 @@ export default {
     padding-top .65rem
     background-position top center
     background-repeat no-repeat
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos cqhjssc hlsx_cq
+    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc
       &.ds-icon-game-{n}
         background-image url('../../assets/gameheader/ng/' + n '.png')
 </style>
