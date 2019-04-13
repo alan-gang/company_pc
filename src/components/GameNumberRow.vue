@@ -1,6 +1,6 @@
 <template lang="jade">
-    el-row.row(:class="{pd25: isDice}" style="clear: both")
-      el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan")
+    el-row.row(:class="{pd25: isDice}" style="clear: both" v-bind:nrt=" row.title ")
+      el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan" )
         span {{ row.title }}
 
       el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 24 : 24")
@@ -8,7 +8,7 @@
           el-col.innertitle.text-black(:span="24") {{ row.innertitle || row.innertitleCopy }} {{ row.afterONtitle ? '@' + row.afterONtitle : '' }}
 
         el-row
-          el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
+          el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}" )
             el-row(:class=" 'len_' + numbers.length ")
               // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
               el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
@@ -388,28 +388,42 @@
 
 <style lang="stylus">
   // mouse tiger rabbit
-  // .page-1-1-1 .game-selection .len_10
-  //   .circle
-  //     &:after
-  //       content ''
-  //       position absolute
-  //       right -.02rem
-  //       bottom -.02rem
-  //       width .13rem
-  //       height .13rem
-  //       background-image url(../assets/hlsx/text_mouse_normal.png)
-  //       background-repeat no-repeat
-  //       background-position center
-  //       background-size 100%
-  //     &:hover:after
-  //     &.selected:after
-  //       background-image url(../assets/hlsx/text_mouse_ahover.png)
-  //     &:nth-child(2)
-  //       &:after
-  //         background-image url(../assets/hlsx/text_tiger_normal.png)
-  //       &:hover:after
-  //       &.selected:after
-  //        background-image url(../assets/hlsx/text_tiger_ahover.png)
+  tcs = {
+    '万位': #d874c9,
+    '千位': #d6b73d,
+    '百位': #67afd3,
+    '十位': #d75e5e,
+    '个位': #75cd6e,
+  }
+  .page-1-1-1 .game-selection 
+    for k, v in  tcs
+      .row[nrt={k}]
+        & > .title > span 
+          color v
+    
+  .page-1-1-1 .game-selection .len_10
+    .circle
+      &:after
+        content ''
+        position absolute
+        right -.02rem
+        bottom -.02rem
+        width .13rem
+        height .13rem
+        background-image url(../assets/hlsx/text_mouse_normal.png)
+        background-repeat no-repeat
+        background-position center
+        background-size 100%
+      &:hover:after
+      &.selected:after
+        background-image url(../assets/hlsx/text_mouse_ahover.png)
+      for v, k in  mouse tiger rabbit lonng snake horse sheep monkey chicken pig
+        &:nth-child({k + 1})
+          &:after
+            background-image url('../assets/hlsx/text_' + v + '_normal.png')
+          &:hover:after
+          &.selected:after
+            background-image url('../assets/hlsx/text_' + v + '_ahover.png')
       
       
     

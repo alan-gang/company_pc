@@ -1,10 +1,12 @@
 <template lang="jade">
-  .rolling-numbers(:class=" gameType ")
-    
-    .number(v-if=" gameType !== 'K3' " v-for=" (n, i) in numbers " v-bind:class=" {hl: setPosColor(i)} ") 
-     
-      .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (numbers.length > 10 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
-        .the-number(v-for=" (xx, nn ) in Array(numbers.length > 10 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayNumbers[i] : nn }}
+  .rolling-numbers.relative(:class=" gameType ")
+    .number-box(v-if=" gameType !== 'K3' " v-for=" (n, i) in numbers " )
+      .number(v-bind:class=" {hl: setPosColor(i)} ") 
+       
+        .the-number-box(v-bind:style=" {transform: 'translateY(' + (-n / (numbers.length > 10 ? 0.81 : 0.5))  + '%)' , transition: 'transform ' + (1 + (1 * i))  + 's ease '} ")
+          .the-number(v-for=" (xx, nn ) in Array(numbers.length > 10 ? 81 : 50) " ) {{ nn === parseInt(n) ? displayNumbers[i] : nn }}
+
+      .decorations(:class=" 'n_' + n ")
     
     .number-gaps(v-if=" gameType === 'PCDD' ")
       .number-gap +
@@ -104,7 +106,7 @@ export default {
 
   .rolling-numbers
     padding 0 .1rem
-    .number
+    .number-box
       width W1
       height W1
       line-height W1
@@ -112,6 +114,15 @@ export default {
       position relative
       display inline-block
       margin 0 .04rem
+      
+    .number
+      width W1
+      height W1
+      line-height W1
+      font-size F1
+      position relative
+      display inline-block
+      // margin 0 .04rem
       text-align center
       color #000
       font-weight bold
@@ -190,8 +201,35 @@ export default {
       margin-right .3rem
         
       
-
-      
+  
+  .page-1-1-1
+    .number-box
+      position relative
+    .number
+      width .28rem
+      height .28rem
+      line-height .28rem
+      border-radius 50%
+      z-index 1
+      position relative
+      top  -.14rem
+      left .07rem
+    .decorations
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+      background-position center
+      background-size 100%
+      background-repeat no-repeat
+      for v, k in  mouse tiger rabbit lonng snake horse sheep monkey chicken pig
+        &.n_{k}
+          background-image url('../assets/hlsx/icon_' + v + '.png')
+          
+        
+        
+            
     
       
         
