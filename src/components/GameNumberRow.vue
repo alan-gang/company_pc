@@ -9,7 +9,7 @@
 
         el-row
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}")
-            el-row
+            el-row(:class=" 'len_' + numbers.length ")
               // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
               el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
                 // 正常的显示
@@ -384,6 +384,36 @@
     line-height .3rem !important
     background-color #d3d3d3
     margin .05rem 0
+</style>
+
+<style lang="stylus">
+  // mouse tiger rabbit
+  // .page-1-1-1 .game-selection .len_10
+  //   .circle
+  //     &:after
+  //       content ''
+  //       position absolute
+  //       right -.02rem
+  //       bottom -.02rem
+  //       width .13rem
+  //       height .13rem
+  //       background-image url(../assets/hlsx/text_mouse_normal.png)
+  //       background-repeat no-repeat
+  //       background-position center
+  //       background-size 100%
+  //     &:hover:after
+  //     &.selected:after
+  //       background-image url(../assets/hlsx/text_mouse_ahover.png)
+  //     &:nth-child(2)
+  //       &:after
+  //         background-image url(../assets/hlsx/text_tiger_normal.png)
+  //       &:hover:after
+  //       &.selected:after
+  //        background-image url(../assets/hlsx/text_tiger_ahover.png)
+      
+      
+    
+    
 </style>
 
 <style lang="stylus">
@@ -1011,6 +1041,7 @@
       //     height 0.25s ease-out 0.75s; // And finally height
       // }
       
+
 </style>
 
 <style lang="stylus">

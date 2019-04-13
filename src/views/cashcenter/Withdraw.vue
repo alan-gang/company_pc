@@ -44,7 +44,7 @@
             | 。
             br
             | 新绑定的提款银行卡需要绑定时间超过 
-            span.text-danger 24
+            span.text-danger 6
             |  小时才能正常提款。
             br
             | 特殊余额提款不收取手续费。
