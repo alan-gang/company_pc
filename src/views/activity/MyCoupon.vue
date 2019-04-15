@@ -34,19 +34,19 @@
         p 优惠说明： {{ current.desc }}
         div 使用说明： 
           .inlb(style="width: 80% ;vertical-align: top") {{ current.goodsdesc }}
-        p(v-if=" current.goodsType !== 5 ") 选择游戏： 
+        p 选择游戏： 
           //- span(v-if=" current.gameGroupId !== '0' ") {{ current.gameGroupName }}
           el-select(clearable v-model=" groupId " style="width: 1.6rem" placeholder=" --选择游戏-- ")
             el-option(v-for="(g, i) in current.gameGroupPlatArr" v-bind:label=" g.groupName " v-bind:value=" i ")
 
-        p(v-if=" current.goodsType !== 5 ") 选择平台： 
+        p 选择平台： 
           //- template(v-if=" current.gameGroupId !== '0' ")
             span(v-if=" current.platList.length === 1 ") {{ current.platList[0].platName }}
             el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in current.platList" v-bind:label=" g.platName " v-bind:value=" g.platId ")
 
           el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
-              el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" g.platId ")
+              el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" i ")
 
         p(v-if=" current.goodsType === 3 && Number(current.prizeAmount) <= 0 ") 输入金额： 
           input.ds-input(v-model="m" style="width: 1.6rem" @keyup.enter="use")
@@ -75,13 +75,13 @@
           width: '6rem'
         },
         m: '',
-        groupId: undefined,
-        platId: undefined
+        groupId: 0,
+        platId: 0
       }
     },
     watch: {
       groupId () {
-        this.platId = undefined
+        this.platId = 0
       }
     },
     mounted () {
@@ -107,9 +107,10 @@
         })
       },
       use () {
-        if (this.current.goodsType === 5) this.activeCoupon()
-        else if (this.current.gameGroupPlatArr[this.groupId].groupId === '0' || this.current.gameGroupPlatArr[this.groupId].groupId === '99') this.getLotteryGoodPrize()
-        else this.transferToBG(this.current.goodsType === 3 && Number(this.current.prizeAmount) <= 0)
+        return this.useCoupon()
+        // if (this.current.goodsType === 5) this.activeCoupon()
+        // else if (this.current.gameGroupPlatArr[this.groupId].groupId === '0' || this.current.gameGroupPlatArr[this.groupId].groupId === '99') this.getLotteryGoodPrize()
+        // else this.transferToBG(this.current.goodsType === 3 && Number(this.current.prizeAmount) <= 0)
       },
       // &gameGroupId=0&platId=1&entry=1279
       getLotteryGoodPrize () {
@@ -133,6 +134,18 @@
       activeCoupon () {
         this.$http.get(api.getNoActivatePrize, {entry: this.current.entry}).then(this.then)
       },
+      // &gameGroupId=0&platid=1&amount=100&entry=优惠券ID
+      useCoupon () {
+        let hasMoney = !!this.current.withAmt
+        if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
+        let args = {
+          gameGroupId: this.current.gameGroupPlatArr[this.groupId].groupId,
+          platid: this.current.gameGroupPlatArr[this.groupId].platList[this.platId].platId,
+          entry: this.current.entry
+        }
+        if (hasMoney) args.amount = this.m
+        this.$http.get(api.useCoupon, args).then(this.then)
+      },
       then ({data}) {
         if (data.success === 1) {
           this.$message.success({target: this.$el, message: data.msg || '优惠券已使用'})
@@ -143,8 +156,8 @@
       },
       Pclose () {
         this.current = null
-        this.groupId = undefined
-        this.platid = undefined
+        this.groupId = 0
+        this.platid = 0
         return false
       }
     }
