@@ -34,12 +34,12 @@
         p 优惠说明： {{ current.desc }}
         div 使用说明： 
           .inlb(style="width: 80% ;vertical-align: top") {{ current.goodsdesc }}
-        p 选择游戏： 
+        p(v-if="current.gameGroupPlatArr") 选择游戏： 
           //- span(v-if=" current.gameGroupId !== '0' ") {{ current.gameGroupName }}
           el-select(clearable v-model=" groupId " style="width: 1.6rem" placeholder=" --选择游戏-- ")
             el-option(v-for="(g, i) in current.gameGroupPlatArr" v-bind:label=" g.groupName " v-bind:value=" i ")
 
-        p 选择平台： 
+        p(v-if="current.gameGroupPlatArr") 选择平台： 
           //- template(v-if=" current.gameGroupId !== '0' ")
             span(v-if=" current.platList.length === 1 ") {{ current.platList[0].platName }}
             el-select(v-else clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
@@ -139,8 +139,8 @@
         let hasMoney = !!this.current.withAmt
         if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
         let args = {
-          gameGroupId: this.current.gameGroupPlatArr[this.groupId].groupId,
-          platid: this.current.gameGroupPlatArr[this.groupId].platList[this.platId].platId,
+          gameGroupId: this.current.gameGroupPlatArr ? this.current.gameGroupPlatArr[this.groupId].groupId : '',
+          platid: this.current.gameGroupPlatArr ? this.current.gameGroupPlatArr[this.groupId].platList[this.platId].platId : '',
           entry: this.current.entry
         }
         if (hasMoney) args.amount = this.m
