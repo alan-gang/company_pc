@@ -13,7 +13,7 @@
           el-table-column(class-name="" prop="getTime" label="使用时间" align="center" )
           el-table-column(class-name="" prop="goodsName" label="优惠券名称" align="center" min-width="180")
           el-table-column(class-name="" prop="desc" label="优惠说明" align="center" )
-            template(scope="scope")
+            //- template(scope="scope")
               span {{ scope.row.isUsed ? scope.row.prizeAmount : scope.row.desc }}
 
           el-table-column(class-name="" prop="activityName" label="所属优惠活动" align="center" )
