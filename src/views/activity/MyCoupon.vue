@@ -48,7 +48,7 @@
           el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" i ")
 
-        p(v-if=" current.goodsType === 3 && Number(current.prizeAmount) <= 0 ") 输入金额： 
+        p(v-if=" !current.withAmt ") 输入金额： 
           input.ds-input(v-model="m" style="width: 1.6rem" @keyup.enter="use")
 
         .text-center(style="position: relative; top: .1rem")
@@ -136,7 +136,7 @@
       },
       // &gameGroupId=0&platid=1&amount=100&entry=优惠券ID
       useCoupon () {
-        let hasMoney = !!this.current.withAmt
+        let hasMoney = !this.current.withAmt
         if (hasMoney && !Number(this.m) && Number(this.m) !== 0) return this.$message.warning({target: this.$el, message: '请输入转帐金额！'})
         let args = {
           gameGroupId: this.current.gameGroupPlatArr ? this.current.gameGroupPlatArr[this.groupId].groupId : '',
