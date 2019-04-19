@@ -195,9 +195,9 @@ export default {
         width .5rem
         left 2.69rem
       
-    .number:nth-child(1)
-    .number:nth-child(2)
-    .number:nth-child(3)
+    .number-box:nth-child(1)
+    .number-box:nth-child(2)
+    .number-box:nth-child(3)
       margin-right .3rem
         
       
