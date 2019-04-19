@@ -48,7 +48,7 @@
           el-select(clearable v-model=" platId " style="width: 1.6rem" placeholder=" --选择平台-- ")
               el-option(v-for="(g, i) in (current.gameGroupPlatArr[groupId] || {}).platList  " v-bind:label=" g.platName " v-bind:value=" i ")
 
-        p(v-if=" current.withAmt ") 输入金额： 
+        p(v-if=" current.withAmt ") 存入本金： 
           input.ds-input(v-model="m" style="width: 1.6rem" @keyup.enter="use")
 
         .text-center(style="position: relative; top: .1rem")
