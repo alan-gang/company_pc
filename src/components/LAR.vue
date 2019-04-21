@@ -25,7 +25,7 @@
         
       el-col.b.text-center(:span="5")
         p.ba.ft18 24小时客服
-        .bb.primary.ds-button._36rem.bold.jnewWin 立即联系
+        .bb.primary.ds-button._36rem.bold.jnewWin(@click=" window.open(Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ") 立即联系
 
       el-col.c.text-center(:span="5")
         p.ba.ft18 我的上级
@@ -70,6 +70,7 @@ export default {
   data () {
     return {
       ME: store.state.user,
+      Me: store.state.user,
       code_: '',
       tag: '',
       r: {
