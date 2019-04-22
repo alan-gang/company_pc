@@ -140,6 +140,7 @@ export default {
   
   .rolling-numbers.PK10
     .number
+    .number-box
       width W3
       height W3
       line-height W3
@@ -147,6 +148,7 @@ export default {
   
   .rolling-numbers.HC6
     .number
+    .number-box
       width W2
       height W2
       line-height W2
@@ -155,6 +157,8 @@ export default {
   .rolling-numbers.KL8
     max-width 3.6rem
     .number
+    .number-box
+      
       width W3
       height W3
       line-height W3
