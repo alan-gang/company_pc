@@ -285,7 +285,7 @@
 
                                <div class="message-content" data-ng-class="[message.styleClass]" data-ng-switch-when="text">
 
-                                   <pre style="text-align: left" ng-bind-html="parseEmoticon(message.content) | stopwords | trust | addSpace:10 " data-ng-if="message.receiverId != $parent.id"></pre>
+                                   <pre style="text-align: left" ng-bind-html="parseEmoticon(message.content) | stopwords | trust | addSpace:4 " data-ng-if="message.receiverId != $parent.id"></pre>
                                    <pre style="text-align: left" ng-bind-html="parseEmoticon(message.content) | trust | addSpace:4 " data-ng-if="message.receiverId == $parent.id"></pre>
 
                                    <label for="" class="message-time">  {{ message.sendTime | getDateByString | date:'HH:mm'}}

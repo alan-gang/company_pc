@@ -1528,6 +1528,7 @@ export default {
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
   @import './classic.v2.stylus'
+  @import './chat.fix.stylus'
   // @import './chat.wap.stylus'
   // @import './chat.wap.iphone.less'
   // @import './pad.stylus'

@@ -79,7 +79,7 @@
 
                 dl(style="padding-top: .11rem")
                   dd
-                    el-progress(v-bind:text-inside="true" v-bind:stroke-width="30" v-bind:percentage=" Number((Me.exp * 100 / Me.nexMinExp).toFixed(2)) || 0  " status="exception")
+                    el-progress(v-bind:text-inside="true" v-bind:stroke-width="30" v-bind:percentage=" Math.min(Number((Me.exp * 100 / Me.nexMinExp).toFixed(2)) || 0, 100)  " status="exception")
 
               //- dd
                 router-link.ds-button.primary.full(:to=" '/me/2-1-3' ") 进入我的钱包
