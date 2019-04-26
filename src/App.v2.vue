@@ -326,7 +326,8 @@ export default {
           info: [
             {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
             {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
-            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
+            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'}
           ]
         },
         {

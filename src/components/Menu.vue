@@ -297,6 +297,8 @@ body.cb.v2
       
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)
+      &.ds-icon-logo-xy
+        background-image url(../assets/newhome/logo_xy_big.png)  
       
       &.ds-icon-logo-uwin
         background-image url(../assets/v2/logo_uw_big.png)
