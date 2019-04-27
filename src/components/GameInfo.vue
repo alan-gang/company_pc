@@ -58,7 +58,7 @@
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if=" fromold && preissue ")
             | 取自 
-            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆怀旧分分彩' : '' }} 
+            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆欢乐生肖' : '' }} 
             | 第
             span {{ preissue }}
             | 期开奖 
