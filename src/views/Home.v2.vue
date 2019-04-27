@@ -99,7 +99,7 @@
 
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " ) 
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " ) 
-                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:202'}}) " ) 
+                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " ) 
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS

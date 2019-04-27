@@ -93,7 +93,7 @@
         .c
           br
           p 幸运帐户
-          p.amount.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
+          p.amount.text-black {{ numberWithCommas(ME.xyAmount.toFixed(4)) }}
             // span.text-666 元
         .c
           br
@@ -163,7 +163,7 @@ export default {
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyqpAmount']
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount']
     }
   },
   computed: {
@@ -197,12 +197,14 @@ export default {
           return this.ME.pbAmount
         case 13:
           return this.ME.lgAmount
+        case 14:
+          return this.ME.xyAmount
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount, this.ME.xyAmount][this.t]
         default:
           return this.ME.amoney
         // case 2:
@@ -267,7 +269,8 @@ export default {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0)
+      console.log('f=', this.f, ' t=', this.t)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -316,6 +319,7 @@ export default {
       else if (this.f === 0 && this.t === 9) (this.f = 11) && (this.t = 0)
       else if (this.f === 0 && this.t === 10) (this.f = 12) && (this.t = 0)
       else if (this.f === 0 && this.t === 11) (this.f = 13) && (this.t = 0)
+      else if (this.f === 0 && this.t === 12) (this.f = 14) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -371,6 +375,11 @@ export default {
         this.f = 0
         setTimeout(() => {
           this.t = 11
+        })
+      } else if (this.f === 14) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 12
         })
       }
     },
