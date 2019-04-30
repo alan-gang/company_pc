@@ -34,7 +34,9 @@
   color rgb(187, 190, 196)
 .c_f
   color #fff  
-  
+.c_b
+  color #666
+
 .mlr15
   margin 0 .15rem
 .mr10
@@ -98,7 +100,8 @@
 
 .mt05
   margin-top .05rem
-  
+.mt10
+  margin-top 0.1rem
 .mt15
   margin-top .15rem
 .mt20
@@ -108,6 +111,8 @@
 .mb20
   margin-bottom .2rem
 
+.ml10
+  margin-left .1rem
 .ml15
   margin-left .15rem
 .ml20
@@ -188,3 +193,11 @@
   width 80%
 .wp5
   width 50%
+
+.txt-c
+  text-align center
+.txt-r
+  text-align right
+
+.bg-w
+  background-color #ffffff

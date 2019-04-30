@@ -565,8 +565,10 @@ export default {
                 {
                   id: '2-1-3',
                   menuid: '20',
-                  title: '转账',
-                  url: 'Transfer'
+                  title: '钱包转账',
+                  url: 'Transfer',
+                  tabs: ['钱包转账', '转账记录'],
+                  tabfn: '__setTransferI'
                 },
                 {
                   id: '2-1-4',
