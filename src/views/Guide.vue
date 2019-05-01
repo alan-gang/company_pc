@@ -24,7 +24,7 @@
                 input.ds-input.large(v-model="nickname")
                 span.notice 由2至8个字符组成，可中文，数字不能超过4个
                   br
-                  不能含有QQ字样
+                  | 不能含有QQ字样
                
 
               .buttons
@@ -36,7 +36,7 @@
                 input.ds-input.large(type="password" v-model="newPwd" )
                 span.notice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
 
               p.item 确认新密码：
                 input.ds-input.large(type="password" v-model="newPwdAgain")
@@ -52,7 +52,7 @@
                 input.ds-input.large(type="password" v-model="newCashPwd" )
                 span.notice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
 
               p.item 确认新密码：
                 input.ds-input.large(type="password" v-model="newCashPwdAgain")
