@@ -97,10 +97,9 @@
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
 
-                el-col(:span="4")
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " ) 
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " ) 
-                el-col(:span="4") 
+                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " ) 
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -669,7 +668,9 @@ export default {
         
         &.ly
           background-image url(../assets/newhome/logo_ly_big.png)
-        
+        &.xy
+          background-image url(../assets/newhome/logo_xy_big.png)  
+
         &.spb
           background-image url(../assets/newhome/logo_sb_big.png)
         &.uwin
