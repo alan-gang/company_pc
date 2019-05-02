@@ -5,124 +5,101 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .me-topup.scroll-content
+    .bgc-w.me-topup.scroll-content
+      .tab-recharge(v-if="tabIdx === TAB_RECHARGE")
+        p 用户名：
+          span.u-name {{me.account}}
+        p.mt20 主账户余额：
+          span.fc-o.u-balance {{numberWithCommas(me.amoney)}}
+          span 元
+        nav.pay-type-wp.mt20
+          span.mr15 支付方式：
+          div.btns
+            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" ) {{ '' }}
 
-      .tab(style="text-align: center")
-        .ds-button-group
-          // 无多通道
-          // .ds-button.text-button(:class="{ selected: type === 0 }" @click=" type = 0 " v-if=" bankList[0] ") 网银转帐
-          // .ds-button.text-button(:class="{ selected: type === 1 }" @click=" type = 1 " v-if=" merBankList[0] ") 在线支付
-          .ds-button.text-button(v-for=" (bb, i) in epay " v-bind:class="{ selected: type === (3 + i) }" @click=" (type = (3 + i)) && !(radioIndex = 0)  && (selectBank = bb.more[radioIndex].channelCodes[0]) && (curChannelNumCode = bb.more[radioIndex].tongdCode)" ) {{ bb.title }}
-          .ds-button.text-button(:class="{ selected: type === 2 }" @click=" type = 2 ") 充值记录
+        .pay-type-detail(v-show="canShowPayTypeDetail")
+          i.icon-pointer
+          .tip 提示：充值金额范围 
+            i.fc-o {{rechargeRange}}
+            | ，充值手续费：
+            i.fc-o {{perRate}}%
+          .bank-ls(v-show="quotaList.length < 1")
+            span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="choiceBank(bank, i)")
+          .quota-ls(v-show="quotaList.length > 0")
+            .btns
+              .ds-button.text-button.quota-item.mr15(v-for=" (v, i) in quotaList " v-bind:class="{ selected: quotaIdx === i }" @click="choiceQuota(v, i)" ) {{ v }}
+            i.mr20 &nbsp;元
+            i 实际到帐：
+            i.fc-o {{actualAmount}}
+            i &nbsp;元
 
-        .radios(v-if="type > 2 && epay[type - 3].more && epay[type - 3].more.length > 1 " style="margin-bottom: .1rem")
-          label.ds-radio-label(v-if="r" v-for="(r, index) in epay[type - 3].more"  @click=" ((radioIndex = index) || true) && (selectBank = epay[type - 3].more[radioIndex].channelCodes[0]) && (curChannelNumCode = r.tongdCode)"  v-bind:class="{ active: radioIndex === index }")
-            span.ds-radio.white
-            | {{ r.tongdName }}
+        .form
+          .item(style="line-height: .5rem" v-if=" canShowTruthName") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+            input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
-      // .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
-      //   p 资金密码：
-      //     input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
-      //     .buttons(style="margin-left: .70rem; padding: .2rem 0")
-      //       .ds-button.primary.large(@click="checkSecurityPwd") 确认
+          .item.mt20(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
+            el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
+            i.mr20 &nbsp;元
+            span(v-show="actualAmount > 0")
+              i 实际到帐：
+              i.fc-o {{actualAmount}}
+              i &nbsp;元
 
+          .buttons.mt20(style="margin-left: .85rem;")
+            .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
 
-      .form(v-if=" type !== 2 ")
+      
+      .tab-recharge-records(v-if="tabIdx === TAB_RECHARGE_RECORDS")
+        .form
 
-        .notice(style="margin: 0 0 .2rem 0" v-if="type > 2")
-          span.title 温馨提示：
-          p.content
-            | 如果充值失败请多次尝试，或使用
-            span.text-danger 在线支付
-            | 的方式进行充值。手续费为：
-            span.text-danger(style="font-size: 14px") {{ selectBank.custFee || '0' }}%
-            br
-            | 为了提高充值成功率，如果充值金额为整数，使用某些充值方式时，系统会自动将充值金额随机增加
-            span.text-danger(style="font-size: 14px") 0.01-0.09
-            br(v-if="moreTip")
-            span.text-danger(v-if="moreTip") {{ moreTip }}   
+          //-label.item 充值时间
+            el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
+            |  至
+            el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
 
+          //-label.item(style="margin-left: .2rem") 状态
+            el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
+            el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
+          
+          .search-wp
+            span.mr10 时间
+            el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
+            .ds-button.primary.large.ml15(@click="search") 搜索
 
-        .item(style="line-height: .5rem") 支付方式：
-            .banks
-                label.ds-radio-label( v-if=" type > 2 && epay[type - 3].title !== '在线支付' && epay[type - 3].title !== '网银转帐' && epay[type - 3].title !== '大额网银' ")
-                  // span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
-                  span.ds-icon-bank-card.selected(v-bind:class=" [ selectBank.class ] ")
+          .notice(style="margin: .2rem 0 .2rem 0")
+            span.title 温馨提示：
+            p.content
+              | 一般情况
+              span.text-blue 充值
+              | 为
+              span.text-danger 1-2分钟
+              | 之内到帐;
+              br
+              | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
 
-                div(v-if=" (type >= 3 && ( epay[type - 3].title === '网银转帐' || epay[type - 3].title === '在线支付' || epay[type - 3].title === '大额网银' )) ")
-                  label.ds-radio-label(v-for="bank in banksO " @click="selectBank = bank")
-                    span.ds-radio.white(v-bind:class="{ active: selectBank.bankCode === bank.bankCode }")
-                    span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.bankCode === bank.bankCode } ] ")
+          el-table.header-bold.margin(:data="data" style="margin: .2rem 0" stripe)
+            el-table-column(prop="payerTime" label="充值时间")
 
-                  label.ds-radio-label
-                    span.ds-radio.white(style="opacity: 0")
-                    span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && avaibleBanks.length > 3" @click="showAllBank = true")  更多银行
+            el-table-column(prop="bankName" label="银行" )
 
-        .item(style="line-height: .5rem" v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
-          input.ds-input(v-model="name" @keyup.enter.native="topUpNow" style="width: 1.8rem")
-          span(style="padding: 0 .2rem") （请输入支付宝真实姓名）
+            el-table-column(prop="payerRealAmount" label="金额"  align="right")
 
-        .item(style="line-height: .5rem" v-if=" canShowTruthName &&  epay[type - 3].title !== '支付宝转帐' ") 真实姓名：&nbsp;&nbsp;&nbsp;&nbsp;
-          input.ds-input(v-model="name" style="width: 1.8rem")
+            el-table-column(prop="payerTransferFee" label="手续费"  align="right")
 
-        .item(style="line-height: .5rem") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
-          el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
-          span(style="padding: 0 .2rem") 充值限额：(单笔充值限额：最低：
-              span.min.text-danger  {{ min }}
-              | 元，
-              | 最高：
-              span.min.text-danger  {{ max }}
-              | 元)
+            el-table-column(label="" align="right" )
 
+            el-table-column(label="状态" )
+              template(scope="scope")
+                span(:class="{ 'text-green': scope.row.isDone === '充值成功', 'text-danger': scope.row.isDone !== '充值成功' }") {{  scope.row.isDone}}
 
-        .buttons(style="margin-left: .85rem; padding-top: .05rem")
-            .ds-button.primary.large(@click="topUpNow") 确认
+            el-table-column(label="操作")
+              template(scope="scope")
+                span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
-
-      .form(v-if="type === 2")
-
-        // label.item 充值时间
-        //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
-        //   |  至
-        //   el-date-picker(v-model="et" type="datetime" placeholder="请选择日期时间")
-
-        // label.item(style="margin-left: .2rem") 状态
-        //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
-        //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-
-        .notice(style="margin: 0 0 .2rem 0")
-          span.title 温馨提示：
-          p.content
-            | 一般情况
-            span.text-blue 充值
-            | 为
-            span.text-danger 1-2分钟
-            | 之内到帐;
-            br
-            | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
-
-        el-table.header-bold.margin(:data="data" style="margin: .2rem 0" stripe)
-          el-table-column(prop="payerTime" label="充值时间")
-
-          el-table-column(prop="bankName" label="银行" )
-
-          el-table-column(prop="payerRealAmount" label="金额"  align="right")
-
-          el-table-column(prop="payerTransferFee" label="手续费"  align="right")
-
-          el-table-column(label="" align="right" )
-
-          el-table-column(label="状态" )
-            template(scope="scope")
-              span(:class="{ 'text-green': scope.row.isDone === '充值成功', 'text-danger': scope.row.isDone !== '充值成功' }") {{  scope.row.isDone}}
-
-          el-table-column(label="操作")
-            template(scope="scope")
-              span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
-
-        el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
+          el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
 
+    
     .modal(v-show="show" )
       .mask
       .box-wrapper
@@ -130,7 +107,7 @@
           .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
             span.title(style="font-size: .18rem; color #666;") 支付 {{ amount }} 元
             el-button-group
-              i.el-icon-close.ds-button.text-button(@click="show = false" )
+              i.el-icon-close.ds-button.text-button(@click="showResponseConfirmModal" )
 
           .content
             p.text-black {{ selectBank.text }}扫码支付
@@ -266,8 +243,42 @@
                 span.text-green(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 0") 待处理
                 span.text-danger(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 2") 失败，{{ detail.backReson }}
 
+    
+    
+    
+    .modal.res-c-modal.res-confirm-modal(v-show="isShowResponseConfirm" )
+      .mask
+      .box-wrapper
+        .box
+          .content
+            p.txt 请确认付款结果
+            p.finish-wp
+              el-button(type="success" @click="btnResponseConfirm(1)") 已完成付款
+            p.mt15.faild-wp
+              el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
+            p.mt15.cancel-wp
+              el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
 
-
+    .modal.res-c-modal.res-confirm-rs-modal(v-show="isShowResponseConfirmRs" )
+      .mask
+      .box-wrapper
+        .box(v-bind:class="{'succ': responseSucc, wait: responseWait, failed: responseFailed}")
+          .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
+            el-button-group
+              i.el-icon-close.ds-button.text-button(@click="isShowResponseConfirmRs = false")
+          .content
+            .status-icon(:class="{'icon-green': responseSucc || responseWait, 'icon-red': responseFailed}")
+            .status-succ(v-show="responseSucc")
+              p.txt 充值成功
+            .status-wait(v-show="responseWait")
+              p.txt.t_l 一般情况下，充值到账时间为1-2分钟，有时会因为银行、第三方、网络等原因延迟。如果超过5分钟没有到账，可到充值记录--充值详情中，提交“催到账”申请单，或直接联系客服。
+            .status-faild(v-show="responseFailed")
+              p.txt.t_l 如果付款失败，请多尝试几次，若仍不成功，请减少充值金额后再次尝试（例如：500 改为 300），或更换其他充值方式进行充值。
+            p.finish-wp(v-show="responseSucc || responseWait")
+              el-button(type="success" @click="isShowResponseConfirmRs = false") 确定
+            p.faild-wp(v-show="responseFailed")
+              el-button(type="warning" @click="isShowResponseConfirmRs = false") 确定
+            
 </template>
 
 <script>
@@ -276,14 +287,19 @@ import { BANKS } from '../../util/static'
 import { dateTimeFormat } from '../../util/Date'
 import {numberWithCommas} from '../../util/Number'
 import Modal from 'components/Modal'
+import store from '../../store'
 export default {
   data () {
     return {
-      numberWithCommas: numberWithCommas,
+      me: store.state.user,
+
+      tabIdx: 0,
+      TAB_RECHARGE: 0,
+      TAB_RECHARGE_RECORDS: 1,
+
       Ptype: 'success',
       Pbtn: ['进入网上银行'],
       Phref: [],
-      cpwd: '',
       dataXamount: '',
       dataXbankName: '',
       dataXcardName: '',
@@ -292,14 +308,19 @@ export default {
       dataXappendix: '',
       dataXnow: false,
       O: '',
-      enableSaveType: '2',
+
       type: 0,
-      // avaibleBanks: [],
+
       selectBank: {},
       showAllBank: false,
       amount: 0,
       min: 0,
       max: 0,
+
+      /* 充值记录 */
+      // 查询条件
+      searchConditions: ['今天', '昨天', '前天', '最近一周'],
+      curConditionIdx: -1,
       data: [],
       show: false,
       time_: 60,
@@ -313,6 +334,7 @@ export default {
       currentPage: 1,
       showRequest: false,
       ALLBANKS: BANKS,
+
       // 催帐
       row: {},
       CbankIndex: '',
@@ -330,12 +352,37 @@ export default {
       bankList: [],
       merBankList: [],
       merNoBankList: [],
+
       // 非银行转帐类
       epay: [],
       radioIndex: 0,
       name: '',
       curChannelNumCode: '',
-      zfbQrCode: ''
+      zfbQrCode: '',
+
+      /* 充值 */
+      curPayTypeIdx: 0,
+      payTypes: [],
+      quotaList: [], // 定额
+      curPayType: {},
+      curBank: null,
+      curBankIdx: 0,
+      showBankList: false,
+      perRate: 0,
+      rechargeRange: '',
+      canShowPayTypeDetail: false,
+      actualAmount: '', // 实际到帐
+      quotaIdx: 0,
+      showAmountInput: true,        // 金额输入
+      namePlaceHolder: '请输入您的支付宝真名',
+
+      isShowResponseConfirm: false,   // 支付结果状态确认
+      isShowResponseConfirmRs: false,  // 支付结果状态确认完成提示
+      responseSucc: false,          // 支付结果-成功
+      responseWait: false,           // 支付结果-暂未到帐
+      responseFailed: false,        // 支付结果-失败
+
+      billNo: ''
     }
   },
   computed: {
@@ -359,54 +406,39 @@ export default {
     avaibleBanks () {
       return [this.bankList, (this.epay[this.type - 3] || {more: [{channelCodes: []}]}).more[this.radioIndex].channelCodes || []][Math.min(this.type, 1)]
     },
-    // Cdata () {
-    //   if (this.data.length <= this.pageSize) return this.data
-    //   else {
-    //     return util.groupArray(this.data.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage), this.pageSize, {_empty: true})[0]
-    //   }
-    // },
-    // BANKS () {
-    //   return BANKS.filter(b => {
-    //     return this.avaibleBanks.find(ab => ab.bankCode === b.apiName)
-    //   })
-    // },
-    // myBanks () {
-    //   return this.avaibleBanks.filter(b => ['alipay', 'wepay'].indexOf(b.class) === -1)
-    //   // return BANKS
-    // },
     banksO () {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
       // return this.curChannelNumCode === 'khb'
       return false
+    },
+    btnConfirmDisable () {
+      return !this.amount || this.amount === '0'
     }
-    // ,
-    // otherPay () {
-      // return this.avaibleBanks.filter(b => ['alipay', 'wepay'].indexOf(b.class) !== -1)
-    // }
   },
   watch: {
     amount () {
       if (typeof this.amount === 'number') {
+        this.actualAmount = this.amount - (this.amount * this.perRate)
         setTimeout(() => {
           typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
         }, 300)
-        // setTimeout(() => {
-        //   this.amount = parseFloat(this.amount) || 0
-        // }, 300)
       }
     },
     pt_ () {
       if (this.pt_ === this.time_) {
         let t = setInterval(() => {
-          if (this.pt_ > 0) this.pt_--
-          else clearInterval(t)
+          if (this.pt_ > 0) {
+            this.pt_--
+          } else {
+            clearInterval(t)
+            this.showResponseConfirmModal()
+          }
         }, 1000)
       }
     },
     selectBank () {
-      // this.saveAmountRange()
       if (!this.selectBank.bankCode) {
         this.max = 45000
         this.min = 0
@@ -419,55 +451,19 @@ export default {
       // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
     },
     type () {
-      // this.max = 0
-      // this.min = 0
       this.amount = 0
       this.radioIndex = 0
-      // if (this.type !== 2) this.TopUpGetBankList()
-      if (this.type === 2) this.qryRecharge()
-      // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
-      // if (this.type > 2) this.selectBank = this.otherPay
+      // if (this.type === 2) this.qryRecharge()
     },
     Ctime () {
       // block8/3 console.log(this.Ctime)
     }
-    // otherPay () {
-    //   if (this.type > 2) {
-    //     this.selectBank = (this.otherPay[4 - this.type] || {})
-    //   }
-    // }
   },
   mounted () {
-    // this.getBankList()
-    // this.showRecharge()
     this.O = this
-    // this.TopUpGetBankList()
-    // this.qryRecharge()
-    // this.getEnableSaveType()
-    // this.saveAmountRange()
     this.saveRanges()
   },
   methods: {
-    // checkSecurityPwd () {
-    //   this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
-    //     if (data.success === 1) {
-    //       this.stepIndex++
-    //       this.$message.success({target: this.$el, message: data.msg || '资金密码密码验证成功！'})
-    //       // this.__setCall({fn: '__getUserFund'})
-    //       // this.getUserBankCards()
-    //     } else {
-    //       this.$message.error({target: this.$el, message: data.msg || '资金密码错误！'})
-    //     }
-    //   }).catch(rep => {
-    //     this.$message.error({target: this.$el, message: '资金密码密码验证失败！'})
-    //   })
-    // },
-    // 添加催到账
-    // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=addPayError&apiName=icbc&getName=&payName=张三&payCardNo=1234&payAmount=123&noteWord=1213&serialNo=&payTime=2017-06-08 16:15:15
-    // addPayError: 'person/recharge.do?method=addPayError',
-    // // 查询催到账记录
-    // // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
-    // queryPayError: 'person/recharge.do?method=queryPayError'
     showReq (row) {
       this.showRequest = true
       this.row = row
@@ -546,10 +542,17 @@ export default {
         text: '充值记录获取中...',
         target: this.$el
       }, 10000, '充值记录获取超时...')
-      this.$http.get(api.qryRecharge, {
+      let params = {
         page: page || 1,
         pageSize: this.pageSize
-      }).then(({data}) => {
+      }
+      if (this.st) {
+        params.startDate = this.st
+      }
+      if (this.et) {
+        params.endDate = this.et
+      }
+      this.$http.get(api.qryRecharge, params).then(({data}) => {
         if (data.success === 1) {
           this.data = data.payRecordData || []
           typeof fn === 'function' && fn()
@@ -576,10 +579,10 @@ export default {
     Pclose () {
       this.dataXnow = false
       setTimeout(() => {
-        this.Ptype = 'success'
-        this.Phref = []
-        this.name = ''
-        // this.Pbtn = ['进入网上银行']
+        // this.Ptype = 'success'
+        // this.Phref = []
+        // this.name = ''
+        this.showResponseConfirmModal()
       }, 1000)
       return false
     },
@@ -591,62 +594,11 @@ export default {
           this.Phref = []
         }, 1000)
         return false
+        // this.showResponseConfirmModal()
       } else {
         this.type = 2
       }
     },
-    // 充值记录查询
-    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1
-    // qryRecharge: '/person/recharge.do?method=qryRecharge&startDate=20161120124327&&endDate=20161126124327&status=1 ',
-    // // 进入充值页
-    // // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=showRecharge
-    // showRecharge: '/person/recharge.do?method=showRecharge',
-    // // 获取银行列表
-    // // http://192.168.169.43:19012/finance/merSave.do?method=getBankList
-    // httpGetBankList: 'http://192.168.169.43:19012/finance/merSave.do?method=getBankList',
-    // // &userId=1&userName=jock&platId=101
-    // // 校验充值金额范围
-    // // http://192.168.169.43:19012/finance/merSave.do?method=saveAmountRange
-    // httpSaveAmountRange: 'http://192.168.169.43:19012/finance/merSave.do?method=saveAmountRange',
-    // // &userId=1&userName=jock&platId=101&bankCode=icbc
-    // // 提交充值请求道第三方
-    // // http://192.168.169.43:19012/finance/merSave.do?method=commit
-    // httpCommit: 'http://192.168.169.43:19012/finance/merSave.do?method=commit'
-    // // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
-    // TopUpGetBankList (fn) {
-    //   if ([this.myAllBanks, this.myFastBanks, [], this.myFastBanks, this.myFastBanks][this.type][0]) return false
-    //   let loading = this.$loading({
-    //     text: '银行列表获取中...',
-    //     target: this.$el
-    //   }, 10000, '银行列表获取超时...')
-    //   let nowType = this.type
-    //   this.$http.get(api.TopUpGetBankList, {saveType: Math.min(this.type, 1)}).then(({data}) => {
-    //     if (data.success === 1) {
-    //       data.bankList.forEach(b => {
-    //         b.class = (BANKS.find(bb => {
-    //           return b.bankCode === bb.apiName
-    //         }) || {}).class
-    //         b.text = (BANKS.find(bb => {
-    //           return b.bankCode === bb.apiName
-    //         }) || {}).text
-    //       })
-    //       if (nowType) {
-    //         this.myFastBanks = data.bankList || []
-    //         if (!this.myFastBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
-    //       } else {
-    //         this.myAllBanks = data.bankList || []
-    //         if (!this.myAllBanks[0]) this.$message.info({message: data.msg || '无可用支付方式！'})
-    //       }
-    //       // this.avaibleBanks = data.bankList || []
-    //     } else this.$message.info({message: data.msg || '无可用支付方式！'})
-    //   }).catch(rpe => {
-    //     this.$message.error({message: '获取支付方式失败！'})
-    //   }).finally(() => {
-    //     setTimeout(() => {
-    //       loading.close()
-    //     }, 1000)
-    //   })
-    // },
     saveAmountRange (fn) {
       this.$http.get(api.saveAmountRange).then(({data}) => {
         if (data.success === 1) {
@@ -692,88 +644,12 @@ export default {
       })
     },
     saveRanges (fn) {
-      this.$http.get(api.saveRanges, {chanType: 'web'}).then(({data}) => {
-        if (data.success === 1) {
-          // 网银转帐
-          data.bankList.forEach(b => {
-            b.class = (BANKS.find(bb => {
-              return b.bankCode === bb.apiName
-            }) || {}).class
-            b.text = (BANKS.find(bb => {
-              return b.bankCode === bb.apiName
-            }) || {}).text
-          })
-          this.bankList = data.bankList || []
-          // data.merBankList.forEach(b => {
-          //   b.class = (BANKS.find(bb => {
-          //     return b.bankCode === bb.apiName
-          //   }) || {}).class
-          //   b.text = (BANKS.find(bb => {
-          //     return b.bankCode === bb.apiName
-          //   }) || {}).text
-          // })
-          // this.merBankList = data.merBankList || []
-          this.epay = []
-          // 在线支付 快捷支付 QQ 微信
-          let epays = ['bigonline:大额网银', 'bankList:网银转帐', 'online:在线支付', 'unionpay:银联扫码', 'fast:快捷支付', 'qqwallet:QQ钱包', 'weixin:微信支付', 'zfb:支付宝', 'jd:京东支付', 'zfb2Bank:支付宝转帐', 'zfbwap:支付宝H5']
-          epays.forEach(m => {
-            data[m.split(':')[0]] && data[m.split(':')[0]].forEach(f => {
-              f.channelCodes.forEach(b => {
-                b.class = (BANKS.find(bb => {
-                  return b.bankCode === bb.apiName
-                }) || {}).class
-                b.text = (BANKS.find(bb => {
-                  return b.bankCode === bb.apiName
-                }) || {}).text
-              })
-            })
-            if (data[m.split(':')[0]] && data[m.split(':')[0]][0]) this.epay.push({title: m.split(':')[1], more: data[m.split(':')[0]]})
-            this.curChannelNumCode = this.epay.length > 0 && this.epay[0].more && this.epay[0].more.length > 0 && this.epay[0].more[0].tongdCode
-          })
-          // 在线支付
-          // data.online.forEach(f => {
-          //   b.channelCodes.forEach(b => {
-          //     b.class = (BANKS.find(bb => {
-          //       return b.bankCode === bb.apiName
-          //     }) || {}).class
-          //     b.text = (BANKS.find(bb => {
-          //       return b.bankCode === bb.apiName
-          //     }) || {}).text
-          //   })
-          // })
-          // this.online = data.online || []
-
-          // // 在线支付
-          // data.online.forEach(f => {
-          //   b.channelCodes.forEach(b => {
-          //     b.class = (BANKS.find(bb => {
-          //       return b.bankCode === bb.apiName
-          //     }) || {}).class
-          //     b.text = (BANKS.find(bb => {
-          //       return b.bankCode === bb.apiName
-          //     }) || {}).text
-          //   })
-          // })
-          // this.online = data.online || []
-
-          // data.merNoBankList.forEach(b => {
-          //   b.class = (BANKS.find(bb => {
-          //     return b.bankCode === bb.apiName
-          //   }) || {}).class
-          //   b.text = (BANKS.find(bb => {
-          //     return b.bankCode === bb.apiName
-          //   }) || {}).text
-          // })
-
-          this.merNoBankList = data.merNoBankList || []
-          // if (!this.bankList[0]) {
-          this.type = 3
-            // console.log
-          if (this.epay[0]) this.selectBank = this.epay[0].more[this.radioIndex || 0].channelCodes[0]
-          // } else return false
-          if (!this.epay[0]) this.type = 2
-          // this.max = data.max
-          // this.min = data.min
+      this.$http.get(api.saveRanges, {chanType: 'web'}).then(({data: { success, saveRange }}) => {
+        if (success === 1) {
+          this.payTypes = saveRange
+          if (this.payTypes.length > 0) {
+            this.choicePayType(this.payTypes[0], 0)
+          }
         } else {
           this.type = 2
         }
@@ -783,27 +659,20 @@ export default {
     },
     commit (fn) {
       this.Qr = ''
-      // if (this.selectBank.class === 'wepay' && (this.amount + '').indexOf('.') === -1) {
-      //   return this.$modal.warn({
-      //     content: '为了提高微信充值成功率，充值金额需为小数！',
-      //     btn: ['确定']
-      //   })
-      // }
+      let bankCode = this.curBank.bankCode
       let loading = this.$loading({
         text: '充值申请中...',
         target: this.$el
       }, 10000, '充值申请超时...')
       this.$http.post(api.commit, {
         chanType: 'web',
-        saveType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].saveType : '',
-        merType: this.type > 2 ? this.epay[this.type - 3].more[this.radioIndex].tongdCode : '',
-        bankCode: this.selectBank.bankCode,
-        amount: this.amount,
-        cardName: this.name
+        saveWay: this.curPayType.saveWay,
+        bankCode: bankCode,
+        amount: this.amount
+        // cardName: this.name
       }).then(({data}) => {
         if (data.success === 1) {
-          // if (this.type === 0) {
-          // if (this.type >= 3 && (this.epay[this.type - 3].title === '网银转帐' || this.epay[this.type - 3].title === '支付宝转帐' || this.epay[this.type - 3].title === '大额网银')) {
+          this.billNo = data.billNo
           if (data.data) {
             data = data.data
             this.dataXamount = data.amount
@@ -814,26 +683,11 @@ export default {
             this.dataXappendix = data.appendix
             this.dataXnow = true
             this.Phref[0] = data.payUrl
-            // this.Qr = data.zfb
-            if (this.epay[this.type - 3].title === '支付宝转帐') {
+            if (this.curBank.bankCode === 'zfb2bank') {
               this.Pbtn = ['进入支付宝']
-            } else this.Pbtn = ['进入网上银行']
-            // 在线充值 附言
-            // let contentString = '<div style="text-align: left; font-size: .16rem; line-height: .3rem; color: #666; user-select: text;"><p>充值总额：' + data.amount + '' + '</p>' +
-            //  '<p>银行信息：' + data.bankName + '' + '</p>' +
-            //  '<p>户名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.cardName + '' + '</p>' +
-            //  '<p>卡号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.cardNum + '' + '</p>' +
-            //  '<p>订单号：&nbsp;&nbsp;&nbsp;' + data.orderId + '' + '</p>' +
-            //  '<p>附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.appendix + '<span class=" ds-button text-button green" v-clipboard="\'hello\'" @success="copySuccess" @error="copyError">复制</span>' + '</p></div>'
-            // this.$modal.success({
-            //   content: contentString,
-            //   btn: ['充值成功', '遇到问题'],
-            //   target: this.$el,
-            //   ok () {
-            //     this.type = 2
-            //   },
-            //   O: this
-            // })
+            } else {
+              this.Pbtn = ['进入网上银行']
+            }
           } else if (data.payUrl || data.href) {
             // 第三方充值
             // 第三方充值 二维码支付
@@ -849,15 +703,7 @@ export default {
                 href: [data.href],
                 target: this.$el,
                 ok () {
-                  this.$modal.question({
-                    content: '是否已经充值成功？',
-                    target: this.$el,
-                    btn: ['充值成功', '遇到问题'],
-                    ok () {
-                      this.type = 2
-                    },
-                    O: this
-                  })
+                  this.showResponseConfirmModal()
                 },
                 O: this
               })
@@ -873,49 +719,188 @@ export default {
         }, 500)
       })
     },
+    checkAmoutRange (amount) {
+    },
     topUpNow () {
+      if (this.btnConfirmDisable) return
       if (this.canShowTruthName && !this.name) return this.$message.warning({message: '请输入您的真实姓名!'})
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
-      if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
-      if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
-      if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转帐' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
-      this.commit()
-    }
-    // 在线充值*************
-    // 获取银行列表
-    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getBankList&saveType=1
-    // getBankList: '/person/recharge.do?method=getBankList',
-    // 校验充值金额范围
-    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc&saveType=1
-    // saveAmountRange: '/person/recharge.do?method=saveAmountRange',
+      if (!this.curPayType.saveWay) return this.$message.warning({message: '请选择支付方式!'})
+      // if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
+      // if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
+      // if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转帐' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
+      if (this.curBank.hasOwnProperty('commitAdd') && this.curBank.commitAdd) {
+        this.$modal.confirm({
+          content: `为了提高充值成功率，有时充值金额需要包含小数，因此系统可能会将您的充值金额随机增加或减少0.01~${this.curBank.commitAdd}元。`,
+          btn: ['继续', '取消'],
+          ok () {
+            this.commit()
+          },
+          cancel () {
+          },
+          O: this
+        })
+      } else {
+        this.commit()
+      }
+    },
+    __setLoadI (i) {
+      this.tabIdx = i
+      if (this.tabIdx === this.TAB_RECHARGE_RECORDS) {
+        this.qryRecharge()
+      }
+    },
+    choicePayType (ptype, i) {
+      this.curPayTypeIdx = i
+      this.curPayType = ptype
+      this.bankList = this.curPayType.range
+      this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
+      if (this.curPayType.saveWay === 'weixinquota') {
+        let item = this.bankList[0]
+        this.quotaList = item.range
+        this.rechargeRange = `${item.range[0]}~${item.range[item.range.length - 1]}`
+        this.perRate = item.fee
+        this.amount = this.quotaList[0]
+        this.showAmountInput = false
+      } else {
+        this.amount = 0
+        this.showAmountInput = true
+        this.quotaList = []
+        this.choiceBank(this.bankList[0], 0)
+      }
+    },
+    checkCanShowPayTypeDetail (bankList = [], payType) {
+      // 银行列表人大于1并且列表元素为对象类型, 微信定额
+      if (payType === 'weixinquota') return true
+      if (bankList.length > 1) {
+        return toString.call(bankList[0]) === '[object Object]'
+      }
+      return false
+    },
+    choiceBank (bank, i) {
+      this.curBankIdx = i
+      this.curBank = bank
+      this.rechargeRange = this.curBank.range.join(',')
+      this.perRate = this.curBank.fee
+    },
+    choiceQuota (v, i) {
+      this.amount = v
+      this.quotaIdx = i
+    },
+    btnResponseConfirm (type) {
+      this.queryLoadStatus(this.billNo, type)
+    },
+    // 查询最终充值结果状态
+    queryLoadStatus (billNo, userStat) {
+      this.$http.post(api.queryLoadStatus, { method: 'updateBillNew', billNo, userStat }).then(({data: {success, stat}}) => {
+        this.isShowResponseConfirm = false
+        if (success === 1) {
+          this.__setCall({fn: '__getUserFund'})
+          this.responseSucc = stat === 1
+          this.responseWait = stat === 0
+          this.responseFailed = stat === 2
+          this.isShowResponseConfirmRs = true
+        }
+      })
+    },
+    showResponseConfirmModal () {
+      this.show = false
+      this.isShowResponseConfirm = true
+    },
+    getBankConfig (bankCode) {
+      let rs = BANKS.filter((item) => {
+        return item.apiName === bankCode
+      })
+      return (rs && rs[0].class) || ''
+    },
+    search () {
+      let curDate = new Date()
+      if (this.curConditionIdx > -1) {
+        let days = 0
+        let month = 0
+        let daysConfig = {d0: 0, d1: 1, d2: 2, d3: 7}
+        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx])
+        days = curDate.getDate()
+        days = days < 10 ? ('0' + days) : days
+        month = curDate.getMonth() + 1
+        month = month < 10 ? ('0' + month) : month
+        this.st = `${curDate.getFullYear()}${month}${days}000000`
 
-    // 提交充值请求道第三方
-    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01&saveType=1
-    // commit: '/person/recharge.do?method=commit',
-    // 系统支持充值方式
-    // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=getEnableSaveType
-    // getEnableSaveType: '/person/recharge.do?method=getEnableSaveType'
-    // getEnableSaveType (fn) {
-    //   this.$http.get(api.getEnableSaveType).then(({data}) => {
-    //     if (data.success === 1) {
-    //       this.enableSaveType = data.enableSaveType
-    //     } else {
-    //       this.$message.error({message: data.msg || '获取充值方式失败！'})
-    //     }
-    //   }).catch(rpe => {
-    //     this.$message.error({message: '获取充值方式失败！'})
-    //   })
-    // }
+        curDate = new Date()
+        let edays = curDate.getDate()
+        let emonth = curDate.getMonth() + 1
+        edays = edays < 10 ? ('0' + edays) : edays
+        emonth = emonth < 10 ? ('0' + emonth) : emonth
+        this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
+      }
+      this.qryRecharge()
+    },
+    numberWithCommas
   },
   components: {
     Modal
   }
 }
 </script>
-
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  i
+    font-style normal
+  .fc-o
+    color #f37e0c
+  .tab-recharge
+    padding 0.4rem 0.36rem
+    .text-button:hover
+      text-decoration none !important
+  .u-name
+    padding-left 0.42rem
+  .u-balance
+    padding 0 0.02rem 0 0.1rem
+  textButton() {
+    border solid 1px #cccccc
+    border-radius 0.05rem
+    color #4a4a4a
+    background-color #fff
+  }
+  .ds-icon-bank-card
+    width 1.52rem
+    margin 0.0745rem
+    background-color #fff !important
+    background-position 0.1rem center
+    border-radius 0.03rem
+  .ds-icon-bank-card:not(.static).selected:before
+    background-color rgba(243,126,12,0.1)
+  .pay-type-wp
+    &>span
+      float left
+      line-height 0.3rem
+  .bank-ls
+    .ds-icon-bank-card
+      background-position left center
+  .quota-ls
+    .text-button.selected
+      border solid 1px #f37e0c
+      background-color rgba(243, 126, 12, 0.1)
+      color #f37e0c
+    .btns
+      display inline-block
+    .text-button
+      &:last-child
+        margin-right 0.12rem
+  .pay-type-detail
+    width 11.86rem
+    padding 20px
+    min-height 0.6rem
+    background-color #f8f8f8
+    border solid 1px #e4e4e4
+    border-radius 0.05rem
+    margin 0.1rem 0 0 0.84rem
+    .tip
+      margin 0 0 0.0745rem 0.0745rem
+    .text-button
+      textButton()
+ 
   .bank-qr-wp
     margin-bottom 0 !important
     height 1.5rem !important
@@ -926,9 +911,17 @@ export default {
 
   .form
     font-size .14rem
+    .item.mt20
+      margin-top 0.2rem
+    .primary
+      width 1.52rem
+      background-color #f37e0c
+    .primary
+      &.disable,
+      &.disable:hover
+        background-color #d2d2d2
   .item
     margin .1rem 0
-
   .notice
     font-size .12rem
     line-height .22rem
@@ -1053,4 +1046,71 @@ export default {
           padding-left .6rem
           .textarea
             font-size .12rem
+  .res-c-modal
+    .box
+        width 4.5rem
+        height 2.8rem
+        .txt
+          margin 0.22rem 0 0.32rem
+          font-size 0.18rem
+        .el-button
+          width 1.7rem
+          height 0.3rem
+          padding 0
+        .el-button--success
+          background-color #65c014
+          border-color #65c014 
+        .el-button--warning
+          background-color #e71c1c
+          border-color #e71c1c
+        .el-button--info
+          background-color #444444
+          border-color #444444
+  
+  .res-confirm-modal
+    .box
+      width 4.5rem
+      height 2.8rem
+      .txt
+        margin 0.58rem 0 0.32rem
+        font-size 0.18rem
+
+  
+  .res-confirm-rs-modal
+    .box
+      // &.wait
+      //   height 3.18rem
+      // &.failed
+      //   height 3.08rem
+      .txt
+        margin 0.22rem 0 0.32rem
+        font-size 0.14rem
+    statusIcon($img)
+      background url('../../assets/v2/'+$img) center no-repeat
+      background-size 0.64rem
+    .status-icon
+      height 0.64rem
+      margin-top 0.4rem
+    .icon-green
+      statusIcon('icon_successful.png')
+    .icon-red
+      statusIcon('icon_failing.png')
+
+  .search-wp
+    height 0.7rem
+    display flex
+    align-items center
+    .el-button
+      min-width 0.8rem
+      height 0.3rem
+      padding 0
+    .el-button:focus,
+    .el-button:hover
+      border solid 1px #f37e0c
+      color #666
+    .el-button.selected
+      background-image linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%), linear-gradient(#f37e0c, #f37e0c)
+      border solid 1px #f37e0c
+    .ds-button
+      border-radius 0.03rem
 </style>

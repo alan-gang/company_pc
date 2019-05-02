@@ -34,7 +34,10 @@
   color rgb(187, 190, 196)
 .c_f
   color #fff  
-  
+
+.bgc-w
+  background-color #fff
+
 .mlr15
   margin 0 .15rem
 .mr10
