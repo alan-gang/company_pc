@@ -432,7 +432,7 @@ export default {
             this.pt_--
           } else {
             clearInterval(t)
-            this.showResponseConfirmModal()
+            this.show && this.showResponseConfirmModal()
           }
         }, 1000)
       }
