@@ -123,7 +123,7 @@
 
     Modal(title="" v-bind:Ptype="Ptype" v-show="dataXnow" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
-        p(v-if=" type >= 3 && epay[type - 3].title === '支付宝转帐' ") 支付宝真实姓名：
+        p(v-if="canShowTruthName && curPayType.saveWay === 'zfb2bank'") 支付宝真实姓名：
           span.text-black {{ name }}
           span.ds-button.text-button.green(v-clipboard:copy=" name " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
         p 充值总额：
@@ -410,8 +410,7 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      // return this.curChannelNumCode === 'khb'
-      return false
+      return this.curPayType.saveWay === 'zfb2bank'
     },
     btnConfirmDisable () {
       return !this.amount || this.amount === '0'
