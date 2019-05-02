@@ -555,7 +555,9 @@ export default {
                   id: '2-1-1',
                   menuid: '30',
                   title: '充值',
-                  url: 'Load'
+                  url: 'Load',
+                  tabs: ['充值', '充值记录'],
+                  tabfn: '__setLoadI'
                 },
                 {
                   id: '2-1-2',

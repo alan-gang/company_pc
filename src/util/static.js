@@ -5,6 +5,8 @@ const BANKS = [
   {apiName: 'zfb2bank', class: 'alipay', text: '支付宝'},
   {apiName: 'zfbwap', class: 'alipay', text: '支付宝'},
   {apiName: 'weixin', class: 'wepay', text: '微信'},
+  {apiName: 'weixinquota', class: 'weixinquota', text: '微信定额'},
+  {apiName: 'bank', class: 'bank', text: '网银转账'},
   {apiName: 'bob', class: 'bjyh', text: '北京银行'},
   {apiName: 'gdb', class: 'gfyh', text: '广发银行'},
   {apiName: 'hxb', class: 'hxyh', text: '华夏银行'},

@@ -241,7 +241,7 @@ export default {
       return (this.p / 100).toFixed(1) + '%'
     },
     prize () {
-      return (((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      return ((((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) || this.MAX) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
     },
     lprize () {
       if (this.LP) {

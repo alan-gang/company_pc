@@ -483,15 +483,12 @@ export default {
     getUserpoint () {
       this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
-        // fix to array
-        // let a = []
-        // Object.entries(data.items).forEach(([k, v]) => {
-        //   v.forEach(x => {
-        //     x.methodid = k
-        //     a.push(x)
+        // Object.values(data.items).forEach(x => {
+        //   x.forEach(y => {
+        //     y.maxpoint = '0.078'
+        //     y.minpoint = '0.078'
         //   })
         // })
-        // data.items = a
         if (data.success > 0) this.PS = data.items
         this.menuItemArray.forEach(mi => {
           // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
