@@ -9,19 +9,26 @@
 
       .form.form-filters
 
-        label.item 时间范围  
-          el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+        span.mr10 时间
+        el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
+
+        //- label.item 时间范围  
+        //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+        //- | &nbsp;&nbsp;
+        
+        el-popover(placement="bottom" width="450" trigger="hover" class="account-popover")
+          acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
+          label.item.ml15(slot="reference") 转出帐户 
+            el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
+        
         | &nbsp;&nbsp;
         
-        label.item 转出帐户 
-          el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
-            el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
-        
-        | &nbsp;&nbsp;
-        
-        label.item 转入帐户  
-          el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
-            el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
+        el-popover(placement="bottom" width="450" trigger="hover")
+          acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
+          label.item(slot="reference") 转入帐户  
+            el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
 
@@ -30,7 +37,7 @@
           el-select(clearable v-model="s" style="width: .8rem" placeholder="无")
             el-option(v-for="(n, i) in S" v-bind:label="n" v-bind:value="i" v-if="n")
 
-        .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem; margin-top: .1rem") 搜索
+        .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem;") 搜索
         //- .buttons(style="margin-left: .6rem; margin-top: .1rem")
         
       .table-list(style="padding: .15rem .2rem " stripe)
@@ -53,7 +60,6 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-
 </template>
 
 <script>
@@ -62,7 +68,23 @@
   import {dateTimeFormat} from '../../util/Date'
   export default {
     name: 'BGTransaction',
-    compontents: {
+    components: {
+      'acc-ls': {
+        props: ['useHistory', 'froms'],
+        template: `<section>
+          <section v-show="useHistory.length > 0">
+            <p>最近使用账户</p>
+            <ul></ul>
+          </section>
+          <section>
+            <p>所有账户</p>
+            <ul>
+              <li v-for="(c, i) in froms"> <el-button  v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i"> {{c}}</el-button>
+            </ul>
+          </section>
+        </section>`,
+        methods: {}
+      }
     },
     mixins: [setTableMaxHeight],
     data () {
@@ -83,7 +105,10 @@
         t: '',
         S: ['失败', '成功', '处理中'],
         SC: ['text-danger', 'text-green', 'text-blue'],
-        s: ''
+        s: '',
+        searchConditions: ['今天', '昨天', '前天', '最近一周'],
+        curConditionIdx: -1,
+        useHistory: []
       }
     },
     watch: {
@@ -147,6 +172,23 @@
     padding PWX
     .item
       display inline-block
-      margin-top .1rem
+      // margin-top .1rem
       vertical-align top
+
+  .form-filters
+    display flex
+    align-items center
+    .el-button
+      min-width 0.8rem
+      height 0.3rem
+      padding 0
+    .el-button:focus,
+    .el-button:hover
+      border solid 1px #f37e0c
+      color #666
+    .el-button.selected
+      background-image linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%), linear-gradient(#f37e0c, #f37e0c)
+      border solid 1px #f37e0c
+    .ds-button
+      border-radius 0.03rem
 </style>
