@@ -75,7 +75,7 @@
               button.ml10.ds-button.btn-transfer(@click="quickTransfer(0, 'i')") 转入
 
           .c(v-show="false")
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-red.acc-shot-name
               span.txt-c IBC
             br
             p IBC帐户
@@ -86,7 +86,7 @@
               button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入 
 
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-red.acc-shot-name
               span.txt-c 开元
             br
             p 开元帐户
@@ -108,7 +108,7 @@
               button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入 
 
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-blue.acc-shot-name
               span.txt-c AG
             br
             p AG帐户
@@ -119,7 +119,7 @@
               button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入 
 
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-red.acc-shot-name
               span.txt-c 沙巴
             br
             p 沙巴帐户
@@ -142,7 +142,7 @@
           
           //- .c(style="display: none")
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-green.acc-shot-name
               span.txt-c U赢
             br
             p U赢帐户
@@ -174,7 +174,7 @@
               button.ds-button.btn-transfer(@click="quickTransfer(11, 'o')") 转出
               button.ml10.ds-button.btn-transfer(@click="quickTransfer(9, 'i')") 转入
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-red.acc-shot-name
               span.txt-c 平博
             br
             p 平博帐户
@@ -185,7 +185,7 @@
               button.ml10.ds-button.btn-transfer(@click="quickTransfer(10, 'i')") 转入
 
           .c
-            p.acc-bg-oriange.acc-shot-name
+            p.acc-bg-blue.acc-shot-name
               span.txt-c LG
             br
             p LG帐户
@@ -242,8 +242,6 @@
 
         .notice(style="margin: 0")
           p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录     
-
-
 
 
 
