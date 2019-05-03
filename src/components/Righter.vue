@@ -21,6 +21,7 @@
     .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
       span.badge {{ amount }} 
       .expand-left 刮刮乐
+    .ds-icon-guanji(@click="$router.push('/help/7-1-1')")
 
     .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
@@ -119,7 +120,7 @@
       left auto !important
       right 10px !important
       // top calc(50% + 0.35rem) !important
-      top 50% !important
+      top 47% !important
       z-index 1000
       border-radius 0 !important
       padding 0
@@ -254,7 +255,8 @@
         position absolute
         right .05rem
         top .1rem
-
+    .ds-icon-guanji
+      background url(../assets/righter/gj.png) center no-repeat
     .gray
       -webkit-filter grayscale(50%)
       filter grayscale(50%)
