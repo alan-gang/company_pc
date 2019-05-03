@@ -269,7 +269,6 @@ export default {
       return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      console.log('f=', this.f, ' t=', this.t)
       return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0)
     },
     ccm () {
