@@ -589,7 +589,7 @@ export default {
         // this.Ptype = 'success'
         // this.Phref = []
         // this.name = ''
-        this.showResponseConfirmModal()
+        !this.dataXnowStep2 && this.showResponseConfirmModal()
       }, 1000)
       return false
     },
@@ -923,6 +923,7 @@ export default {
     .text-button
       &:last-child
         margin-right 0.12rem
+
   .pay-type-detail
     width 11.86rem
     padding 20px
@@ -930,7 +931,7 @@ export default {
     background-color #f8f8f8
     border solid 1px #e4e4e4
     border-radius 0.05rem
-    margin 0rem 0 0 0.84rem
+    margin 0rem 0 0 0.90rem
     .tip
       margin 0 0 0.0745rem 0.0745rem
     .text-button
@@ -1022,6 +1023,7 @@ export default {
     text-shadow none
     &:hover
       background-color #fff
+
   .modal
     position absolute
     top 0
@@ -1081,6 +1083,17 @@ export default {
           padding-left .6rem
           .textarea
             font-size .12rem
+
+  elButtonSuccess()
+    background-color #65c014
+    border-color #65c014 
+  elButtonWarning()
+    background-color #e71c1c
+    border-color #e71c1c
+  elButtonInfo()
+    background-color #444444
+    border-color #444444
+
   .res-c-modal
     .box
         width 4.5rem
@@ -1093,18 +1106,21 @@ export default {
           height 0.3rem
           padding 0
         .el-button--success
-          background-color #65c014
-          border-color #65c014 
+          elButtonSuccess()
         .el-button--warning
-          background-color #e71c1c
-          border-color #e71c1c
+          elButtonWarning()
         .el-button--info
-          background-color #444444
-          border-color #444444
+          elButtonInfo()
   
   .rs-modal-btns-wp
     text-align center
     padding 0.2rem 0 0.3rem 0
+    .el-button--success
+      elButtonSuccess()
+    .el-button--warning
+      elButtonWarning()
+    .el-button--info
+      elButtonInfo()
 
   .res-confirm-modal
     .box
