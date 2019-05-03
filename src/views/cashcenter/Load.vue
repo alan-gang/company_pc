@@ -6,19 +6,21 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .bgc-w.me-topup.scroll-content
-      .tab-recharge(v-if="tabIdx === TAB_RECHARGE")
+      .tab-recharge(v-show="tabIdx === TAB_RECHARGE")
         p 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
           span.fc-o.u-balance {{numberWithCommas(me.amoney)}}
           span 元
         nav.pay-type-wp.mt20
-          span.mr15 支付方式：
+          span 支付方式：
           div.btns
-            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" ) {{ '' }}
-
+            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
+        
+        .icon-pointer-wp(v-show="canShowPayTypeDetail")
+          .icon-pointer.fc-o.el-icon-caret-top(ref="iconPointer")
+        
         .pay-type-detail(v-show="canShowPayTypeDetail")
-          i.icon-pointer
           .tip 提示：充值金额范围 
             i.fc-o {{rechargeRange}}
             | ，充值手续费：
@@ -118,7 +120,7 @@
                   span.text-danger {{ this.pt_ }}
                   | 秒后二维码过期
                 span.loading(v-show="pt_ === 0")
-                  span.text-danger 二维码已过期，请重新获取
+                  span.text-danger 二维码已过期，请重新获
 
 
     Modal(title="" v-bind:Ptype="Ptype" v-show="dataXnow" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok")
@@ -148,6 +150,12 @@
           span 支付宝
           span 
             .QR.ds-icon-QR.bank-qr-wp(:style="myQR")
+        p.rs-modal-btns-wp(v-show="dataXnowStep2")
+          el-button(type="success" @click="btnResponseConfirm(1)") 已完成付款
+          el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
+          el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
+
+
     .modal(v-show="showRequest" )
       .mask
       .box-wrapper
@@ -308,7 +316,7 @@ export default {
       dataXappendix: '',
       dataXnow: false,
       O: '',
-
+      dataXnowStep2: false,
       type: 0,
 
       selectBank: {},
@@ -451,7 +459,7 @@ export default {
     },
     type () {
       this.amount = 0
-      this.radioIndex = 0
+      // this.radioIndex = 0
       // if (this.type === 2) this.qryRecharge()
     },
     Ctime () {
@@ -588,15 +596,18 @@ export default {
     Pok () {
       if (this.Pbtn[0] === '进入网上银行' || this.Pbtn[0] === '进入支付宝') {
         this.Ptype = 'question'
-        this.Pbtn = ['充值成功', '充值失败']
+        // this.Pbtn = ['充值成功', '充值失败']
+        this.Pbtn = []
+        this.dataXnowStep2 = true
         setTimeout(() => {
           this.Phref = []
         }, 1000)
         return false
         // this.showResponseConfirmModal()
-      } else {
-        this.type = 2
       }
+      // else {
+      //   this.type = 2
+      // }
     },
     saveAmountRange (fn) {
       this.$http.get(api.saveAmountRange).then(({data}) => {
@@ -649,11 +660,9 @@ export default {
           if (this.payTypes.length > 0) {
             this.choicePayType(this.payTypes[0], 0)
           }
-        } else {
-          this.type = 2
         }
       }).catch(rpe => {
-        this.type = 2
+        // this.$message.error({message: '获取支付方式异常，请刷新重试！'})
       })
     },
     commit (fn) {
@@ -663,13 +672,16 @@ export default {
         text: '充值申请中...',
         target: this.$el
       }, 10000, '充值申请超时...')
-      this.$http.post(api.commit, {
+      let params = {
         chanType: 'web',
         saveWay: this.curPayType.saveWay,
         bankCode: bankCode,
         amount: this.amount
-        // cardName: this.name
-      }).then(({data}) => {
+      }
+      if (this.canShowTruthName) {
+        params.cardName = this.name
+      }
+      this.$http.post(api.commit, params).then(({data}) => {
         if (data.success === 1) {
           this.billNo = data.billNo
           if (data.data) {
@@ -680,6 +692,7 @@ export default {
             this.dataXcardNum = data.cardNum
             this.dataXorderId = data.orderId
             this.dataXappendix = data.appendix
+            this.dataXnowStep2 = false
             this.dataXnow = true
             this.Phref[0] = data.payUrl
             if (this.curBank.bankCode === 'zfb2bank') {
@@ -768,6 +781,10 @@ export default {
         this.quotaList = []
         this.choiceBank(this.bankList[0], 0)
       }
+      this.$nextTick(() => {
+        let curPayTypeEl = this.$refs[`pay-type-${this.curPayType.saveWay}`][0]
+        this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
+      })
     },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
@@ -788,6 +805,7 @@ export default {
       this.quotaIdx = i
     },
     btnResponseConfirm (type) {
+      this.dataXnow = false
       this.queryLoadStatus(this.billNo, type)
     },
     // 查询最终充值结果状态
@@ -805,6 +823,7 @@ export default {
     },
     showResponseConfirmModal () {
       this.show = false
+      this.dataXnow = false
       this.isShowResponseConfirm = true
     },
     getBankConfig (bankCode) {
@@ -835,6 +854,11 @@ export default {
       }
       this.qryRecharge()
     },
+    iconPointerPosition (left) {
+      let icon = this.$refs.iconPointer
+      icon.style.left = (left - (icon.offsetWidth / 2) - icon.parentElement.offsetLeft) + 'px'
+      console.log('left=', left, ' icon.parentElement.offsetLeft=', icon.parentElement.offsetLeft)
+    },
     numberWithCommas
   },
   components: {
@@ -846,6 +870,10 @@ export default {
   @import '../../var.stylus'
   i
     font-style normal
+  .flex
+    display flex
+  .flex-v-c
+    align-items center
   .fc-o
     color #f37e0c
   .tab-recharge
@@ -856,6 +884,13 @@ export default {
     padding-left 0.42rem
   .u-balance
     padding 0 0.02rem 0 0.1rem
+  .icon-pointer-wp
+    position relative
+    height 0.14rem
+    margin-top -0.1rem
+  .icon-pointer
+    position absolute
+    top 0.04rem
   textButton() {
     border solid 1px #cccccc
     border-radius 0.05rem
@@ -872,6 +907,7 @@ export default {
     background-color rgba(243,126,12,0.1)
   .pay-type-wp
     &>span
+      width 0.85rem
       float left
       line-height 0.3rem
   .bank-ls
@@ -894,7 +930,7 @@ export default {
     background-color #f8f8f8
     border solid 1px #e4e4e4
     border-radius 0.05rem
-    margin 0.1rem 0 0 0.84rem
+    margin 0rem 0 0 0.84rem
     .tip
       margin 0 0 0.0745rem 0.0745rem
     .text-button
@@ -1066,6 +1102,10 @@ export default {
           background-color #444444
           border-color #444444
   
+  .rs-modal-btns-wp
+    text-align center
+    padding 0.2rem 0 0.3rem 0
+
   .res-confirm-modal
     .box
       width 4.5rem
