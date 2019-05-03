@@ -35,11 +35,16 @@
             i.fc-o {{actualAmount}}
             i &nbsp;元
 
+        .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：充值金额范围 
+          i.fc-o {{rechargeRange}}
+          | ，充值手续费：
+          i.fc-o {{perRate}}%
+
         .form
           .item(style="line-height: .5rem" v-if=" canShowTruthName") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
-          .item.mt20(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
             el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
@@ -797,7 +802,7 @@ export default {
     choiceBank (bank, i) {
       this.curBankIdx = i
       this.curBank = bank
-      this.rechargeRange = this.curBank.range.join(',')
+      this.rechargeRange = this.curBank.range.join(', ')
       this.perRate = this.curBank.fee
     },
     choiceQuota (v, i) {
@@ -870,6 +875,8 @@ export default {
   @import '../../var.stylus'
   i
     font-style normal
+  .ml90
+    margin-left 0.9rem
   .flex
     display flex
   .flex-v-c
@@ -931,7 +938,7 @@ export default {
     background-color #f8f8f8
     border solid 1px #e4e4e4
     border-radius 0.05rem
-    margin 0rem 0 0 0.90rem
+    margin 0rem 0 0.2rem 0.90rem
     .tip
       margin 0 0 0.0745rem 0.0745rem
     .text-button
