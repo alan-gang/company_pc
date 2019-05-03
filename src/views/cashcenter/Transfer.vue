@@ -5,7 +5,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .scroll-content.bg-w
+    .scroll-content.bg-w(v-show="tabIdx === 0")
       .info
         i.ds-icon-me-avatar
         p.txt-c.mt15 主帐户
@@ -243,11 +243,12 @@
         .notice(style="margin: 0")
           p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录     
 
-
+    TR.scroll-content(v-if=" tabIdx === 1 ")
 
 </template>
 
 <script>
+import TR from '../myCashRecord/TR'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
 import store from '../../store'
 import api from '../../http/api'
@@ -264,7 +265,8 @@ export default {
       cpwd: '',
       btn: false,
       a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount'],
-      quickAmounts: ['50', '100', '500', '全部']
+      quickAmounts: ['50', '100', '500', '全部'],
+      tabIdx: 0
     }
   },
   computed: {
@@ -403,6 +405,7 @@ export default {
   },
   methods: {
     __setTransferI (i) {
+      this.tabIdx = i
       console.log('__setTransferI=', i)
     },
     refresh () {
@@ -581,6 +584,7 @@ export default {
     }
   },
   components: {
+    TR
   }
 }
 </script>
