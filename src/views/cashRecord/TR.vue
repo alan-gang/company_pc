@@ -16,7 +16,7 @@
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         //- | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="450" trigger="hover" class="account-popover")
+        el-popover(placement="bottom" width="450" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false")
           acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
           label.item.ml15(slot="reference") 转出帐户 
             el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
@@ -24,7 +24,7 @@
         
         | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="450" trigger="hover")
+        el-popover(placement="bottom" width="450" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false")
           acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
           label.item(slot="reference") 转入帐户  
             el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
@@ -168,6 +168,8 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  ul, li
+    list-style none
   .form
     padding PWX
     .item
@@ -191,4 +193,10 @@
       border solid 1px #f37e0c
     .ds-button
       border-radius 0.03rem
+  
+</style>
+
+<style lang="stylus">
+  .account-popover
+    background-color #fff !important
 </style>
