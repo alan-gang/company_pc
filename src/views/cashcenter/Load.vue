@@ -776,16 +776,16 @@ export default {
       if (this.curPayType.saveWay === 'weixinquota') {
         let item = this.bankList[0]
         this.quotaList = item.range
-        this.rechargeRange = `${item.range[0]}~${item.range[item.range.length - 1]}`
-        this.perRate = item.fee
+        // this.rechargeRange = `${item.range[0]}~${item.range[item.range.length - 1]}`
+        // this.perRate = item.fee
         this.amount = this.quotaList[0]
         this.showAmountInput = false
       } else {
         this.amount = 0
         this.showAmountInput = true
         this.quotaList = []
-        this.choiceBank(this.bankList[0], 0)
       }
+      this.choiceBank(this.bankList[0], 0)
       this.$nextTick(() => {
         let curPayTypeEl = this.$refs[`pay-type-${this.curPayType.saveWay}`][0]
         this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
