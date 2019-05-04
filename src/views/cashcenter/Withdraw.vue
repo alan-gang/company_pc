@@ -6,7 +6,7 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .width-draw-info.scroll-content
-      .tabs(style="text-align: center" v-if="stepIndex !== 0")
+      //- .tabs(style="text-align: center" v-if="stepIndex !== 0")
          .ds-button-group
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 提现申请
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
@@ -28,7 +28,7 @@
       
 
       .bank-form(v-if="tabIndex === 1 && stepIndex === 1")
-        .notice
+        //- .notice
           span.title 温馨提示：
           p.content
             | 每天可成功提款 
@@ -68,6 +68,12 @@
             | 最高：
             span.min.text-danger  {{ max }} 
             | 元)
+
+          p.item 今日可提次数：
+            span {{ times }}/{{ maxTimes }}
+
+          p.item 今日可提金额：
+            span {{ amount._nwc() }}/{{ maxAmount._nwc() }}
 
           .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model=" mtype " style="width: 1.8rem; position: relative; top: -.01rem")
@@ -219,6 +225,9 @@ export default {
     }
   },
   watch: {
+    __setWithdrawI (i) {
+      this.tabIndex = i
+    },
     money () {
       if (typeof this.money === 'number') {
         setTimeout(() => {

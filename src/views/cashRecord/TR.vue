@@ -10,24 +10,32 @@
       .form.form-filters
 
         span.mr10 时间
-        el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
+        el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: quickDateIdx === i}" @click="quickDateIdx = i") {{c}}
 
         //- label.item 时间范围  
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         //- | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="450" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false")
-          acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
-          label.item.ml15(slot="reference") 转出帐户 
-            el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
+        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
+          acc-ls(v-bind:accHistory="outAccHistory" v-bind:froms="froms" trigerSource="out" @acc-choiced="accChoiced")
+          span.flex.flex-ai-c.ml10(slot="reference") 
+            span.mr5 转出 
+            span.flex.flex-ai-c.out-acc
+              i {{fromAcc}}
+              i(v-bind:class="{'el-icon-caret-bottom': !outPopover, 'el-icon-caret-top': outPopover}")
+            //- el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="450" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false")
-          acc-ls(v-bind:useHistory="useHistory" v-bind:froms="froms")
-          label.item(slot="reference") 转入帐户  
-            el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
+        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
+          acc-ls(v-bind:accHistory="inAccHistory" v-bind:froms="froms" trigerSource="in" @acc-choiced="accChoiced")
+          span.flex.flex-ai-c.ml10(slot="reference") 
+            span.mr5 转入 
+            span.flex.flex-ai-c.in-acc
+              i {{toAcc}}
+              i(v-bind:class="{'el-icon-caret-bottom': !inPopover, 'el-icon-caret-top': inPopover}")
+            //- el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
@@ -70,20 +78,40 @@
     name: 'BGTransaction',
     components: {
       'acc-ls': {
-        props: ['useHistory', 'froms'],
+        data () {
+          return {
+            curAccIdx: -1,
+            curHistoryIdx: -1
+          }
+        },
+        props: ['accHistory', 'froms', 'trigerSource'],
         template: `<section>
-          <section v-show="useHistory.length > 0">
+          <section class="history-wp" v-show="accHistory.length > 0">
             <p>最近使用账户</p>
-            <ul></ul>
+            <ul class="flex">
+               <li v-for="(c, i) in accHistory" class="flex flex-ai-c flex-jt-c acc-item" v-bind:class="{selected: curHistoryIdx === i}" @click="choicedHistory(c, i, 'history')"> {{c.split(':')[0]}} </li>
+            </ul>
           </section>
-          <section>
+          <section class="all-acc-wp">
             <p>所有账户</p>
-            <ul>
-              <li v-for="(c, i) in froms"> <el-button  v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i"> {{c}}</el-button>
+            <ul class="flex acc-ls-wp">
+              <li v-for="(c, i) in froms" class="flex flex-ai-c flex-jt-c acc-item" v-bind:class="{'fixed-slted': i === 0, selected: curAccIdx === i}" @click="choiced(c, i)"> {{c.split(':')[0]}} </li>
             </ul>
           </section>
         </section>`,
-        methods: {}
+        methods: {
+          choiced (v, i) {
+            this.curHistoryIdx = -1
+            this.curAccIdx = i
+            this.$emit('acc-choiced', i, this.trigerSource)
+          },
+          choicedHistory (v, i) {
+            this.curAccIdx = -1
+            this.curHistoryIdx = i
+            let fromsIdx = this.froms.indexOf(v)
+            this.$emit('acc-choiced', fromsIdx, this.trigerSource)
+          }
+        }
       }
     },
     mixins: [setTableMaxHeight],
@@ -107,8 +135,11 @@
         SC: ['text-danger', 'text-green', 'text-blue'],
         s: '',
         searchConditions: ['今天', '昨天', '前天', '最近一周'],
-        curConditionIdx: -1,
-        useHistory: []
+        quickDateIdx: -1,
+        inAccHistory: [],
+        outAccHistory: [],
+        outPopover: false,
+        inPopover: false
       }
     },
     watch: {
@@ -122,6 +153,14 @@
       //   }
       // }
     },
+    computed: {
+      fromAcc () {
+        return this.f !== '' ? this.froms[this.f].split(':')[0] : '无'
+      },
+      toAcc () {
+        return this.t !== '' ? this.froms[this.t].split(':')[0] : '无'
+      }
+    },
     mounted () {
       this.getData()
     },
@@ -132,6 +171,9 @@
         })
       },
       getData (page, fn) {
+        this.processDate()
+        this.setOutAccHistory(this.froms[this.f])
+        this.setInAccHistory(this.froms[this.t])
         let loading = this.$loading({
           text: '转帐记录加载中...',
           target: this.$refs['table'].$el
@@ -161,6 +203,31 @@
             loading.close()
           }, 100)
         })
+      },
+      processDate () {
+        if (this.quickDateIdx > -1) {
+          let sDate = new Date()
+          let daysConfig = {d0: 0, d1: 1, d2: 2, d3: 7}
+          sDate.setDate(sDate.getDate() - daysConfig['d' + this.quickDateIdx])
+          sDate.setHours(0)
+          sDate.setMinutes(0)
+          sDate.setSeconds(0)
+          this.stEt = [sDate, new Date()]
+        }
+      },
+      setInAccHistory (acc) {
+        if (!acc || this.inAccHistory.indexOf(acc) !== -1) return
+        this.inAccHistory.push(acc)
+        if (this.inAccHistory.length > 3) this.inAccHistory.shift()
+      },
+      setOutAccHistory (acc) {
+        if (!acc || this.outAccHistory.indexOf(acc) !== -1) return
+        this.outAccHistory.push(acc)
+        if (this.outAccHistory.length > 3) this.outAccHistory.shift()
+      },
+      accChoiced (data, type) {
+        if (type === 'out') this.f = data
+        if (type === 'in') this.t = data
       }
     }
   }
@@ -168,8 +235,10 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  ul, li
-    list-style none
+  i
+    font-style normal
+  .mr5
+    margin-right 0.05rem
   .form
     padding PWX
     .item
@@ -194,9 +263,60 @@
     .ds-button
       border-radius 0.03rem
   
+  .out-acc,
+  .in-acc
+    // display inline-block
+    width 1.48rem
+    height 0.3rem
+    background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
+    justify-content space-between
+    padding 0 0.1rem
+    box-sizing border-box
+    border solid 1px #e8e8e8
+
+  .el-icon-caret-bottom
+    font-size 0.12rem
+    margin-top 0.02rem
 </style>
 
 <style lang="stylus">
   .account-popover
     background-color #fff !important
+    padding 0.3rem 0.2rem
+    ul,li
+      list-style none
+      margin 0
+      padding 0
+    .history-wp,
+    .all-acc-wp
+      &>p
+        text-indent 0.05rem
+        color #333333
+        font-weight bold
+    .history-wp
+      margin-bottom 0.2rem
+    .acc-ls-wp
+      display flex
+      justify-content space-between
+      flex-wrap wrap
+      &::after
+        content ''
+        flex 1
+    .acc-item
+      width 1.3rem
+      height 0.3rem
+      background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%), linear-gradient(#000000, #000000)
+      margin 0.05rem
+      box-sizing border-box
+      border-radius  0.03rem
+      border solid 1px #e8e8e8
+    .acc-item:hover
+      border solid 1px #f37e0c
+    .acc-item.selected
+      background-image linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%), linear-gradient(#000000, #000000) !important
+      border solid 1px #f37e0c !important
+    .acc-item.fixed-slted
+      color #f37e0c
+      background-image linear-gradient(0deg, #fff6c2 0%, #fff8d3 100%), linear-gradient(#000000, #000000)
+      border solid 1px #dbd093
 </style>

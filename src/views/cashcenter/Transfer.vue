@@ -406,7 +406,6 @@ export default {
   methods: {
     __setTransferI (i) {
       this.tabIdx = i
-      console.log('__setTransferI=', i)
     },
     refresh () {
       this.__setCall({fn: '__getUserFund', args: undefined})
