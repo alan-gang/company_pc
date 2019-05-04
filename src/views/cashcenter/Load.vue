@@ -845,16 +845,16 @@ export default {
         let daysConfig = {d0: 0, d1: 1, d2: 2, d3: 7}
         curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx])
         days = curDate.getDate()
-        days = days < 10 ? ('0' + days) : days
+        days = (days + '').padStart(2, '0')
         month = curDate.getMonth() + 1
-        month = month < 10 ? ('0' + month) : month
+        month = (month + '').padStart(2, '0')
         this.st = `${curDate.getFullYear()}${month}${days}000000`
 
         curDate = new Date()
         let edays = curDate.getDate()
         let emonth = curDate.getMonth() + 1
-        edays = edays < 10 ? ('0' + edays) : edays
-        emonth = emonth < 10 ? ('0' + emonth) : emonth
+        edays = (edays + '').padStart(2, '0')
+        emonth = (emonth + '').padStart(2, '0')
         this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
       }
       this.qryRecharge()
