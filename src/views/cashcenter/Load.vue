@@ -432,7 +432,7 @@ export default {
   watch: {
     amount () {
       if (typeof this.amount === 'number') {
-        this.actualAmount = this.amount - (this.amount * this.perRate)
+        this.actualAmount = this.amount - this.amount * (this.perRate / 1000)
         setTimeout(() => {
           typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
         }, 300)
