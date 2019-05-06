@@ -183,6 +183,7 @@
 import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
+import { timeFormat } from '../../util/Date'
 import {numberWithCommas, digitUppercase} from '../../util/Number'
 import xhr from 'components/xhr'
 import { Radio, RadioGroup, RadioButton } from 'element-ui'
@@ -463,7 +464,7 @@ export default {
       let dt = d.split(' ')
       let date = dt[0].split('-')
       let time = dt[1].split(':')
-      return new Date(date[0], date[1], date[2], time[0], time[1], time[2])
+      return new Date(date[0], date[1] - 1, date[2], time[0], time[1], time[2])
     },
     canSelectBank (dt) {
       let date = this.stringToDate(dt)
@@ -477,12 +478,15 @@ export default {
       return 0
     },
     fmtTime (dt) {
-      let time = this.calcRemainTime(dt)
-      let hours = time % (60 * 60 * 100)
-      let minutes = time % (60 * 100)
-      let seconds = time % 1000
-      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-    }
+      console.log(this.calcRemainTime(dt))
+      return this.timeFormat(this.calcRemainTime(dt) / 1000)
+      // let time = this.calcRemainTime(dt)
+      // let hours = time / (60 * 60 * 1000)
+      // let minutes = time / (60 * 1000)
+      // let seconds = time / 1000
+      // return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+    },
+    timeFormat
   },
   // doWithDraw: api + 'person/withDraw.do?method=doWithDraw&apiName=ico&amount=123&userBankId=2',
   components: {
@@ -588,6 +592,7 @@ export default {
   box-shadow 1px 2px 2px 0px rgba(0, 0, 0, 0.1)
   background #fff
   border-radius 0.03rem
+  z-index 12
   i
     color #666666
 
