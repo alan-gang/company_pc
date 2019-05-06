@@ -57,7 +57,7 @@
                   span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
                   span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
                     span.bank-last-no {{ bank.cardNo}}
-                    span.text-danger.target-time-use 23-05-51
+                    span.text-danger.target-time-use {{fmtTime(bank.addTime)}}
                       i 可用
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
@@ -475,6 +475,13 @@ export default {
         return Math.abs((new Date().getTime() - date.getTime()) - this.HOURS_24)
       }
       return 0
+    },
+    fmtTime (dt) {
+      let time = this.calcRemainTime(dt)
+      let hours = time % (60 * 60 * 100)
+      let minutes = time % (60 * 100)
+      let seconds = time % 1000
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
     }
   },
   // doWithDraw: api + 'person/withDraw.do?method=doWithDraw&apiName=ico&amount=123&userBankId=2',
