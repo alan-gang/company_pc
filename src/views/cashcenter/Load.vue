@@ -45,7 +45,8 @@
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
-            el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow")
+            //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
+            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="6" v-bind:min="0" @keyup="amountChange")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
               i 实际到帐：
@@ -101,7 +102,7 @@
 
             el-table-column(label="操作")
               template(scope="scope")
-                span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
+                span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -431,11 +432,14 @@ export default {
   },
   watch: {
     amount () {
-      if (typeof this.amount === 'number') {
+      if (/^\d+$/g.test(this.amount)) {
+        this.amount = parseInt(this.amount, 10)
         this.actualAmount = this.amount - this.amount * (this.perRate / 1000)
-        setTimeout(() => {
-          typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
-        }, 300)
+        // setTimeout(() => {
+        //   typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+        // }, 300)
+      } else {
+        this.actualAmount = 0
       }
     },
     pt_ () {
@@ -476,6 +480,13 @@ export default {
     this.saveRanges()
   },
   methods: {
+    replaceToNum (v) {
+      return String(v).replace(/^0|\D/g, '')
+    },
+    amountChange (e) {
+      console.log('amountChange', e)
+      if (e && e.srcElement) this.amount = String(e.srcElement.value).replace(/^0|\D/g, '')
+    },
     showReq (row) {
       this.showRequest = true
       this.row = row
@@ -842,8 +853,8 @@ export default {
       if (this.curConditionIdx > -1) {
         let days = 0
         let month = 0
-        let daysConfig = {d0: 0, d1: 1, d2: 2, d3: 7}
-        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx])
+        let daysConfig = {d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0]}
+        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][0])
         days = curDate.getDate()
         days = (days + '').padStart(2, '0')
         month = curDate.getMonth() + 1
@@ -851,6 +862,7 @@ export default {
         this.st = `${curDate.getFullYear()}${month}${days}000000`
 
         curDate = new Date()
+        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][1])
         let edays = curDate.getDate()
         let emonth = curDate.getMonth() + 1
         edays = (edays + '').padStart(2, '0')
@@ -1175,4 +1187,19 @@ export default {
       border solid 1px #f37e0c
     .ds-button
       border-radius 0.03rem
+
+  .i-num-input
+    line-height .3rem
+    color #333
+    padding 0 .12rem
+    font-size .14rem
+    background-color #fff
+    border .01rem solid #ccc
+    border-radius .02rem
+    box-sizing border-box
+    &:focus
+      border-color #f17d0b
+      box-shadow 0 0 0.05rem #f17d0b
+    &:hover
+      border-color #f17d0b
 </style>
