@@ -46,7 +46,7 @@
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
             //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
-            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="6" v-bind:min="0" @keyup="amountChange")
+            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" v-bind:min="0" @keyup="amountChange")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
               i 实际到帐：
@@ -299,7 +299,7 @@
 import api from '../../http/api'
 import { BANKS } from '../../util/static'
 import { dateTimeFormat } from '../../util/Date'
-import {numberWithCommas} from '../../util/Number'
+import {numberWithCommas, MMath} from '../../util/Number'
 import Modal from 'components/Modal'
 import store from '../../store'
 export default {
@@ -328,6 +328,7 @@ export default {
       selectBank: {},
       showAllBank: false,
       amount: 0,
+      tempOldAmount: 0,
       min: 0,
       max: 0,
 
@@ -432,9 +433,10 @@ export default {
   },
   watch: {
     amount () {
-      if (/^\d+$/g.test(this.amount)) {
-        this.amount = parseInt(this.amount, 10)
-        this.actualAmount = this.amount - this.amount * (this.perRate / 1000)
+      if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
+      if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
+        this.amount = parseFloat(this.amount, 10)
+        this.actualAmount = MMath.sub(this.amount, this.amount * (this.perRate / 1000)).toFixed(2)
         // setTimeout(() => {
         //   typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
         // }, 300)
@@ -484,8 +486,11 @@ export default {
       return String(v).replace(/^0|\D/g, '')
     },
     amountChange (e) {
-      console.log('amountChange', e)
-      if (e && e.srcElement) this.amount = String(e.srcElement.value).replace(/^0|\D/g, '')
+      if (/^\d+\.?\d{0,2}$/g.test(this.amount) || !this.amount) {
+        this.tempOldAmount = this.amount
+      } else {
+        this.amount = this.tempOldAmount
+      }
     },
     showReq (row) {
       this.showRequest = true
@@ -787,8 +792,6 @@ export default {
       if (this.curPayType.saveWay === 'weixinquota') {
         let item = this.bankList[0]
         this.quotaList = item.range
-        // this.rechargeRange = `${item.range[0]}~${item.range[item.range.length - 1]}`
-        // this.perRate = item.fee
         this.amount = this.quotaList[0]
         this.showAmountInput = false
       } else {
@@ -813,7 +816,10 @@ export default {
     choiceBank (bank, i) {
       this.curBankIdx = i
       this.curBank = bank
-      this.rechargeRange = this.curBank.range.join(', ')
+      this.rechargeRange = this.curBank.range.map((item) => {
+        item = item.split('~')
+        return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
+      }).join(', ')
       this.perRate = this.curBank.fee
     },
     choiceQuota (v, i) {
@@ -874,7 +880,6 @@ export default {
     iconPointerPosition (left) {
       let icon = this.$refs.iconPointer
       icon.style.left = (left - (icon.offsetWidth / 2) - icon.parentElement.offsetLeft) + 'px'
-      console.log('left=', left, ' icon.parentElement.offsetLeft=', icon.parentElement.offsetLeft)
     },
     numberWithCommas
   },
