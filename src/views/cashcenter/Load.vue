@@ -305,6 +305,7 @@ import store from '../../store'
 export default {
   data () {
     return {
+      MMath: MMath,
       me: store.state.user,
 
       tabIdx: 0,
@@ -436,7 +437,7 @@ export default {
       if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
       if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
         this.amount = parseFloat(this.amount, 10)
-        this.actualAmount = MMath.sub(this.amount, this.amount * (this.perRate / 1000)).toFixed(2)
+        this.actualAmount = this.MMath.sub(this.amount, this.MMath.mul(this.amount, this.MMath.div(this.perRate, 100))).toFixed(2)
         // setTimeout(() => {
         //   typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
         // }, 300)
