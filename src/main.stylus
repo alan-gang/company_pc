@@ -1239,8 +1239,8 @@ pre
     &.bank
       background url($ASSETS/bankcard/bank.jpg) #fff .1rem center no-repeat
 
-    &.big-bank
-      background url($ASSETS/bankcard/bank.jpg) #fff .1rem center no-repeat
+    &.bigbank
+      background url($ASSETS/bankcard/dewy.jpg) #fff .1rem center no-repeat
       
     &.weixinquota
       background url($ASSETS/bankcard/weixinquota.jpg) #fff .1rem center no-repeat
