@@ -11,6 +11,29 @@ import { numberWithCommas } from './Number'
 import N from './N'
 import M from './M'
 
+/**
+ * 对列表按指定字段排序
+ * @param {*} list 
+ * @param {*} filedName 
+ * @param {*} order 
+ */
+function listOrderByField(list, fieldName, order) {
+  let temp
+  for (let i = 0; i < list.length; i++) {
+    for (let j = 0; j < list.length - i; j++) {
+      if (list[j][fieldName] > (list[j + 1] && list[j + 1][fieldName])) {
+        temp = list[j + 1]
+        list[j + 1] = list[j]
+        list[j] = temp
+      }
+    }
+  }
+  if (order == 'desc') {
+    list = list.reverse()
+  }
+  return list
+}
+
 module.exports = {
   groupArray,
   getOffset,
@@ -19,9 +42,9 @@ module.exports = {
   timeFormat,
   repeat,
   N,
-  M
+  M,
+  listOrderByField
 }
-
 
 window.Number.prototype._o0 = window.String.prototype._o0 = function () {
   return parseFloat((this + '').replace(/,/g, '')) > 0
