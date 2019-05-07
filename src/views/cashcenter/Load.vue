@@ -836,11 +836,21 @@ export default {
       this.$http.post(api.queryLoadStatus, { method: 'updateBillNew', billNo, userStat }).then(({data: {success, stat}}) => {
         this.isShowResponseConfirm = false
         if (success === 1) {
-          this.__setCall({fn: '__getUserFund'})
-          this.responseSucc = stat === 1
-          this.responseWait = stat === 0
-          this.responseFailed = stat === 2
-          this.isShowResponseConfirmRs = true
+          this.responseSucc = false
+          this.responseWait = false
+          this.responseFailed = false
+          if (userStat === 1) {
+            this.__setCall({fn: '__getUserFund'})
+            this.responseSucc = stat === 1
+            this.responseWait = stat === 0
+            this.responseFailed = stat === 2
+            this.isShowResponseConfirmRs = true
+          } else if (userStat === 2) {
+            this.responseFailed = true
+            this.isShowResponseConfirmRs = true
+          } else {
+            this.isShowResponseConfirmRs = false
+          }
         }
       })
     },
