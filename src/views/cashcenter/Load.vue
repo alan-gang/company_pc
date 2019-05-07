@@ -22,7 +22,7 @@
         
         .pay-type-detail(v-show="canShowPayTypeDetail")
           .tip 提示：充值金额范围 
-            i.fc-o {{rechargeRange}}
+            i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
           .bank-ls(v-show="quotaList.length < 1")
@@ -36,7 +36,7 @@
             i &nbsp;元
 
         .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：充值金额范围 
-          i.fc-o {{rechargeRange}}
+          i.fc-o(v-html="rechargeRange")
           | ，充值手续费：
           i.fc-o {{perRate}}%
 
@@ -820,7 +820,7 @@ export default {
       this.rechargeRange = this.curBank.range.map((item) => {
         item = item.split('~')
         return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
-      }).join(', ')
+      }).join(';  &nbsp;')
       this.perRate = this.curBank.fee
     },
     choiceQuota (v, i) {
