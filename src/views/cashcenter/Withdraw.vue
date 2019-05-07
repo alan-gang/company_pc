@@ -141,6 +141,9 @@
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
+        .search-bar.pl20
+          SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @click="search")
+
         el-table.header-bold.margin(:data="data" style="margin: .2rem"  v-bind:row-key="getRowKeys"
         v-bind:expand-row-keys="expands")
           
@@ -187,6 +190,7 @@ import { timeFormat } from '../../util/Date'
 import {numberWithCommas, digitUppercase, MMath} from '../../util/Number'
 import xhr from 'components/xhr'
 import { Radio, RadioGroup, RadioButton } from 'element-ui'
+import SearchConditions from 'components/SearchConditions'
 // import util from '../../util'
 export default {
   mixins: [xhr],
@@ -227,7 +231,9 @@ export default {
       expands: [],
       amount: 0,
       maxAmount: 0,
-      HOURS_24: 24 * 60 * 60 * 1000
+      HOURS_24: 24 * 60 * 60 * 1000,
+
+      searchParamsDate: []
     }
   },
   computed: {
@@ -483,13 +489,38 @@ export default {
     fmtTime (dt) {
       return this.timeFormat(Math.floor(this.calcRemainTime(dt) / 1000))
     },
+    choicedSearchCondition (i, config) {
+      this.searchParamsDate = config
+    },
+    search () {
+      let curDate = new Date()
+      if (this.searchParamsDate.length > 0) {
+        let days = 0
+        let month = 0
+        curDate.setDate(curDate.getDate() - this.searchParamsDate[0])
+        days = curDate.getDate()
+        days = (days + '').padStart(2, '0')
+        month = curDate.getMonth() + 1
+        month = (month + '').padStart(2, '0')
+        this.st = `${curDate.getFullYear()}${month}${days}000000`
+
+        curDate = new Date()
+        curDate.setDate(curDate.getDate() - this.searchParamsDate[1])
+        let edays = curDate.getDate()
+        let emonth = curDate.getMonth() + 1
+        edays = (edays + '').padStart(2, '0')
+        emonth = (emonth + '').padStart(2, '0')
+        this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
+      }
+    },
     timeFormat
   },
   // doWithDraw: api + 'person/withDraw.do?method=doWithDraw&apiName=ico&amount=123&userBankId=2',
   components: {
     [Radio.name]: Radio,
     [RadioGroup.name]: RadioGroup,
-    [RadioButton.name]: RadioButton
+    [RadioButton.name]: RadioButton,
+    SearchConditions
   }
 }
 </script>
@@ -600,4 +631,8 @@ export default {
   i
     color #666666
 
+.search-bar
+  background-color #fff
+  line-height 0.7rem
+  margin 0 0.2rem
 </style>
