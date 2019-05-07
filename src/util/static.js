@@ -7,7 +7,7 @@ const BANKS = [
   {apiName: 'weixin', class: 'wepay', text: '微信'},
   {apiName: 'weixinquota', class: 'weixinquota', text: '微信定额'},
   {apiName: 'bank', class: 'bank', text: '网银转账'},
-  {apiName: 'bigBank', class: 'big-bank', text: '大额网银'},
+  {apiName: 'bigBank', class: 'bigbank', text: '大额网银'},
   {apiName: 'fast', class: 'fast', text: '快捷支付'},
   {apiName: 'unionpay', class: 'unionpay', text: '银联扫码'},
   {apiName: 'jd', class: 'jd', text: '京东支付'},
@@ -36,7 +36,9 @@ const BANKS = [
   {apiName: 'ecitic', class: 'zhxyh', text: '中信银行'},
   {apiName: 'chbh', class: 'bhyh', text: '渤海银行'},
   {apiName: 'njbc', class: 'njyh', text: '南京银行'},
-  {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'}
+  {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'},
+  {apiName: 'bigbank', class: 'bigbank', text: '大额网银'}
+  
 ]
 
 const PROVINCES = [

@@ -12,9 +12,9 @@
         p.mt20 主账户余额：
           span.fc-o.u-balance {{numberWithCommas(me.amoney)}}
           span 元
-        nav.pay-type-wp.mt20
-          span 支付方式：
-          div.btns
+        nav.pay-type-wp.mt20.tb
+          span.tb-cell 支付方式：
+          div.btns.tb-cell
             span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
         
         .icon-pointer-wp(v-show="canShowPayTypeDetail")
@@ -901,6 +901,10 @@ export default {
 </script>
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .tb
+    display table
+  .tb-cell
+    display table-cell
   i
     font-style normal
   .ml90
@@ -945,6 +949,7 @@ export default {
       width 0.85rem
       float left
       line-height 0.3rem
+      vertical-align middle
   .bank-ls
     .ds-icon-bank-card
       background-position left center
