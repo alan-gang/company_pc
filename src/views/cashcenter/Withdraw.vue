@@ -267,7 +267,7 @@ export default {
       }
     },
     tabIndex () {
-      if (this.tabIndex === 2) {
+      if (this.tabIndex === 1) {
         this.queryWithdraw()
       } else {
         this.__setCall({fn: '__getUserFund'})
