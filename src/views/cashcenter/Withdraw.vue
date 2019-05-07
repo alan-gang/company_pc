@@ -11,7 +11,7 @@
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 提现申请
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
 
-      .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
+      .cashpwd-form.form(v-if="tabIndex === 0 && stepIndex === 0" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
@@ -53,7 +53,7 @@
           .item.mt20(style="line-height: .5rem") 
             span.left-label 收款银行卡：
             p.banks
-              label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank" v-bind:class="{disable: canSelectBank(bank.addTime)}")
+              label.ds-radio-label(v-for="bank in banksO" @click="choiceBank(bank)" v-bind:class="{disable: !canSelectBank(bank.addTime)}")
                   span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
                   span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
                     span.bank-last-no {{ bank.cardNo}}
@@ -184,7 +184,7 @@ import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
 import { timeFormat } from '../../util/Date'
-import {numberWithCommas, digitUppercase} from '../../util/Number'
+import {numberWithCommas, digitUppercase, MMath} from '../../util/Number'
 import xhr from 'components/xhr'
 import { Radio, RadioGroup, RadioButton } from 'element-ui'
 // import util from '../../util'
@@ -192,6 +192,7 @@ export default {
   mixins: [xhr],
   data () {
     return {
+      MMath,
       numberWithCommas: numberWithCommas,
       me: store.state.user,
       cpwd: '',
@@ -279,7 +280,6 @@ export default {
   methods: {
     __setWithdrawI (i) {
       this.tabIndex = i
-      console.log('i=', i)
     },
     // ec (row, expandedRows) {
     //   console.log(row, expandedRows, '???')
@@ -468,23 +468,20 @@ export default {
     },
     canSelectBank (dt) {
       let date = this.stringToDate(dt)
-      return new Date().getTime() - date.getTime() > this.HOURS_24
+      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_24
     },
     calcRemainTime (dt) {
       let date = this.stringToDate(dt)
-      if (new Date().getTime() - date.getTime() < this.HOURS_24) {
-        return Math.abs((new Date().getTime() - date.getTime()) - this.HOURS_24)
+      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_24) {
+        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_24)
       }
       return 0
     },
+    choiceBank (bank) {
+      if (this.canSelectBank(bank.addTime)) this.selectBank = bank
+    },
     fmtTime (dt) {
-      console.log(this.calcRemainTime(dt))
-      return this.timeFormat(this.calcRemainTime(dt) / 1000)
-      // let time = this.calcRemainTime(dt)
-      // let hours = time / (60 * 60 * 1000)
-      // let minutes = time / (60 * 1000)
-      // let seconds = time / 1000
-      // return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+      return this.timeFormat(Math.floor(this.calcRemainTime(dt) / 1000))
     },
     timeFormat
   },
@@ -549,7 +546,14 @@ export default {
     position relative
     &.disable
       .ds-icon-bank-card::before
+        content ''
+        width 100%
+        height 100%
+        display inline-block
         background-color rgba(53, 53, 53, 0.2)
+      .ds-radio
+        background-color #e9e9e9
+        border-color #d2d2d2
   .ds-icon-bank-card
     width 2.02rem
     height 0.4rem
