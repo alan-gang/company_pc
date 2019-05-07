@@ -26,7 +26,7 @@
 
       el-table-column(label="操作" align="center")
         template(scope="scope")
-          span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="!scope.row.done" @click="showReq(scope.row)" style="padding: 0") 催到帐
+          span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到帐
 
     el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
