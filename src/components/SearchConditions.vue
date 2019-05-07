@@ -21,7 +21,9 @@ export default {
     },
     conditions: {
       type: Array,
-      default: []
+      default () {
+        return []
+      }
     },
     className: '',
     showBtnSearch: {

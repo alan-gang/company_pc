@@ -53,11 +53,11 @@
           .item.mt20(style="line-height: .5rem") 
             span.left-label 收款银行卡：
             p.banks
-              label.ds-radio-label(v-for="bank in banksO" @click="choiceBank(bank)" v-bind:class="{disable: !canSelectBank(bank.addTime)}")
+              label.ds-radio-label(v-for="bank in banksO" @click="choiceBank(bank)" v-bind:class="{disable: !bank.canUse}")
                   span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
                   span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
                     span.bank-last-no {{ bank.cardNo}}
-                    span.text-danger.target-time-use {{fmtTime(bank.addTime)}}
+                    span.text-danger.target-time-use {{bank.remainTimeText}}
                       i 可用
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
@@ -142,7 +142,7 @@
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
 
         .search-bar.pl20
-          SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @click="search")
+          SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
 
         el-table.header-bold.margin(:data="data" style="margin: .2rem"  v-bind:row-key="getRowKeys"
         v-bind:expand-row-keys="expands")
@@ -191,6 +191,7 @@ import {numberWithCommas, digitUppercase, MMath} from '../../util/Number'
 import xhr from 'components/xhr'
 import { Radio, RadioGroup, RadioButton } from 'element-ui'
 import SearchConditions from 'components/SearchConditions'
+import Timer from '../../util/timer'
 // import util from '../../util'
 export default {
   mixins: [xhr],
@@ -233,7 +234,10 @@ export default {
       maxAmount: 0,
       HOURS_24: 24 * 60 * 60 * 1000,
 
-      searchParamsDate: []
+      searchParamsDate: [],
+      startDate: '',
+      endDate: '',
+      remaingTime: 0
     }
   },
   computed: {
@@ -248,6 +252,8 @@ export default {
     },
     textMoney () {
       return digitUppercase(this.money)
+    },
+    remaingTimeTxt () {
     }
   },
   watch: {
@@ -320,10 +326,17 @@ export default {
       })
     },
     queryWithdraw (page, fn) {
-      this.$http.get(api.queryWithdraw, {
+      let params = {
         page: page || 1,
         pageSize: this.pageSize
-      }).then(({data}) => {
+      }
+      if (this.startDate) {
+        params.startDate = this.startDate
+      }
+      if (this.endDate) {
+        params.endDate = this.endDate
+      }
+      this.$http.get(api.queryWithdraw, params).then(({data}) => {
         if (data.success === 1) {
           this.data = data.withdrawData || []
           this.data.forEach((c, i) => {
@@ -411,9 +424,28 @@ export default {
             c.class = BANKS.find(b => b.apiName === c.apiName)['class']
             c.cardNo = '*****' + c.cardNo.slice(-4)
           })
+          this.fmtData()
         }
       }).catch(rep => {
       })
+    },
+    fmtData () {
+      this.myBanks = this.myBanks.map((bank, i) => {
+        bank.canUse = this.canSelectBank(bank.addTime)
+        bank.remainTime = Math.floor(this.calcRemainTime(bank.addTime) / 1000)
+        bank.remainTimeText = ''
+        /* eslint-disable no-new */
+        new Timer(bank.remainTime, (time, finish) => {
+          console.log('time=', time, ' finish=', finish)
+          if (!finish) {
+            bank.remainTime = time
+          }
+          bank.remainTimeText = this.timeFormat(bank.remainTime)
+          this.$set(this.myBanks, i, bank)
+        })
+        return bank
+      })
+      console.log('fmtData=', JSON.stringify(this.myBanks))
     },
     getWithdrawByApi () {
       // this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
@@ -502,7 +534,7 @@ export default {
         days = (days + '').padStart(2, '0')
         month = curDate.getMonth() + 1
         month = (month + '').padStart(2, '0')
-        this.st = `${curDate.getFullYear()}${month}${days}000000`
+        this.startDate = `${curDate.getFullYear()}${month}${days}000000`
 
         curDate = new Date()
         curDate.setDate(curDate.getDate() - this.searchParamsDate[1])
@@ -510,8 +542,9 @@ export default {
         let emonth = curDate.getMonth() + 1
         edays = (edays + '').padStart(2, '0')
         emonth = (emonth + '').padStart(2, '0')
-        this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
+        this.endDate = `${curDate.getFullYear()}${emonth}${edays}235959`
       }
+      this.queryWithdraw()
     },
     timeFormat
   },
