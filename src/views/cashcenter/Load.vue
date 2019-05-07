@@ -46,7 +46,7 @@
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
             //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
-            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" v-bind:min="0" @keyup="amountChange")
+            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" v-bind:min="0" @keyup="amountChange" placeholder="请勿输入整数")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
               i 实际到帐：
