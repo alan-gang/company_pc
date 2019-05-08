@@ -3,7 +3,7 @@
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
       el-col(:span="8" v-for=" (r, index) in lineList "  @click.native="goLogin(r.line)")
-        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
+        .col-content(v-bind:class="{ fast:  index === 0, usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index(:class=" {ft36: index > 8} ") {{ index + 1 }}
           |  线 
