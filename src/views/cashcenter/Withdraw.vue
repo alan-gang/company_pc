@@ -6,12 +6,12 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .width-draw-info.scroll-content
-      .tabs(style="text-align: center" v-if="stepIndex !== 0")
+      //- .tabs(style="text-align: center" v-if="stepIndex !== 0")
          .ds-button-group
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 1}" @click="tabIndex = 1") 提现申请
            .ds-button.text-button.large(v-bind:class="{selected: tabIndex === 2}" @click="tabIndex = 2") 提现记录
 
-      .cashpwd-form.form(v-if="stepIndex === 0" style="padding-top: .4rem")
+      .cashpwd-form.form(v-if="tabIndex === 0 && stepIndex === 0" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
           input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
@@ -27,8 +27,8 @@
           .ds-button.primary.large(@click="checkNow") 确认
       
 
-      .bank-form(v-if="tabIndex === 1 && stepIndex === 1")
-        .notice
+      .bank-form(v-if="tabIndex === 0 && stepIndex === 1")
+        //- .notice
           span.title 温馨提示：
           p.content
             | 每天可成功提款 
@@ -50,42 +50,64 @@
             | 特殊余额提款不收取手续费。
         .form
 
-          .item(style="line-height: .5rem") 收款银行卡：
+          .item.mt20(style="line-height: .5rem") 
+            span.left-label 收款银行卡：
             p.banks
-              label.ds-radio-label(v-for="bank in banksO" @click="selectBank = bank")
-                span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
-                span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
-                span(style="color: #666") {{ bank.cardNo}}
-
+              label.ds-radio-label(v-for="bank in banksO" @click="choiceBank(bank)" v-bind:class="{disable: !bank.canUse}")
+                  span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
+                  span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
+                    span.bank-last-no {{ bank.cardNo}}
+                    span.text-danger.target-time-use {{bank.remainTimeText}}
+                      i 可用
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
 
               // span.ds-icon-bank-card.el-icon-caret-bottom.more(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
 
-          p.item(style="padding: .1rem 0") 提现限额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(单笔提现限额：最低：
+          p.item.ptb10 
+            span.left-label 提现限额：
+            span (单笔提现限额：最低：
             span.min.text-danger  {{ min }} 
             | 元，
             | 最高：
             span.min.text-danger  {{ max }} 
             | 元)
 
-          .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          p.item.ptb10 
+            span.left-label 今日可提次数：
+            span.text-danger {{ times }}/{{ maxTimes }}
+
+          p.item.ptb10 
+            span.left-label 今日可提金额：
+            span.text-danger {{ amount._nwc() }}/{{ maxAmount._nwc() }}
+
+          p.item.ptb10 
+            span.left-label 出款帐户
+            span
+              el-radio( v-model="mtype" v-for=" (m, i) in moneyTypes " v-bind:label="i") {{m}}
+
+            //- span.ds-radio.white( v-model="mtype" v-for=" (m, i) in moneyTypes " v-bind:label="i") {{m}}
+
+          //- .item(style="line-height: .5rem") 提现来源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model=" mtype " style="width: 1.8rem; position: relative; top: -.01rem")
                 el-option(v-for=" (m, i) in moneyTypes " v-bind:label=" m " v-bind:value="i ")
 
-          p.item 可提金额：&nbsp;&nbsp;&nbsp;&nbsp;
-            span.amount(style="vertical-align: middle") {{ numberWithCommas(mtype ? me.smoney : me.amoney) }}
+          p.item 
+            span.left-label 可提金额：
+            span.amount(style="vertical-align: middle, color: '#ddd'") {{ numberWithCommas(mtype ? me.smoney : me.amoney) }}
+              span.ft14 元
           
-          p.item(style="padding: .1rem 0") 提现金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          p.item(style="padding: .1rem 0") 
+            span.left-label 提现金额：
             el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
 
-          .buttons(style="margin-left: .98rem; padding: .2rem 0")
+          .buttons(style="margin-left: 1.1rem; padding: .2rem 0")
             .ds-button.primary.large(@click="showWithDraw") 确认
 
       
-      .bank-form(v-if="tabIndex === 1 && stepIndex === 2")
+      .bank-form(v-if="tabIndex === 0 && stepIndex === 2")
         p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 
           // |您正在增加 
           // span.text-blue {{ me.name }}
@@ -108,7 +130,7 @@
             .ds-button.primary.large(@click="doWithDraw") 提交
 
 
-      form(v-if="tabIndex === 2")
+      form(v-if="tabIndex === 1")
 
         // label.item 充值时间 
         //   el-date-picker(v-model="st" type="datetime" placeholder="请选择日期时间")
@@ -118,6 +140,9 @@
         // label.item(style="margin-left: .2rem") 状态 
         //   el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
         //     el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
+
+        .search-bar.pl20
+          SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
 
         el-table.header-bold.margin(:data="data" style="margin: .2rem"  v-bind:row-key="getRowKeys"
         v-bind:expand-row-keys="expands")
@@ -161,13 +186,18 @@
 import api from '../../http/api'
 import store from '../../store'
 import { BANKS } from '../../util/static'
-import {numberWithCommas, digitUppercase} from '../../util/Number'
+import { timeFormat } from '../../util/Date'
+import {numberWithCommas, digitUppercase, MMath} from '../../util/Number'
 import xhr from 'components/xhr'
+import { Radio, RadioGroup, RadioButton } from 'element-ui'
+import SearchConditions from 'components/SearchConditions'
+import Timer from '../../util/timer'
 // import util from '../../util'
 export default {
   mixins: [xhr],
   data () {
     return {
+      MMath,
       numberWithCommas: numberWithCommas,
       me: store.state.user,
       cpwd: '',
@@ -181,7 +211,7 @@ export default {
       get: 0,
       // xxx
       stepIndex: 0,
-      tabIndex: 1,
+      tabIndex: 0,
       pageSize: 20,
       total: 0,
       currentPage: 1,
@@ -192,7 +222,7 @@ export default {
       V: ['审核中', '审核通过', '审核失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
-      moneyTypes: ['可用余额', '特殊金额'],
+      moneyTypes: ['主帐户', '特殊金额'],
       mtype: 0,
       // 获取row的key值
       getRowKeys (row) {
@@ -201,7 +231,12 @@ export default {
       // 要展开的行，数值的元素是row的key值
       expands: [],
       amount: 0,
-      maxAmount: 0
+      maxAmount: 0,
+      HOURS_24: 24 * 60 * 60 * 1000,
+
+      startDate: '',
+      endDate: '',
+      remaingTime: 0
     }
   },
   computed: {
@@ -216,6 +251,8 @@ export default {
     },
     textMoney () {
       return digitUppercase(this.money)
+    },
+    remaingTimeTxt () {
     }
   },
   watch: {
@@ -241,7 +278,7 @@ export default {
       }
     },
     tabIndex () {
-      if (this.tabIndex === 2) {
+      if (this.tabIndex === 1) {
         this.queryWithdraw()
       } else {
         this.__setCall({fn: '__getUserFund'})
@@ -252,6 +289,9 @@ export default {
   mounted () {
   },
   methods: {
+    __setWithdrawI (i) {
+      this.tabIndex = i
+    },
     // ec (row, expandedRows) {
     //   console.log(row, expandedRows, '???')
     //   expandedRows.splice(0, expandedRows.length)
@@ -285,10 +325,17 @@ export default {
       })
     },
     queryWithdraw (page, fn) {
-      this.$http.get(api.queryWithdraw, {
+      let params = {
         page: page || 1,
         pageSize: this.pageSize
-      }).then(({data}) => {
+      }
+      if (this.startDate) {
+        params.startDate = this.startDate
+      }
+      if (this.endDate) {
+        params.endDate = this.endDate
+      }
+      this.$http.get(api.queryWithdraw, params).then(({data}) => {
         if (data.success === 1) {
           this.data = data.withdrawData || []
           this.data.forEach((c, i) => {
@@ -376,9 +423,28 @@ export default {
             c.class = BANKS.find(b => b.apiName === c.apiName)['class']
             c.cardNo = '*****' + c.cardNo.slice(-4)
           })
+          this.fmtData()
         }
       }).catch(rep => {
       })
+    },
+    fmtData () {
+      this.myBanks = this.myBanks.map((bank, i) => {
+        bank.canUse = this.canSelectBank(bank.addTime)
+        bank.remainTime = Math.floor(this.calcRemainTime(bank.addTime) / 1000)
+        bank.remainTimeText = ''
+        /* eslint-disable no-new */
+        new Timer(bank.remainTime, (time, finish) => {
+          console.log('time=', time, ' finish=', finish)
+          if (!finish) {
+            bank.remainTime = time
+          }
+          bank.remainTimeText = this.timeFormat(bank.remainTime)
+          this.$set(this.myBanks, i, bank)
+        })
+        return bank
+      })
+      console.log('fmtData=', JSON.stringify(this.myBanks))
     },
     getWithdrawByApi () {
       // this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
@@ -430,22 +496,75 @@ export default {
       }).catch(rep => {
         this.$message.error({target: this.$el, message: '提现申请提交失败！'})
       })
-    }
+    },
+    stringToDate (d) {
+      let dt = d.split(' ')
+      let date = dt[0].split('-')
+      let time = dt[1].split(':')
+      return new Date(date[0], date[1] - 1, date[2], time[0], time[1], time[2])
+    },
+    canSelectBank (dt) {
+      let date = this.stringToDate(dt)
+      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_24
+    },
+    calcRemainTime (dt) {
+      let date = this.stringToDate(dt)
+      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_24) {
+        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_24)
+      }
+      return 0
+    },
+    choiceBank (bank) {
+      if (this.canSelectBank(bank.addTime)) this.selectBank = bank
+    },
+    fmtTime (dt) {
+      return this.timeFormat(Math.floor(this.calcRemainTime(dt) / 1000))
+    },
+    choicedSearchCondition (i, dates) {
+      this.startDate = dates.startDateStr
+      this.endDate = dates.endDateStr
+    },
+    search () {
+      this.queryWithdraw()
+    },
+    timeFormat
   },
   // doWithDraw: api + 'person/withDraw.do?method=doWithDraw&apiName=ico&amount=123&userBankId=2',
   components: {
+    [Radio.name]: Radio,
+    [RadioGroup.name]: RadioGroup,
+    [RadioButton.name]: RadioButton,
+    SearchConditions
   }
 }
 </script>
-
+<style lang="stylus">
+  .width-draw-info 
+    .el-radio__input
+      &.is-checked
+        .el-radio__inner
+          border-color #ccc
+          background-color #ffffff
+      .el-radio__inner:hover
+        border-color #f17d0b
+    .el-radio__inner::after
+      width 0.07rem
+      height 0.07rem
+      border-color #f17d0b
+      background-color #f17d0b
+</style>
 <style lang="stylus" scoped>
   @import '../../var.stylus'
   .scroll-content
     top TH
+  i
+    font-style normal
   .width-draw-info
     .cashpwd-form
       padding-top .1rem
-  
+  .left-label
+    display inline-block
+    width 1.1rem  
   .notice
     margin 0 .2rem
     padding PWX
@@ -469,14 +588,27 @@ export default {
     vertical-align top
   .ds-radio-label
     padding 0 .1rem
+    position relative
+    &.disable
+      .ds-icon-bank-card::before
+        content ''
+        width 100%
+        height 100%
+        display inline-block
+        background-color rgba(53, 53, 53, 0.2)
+      .ds-radio
+        background-color #e9e9e9
+        border-color #d2d2d2
   .ds-icon-bank-card
-    width 167px
-    height 40px
+    width 2.02rem
+    height 0.4rem
     margin .05rem 
     radius()
     display inline-block
-
+    position relative
     vertical-align middle
+    background-position left !important
+    background-color #fff !important
     // &.more
     //   text-align center
     //   font-weight bold
@@ -491,4 +623,30 @@ export default {
     //     background-color #d2e8f6
     //     border 1px solid BLUE
         // border none
+  .bank-last-no
+    line-height 0.4rem
+    position absolute
+    right 0.1rem
+    top 0
+    z-index 2
+    color #666
+.target-time-use
+  width 1.1rem
+  line-height 0.27rem
+  border solid 1px #cccccc  
+  position absolute
+  text-align center
+  top -0.20rem
+  left 0.47rem
+  box-shadow 1px 2px 2px 0px rgba(0, 0, 0, 0.1)
+  background #fff
+  border-radius 0.03rem
+  z-index 12
+  i
+    color #666666
+
+.search-bar
+  background-color #fff
+  line-height 0.7rem
+  margin 0 0.2rem
 </style>

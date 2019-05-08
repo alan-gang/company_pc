@@ -1,6 +1,10 @@
 <template lang="jade">
   .cash-record-LR
-    .notice(style="margin: 0 0 .2rem 0")
+
+    .search-bar.pl20
+      SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
+
+    .notice(style="margin: 0.2rem 0 .2rem 0")
       span.title 温馨提示：
       p.content
         | 一般情况
@@ -132,6 +136,7 @@
   import api from 'src/http/api'
   import page from 'components/page'
   import { BANKS } from 'src/util/static'
+  import SearchConditions from 'components/SearchConditions'
   export default {
     mixins: [page],
     name: 'cash-record-LR',
@@ -167,6 +172,9 @@
       Cbank () {
         return this.ALLBANKS[this.CbankIndex]
       }
+    },
+    components: {
+      SearchConditions
     },
     mounted () {
       this.list()
@@ -254,7 +262,10 @@
             loading.close()
           }, 100)
         })
-      }
+      },
+      choicedSearchCondition () {
+      },
+      search () {}
     }
   }
 </script>
@@ -283,4 +294,7 @@
         padding-left .6rem
         .textarea
           font-size .12rem
+  .search-bar
+    line-height 0.7rem
+
 </style>
