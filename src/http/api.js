@@ -205,6 +205,7 @@ let Login = {
   // 测试线路
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
   lineTest: '/login/lineTest.do?method=lineTest',
+  lineJsonpTest: '/login/lineTest.do?method=lineJsonpTest',
   // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
   isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth',
   // 首页活动banner

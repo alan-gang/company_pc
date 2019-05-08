@@ -20,7 +20,7 @@
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
 
-        label.item 奖期 ``
+        label.item 奖期 
           el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
         label.item 状态 
