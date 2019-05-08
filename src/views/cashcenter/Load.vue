@@ -70,9 +70,10 @@
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
           
           .search-wp
-            span.mr10 时间
-            el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
-            .ds-button.primary.large.ml15(@click="search") 搜索
+            SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
+            //- span.mr10 时间
+            //- el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
+            //- .ds-button.primary.large.ml15(@click="search") 搜索
 
           .notice(style="margin: .2rem 0 .2rem 0")
             span.title 温馨提示：
@@ -302,6 +303,7 @@ import { dateTimeFormat } from '../../util/Date'
 import {numberWithCommas, MMath} from '../../util/Number'
 import Modal from 'components/Modal'
 import store from '../../store'
+import SearchConditions from 'components/SearchConditions'
 export default {
   data () {
     return {
@@ -866,36 +868,21 @@ export default {
       return (rs && rs[0].class) || ''
     },
     search () {
-      let curDate = new Date()
-      if (this.curConditionIdx > -1) {
-        let days = 0
-        let month = 0
-        let daysConfig = {d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0]}
-        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][0])
-        days = curDate.getDate()
-        days = (days + '').padStart(2, '0')
-        month = curDate.getMonth() + 1
-        month = (month + '').padStart(2, '0')
-        this.st = `${curDate.getFullYear()}${month}${days}000000`
-
-        curDate = new Date()
-        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][1])
-        let edays = curDate.getDate()
-        let emonth = curDate.getMonth() + 1
-        edays = (edays + '').padStart(2, '0')
-        emonth = (emonth + '').padStart(2, '0')
-        this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
-      }
       this.qryRecharge()
     },
     iconPointerPosition (left) {
       let icon = this.$refs.iconPointer
       icon.style.left = (left - (icon.offsetWidth / 2) - icon.parentElement.offsetLeft) + 'px'
     },
+    choicedSearchCondition (i, dates) {
+      this.st = dates.startDateStr
+      this.et = dates.endDateStr
+    },
     numberWithCommas
   },
   components: {
-    Modal
+    Modal,
+    SearchConditions
   }
 }
 </script>

@@ -57,7 +57,7 @@
                   span.ds-radio.white(v-bind:class="{ active: selectBank.entry === bank.entry }")
                   span.ds-icon-bank-card(v-bind:class=" [ bank.class, { selected: selectBank.entry === bank.entry } ] ")
                     span.bank-last-no {{ bank.cardNo}}
-                    span.text-danger.target-time-use {{bank.remainTimeText}}
+                    span.text-danger.target-time-use(v-if="!bank.canUse") {{bank.remainTimeText}}
                       i 可用
 
               span.ds-button.text-button.blue.el-icon-caret-bottom(v-if="!showAllBank && myBanks.length > 3" @click="showAllBank = true")  更多银行
@@ -99,7 +99,7 @@
           
           p.item(style="padding: .1rem 0") 
             span.left-label 提现金额：
-            el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false)
+            el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false placeholder="请输入整数金额")
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
 
