@@ -2,15 +2,15 @@
   .login-test
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
-      el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r.line)")
+      el-col(:span="8" v-for=" (r, index) in lineList "  @click.native="goLogin(r.line)")
         .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index(:class=" {ft36: index > 8} ") {{ index + 1 }}
           |  线 
-          SignalBar(:value=" timeListValue[index] || 0 ")
+          SignalBar(:value=" r.speedFlag || 0 ")
           .timer 
-            span.time {{ timeList[index] }}
-            span.text-danger(v-if=" !timeList[index] && timeList[index] !== 0  ") {{ '计算中...' }}
+            span.time {{ r.speed >= 10000 ? '> ' : '' }}{{ r.speed }}
+            span.text-danger(v-if=" !r.speed && r.speed !== 0  ") {{ '计算中...' }}
             |  毫秒
 </template>
 
@@ -119,10 +119,10 @@
       test () {
         // this.frontList = ['http://www.baidu.com']
         // !this.server && this.frontList.forEach((url, i) => {
-        console.log('this.lineList=', this.lineList)
         this.lineList.forEach((url, i) => {
           // this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
-          this.testLine(url.line + '/static/cb.js', i, 'frontTimeList')
+          // this.testLine(url.line + '/static/cb.js', i, 'frontTimeList')
+          this.testLine(url.line + api.lineJsonpTest, i, 'frontTimeList', url.line)
           // this.testLine(url.line + '/login/lineTest.do?method=lineTest', i, 'frontTimeList')
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
             // if get tapi don't change again
@@ -177,16 +177,16 @@
           }
         })
       },
-      testLine (line, i, timeList) {
+      testLine (line, i, timeList, lineHost) {
+        this.reqCount++
         const st = new Date().getTime()
         this.$http.jsonp(line).then((rep) => {
+          let curLine = this.findLineItemByHost(lineHost) // this.lineList[i]
+          curLine = this.setCurSpeedLineData(st, curLine)
+          this.$set(this.lineList, i, curLine)
         }, (rep) => {
-          console.log('testLine=', new Date().getTime())
-          const et = new Date().getTime()
-          const v = this.getValue(et - st)
-          let curLine = this.lineList[i]
-          curLine.speed = et - st
-          curLine.speedFlag = v
+          let curLine = this.findLineItemByHost(lineHost) // this.lineList[i]
+          curLine = this.setCurSpeedLineData(st, curLine)
           if (rep.status !== 0) {
             curLine.speed = 10000
             curLine.speedFlag = 0
@@ -195,20 +195,26 @@
             }
           }
           this.$set(this.lineList, i, curLine)
-          this.reqCount++
-          console.log('this.reqCount=', this.reqCount, ' this.lineList.length=', this.lineList.length)
-          if (this.reqCount === this.lineList.length) {
-            this.orderLlinBySpeed()
-            console.log('this.lineList=', JSON.stringify(this.lineList))
-          }
         }).finally((rep) => {
-          // console.log('final', rep)
+          this.orderLlinBySpeed()
           if (this.auto && timeList === 'serverTimeList' && i === this.serverList.length - 1) {
             setTimeout(() => {
               this.$router.push('/login/login')
             }, 0)
           }
         })
+      },
+      findLineItemByHost (lineAddress) {
+        return this.lineList.find((line) => {
+          return line.line === lineAddress
+        })
+      },
+      setCurSpeedLineData (st, curLine) {
+        const et = new Date().getTime()
+        const v = this.getValue(et - st)
+        curLine.speed = et - st
+        curLine.speedFlag = v
+        return curLine
       },
       getValue (t) {
         if (t < 100) return 10
@@ -224,6 +230,7 @@
       },
       orderLlinBySpeed () {
         this.lineList = this.listOrderByField(this.lineList, 'speed')
+        this.$forceUpdate()
       },
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // switchCS (r) {
