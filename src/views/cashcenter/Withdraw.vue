@@ -521,8 +521,8 @@ export default {
       return this.timeFormat(Math.floor(this.calcRemainTime(dt) / 1000))
     },
     choicedSearchCondition (i, dates) {
-      this.startDate = dates.startDate
-      this.endDate = dates.endDate
+      this.startDate = dates.startDateStr
+      this.endDate = dates.endDateStr
     },
     search () {
       this.queryWithdraw()

@@ -50,22 +50,25 @@ export default {
       this.$emit('search')
     },
     toDate () {
-      let curDate = new Date()
-      curDate.setDate(curDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][0])
-      let days = curDate.getDate()
-      let month = curDate.getMonth() + 1
+      let sDate = new Date()
+      sDate.setDate(sDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][0])
+      sDate.setHours(0)
+      sDate.setMinutes(0)
+      sDate.setSeconds(0)
+      let days = sDate.getDate()
+      let month = sDate.getMonth() + 1
       days = String(days).padStart(2, '0')
       month = String(month).padStart(2, '0')
-      let startDate = `${curDate.getFullYear()}${month}${days}000000`
+      let startDateStr = `${sDate.getFullYear()}${month}${days}000000`
 
-      curDate = new Date()
-      curDate.setDate(curDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][1])
-      let edays = curDate.getDate()
-      let emonth = curDate.getMonth() + 1
+      let eDate = new Date()
+      eDate.setDate(eDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][1])
+      let edays = eDate.getDate()
+      let emonth = eDate.getMonth() + 1
       edays = String(edays).padStart(2, '0')
       emonth = String(emonth).padStart(2, '0')
-      let endDate = `${curDate.getFullYear()}${emonth}${edays}235959`
-      return { startDate, endDate }
+      let endDateStr = `${eDate.getFullYear()}${emonth}${edays}235959`
+      return { startDateStr, endDateStr, startDate: sDate, endDate: eDate }
     }
   }
 }

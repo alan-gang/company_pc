@@ -9,8 +9,9 @@
 
       .form.form-filters
 
-        span.mr10 时间
-        el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: quickDateIdx === i}" @click="quickDateIdx = i") {{c}}
+        //- span.mr10 时间
+        //- el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: quickDateIdx === i}" @click="quickDateIdx = i") {{c}}
+        SearchConditions(@choiced="choicedSearchCondition")
 
         //- label.item 时间范围  
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
@@ -74,6 +75,7 @@
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
+  import SearchConditions from 'components/SearchConditions'
   export default {
     name: 'BGTransaction',
     components: {
@@ -112,7 +114,8 @@
             this.$emit('acc-choiced', fromsIdx, this.trigerSource)
           }
         }
-      }
+      },
+      SearchConditions
     },
     mixins: [setTableMaxHeight],
     data () {
@@ -171,7 +174,7 @@
         })
       },
       getData (page, fn) {
-        this.processDate()
+        // this.processDate()
         this.setOutAccHistory(this.froms[this.f])
         this.setInAccHistory(this.froms[this.t])
         let loading = this.$loading({
@@ -228,6 +231,9 @@
       accChoiced (data, type) {
         if (type === 'out') this.f = data
         if (type === 'in') this.t = data
+      },
+      choicedSearchCondition (i, dates) {
+        this.stEt = [dates.startDate, dates.endDate]
       }
     }
   }
