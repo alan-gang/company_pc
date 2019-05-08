@@ -389,11 +389,13 @@ let Me = {
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc
   saveAmountRange: '/person/recharge.do?method=saveAmountRange',
   // 新加充值方式接口
-  saveRanges: '/person/recharge.do?method=saveRanges',
+  // saveRanges: '/person/recharge.do?method=saveRanges',
+  saveRanges: '/person/recharge.do?method=saveRangesNew',
   // &userId=1&userName=jock&platId=101&bankCode=icbc
   // 提交充值请求道第三方
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01
-  commit: '/person/recharge.do?method=commit',
+  commit: '/person/recharge.do?method=commitNew',
+  queryLoadStatus: '/person/recharge.do?method=updateBillNew',
   // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
   // 在线充值saveType=0*************
   // 获取银行列表
