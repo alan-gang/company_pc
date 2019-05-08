@@ -46,7 +46,7 @@
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
             //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
-            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" v-bind:min="0" @keyup="amountChange" placeholder="请勿输入整数")
+            input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" @keyup="amountChange" placeholder="请勿输入整数")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
               i 实际到帐：
@@ -328,8 +328,8 @@ export default {
 
       selectBank: {},
       showAllBank: false,
-      amount: 0,
-      tempOldAmount: 0,
+      amount: '',
+      tempOldAmount: '',
       min: 0,
       max: 0,
 
@@ -470,7 +470,7 @@ export default {
       // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
     },
     type () {
-      this.amount = 0
+      // this.amount = 0
       // this.radioIndex = 0
       // if (this.type === 2) this.qryRecharge()
     },
@@ -796,7 +796,7 @@ export default {
         this.amount = this.quotaList[0]
         this.showAmountInput = false
       } else {
-        this.amount = 0
+        this.amount = ''
         this.showAmountInput = true
         this.quotaList = []
       }
