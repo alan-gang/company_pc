@@ -234,7 +234,6 @@ export default {
       maxAmount: 0,
       HOURS_24: 24 * 60 * 60 * 1000,
 
-      searchParamsDate: [],
       startDate: '',
       endDate: '',
       remaingTime: 0
@@ -521,29 +520,11 @@ export default {
     fmtTime (dt) {
       return this.timeFormat(Math.floor(this.calcRemainTime(dt) / 1000))
     },
-    choicedSearchCondition (i, config) {
-      this.searchParamsDate = config
+    choicedSearchCondition (i, dates) {
+      this.startDate = dates.startDate
+      this.endDate = dates.endDate
     },
     search () {
-      let curDate = new Date()
-      if (this.searchParamsDate.length > 0) {
-        let days = 0
-        let month = 0
-        curDate.setDate(curDate.getDate() - this.searchParamsDate[0])
-        days = curDate.getDate()
-        days = (days + '').padStart(2, '0')
-        month = curDate.getMonth() + 1
-        month = (month + '').padStart(2, '0')
-        this.startDate = `${curDate.getFullYear()}${month}${days}000000`
-
-        curDate = new Date()
-        curDate.setDate(curDate.getDate() - this.searchParamsDate[1])
-        let edays = curDate.getDate()
-        let emonth = curDate.getMonth() + 1
-        edays = (edays + '').padStart(2, '0')
-        emonth = (emonth + '').padStart(2, '0')
-        this.endDate = `${curDate.getFullYear()}${emonth}${edays}235959`
-      }
       this.queryWithdraw()
     },
     timeFormat

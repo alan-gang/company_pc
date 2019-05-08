@@ -9,9 +9,7 @@
 export default {
   data () {
     return {
-      searchConditions: ['今天', '昨天', '前天', '最近一周'],
-      quickDateIdx: -1,
-      config: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0] } // [7, 0]  7为7天前，0为今天
+      quickDateIdx: -1
     }
   },
   props: {
@@ -19,10 +17,10 @@ export default {
       type: Boolean,
       default: true
     },
-    conditions: {
+    searchConditions: {
       type: Array,
       default () {
-        return []
+        return ['今天', '昨天', '前天', '最近一周']
       }
     },
     className: '',
@@ -33,22 +31,41 @@ export default {
     btnSearchText: {
       type: String,
       default: '搜索'
+    },
+    dateMappingConfig: {
+      type: Object,
+      default () {
+        return { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0] } // [7, 0]  7为7天前，0为今天
+      }
     }
   },
   watch: {
-    conditions () {
-      if (this.conditions.length > 0) {
-        this.searchConditions = this.conditions
-      }
-    }
   },
   methods: {
     choiceDate (i) {
       this.quickDateIdx = i
-      this.$emit('choiced', i, this.config['d' + i])
+      this.$emit('choiced', i, this.toDate())
     },
     search () {
       this.$emit('search')
+    },
+    toDate () {
+      let curDate = new Date()
+      curDate.setDate(curDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][0])
+      let days = curDate.getDate()
+      let month = curDate.getMonth() + 1
+      days = String(days).padStart(2, '0')
+      month = String(month).padStart(2, '0')
+      let startDate = `${curDate.getFullYear()}${month}${days}000000`
+
+      curDate = new Date()
+      curDate.setDate(curDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][1])
+      let edays = curDate.getDate()
+      let emonth = curDate.getMonth() + 1
+      edays = String(edays).padStart(2, '0')
+      emonth = String(emonth).padStart(2, '0')
+      let endDate = `${curDate.getFullYear()}${emonth}${edays}235959`
+      return { startDate, endDate }
     }
   }
 }
@@ -71,4 +88,8 @@ export default {
       border solid 1px #f37e0c
     .ds-button
       border-radius 0.03rem
+
+  .search-bar
+    background-color #fff
+
 </style>
