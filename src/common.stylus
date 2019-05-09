@@ -37,6 +37,8 @@
 
 .bgc-w
   background-color #fff
+.c_b
+  color #666
 
 .mlr15
   margin 0 .15rem
@@ -101,7 +103,8 @@
 
 .mt05
   margin-top .05rem
-  
+.mt10
+  margin-top 0.1rem
 .mt15
   margin-top .15rem
 .mt20
@@ -111,6 +114,8 @@
 .mb20
   margin-bottom .2rem
 
+.ml10
+  margin-left .1rem
 .ml15
   margin-left .15rem
 .ml20
@@ -164,6 +169,8 @@
   font-size .3rem
 .ft24
   font-size .24rem
+.ft22
+  font-size .22rem
 .ft25
   font-size .25rem
 .ft18
@@ -191,3 +198,18 @@
   width 80%
 .wp5
   width 50%
+
+.txt-c
+  text-align center
+.txt-r
+  text-align right
+
+.bg-w
+  background-color #ffffff
+
+.flex
+  display flex
+.flex-ai-c
+  align-items center
+.flex-jt-c
+  justify-content center

@@ -564,13 +564,17 @@ export default {
                   id: '2-1-2',
                   menuid: '32',
                   title: '提现',
-                  url: 'Withdraw'
+                  url: 'Withdraw',
+                  tabs: ['提现', '提现记录'],
+                  tabfn: '__setWithdrawI'
                 },
                 {
                   id: '2-1-3',
                   menuid: '20',
-                  title: '转账',
-                  url: 'Transfer'
+                  title: '钱包转账',
+                  url: 'Transfer',
+                  tabs: ['钱包转账', '转账记录'],
+                  tabfn: '__setTransferI'
                 },
                 {
                   id: '2-1-4',

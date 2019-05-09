@@ -1,5 +1,8 @@
 <template lang="jade">
   .cash-record-WR
+    .search-bar.pl20
+      SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
+
     el-table.header-bold.nopadding(:data="data" ref="table"  v-bind:row-key="getRowKeys"
         v-bind:expand-row-keys="expands")
           
@@ -40,6 +43,7 @@
 <script>
   import api from 'src/http/api'
   import { BANKS } from 'src/util/static'
+  import SearchConditions from 'components/SearchConditions'
   export default {
     name: 'cash-record-WR',
     data () {
@@ -51,8 +55,14 @@
         S: ['出款中', '出款失败', '成功'],
         V: ['审核中', '审核通过', '审核失败'],
         // 要展开的行，数值的元素是row的key值
-        expands: []
+        expands: [],
+        // pageSize: 20,
+        startDate: '',
+        endDate: ''
       }
+    },
+    components: {
+      SearchConditions
     },
     mounted () {
       this.list()
@@ -86,6 +96,13 @@
       },
       getRowKeys (row) {
         return row.index
+      },
+      choicedSearchCondition (i, dates) {
+        this.startDate = dates.startDateStr
+        this.endDate = dates.endDateStr
+      },
+      search () {
+        this.list({page: 1, pageSize: this.pageSize, startDate: this.startDate, endDate: this.endDate})
       }
     }
   }
@@ -95,5 +112,7 @@
 
 .cash-record-WR
   padding .1rem .2rem
-
+  .search-bar
+    background-color #fff
+    line-height 0.7rem
 </style>
