@@ -169,6 +169,8 @@
   font-size .3rem
 .ft24
   font-size .24rem
+.ft22
+  font-size .22rem
 .ft25
   font-size .25rem
 .ft18

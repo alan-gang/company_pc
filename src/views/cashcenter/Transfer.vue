@@ -57,7 +57,7 @@
               span.txt-c {{ acc.shotTitle }}
             br
             p {{ acc.title }}
-            p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
+            p.ft22.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
               i.ft12.yuan 元
               span.icon-refresh(v-on:click="refreshBalance(acc.id, acc.name)")
             .mt10.quick-btns
@@ -283,7 +283,7 @@ export default {
       quickAmounts: ['50', '100', '500', '全部'],
       tabIdx: 0,
       accounts: [
-        { id: '', transInId: 1, transOutId: '', title: '特殊帐户', shotTitle: '特殊', name: 'specialBalance', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: true, show: true },
+        { id: '', transInId: '', transOutId: 1, title: '特殊帐户', shotTitle: '特殊', name: 'smoney', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: true, show: true },
         { id: '2', transInId: 0, transOutId: 2, title: 'BG帐户', shotTitle: 'BG', name: 'bgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
         { id: '3', transInId: '', transOutId: '', title: 'IBC帐户', shotTitle: 'IBC', name: 'tcgmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: false },
         { id: '7', transInId: 2, transOutId: 4, title: '开元帐户', shotTitle: '开元', name: 'kymoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
@@ -417,9 +417,6 @@ export default {
     },
     ti () {
       return parseInt((this.ctos[this.t] || '').split(':')[1] || this.t)
-    },
-    free () {
-      return store.state.user.free
     }
   },
   watch: {
@@ -433,20 +430,18 @@ export default {
       if (r) this.m = l + '.' + r.slice(0, 3)
       if ((r && r.split(/[,]/)[1]) || t) this.m = l + '.' + r.split(/[.,]/)[0].slice(0, 3)
     },
-    free () {
-      console.log('free')
-    },
-    'store.state.user.free' () {
-      console.log('ME.free')
+    'ME.free' () {
+      this.updateUserBanlance()
     },
     'ME.smoney' () {
-      console.log('ME.smoney')
+      this.updateUserBanlance()
     }
   },
   mounted () {
     this.getBalance()
     // this.__setCall({fn: '__getUserFund', args: undefined})
     this.f = this.t = 0
+    this.updateUserBanlance()
   },
   methods: {
     __setTransferI (i) {
@@ -462,6 +457,16 @@ export default {
       } else {
         this.getBalanceById(id, name)
       }
+    },
+    updateUserBanlance () {
+      let specialAccountIndex = this.findAccountIndexByName('smoney')
+      let specialAccount = this.accounts[specialAccountIndex]
+      let freeAccountIndex = this.findAccountIndexByName('free')
+      let freeAccount = this.accounts[freeAccountIndex]
+      specialAccount.balance = this.numberWithCommas(Number(this.ME.smoney).toFixed(4))
+      freeAccount.balance = this.numberWithCommas(Number(this.ME.free).toFixed(4))
+      this.$set(this.accounts, specialAccountIndex, specialAccount)
+      this.$set(this.accounts, freeAccountIndex, freeAccount)
     },
     switchs () {
       if (this.f === 0 && this.t === 0) this.f = 2
@@ -573,6 +578,11 @@ export default {
         return parseInt(id) === parseInt(acc.id)
       })
     },
+    findAccountIndexByName (name) {
+      return this.accounts.findIndex((acc) => {
+        return acc.name === name
+      })
+    },
     transferNow () {
       if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
       if (!this.ccm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
@@ -661,6 +671,8 @@ export default {
   .scroll-content
     // top .3rem
     padding 0 PW PW PW
+    .fz22
+      font-size 0.22rem
     i
       font-style normal
     .yuan
