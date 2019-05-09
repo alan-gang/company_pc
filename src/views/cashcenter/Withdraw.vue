@@ -99,7 +99,8 @@
           
           p.item(style="padding: .1rem 0") 
             span.left-label 提现金额：
-            el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false placeholder="请输入整数金额")
+            //- el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false placeholder="请输入整数金额")
+            InputNumber(v-bind:defaultValue="money" v-on:enter="showWithDraw" v-on:change="money = $event" placeholder="请输入整数金额")
             span(style="color: #999; padding-left: .1rem") {{ textMoney }}
 
 
@@ -191,6 +192,7 @@ import {numberWithCommas, digitUppercase, MMath} from '../../util/Number'
 import xhr from 'components/xhr'
 import { Radio, RadioGroup, RadioButton } from 'element-ui'
 import SearchConditions from 'components/SearchConditions'
+import InputNumber from 'components/InputNumber'
 import Timer from '../../util/timer'
 // import util from '../../util'
 export default {
@@ -250,7 +252,7 @@ export default {
       return this.showAllBank ? this.myBanks : this.myBanks.slice(0, 3)
     },
     textMoney () {
-      return digitUppercase(this.money)
+      return this.money > 0 ? digitUppercase(this.money) : ''
     },
     remaingTimeTxt () {
     }
@@ -534,7 +536,8 @@ export default {
     [Radio.name]: Radio,
     [RadioGroup.name]: RadioGroup,
     [RadioButton.name]: RadioButton,
-    SearchConditions
+    SearchConditions,
+    InputNumber
   }
 }
 </script>

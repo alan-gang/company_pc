@@ -22,7 +22,7 @@
             | 元
             span.switch-box
               span.switch(v-if="showSwitch" @click=" switchs ")
-              span.refresh(@click=" refresh ")
+              //- span.refresh(@click=" refresh ")
         
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
@@ -52,156 +52,171 @@
       .wallet-ls
 
         .s(style="padding: PWX 0")
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c 特殊
+          .c(v-for="(acc, i) in accounts" v-show="acc.show")
+            p.acc-shot-name(v-bind:class="acc.className")
+              span.txt-c {{ acc.shotTitle }}
             br
-            p 特殊帐户
-            p.ft24.text-black {{ numberWithCommas(ME.smoney) }}
+            p {{ acc.title }}
+            p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
               i.ft12.yuan 元
+              span.icon-refresh(v-on:click="refreshBalance(acc.id, acc.name)")
             .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(1, 'o')") 转出
-              //- button.ml10.ds-button.btn-transfer(@click="quickTransfer(1, 'i')") 转入
+              button.ds-button.btn-transfer(v-if="acc.showOut" @click="quickTransfer(acc.transOutId, 'o')") 转出
+              button.ml10.ds-button.btn-transfer(v-if="acc.showIn" @click="quickTransfer(acc.transInId, 'i')") 转入
+        
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 特殊
+          //-   br
+          //-   p 特殊帐户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.smoney) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(1, 'o')") 转出
+          //-     //- button.ml10.ds-button.btn-transfer(@click="quickTransfer(1, 'i')") 转入
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c BG
-            br
-            p BG帐户
-            p.ft24.text-black {{ numberWithCommas(ME.bgmoney) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(2, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(0, 'i')") 转入
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c BG
+          //-   br
+          //-   p BG帐户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.bgmoney) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(2, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(0, 'i')") 转入
 
-          .c(v-show="false")
-            p.acc-bg-red.acc-shot-name
-              span.txt-c IBC
-            br
-            p IBC帐户
-            p.ft24.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入 
+          //- .c(v-show="false")
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c IBC
+          //-   br
+          //-   p IBC帐户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入 
 
-          .c
-            p.acc-bg-red.acc-shot-name
-              span.txt-c 开元
-            br
-            p 开元帐户
-            p.ft24.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(4, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(2, 'i')") 转入 
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 开元
+          //-   br
+          //-   p 开元帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(4, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(2, 'i')") 转入 
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c PT
-            br
-            p PT帐户
-            p.ft24.text-black {{ numberWithCommas(ME.ptmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(5, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入 
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c PT
+          //-   br
+          //-   p PT帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.ptmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(5, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入 
 
-          .c
-            p.acc-bg-blue.acc-shot-name
-              span.txt-c AG
-            br
-            p AG帐户
-            p.ft24.text-black {{ numberWithCommas(ME.agmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(6, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入 
+          //- .c
+          //-   p.acc-bg-blue.acc-shot-name
+          //-     span.txt-c AG
+          //-   br
+          //-   p AG帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.agmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(6, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入 
 
-          .c
-            p.acc-bg-red.acc-shot-name
-              span.txt-c 沙巴
-            br
-            p 沙巴帐户
-            p.ft24.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(7, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(5, 'i')") 转入 
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 沙巴
+          //-   br
+          //-   p 沙巴帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(7, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(5, 'i')") 转入 
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c 乐游
-            br
-            p 乐游帐户
-            p.ft24.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(8, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(6, 'i')") 转入 
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 乐游
+          //-   br
+          //-   p 乐游帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(8, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(6, 'i')") 转入 
           
-          //- .c(style="display: none")
-          .c
-            p.acc-bg-green.acc-shot-name
-              span.txt-c U赢
-            br
-            p U赢帐户
-            p.ft24.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(9, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(7, 'i')") 转入   
+          //- //- .c(style="display: none")
+          //- .c
+          //-   p.acc-bg-green.acc-shot-name
+          //-     span.txt-c U赢
+          //-   br
+          //-   p U赢帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(9, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(7, 'i')") 转入   
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c KG
-            br
-            p KG帐户
-            p.ft24.text-black {{ numberWithCommas(ME.kgmoney.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(10, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(8, 'i')") 转入   
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c KG
+          //-   br
+          //-   p KG帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.kgmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(10, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(8, 'i')") 转入   
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c 微游
-            br
-            p 微游帐户
-            p.ft24.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(11, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(9, 'i')") 转入
-          .c
-            p.acc-bg-red.acc-shot-name
-              span.txt-c 平博
-            br
-            p 平博帐户
-            p.ft24.text-black {{ numberWithCommas(ME.pbAmount.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(12, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(10, 'i')") 转入
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 微游
+          //-   br
+          //-   p 微游帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(11, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(9, 'i')") 转入
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 平博
+          //-   br
+          //-   p 平博帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.pbAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(12, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(10, 'i')") 转入
 
-          .c
-            p.acc-bg-blue.acc-shot-name
-              span.txt-c LG
-            br
-            p LG帐户
-            p.ft24.text-black {{ numberWithCommas(ME.lgAmount.toFixed(4)) }}
-              i.ft12.yuan 元
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(@click="quickTransfer(13, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(@click="quickTransfer(11, 'i')") 转入
+          //- .c
+          //-   p.acc-bg-blue.acc-shot-name
+          //-     span.txt-c LG
+          //-   br
+          //-   p LG帐户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.lgAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(13, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(11, 'i')") 转入
 
-          .c
-            p.acc-bg-oriange.acc-shot-name
-              span.txt-c 优惠券
-            br
-            p 优惠券
-            p.ft24.text-black {{ numberWithCommas(ME.free) }}
-              i.ft12.yuan 元
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 优惠券
+          //-   br
+          //-   p 优惠券
+          //-   p.ft24.text-black {{ numberWithCommas(ME.free) }}
+          //-     i.ft12.yuan 元
       
       //- .s
         .cc
@@ -266,7 +281,24 @@ export default {
       btn: false,
       a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount'],
       quickAmounts: ['50', '100', '500', '全部'],
-      tabIdx: 0
+      tabIdx: 0,
+      accounts: [
+        { id: '', transInId: 1, transOutId: '', title: '特殊帐户', shotTitle: '特殊', name: 'specialBalance', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: true, show: true },
+        { id: '2', transInId: 0, transOutId: 2, title: 'BG帐户', shotTitle: 'BG', name: 'bgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '3', transInId: '', transOutId: '', title: 'IBC帐户', shotTitle: 'IBC', name: 'tcgmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: false },
+        { id: '7', transInId: 2, transOutId: 4, title: '开元帐户', shotTitle: '开元', name: 'kymoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '5', transInId: 3, transOutId: 5, title: 'PT帐户', shotTitle: 'PT', name: 'ptmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '4', transInId: 4, transOutId: 6, title: 'AG帐户', shotTitle: 'AG', name: 'agmoney', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '9', transInId: 5, transOutId: 7, title: '沙巴帐户', shotTitle: '沙巴', name: 'sbmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '15', transInId: 6, transOutId: 8, title: '乐游帐户', shotTitle: '乐游', name: 'lymoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '17', transInId: 7, transOutId: 9, title: 'U赢帐户', shotTitle: 'U赢', name: 'uwinmoney', balance: 0, className: 'acc-bg-green', showIn: true, showOut: true, show: true },
+        { id: '18', transInId: 8, transOutId: 10, title: 'KG帐户', shotTitle: 'KG', name: 'kgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '25', transInId: 9, transOutId: 11, title: '微游帐户', shotTitle: '微游', name: 'litAmount', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '19', transInId: 10, transOutId: 12, title: '平博帐户', shotTitle: '平博', name: 'pbAmount', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '21', transInId: 11, transOutId: 13, title: 'LG帐户', shotTitle: 'LG', name: 'lgAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '22', transInId: 12, transOutId: 14, title: '幸运帐户', shotTitle: '幸运', name: 'xyAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '', transInId: '', transOutId: '', title: '优惠券', shotTitle: '优惠券', name: 'free', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: false, show: true }
+      ]
     }
   },
   computed: {
@@ -385,6 +417,9 @@ export default {
     },
     ti () {
       return parseInt((this.ctos[this.t] || '').split(':')[1] || this.t)
+    },
+    free () {
+      return store.state.user.free
     }
   },
   watch: {
@@ -397,6 +432,15 @@ export default {
       let [l, r, t] = this.m.split('.')
       if (r) this.m = l + '.' + r.slice(0, 3)
       if ((r && r.split(/[,]/)[1]) || t) this.m = l + '.' + r.split(/[.,]/)[0].slice(0, 3)
+    },
+    free () {
+      console.log('free')
+    },
+    'store.state.user.free' () {
+      console.log('ME.free')
+    },
+    'ME.smoney' () {
+      console.log('ME.smoney')
     }
   },
   mounted () {
@@ -411,6 +455,13 @@ export default {
     refresh () {
       this.__setCall({fn: '__getUserFund', args: undefined})
       this.getBalance()
+    },
+    refreshBalance (id, name) {
+      if (!id) {
+        this.__setCall({fn: '__getUserFund', args: undefined})
+      } else {
+        this.getBalanceById(id, name)
+      }
     },
     switchs () {
       if (this.f === 0 && this.t === 0) this.f = 2
@@ -496,21 +547,31 @@ export default {
     getBalance (a) {
       (a || this.a).forEach(x => {
         let [, platId, prop] = x.split(':')
-        this.$http.myget(api.getBalanceByPID, {platId: platId}).then(({data: {bal, success}}) => {
-          if (success) {
-            let b = {}
-            b[prop] = Number(bal)
-            store.actions.setUser(b)
-          }
-        })
+        this.getBalanceById(platId, prop)
       })
-      // this.$http.get(api.getBalance).then(({data}) => {
-      //   if (data.success === 1) {
-      //     store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0, sbmoney: data.sbAmount || 0, lymoney: data.lyAmount, uwinmoney: data.uwinAmount, kgmoney: data.kgAmount, litAmount: data.litAmount})
-      //   }
-      // }).catch(rep => {
-      //   // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
-      // })
+    },
+    getBalanceById (platId, name) {
+      this.$http.myget(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
+        if (success) {
+          let b = {}
+          b[name] = Number(bal)
+          store.actions.setUser(b)
+          let account = null
+          for (let i = 0; i < this.accounts.length; i++) {
+            account = this.accounts[i]
+            if (parseInt(platId) === parseInt(account.id)) {
+              account.balance = this.numberWithCommas(Number(bal).toFixed(4))
+              this.$set(this.accounts, i, account)
+              break
+            }
+          }
+        }
+      })
+    },
+    findAccountById (id) {
+      return this.accounts.find((acc) => {
+        return parseInt(id) === parseInt(acc.id)
+      })
     },
     transferNow () {
       if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
@@ -604,6 +665,7 @@ export default {
       font-style normal
     .yuan
       color #999999
+      margin-left 0.02rem
     .fc-oriange
       color #f37e0c
     .info
@@ -639,6 +701,16 @@ export default {
         background-color #444444
       .danger:hover
         background-color #666666
+    .icon-refresh
+      display inline-block
+      width .24rem
+      height .24rem
+      background url(../../assets/v2/icon_refresh.png) center center no-repeat #f3f3f3
+      border 1px solid rgba(0,0,0,0)
+      cursor pointer
+      margin-left 0.04rem
+      &:hover
+        border 1px solid BLUE
     .primary
       width 1.2rem
     .wallet-ls
@@ -682,10 +754,10 @@ export default {
       accountBg('icon_account_bg_blue.png', #1691ee)  
     .c
       display inline-block
-      width 1.2rem
+      width 1.6rem
       max-width 4rem
       // padding 1.2rem  .2rem .3rem .2rem
-      padding 0.37rem  .2rem .3rem .2rem
+      padding 0.37rem 0rem .3rem 0rem
       font-size .16rem
       vertical-align top
       .amount
@@ -696,7 +768,7 @@ export default {
         span
           font-size .14rem
       @media screen and (max-width: 2000px)
-        width 1.5rem
+        width 1.9rem
       @media screen and (max-width: 1600px)
         width 1.3rem
       @media screen and (max-width: 1200px)
