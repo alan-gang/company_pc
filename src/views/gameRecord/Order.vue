@@ -9,28 +9,35 @@
      
       .form.form-filters
 
-        label.item(v-if="!noname") 用户 
-          input.ds-input.small(v-model="name" style="width: 1rem")
+        //- label.item(v-if="!noname") 用户 
+        //-   input.ds-input.small(v-model="name" style="width: 1rem")
         
-        label.item 时间 
-          el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
+        //- label.item 时间 
+          //- el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
+        SearchConditions(@choiced="choicedSearchCondition")
 
-        label.item 游戏  
-          el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
+        //- label.item 彩种  
+        //-   el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
+        //-     el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-
-        label.item 奖期 
-          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
+        el-popover(placement="bottom" width="536" trigger="hover" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+          SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+          span.flex.flex-ai-c.ml10.lottery-choice-condi(slot="reference") 
+            span.mr5 彩种&nbsp;
+            span.flex.flex-ai-c.lottery-choice
+              i {{curLotteryName}}
+              i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
 
         label.item 状态 
           el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .9rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-        
+
         label.item 编号 
           el-input(v-model="id" style="width: 1rem")
-
-
+        
+        label.item 奖期 
+          el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
+        
         .ds-button.primary.large.bold(@click="Orderlist" style="margin-left: .0rem") 搜索
         //- .buttons(style="margin-left: .3rem")
           .ds-button.cancel.large(@click="clear(true)") 清空
@@ -97,7 +104,32 @@
             span.title {{ '投注详情' }}
             el-button-group
               el-button.close(icon="close" @click="show = false")
-          .content
+          .content.bet-detail-modal
+            p.txt-c {{ row.lotteryName }}--{{ row.issue }}期
+            .issue-nums.txt-c.mt10 {{row.prizeCode}}
+              span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode") {{n}}
+            el-row
+              el-col(:span="12")
+                注单编号：
+                span.text-black {{ row.projectId }}
+                span.order-status.c_f(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
+              el-col(:span="12")
+                投单时间：
+                span.text-black {{ row.writeTime }}
+            el-row
+              el-col(:span="12")
+              是否追号：
+              span {{row.taskId ? '是' : '否'}}
+              span(v-if="!!row.taskId") 查看追号单
+
+            section
+              el-col(:span="12")
+                玩法：
+                span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+              el-col(:span="12")
+                是否单挑：
+                span.text-black {{ row.isLimitBonus === '1' ? '是' : '否'}}
+
             el-row
               el-col(:span="6")
                 游戏用户：
@@ -196,6 +228,7 @@
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
               .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 确认撤单
+
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
@@ -211,17 +244,21 @@
 
 <script>
   import Follow from './FollowDetail'
-  //
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import { digitUppercase } from '../../util/Number'
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
   // import util from '../../util'
+  import SearchConditions from 'components/SearchConditions'
+  import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     components: {
-      Follow
+      Follow,
+      SearchConditions,
+      SearchConditionLottery
     },
+    props: ['menus'],
     mixins: [setTableMaxHeight],
     data () {
       return {
@@ -262,7 +299,8 @@
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
-        STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
+        // STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
+        STATUSCLASS: ['bgc-yellow', 'bgc-red', 'bgc-gray', 'bgc-green'],
         status: '',
         ISFREE: ['现金', '信游币'],
         isFree: '',
@@ -287,13 +325,18 @@
         show: false,
         fullCode: '获取失败...',
         type: 0,
-        row: {prizeCode: ''},
+        row: {prizeCode: '?,?,?,?,?'},
+        defaultPrizeCode: ['?', '?', '?', '?', '?'],
         modalTitles: ['投注详情', '发起跟单', '撤单'],
         expandList: [],
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         Cdata: [],
         showFollow: '',
-        I: 0
+        I: 0,
+
+        lotteryHistory: [],
+        lotteryPopover: false,
+        curLotteryName: '全部'
       }
     },
     computed: {
@@ -325,6 +368,7 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
+      console.log('order menus=', this.menus)
     },
     methods: {
       __setGOI (i) {
@@ -486,6 +530,7 @@
             page: 1,
             pageSize: this.pageSize
           }
+          this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -581,6 +626,23 @@
         }, (rep) => {
           // error
         })
+      },
+      choicedSearchCondition (i, dates) {
+        this.stEt = [dates.startDate, dates.endDate]
+      },
+      choicedLottery (lottery) {
+        this.gameid = lottery.gameid
+        this.curLotteryName = lottery.title
+      },
+      setLotteryHistory (lottery) {
+        if (!lottery || !lottery.gameid || this.findHistoryById(lottery.gameid) !== -1) return
+        this.lotteryHistory.push(lottery)
+        if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
+      },
+      findHistoryById (gameid) {
+        return this.lotteryHistory.findIndex((item) => {
+          return item.gameid === gameid
+        })
       }
     }
   }
@@ -600,7 +662,7 @@
 
   .item
     display inline-block
-    margin 0 PW .1rem 0
+    margin 0 PW 0 0
 
     
   .el-select
@@ -619,6 +681,15 @@
   bg = #d8d8d8
   bg-hover = #ececec
   bg-active = #e2e2e2
+  .form-filters > *
+    display inline-block
+  i
+    font-style normal
+  .dis-ib
+    display inline-block
+  .search-condition-date
+    width 4.0rem
+    float left
   .tool-bar
     height TH
     line-height TH 
@@ -718,5 +789,57 @@
           padding-left .6rem 
           .textarea
             font-size .12rem
+  .bet-detail-modal
+    padding-top 0.3rem 
+    .bgc-red
+      background #fc3220
+    .bgc-yellow 
+      background #ffaa01
+    .bgc-green
+      background #0faf0f
+    .bgc-gray
+      background #444444
+  .op-num
+    display inline-block
+    width 0.4rem
+    height 0.4rem
+    line-height 0.4rem
+    text-align center
+    background-image linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%)
+    border-image-source linear-gradient(0deg,  #d8d8d8 0%, #e5e5e5 100%)
+    border solid 1px #dfdfdf
+    border-radius 50%
+    margin 0 0.04rem
+    &.red
+      background-image linear-gradient(#fc3220, #fc3220), linear-gradient(0deg, #e3e6ea 0%, #ffffff 100%)
+      color #fff
+      border none
+  .order-status
+    width 0.6rem
+    line-height 0.24rem
+    display inline-block
+    text-align center
+    margin-left 0.12rem
+  .search-condition-date + span
+    display inline-block
+    margin-right 0.1rem
+  .lottery-choice-condi
+    width 1.8rem
+  .lottery-choice
+    // display inline-block
+    width 1.48rem
+    height 0.3rem
+    background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
+    justify-content space-between
+    padding 0 0.1rem
+    box-sizing border-box
+    border solid 1px #e8e8e8
 
+  .el-icon-caret-bottom
+    font-size 0.12rem
+    margin-top 0.02rem
+</style>
+<style lang="stylus">
+  .search-lottery-popover
+    background-color #fff !important
 </style>

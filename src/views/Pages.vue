@@ -1,7 +1,7 @@
 <template lang="jade">
 
   transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]"  @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]"  @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free" v-bind:menus="menus")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         //- .move-bar(slot="movebar")
@@ -240,7 +240,7 @@ export default {
   },
   name: 'Pages',
   mixins: [base],
-  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money'],
+  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money', 'menus'],
   data () {
     return {
       hasHeader: true,
