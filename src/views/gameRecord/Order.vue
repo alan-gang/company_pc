@@ -96,7 +96,7 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-    .modal(v-show="show" )
+    .modal.bet-detail-modal(v-show="show" )
       .mask
       .box-wrapper
         .box(ref="box")
@@ -104,117 +104,136 @@
             span.title {{ '投注详情' }}
             el-button-group
               el-button.close(icon="close" @click="show = false")
-          .content.bet-detail-modal
-            p.txt-c {{ row.lotteryName }}--{{ row.issue }}期
-            .issue-nums.txt-c.mt10 {{row.prizeCode}}
-              span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode") {{n}}
-            el-row
-              el-col(:span="12")
-                注单编号：
-                span.text-black {{ row.projectId }}
-                span.order-status.c_f(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
-              el-col(:span="12")
-                投单时间：
-                span.text-black {{ row.writeTime }}
-            el-row
-              el-col(:span="12")
-              是否追号：
-              span {{row.taskId ? '是' : '否'}}
-              span(v-if="!!row.taskId") 查看追号单
+          .content.bet-detail-modal-c
+            .top-info.bgc-w.pb20
+              p.txt-c {{ row.lotteryName }}--{{ row.issue }}期
+              .issue-nums.txt-c.mt10
+                span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode") {{n}}
+              el-row
+                el-col(:span="12")
+                  注单编号：
+                  span.text-black {{ row.projectId }}
+                  span.order-status.c_f(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
+                el-col(:span="12")
+                  投单时间：
+                  span.text-black {{ row.writeTime }}
+              el-row
+                el-col(:span="12")
+                是否追号：
+                span {{row.taskId ? '是' : '否'}}
+                span.c-o(v-if="!!row.taskId" @click.stop="showFollow = row.taskId ")&nbsp;&nbsp;查看追号单
 
-            section
-              el-col(:span="12")
-                玩法：
-                span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
-              el-col(:span="12")
-                是否单挑：
-                span.text-black {{ row.isLimitBonus === '1' ? '是' : '否'}}
+            .middle-info
+              el-row
+                el-col(:span="12")
+                  玩法：
+                  span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+                el-col(:span="12")
+                  是否单挑：
+                  span.text-black {{ row.isLimitBonus === '1' ? '是' : '否'}}
+              el-row
+                el-col(:span="12")
+                  投注金额：
+                  span.text-black {{ row.TotalPrice }} &nbsp; ({{row.countDesc}})
+                el-col(:span="12")
+                  投注返点：
+                  span.text-black {{ row.userPoint }}
+              el-row
+                el-col(:span="12")
+                  中奖金额：
+                  span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
+                el-col(:span="12")
+                  中奖注数：
+                  span.text-black {{ row.prize }}
+                  
 
-            el-row
-              el-col(:span="6")
-                游戏用户：
-                span.text-black {{ row.userName }}
-              el-col(:span="6")
-                游戏：
-                span.text-black {{ row.lotteryName }}
-              el-col(:span="6")
-                span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
-                    span.text-black {{ row.prizeCode  }}
-                el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
-                  div(slot="content") {{ row.prizeCode }}
-                  span 开奖号码：
-                    span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
-              el-col(:span="6")
-                总金额：
-                span.text-black {{ row.TotalPrice }}
 
-            el-row
-              el-col(:span="6")
-                注单编号：
-                span.text-black {{ row.projectId }}
-              el-col(:span="6")
-                玩法：
-                span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+              //- el-row
+                el-col(:span="6")
+                  游戏用户：
+                  span.text-black {{ row.userName }}
+                el-col(:span="6")
+                  游戏：
+                  span.text-black {{ row.lotteryName }}
+                el-col(:span="6")
+                  span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
+                      span.text-black {{ row.prizeCode  }}
+                  el-tooltip(v-if="row.prizeCode.length > 10" placement="top")
+                    div(slot="content") {{ row.prizeCode }}
+                    span 开奖号码：
+                      span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
-              el-col(:span="6")
-                注单状态：
-                span(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
+                el-col(:span="6")
+                  总金额：
+                  span.text-black {{ row.TotalPrice }}
 
-              el-col(:span="6")
-                倍数模式：
-                span.text-black {{ row.multiple }} 
-                  span ({{ MODES[row.modes - 1] }})
+              //- el-row
+                el-col(:span="6")
+                  注单编号：
+                  span.text-black {{ row.projectId }}
+                el-col(:span="6")
+                  玩法：
+                  span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
+
+                el-col(:span="6")
+                  注单状态：
+                  span(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
+
+                el-col(:span="6")
+                  倍数模式：
+                  span.text-black {{ row.multiple }} 
+                    span ({{ MODES[row.modes - 1] }})
 
             
-            el-row
-              el-col(:span="6")
-                投单时间：
-                span.text-black {{ row.writeTime }}
-              el-col(:span="6")
-                奖期：
-                span.text-black {{ row.issue }}
-              el-col(:span="6")
-                注单奖金：
-                span.text-green(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
+              //- el-row
+                el-col(:span="6")
+                  投单时间：
+                  span.text-black {{ row.writeTime }}
+                el-col(:span="6")
+                  奖期：
+                  span.text-black {{ row.issue }}
+                el-col(:span="6")
+                  注单奖金：
+                  span.text-green(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
 
-              el-col(:span="6" v-if="row.userPoint")
-                动态奖金返点：
-                span.text-black {{ row.userPoint }}
+                el-col(:span="6" v-if="row.userPoint")
+                  动态奖金返点：
+                  span.text-black {{ row.userPoint }}
 
-            el-row(v-if="row.isJoinPool")
+              //- el-row(v-if="row.isJoinPool")
 
-              el-col(:span="6")
-                奖池期号：
-                span.text-black {{ row.poolIssue}}
+              //-   el-col(:span="6")
+              //-     奖池期号：
+              //-     span.text-black {{ row.poolIssue}}
 
-              el-col(:span="6")
-                奖池状态：
-                span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
+              //-   el-col(:span="6")
+              //-     奖池状态：
+              //-     span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
 
-              el-col(:span="6")
-                奖池号码：
-                span.text-black {{ row.poolCode }}
-              
-              el-col(:span="6")
-                奖池奖金：
-                span.text-black {{ row.poolBonus  }}
-              
+              //-   el-col(:span="6")
+              //-     奖池号码：
+              //-     span.text-black {{ row.poolCode }}
+                
+              //-   el-col(:span="6")
+              //-     奖池奖金：
+              //-     span.text-black {{ row.poolBonus  }}
 
-            p.textarea-label
-              span.label 投注内容：
-              el-input.font-12(disabled v-model=" codePosition " type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
 
-            p 可能中奖的情况：
+              p.textarea-label
+                span.label 投注内容：
+                el-input.font-12(disabled v-model=" codePosition " type="textarea" autofocus  v-bind:autosize="{ minRows: 5, maxRows: 10 }" placeholder="每一注号码之间请用一个 空格[ ]、逗号[,] 或者 分号[;] 隔开")
+
+              p 可能中奖的情况：
             
             el-table.header-bold.nopadding.vtop(:data="expandList" stripe v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
               el-table-column(class-name="pl2" prop="projectid" label="编号" width="160" )
 
-              el-table-column(prop="expandcode" label="号码")
-                template(scope="scope")
-                 p {{ scope.row.expandcode }}
-                   span(v-if="scope.row.position") [{{ scope.row.position }}]
+              //- el-table-column(prop="codetimes" label="号码")
+              //-   template(scope="scope")
+              //-   p {{ scope.row.expandcode }}
+              //-     span(v-if="scope.row.position") [{{ scope.row.position }}]
               
 
               el-table-column(prop="codetimes" label="倍数" )
@@ -685,6 +704,8 @@
     display inline-block
   i
     font-style normal
+  .c-o
+    color #f37e0c
   .dis-ib
     display inline-block
   .search-condition-date
@@ -778,7 +799,7 @@
         word-wrap break-word
       .textarea-label
         position relative
-        margin .3rem .3rem .3rem 0
+        margin .1rem .3rem .2rem 0
         .label
           position absolute
           left 0
@@ -789,8 +810,23 @@
           padding-left .6rem 
           .textarea
             font-size .12rem
+
   .bet-detail-modal
-    padding-top 0.3rem 
+    .box-wrapper 
+      .box
+        width 6.7rem
+        max-height 6.7rem
+    .el-table__header
+      background-image linear-gradient(0deg, #e7e7e7 0%, #cccccc 100%)
+    .content
+      margin 0
+    .top-info
+      padding 0 0.2rem 0.1rem 0.2rem
+    .middle-info
+      margin 0 0.2rem
+  .bet-detail-modal-c
+    .top-info
+      padding-top 0.3rem 
     .bgc-red
       background #fc3220
     .bgc-yellow 
