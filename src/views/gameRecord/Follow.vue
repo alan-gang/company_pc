@@ -99,7 +99,7 @@
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
+        .box(ref="box" style="width: 6.7rem; max-height: 6.7rem;")
           .tool-bar
             span.title 追号详情
             el-button-group

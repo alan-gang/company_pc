@@ -96,7 +96,9 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-    .modal.bet-detail-modal(v-show="show" )
+    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event")  
+
+    //- .modal.bet-detail-modal(v-show="show" )
       .mask
       .box-wrapper
         .box(ref="box")
@@ -108,7 +110,7 @@
             .top-info.bgc-w.pb20
               p.txt-c {{ row.lotteryName }}--{{ row.issue }}期
               .issue-nums.txt-c.mt10
-                span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode") {{n}}
+                span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode" v-bind:class="{red: row.stat == 1 || row.stat == 1}") {{n}}
               el-row
                 el-col(:span="12")
                   注单编号：
@@ -226,23 +228,23 @@
 
               p 可能中奖的情况：
             
-            el-table.header-bold.nopadding.vtop(:data="expandList" stripe v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
+              el-table.header-bold.nopadding.vtop(:data="expandList" stripe v-bind:row-class-name="tableRowClassName" style="margin: .15rem 0; vertical-align: top" max-height="200")
 
-              el-table-column(class-name="pl2" prop="projectid" label="编号" width="160" )
+                el-table-column(class-name="pl2" prop="projectid" label="编号" width="160" )
 
-              //- el-table-column(prop="codetimes" label="号码")
-              //-   template(scope="scope")
-              //-   p {{ scope.row.expandcode }}
-              //-     span(v-if="scope.row.position") [{{ scope.row.position }}]
-              
+                el-table-column(prop="codetimes" label="号码")
+                  template(scope="scope")
+                    p {{ scope.row.expandcode }}
+                      span(v-if="scope.row.position") [{{ scope.row.position }}]
+                
 
-              el-table-column(prop="codetimes" label="倍数" )
+                el-table-column(prop="codetimes" label="倍数" )
 
-              el-table-column(label="奖级")
-                template(scope="scope")
-                  span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
+                el-table-column(label="奖级")
+                  template(scope="scope")
+                    span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
-              el-table-column(prop="prize" label="奖金")
+                el-table-column(prop="prize" label="奖金")
 
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
@@ -251,7 +253,7 @@
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
+        .box(ref="box" style="width: 6.7rem; max-height: 6.7rem;")
           .tool-bar
             span.title 追号详情
             el-button-group
@@ -271,11 +273,13 @@
   // import util from '../../util'
   import SearchConditions from 'components/SearchConditions'
   import SearchConditionLottery from 'components/SearchConditionLottery'
+  import BetDetail from './BetDetail'
   export default {
     components: {
       Follow,
       SearchConditions,
-      SearchConditionLottery
+      SearchConditionLottery,
+      BetDetail
     },
     props: ['menus'],
     mixins: [setTableMaxHeight],
@@ -387,7 +391,6 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
-      console.log('order menus=', this.menus)
     },
     methods: {
       __setGOI (i) {

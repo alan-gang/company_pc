@@ -203,6 +203,8 @@
   text-align center
 .txt-r
   text-align right
+.txt-l
+  text-align left
 
 .bg-w
   background-color #ffffff

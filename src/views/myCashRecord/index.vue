@@ -1,7 +1,7 @@
 <template lang="jade">
 .my-cash-record
   slot(name="toolbar")
-  AR.scroll-content(v-if=" I === 0 ")
+  AR.scroll-content(v-if=" I === 0 " v-bind:menus="menus")
   LR.scroll-content(v-if=" I === 1 ")
   WR.scroll-content(v-if=" I === 2 ")
   TR.scroll-content(v-if=" I === 3 ")
@@ -22,7 +22,7 @@ export default {
     TR
   },
   name: 'my-cash-record',
-  props: [],
+  props: ['menus'],
   data () {
     return {
       I: 0
