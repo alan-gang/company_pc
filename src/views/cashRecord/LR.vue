@@ -165,7 +165,10 @@
         // 非银行转帐类
         epay: [],
         radioIndex: 0,
-        name: ''
+        name: '',
+
+        startDate: '',
+        endDate: ''
       }
     },
     computed: {
@@ -263,9 +266,13 @@
           }, 100)
         })
       },
-      choicedSearchCondition () {
+      choicedSearchCondition (i, dates) {
+        this.startDate = dates.startDateStr
+        this.endDate = dates.endDateStr
       },
-      search () {}
+      search () {
+        this.list({page: 1, pageSize: this.pageSize, startDate: this.startDate, endDate: this.endDate})
+      }
     }
   }
 </script>

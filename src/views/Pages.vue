@@ -119,7 +119,7 @@ import Transfer from './cashcenter/Transfer'
 import XYB from './cashcenter/XYB'
 // 个人中心
 import myCashRecord from './myCashRecord'
-
+import personalReport from './myGameRecord/report'
 // 代理中心
 import subGameRecord from './subGameRecord'
 import myGameRecord from './myGameRecord'
@@ -139,6 +139,7 @@ export default {
     XYB,
     // 个人中心
     myCashRecord,
+    personalReport,
     // 代理中心
     myGameRecord,
     subGameRecord,
