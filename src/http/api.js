@@ -613,7 +613,9 @@ let Form = {
 //   下级确认佣金（如果是平台外发放）
 // issue:佣金期号 如：2018-07-01
 // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
-  subCheckComm: '/team/contractBonus.do?method=subCheckComm'
+  subCheckComm: '/team/contractBonus.do?method=subCheckComm',
+  // 下级个人赢亏
+  subPersonalProfit: '/report/personalProfit.do?method=total'
 
 }
 

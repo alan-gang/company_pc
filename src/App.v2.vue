@@ -545,6 +545,14 @@ export default {
                   tabs: ['佣金契约', '佣金记录', '预期佣金'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
+                },
+                {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
                 }
               ]
             }
@@ -732,6 +740,14 @@ export default {
                   tabs: ['佣金契约', '佣金记录', '预期佣金'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
+                },
+                {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
                 }
               ]
             }
