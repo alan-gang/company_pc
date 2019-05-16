@@ -418,7 +418,9 @@ let Me = {
   addPayError: '/person/recharge.do?method=addPayError',
   // 查询催到账记录
   // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
-  queryPayError: '/person/recharge.do?method=queryPayError'
+  queryPayError: '/person/recharge.do?method=queryPayError',
+  // 查询用户上级
+  getUserBread: '/report/profit.do?method=getUserBread'
 }
 
 let Group = {

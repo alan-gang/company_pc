@@ -23,7 +23,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
-            v-on:select="handleSelect"
+            v-on:select="handleSelectName"
           )
 
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
@@ -32,12 +32,35 @@
       el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
 
+        el-table-column(label="操作")
+          template(slot-scope="scope")
+            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
+            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
+      
+
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+
+        el-table-column(label="操作" )
+          template(slot-scope="scope")
+            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
+            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
     
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
-
+    
+    el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
+      .higher-level-breaks
+        el-breadcrumb(separator-class="el-icon-arrow-right" separator=">")
+          el-breadcrumb-item(v-for="(info, i) in higherLevelUserBreads") {{info.userName}}
+        .ds-button.primary.large.bold.ml10(@click="isShowHigherLevelDialog = false") 确定
+    
+    el-dialog(custom-class="daily-profit-dialog" v-bind:visible.sync="isShowDailyProfitDialog" center v-bind:modal="false" )
+      span(slot="title") 每日明细
+      .daily-profit-dialog-ctx
+        .info-header 每日明细-{{}}(个人)
+        el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
+          el-table-column(label="时间")
 </template>
 
 <script>
@@ -102,7 +125,10 @@ export default {
       },
       curGameType: -1,
 
-      names: []
+      names: [],
+      higherLevelUserBreads: [],
+      isShowHigherLevelDialog: false,
+      isShowDailyProfitDialog: false
 
     }
   },
@@ -130,12 +156,13 @@ export default {
         userId: this.userId,
         page: this.curPage,
         pageSize: this.pageSize,
-        scope: this.range,
+        scope: this.range === '' ? 0 : this.range,
         beginDate: dateTimeFormat(this.stEt[0]).split(' ')[0],
         endDate: dateTimeFormat(this.stEt[1]).split(' ')[0],
         username: this.subUserName
       }
       Object.assign(p, params)
+      this.setNameHistory(p.username)
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
@@ -217,6 +244,42 @@ export default {
         }, 100)
       })
     },
+    getUserBread (userId) {
+      let loading = this.$loading({
+        text: '加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      this.$http.get(api.getUserBread, {userId}).then(({data: {userBreads, success}}) => {
+        if (success === 1) {
+          // let msg = ``
+          this.higherLevelUserBreads = userBreads
+          this.isShowHigherLevelDialog = true
+          // this.$modal.confirm({
+          //   title: '',
+          //   boxStyle: {
+          //     width: '580px'
+          //   },
+          //   content: '<pre class="text-666" style="text-align: left;">' + userBreads + '</pre>',
+          //   btn: ['知道了'],
+          //   ok () {
+          //   },
+          //   close () {
+          //   },
+          //   O: this
+          // })
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else {
+          loading.text = '加载失败!'
+        }
+      }, (rep) => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
     choicedSearchCondition (i, dates) {
       this.stEt = [dates.startDate, dates.endDate]
     },
@@ -229,12 +292,24 @@ export default {
     },
     querySearchName (name, cb) {
       let rs = name ? this.names.filter((n) => {
-        return n.indexOf(name) === 0
+        return n.value.indexOf(name) === 0
       }) : this.names
       cb(rs)
     },
     handleSelectName (item) {
       console.log(item)
+    },
+    setNameHistory (name) {
+      if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      this.names.push({value: name, address: name})
+      if (this.names.length > 3) this.names.shift()
+    },
+    viewHighterLevel (row) {
+      console.log('row=', row)
+      this.getUserBread(row.userId)
+    },
+    viewDailyProfitDetail (row) {
+      this.isShowDailyProfitDialog = true
     }
   }
 }
@@ -252,6 +327,29 @@ export default {
     display inline-block
   .uname-ipt
     width 1.3rem
+  .higher-level-breaks
+    text-align center
+    background #fff
+    padding 0.5rem 0.2rem
+    .el-breadcrumb
+      margin-bottom 0.2rem
+      text-align center
+    .el-breadcrumb__item
+      float none
+  .higher-level-breaks-dialog
+    width 4.5rem
+    .el-dialog__header
+      background #fff
+
+  .daily-profit-dialog
+    background #fff
+    .daily-profit-dialog-ctx
+      padding 0.2rem
+    .info-header
+      background-color #2d86ea
+      color #fff
+      line-height 0.36rem
+      text-align center
 </style>
 <style lang="stylus">
 .search-range-slt
