@@ -82,7 +82,7 @@
             span.text-danger {{ amount._nwc() }}/{{ maxAmount._nwc() }}
 
           p.item.ptb10 
-            span.left-label 出款帐户
+            span.left-label 出款账户
             span
               el-radio( v-model="mtype" v-for=" (m, i) in moneyTypes " v-bind:label="i") {{m}}
 
@@ -112,20 +112,20 @@
         p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 
           // |您正在增加 
           // span.text-blue {{ me.name }}
-          // |  帐号的银行卡
+          // |  账号的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
         .form
           p.item 实扣金额：&nbsp;&nbsp;&nbsp;
             span.amount {{ money }}
 
-          p.item 到帐金额：&nbsp;&nbsp;&nbsp;&nbsp;
+          p.item 到账金额：&nbsp;&nbsp;&nbsp;&nbsp;
             span.amount {{ get }}
 
           .item(style="line-height: .5rem; padding-top: .15rem ") 开户银行：&nbsp;&nbsp;&nbsp;
             p.banks
               span.ds-icon-bank-card.static(v-bind:class=" [ selectBank.class ] ")
 
-          p.item(style="padding: .2rem 0 0 0") 银行卡帐号：&nbsp;&nbsp;{{ selectBank.cardNo }}
+          p.item(style="padding: .2rem 0 0 0") 银行卡账号：&nbsp;&nbsp;{{ selectBank.cardNo }}
 
           .buttons(style="margin-left: .85rem; padding: .2rem 0")
             .ds-button.primary.large(@click="doWithDraw") 提交
@@ -224,7 +224,7 @@ export default {
       V: ['审核中', '审核通过', '审核失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
-      moneyTypes: ['主帐户', '特殊金额'],
+      moneyTypes: ['主账户', '特殊金额'],
       mtype: 0,
       // 获取row的key值
       getRowKeys (row) {

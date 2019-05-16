@@ -8,12 +8,12 @@
     .scroll-content.bg-w(v-show="tabIdx === 0")
       .info
         i.ds-icon-me-avatar
-        p.txt-c.mt15 主帐户
+        p.txt-c.mt15 主账户
         p.txt-c.fc-oriange.ft24.mt15.amount {{ numberWithCommas(ME.amoney) }} 
           i.ft12.yuan 元
         .cc
-          p.title.text-black 帐户互转 
-          label.item 转出帐户 
+          p.title.text-black 账户互转 
+          label.item 转出账户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无" )
               //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
@@ -68,7 +68,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c 特殊
           //-   br
-          //-   p 特殊帐户
+          //-   p 特殊账户
           //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.smoney) }}
           //-     i.ft12.yuan 元
           //-     span.icon-refresh
@@ -80,7 +80,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c BG
           //-   br
-          //-   p BG帐户
+          //-   p BG账户
           //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.bgmoney) }}
           //-     i.ft12.yuan 元
           //-     span.icon-refresh
@@ -92,7 +92,7 @@
           //-   p.acc-bg-red.acc-shot-name
           //-     span.txt-c IBC
           //-   br
-          //-   p IBC帐户
+          //-   p IBC账户
           //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-     span.icon-refresh
@@ -104,7 +104,7 @@
           //-   p.acc-bg-red.acc-shot-name
           //-     span.txt-c 开元
           //-   br
-          //-   p 开元帐户
+          //-   p 开元账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -115,7 +115,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c PT
           //-   br
-          //-   p PT帐户
+          //-   p PT账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.ptmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -126,7 +126,7 @@
           //-   p.acc-bg-blue.acc-shot-name
           //-     span.txt-c AG
           //-   br
-          //-   p AG帐户
+          //-   p AG账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.agmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -137,7 +137,7 @@
           //-   p.acc-bg-red.acc-shot-name
           //-     span.txt-c 沙巴
           //-   br
-          //-   p 沙巴帐户
+          //-   p 沙巴账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -148,7 +148,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c 乐游
           //-   br
-          //-   p 乐游帐户
+          //-   p 乐游账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -160,7 +160,7 @@
           //-   p.acc-bg-green.acc-shot-name
           //-     span.txt-c U赢
           //-   br
-          //-   p U赢帐户
+          //-   p U赢账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -171,7 +171,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c KG
           //-   br
-          //-   p KG帐户
+          //-   p KG账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.kgmoney.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -182,7 +182,7 @@
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c 微游
           //-   br
-          //-   p 微游帐户
+          //-   p 微游账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -192,7 +192,7 @@
           //-   p.acc-bg-red.acc-shot-name
           //-     span.txt-c 平博
           //-   br
-          //-   p 平博帐户
+          //-   p 平博账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.pbAmount.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -203,7 +203,7 @@
           //-   p.acc-bg-blue.acc-shot-name
           //-     span.txt-c LG
           //-   br
-          //-   p LG帐户
+          //-   p LG账户
           //-   p.ft24.text-black {{ numberWithCommas(ME.lgAmount.toFixed(4)) }}
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
@@ -220,8 +220,8 @@
       
       //- .s
         .cc
-          p.title.text-black 帐户互转 
-          label.item 转出帐户 
+          p.title.text-black 账户互转 
+          label.item 转出账户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
               //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
@@ -274,29 +274,29 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
+      froms: ['主账户', '特殊账户', 'BG账户:2', 'IBC账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
       t: '',
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount'],
+      a: ['BG账户:2:bgmoney', 'IBC账户:3:tcgmoney', '棋牌账户:7:kymoney', 'PT账户:5:ptmoney', 'AG账户:4:agmoney', '沙巴账户:9:sbmoney', '乐游账户:15:lymoney', 'U赢账户:17:uwinmoney', 'KG账户:18:kgmoney', '微游账户:25:litAmount', '平博账户:19:pbAmount', 'LG账户:21:lgAmount', '幸运账户:22:xyAmount'],
       quickAmounts: ['50', '100', '500', '全部'],
       tabIdx: 0,
       accounts: [
-        { id: '', transInId: '', transOutId: 1, title: '特殊帐户', shotTitle: '特殊', name: 'smoney', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: true, show: true },
-        { id: '2', transInId: 0, transOutId: 2, title: 'BG帐户', shotTitle: 'BG', name: 'bgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
-        { id: '3', transInId: '', transOutId: '', title: 'IBC帐户', shotTitle: 'IBC', name: 'tcgmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: false },
-        { id: '7', transInId: 2, transOutId: 4, title: '开元帐户', shotTitle: '开元', name: 'kymoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
-        { id: '5', transInId: 3, transOutId: 5, title: 'PT帐户', shotTitle: 'PT', name: 'ptmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
-        { id: '4', transInId: 4, transOutId: 6, title: 'AG帐户', shotTitle: 'AG', name: 'agmoney', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
-        { id: '9', transInId: 5, transOutId: 7, title: '沙巴帐户', shotTitle: '沙巴', name: 'sbmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
-        { id: '15', transInId: 6, transOutId: 8, title: '乐游帐户', shotTitle: '乐游', name: 'lymoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
-        { id: '17', transInId: 7, transOutId: 9, title: 'U赢帐户', shotTitle: 'U赢', name: 'uwinmoney', balance: 0, className: 'acc-bg-green', showIn: true, showOut: true, show: true },
-        { id: '18', transInId: 8, transOutId: 10, title: 'KG帐户', shotTitle: 'KG', name: 'kgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
-        { id: '25', transInId: 9, transOutId: 11, title: '微游帐户', shotTitle: '微游', name: 'litAmount', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
-        { id: '19', transInId: 10, transOutId: 12, title: '平博帐户', shotTitle: '平博', name: 'pbAmount', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
-        { id: '21', transInId: 11, transOutId: 13, title: 'LG帐户', shotTitle: 'LG', name: 'lgAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
-        { id: '22', transInId: 12, transOutId: 14, title: '幸运帐户', shotTitle: '幸运', name: 'xyAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '', transInId: '', transOutId: 1, title: '特殊账户', shotTitle: '特殊', name: 'smoney', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: true, show: true },
+        { id: '2', transInId: 0, transOutId: 2, title: 'BG账户', shotTitle: 'BG', name: 'bgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '3', transInId: '', transOutId: '', title: 'IBC账户', shotTitle: 'IBC', name: 'tcgmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: false },
+        { id: '7', transInId: 2, transOutId: 4, title: '开元账户', shotTitle: '开元', name: 'kymoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '5', transInId: 3, transOutId: 5, title: 'PT账户', shotTitle: 'PT', name: 'ptmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '4', transInId: 4, transOutId: 6, title: 'AG账户', shotTitle: 'AG', name: 'agmoney', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '9', transInId: 5, transOutId: 7, title: '沙巴账户', shotTitle: '沙巴', name: 'sbmoney', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '15', transInId: 6, transOutId: 8, title: '乐游账户', shotTitle: '乐游', name: 'lymoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '17', transInId: 7, transOutId: 9, title: 'U赢账户', shotTitle: 'U赢', name: 'uwinmoney', balance: 0, className: 'acc-bg-green', showIn: true, showOut: true, show: true },
+        { id: '18', transInId: 8, transOutId: 10, title: 'KG账户', shotTitle: 'KG', name: 'kgmoney', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '25', transInId: 9, transOutId: 11, title: '微游账户', shotTitle: '微游', name: 'litAmount', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
+        { id: '19', transInId: 10, transOutId: 12, title: '平博账户', shotTitle: '平博', name: 'pbAmount', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
+        { id: '21', transInId: 11, transOutId: 13, title: 'LG账户', shotTitle: 'LG', name: 'lgAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '22', transInId: 12, transOutId: 14, title: '幸运账户', shotTitle: '幸运', name: 'xyAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
         { id: '', transInId: '', transOutId: '', title: '优惠券', shotTitle: '优惠券', name: 'free', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: false, show: true }
       ]
     }
@@ -584,10 +584,10 @@ export default {
       })
     },
     transferNow () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
+      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
       if (!this.ccm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
+      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -602,15 +602,15 @@ export default {
       })
     },
     transferNowBG () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
+      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
       if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
+      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
       this.btn = true
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博', 'LG', '幸运'][Math.max(this.f, this.t + 2)] + '余额转帐已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博', 'LG', '幸运'][Math.max(this.f, this.t + 2)] + '余额转账已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
