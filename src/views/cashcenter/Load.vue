@@ -7,6 +7,7 @@
     slot(name="toolbar")
     .bgc-w.me-topup.scroll-content
       .tab-recharge(v-show="tabIdx === TAB_RECHARGE")
+        p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE,浏览器
         p 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
