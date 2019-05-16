@@ -543,6 +543,7 @@ let Form = {
   personList: '/report/profit.do?method=personList',
   poolIssue: '/report/buyReport.do?method=poolIssue',
   poolList: '/report/buyReport.do?method=poolList',
+  personalReport: '/report/personalReportAction.do?method=recentTotalReport',
   // 查询日工资（数据要分页）
   // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
   daySalaryRepor: '/report/daySalaryRepor.do?method=list',

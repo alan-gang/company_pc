@@ -35,7 +35,7 @@ export default {
     dateMappingConfig: {
       type: Object,
       default () {
-        return { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0] } // [7, 0]  7为7天前，0为今天
+        return { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [6, 0] } // [7, 0]  7为7天前，0为今天
       }
     }
   },
@@ -63,6 +63,9 @@ export default {
 
       let eDate = new Date()
       eDate.setDate(eDate.getDate() - this.dateMappingConfig['d' + this.quickDateIdx][1])
+      eDate.setHours(23)
+      eDate.setMinutes(59)
+      eDate.setSeconds(59)
       let edays = eDate.getDate()
       let emonth = eDate.getMonth() + 1
       edays = String(edays).padStart(2, '0')

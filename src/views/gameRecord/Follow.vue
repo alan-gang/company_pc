@@ -10,22 +10,32 @@
       
         .form.form-filters
           
-          label.item(v-if="!noname") 用户 
-            input.ds-input.small(v-model="name" style="width: 1rem")
+          //- label.item(v-if="!noname") 用户 
+          //-   input.ds-input.small(v-model="name" style="width: 1rem")
           
-          label.item 追号时间 
-            el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
+          //- label.item 追号时间 
+          //-   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
 
-          label.item 游戏 
-            el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
-              el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
+          SearchConditions(@choiced="choicedSearchCondition")
+
+          //- label.item 彩种 
+          //-   el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
+          //-     el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
+
+          el-popover(placement="bottom" width="536" trigger="hover" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+            SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+            span.flex.flex-ai-c.ml10.lottery-choice-condi(slot="reference") 
+              span.mr5 彩种&nbsp;
+              span.flex.flex-ai-c.lottery-choice
+                i {{curLotteryName}}
+                i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
 
           label.item 奖期 
             el-autocomplete.inline-input(v-model=" issue " v-bind:fetch-suggestions=" getIssueList " placeholder="请输入奖期号" style="width: 1.2rem;")
 
 
 
-          label.item 追号编号 
+          label.item 编号 
             el-input(v-model="id" style="width: 1rem")
 
 
@@ -89,7 +99,7 @@
     .modal(v-show="showFollow" )
       .mask
       .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
+        .box(ref="box" style="width: 6.7rem; max-height: 6.7rem;")
           .tool-bar
             span.title 追号详情
             el-button-group
@@ -108,11 +118,16 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
+  import SearchConditions from 'components/SearchConditions'
+  import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     components: {
       Follow,
-      VRFollow
+      VRFollow,
+      SearchConditions,
+      SearchConditionLottery
     },
+    props: ['menus'],
     mixins: [setTableMaxHeight],
     data () {
       return {
@@ -188,7 +203,10 @@
         Cdata: [],
         showFollow: '',
         numberWithCommas: numberWithCommas,
-        I: 0
+        I: 0,
+        lotteryHistory: [],
+        lotteryPopover: false,
+        curLotteryName: '全部'
       }
     },
     computed: {
@@ -364,6 +382,7 @@
             page: 1,
             pageSize: this.pageSize
           }
+          this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -426,6 +445,23 @@
         }, (rep) => {
           // error
         })
+      },
+      choicedSearchCondition (i, dates) {
+        this.stEt = [dates.startDate, dates.endDate]
+      },
+      choicedLottery (lottery) {
+        this.gameid = lottery.gameid
+        this.curLotteryName = lottery.title
+      },
+      setLotteryHistory (lottery) {
+        if (!lottery || !lottery.gameid || this.findHistoryById(lottery.gameid) !== -1) return
+        this.lotteryHistory.push(lottery)
+        if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
+      },
+      findHistoryById (gameid) {
+        return this.lotteryHistory.findIndex((item) => {
+          return item.gameid === gameid
+        })
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120
@@ -469,6 +505,11 @@
   bg = #d8d8d8
   bg-hover = #ececec
   bg-active = #e2e2e2
+  i
+    font-style normal
+  .search-condition-date
+    width 4.0rem
+    float left
   .tool-bar
     height TH
     line-height TH 
@@ -568,5 +609,26 @@
           padding-left .6rem 
           .textarea
             font-size .12rem
+  .search-condition-date + span
+    display inline-block
+    margin-right 0.1rem
+  .lottery-choice-condi
+    width 1.8rem
+  .lottery-choice
+    // display inline-block
+    width 1.48rem
+    height 0.3rem
+    background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
+    justify-content space-between
+    padding 0 0.1rem
+    box-sizing border-box
+    border solid 1px #e8e8e8
 
+  .el-icon-caret-bottom
+    font-size 0.12rem
+    margin-top 0.02rem
+</style>
+<style lang="stylus">
+  .search-lottery-popover
+    background-color #fff !important
 </style>
