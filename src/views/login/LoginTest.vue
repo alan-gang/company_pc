@@ -119,13 +119,14 @@
       test () {
         // this.frontList = ['http://www.baidu.com']
         // !this.server && this.frontList.forEach((url, i) => {
-        if (/^https?:\/\//g.test(api.lineJsonpTest)) {
-          api.lineJsonpTest = api.lineJsonpTest.substring(api.lineJsonpTest.indexOf('/dscagamesclient'))
+        let lineJsonpTestApi = api.lineJsonpTest
+        if (/^https?:\/\//g.test(lineJsonpTestApi)) {
+          lineJsonpTestApi = lineJsonpTestApi.substring(lineJsonpTestApi.indexOf('/dscagamesclient'))
         }
         this.lineList.forEach((url, i) => {
           // this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
           // this.testLine(url.line + '/static/cb.js', i, 'frontTimeList')
-          this.testLine(url.line + api.lineJsonpTest, i, 'frontTimeList', url.line)
+          this.testLine(url.line + lineJsonpTestApi, i, 'frontTimeList', url.line)
           // this.testLine(url.line + '/login/lineTest.do?method=lineTest', i, 'frontTimeList')
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
             // if get tapi don't change again
