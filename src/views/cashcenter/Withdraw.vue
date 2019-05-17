@@ -234,7 +234,8 @@ export default {
       expands: [],
       amount: 0,
       maxAmount: 0,
-      HOURS_24: 24 * 60 * 60 * 1000,
+      // HOURS_24: 24 * 60 * 60 * 1000,
+      HOURS_6: 6 * 60 * 60 * 1000,
 
       startDate: '',
       endDate: '',
@@ -513,12 +514,12 @@ export default {
     },
     canSelectBank (dt) {
       let date = this.stringToDate(dt)
-      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_24
+      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_6
     },
     calcRemainTime (dt) {
       let date = this.stringToDate(dt)
-      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_24) {
-        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_24)
+      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_6) {
+        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_6)
       }
       return 0
     },
