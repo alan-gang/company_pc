@@ -119,6 +119,9 @@
       test () {
         // this.frontList = ['http://www.baidu.com']
         // !this.server && this.frontList.forEach((url, i) => {
+        if (/^https?:\/\//g.test(api.lineJsonpTest)) {
+          api.lineJsonpTest = api.lineJsonpTest.substring(api.lineJsonpTest.indexOf('/dscagamesclient'))
+        }
         this.lineList.forEach((url, i) => {
           // this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
           // this.testLine(url.line + '/static/cb.js', i, 'frontTimeList')
