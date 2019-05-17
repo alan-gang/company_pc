@@ -463,9 +463,14 @@ export default {
       })
     },
     showWithDraw () {
+      if (this.times >= this.maxTimes) return this.$message.warning({target: this.$el, message: '您的今日可提现次数已用完。'})
+      if (this.amount >= this.maxAmount) return this.$message.warning({target: this.$el, message: '您的今日可提现金额已用完。'})
       if (this.selectBank.entry === undefined) return this.$message.warning({target: this.$el, message: '您还未选择银行卡。'})
-      if (this.money === 0) return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
+      if (this.money === 0 || this.money === '0' || this.money === '') return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
       if ((this.money % 1) !== 0) return this.$message.warning({target: this.$el, message: '您输入的提现金额不是整数。'})
+      if (parseInt(this.money, 10) > this.max) return this.$message.warning({target: this.$el, message: '您输入的金额超过最高提现金额。'})
+      if (parseInt(this.money, 10) < this.min) return this.$message.warning({target: this.$el, message: '您输入的金额小于最低提现金额。'})
+      if (parseInt(this.money, 10) + this.amount > this.maxAmount) return this.$message.warning({target: this.$el, message: '您输入的金额超过当日可提现金额。'})
       this.$http.post(api.showWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
         if (data.success === 1) {
           this.get = data.realmoney
@@ -479,6 +484,7 @@ export default {
     },
     doWithDraw () {
       this.$http.post(api.doWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
+        this.withdrawTimes()
         if (data.success === 1) {
           this.$modal.success({
             content: '恭喜您，提交成功！',
@@ -491,7 +497,6 @@ export default {
             },
             O: this
           })
-          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '提现申请提交失败！'})
         }
