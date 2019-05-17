@@ -494,6 +494,7 @@ export default {
               this.stepIndex--
               this.tabIndex++
               this.cpwd = ''
+              this.$emit('tab-idx-change', 1)
             },
             O: this
           })
