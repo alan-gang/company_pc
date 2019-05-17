@@ -11,6 +11,13 @@
           label.item 时间 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
           
+          span.date-wp
+            SearchConditions(v-bind:showTimeTxt="false" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
+
+          span.ml10 状态 
+          span
+            .ds-button.btn-item.mr10(v-for="(c, i) in statusButtons" v-bind:class="{selected: quickStatusIdx === i}" @click="choiceStatus(i)") {{c}}
+
           label.item( v-if=" type === 1 ") 用户名 
             input.ds-input.small(v-model="un" style="width: 1rem")
 
@@ -26,6 +33,7 @@
           el-table-column(prop="buyAmount" label="有效销量"  align="right")
           el-table-column(prop="activitUser" label="有效人数"  align="right")
           el-table-column(prop="salaryLevel" label="工资级别"  align="right")
+          el-table-column(prop="totBuyAmount" label="团队工资总额"  align="right")
           el-table-column(prop="subSalary" label="下级工资总额"  align="right")
           el-table-column(class-name="pr2" prop="daySalary" label="我的工资"  align="right")
             template(scope="scope")
@@ -60,9 +68,13 @@
   import store from '../../store'
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
+  import SearchConditions from 'components/SearchConditions'
   export default {
     mixins: [setTableMaxHeight, page],
-    components: {SalaryDetail},
+    components: {
+      SalaryDetail,
+      SearchConditions
+    },
     data () {
       return {
         TH: 280,
@@ -76,11 +88,17 @@
         ],
         did: '',
         fn: 'mylist',
-        id: ''
+        id: '',
+
+        searchConditions: ['昨天', '前天', '最近7天'],
+        dateMappingConfig: { d1: [1, 1], d2: [2, 2], d3: [6, 0] },
+        quickStatusIdx: -1,
+        statusButtons: ['全部', '未领取', '已领取']
       }
     },
     mounted () {
-      this.mylist()
+      // this.mylist()
+      this.mySalaryList()
     },
     methods: {
       goToGift () {
@@ -119,7 +137,39 @@
             loading.close()
           }, 100)
         })
-      }
+      },
+      // 我的日工资
+      mySalaryList (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
+        let loading = this.$loading({
+          text: '加载中...',
+          target: this.$refs['table'].$el
+        }, 10000, '加载超时...')
+        this.$http.post(api.daySalaryRepor, Object.assign({
+          userId: '',
+          startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
+          endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
+        }, option)).then(({data: {success, userBreads, totalSize, recordList}}) => {
+          // success
+          if (success === 1) {
+            this.total = totalSize || recordList.length
+            this.data = recordList
+            cb()
+            setTimeout(() => {
+              loading.text = '加载成功!'
+            }, 100)
+          } else loading.text = '加载失败!'
+        }, (rep) => {
+          // error
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 100)
+        })
+      },
+      choicedSearchCondition (i, dates) {
+        this.stEt = [dates.startDate, dates.endDate]
+      },
+      choiceStatus () {}
     }
   }
 </script>
@@ -131,5 +181,6 @@
   .item
     display inline-block
     margin 0 PW .1rem 0
-
+  .date-wp
+    display inline-block
 </style>
