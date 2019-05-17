@@ -97,8 +97,9 @@
       }
     },
     mounted () {
-      // this.mylist()
-      this.mySalaryList()
+      this.mylist()
+      // this.mySalaryList()
+      console.log('userId=', this.ME.userId)
     },
     methods: {
       goToGift () {
@@ -117,7 +118,7 @@
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         this.$http.post(api.getSalaryById, Object.assign({
-          userId: '',
+          userId: this.ME.userId,
           startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
           endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
         }, option)).then(({data: {success, userBreads, totalSize, data}}) => {
@@ -169,7 +170,9 @@
       choicedSearchCondition (i, dates) {
         this.stEt = [dates.startDate, dates.endDate]
       },
-      choiceStatus () {}
+      choiceStatus (i) {
+        this.quickStatusIdx = i
+      }
     }
   }
 </script>
