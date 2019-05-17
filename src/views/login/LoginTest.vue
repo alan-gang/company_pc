@@ -2,34 +2,23 @@
   .login-test
     h2 线路检测
     el-row.routers.font-white(:gutter="30" style="padding-left: 0; padding-right: 0")
-      el-col(:span="8" v-for=" (r, index) in list "  @click.native="goLogin(r.line)")
-        .col-content(v-bind:class="{ fast:  fast === timeList[index], usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
+      el-col(:span="8" v-for=" (r, index) in lineList "  @click.native="goLogin(r.line)")
+        .col-content(v-bind:class="{ fast:  index === 0, usual: r.usual, current: r === currentServer ||  r.line.replace('www.', '') === currentServer.replace('www.', '') }")
           // p {{ r }}
           span.route-index(:class=" {ft36: index > 8} ") {{ index + 1 }}
           |  线 
-          SignalBar(:value=" timeListValue[index] || 0 ")
+          SignalBar(:value=" r.speedFlag || 0 ")
           .timer 
-            span.time {{ timeList[index] }}
-            span.text-danger(v-if=" !timeList[index] && timeList[index] !== 0  ") {{ '计算中...' }}
+            span.time {{ r.speed >= 10000 ? '> ' : '' }}{{ r.speed }}
+            span.text-danger(v-if=" !r.speed && r.speed !== 0  ") {{ '计算中...' }}
             |  毫秒
-      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-      // el-col(:span="8" v-for=" (r, index) in serverList "  @click.native="switchCS(r)" v-if="!server")
-      //   .col-content(v-bind:class="{ fast:  fastServer === r, usual: r.usual, current: (r === cs || (r === 'www.' + cs))}")
-      //     p {{ r }}
-      //     span.route-index {{ index + 1 }}
-      //     |  线 
-      //     SignalBar(:value=" serverTimeListValue[index] || 0 ")
-      //     .timer 
-      //       span.time {{ serverTimeList[index] }}
-      //       |  毫秒
-      // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    // img(:src=" url.line + '/static/favicon.png' " v-for=" (url, i) in frontList " @load="loadImg(url, 'frontTimeList')" v-if="url")
 </template>
 
 <script>
   import SignalBar from 'components/SignalBar'
   import api from '../../http/api'
   import store from '../../store'
+  import { listOrderByField } from '../../util'
   // import Url from '../../util/Url'
   // import cookie from 'js-cookie'
   export default {
@@ -50,7 +39,9 @@
         timeout: 2000,
         auto: 0,
         currentServer: '',
-        T: 0
+        T: 0,
+        lineList: [],
+        reqCount: 0
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         // cs: ''
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -118,6 +109,7 @@
             this.T = new Date().getTime()
             this.frontList = !this.m ? data.frontList : data.managerList
             this.serverList = data.serverList
+            this.lineList = this.server ? this.serverList : this.frontList
             this.test()
           } else this.$message.warning({target: this.$el, message: '线路信息获取失败！'})
         }, (rep) => {
@@ -126,8 +118,12 @@
       },
       test () {
         // this.frontList = ['http://www.baidu.com']
-        !this.server && this.frontList.forEach((url, i) => {
-          this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
+        // !this.server && this.frontList.forEach((url, i) => {
+        this.lineList.forEach((url, i) => {
+          // this.testAline(url.line + '/static/cb.js', i, 'frontTimeList')
+          // this.testLine(url.line + '/static/cb.js', i, 'frontTimeList')
+          this.testLine(url.line + api.lineJsonpTest, i, 'frontTimeList', url.line)
+          // this.testLine(url.line + '/login/lineTest.do?method=lineTest', i, 'frontTimeList')
           if (url.line.replace('www.', '') === this.currentServer.replace('www.', '')) {
             // if get tapi don't change again
             if (window.localStorage.getItem('tapi')) return false
@@ -181,6 +177,45 @@
           }
         })
       },
+      testLine (line, i, timeList, lineHost) {
+        this.reqCount++
+        const st = new Date().getTime()
+        this.$http.jsonp(line).then((rep) => {
+          let curLine = this.findLineItemByHost(lineHost) // this.lineList[i]
+          curLine = this.setCurSpeedLineData(st, curLine)
+          this.$set(this.lineList, i, curLine)
+        }, (rep) => {
+          let curLine = this.findLineItemByHost(lineHost) // this.lineList[i]
+          curLine = this.setCurSpeedLineData(st, curLine)
+          if (rep.status !== 0) {
+            curLine.speed = 10000
+            curLine.speedFlag = 0
+            if (window.localStorage.getItem('api') && window.localStorage.getItem('api').replace('www.', '') === line.replace('www.', '')) {
+              window.localStorage.removeItem('api')
+            }
+          }
+          this.$set(this.lineList, i, curLine)
+        }).finally((rep) => {
+          this.orderLlinBySpeed()
+          if (this.auto && timeList === 'serverTimeList' && i === this.serverList.length - 1) {
+            setTimeout(() => {
+              this.$router.push('/login/login')
+            }, 0)
+          }
+        })
+      },
+      findLineItemByHost (lineAddress) {
+        return this.lineList.find((line) => {
+          return line.line === lineAddress
+        })
+      },
+      setCurSpeedLineData (st, curLine) {
+        const et = new Date().getTime()
+        const v = this.getValue(et - st)
+        curLine.speed = et - st
+        curLine.speedFlag = v
+        return curLine
+      },
       getValue (t) {
         if (t < 100) return 10
         else if (t < 200) return 9
@@ -192,6 +227,10 @@
         else if (t < 800) return 3
         else if (t < 900) return 2
         else return 1
+      },
+      orderLlinBySpeed () {
+        this.lineList = this.listOrderByField(this.lineList, 'speed')
+        this.$forceUpdate()
       },
       // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       // switchCS (r) {
@@ -233,7 +272,8 @@
           if (r !== this.currentServer) window.location.href = r + '/'
           else this.$router.push('/')
         }
-      }
+      },
+      listOrderByField
     }
   }
 </script>
