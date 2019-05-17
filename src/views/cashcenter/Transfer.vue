@@ -556,7 +556,7 @@ export default {
       })
     },
     getBalanceById (platId, name) {
-      this.$http.myget(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
+      this.$http.get(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
         if (success) {
           let b = {}
           b[name] = Number(bal)
