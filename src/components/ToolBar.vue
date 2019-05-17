@@ -2,7 +2,7 @@
   .tool-bar.page-tool-bar
     //- span.title(v-if="!tabs") {{ title }}
     .tabs.text-black
-        span.tab(v-for=" (b, i) in tabs || [title] " @click=" __setCall({fn: tabfn, args: (ti = i) })  " v-bind:class=" {selected: ti === i} " v-if=" !b.split(':')[1] || (b.split(':')[1] && ME.menuids.indexOf(',' + (b.split(':')[1] + ',')) !== -1)  ") {{ b.split(':')[0] }}
+        span.tab(v-for=" (b, i) in tabs || [title] " @click="tabHandler(i)" v-bind:class=" {selected: ti === i} " v-if=" !b.split(':')[1] || (b.split(':')[1] && ME.menuids.indexOf(',' + (b.split(':')[1] + ',')) !== -1)  ") {{ b.split(':')[0] }}
 
     el-button-group
       .el-button.ds-icon-volume(:class=" { off: !volume } " @click="v")
@@ -19,7 +19,7 @@
 <script>
 import store from '../store'
 export default {
-  props: ['title', 'star', 'menuid', 'volume', 'tabs', 'tabfn'],
+  props: ['title', 'star', 'menuid', 'volume', 'tabs', 'tabfn', 'tabIndex'],
   data () {
     return {
       ME: store.state.user,
@@ -29,6 +29,11 @@ export default {
   computed: {
     starClass () {
       return 'star-' + (this.star ? 'on' : 'off')
+    }
+  },
+  watch: {
+    tabIndex () {
+      this.ti = this.tabIndex
     }
   },
   methods: {
@@ -46,6 +51,11 @@ export default {
     },
     v () {
       this.$emit('volume')
+    },
+    tabHandler (i) {
+      this.ti = i
+      this.__setCall({fn: this.tabfn, args: (i)})
+      this.$emit('tab-idx-change', i)
     }
   },
   components: {
