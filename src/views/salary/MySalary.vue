@@ -12,7 +12,7 @@
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
           
           span.date-wp
-            SearchConditions(v-bind:showTimeTxt="false" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
+            SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
 
           span.ml10 状态 
           span
@@ -42,7 +42,7 @@
           el-table-column(class-name="pl2 pr2" prop="isDone" label="是否领取")
             template(scope="scope")
               span(:class=" {'text-green': scope.row.isDone, 'text-danger': !scope.row.isDone} ") {{ scope.row.isDone ? '已领取' : '未领取' }}
-              span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 去领取
+              span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
 
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
@@ -90,6 +90,7 @@
         fn: 'mylist',
         id: '',
 
+        defaultDateIdx: -1,
         searchConditions: ['昨天', '前天', '最近7天'],
         dateMappingConfig: { d1: [1, 1], d2: [2, 2], d3: [6, 0] },
         quickStatusIdx: -1,
@@ -118,9 +119,11 @@
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         this.$http.post(api.getSalaryById, Object.assign({
-          userId: this.ME.userId,
+          // userId: this.ME.userId,
+          // userId: '',
           startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
           endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
+          // userState: 1
         }, option)).then(({data: {success, userBreads, totalSize, data}}) => {
           // success
           if (success === 1) {
@@ -168,6 +171,7 @@
         })
       },
       choicedSearchCondition (i, dates) {
+        this.defaultDateIdx = i
         this.stEt = [dates.startDate, dates.endDate]
       },
       choiceStatus (i) {
@@ -179,11 +183,12 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  .form-filters
-    padding .15rem
-  .item
-    display inline-block
-    margin 0 PW .1rem 0
-  .date-wp
-    display inline-block
+  .my-salary
+    .form-filters
+      padding .15rem
+    .item
+      display inline-block
+      margin 0 PW 0 0
+    .date-wp
+      display inline-block
 </style>
