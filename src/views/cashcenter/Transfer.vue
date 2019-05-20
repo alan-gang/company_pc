@@ -438,16 +438,10 @@ export default {
     }
   },
   mounted () {
-    this.getBalance()
+    // this.getBalance()
     // this.__setCall({fn: '__getUserFund', args: undefined})
     this.f = this.t = 0
-    console.log('this.ME=', JSON.stringify(this.ME))
-    this.accounts = this.accounts.map((item) => {
-      if (this.ME.hasOwnProperty(item.name)) {
-        item.balance = this.ME[item.name]
-      }
-      return item
-    })
+    this.getBalances()
     this.updateUserBanlance()
   },
   methods: {
@@ -579,6 +573,47 @@ export default {
           }
         }
       })
+    },
+    getBalances () {
+      this.$http.myget(api.getBalance).then(({data}) => {
+        if (data.success === 1) {
+          store.actions.setUser({bgmoney: data.bgAmount || 0,
+            tcgmoney: data.sportsAmount || 0,
+            kymoney: data.kyAmount || 0,
+            ptmoney: data.ptAmount || 0,
+            agmoney: data.agAmount || 0,
+            sbmoney: data.sbAmount || 0,
+            lymoney: data.lyAmount || 0,
+            uwinmoney: data.uwinAmount || 0,
+            kgmoney: data.kgAmount || 0,
+            litAmount: data.litAmount || 0,
+            pbAmount: data.pbAmount || 0,
+            lgAmount: data.lgAmount || 0,
+            xyAmount: data.xyAmount || 0,
+            free: data.xyqpAmount || 0
+          })
+          console.log('this.ME=', JSON.stringify(this.ME))
+          this.accounts = this.accounts.map((item) => {
+            if (this.ME.hasOwnProperty(item.name)) {
+              item.balance = this.numberWithCommas(Number(this.ME[item.name]).toFixed(4))
+            }
+            return item
+          })
+        }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
+    updateBalanceByName (name, balance) {
+      let account = null
+      for (let i = 0; i < this.accounts.length; i++) {
+        account = this.accounts[i]
+        if (name === account.name) {
+          account.balance = this.numberWithCommas(Number(balance).toFixed(4))
+          this.$set(this.accounts, i, account)
+          break
+        }
+      }
     },
     findAccountById (id) {
       return this.accounts.find((acc) => {
