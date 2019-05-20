@@ -96,7 +96,7 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event")  
+    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event" v-on:cancel-order="cancelOrder")  
 
     //- .modal.bet-detail-modal(v-show="show" )
       .mask
@@ -665,6 +665,10 @@
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      cancelOrder (status) {
+        this.show = false
+        this.Orderlist()
       }
     }
   }
