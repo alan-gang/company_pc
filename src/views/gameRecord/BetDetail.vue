@@ -162,9 +162,11 @@
 
 <script>
 import api from '../../http/api'
+import store from '../../store'
 export default {
   data () {
     return {
+      ACCOUNT: store.state.user.account,
       STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         // STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
       STATUSCLASS: ['bgc-yellow', 'bgc-red', 'bgc-gray', 'bgc-green'],
@@ -222,11 +224,14 @@ export default {
           setTimeout(() => {
             loading.text = '撤单成功!'
             setTimeout(() => {
-              this.Orderlist()
+              // this.Orderlist()
               this.__setCall({fn: '__getUserFund', callId: undefined})
+              this.$emit('cancel-order', true)
             }, 500)
           }, 500)
-        } else loading.text = '撤单失败!'
+        } else {
+          loading.text = '撤单失败!'
+        }
       }, (rep) => {
         // error
       }).finally(() => {
