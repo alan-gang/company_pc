@@ -24,12 +24,12 @@
               span.switch(v-if="showSwitch" @click=" switchs ")
               //- span.refresh(@click=" refresh ")
         
-          label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
+          label.item 转入账户 
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
               //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
               el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
 
-          p 现有余额：
+          p 可用余额：
             span.text-blue {{ numberWithCommas(tm) }}
             | 元
 
