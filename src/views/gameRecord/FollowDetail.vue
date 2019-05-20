@@ -30,7 +30,7 @@
             span.l-label 玩法：
             span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
         el-row
-          el-col(:span="12")
+          el-col(:span="12" className="codes-col")
             span.l-label 内容：
             span.text-black {{ detail.codes }}
           el-col(:span="12")
@@ -53,7 +53,7 @@
         el-row
           el-col(:span="12")
             span.l-label 取消期数：
-            span.text-black {{ detail.cancelcount }} （共{{ detail.cancelPrice }}元）
+            span.text-black {{ detail.cancelcount }} 期（共{{ detail.cancelPrice }}元）
           el-col(:span="12")
             span.l-label 中奖期数：
             span.text-black {{ detail.wincount }} 期 
@@ -141,19 +141,22 @@
 
         el-table-column(prop="issue" label="奖期" align="center")
 
-        el-table-column(label="追号倍数" align="center")
+        el-table-column(label="倍数" align="center")
           template(scope="scope")
             span {{ scope.row.multiple + '倍' }}
-        el-table-column( label="追号状态" align="center")
+
+        el-table-column( label="注单状态" align="center")
           template(scope="scope")
             span(:class=" STATUSSCLASS[scope.row.status] ") {{ STATUSS[scope.row.status] }}
+        
+        el-table-column(prop="bonus" label="中奖金额" align="center")
 
         el-table-column(prop="userpoint" label="注单详情" align="center")
           template(scope="scope")
-            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 查看
 
     .buttons()
-      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 终止追号 
+      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 取消追号 
     
     BetDetail(v-show="show" v-bind:row="row" v-on:show-follow="show = false" v-on:close="show = $event")
 
@@ -266,7 +269,8 @@
         ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
         // STATUS: ['进行中', '已完成', '已取消'],
-        STATUSS: ['未生成', '已生成', '已取消'],
+        // STATUSS: ['未生成', '已生成', '已取消'],
+        STATUSS: ['未生成', '进行中', '已取消'],
         STATUSSCLASS: ['text-black', 'text-green', 'text-grey'],
         // ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
@@ -455,7 +459,10 @@
   .follow-detail-modal
     .box
       width 6.7rem
-
+    .el-col
+      word-break break-all
+    .el-col[classname="codes-col"]
+      padding-right 0.1rem
   .title
     color #333
     font-weight bold

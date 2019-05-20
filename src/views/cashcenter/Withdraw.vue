@@ -101,7 +101,7 @@
             span.left-label 提现金额：
             //- el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false placeholder="请输入整数金额")
             InputNumber(v-bind:defaultValue="money" v-on:enter="showWithDraw" v-on:change="money = $event" placeholder="请输入整数金额")
-            span(style="color: #999; padding-left: .1rem") {{ textMoney }}
+            span(style="color: #999; padding-left: .1rem") {{ textMoney }} 
 
 
           .buttons(style="margin-left: 1.1rem; padding: .2rem 0")
@@ -294,6 +294,7 @@ export default {
   methods: {
     __setWithdrawI (i) {
       this.tabIndex = i
+      this.money = ''
     },
     // ec (row, expandedRows) {
     //   console.log(row, expandedRows, '???')

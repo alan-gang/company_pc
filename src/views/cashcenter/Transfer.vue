@@ -18,7 +18,7 @@
               //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
           p 可用余额：
-            span.text-blue {{ numberWithCommas(fm) }}
+            span.text-blue {{ numberWithCommas(fm) }} 
             | 元
             span.switch-box
               span.switch(v-if="showSwitch" @click=" switchs ")
@@ -37,7 +37,7 @@
             input.ds-input(v-model="m" style="width: 2.5rem" maxlength="12")
 
           p &nbsp;&nbsp;
-            span {{ cm }}
+            span {{ cm }} 
 
           .quick-amounts
             button.ml10.c_b.ds-button.btn-amout(@click="quickAmountHandler(amount)" v-for="(amount, i) in quickAmounts") {{amount}}
@@ -401,7 +401,7 @@ export default {
       }
     },
     cm () {
-      return digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
+      return this.m === '' ? '' : digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
       return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0)
@@ -441,6 +441,13 @@ export default {
     this.getBalance()
     // this.__setCall({fn: '__getUserFund', args: undefined})
     this.f = this.t = 0
+    console.log('this.ME=', JSON.stringify(this.ME))
+    this.accounts = this.accounts.map((item) => {
+      if (this.ME.hasOwnProperty(item.name)) {
+        item.balance = this.ME[item.name]
+      }
+      return item
+    })
     this.updateUserBanlance()
   },
   methods: {
@@ -644,7 +651,7 @@ export default {
     },
     quickAmountHandler (amount) {
       if (!amount) return
-      this.m = amount === '全部' ? this.ME.amoney : amount
+      this.m = amount === '全部' ? String(this.fm) : amount
     },
     quickTransfer (id, type) {
       console.log('id=', id, 'type=', type)
@@ -879,7 +886,8 @@ export default {
           border 1px solid BLUE
 
 
-
-
+  .my-wallet-page
+    .scroll-content
+      min-width 16rem
 </style>
 
