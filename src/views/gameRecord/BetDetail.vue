@@ -45,7 +45,7 @@
                 el-col(:span="12")
                   中奖金额：
                   span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
-                el-col(:span="12")
+                //- el-col(:span="12")
                   中奖注数：
                   span.text-black {{ row.prize }}
                   
@@ -150,7 +150,7 @@
 
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 确认撤单
+              .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 撤单
   
         el-dialog(title=" " v-bind:modal="false" v-model:visible="visible" custom-class="bet-data-dialog" v-bind:center="true" v-bind:show-close="true")
           .bets-data 
