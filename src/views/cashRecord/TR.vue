@@ -188,11 +188,11 @@
             state: this.s,
             bgTm: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTm: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
-            pageIndex: 1,
+            page: 1,
             pageSize: this.pageSize
           }
         } else {
-          this.preOptions.pageIndex = page
+          this.preOptions.page = page
         }
         this.$http.get(api.queryBalanceTransfer, this.preOptions).then(({data}) => {
           if (data && data.recordList) {
