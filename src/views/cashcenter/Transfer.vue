@@ -57,7 +57,7 @@
               span.txt-c {{ acc.shotTitle }}
             br
             p {{ acc.title }}
-            p.ft22.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
+            p.fz20.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
               i.ft12.yuan 元
               span.icon-refresh(v-on:click="refreshBalance(acc.id, acc.name)")
             .mt10.quick-btns
@@ -715,6 +715,8 @@ export default {
     padding 0 PW PW PW
     .fz22
       font-size 0.22rem
+    .fz20
+      font-size 0.20rem  
     i
       font-style normal
     .yuan

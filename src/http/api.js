@@ -72,6 +72,8 @@ let Login = {
   lul: '/report/dwReport.do?method=list',
   outerReportDetail: '/report/otherReport.do?method=detail',
   outerReport: '/report/otherReport.do?method=list',
+  // 逐日盈亏
+  personalProfit: '/report/personalProfit.do?method=dailyDetail',
   outerOrderRecord: '/ext/projectOther.do?method=',
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
   tryLoginFromUrl: '/login/login.do?method=dsLog',

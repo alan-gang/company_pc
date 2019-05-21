@@ -46,15 +46,16 @@ export default {
       totalSize: 0,
       profitAndLossSummaryTableColumn: {
         date: '时间',
+        ltrsettle: '彩票盈亏',
         chesettle: '棋牌盈亏',
-        egamesettle: '电游盈亏',
+        litsettle: '微游盈亏',
+        vidsettle: '真人盈亏',
+        egamesettle: '老虎机盈亏',
+        sptsettle: '体育盈亏',
         esptsettle: '电竞盈亏',
         fishsettle: '扑鱼盈亏',
-        ltrsettle: '彩票盈亏',
-        othltrsettle: 'KG基诺彩盈亏',
-        sptsettle: '体育盈亏',
-        vidsettle: '真人盈亏',
-        litsettle: '微游盈亏'
+        othltrsettle: '基诺彩盈亏',
+        settlement: '总盈亏'
       },
       lotteryTableColumn: {
         date: '日期',
@@ -65,12 +66,21 @@ export default {
         rewardsAmount: '活动',
         settlement: '总盈亏'
       },
+      // otherCommonTableColumn: {
+      //   date: '日期',
+      //   realBuy: '投注',
+      //   profit: '游戏盈亏',
+      //   getpoint: '返水',
+      //   rewards: '活动',
+      //   settle: '总盈亏'
+      // },
       otherCommonTableColumn: {
         date: '日期',
-        realBuy: '投注',
-        profit: '游戏盈亏',
-        getpoint: '返点',
-        rewards: '活动'
+        buy: '投注',
+        gameProfit: '游戏盈亏',
+        point: '返水',
+        reward: '活动',
+        totalProfit: '总盈亏'
       },
 
       profitAndLossSummaryData: [],
@@ -128,8 +138,8 @@ export default {
       this.$http.get(api.personalReport).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            items[items.length - 1].date = '赢亏汇总'
-            this.profitAndLossSummaryData = items // items.slice(items.length - 1)
+            // items[items.length - 1].date = '赢亏汇总'
+            this.profitAndLossSummaryData = items.slice(0, items.length - 1)
           }
         }
       }).finally(() => {
@@ -185,9 +195,9 @@ export default {
         endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
       }
       Object.assign(p, params)
-      this.$http.get(api.outerReport, p).then(({data: {items, success}}) => {
+      this.$http.get(api.personalProfit, p).then(({data: {items, success}}) => {
         if (success === 1) {
-          this.otherCommonReportData = items
+          this.otherCommonReportData = items.slice(0, items.length - 1)
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
