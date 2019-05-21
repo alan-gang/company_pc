@@ -37,14 +37,14 @@
               el-row
                 el-col(:span="12")
                   投注金额：
-                  span.text-black {{ row.TotalPrice }} &nbsp; ({{row.countDesc}})
+                  span.text-black {{ numberWithCommas(row.TotalPrice) }} &nbsp; ({{row.countDesc}})
                 el-col(:span="12")
                   投注返点：
                   span.text-black {{ row.userPoint }}
               el-row
                 el-col(:span="12")
                   中奖金额：
-                  span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
+                  span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ numberWithCommas(row.bonus && row.bonus._nwc()) }}
                 //- el-col(:span="12")
                   中奖注数：
                   span.text-black {{ row.prize }}
@@ -146,7 +146,9 @@
                   template(scope="scope")
                     span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
-                el-table-column(prop="prize" label="奖金")
+                el-table-column(label="奖金")
+                  template(scope="scope")
+                    span {{numberWithCommas(scope.row.prize)}}
 
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
@@ -163,6 +165,7 @@
 <script>
 import api from '../../http/api'
 import store from '../../store'
+import { numberWithCommas } from '../../util/Number'
 export default {
   data () {
     return {
@@ -239,7 +242,8 @@ export default {
           loading.close()
         }, 100)
       })
-    }
+    },
+    numberWithCommas
   }
 }
 </script>

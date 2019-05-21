@@ -130,8 +130,8 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        // froms: ['主帐户', '特殊帐户', 'BG帐户', 'IBC帐户', '棋牌帐户:7', 'PT帐户:5', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
-        froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
+        // froms: ['主账户', '特殊账户', 'BG账户:2', 'IBC账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
+        froms: ['主账户', '特殊账户', 'BG账户:2', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],
@@ -219,14 +219,14 @@
         }
       },
       setInAccHistory (acc) {
-        if (!acc || this.inAccHistory.indexOf(acc) !== -1) return
-        this.inAccHistory.push(acc)
-        if (this.inAccHistory.length > 3) this.inAccHistory.shift()
+        if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+        this.inAccHistory.unshift(acc)
+        if (this.inAccHistory.length > 3) this.inAccHistory.pop()
       },
       setOutAccHistory (acc) {
-        if (!acc || this.outAccHistory.indexOf(acc) !== -1) return
-        this.outAccHistory.push(acc)
-        if (this.outAccHistory.length > 3) this.outAccHistory.shift()
+        if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+        this.outAccHistory.unshift(acc)
+        if (this.outAccHistory.length > 3) this.outAccHistory.pop()
       },
       accChoiced (data, type) {
         if (type === 'out') this.f = data
