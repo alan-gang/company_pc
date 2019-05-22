@@ -441,7 +441,6 @@ export default {
         bank.remainTimeText = ''
         /* eslint-disable no-new */
         new Timer(bank.remainTime, (time, finish) => {
-          console.log('time=', time, ' finish=', finish)
           if (!finish) {
             bank.remainTime = time
           }
@@ -450,7 +449,6 @@ export default {
         })
         return bank
       })
-      console.log('fmtData=', JSON.stringify(this.myBanks))
     },
     getWithdrawByApi () {
       // this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
