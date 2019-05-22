@@ -592,7 +592,6 @@ export default {
             xyAmount: data.xyAmount || 0,
             free: data.xyqpAmount || 0
           })
-          console.log('this.ME=', JSON.stringify(this.ME))
           this.accounts = this.accounts.map((item) => {
             if (this.ME.hasOwnProperty(item.name)) {
               item.balance = this.numberWithCommas(Number(this.ME[item.name]).toFixed(4))
@@ -689,11 +688,9 @@ export default {
       this.m = amount === '全部' ? String(this.fm) : amount
     },
     quickTransfer (id, type) {
-      console.log('id=', id, 'type=', type)
       if (type === 'i') {
         this.f = 0
         this.t = id
-        console.log('id f=', this.f, ' t=', this.t)
         return
       }
       if (type === 'o') {
