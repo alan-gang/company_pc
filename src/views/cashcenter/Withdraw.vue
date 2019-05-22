@@ -221,7 +221,8 @@ export default {
       SSS: ['process', 'success', 'error'],
       SS: ['中...', '成功', '失败'],
       S: ['出款中', '出款失败', '成功'],
-      V: ['审核中', '审核通过', '审核失败'],
+      // V: ['审核中', '审核通过', '审核失败'],
+      V: ['', '审核中', '审核失败', '审核通过', '出款成功', '出款失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
       moneyTypes: ['主账户', '特殊金额'],
@@ -345,7 +346,8 @@ export default {
           this.data.forEach((c, i) => {
             c.index = i
             c.cardNo = '*****' + c.cardNo.slice(-4)
-            c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
+            // c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
+            c.statusV = this.V[c.isverify]
             c.class = (BANKS.find(b => b.apiName === c.apiName) || {})['class']
           })
           typeof fn === 'function' && fn()
