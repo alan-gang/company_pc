@@ -486,7 +486,7 @@
           if (count > 3) {
             curDate = new Date()
             curDate.setDate(curDate.getDate() - this.dateMappingConfig[o][0])
-            dateStr = `${String(curDate.getMonth() - 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}`
+            dateStr = `${String(curDate.getMonth() - 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}日`
             this.searchConditions.push(dateStr)
           }
         }
@@ -543,6 +543,7 @@
         this.stEt = [dates.startDate, dates.endDate]
       },
       choicedLottery (lottery) {
+        if (!lottery.gameid) return
         this.gameid = lottery.gameid
         this.curLotteryName = lottery.title
       },
