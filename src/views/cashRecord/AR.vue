@@ -192,7 +192,16 @@
         curLotteryName: '全部',
 
         searchConditions: ['今天', '昨天', '前天'],
-        dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
+        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
+        dateMappingConfig: {
+          d0: [0, 0],
+          d1: [1, 1],
+          d2: [2, 2],
+          d6: [6, 6],
+          d5: [5, 5],
+          d4: [4, 4],
+          d3: [3, 3]
+        }
       }
     },
     computed: {
@@ -486,7 +495,7 @@
           if (count > 3) {
             curDate = new Date()
             curDate.setDate(curDate.getDate() - this.dateMappingConfig[o][0])
-            dateStr = `${String(curDate.getMonth() - 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}`
+            dateStr = `${String(curDate.getMonth() - 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}日`
             this.searchConditions.push(dateStr)
           }
         }
@@ -543,6 +552,7 @@
         this.stEt = [dates.startDate, dates.endDate]
       },
       choicedLottery (lottery) {
+        if (!lottery.gameid) return
         this.gameid = lottery.gameid
         this.curLotteryName = lottery.title
       },

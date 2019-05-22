@@ -6,7 +6,8 @@
 
     section.lty-wp
       ul(v-for=" (cats, i) in lotteryLs" class="flex lty-ls-wp" v-bind:class="cats.url ? cats.url : 'other' " v-if="cats.items.length")
-        li(v-for="(lottery, j) in cats.items" class="flex flex-ai-c flex-jt-c lty-item" v-bind:class="{selected: curIdx === `${i}-${j}`}" @click="choiced(lottery, j, i)") {{lottery.title}}
+        template(v-for="(lottery, j) in cats.items")
+          li(v-if="lottery.gameid" class="flex flex-ai-c flex-jt-c lty-item" v-bind:class="{selected: curIdx === `${i}-${j}`}" @click="choiced(lottery, j, i)") {{lottery.title + ((lottery.subTitle || '').length > 0 ? `(${lottery.subTitle})` : '')}}
 </template>
 
 <script>
@@ -104,6 +105,7 @@ export default {
       box-sizing border-box
       border-radius  0.03rem
       border solid 1px #e8e8e8
+      font-size 0.12rem
     .lty-item:hover
       border solid 1px #f37e0c
     .lty-item.selected
