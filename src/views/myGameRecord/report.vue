@@ -188,11 +188,14 @@ export default {
         target: this.$el
       }, 10000, '加载超时...')
       let p = {
-        scope: 0,
+        // scope: 0,
+        userId: this.me.userId,
         pageSize: this.pageSize,
         gameType: this.curGameType,
-        startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-        endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
+        beginDate: dateFormat((window.newDate(this.stEt[0])).getTime()),
+        endDate: dateFormat((window.newDate(this.stEt[1])).getTime())
+        // startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
+        // endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
       }
       Object.assign(p, params)
       this.$http.get(api.personalProfit, p).then(({data: {items, success}}) => {

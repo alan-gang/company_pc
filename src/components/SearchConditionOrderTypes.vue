@@ -10,7 +10,7 @@
           <el-checkbox v-model="type.checked" v-on:change="typeChoice(i, $event)"></el-checkbox>
         ul(class="flex type-ls-wp" )
           li(v-for=" (orderType, j) in type.orderList" class="flex flex-ai-c flex-jt-c type-item" v-bind:class="{selected: orderType.checked}" @click="typeItemChoice(orderType, j, i)") {{orderType.cnTitle}}
-    .buttons.txt-c(style="margin-left: .3rem")
+    .buttons.txt-c.mt15(style="margin-left: .3rem")
       .ds-button.primary.large.bold(@click="sure") 确定
       .ds-button.cancel.large(@click="reset") 重置
 </template>
@@ -99,8 +99,13 @@ export default {
       this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
         if (data.success === 1) {
           this.ME.showSalary && data.orderTypeList.push({
-            cnTitle: '日工资',
-            ordertypeId: 37
+            text: '日工资',
+            orderList: [
+              {
+                cnTitle: '日工资',
+                ordertypeId: 37
+              }
+            ]
           })
           this.types = data.orderTypeList
           this.initTypes()

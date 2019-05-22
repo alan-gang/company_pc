@@ -192,7 +192,16 @@
         curLotteryName: '全部',
 
         searchConditions: ['今天', '昨天', '前天'],
-        dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
+        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
+        dateMappingConfig: {
+          d0: [0, 0],
+          d1: [1, 1],
+          d2: [2, 2],
+          d6: [6, 6],
+          d5: [5, 5],
+          d4: [4, 4],
+          d3: [3, 3]
+        }
       }
     },
     computed: {

@@ -24,7 +24,7 @@
                 el-col(:span="12")
                 是否追号：
                 span {{row.taskId ? '是' : '否'}}
-                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn")&nbsp;&nbsp;查看追号单
+                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
 
             .middle-info
               el-row
@@ -33,7 +33,7 @@
                   span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
                 el-col(:span="12")
                   是否单挑：
-                  span.text-black {{ row.isLimitBonus === '1' ? '是' : '否'}}
+                  span.text-black {{ row.isLimitBonus === 1 ? '是' : '否'}}
               el-row
                 el-col(:span="12")
                   投注金额：
