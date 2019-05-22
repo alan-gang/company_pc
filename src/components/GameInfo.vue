@@ -20,11 +20,11 @@
           span.title {{ NPER }}
           span &nbsp;&nbsp;期
           //- p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
-          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' " v-bind:visible-arrow=" va ") 
-            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 " style="cursor: pointer;") 开奖号码说明
+          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' + ' g_' + gameid " v-bind:visible-arrow=" va ") 
+            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 || gameid === 29 " style="cursor: pointer;") 开奖号码说明
             slot
-              div(style="width: 8.5rem")
-                div(v-if=" gameid === 150 ")
+              div(style="width: 8.5rem" v-if=" gameid === 150 ")
+                div
                   p 微博5分彩，开奖数据源于每5分钟微博热搜榜前20名关键词的搜索次数。
                   br
                   p 取排名第1、第6、第11、第16名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【万位】的开奖号码；
@@ -41,8 +41,9 @@
                   p 则：0+9+8+0=27，27的尾数为7 ，所以01期开奖号码的【万位】就是7。
                   br
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
-
-                div(v-if=" gameid === 151 ")
+              
+              div(style="width: 8.5rem" v-if=" gameid === 151 ")
+                div
                   p 腾讯赛车，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
                   br
                   p 例如：统计时间为： 2019-03-06 21:58:00，当时的腾讯在线人数为：322446581，在线人数数字之和为：3+2+2+4+4+6+5+8+1=35。
@@ -52,6 +53,19 @@
                   p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
                   p 腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
+              div(style="width: 6rem" v-if=" gameid === 29 ")
+                div
+                  p 腾讯分分彩，开奖数据源于每分钟腾讯QQ的在线用户人数数字生成一个五位数字。
+                  br
+                  p 计算公式如下：
+                  p 【万位】：依照官方公布当时的在线人数数字之总和，再取尾数；
+                  p 例如：线上人数227415242人，则为2+2+7+4+1+5+2+4+2=29，取尾数9，因此万位数为9）
+                  p 【后四位】：依照官方公布当时的在线人数，取末四位为千百十个这四个号码；
+                  p 例如：线上人数227415242人，则末4码为5242
+                  br
+                  p 腾讯QQ的线用户人数数据可参见齐聚数据网：
+                  p 
+                    <a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/2">https://www.qiju.info/#/qijuData/2</a>
 
         .vm.inlb
 
@@ -278,6 +292,8 @@ export default {
   .wb-intro.el-popover
     margin-top 25px
     background-color #fffde8   
+    &.g_29
+      transform translateX(17%)
     
   .hot-rank.el-popover
     margin-top 35px
