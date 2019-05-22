@@ -81,6 +81,9 @@ import App from './App.v2'
 //   // render: h => h(App)
 // }).$mount('#app', h => h(App))
 export default new Vue({
+  data: {
+    showIframeGame: false
+  },
   el: '#app',
   router: router,
   render: h => h(App)

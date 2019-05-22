@@ -18,7 +18,9 @@
 
     // righter
     //- transition(name="slide-right" appear=true)
-    dsRighter
+    dsRighter(v-on:click="righterHandler")
+
+    RightQuickThirdGame(v-on:click="righterHandler")
 
     // ggl
     GGL(v-if="ggl")
@@ -65,6 +67,7 @@ import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
 import GGL from './components/GGL'
+import RightQuickThirdGame from './components/RightQuickThirdGame'
 // import dsFooter from './components/Footer'
 import Print from './components/Print'
 // import Chat from './components/Chat'
@@ -821,7 +824,8 @@ export default {
       PboxStyle: {
         backgroundColor: '#e9e9e9'
       },
-      redirect: ''
+      redirect: '',
+      showIframeGame: false
     }
   },
   computed: {
@@ -1421,6 +1425,11 @@ export default {
       } else {
         Socket.sockets.user && Socket.sockets.user.send(JSON.stringify({action: 'noauth'}))
       }
+    },
+    righterHandler (type, data) {
+      if (type === 'chess') {
+        this.$root.showIframeGame = !this.$root.showIframeGame
+      }
     }
   },
   components: {
@@ -1434,8 +1443,9 @@ export default {
     Modal,
     L,
     MenuGuide,
-    AnnualCeremoney
+    AnnualCeremoney,
     // Chat
+    RightQuickThirdGame
   }
 }
 </script>
