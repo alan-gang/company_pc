@@ -1,7 +1,7 @@
 <template lang="jade">
   .chess-page(v-if="show" v-show="!isRetract")
     .transfer-bar.pl20
-      el-select(v-model="t" style="width: 1.9rem" placeholder="请选择")
+      el-select(v-model="to" style="width: 1.9rem" placeholder="请选择")
         el-option(v-for="(n, i) in accoutns" v-bind:label=" n.split(':')[0] " v-bind:value="i" )
       InputNumber(v-bind:defaultValue="amount" v-on:enter="transfer" v-on:change="amount = $event" placeholder="请输入整数金额") 
       span.yuan 元
@@ -19,7 +19,8 @@ export default {
     return {
       url: '',
       amount: '',
-      accoutns: ['彩票账户 转 棋牌账户']
+      accoutns: ['彩票账户 转 棋牌账户:7'],
+      to: 0
     }
   },
   components: {
