@@ -160,7 +160,7 @@
     .buttons()
       .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 取消追号 
     
-    BetDetail(v-show="show" v-bind:row="row" v-on:show-follow="show = false" v-on:close="show = $event")
+    BetDetail(v-show="show" v-bind:row="row" v-bind:showCancelOrder="false" v-on:show-follow="show = false" v-on:close="show = $event" v-on:cancel-order="cancelOrder")
 
     //- .modal(v-show="show" )
       .mask
@@ -399,6 +399,9 @@
             loading.close()
           }, 100)
         })
+      },
+      cancelOrder () {
+        this.show = false
       },
       numberWithCommas
       // 追号列表

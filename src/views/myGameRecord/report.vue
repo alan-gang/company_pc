@@ -14,7 +14,7 @@
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
 
     template(v-if=" I === 1 ")
-      el-table.header-bold.nopadding(:data="personaLotteryData" style="margin: .2rem 0" stripe ref="table")  
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in lotteryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
 
     template(v-if=" [2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
@@ -53,27 +53,29 @@ export default {
         egamesettle: '老虎机盈亏',
         sptsettle: '体育盈亏',
         esptsettle: '电竞盈亏',
-        fishsettle: '扑鱼盈亏',
+        fishsettle: '捕鱼盈亏',
         othltrsettle: '基诺彩盈亏',
         settlement: '总盈亏'
       },
+      // lotteryTableColumn: {
+      //   date: '日期',
+      //   buyAmount: '投注',
+      //   prizeAmount: '中奖',
+      //   pointAmount: '返点',
+      //   profitAmount: '游戏盈亏',
+      //   rewardsAmount: '活动',
+      //   settlement: '总盈亏'
+      // },
       lotteryTableColumn: {
         date: '日期',
-        buyAmount: '投注',
-        prizeAmount: '中奖',
-        pointAmount: '返点',
-        profitAmount: '游戏盈亏',
-        rewardsAmount: '活动',
-        settlement: '总盈亏'
+        buy: '投注',
+        prize: '中奖',
+        point: '返点',
+        gameProfit: '游戏盈亏',
+        salary: '日工资',
+        reward: '活动',
+        totalProfit: '总盈亏'
       },
-      // otherCommonTableColumn: {
-      //   date: '日期',
-      //   realBuy: '投注',
-      //   profit: '游戏盈亏',
-      //   getpoint: '返水',
-      //   rewards: '活动',
-      //   settle: '总盈亏'
-      // },
       otherCommonTableColumn: {
         date: '日期',
         buy: '投注',
@@ -92,7 +94,7 @@ export default {
 
       methodsMap: {
         tab0: 'getPersonalReportSummary',
-        tab1: 'getLotteryReportData',
+        tab1: 'getOtherReportData',
         tab2: 'getOtherReportData',
         tab3: 'getOtherReportData',
         tab4: 'getOtherReportData',
@@ -113,11 +115,22 @@ export default {
         tab7: 4,
         tab8: 7
       },
-      curGameType: 0
+      curGameType: 0,
 
+      showSalaryColumn: true,
+      showUserPointColumn: true
     }
   },
   mounted () {
+    this.acctSecureInfo(() => {
+      if (this.showUserPointColumn === false) {
+        delete this.lotteryTableColumn.point
+        delete this.otherCommonTableColumn.point
+      }
+      if (this.showSalaryColumn === false) {
+        delete this.lotteryTableColumn.salary
+      }
+    })
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this[this.methodsMap['tab' + this.I]]()
   },
@@ -221,6 +234,15 @@ export default {
       this[this.methodsMap['tab' + this.I]]()
     },
     pageChanged () {
+    },
+    acctSecureInfo (cb) {
+      this.$http.get(api.acctSecureInfo).then(({data}) => {
+        if (data.success === 1) {
+          this.showSalaryColumn = data.showSalary === '1'
+          this.showUserPointColumn = data.userPoint > 0
+          cb && cb()
+        }
+      })
     }
   }
 }

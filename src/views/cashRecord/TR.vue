@@ -178,7 +178,7 @@
         this.setOutAccHistory(this.froms[this.f])
         this.setInAccHistory(this.froms[this.t])
         let loading = this.$loading({
-          text: '转帐记录加载中...',
+          text: '转账记录加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
