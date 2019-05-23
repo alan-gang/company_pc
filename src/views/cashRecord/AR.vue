@@ -74,7 +74,7 @@
       
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
 
-          el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
+          el-table-column(class-name="pl2" prop="entry" label="账变编号"  )
             template(scope="scope")
               div
                 .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.entry }}
@@ -99,7 +99,7 @@
               span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
 
-          el-table-column(prop="balance" label="主帐户余额"  align="right")
+          el-table-column(prop="balance" label="主账户余额"  align="right")
             template(scope="scope")
               span{{ numberWithCommas(scope.row.balance) }}
           
@@ -172,7 +172,7 @@
         name: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
-        QUERYS: ['注单编号', '追号编号', '帐变编号'],
+        QUERYS: ['注单编号', '追号编号', '账变编号'],
         query: '',
         data: [{}],
         pageSize: 20,
@@ -390,7 +390,7 @@
       list (page, fn) {
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
-          text: '帐变记录加载中...',
+          text: '账变记录加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         // OrderReport.do?method=list&orderId=7&beginDate=20170201000000&endDate=20170303000000&isFree=1&userName=test&scope=1&serialType=2&serialValue=3397&lotteryId=1&methodId=37&issueId=1111&modes=11&page=1&pageSize=20
