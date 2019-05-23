@@ -12,15 +12,21 @@
     template(v-if=" I === 0 ")
       el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+          template(scope="scope")
+            span {{tableCellDataFormat(profitAndLossSummaryAmountProp, k, scope.row)}}
 
     template(v-if=" I === 1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table1")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in lotteryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+          template(scope="scope")
+            span {{tableCellDataFormat(amountColumnProp, k, scope.row)}}
 
     template(v-if=" [2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table2")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-    
+          template(scope="scope")
+            span {{tableCellDataFormat(amountColumnProp, k, scope.row)}}
+
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
 
 </template>
@@ -29,6 +35,7 @@
 import api from 'src/http/api'
 import { dateFormat } from '../../util/Date'
 import SearchConditions from 'components/SearchConditions'
+import { numberWithCommas } from '../../util/Number'
 import store from '../../store'
 export default {
   components: {
@@ -44,6 +51,7 @@ export default {
       pageSize: 20,
       curPage: 0,
       totalSize: 0,
+      profitAndLossSummaryAmountProp: ['ltrsettle', 'chesettle', 'litsettle', 'vidsettle', 'egamesettle', 'sptsettle', 'fishsettle', 'othltrsettle', 'settlement'],
       profitAndLossSummaryTableColumn: {
         date: '时间',
         ltrsettle: '彩票盈亏',
@@ -66,7 +74,8 @@ export default {
       //   rewardsAmount: '活动',
       //   settlement: '总盈亏'
       // },
-      lotteryTableColumn: {
+      amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
+      lotteryTableColumnTpl: {
         date: '日期',
         buy: '投注',
         prize: '中奖',
@@ -76,13 +85,17 @@ export default {
         reward: '活动',
         totalProfit: '总盈亏'
       },
-      otherCommonTableColumn: {
+      lotteryTableColumn: {
+      },
+      otherCommonTableColumnTpl: {
         date: '日期',
         buy: '投注',
         gameProfit: '游戏盈亏',
         point: '返水',
         reward: '活动',
         totalProfit: '总盈亏'
+      },
+      otherCommonTableColumn: {
       },
 
       profitAndLossSummaryData: [],
@@ -121,12 +134,12 @@ export default {
       showUserPointColumn: true
     }
   },
+  created () {
+    this.lotteryTableColumn = this.lotteryTableColumnTpl
+    this.otherCommonTableColumn = this.otherCommonTableColumnTpl
+  },
   mounted () {
     this.acctSecureInfo(() => {
-      if (this.showUserPointColumn === false) {
-        delete this.lotteryTableColumn.point
-        delete this.otherCommonTableColumn.point
-      }
       if (this.showSalaryColumn === false) {
         delete this.lotteryTableColumn.salary
       }
@@ -136,9 +149,14 @@ export default {
   },
   methods: {
     __setReportI (i) {
+      this.lotteryTableColumn = this.lotteryTableColumnTpl
+      this.otherCommonTableColumn = this.otherCommonTableColumnTpl
       this.I = i
       this.curGameType = this.gameTypeMap['tab' + this.I]
       this[this.methodsMap['tab' + i]]()
+    },
+    tableCellDataFormat (columns, prop, row) {
+      return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
     },
     /**
      * 盈亏汇总数据
@@ -213,6 +231,14 @@ export default {
       Object.assign(p, params)
       this.$http.get(api.personalProfit, p).then(({data: {items, success}}) => {
         if (success === 1) {
+          if (items.length > 0 && items[0].pointLevel === 0) {
+            if (this.I === 1) {
+              delete this.lotteryTableColumn.point
+            } else {
+              delete this.otherCommonTableColumn.point
+            }
+          }
+          items[0].totalProfit = 12423523.123
           this.otherCommonReportData = items.slice(0, items.length - 1)
           setTimeout(() => {
             loading.text = '加载成功!'
@@ -239,11 +265,11 @@ export default {
       this.$http.get(api.acctSecureInfo).then(({data}) => {
         if (data.success === 1) {
           this.showSalaryColumn = data.showSalary === '1'
-          this.showUserPointColumn = data.userPoint > 0
           cb && cb()
         }
       })
-    }
+    },
+    numberWithCommas
   }
 }
 </script>
