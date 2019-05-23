@@ -238,7 +238,6 @@ export default {
               delete this.otherCommonTableColumn.point
             }
           }
-          items[0].totalProfit = 12423523.123
           this.otherCommonReportData = items.slice(0, items.length - 1)
           setTimeout(() => {
             loading.text = '加载成功!'
