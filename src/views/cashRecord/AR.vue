@@ -554,7 +554,7 @@
       choicedLottery (lottery) {
         if (!lottery.gameid) return
         this.gameid = lottery.gameid
-        this.curLotteryName = lottery.title
+        this.curLotteryName = lottery.title + ((lottery.subTitle || '').length > 0 ? `(${lottery.subTitle})` : '')
       },
       setLotteryHistory (lottery) {
         if (!lottery || !lottery.gameid || this.findHistoryById(lottery.gameid) !== -1) return
@@ -630,17 +630,18 @@
     display inline-block
     margin-right 0.1rem
   .lottery-choice-condi
-    width 1.8rem
+    width 2rem
   .lottery-choice
     // display inline-block
-    width 1.48rem
+    width 1.68rem
     height 0.3rem
     background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
     justify-content space-between
     padding 0 0.1rem
     box-sizing border-box
     border solid 1px #e8e8e8
-  
+    font-size 0.12rem
+    
   .date-buts
     display inline-block
 </style>
