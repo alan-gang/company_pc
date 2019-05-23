@@ -8,7 +8,7 @@
       .ds-button.primary.large.ml15(@click="transfer") 确定
       span.btn-retract(@click="retract")
     .chess-iframe-wp
-      iframe(v-bind:src="url")
+      iframe(v-bind:src="url" ref="gameIframe" @load="load")
 </template>
 
 <script>
@@ -20,7 +20,8 @@ export default {
       url: '',
       amount: '',
       accoutns: ['彩票账户 转 棋牌账户:7'],
-      to: 0
+      to: 0,
+      press: false
     }
   },
   components: {
@@ -40,6 +41,7 @@ export default {
   },
   mounted () {
     this.init()
+    console.log('info init')
   },
   methods: {
     init () {
@@ -57,26 +59,34 @@ export default {
       })
     },
     retract () {
-
+      this.$emit('retract', true)
     },
     transfer () {
-      if (!this.amount) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
-      // if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
-      this.btn = true
-      let t = setTimeout(() => {
-        if (this.btn) this.btn = false
-      }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博', 'LG', '幸运'][Math.max(this.f, this.t + 2)] + '余额转账已提交！')})
-      this.$http.get(this.bgAPI, {amount: this.amount, platid: this.platId}).then(({data}) => {
+      if (this.press) return
+      if (!this.amount) return this.$message.warning({target: this.$el, message: '请输入金额！'})
+      this.press = true
+      setTimeout(() => {
+        if (this.press) this.press = false
+      }, 1000)
+      this.$http.get(api.withdrawFromBG, {amount: this.amount, platid: this.platId}).then(({data}) => {
+        this.reloadUrl()
         if (data.success === 1) {
+          this.$message.success({message: data.msg || '转入成功'})
+          this.$refs.gameIframe.reload()
         } else {
+          // this.$message.warning({message: data.msg || '转入失败'})
         }
       }).catch(rep => {
       }).finally(() => {
-        this.btn = false
-        clearTimeout(t)
-        t = 0
       })
+    },
+    reloadUrl () {
+      let t = `&__t=${Date.now()}`
+      let f = this.url.indexOf('&__t=')
+      this.url = f === -1 ? `${this.url}${t}` : (this.url.substring(0, this.url.indexOf('&__t=')) + t)
+    },
+    load (e) {
+      console.log('info load', e)
     }
   }
 }
@@ -103,6 +113,7 @@ export default {
     height .54rem
     background url('../../assets/outer/chess/icon_Retract.png') no-repeat center
     float right
+    cursor pointer
   .transfer-bar
     line-height .54rem
     background-color #1d384f
@@ -112,4 +123,5 @@ export default {
       height 100%
       height 4.7rem
       border none
+      background-color #1d384f
 </style>

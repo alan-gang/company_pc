@@ -1,24 +1,37 @@
 <template lang="jade">
   .right-quick-third-game
     ul
-      li.game-item(v-for="(item, i) in navs" v-bind:class="[item.class, {checked: i === checkedIndex}]" @click="active(i, item.type)") 
+      li.game-item(v-for="(item, i) in navs" v-bind:class="[item.class, {checked: i === checkedIndex, retract: retract}]" @click="active(i, item)") 
 </template>
 
 <script>
+import store from '../store'
 export default {
   name: 'RightQuickThirdGame',
   data () {
     return {
+      me: store.state.user,
       navs: [
-        {name: '棋牌', title: '棋牌', class: 'item-chess', type: 'chess'}
+        {name: '棋牌', title: '棋牌', class: 'item-chess', type: 'chess', login: true}
       ],
-      checkedIndex: -1
+      checkedIndex: -1,
+      retract: false
+    }
+  },
+  watch: {
+    '$root.miniIframeGameRetract' () {
+      this.retract = this.$root.miniIframeGameRetract
+      this.retract && (this.checkedIndex = -1)
     }
   },
   methods: {
-    active (i, type, data) {
+    active (i, data) {
+      if (data.login && !this.me.login) {
+        this.__setCall({fn: '__popLogin', args: true})
+        return
+      }
       this.checkedIndex = i
-      this.$emit('click', type, data)
+      this.$emit('click', data.type, data)
     }
   }
 }
@@ -38,5 +51,6 @@ export default {
     background-size 0.43rem 0.62rem
     &.checked
       background url('../assets/outer/chess/icon_activated.png') no-repeat center
-
+    &.retract
+      background url('../assets/outer/chess/icon_open.png') no-repeat center
 </style>

@@ -160,7 +160,7 @@
 
     CopyRight
 
-    Chess(v-bind:show="$root.showIframeGame" v-bind:gameId="thirdGame.gameId" v-bind:platId="thirdGame.platId")
+    Chess(v-if="$root.showMiniIframeGame" v-bind:show="$root.showMiniIframeGame" v-bind:isRetract="$root.miniIframeGameRetract" v-bind:gameId="thirdGame.gameId" v-bind:platId="thirdGame.platId" @retract="$root.miniIframeGameRetract = $event")
 
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")

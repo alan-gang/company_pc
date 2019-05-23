@@ -824,8 +824,7 @@ export default {
       PboxStyle: {
         backgroundColor: '#e9e9e9'
       },
-      redirect: '',
-      showIframeGame: false
+      redirect: ''
     }
   },
   computed: {
@@ -1428,7 +1427,10 @@ export default {
     },
     righterHandler (type, data) {
       if (type === 'chess') {
-        this.$root.showIframeGame = !this.$root.showIframeGame
+        if (!this.$root.showMiniIframeGame) {
+          this.$root.showMiniIframeGame = !this.$root.showMiniIframeGame
+        }
+        this.$root.miniIframeGameRetract = !this.$root.miniIframeGameRetract
       }
     }
   },
