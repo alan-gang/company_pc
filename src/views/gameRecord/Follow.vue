@@ -165,8 +165,13 @@
         },
         defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-        STATUS: ['进行中', '已取消', '已完成'],
-        STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
+        // STATUS: ['进行中', '已取消', '已完成'],
+        // STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
+        STATUS: ['进行中', '已取消', '已中奖', '未中奖'],
+        STATUSCLASS: ['text-danger', 'text-black', 'text-red', 'text-grey'],
+
+        // STATUSS: ['未生成', '进行中', '已取消', '已中奖', '未中奖'],
+        // STATUSSCLASS: ['text-black', 'text-black', 'text-black', 'text-red', 'text-grey'],
         status: '',
         ISFREE: ['现金', '信游币'],
         isFree: '',
@@ -206,7 +211,8 @@
         I: 0,
         lotteryHistory: [],
         lotteryPopover: false,
-        curLotteryName: '全部'
+        curLotteryName: '全部',
+        STATUS_FINISH: 2
       }
     },
     computed: {
@@ -394,6 +400,13 @@
             }, 100)
             typeof fn === 'function' && fn()
             if (!fn) this.currentPage = 1
+            data.taskList = data.taskList.map((task) => {
+              if (task.status === this.STATUS_FINISH) {
+                // 中奖，未中奖
+                task.status = task.winCount > 0 ? 2 : 3
+              }
+              return task
+            })
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
             // this.summary()
@@ -507,6 +520,8 @@
   bg-active = #e2e2e2
   i
     font-style normal
+  .text-red
+    color red  
   .search-condition-date
     width 4.0rem
     float left
