@@ -169,8 +169,8 @@ export default {
       this.$http.get(api.personalReport).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            // items[items.length - 1].date = '赢亏汇总'
-            this.profitAndLossSummaryData = items.slice(0, items.length - 1)
+            items[items.length - 1].date = '赢亏汇总'
+            this.profitAndLossSummaryData = items // items.slice(0, items.length - 1)
           }
         }
       }).finally(() => {
@@ -238,7 +238,8 @@ export default {
               delete this.otherCommonTableColumn.point
             }
           }
-          this.otherCommonReportData = items.slice(0, items.length - 1)
+          items[items.length - 1].date = '赢亏汇总'
+          this.otherCommonReportData = items // items.slice(0, items.length - 1)
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
