@@ -48,7 +48,7 @@ export default {
         date: '时间',
         ltrsettle: '彩票盈亏',
         chesettle: '棋牌盈亏',
-        litsettle: '微游盈亏',
+        // litsettle: '微游盈亏',
         vidsettle: '真人盈亏',
         egamesettle: '老虎机盈亏',
         sptsettle: '体育盈亏',
