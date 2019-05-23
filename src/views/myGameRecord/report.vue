@@ -169,7 +169,7 @@ export default {
       this.$http.get(api.personalReport).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            items[items.length - 1].date = '赢亏汇总'
+            items[items.length - 1].date = '合计'
             this.profitAndLossSummaryData = items // items.slice(0, items.length - 1)
           }
         }
@@ -238,7 +238,7 @@ export default {
               delete this.otherCommonTableColumn.point
             }
           }
-          items[items.length - 1].date = '赢亏汇总'
+          items[items.length - 1].date = '合计'
           this.otherCommonReportData = items // items.slice(0, items.length - 1)
           setTimeout(() => {
             loading.text = '加载成功!'
