@@ -19,7 +19,7 @@ export default {
     return {
       url: '',
       amount: '',
-      accoutns: ['彩票账户 转 棋牌账户:7'],
+      accoutns: ['主账户 转 开元账户:7', '开元账户 转 主账户'],
       to: 0,
       press: false
     }
@@ -38,6 +38,11 @@ export default {
     },
     gameId: String,
     platId: String
+  },
+  computed: {
+    bgAPI () {
+      return [api.withdrawFromBG, api.transferToBG][this.to === 0 ? 1 : 0]
+    }
   },
   mounted () {
     this.init()
@@ -67,7 +72,7 @@ export default {
       setTimeout(() => {
         if (this.press) this.press = false
       }, 1000)
-      this.$http.get(api.withdrawFromBG, {amount: this.amount, platid: this.platId}).then(({data}) => {
+      this.$http.get(this.bgAPI, {amount: this.amount, platid: this.platId}).then(({data}) => {
         this.reloadUrl()
         if (data.success === 1) {
           this.$message.success({message: data.msg || '转入成功'})
