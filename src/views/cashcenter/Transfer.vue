@@ -769,6 +769,11 @@ export default {
     .wallet-ls
       width 10.34rem
       float left
+      .s
+        padding 0 0 0 0.5rem
+        .c
+          float left
+          text-align center
     .btn-transfer
       width 0.7rem
       background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%), linear-gradient(#dbdbdb, #dbdbdb)
@@ -792,7 +797,7 @@ export default {
         display block
         margin 0.2rem 0 0 0.06rem
     .s
-      text-align center
+      // text-align center
       // background-image: linear-gradient(0deg, #ffffff 0%, #ffffff 60%, #fffae5 100%)
      accountBg($img, $color)
       background url('../../assets/v2/'$img) center no-repeat
