@@ -20,8 +20,6 @@
     //- transition(name="slide-right" appear=true)
     dsRighter(v-on:click="righterHandler")
 
-    RightQuickThirdGame(v-on:click="righterHandler")
-
     // ggl
     GGL(v-if="ggl")
     

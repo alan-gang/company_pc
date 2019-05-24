@@ -39,10 +39,14 @@ export default {
 
 <style lang="stylus">
 .right-quick-third-game
-  position fixed
-  right 0.1rem
-  bottom 2rem
-  z-index 102
+  // position fixed
+  // right 0.1rem
+  // bottom 2rem
+  // z-index 102
+  ul, li
+    list-style none
+    margin 0
+    padding 0
   .game-item
     width 0.7rem
     height 0.7rem

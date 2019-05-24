@@ -22,6 +22,7 @@
       span.badge {{ amount }} 
       .expand-left 刮刮乐
     .ds-icon-guanji(@click="$router.push('/help/7-1-1')")
+    RightQuickThirdGame(v-on:click="clickHandler")
     .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
       span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
@@ -37,6 +38,7 @@
   import store from '../store'
   import api from '../http/api'
   import { timeFormat } from '../util/Date'
+  import RightQuickThirdGame from './RightQuickThirdGame'
   export default {
     data () {
       return {
@@ -49,6 +51,9 @@
         skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
         // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
+    },
+    components: {
+      RightQuickThirdGame
     },
     watch: {
       Me: {
@@ -259,6 +264,8 @@
         top .1rem
     .ds-icon-guanji
       background url(../assets/righter/gj.png) center no-repeat
+    .right-quick-third-game
+      padding 0.1rem 0
     .gray
       -webkit-filter grayscale(50%)
       filter grayscale(50%)
