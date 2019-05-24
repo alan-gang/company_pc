@@ -197,10 +197,10 @@
           d0: [0, 0],
           d1: [1, 1],
           d2: [2, 2],
-          d6: [6, 6],
-          d5: [5, 5],
-          d4: [4, 4],
-          d3: [3, 3]
+          d3: [6, 6],
+          d4: [5, 5],
+          d5: [4, 4],
+          d6: [3, 3]
         }
       }
     },
@@ -495,7 +495,7 @@
           if (count > 3) {
             curDate = new Date()
             curDate.setDate(curDate.getDate() - this.dateMappingConfig[o][0])
-            dateStr = `${String(curDate.getMonth() - 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}日`
+            dateStr = `${String(curDate.getMonth() + 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}日`
             this.searchConditions.push(dateStr)
           }
         }
