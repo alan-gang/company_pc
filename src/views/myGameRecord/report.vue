@@ -229,9 +229,10 @@ export default {
         // endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
       }
       Object.assign(p, params)
-      this.$http.get(api.personalProfit, p).then(({data: {items, success}}) => {
-        if (success === 1) {
-          if (items.length > 0 && items[0].pointLevel === 0) {
+      this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
+        this.otherCommonReportData = []
+        if (success === 1 && items.length > 0) {
+          if (pointLevel === undefined || pointLevel <= 0) {
             if (this.I === 1) {
               delete this.lotteryTableColumn.point
             } else {
