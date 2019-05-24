@@ -1,14 +1,14 @@
 <template lang="jade">
-  .chess-page(v-if="show" v-show="!isRetract")
+  .chess-page(v-if="show" v-bind:class="{retract: isRetract}")
     .transfer-bar.pl20
-      el-select(v-model="to" style="width: 1.9rem" placeholder="请选择")
+      el-select(v-model="to" placeholder="请选择")
         el-option(v-for="(n, i) in accoutns" v-bind:label=" n.split(':')[0] " v-bind:value="i" )
       InputNumber(v-bind:defaultValue="amount" v-on:enter="transfer" v-on:change="amount = $event" placeholder="请输入整数金额") 
       span.yuan 元
       .ds-button.primary.large.ml15(@click="transfer") 确定
       span.btn-retract(@click="retract")
     .chess-iframe-wp
-      iframe(v-bind:src="url" ref="gameIframe" @load="load")
+      iframe(v-bind:src="url" ref="gameIframe")
 </template>
 
 <script>
@@ -41,7 +41,6 @@ export default {
   },
   mounted () {
     this.init()
-    console.log('info init')
   },
   methods: {
     init () {
@@ -84,9 +83,6 @@ export default {
       let t = `&__t=${Date.now()}`
       let f = this.url.indexOf('&__t=')
       this.url = f === -1 ? `${this.url}${t}` : (this.url.substring(0, this.url.indexOf('&__t=')) + t)
-    },
-    load (e) {
-      console.log('info load', e)
     }
   }
 }
@@ -100,6 +96,10 @@ export default {
   right 0.9rem
   bottom 0rem
   z-index 101
+  .el-select
+    width 1.9rem
+  &.retract
+    right 20rem
   .i-num-input
     width 1.38rem
     line-height 0.28rem
@@ -124,4 +124,5 @@ export default {
       height 4.7rem
       border none
       background-color #1d384f
+      // background url('../../assets/outer/chess/game_bg.jpg') no-repeat center
 </style>
