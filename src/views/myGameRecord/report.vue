@@ -135,8 +135,7 @@ export default {
     }
   },
   created () {
-    this.lotteryTableColumn = this.lotteryTableColumnTpl
-    this.otherCommonTableColumn = this.otherCommonTableColumnTpl
+    this.resetColumns()
   },
   mounted () {
     this.acctSecureInfo(() => {
@@ -149,14 +148,17 @@ export default {
   },
   methods: {
     __setReportI (i) {
-      this.lotteryTableColumn = this.lotteryTableColumnTpl
-      this.otherCommonTableColumn = this.otherCommonTableColumnTpl
+      this.resetColumns()
       this.I = i
       this.curGameType = this.gameTypeMap['tab' + this.I]
       this[this.methodsMap['tab' + i]]()
     },
     tableCellDataFormat (columns, prop, row) {
       return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
+    resetColumns () {
+      this.lotteryTableColumn = Object.assign({}, this.lotteryTableColumnTpl)
+      this.otherCommonTableColumn = Object.assign({}, this.otherCommonTableColumnTpl)
     },
     /**
      * 盈亏汇总数据
@@ -238,6 +240,8 @@ export default {
             } else {
               delete this.otherCommonTableColumn.point
             }
+          } else {
+            this.resetColumns()
           }
           items[items.length - 1].date = '合计'
           this.otherCommonReportData = items // items.slice(0, items.length - 1)
