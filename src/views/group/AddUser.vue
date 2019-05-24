@@ -36,10 +36,10 @@
 
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
-          span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符）
+          span(style="color: #999; font-size: .12rem") （由0-9，a-z，A-Z组成的6-16个字符）
         p(style="padding: .05rem .4rem") 登录密码： &nbsp;&nbsp;
           input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
-          span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ '123456a'}} )
+          span(style="color: #999; font-size: .12rem") （登录密码默认为：{{ '123456a'}} )
  
      
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")

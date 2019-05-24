@@ -101,11 +101,11 @@
 
           el-table-column(prop="balance" label="主帐户余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.balance) }}
+              span {{ numberWithCommas(scope.row.balance) }}
           
           el-table-column(prop="speBalance"  label="特殊余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.speBalance) }}
+              span {{ numberWithCommas(scope.row.speBalance) }}
 
           //- el-table-column(prop="isFree"  label="优惠券"  align="right")
             template(scope="scope")
