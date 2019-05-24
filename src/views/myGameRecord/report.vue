@@ -157,8 +157,14 @@ export default {
       return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
     },
     resetColumns () {
-      this.lotteryTableColumn = Object.assign({}, this.lotteryTableColumnTpl)
-      this.otherCommonTableColumn = Object.assign({}, this.otherCommonTableColumnTpl)
+      // for (let p in this.lotteryTableColumnTpl) {
+      //   this.$set(this.lotteryTableColumn, p, this.lotteryTableColumnTpl[p])
+      // }
+      // for (let p in this.otherCommonTableColumnTpl) {
+      //   this.$set(this.otherCommonTableColumn, p, this.otherCommonTableColumnTpl[p])
+      // }
+      this.lotteryTableColumn = Object.assign({}, this.lotteryTableColumn, this.lotteryTableColumnTpl)
+      this.otherCommonTableColumn = Object.assign({}, this.otherCommonTableColumn, this.otherCommonTableColumnTpl)
     },
     /**
      * 盈亏汇总数据
@@ -234,15 +240,19 @@ export default {
       this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
         this.otherCommonReportData = []
         if (success === 1 && items.length > 0) {
+          console.log('otherCommonTableColumn=', JSON.stringify(this.otherCommonTableColumn), this.$delete)
           if (pointLevel === undefined || pointLevel <= 0) {
             if (this.I === 1) {
-              delete this.lotteryTableColumn.point
+              // delete this.lotteryTableColumn.point
+              this.$delete(this.lotteryTableColumn, 'point')
             } else {
-              delete this.otherCommonTableColumn.point
+              // delete this.otherCommonTableColumn.point
+              this.$delete(this.otherCommonTableColumn, 'point')
             }
           } else {
             this.resetColumns()
           }
+          console.log('otherCommonTableColumn=', JSON.stringify(this.otherCommonTableColumn))
           items[items.length - 1].date = '合计'
           this.otherCommonReportData = items // items.slice(0, items.length - 1)
           setTimeout(() => {
