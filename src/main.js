@@ -81,6 +81,10 @@ import App from './App.v2'
 //   // render: h => h(App)
 // }).$mount('#app', h => h(App))
 export default new Vue({
+  data: {
+    showMiniIframeGame: true,  // 是否创建显示 全局第三方游戏mini窗口（可以在任何页面玩）
+    miniIframeGameRetract: true // 隐藏（收起）
+  },
   el: '#app',
   router: router,
   render: h => h(App)

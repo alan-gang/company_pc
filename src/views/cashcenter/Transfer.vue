@@ -158,12 +158,12 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '开元帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
       t: '',
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '棋牌帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount']
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount']
     }
   },
   computed: {

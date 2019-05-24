@@ -160,6 +160,7 @@
 
     CopyRight
 
+    Chess(v-if="$root.showMiniIframeGame" v-bind:show="$root.showMiniIframeGame" v-bind:isRetract="$root.miniIframeGameRetract" v-bind:gameId="thirdGame.gameId" v-bind:platId="thirdGame.platId" @retract="$root.miniIframeGameRetract = $event")
 
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")
@@ -182,6 +183,7 @@ import CopyRight from 'components/CopyRight'
 import Me from 'components/Me'
 import Unloginbar from 'components/Unloginbar'
 import MyMenu from 'components/Menu'
+import Chess from './outer/chess'
 export default {
   name: 'Home',
   mixins: [base],
@@ -251,7 +253,11 @@ export default {
       showbigpic: false,
       ri: 0,
       t1: 0,
-      t2: 0
+      t2: 0,
+      thirdGame: {
+        gameId: '202',
+        platId: '7'
+      }
     }
   },
   computed: {
@@ -421,7 +427,8 @@ export default {
     CopyRight,
     Me,
     MyMenu,
-    Unloginbar
+    Unloginbar,
+    Chess
   }
 }
 </script>
