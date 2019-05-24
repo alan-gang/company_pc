@@ -73,7 +73,7 @@ export default {
         if (this.press) this.press = false
       }, 1000)
       this.$http.get(this.bgAPI, {amount: this.amount, platid: this.platId}).then(({data}) => {
-        this.reloadUrl()
+        // this.reloadUrl()
         if (data.success === 1) {
           this.$message.success({message: data.msg || '转入成功'})
           this.$refs.gameIframe.reload()
@@ -104,7 +104,7 @@ export default {
   .el-select
     width 1.9rem
   &.retract
-    right 20rem
+    right 100rem
   .i-num-input
     width 1.38rem
     line-height 0.28rem
