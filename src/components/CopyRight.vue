@@ -3,42 +3,41 @@
     div.t
       el-row.content-width.bt-logo
 
-        el-popover(placement="top"  trigger="click"  v-bind:popper-class=" 'popover-vertion-tip' " offset="20")
+        //- el-popover(placement="top"  trigger="click"  v-bind:popper-class=" 'popover-vertion-tip' " offset="20")
           
-          .version-tip
+        //-   .version-tip
             
-            p v1.4.7
-            ul
-              li 平台调整为不需要登录也能进入首页
-              li 您将可以在首页进行登录、注册以及测速
-              li 首页的内容更加丰富了
+        //-     p v1.4.7
+        //-     ul
+        //-       li 平台调整为不需要登录也能进入首页
+        //-       li 您将可以在首页进行登录、注册以及测速
+        //-       li 首页的内容更加丰富了
 
-            p v1.4.6
-            ul
-              li 增加新游戏幸运飞艇
-              li 注册界面支持手动输入推广码
-              li 调整契约规则-分红比例为下拉选择
+        //-     p v1.4.6
+        //-     ul
+        //-       li 增加新游戏幸运飞艇
+        //-       li 注册界面支持手动输入推广码
+        //-       li 调整契约规则-分红比例为下拉选择
 
-            p v1.4.5
-            ul
-              li 增加汇总报表，活动报表
-              li 调整了部分报表功能
-              li PT真人和捕鱼游戏上线
-              li AG真人、电游、捕鱼游戏上线
+        //-     p v1.4.5
+        //-     ul
+        //-       li 增加汇总报表，活动报表
+        //-       li 调整了部分报表功能
+        //-       li PT真人和捕鱼游戏上线
+        //-       li AG真人、电游、捕鱼游戏上线
 
-            p v1.4.4
-            ul
-              li 登录页面增加客服功能
-              li 平台增加棋牌游戏和和PT电子游戏
-              li 增加充提报表、版本信息
-              li 相关报表做了适量调整
+        //-     p v1.4.4
+        //-     ul
+        //-       li 登录页面增加客服功能
+        //-       li 平台增加棋牌游戏和和PT电子游戏
+        //-       li 增加充提报表、版本信息
+        //-       li 相关报表做了适量调整
 
 
-          span.pointer(slot="reference")
-            span.ll.text-666 版本说明 ：
-            span.rr V1.4.7
+        //-   span.pointer(slot="reference")
+        //-     span.ll.text-666 版本说明 ：
+        //-     span.rr V1.4.7
           
-
         span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         span.ll.text-666 技术支持：
         span.rr 创优科技

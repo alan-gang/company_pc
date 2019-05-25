@@ -6,7 +6,9 @@
       InputNumber(v-bind:defaultValue="amount" v-on:enter="transfer" v-on:change="amount = $event" placeholder="请输入整数金额") 
       span.yuan 元
       .ds-button.primary.large.ml15(@click="transfer") 确定
-      span.btn-retract(@click="retract")
+      span.float-r
+        span.btn-refresh(@click="refresh")
+        span.btn-retract(@click="retract")
     .chess-iframe-wp
       iframe(v-bind:src="url" ref="gameIframe")
 </template>
@@ -84,6 +86,9 @@ export default {
       }).finally(() => {
       })
     },
+    refresh () {
+      this.init()
+    },
     reloadUrl () {
       let t = `&__t=${Date.now()}`
       let f = this.url.indexOf('&__t=')
@@ -112,13 +117,26 @@ export default {
   .yuan
     color #aaaaaa
     padding-left 0.05rem
-  .btn-retract
+  btn() 
     display inline-block
     width 1rem
     height .54rem
-    background url('../../assets/outer/chess/icon_Retract.png') no-repeat center
-    float right
     cursor pointer
+  .float-r
+    display inline-block
+    float right
+    height .54rem
+  .btn-refresh
+    btn()
+    width 0.8rem
+    background url('../../assets/outer/chess/icon_Rerefsh.png') no-repeat center
+  .btn-refresh:hover
+    background-color #1d364f
+  .btn-retract
+    btn()
+    background url('../../assets/outer/chess/icon_Retract.png') no-repeat center
+  .btn-retract:hover
+    background-color #1d364f
   .transfer-bar
     line-height .54rem
     background-color #1d384f
@@ -128,6 +146,6 @@ export default {
       height 100%
       height 4.7rem
       border none
-      background-color #1d384f
+      background-color #1d334f
       // background url('../../assets/outer/chess/game_bg.jpg') no-repeat center
 </style>
