@@ -467,12 +467,18 @@ export default {
   .new-home .dialog-container
     top 0
     z-index 3
+  .ad
   .box
     background url(../assets/newhome/index_bg.jpg) no-repeat
     background-repeat no-repeat
     background-size 100% 100%
     padding-top .3rem
-    
+    &.ad
+      padding-top 0
+      background-repeat repeat
+      background-size 100% 100rem
+      
+      
   W = 1.4rem
   H = 1.4rem
   .top-games
