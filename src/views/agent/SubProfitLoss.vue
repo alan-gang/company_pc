@@ -34,18 +34,21 @@
 
         el-table-column(label="操作")
           template(slot-scope="scope")
-            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)") 每日明细
       
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
 
+        el-table-column(label="下级类型" )
+          template(slot-scope="scope")
+            span {{searchRange[range]}}
         el-table-column(label="操作" )
           template(slot-scope="scope")
-            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)") 每日明细
     
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
     
@@ -102,7 +105,10 @@ export default {
       otherCommonTableColumn: {
         userName: '用户名',
         buy: '投注',
+        prize: '中奖',
+        point: '返点',
         gameProfit: '游戏盈亏',
+        reward: '活动',
         totalProfit: '总盈亏'
       },
 
@@ -166,7 +172,7 @@ export default {
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            items[items.length - 1].date = '赢亏汇总'
+            items[items.length - 1].date = '总计'
             if (this.I === 0) {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
@@ -317,6 +323,8 @@ export default {
 
 <style lang="stylus">
 .my-report-record
+  .fc-o
+    color #f37e0c
   .scroll-content
     padding: 0 0.2rem;
   .search-bar
