@@ -17,7 +17,7 @@
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         //- | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
+        el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
           acc-ls(v-bind:accHistory="outAccHistory" v-bind:froms="froms" trigerSource="out" @acc-choiced="accChoiced")
           span.flex.flex-ai-c.ml10(slot="reference") 
             span.mr5 转出 
@@ -29,7 +29,7 @@
         
         | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
+        el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
           acc-ls(v-bind:accHistory="inAccHistory" v-bind:froms="froms" trigerSource="in" @acc-choiced="accChoiced")
           span.flex.flex-ai-c.ml10(slot="reference") 
             span.mr5 转入 

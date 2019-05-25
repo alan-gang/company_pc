@@ -13,7 +13,7 @@
             el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
               el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
-          el-popover(placement="bottom" width="890" trigger="hover" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
+          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
             SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
             span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
               span.mr5 类型&nbsp;
@@ -32,7 +32,7 @@
           el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
-        el-popover(placement="bottom" width="536" trigger="hover" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
           SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
           span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
             span.mr5 彩种&nbsp;
@@ -197,10 +197,10 @@
           d0: [0, 0],
           d1: [1, 1],
           d2: [2, 2],
-          d3: [6, 6],
-          d4: [5, 5],
-          d5: [4, 4],
-          d6: [3, 3]
+          d3: [3, 3],
+          d4: [4, 4],
+          d5: [5, 5],
+          d6: [6, 6]
         }
       }
     },
