@@ -22,6 +22,16 @@ export default {
     '$root.miniIframeGameRetract' () {
       this.retract = this.$root.miniIframeGameRetract
       this.retract && (this.checkedIndex = -1)
+    },
+    'me.login' () {
+      if (!this.me.login) {
+        this.$root.showMiniIframeGame = false
+        this.$root.miniIframeGameRetract = true
+        this.checkedIndex = -1
+        setTimeout(() => {
+          this.retract = false
+        }, 100)
+      }
     }
   },
   methods: {

@@ -16,9 +16,11 @@
 <script>
 import api from '../../http/api'
 import InputNumber from 'components/InputNumber'
+import store from '../../store'
 export default {
   data () {
     return {
+      me: store.state.user,
       url: '',
       amount: '',
       accoutns: ['主账户 转 开元账户:7', '开元账户 转 主账户'],
