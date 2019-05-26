@@ -209,7 +209,9 @@ let Login = {
   // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
   isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth',
   // 首页活动banner
-  getActivityBanner: '/activity.do?method=getActivityBanner'
+  getActivityBanner: '/activity.do?method=getActivityBanner',
+  // 退出第三方游戏
+  thirdGameLogout: '/ext/bg.do?method=logout'
 }
 
 let Game = {
