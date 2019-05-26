@@ -31,6 +31,13 @@ export default {
   components: {
     InputNumber
   },
+  watch: {
+    'me.login' () {
+      if (!this.me.login) {
+        this.logoutThirdGame()
+      }
+    }
+  },
   props: {
     show: {
       type: Boolean,
@@ -95,6 +102,23 @@ export default {
       let t = `&__t=${Date.now()}`
       let f = this.url.indexOf('&__t=')
       this.url = f === -1 ? `${this.url}${t}` : (this.url.substring(0, this.url.indexOf('&__t=')) + t)
+    },
+    resetState () {
+      this.$root.showMiniIframeGame = false
+      this.$root.miniIframeGameRetract = true
+    },
+    logoutThirdGame () {
+      setTimeout(() => {
+        this.resetState()
+      }, 3000)
+      this.$http.get(api.thirdGameLogout, {platId: this.platId}).then(({data}) => {
+        if (data.success === 1) {
+          this.resetState()
+          this.$message.success({message: data.msg || '退出成功'})
+        }
+      }).catch(rep => {
+      }).finally(() => {
+      })
     }
   }
 }
