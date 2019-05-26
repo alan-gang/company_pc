@@ -16,7 +16,7 @@
       .expand-left  下载中心
     .ds-icon-(v-show="Me.login")
       .expand-left 联系上级
-    .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
+    .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
     .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
       span.badge {{ amount }} 
