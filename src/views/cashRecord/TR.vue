@@ -228,12 +228,49 @@
         this.outAccHistory.unshift(acc)
         if (this.outAccHistory.length > 3) this.outAccHistory.pop()
       },
+      // setInAccHistory (acc) {
+      //   if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.inAccHistory.length >= 3) return
+      //   this.inAccHistory.push(acc)
+      // },
+      // setOutAccHistory (acc) {
+      //   if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.outAccHistory.length >= 3) return
+      //   this.outAccHistory.push(acc)
+      // },
       accChoiced (data, type) {
         if (type === 'out') this.f = data
         if (type === 'in') this.t = data
       },
       choicedSearchCondition (i, dates) {
         this.stEt = [dates.startDate, dates.endDate]
+      },
+      initHistory (data) {
+        if (!data || data.length < 1) return
+        let fromAccountIdx = 0
+        let toAccountIdx = 0
+        for (let i = 0; i < data.length; i++) {
+          fromAccountIdx = this.forms.findIndex((acc) => {
+            return data[i].from === acc.split(':')[0]
+          })
+          if (fromAccountIdx >= 0) {
+            if (this.outAccHistory.length < 3) {
+              this.setOutAccHistory(this.forms[fromAccountIdx])
+            } else {
+              break
+            }
+          }
+        }
+        for (let j = 0; j < data.length; j++) {
+          toAccountIdx = this.forms.findIndex((acc) => {
+            return data[j].to === acc.split(':')[0]
+          })
+          if (toAccountIdx >= 0) {
+            if (this.inAccHistory.length < 3) {
+              this.setInAccHistory(this.forms[toAccountIdx])
+            } else {
+              break
+            }
+          }
+        }
       }
     }
   }
