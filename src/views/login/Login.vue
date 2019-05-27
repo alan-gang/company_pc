@@ -2,7 +2,7 @@
 .login-form
   img(src="/static/pic/login_banner.jpg")
   dl(style="padding-top: .1rem")
-    .contact(@click=" window.open(ME.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
+    .contact(@click=" window.open(Me.chatUrlSlave || ME.chatUrl || 'https://vv66.chatbay.net/chat/chatClient/chatbox.jsp?companyID=80001506&configID=467', 'newwindow', 'width=920,height=700,left=400,top=300') ")
     dt.ds-icon-notice(:class="{ h0: !this.regard }" style="margin-top: .1rem")
       | 问候语：
       span.regard {{ regard }}

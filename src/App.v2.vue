@@ -1101,7 +1101,7 @@ export default {
       this.$http.get(api.chatUrl).then(({data}) => {
         // success
         if (data.success === 1) {
-          this.setUser({chatUrl: data.chatUrl})
+          this.setUser({chatUrl: data.chatUrl, chatUrlSlave: data.chatUrlSlave})
         }
       })
     },

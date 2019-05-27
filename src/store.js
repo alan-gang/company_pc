@@ -68,7 +68,8 @@ let defaultUser = {
   exp: 0,
   diffExp: 0,
   nexMinExp: 0,
-  vipChatUrl: ''
+  vipChatUrl: '',
+  chatUrlSlave: ''
 }
 let defaultUserString = JSON.stringify(defaultUser)
 delete defaultUser.mode

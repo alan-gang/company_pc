@@ -16,9 +16,11 @@
 <script>
 import api from '../../http/api'
 import InputNumber from 'components/InputNumber'
+import store from '../../store'
 export default {
   data () {
     return {
+      me: store.state.user,
       url: '',
       amount: '',
       accoutns: ['主账户 转 开元账户:7', '开元账户 转 主账户'],
@@ -28,6 +30,13 @@ export default {
   },
   components: {
     InputNumber
+  },
+  watch: {
+    'me.login' () {
+      if (!this.me.login) {
+        this.logoutThirdGame()
+      }
+    }
   },
   props: {
     show: {
@@ -93,6 +102,23 @@ export default {
       let t = `&__t=${Date.now()}`
       let f = this.url.indexOf('&__t=')
       this.url = f === -1 ? `${this.url}${t}` : (this.url.substring(0, this.url.indexOf('&__t=')) + t)
+    },
+    resetState () {
+      this.$root.showMiniIframeGame = false
+      this.$root.miniIframeGameRetract = true
+    },
+    logoutThirdGame () {
+      setTimeout(() => {
+        this.resetState()
+      }, 3000)
+      this.$http.get(api.thirdGameLogout, {platId: this.platId}).then(({data}) => {
+        if (data.success === 1) {
+          this.resetState()
+          this.$message.success({message: data.msg || '退出成功'})
+        }
+      }).catch(rep => {
+      }).finally(() => {
+      })
     }
   }
 }
