@@ -669,6 +669,32 @@
       cancelOrder (status) {
         this.show = false
         this.Orderlist()
+      },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      initHistory (data) {
+        if (!data || data.length < 1) return
+        // let fromAccountIdx = 0
+        // for (let i = 0; i < data.length; i++) {
+        //   fromAccountIdx = this.froms.findIndex((acc) => {
+        //     return data[i].from === acc.split(':')[0]
+        //   })
+        //   if (fromAccountIdx >= 0) {
+        //     if (this.outAccHistory.length < 3) {
+        //       this.setOutAccHistory(this.froms[fromAccountIdx])
+        //     } else {
+        //       break
+        //     }
+        //   }
+        // }
       }
     }
   }
