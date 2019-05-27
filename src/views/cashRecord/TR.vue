@@ -131,7 +131,7 @@
         currentPage: 1,
         preOptions: {},
         // froms: ['主账户', '特殊账户', 'BG账户:2', 'IBC账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
-        froms: ['主账户', '特殊账户', 'BG账户:2', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
+        froms: ['主账户', '特殊账户', 'BG账户:2', '开元账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],
@@ -175,8 +175,8 @@
       },
       getData (page, fn) {
         // this.processDate()
-        this.setOutAccHistory(this.froms[this.f])
-        this.setInAccHistory(this.froms[this.t])
+        // this.setOutAccHistory(this.froms[this.f])
+        // this.setInAccHistory(this.froms[this.t])
         let loading = this.$loading({
           text: '转账记录加载中...',
           target: this.$refs['table'].$el
@@ -200,6 +200,9 @@
             !fn && (this.currentPage = 1)
             this.data = data.recordList
             this.total = data.totalSize || this.data.length
+            if (this.preOptions.page === 1) {
+              this.initHistory(data.recordList)
+            }
           }
         }).finally(() => {
           setTimeout(() => {
@@ -218,24 +221,24 @@
           this.stEt = [sDate, new Date()]
         }
       },
-      setInAccHistory (acc) {
-        if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
-        this.inAccHistory.unshift(acc)
-        if (this.inAccHistory.length > 3) this.inAccHistory.pop()
-      },
-      setOutAccHistory (acc) {
-        if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
-        this.outAccHistory.unshift(acc)
-        if (this.outAccHistory.length > 3) this.outAccHistory.pop()
-      },
       // setInAccHistory (acc) {
-      //   if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.inAccHistory.length >= 3) return
-      //   this.inAccHistory.push(acc)
+      //   if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+      //   this.inAccHistory.unshift(acc)
+      //   if (this.inAccHistory.length > 3) this.inAccHistory.pop()
       // },
       // setOutAccHistory (acc) {
-      //   if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.outAccHistory.length >= 3) return
-      //   this.outAccHistory.push(acc)
+      //   if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+      //   this.outAccHistory.unshift(acc)
+      //   if (this.outAccHistory.length > 3) this.outAccHistory.pop()
       // },
+      setInAccHistory (acc) {
+        if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.inAccHistory.length >= 3) return
+        this.inAccHistory.push(acc)
+      },
+      setOutAccHistory (acc) {
+        if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.outAccHistory.length >= 3) return
+        this.outAccHistory.push(acc)
+      },
       accChoiced (data, type) {
         if (type === 'out') this.f = data
         if (type === 'in') this.t = data
@@ -248,24 +251,24 @@
         let fromAccountIdx = 0
         let toAccountIdx = 0
         for (let i = 0; i < data.length; i++) {
-          fromAccountIdx = this.forms.findIndex((acc) => {
+          fromAccountIdx = this.froms.findIndex((acc) => {
             return data[i].from === acc.split(':')[0]
           })
           if (fromAccountIdx >= 0) {
             if (this.outAccHistory.length < 3) {
-              this.setOutAccHistory(this.forms[fromAccountIdx])
+              this.setOutAccHistory(this.froms[fromAccountIdx])
             } else {
               break
             }
           }
         }
         for (let j = 0; j < data.length; j++) {
-          toAccountIdx = this.forms.findIndex((acc) => {
+          toAccountIdx = this.froms.findIndex((acc) => {
             return data[j].to === acc.split(':')[0]
           })
           if (toAccountIdx >= 0) {
             if (this.inAccHistory.length < 3) {
-              this.setInAccHistory(this.forms[toAccountIdx])
+              this.setInAccHistory(this.froms[toAccountIdx])
             } else {
               break
             }
