@@ -57,9 +57,43 @@
     el-dialog(custom-class="daily-profit-dialog" v-bind:visible.sync="isShowDailyProfitDialog" center v-bind:modal="false" )
       span(slot="title") 每日明细
       .daily-profit-dialog-ctx
-        .info-header 每日明细-{{}}(个人)
+        .info-header 每日明细-{{curSubUserName}}(个人)
         el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
-          el-table-column(label="时间")
+          el-table-column(prop="date" label="日期" class-name="pl2" )
+            template(scope="scope")
+              span {{scope.row.date}}
+
+          el-table-column(prop="buy" label="投注" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+
+          el-table-column(prop="prize" label="中奖" v-if="I === 1")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
+
+          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="gameProfit" label="游戏盈亏" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+
+          el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
+
+          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="reward" label="活动")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "reward", scope.row)}}
+
+          el-table-column(prop="totalProfit" label="总盈亏" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
 </template>
 
 <script>
@@ -67,6 +101,7 @@ import api from 'src/http/api'
 import { dateFormat, dateTimeFormat } from '../../util/Date'
 import SearchConditions from 'components/SearchConditions'
 import store from '../../store'
+import { numberWithCommas } from '../../util/Number'
 export default {
   components: {
     SearchConditions
@@ -76,7 +111,7 @@ export default {
   data () {
     return {
       me: store.state.user,
-      userId: '',
+      // userId: '',
       I: 0,
       stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
       pageSize: 20,
@@ -134,12 +169,19 @@ export default {
       isShowHigherLevelDialog: false,
       isShowDailyProfitDialog: false,
 
-      subUserId: ''
+      amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
+
+      subUserId: '',
+      curSubUserName: ''
 
     }
   },
+  computed: {
+    userId () {
+      return this.me.userId
+    }
+  },
   mounted () {
-    this.userId = this.me.userId
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this.getPersonalReport()
   },
@@ -149,10 +191,13 @@ export default {
       this.curGameType = this.gameTypeMap['tab' + this.I]
       this.getPersonalReport()
     },
+    tableCellDataFormat (columns, prop, row) {
+      return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
     /**
      * 盈亏汇总数据
      */
-    getPersonalReport (params = {}) {
+    getPersonalReport (params = {}, source) {
       let loading = this.$loading({
         text: '盈亏报表加载中...',
         target: this.$el
@@ -168,9 +213,9 @@ export default {
       }
       if (this.subUserName) {
         p.username = this.subUserName
+        delete p.userId
       }
       Object.assign(p, params)
-      this.setNameHistory(p.username)
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
@@ -186,10 +231,12 @@ export default {
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
+            this.setNameHistory(p.username)
           } else {
+            this.profitAndLossSummaryData = []
             this.otherCommonReportData = []
             this.totalSize = 0
-            if (params.source === 'search' && this.subUserName) {
+            if (source === 'search' && this.subUserName) {
               this.$message.error({target: this.$el, message: '该下级不存在'})
             }
           }
@@ -339,7 +386,7 @@ export default {
       this.stEt = [dates.startDate, dates.endDate]
     },
     search () {
-      this.getPersonalReport({source: 'search'})
+      this.getPersonalReport({}, 'search')
     },
     pageChanged (p) {
       this.curPage = p
@@ -365,9 +412,11 @@ export default {
     },
     viewDailyProfitDetail (row) {
       this.subUserId = row.userId
+      this.curSubUserName = row.userName
       this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
-    }
+    },
+    numberWithCommas
   }
 }
 </script>
