@@ -41,10 +41,6 @@
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-
-        el-table-column(label="下级类型" )
-          template(slot-scope="scope")
-            span {{searchRange[range]}}
         el-table-column(label="操作" )
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)") 查看上级
@@ -109,7 +105,8 @@ export default {
         point: '返点',
         gameProfit: '游戏盈亏',
         reward: '活动',
-        totalProfit: '总盈亏'
+        totalProfit: '总盈亏',
+        subType: '下级类型'
       },
 
       profitAndLossSummaryData: [],
@@ -176,6 +173,10 @@ export default {
             if (this.I === 0) {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
+              items = items.map((item) => {
+                item.subType = this.searchRange[this.range]
+                return item
+              })
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
