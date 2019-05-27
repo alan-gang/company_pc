@@ -936,7 +936,7 @@ export default {
         if (data.success === 1) {
           this.menus[6].groups.forEach(x => {
             x.items.forEach(y => {
-              delete y.menuid
+              // delete y.menuid
               if (y.gameid && data.lotteryList.findIndex(z => z.lotteryId === y.gameid) === -1) {
                 this.$set(y, '$removed', true)
               }
