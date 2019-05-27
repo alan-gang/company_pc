@@ -34,8 +34,8 @@
 
         el-table-column(label="操作")
           template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)") 每日明细
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
       
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
@@ -43,9 +43,9 @@
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
         el-table-column(label="操作" )
           template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)") 每日明细
-    
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '总计'") 每日明细
+      p 温馨提示：仅保留最近7天的数据
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
     
     el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
@@ -161,8 +161,10 @@ export default {
         pageSize: this.pageSize,
         scope: this.range === '' ? 0 : this.range,
         beginDate: dateTimeFormat(this.stEt[0]).split(' ')[0],
-        endDate: dateTimeFormat(this.stEt[1]).split(' ')[0],
-        username: this.subUserName
+        endDate: dateTimeFormat(this.stEt[1]).split(' ')[0]
+      }
+      if (this.subUserName) {
+        p.username = this.subUserName
       }
       Object.assign(p, params)
       this.setNameHistory(p.username)
@@ -170,6 +172,7 @@ export default {
         if (success === 1) {
           if (items.length > 0) {
             items[items.length - 1].date = '总计'
+            items[items.length - 1].userName = '总计'
             if (this.I === 0) {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
@@ -179,6 +182,12 @@ export default {
               })
               this.otherCommonReportData = items
               this.totalSize = totalSize
+            }
+          } else {
+            this.otherCommonReportData = []
+            this.totalSize = 0
+            if (params.source === 'search' && this.subUserName) {
+              this.$message.error({target: this.$el, message: '该下级不存在'})
             }
           }
         }
@@ -291,7 +300,7 @@ export default {
       this.stEt = [dates.startDate, dates.endDate]
     },
     search () {
-      this.getPersonalReport()
+      this.getPersonalReport({source: 'search'})
     },
     pageChanged (p) {
       this.curPage = p
