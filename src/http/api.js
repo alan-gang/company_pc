@@ -72,6 +72,8 @@ let Login = {
   lul: '/report/dwReport.do?method=list',
   outerReportDetail: '/report/otherReport.do?method=detail',
   outerReport: '/report/otherReport.do?method=list',
+  // 逐日盈亏
+  personalProfit: '/report/personalProfit.do?method=dailyDetail',
   outerOrderRecord: '/ext/projectOther.do?method=',
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
   tryLoginFromUrl: '/login/login.do?method=dsLog',
@@ -545,6 +547,7 @@ let Form = {
   personList: '/report/profit.do?method=personList',
   poolIssue: '/report/buyReport.do?method=poolIssue',
   poolList: '/report/buyReport.do?method=poolList',
+  personalReport: '/report/personalReportAction.do?method=recentTotalReport',
   // 查询日工资（数据要分页）
   // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
   daySalaryRepor: '/report/daySalaryRepor.do?method=list',
