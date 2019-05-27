@@ -13,7 +13,10 @@ export default {
     }
   },
   props: {
-    defaultDateIdx: -1,
+    defaultDateIdx: {
+      type: Number,
+      default: -1
+    },
     showTimeTxt: {
       type: Boolean,
       default: true
