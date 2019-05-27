@@ -17,7 +17,7 @@
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         //- | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
+        el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
           acc-ls(v-bind:accHistory="outAccHistory" v-bind:froms="froms" trigerSource="out" @acc-choiced="accChoiced")
           span.flex.flex-ai-c.ml10(slot="reference") 
             span.mr5 转出 
@@ -29,7 +29,7 @@
         
         | &nbsp;&nbsp;
         
-        el-popover(placement="bottom" width="420" trigger="hover" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
+        el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
           acc-ls(v-bind:accHistory="inAccHistory" v-bind:froms="froms" trigerSource="in" @acc-choiced="accChoiced")
           span.flex.flex-ai-c.ml10(slot="reference") 
             span.mr5 转入 
@@ -130,8 +130,8 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        // froms: ['主帐户', '特殊帐户', 'BG帐户', 'IBC帐户', '棋牌帐户:7', 'PT帐户:5', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25'],
-        froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
+        // froms: ['主账户', '特殊账户', 'BG账户:2', 'IBC账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
+        froms: ['主账户', '特殊账户', 'BG账户:2', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],
@@ -178,7 +178,7 @@
         this.setOutAccHistory(this.froms[this.f])
         this.setInAccHistory(this.froms[this.t])
         let loading = this.$loading({
-          text: '转帐记录加载中...',
+          text: '转账记录加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
@@ -188,11 +188,11 @@
             state: this.s,
             bgTm: this.stEt[0] ? dateTimeFormat(this.stEt[0]) : '',
             endTm: this.stEt[1] ? dateTimeFormat(this.stEt[1]) : '',
-            pageIndex: 1,
+            page: 1,
             pageSize: this.pageSize
           }
         } else {
-          this.preOptions.pageIndex = page
+          this.preOptions.page = page
         }
         this.$http.get(api.queryBalanceTransfer, this.preOptions).then(({data}) => {
           if (data && data.recordList) {
@@ -219,21 +219,58 @@
         }
       },
       setInAccHistory (acc) {
-        if (!acc || this.inAccHistory.indexOf(acc) !== -1) return
-        this.inAccHistory.push(acc)
-        if (this.inAccHistory.length > 3) this.inAccHistory.shift()
+        if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+        this.inAccHistory.unshift(acc)
+        if (this.inAccHistory.length > 3) this.inAccHistory.pop()
       },
       setOutAccHistory (acc) {
-        if (!acc || this.outAccHistory.indexOf(acc) !== -1) return
-        this.outAccHistory.push(acc)
-        if (this.outAccHistory.length > 3) this.outAccHistory.shift()
+        if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户') return
+        this.outAccHistory.unshift(acc)
+        if (this.outAccHistory.length > 3) this.outAccHistory.pop()
       },
+      // setInAccHistory (acc) {
+      //   if (!acc || this.inAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.inAccHistory.length >= 3) return
+      //   this.inAccHistory.push(acc)
+      // },
+      // setOutAccHistory (acc) {
+      //   if (!acc || this.outAccHistory.indexOf(acc) !== -1 || acc === '主账户' || this.outAccHistory.length >= 3) return
+      //   this.outAccHistory.push(acc)
+      // },
       accChoiced (data, type) {
         if (type === 'out') this.f = data
         if (type === 'in') this.t = data
       },
       choicedSearchCondition (i, dates) {
         this.stEt = [dates.startDate, dates.endDate]
+      },
+      initHistory (data) {
+        if (!data || data.length < 1) return
+        let fromAccountIdx = 0
+        let toAccountIdx = 0
+        for (let i = 0; i < data.length; i++) {
+          fromAccountIdx = this.forms.findIndex((acc) => {
+            return data[i].from === acc.split(':')[0]
+          })
+          if (fromAccountIdx >= 0) {
+            if (this.outAccHistory.length < 3) {
+              this.setOutAccHistory(this.forms[fromAccountIdx])
+            } else {
+              break
+            }
+          }
+        }
+        for (let j = 0; j < data.length; j++) {
+          toAccountIdx = this.forms.findIndex((acc) => {
+            return data[j].to === acc.split(':')[0]
+          })
+          if (toAccountIdx >= 0) {
+            if (this.inAccHistory.length < 3) {
+              this.setInAccHistory(this.forms[toAccountIdx])
+            } else {
+              break
+            }
+          }
+        }
       }
     }
   }

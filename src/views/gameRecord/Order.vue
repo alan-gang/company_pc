@@ -20,7 +20,7 @@
         //-   el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
         //-     el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-        el-popover(placement="bottom" width="536" trigger="hover" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
           SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
           span.flex.flex-ai-c.ml10.lottery-choice-condi(slot="reference") 
             span.mr5 彩种&nbsp;
@@ -96,7 +96,7 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event")  
+    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event" v-on:cancel-order="cancelOrder")  
 
     //- .modal.bet-detail-modal(v-show="show" )
       .mask
@@ -322,8 +322,8 @@
         stEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         defaultStEt: [new Date()._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
         STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
-        // STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
-        STATUSCLASS: ['bgc-yellow', 'bgc-red', 'bgc-gray', 'bgc-green'],
+        STATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
+        // STATUSCLASS: ['bgc-yellow', 'bgc-red', 'bgc-gray', 'bgc-green'],
         status: '',
         ISFREE: ['现金', '信游币'],
         isFree: '',
@@ -665,6 +665,10 @@
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      cancelOrder (status) {
+        this.show = false
+        this.Orderlist()
       }
     }
   }
