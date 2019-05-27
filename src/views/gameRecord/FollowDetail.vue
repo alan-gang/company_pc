@@ -11,7 +11,7 @@
           el-col(:span="12")
             span.l-label 追号编号：
             span.text-black {{ detail.taskId }}  
-            span.follow-status.c_f(:class=" STATUSCLASS[detail.status] "){{ STATUS[detail.status] }}
+            span.follow-status.c_f(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
           el-col(:span="12")
             span.l-label 追号时间：
             span.text-black {{ detail.begintime }}
@@ -30,34 +30,34 @@
             span.l-label 玩法：
             span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
         el-row
-          el-col(:span="12")
+          el-col(:span="12" className="codes-col")
             span.l-label 内容：
             span.text-black {{ detail.codes }}
           el-col(:span="12")
             span.l-label 单期金额：
-            span.text-black {{ detail.singleprice }} 元
+            span.text-black {{ numberWithCommas(detail.singleprice) }} 元
         el-row
           el-col(:span="12")
             span.l-label 追号期数：
             span.text-black {{detail.issuecount}}
           el-col(:span="12")
             span.l-label 追号总额：
-            span.text-black {{ detail.taskprice }} 元
+            span.text-black {{ numberWithCommas(detail.taskprice) }} 元
         el-row
           el-col(:span="12")
             span.l-label 开始期号：
             span.text-black {{ detail.beginissue }}
           el-col(:span="12")
            span.l-label 完成期数：
-            span.text-black {{ detail.finishedcount }} 期 （共{{ detail.finishprice }}元）
+            span.text-black {{ detail.finishedcount }} 期 （共{{ numberWithCommas(detail.finishprice) }}元）
         el-row
           el-col(:span="12")
             span.l-label 取消期数：
-            span.text-black {{ detail.cancelcount }} （共{{ detail.cancelPrice }}元）
+            span.text-black {{ detail.cancelcount }} 期（共{{ numberWithCommas(detail.cancelPrice) }}元）
           el-col(:span="12")
             span.l-label 中奖期数：
             span.text-black {{ detail.wincount }} 期 
-              span(v-if=" detail.winprize && detail.winprize._o0() ") （共{{  detail.winprize && detail.winprize._nwc() }}元）
+              span(v-if=" detail.winprize && detail.winprize._o0() ") （共{{ numberWithCommas(detail.winprize && detail.winprize._nwc()) }}元）
 
 
 
@@ -141,21 +141,26 @@
 
         el-table-column(prop="issue" label="奖期" align="center")
 
-        el-table-column(label="追号倍数" align="center")
+        el-table-column(label="倍数" align="center")
           template(scope="scope")
             span {{ scope.row.multiple + '倍' }}
-        el-table-column( label="追号状态" align="center")
+
+        el-table-column( label="注单状态" align="center")
           template(scope="scope")
-            span(:class=" STATUSSCLASS[scope.row.status] ") {{ STATUSS[scope.row.status] }}
+            span(:class=" STATUSSCLASS[scope.row.substatus] ") {{ STATUSS[scope.row.substatus] }}
+        
+        el-table-column(label="中奖金额" align="center")
+          template(scope="scope")
+            span {{numberWithCommas(scope.row.bonus)}}
 
         el-table-column(prop="userpoint" label="注单详情" align="center")
           template(scope="scope")
-            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 查看
 
     .buttons()
-      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 终止追号 
+      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 取消追号 
     
-    BetDetail(v-show="show" v-bind:row="row" v-on:show-follow="show = false" v-on:close="show = $event")
+    BetDetail(v-show="show" v-bind:row="row" v-bind:showCancelOrder="false" v-on:show-follow="show = false" v-on:close="show = $event" v-on:cancel-order="cancelOrder")
 
     //- .modal(v-show="show" )
       .mask
@@ -256,18 +261,20 @@
   import api from '../../http/api'
   // import util from '../../util'
   import BetDetail from './BetDetail'
+  import { numberWithCommas } from '../../util/Number'
   export default {
     props: ['id'],
     data () {
       return {
-        STATUS: ['进行中', '已取消', '已完成'],
-        // STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
-        STATUSCLASS: ['bgc-yellow', 'bgc-green', 'bgc-red'],
+        STATUS_FINISH: 2,
+        // STATUS: ['进行中', '已取消', '已完成'],
+        STATUS: ['进行中', '已取消', '已中奖', '未中奖'],
+        STATUSCLASS: ['bgc-yellow', 'bgc-green', 'bgc-red', 'bgc-blue'],
         ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
         // STATUS: ['进行中', '已完成', '已取消'],
-        STATUSS: ['未生成', '已生成', '已取消'],
-        STATUSSCLASS: ['text-black', 'text-green', 'text-grey'],
+        STATUSS: ['未生成', '进行中', '已取消', '已中奖', '未中奖'],
+        STATUSSCLASS: ['text-black', 'text-black', 'text-black', 'text-red', 'text-grey'],
         // ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
@@ -347,6 +354,20 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            if (data.status === this.STATUS_FINISH) {
+              // 中奖，未中奖
+              data.status = data.wincount > 0 ? 2 : 3
+            }
+            data.taskDetailsList = data.taskDetailsList.map((t) => {
+              t.substatus = t.status
+              if (t.status === 1) {
+                t.substatus = t.isGetPrize === 1 ? 3 : t.isGetPrize === 2 ? 4 : t.status
+              }
+              if (t.status === 0 || t.status === 2 || t.isGetPrize === 0) {
+                t.bonus = ''
+              }
+              return t
+            })
             this.detail = data
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -378,7 +399,11 @@
             loading.close()
           }, 100)
         })
-      }
+      },
+      cancelOrder () {
+        this.show = false
+      },
+      numberWithCommas
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120
       // followList: api + 'report/taskBuy.do?method=list',
@@ -440,6 +465,10 @@
     background #0faf0f
   .bgc-gray
     background #444444
+  .bgc-blue
+    background #0000ee
+  .text-red
+    color red  
   .l-label
     display inline-block
     min-width .65rem
@@ -455,7 +484,10 @@
   .follow-detail-modal
     .box
       width 6.7rem
-
+    .el-col
+      word-break break-all
+    .el-col[classname="codes-col"]
+      padding-right 0.1rem
   .title
     color #333
     font-weight bold

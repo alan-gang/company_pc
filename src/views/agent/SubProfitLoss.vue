@@ -34,19 +34,18 @@
 
         el-table-column(label="操作")
           template(slot-scope="scope")
-            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
       
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-
         el-table-column(label="操作" )
           template(slot-scope="scope")
-            el-button(type="text" size="small" @click="viewHighterLevel(scope.row)") 查看上级
-            el-button(type="text" size="small" @click="viewDailyProfitDetail(scope.row)") 每日明细
-    
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '总计'") 每日明细
+      p 温馨提示：仅保留最近7天的数据
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
     
     el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
@@ -58,9 +57,43 @@
     el-dialog(custom-class="daily-profit-dialog" v-bind:visible.sync="isShowDailyProfitDialog" center v-bind:modal="false" )
       span(slot="title") 每日明细
       .daily-profit-dialog-ctx
-        .info-header 每日明细-{{}}(个人)
-        el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
-          el-table-column(label="时间")
+        .info-header 每日明细-{{curSubUserName}}(个人)
+        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
+          el-table-column(prop="date" label="日期" class-name="pl2" )
+            template(scope="scope")
+              span {{scope.row.date}}
+
+          el-table-column(prop="buy" label="投注" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+
+          el-table-column(prop="prize" label="中奖" v-if="I === 1")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
+
+          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="gameProfit" label="游戏盈亏" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+
+          el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
+
+          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="reward" label="活动")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "reward", scope.row)}}
+
+          el-table-column(prop="totalProfit" label="总盈亏" )
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
 </template>
 
 <script>
@@ -68,6 +101,7 @@ import api from 'src/http/api'
 import { dateFormat, dateTimeFormat } from '../../util/Date'
 import SearchConditions from 'components/SearchConditions'
 import store from '../../store'
+import { numberWithCommas } from '../../util/Number'
 export default {
   components: {
     SearchConditions
@@ -77,7 +111,7 @@ export default {
   data () {
     return {
       me: store.state.user,
-      userId: '',
+      // userId: '',
       I: 0,
       stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
       pageSize: 20,
@@ -102,12 +136,17 @@ export default {
       otherCommonTableColumn: {
         userName: '用户名',
         buy: '投注',
+        prize: '中奖',
+        point: '返点',
         gameProfit: '游戏盈亏',
-        totalProfit: '总盈亏'
+        reward: '活动',
+        totalProfit: '总盈亏',
+        subType: '下级类型'
       },
 
       profitAndLossSummaryData: [],
       otherCommonReportData: [],
+      dailyReportData: [],
 
       startDate: '',
       endDate: '',
@@ -128,12 +167,21 @@ export default {
       names: [],
       higherLevelUserBreads: [],
       isShowHigherLevelDialog: false,
-      isShowDailyProfitDialog: false
+      isShowDailyProfitDialog: false,
+
+      amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
+
+      subUserId: '',
+      curSubUserName: ''
 
     }
   },
+  computed: {
+    userId () {
+      return this.me.userId
+    }
+  },
   mounted () {
-    this.userId = this.me.userId
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this.getPersonalReport()
   },
@@ -143,10 +191,13 @@ export default {
       this.curGameType = this.gameTypeMap['tab' + this.I]
       this.getPersonalReport()
     },
+    tableCellDataFormat (columns, prop, row) {
+      return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
     /**
      * 盈亏汇总数据
      */
-    getPersonalReport (params = {}) {
+    getPersonalReport (params = {}, source) {
       let loading = this.$loading({
         text: '盈亏报表加载中...',
         target: this.$el
@@ -158,20 +209,35 @@ export default {
         pageSize: this.pageSize,
         scope: this.range === '' ? 0 : this.range,
         beginDate: dateTimeFormat(this.stEt[0]).split(' ')[0],
-        endDate: dateTimeFormat(this.stEt[1]).split(' ')[0],
-        username: this.subUserName
+        endDate: dateTimeFormat(this.stEt[1]).split(' ')[0]
+      }
+      if (this.subUserName) {
+        p.username = this.subUserName
+        delete p.userId
       }
       Object.assign(p, params)
-      this.setNameHistory(p.username)
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            items[items.length - 1].date = '赢亏汇总'
+            items[items.length - 1].date = '总计'
+            items[items.length - 1].userName = '总计'
             if (this.I === 0) {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
+              items = items.map((item) => {
+                item.subType = this.searchRange[this.range]
+                return item
+              })
               this.otherCommonReportData = items
               this.totalSize = totalSize
+            }
+            this.setNameHistory(p.username)
+          } else {
+            this.profitAndLossSummaryData = []
+            this.otherCommonReportData = []
+            this.totalSize = 0
+            if (source === 'search' && this.subUserName) {
+              this.$message.error({target: this.$el, message: '该下级不存在'})
             }
           }
         }
@@ -181,6 +247,42 @@ export default {
         }, 100)
       })
     },
+    /**
+     * 逐日报表
+     */
+    getDailyPersonalProfit (params = {}) {
+      let loading = this.$loading({
+        text: '盈亏报表加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      let p = {
+        // scope: 0,
+        userId: this.subUserId,
+        pageSize: this.pageSize,
+        gameType: this.curGameType,
+        beginDate: dateFormat((window.newDate(this.stEt[0])).getTime()),
+        endDate: dateFormat((window.newDate(this.stEt[1])).getTime())
+      }
+      Object.assign(p, params)
+      this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
+        this.dailyReportData = []
+        if (success === 1 && items.length > 0) {
+          items[items.length - 1].date = '合计'
+          this.dailyReportData = items
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else {
+          loading.text = '加载失败!'
+        }
+      }, (rep) => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
+
     /**
      * 彩票报表
      */
@@ -284,7 +386,7 @@ export default {
       this.stEt = [dates.startDate, dates.endDate]
     },
     search () {
-      this.getPersonalReport()
+      this.getPersonalReport({}, 'search')
     },
     pageChanged (p) {
       this.curPage = p
@@ -309,14 +411,20 @@ export default {
       this.getUserBread(row.userId)
     },
     viewDailyProfitDetail (row) {
+      this.subUserId = row.userId
+      this.curSubUserName = row.userName
+      this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
-    }
+    },
+    numberWithCommas
   }
 }
 </script>
 
 <style lang="stylus">
 .my-report-record
+  .fc-o
+    color #f37e0c
   .scroll-content
     padding: 0 0.2rem;
   .search-bar

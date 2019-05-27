@@ -22,13 +22,11 @@
             span.text-danger 0.5
             br
             | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么：您自动注册的新账户的
-            span.text-blue 直选返点
-            即为 
+            span.text-blue 直选返点 即为 
             span.text-danger 6.0%    
             br
             | 2. 自动注册用户最大返点级别为 
-            span.text-danger {{ autoRegistMinPoint }}
-            ，自动注册不需要开户配额
+            span.text-danger {{ autoRegistMinPoint }} ，自动注册不需要开户配额
             br
             | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
         

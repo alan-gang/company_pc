@@ -13,39 +13,35 @@
               .issue-nums.txt-c.mt10
                 span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode" v-bind:class="{red: row.stat == 1 || row.stat == 1}") {{n}}
               el-row
-                el-col(:span="12")
-                  注单编号：
+                el-col(:span="12") 注单编号：
                   span.text-black {{ row.projectId }}
                   span.order-status.c_f(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
-                el-col(:span="12")
-                  投单时间：
+                el-col(:span="12") 投单时间：
                   span.text-black {{ row.writeTime }}
               el-row
-                el-col(:span="12")
-                是否追号：
+                el-col(:span="12") 是否追号：
                 span {{row.taskId ? '是' : '否'}}
-                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn")&nbsp;&nbsp;查看追号单
+                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
 
             .middle-info
               el-row
-                el-col(:span="12")
-                  玩法：
+                el-col(:span="12") 玩法：
                   span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
                 el-col(:span="12")
                   是否单挑：
-                  span.text-black {{ row.isLimitBonus === '1' ? '是' : '否'}}
+                  span.text-black {{ row.isLimitBonus === 1 ? '是' : '否'}}
               el-row
                 el-col(:span="12")
                   投注金额：
-                  span.text-black {{ row.TotalPrice }} &nbsp; ({{row.countDesc}})
+                  span.text-black {{ numberWithCommas(row.TotalPrice) }} &nbsp; ({{row.countDesc}})
                 el-col(:span="12")
                   投注返点：
                   span.text-black {{ row.userPoint }}
               el-row
                 el-col(:span="12")
                   中奖金额：
-                  span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
-                el-col(:span="12")
+                  span.text-black(v-if=" row.bonus && row.bonus._o0() ") {{ numberWithCommas(row.bonus && row.bonus._nwc()) }}
+                //- el-col(:span="12")
                   中奖注数：
                   span.text-black {{ row.prize }}
                   
@@ -146,11 +142,13 @@
                   template(scope="scope")
                     span {{ parseInt(scope.row.level) ? scope.row.level + '等奖' : scope.row.level}} 
 
-                el-table-column(prop="prize" label="奖金")
+                el-table-column(label="奖金")
+                  template(scope="scope")
+                    span {{numberWithCommas(scope.row.prize)}}
 
             .buttons(style="margin: .3rem; text-align: center")
               // .ds-button.primary.large.bold(v-if="type === 1" @click="") 发起跟单
-              .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT" @click="cancel()") 确认撤单
+              .ds-button.primary.large.bold(v-if="row.canCancel && row.userName === ACCOUNT && showCancelOrder" @click="cancel()") 撤单
   
         el-dialog(title=" " v-bind:modal="false" v-model:visible="visible" custom-class="bet-data-dialog" v-bind:center="true" v-bind:show-close="true")
           .bets-data 
@@ -163,6 +161,7 @@
 <script>
 import api from '../../http/api'
 import store from '../../store'
+import { numberWithCommas } from '../../util/Number'
 export default {
   data () {
     return {
@@ -192,6 +191,10 @@ export default {
       }
     },
     showFollowBtn: {
+      type: Boolean,
+      default: true
+    },
+    showCancelOrder: {
       type: Boolean,
       default: true
     }
@@ -224,11 +227,14 @@ export default {
           setTimeout(() => {
             loading.text = '撤单成功!'
             setTimeout(() => {
-              this.Orderlist()
+              // this.Orderlist()
               this.__setCall({fn: '__getUserFund', callId: undefined})
+              this.$emit('cancel-order', true)
             }, 500)
           }, 500)
-        } else loading.text = '撤单失败!'
+        } else {
+          loading.text = '撤单失败!'
+        }
       }, (rep) => {
         // error
       }).finally(() => {
@@ -236,7 +242,8 @@ export default {
           loading.close()
         }, 100)
       })
-    }
+    },
+    numberWithCommas
   }
 }
 </script>

@@ -302,7 +302,7 @@ export default {
               title: '基诺彩票',
               url: 'KG',
               items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: '基诺彩', fn: '18:203'},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45}
               ]
@@ -484,12 +484,21 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['彩票', '棋牌', '棋牌', '微游'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
                     width: '13rem'
                   }
+                },
+                {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
                 },
                 {
                   id: '2-3-2',
@@ -545,14 +554,6 @@ export default {
                   tabs: ['佣金契约', '佣金记录', '预期佣金'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
-                },
-                {
-                  id: '2-3-9',
-                  menuid: '38',
-                  title: '下级个人盈亏',
-                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
-                  tabfn: '__setReportI',
-                  url: 'subProfitLoss'
                 }
               ]
             }
@@ -687,6 +688,14 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
                   title: '下级游戏记录',
@@ -740,14 +749,6 @@ export default {
                   tabs: ['佣金契约', '佣金记录', '预期佣金'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
-                },
-                {
-                  id: '2-3-9',
-                  menuid: '38',
-                  title: '下级个人盈亏',
-                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
-                  tabfn: '__setReportI',
-                  url: 'subProfitLoss'
                 }
               ]
             }

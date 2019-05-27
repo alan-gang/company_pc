@@ -82,7 +82,7 @@
             span.text-danger {{ amount._nwc() }}/{{ maxAmount._nwc() }}
 
           p.item.ptb10 
-            span.left-label 出款帐户
+            span.left-label 出款账户
             span
               el-radio( v-model="mtype" v-for=" (m, i) in moneyTypes " v-bind:label="i") {{m}}
 
@@ -101,7 +101,7 @@
             span.left-label 提现金额：
             //- el-input-number(v-model="money" v-bind:debounce="1000" v-bind:max="max" v-bind:min="min" controls=false placeholder="请输入整数金额")
             InputNumber(v-bind:defaultValue="money" v-on:enter="showWithDraw" v-on:change="money = $event" placeholder="请输入整数金额")
-            span(style="color: #999; padding-left: .1rem") {{ textMoney }}
+            span(style="color: #999; padding-left: .1rem") {{ textMoney }} 
 
 
           .buttons(style="margin-left: 1.1rem; padding: .2rem 0")
@@ -112,20 +112,20 @@
         p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 
           // |您正在增加 
           // span.text-blue {{ me.name }}
-          // |  帐号的银行卡
+          // |  账号的银行卡
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }}
         .form
           p.item 实扣金额：&nbsp;&nbsp;&nbsp;
             span.amount {{ money }}
 
-          p.item 到帐金额：&nbsp;&nbsp;&nbsp;&nbsp;
+          p.item 到账金额：&nbsp;&nbsp;&nbsp;&nbsp;
             span.amount {{ get }}
 
           .item(style="line-height: .5rem; padding-top: .15rem ") 开户银行：&nbsp;&nbsp;&nbsp;
             p.banks
               span.ds-icon-bank-card.static(v-bind:class=" [ selectBank.class ] ")
 
-          p.item(style="padding: .2rem 0 0 0") 银行卡帐号：&nbsp;&nbsp;{{ selectBank.cardNo }}
+          p.item(style="padding: .2rem 0 0 0") 银行卡账号：&nbsp;&nbsp;{{ selectBank.cardNo }}
 
           .buttons(style="margin-left: .85rem; padding: .2rem 0")
             .ds-button.primary.large(@click="doWithDraw") 提交
@@ -221,10 +221,11 @@ export default {
       SSS: ['process', 'success', 'error'],
       SS: ['中...', '成功', '失败'],
       S: ['出款中', '出款失败', '成功'],
-      V: ['审核中', '审核通过', '审核失败'],
+      // V: ['审核中', '审核通过', '审核失败'],
+      V: ['', '审核中', '审核失败', '审核通过', '出款成功', '出款失败'],
       checkSafeCodeUrl: ['', api.person_checkSmsVerifyCode, api.person_checkMailVerifyCode, api.checkGoogleAuth],
       times: 0,
-      moneyTypes: ['主帐户', '特殊金额'],
+      moneyTypes: ['主账户', '特殊金额'],
       mtype: 0,
       // 获取row的key值
       getRowKeys (row) {
@@ -234,7 +235,8 @@ export default {
       expands: [],
       amount: 0,
       maxAmount: 0,
-      HOURS_24: 24 * 60 * 60 * 1000,
+      // HOURS_24: 24 * 60 * 60 * 1000,
+      HOURS_6: 6 * 60 * 60 * 1000,
 
       startDate: '',
       endDate: '',
@@ -293,6 +295,7 @@ export default {
   methods: {
     __setWithdrawI (i) {
       this.tabIndex = i
+      this.money = ''
     },
     // ec (row, expandedRows) {
     //   console.log(row, expandedRows, '???')
@@ -343,7 +346,8 @@ export default {
           this.data.forEach((c, i) => {
             c.index = i
             c.cardNo = '*****' + c.cardNo.slice(-4)
-            c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
+            // c.statusV = c.isverify === 1 ? this.S[c.status] : this.V[c.isverify]
+            c.statusV = this.V[c.isverify]
             c.class = (BANKS.find(b => b.apiName === c.apiName) || {})['class']
           })
           typeof fn === 'function' && fn()
@@ -437,7 +441,6 @@ export default {
         bank.remainTimeText = ''
         /* eslint-disable no-new */
         new Timer(bank.remainTime, (time, finish) => {
-          console.log('time=', time, ' finish=', finish)
           if (!finish) {
             bank.remainTime = time
           }
@@ -446,7 +449,6 @@ export default {
         })
         return bank
       })
-      console.log('fmtData=', JSON.stringify(this.myBanks))
     },
     getWithdrawByApi () {
       // this.$http.post(api.getWithdrawByApi, {apiName: this.selectBank.apiName}).then(({data}) => {
@@ -463,9 +465,14 @@ export default {
       })
     },
     showWithDraw () {
+      if (this.times >= this.maxTimes) return this.$message.warning({target: this.$el, message: '您的今日可提现次数已用完。'})
+      if (this.amount >= this.maxAmount) return this.$message.warning({target: this.$el, message: '您的今日可提现金额已用完。'})
       if (this.selectBank.entry === undefined) return this.$message.warning({target: this.$el, message: '您还未选择银行卡。'})
-      if (this.money === 0) return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
+      if (this.money === 0 || this.money === '0' || this.money === '') return this.$message.warning({target: this.$el, message: '您还未输入提现金额。'})
       if ((this.money % 1) !== 0) return this.$message.warning({target: this.$el, message: '您输入的提现金额不是整数。'})
+      if (parseInt(this.money, 10) > this.max) return this.$message.warning({target: this.$el, message: '您输入的金额超过最高提现金额。'})
+      if (parseInt(this.money, 10) < this.min) return this.$message.warning({target: this.$el, message: '您输入的金额小于最低提现金额。'})
+      if (parseInt(this.money, 10) + this.amount > this.maxAmount) return this.$message.warning({target: this.$el, message: '您输入的金额超过当日可提现金额。'})
       this.$http.post(api.showWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
         if (data.success === 1) {
           this.get = data.realmoney
@@ -479,6 +486,7 @@ export default {
     },
     doWithDraw () {
       this.$http.post(api.doWithDraw, {userBankId: this.selectBank.entry, amount: this.money, isSpe: this.mtype}).then(({data}) => {
+        this.withdrawTimes()
         if (data.success === 1) {
           this.$modal.success({
             content: '恭喜您，提交成功！',
@@ -488,10 +496,10 @@ export default {
               this.stepIndex--
               this.tabIndex++
               this.cpwd = ''
+              this.$emit('tab-idx-change', 1)
             },
             O: this
           })
-          this.withdrawTimes()
         } else {
           this.$message.error({target: this.$el, message: data.msg || '提现申请提交失败！'})
         }
@@ -507,12 +515,12 @@ export default {
     },
     canSelectBank (dt) {
       let date = this.stringToDate(dt)
-      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_24
+      return this.MMath.sub(new Date().getTime(), date.getTime()) > this.HOURS_6
     },
     calcRemainTime (dt) {
       let date = this.stringToDate(dt)
-      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_24) {
-        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_24)
+      if (this.MMath.sub(new Date().getTime(), date.getTime()) < this.HOURS_6) {
+        return Math.abs(this.MMath.sub(new Date().getTime(), date.getTime()) - this.HOURS_6)
       }
       return 0
     },

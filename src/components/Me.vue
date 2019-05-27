@@ -227,7 +227,21 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0})
+          store.actions.setUser({bgmoney: data.bgAmount || 0,
+            tcgmoney: data.sportsAmount || 0,
+            kymoney: data.kyAmount || 0,
+            ptmoney: data.ptAmount || 0,
+            agmoney: data.agAmount || 0,
+            sbmoney: data.sbAmount || 0,
+            lymoney: data.lyAmount || 0,
+            uwinmoney: data.uwinAmount || 0,
+            kgmoney: data.kgAmount || 0,
+            litAmount: data.litAmount || 0,
+            pbAmount: data.pbAmount || 0,
+            lgAmount: data.lgAmount || 0,
+            xyAmount: data.xyAmount || 0,
+            free: data.xyqpAmount || 0
+          })
           // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
       }).catch(rep => {

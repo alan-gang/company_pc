@@ -11,9 +11,9 @@
         span.text-blue 充值
         | 为
         span.text-danger 1-2分钟
-        | 之内到帐;
+        | 之内到账;
         br
-        | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
+        | 因为银行或第三方网络延迟，如果超过5分钟没有到账，可以填写催到账申请（每个记录只有一次机会可申请催到账），或直接联系客服。
 
     el-table.header-bold.nopadding(:data="data" style="margin: .2rem 0" stripe ref="table")
       el-table-column(prop="payerTime" label="充值时间" class-name="pl2")
@@ -30,7 +30,7 @@
 
       el-table-column(label="操作" align="center")
         template(scope="scope")
-          span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到帐
+          span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到账
 
     el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -40,7 +40,7 @@
       .box-wrapper
         .box(style="width: 6rem")
           .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
-            span.title.text-black(style="font-size: .18rem;") 催到帐
+            span.title.text-black(style="font-size: .18rem;") 催到账
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="showRequest = false" )
 
@@ -145,7 +145,7 @@
         data: [],
         showRequest: false,
         ALLBANKS: BANKS,
-        // 催帐
+        // 催账
         row: {},
         CbankIndex: '',
         Cname: '',
@@ -162,7 +162,7 @@
         bankList: [],
         merBankList: [],
         merNoBankList: [],
-        // 非银行转帐类
+        // 非银行转账类
         epay: [],
         radioIndex: 0,
         name: '',
@@ -214,9 +214,9 @@
         if (!this.Cbank || !this.Cname || !this.Ccardno) return this.$message.warning('带星号的内容不能为空！')
         if (!this.Camount) return this.$message.warning('付款金额不能为0！')
         let loading = this.$loading({
-          text: '催帐中...',
+          text: '催账中...',
           target: this.$el
-        }, 10000, '催帐超时...')
+        }, 10000, '催账超时...')
         this.$http.post(api.addPayError, {
           apiName: this.Cbank.apiName,
           payName: this.Cname,
@@ -229,7 +229,7 @@
           getName: this.CRname
         }).then(({data}) => {
           if (data.success === 1) {
-            loading.text = '恭喜您，催帐成功！'
+            loading.text = '恭喜您，催账成功！'
             this.CbankIndex = undefined
             this.Cname = ''
             this.Ccardno = ''
@@ -240,7 +240,7 @@
             this.Cmore = ''
             this.showRequest = false
             this.list()
-          } else loading.text = data.msg || '不好意思，催帐失败！'
+          } else loading.text = data.msg || '不好意思，催账失败！'
         }).catch(rpe => {
         }).finally(() => {
           setTimeout(() => {
@@ -250,15 +250,15 @@
       },
       queryPayError (page, fn) {
         let loading = this.$loading({
-          text: '催帐详情获取中...',
+          text: '催账详情获取中...',
           target: this.$el
-        }, 10000, '催帐详情获取超时...')
+        }, 10000, '催账详情获取超时...')
         this.$http.get(api.queryPayError, {
           entry: this.row.errorEntry
         }).then(({data}) => {
           if (data.success === 1) {
             this.detail = data
-          } else loading.text = data.msg || '催帐详情查询失败'
+          } else loading.text = data.msg || '催账详情查询失败'
         }).catch(rpe => {
         }).finally(() => {
           setTimeout(() => {
