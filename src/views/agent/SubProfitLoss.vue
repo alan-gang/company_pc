@@ -58,7 +58,7 @@
       span(slot="title") 每日明细
       .daily-profit-dialog-ctx
         .info-header 每日明细-{{}}(个人)
-        el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
+        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
           el-table-column(label="时间")
 </template>
 
@@ -111,6 +111,7 @@ export default {
 
       profitAndLossSummaryData: [],
       otherCommonReportData: [],
+      dailyReportData: [],
 
       startDate: '',
       endDate: '',
@@ -131,7 +132,9 @@ export default {
       names: [],
       higherLevelUserBreads: [],
       isShowHigherLevelDialog: false,
-      isShowDailyProfitDialog: false
+      isShowDailyProfitDialog: false,
+
+      subUserId: ''
 
     }
   },
@@ -197,6 +200,42 @@ export default {
         }, 100)
       })
     },
+    /**
+     * 逐日报表
+     */
+    getDailyPersonalProfit (params = {}) {
+      let loading = this.$loading({
+        text: '盈亏报表加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      let p = {
+        // scope: 0,
+        userId: this.subUserId,
+        pageSize: this.pageSize,
+        gameType: this.curGameType,
+        beginDate: dateFormat((window.newDate(this.stEt[0])).getTime()),
+        endDate: dateFormat((window.newDate(this.stEt[1])).getTime())
+      }
+      Object.assign(p, params)
+      this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
+        this.dailyReportData = []
+        if (success === 1 && items.length > 0) {
+          items[items.length - 1].date = '合计'
+          this.dailyReportData = items
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else {
+          loading.text = '加载失败!'
+        }
+      }, (rep) => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
+
     /**
      * 彩票报表
      */
@@ -325,6 +364,8 @@ export default {
       this.getUserBread(row.userId)
     },
     viewDailyProfitDetail (row) {
+      this.subUserId = row.userId
+      this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
     }
   }
