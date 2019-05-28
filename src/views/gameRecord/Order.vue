@@ -553,7 +553,7 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -691,21 +691,6 @@
             this.setLotteryHistory(game)
           }
         }
-        // this.$http.get(api.getMyFavourGame, {}).then(({data: { myFavour, success }}) => {
-        //   if (success === 1) {
-        //     if (myFavour.length > 0) {
-        //       let ls = myFavour.slice(0, 3)
-        //       let game = null
-        //       for (let i = 0; i < ls.length; i++) {
-        //         game = this.getGameById(ls[i].lotteryId)
-        //         if (game) {
-        //           this.setLotteryHistory(game)
-        //         }
-        //       }
-        //     }
-        //   }
-        // }, (rep) => {
-        // })
       }
     }
   }
