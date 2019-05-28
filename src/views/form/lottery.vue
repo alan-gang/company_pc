@@ -1,5 +1,5 @@
+// 团队盈亏-彩票
 <template>
-  <!-- 团队盈亏-彩票 -->
   <div class="group-page">
     <slot name="cover"></slot>
     <slot name="movebar"></slot>
@@ -227,26 +227,23 @@
 </template>
 
 <script>
-import $store from "store";
-import Stock from "../group/Stock";
-import TStock from "../group/TStock";
-import setTableMaxHeight from "components/setTableMaxHeight";
-import ProfitLossDetail from "./ProfitLossDetail";
-import { numberWithCommas } from "../../util/Number";
-// import { dateFormat } from '../../util/Date'
-import api from "../../http/api";
-import store from "../../store";
+import setTableMaxHeight from "@/components/setTableMaxHeight";
+import { numberWithCommas } from "@/util/Number";
+import { getCountDays, getLastMonth } from "@/util/base";
+import api from "@/http/api";
+import store from "@/store";
+const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ProfitLossDetail,
-    Stock,
-    TStock
+    ProfitLossDetail: resolve => require(["./ProfitLossDetail"], resolve),
+    Stock: resolve => require(["../group/Stock"], resolve),
+    TStock: resolve => require(["../group/TStock"], resolve)
   },
   data() {
     return {
       TH: 270,
-      numberWithCommas: numberWithCommas,
+      numberWithCommas,
       me: store.state.user,
       clearableOnTime: false,
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
@@ -352,73 +349,50 @@ export default {
     ClickSecondHalf() {
       this.stEt = this.secondHalf().time;
     },
-    //计算一个月有多少天
-    //val 月
-    getCountDays(val) {
-      //月份: 1-12
-      if (val < 0 && val > 13) return 0;
-      let myDate = new Date();
-      myDate.setMonth(val);
-      myDate.setDate(0);
-      return myDate.getDate(); //返回val月的天数
-    },
-    //获取上个月日期
-    //multiple=0 本月  multiple=1 上个月 multiple=2 上上个月
-    getLastMonth(multiple) {
-      multiple = multiple || 0; //倍数
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      if (month - multiple < 0) {
-        year = year - 1;
-        month = 12 + 1 - (multiple - month);
-      } else {
-        month = month - multiple;
-      }
-      return { year: year, month: month };
-    },
     //自定义 上半个月 不足当月一半天数  放弃
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     firstHalf() {
       let myDate = new Date();
+      let year = myDate.getFullYear();
       let month = myDate.getMonth(); //获取当前月份(0-11,0代表1月)
       let date = myDate.getDate(); //获取当前日(1-31)
-      let MonthDays = this.getCountDays(month + 1); //本月天数
-      let FirstMonthDays = this.getCountDays(month === 0 ? "12" : month); //上个月天数
+      let MonthDays = getCountDays({ year: year, month: month + 1 }); //本月天数
+      let FirstMonthDays = getCountDays({
+        year: year,
+        month: month === 0 ? "12" : month
+      }); //上个月天数
       let r = {
         month: "",
         time: []
       };
       //当前日  为 下旬时   上半个月为 上个月的下旬
       if (date > parseInt(MonthDays / 2)) {
-        r.month = `${this.getLastMonth(1).month}月下半月`;
+        r.month = `${getLastMonth(1).month}月下半月`;
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${
-              this.getLastMonth(1).month
-            }-${parseInt(FirstMonthDays / 2) + 1}`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-${parseInt(
+              FirstMonthDays / 2
+            ) + 1}`
           )._toDayString()
         );
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${
-              this.getLastMonth(1).month
-            }-${FirstMonthDays}`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-${FirstMonthDays}`
           )._toDayString()
         );
       } else {
         //当前日 为 上旬时   上半个月为 上个月的上旬
-        r.month = `${this.getLastMonth(1).month}月上半月`;
+        r.month = `${getLastMonth(1).month}月上半月`;
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${this.getLastMonth(1).month}-1`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-1`
           )._toDayString()
         );
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${
-              this.getLastMonth(1).month
-            }-${parseInt(FirstMonthDays / 2)}`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-${parseInt(
+              FirstMonthDays / 2
+            )}`
           )._toDayString()
         );
       }
@@ -429,44 +403,46 @@ export default {
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     secondHalf() {
       let myDate = new Date();
+      let year = myDate.getFullYear();
       let month = myDate.getMonth(); //获取当前月份(0-11,0代表1月)
       let date = myDate.getDate(); //获取当前日(1-31)
-      let MonthDays = this.getCountDays(month + 1); //本月天数
-      let FirstMonthDays = this.getCountDays(month === 0 ? "12" : month); //上个月天数
+      let MonthDays = getCountDays({ year: year, month: month + 1 }); //本月天数
+      let FirstMonthDays = getCountDays({
+        year: year,
+        month: month === 0 ? "12" : month
+      }); //上个月天数
       let r = {
         month: "",
         time: []
       };
       //当前日  为 下旬时   下半个月为 本月的上旬
       if (date > parseInt(MonthDays / 2)) {
-        r.month = `${this.getLastMonth(0).month}月上半月`;
+        r.month = `${getLastMonth(0).month}月上半月`;
         r.time.push(
           new Date(
-            `${this.getLastMonth(0).year}-${this.getLastMonth(0).month}-1`
+            `${getLastMonth(0).year}-${getLastMonth(0).month}-1`
           )._toDayString()
         );
         r.time.push(
           new Date(
-            `${this.getLastMonth(0).year}-${
-              this.getLastMonth(0).month
-            }-${parseInt(MonthDays / 2)}`
+            `${getLastMonth(0).year}-${getLastMonth(0).month}-${parseInt(
+              MonthDays / 2
+            )}`
           )._toDayString()
         );
       } else {
         //当前日 为 上旬时   上半个月为 上个月的下旬
-        r.month = `${this.getLastMonth(1).month}月下半月`;
+        r.month = `${getLastMonth(1).month}月下半月`;
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${
-              this.getLastMonth(1).month
-            }-${parseInt(FirstMonthDays / 2) + 1}`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-${parseInt(
+              FirstMonthDays / 2
+            ) + 1}`
           )._toDayString()
         );
         r.time.push(
           new Date(
-            `${this.getLastMonth(1).year}-${
-              this.getLastMonth(1).month
-            }-${FirstMonthDays}`
+            `${getLastMonth(1).year}-${getLastMonth(1).month}-${FirstMonthDays}`
           )._toDayString()
         );
       }

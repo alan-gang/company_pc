@@ -39,7 +39,7 @@
  * @param m
  * @returns {Number}
  */
-function permutationChoice (n, m) {
+function permutationChoice(n, m) {
   return factorial(n) / factorial(n - m)
 }
 /**
@@ -49,7 +49,7 @@ function permutationChoice (n, m) {
  * @returns {Number}
  * combineChoice
  */
-function C (n, m) {
+function C(n, m) {
   // console.log(n, m, '||||||||||||||||||||||||')
   if (!n || !m || n < m || n < 0 || m < 0) return 0
   else if (n === m) return 1
@@ -63,10 +63,37 @@ function C (n, m) {
  * @param  {[type]} n [description]
  * @return {[type]}   [description]
  */
-function factorial (n) {
+function factorial(n) {
   // console.log(n)
   if (n === 0) return 1
   return n * factorial(n - 1)
+}
+
+//计算一个月有多少天
+//month 月  year 年
+function getCountDays({ year, month }) {
+  //月份: 1-12
+  if (month < 0 && month > 13) return 0;
+  let myDate = new Date(`${year}-${month}`);
+  myDate.setMonth(month);
+  myDate.setDate(0);
+  return myDate.getDate(); //返回 month 月的天数
+}
+
+//获取当前月  上个月  上上个月
+//multiple=0 本月  multiple=1 上个月 multiple=2 上上个月
+function getLastMonth(multiple) {
+  multiple = multiple || 0; //倍数
+  let myDate = new Date();
+  let year = myDate.getFullYear();
+  let month = myDate.getMonth() + 1;
+  if (month - multiple < 0) {
+    year = year - 1;
+    month = 12 + 1 - (multiple - month);
+  } else {
+    month = month - multiple;
+  }
+  return { year: year, month: month };
 }
 
 // repeat a string s t times
@@ -83,10 +110,12 @@ let repeat = (s, t) => {
 // @params o 重复号的判断加入是否排序后比较相等
 let removeDuplicate = (s, i, join, o, l) => {
   let has = false
-  return { s: s.split(i).filter((n, i, arr) => {
-    if (!n.match(new RegExp('\\d{' + (l || 1) + '}', 'g'))) return false
-    return i === arr.findIndex(nn => !o ? nn === n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
-  }).join(join || ' '), has: has }
+  return {
+    s: s.split(i).filter((n, i, arr) => {
+      if (!n.match(new RegExp('\\d{' + (l || 1) + '}', 'g'))) return false
+      return i === arr.findIndex(nn => !o ? nn === n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
+    }).join(join || ' '), has: has
+  }
 }
 
 let padStart = (s, l, w) => {
@@ -112,5 +141,7 @@ module.exports = {
   C,
   removeDuplicate,
   padStart,
-  isPrime
+  isPrime,
+  getCountDays,
+  getLastMonth
 }
