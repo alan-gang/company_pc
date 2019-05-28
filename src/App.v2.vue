@@ -535,7 +535,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -730,7 +730,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },

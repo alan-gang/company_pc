@@ -4,17 +4,18 @@
   slot(name="toolbar")
   MySalary.scroll-content(v-if=" I === 0 ")
   SubSalary.scroll-content(v-if=" I === 1 ")
-
+  DailyWageSet.scroll-content(v-if=" I === 2 ")
 </template>
 
 <script>
 import MySalary from './MySalary'
 import SubSalary from './SubSalary'
-
+import DailyWageSet from './DailyWageSet'
 export default {
   components: {
     MySalary,
-    SubSalary
+    SubSalary,
+    DailyWageSet
   },
   name: 'salary',
   props: [],
