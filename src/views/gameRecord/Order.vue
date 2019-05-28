@@ -391,6 +391,7 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
+      this.getGameHistory()
     },
     methods: {
       __setGOI (i) {
@@ -681,27 +682,30 @@
         }
       },
       getGameHistory () {
-        this.$http.get(api.getRecentIssueList, {}).then(({data}) => {
-          if (data.success === 1) {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
           }
-        }, (rep) => {
-        })
-      },
-      initHistory (data) {
-        if (!data || data.length < 1) return
-        // let fromAccountIdx = 0
-        // for (let i = 0; i < data.length; i++) {
-        //   fromAccountIdx = this.froms.findIndex((acc) => {
-        //     return data[i].from === acc.split(':')[0]
-        //   })
-        //   if (fromAccountIdx >= 0) {
-        //     if (this.outAccHistory.length < 3) {
-        //       this.setOutAccHistory(this.froms[fromAccountIdx])
-        //     } else {
-        //       break
+        }
+        // this.$http.get(api.getMyFavourGame, {}).then(({data: { myFavour, success }}) => {
+        //   if (success === 1) {
+        //     if (myFavour.length > 0) {
+        //       let ls = myFavour.slice(0, 3)
+        //       let game = null
+        //       for (let i = 0; i < ls.length; i++) {
+        //         game = this.getGameById(ls[i].lotteryId)
+        //         if (game) {
+        //           this.setLotteryHistory(game)
+        //         }
+        //       }
         //     }
         //   }
-        // }
+        // }, (rep) => {
+        // })
       }
     }
   }

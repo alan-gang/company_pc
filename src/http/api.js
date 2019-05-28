@@ -213,7 +213,9 @@ let Login = {
   // 首页活动banner
   getActivityBanner: '/activity.do?method=getActivityBanner',
   // 退出第三方游戏
-  thirdGameLogout: '/ext/bg.do?method=logout'
+  thirdGameLogout: '/ext/bg.do?method=logout',
+  // 彩种历史记录
+  getMyFavourGame: '/person/accountSecur.do?method=getMyFavourGame'
 }
 
 let Game = {
