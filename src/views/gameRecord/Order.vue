@@ -391,6 +391,7 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
+      this.getGameHistory()
     },
     methods: {
       __setGOI (i) {
@@ -669,6 +670,42 @@
       cancelOrder (status) {
         this.show = false
         this.Orderlist()
+      },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
+        // this.$http.get(api.getMyFavourGame, {}).then(({data: { myFavour, success }}) => {
+        //   if (success === 1) {
+        //     if (myFavour.length > 0) {
+        //       let ls = myFavour.slice(0, 3)
+        //       let game = null
+        //       for (let i = 0; i < ls.length; i++) {
+        //         game = this.getGameById(ls[i].lotteryId)
+        //         if (game) {
+        //           this.setLotteryHistory(game)
+        //         }
+        //       }
+        //     }
+        //   }
+        // }, (rep) => {
+        // })
       }
     }
   }
