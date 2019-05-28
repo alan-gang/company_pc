@@ -38,12 +38,13 @@
           el-table-column(class-name="pr2" prop="daySalary" label="我的工资"  align="right")
             template(scope="scope")
               span(:class=" { 'text-green': scope.row.daySalary && scope.row.daySalary._o0() } ") {{ scope.row.daySalary && scope.row.daySalary._o0() ? '+' : ''}} {{ scope.row.daySalary }}
-              
-          el-table-column(class-name="pl2 pr2" prop="isDone" label="是否领取")
+          el-table-column(class-name="pl2 pr2" prop="isDone" label="状态")
             template(scope="scope")
               span(:class=" {'text-green': scope.row.isDone, 'text-danger': !scope.row.isDone} ") {{ scope.row.isDone ? '已领取' : '未领取' }}
               span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
-
+          el-table-column(label="操作" )
+            template(slot-scope="scope")
+              span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -92,7 +93,7 @@
 
         defaultDateIdx: -1,
         searchConditions: ['昨天', '前天', '最近7天'],
-        dateMappingConfig: { d1: [1, 1], d2: [2, 2], d3: [6, 0] },
+        dateMappingConfig: { d0: [1, 1], d1: [2, 2], d2: [6, 0] },
         quickStatusIdx: -1,
         statusButtons: ['全部', '未领取', '已领取']
       }
