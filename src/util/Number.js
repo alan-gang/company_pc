@@ -150,6 +150,7 @@ let getColorsOfNumberArray = (a, s) => {
  * @return {[type]}   [description]
  */
 let getTimesArray = (min, rate, len, capital, reward) => {
+  console.info(min, rate, len, capital, reward);
   let temp = new Array(len).fill(0)
   let result = []
   temp.every((n, i) => {

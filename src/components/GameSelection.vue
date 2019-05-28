@@ -517,6 +517,23 @@
       },
       // win n 可能中奖的注数
       wn () {
+        // console.log('id', this.type.id)
+        // console.log({
+        //   ns: this.ns,
+        //   nsl: this.nsl,
+        //   ps: this.ps,
+        //   psl: this.psl,
+        //   value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
+        //   r: this.r
+        // })
+        // console.log('wn', WN[this.type.id] ? WN[this.type.id]({
+        //   ns: this.ns,
+        //   nsl: this.nsl,
+        //   ps: this.ps,
+        //   psl: this.psl,
+        //   value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
+        //   r: this.r
+        // }) : 1)
         return WN[this.type.id] ? WN[this.type.id]({
           ns: this.ns,
           nsl: this.nsl,

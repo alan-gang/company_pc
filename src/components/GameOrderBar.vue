@@ -203,6 +203,8 @@ export default {
       }
     },
     maxWinProfit () {
+      // console.log('wn', this.wn)
+      // console.log('maxWinAmount', this.maxWinAmount)
       return this.maxWinAmount - this.pay
     },
     s () {
