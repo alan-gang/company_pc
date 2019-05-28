@@ -680,6 +680,13 @@
           }
         }
       },
+      getGameHistory () {
+        this.$http.get(api.getRecentIssueList, {}).then(({data}) => {
+          if (data.success === 1) {
+          }
+        }, (rep) => {
+        })
+      },
       initHistory (data) {
         if (!data || data.length < 1) return
         // let fromAccountIdx = 0
