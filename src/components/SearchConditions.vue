@@ -13,6 +13,10 @@ export default {
     }
   },
   props: {
+    defaultDateIdx: {
+      type: Number,
+      default: -1
+    },
     showTimeTxt: {
       type: Boolean,
       default: true
@@ -40,6 +44,9 @@ export default {
     }
   },
   watch: {
+    defaultDateIdx () {
+      this.quickDateIdx = this.defaultDateIdx
+    }
   },
   methods: {
     choiceDate (i) {

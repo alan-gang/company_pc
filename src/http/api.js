@@ -434,6 +434,7 @@ let Group = {
   getSysContractRange: '/team/contractBonus.do?method=getSysContractRange',
   setSalary: '/team/setDaySalary.do?method=setSalary',
   subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
+  mySubSalaryList: '/team/setDaySalary.do?method=mySubSalaryList',
   // 团队余额
   // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
   getTeamBalance: '/team/useList.do?method=getTeamBalance',
@@ -624,8 +625,9 @@ let Form = {
 // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
   subCheckComm: '/team/contractBonus.do?method=subCheckComm',
   // 下级个人赢亏
-  subPersonalProfit: '/report/personalProfit.do?method=total'
-
+  subPersonalProfit: '/report/personalProfit.do?method=total',
+  // 用户层级
+  subBread: '/report/personalProfit.do?method=subBread'
 }
 
 let Help = {

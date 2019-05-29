@@ -1,5 +1,5 @@
 <template lang="jade">
-  .my-salary
+  .daily-wage-set
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -8,7 +8,7 @@
     .scroll-content
       .form.form-filters
 
-          label.item 时间 
+          label.item 注册时间 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
           
           span.date-wp 
@@ -18,49 +18,36 @@
           span
             .ds-button.btn-item.mr10(v-for="(c, i) in statusButtons" v-bind:class="{selected: quickStatusIdx === i}" @click="choiceStatus(i)") {{c}}
 
-          label.item( v-if=" type === 1 ") 用户名 
-            input.ds-input.small(v-model="un" style="width: 1rem")
-
-          .ds-button.primary.large.bold(@click=" !type ? mylist() : list()") 搜索
+          .ds-button.primary.large.bold(@click="mySubSalaryList") 搜索
       
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0" )
+          .ds-button.primary.large(@click="patchSetWage" v-bind:class="{'disabled': disableSetWage}") 设置日工资
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
-        el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH ")
-
-          el-table-column(class-name="pl2" prop="date" label="日期" )
-          el-table-column(prop="totBuyAmount" label="团队销量"  align="right")
-          el-table-column(prop="buyAmount" label="有效销量"  align="right")
-          el-table-column(prop="activitUser" label="有效人数"  align="right")
-          el-table-column(prop="salaryLevel" label="工资级别"  align="right")
-          el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right")
-          el-table-column(prop="subSalary" label="下级工资总额"  align="right")
-          el-table-column(class-name="pr2" prop="daySalary" label="我的工资"  align="right")
+        el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH " @selection-change="handleSelectionChange")
+          el-table-column(type="selection" width="100px" class-name="pl2")
+          el-table-column(prop="userName" label="用户名")
+          el-table-column(prop="registertime" label="注册日期" align="center")
+          el-table-column(prop="teamCount" label="团队人数"  align="center")
+          el-table-column(label="工资级别"  align="center") 
             template(scope="scope")
-              span(:class=" { 'text-green': scope.row.daySalary && scope.row.daySalary._o0() } ") {{ scope.row.daySalary && scope.row.daySalary._o0() ? '+' : ''}} {{ scope.row.daySalary }}
-          el-table-column(class-name="pl2 pr2" prop="isDone" label="状态")
+              span {{scope.row.salary}} 万
+          el-table-column(prop="teamSales" label="团队销量"  align="center")
+          el-table-column(prop="activityCount" label="有效人数"  align="center")
+          el-table-column(class-name="pl2 pr2" label="状态")
             template(scope="scope")
-              span(:class=" {'text-green': scope.row.isDone, 'text-danger': !scope.row.isDone} ") {{ scope.row.isDone ? '已领取' : '未领取' }}
-              //- span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
+              span(:class=" {'text-green': scope.row.salary > 0, 'text-danger': scope.row.salary < 1} ") {{ scope.row.salary > 0 ? '已设置' : '未设置' }}
           el-table-column(label="操作" )
             template(slot-scope="scope")
-              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
+              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" scope.row.salary >= 0 " @click="setWage(scope.row)") 设置日工资
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
-    
-    .modal.inner-modal(v-if="did" )
-      .mask
-      .box-wrapper
-        .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
-          .tool-bar
-            span.title 明细
-            el-button-group
-              el-button.close(icon="close" @click=" did = ''")
 
-          SalaryDetail(:stEt="stEt" v-bind:id="did")
+      DialogSetDailyWage(v-if="showDialogSetWage" v-bind:showDialogSetWage="showDialogSetWage" v-bind:id="id" v-on:close="showDialogSetWage = false" v-on:set-wage="mySubSalaryList")
+    
 
 
 </template>
@@ -73,11 +60,13 @@
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
+  import DialogSetDailyWage from './DialogSetDailyWage'
   export default {
     mixins: [setTableMaxHeight, page],
     components: {
       SalaryDetail,
-      SearchConditions
+      SearchConditions,
+      DialogSetDailyWage
     },
     data () {
       return {
@@ -90,19 +79,21 @@
           {title: '自己'},
           {}
         ],
-        did: '',
-        fn: 'mylist',
+        fn: 'mySubSalaryList',
         id: '',
+        choicedRows: [],
         pageSize: 15,
         defaultDateIdx: -1,
         searchConditions: ['昨天', '前天', '最近7天'],
         dateMappingConfig: { d0: [1, 1], d1: [2, 2], d2: [6, 0] },
         quickStatusIdx: -1,
-        statusButtons: ['全部', '未领取', '已领取']
+        statusButtons: ['全部', '已设置', '未设置'],
+        showDialogSetWage: false,
+        disableSetWage: true
       }
     },
     mounted () {
-      this.mylist()
+      this.mySubSalaryList()
     },
     methods: {
       goToGift () {
@@ -113,6 +104,23 @@
       link (B, i) {
         this.id = B.userId
         this.list(undefined, undefined, B.userId)
+      },
+      patchSetWage () {
+        if (this.disableSetWage || this.choicedRows.length < 1) return
+        let ids = []
+        this.choicedRows.forEach(row => {
+          ids.push(row.userId)
+        })
+        this.id = ids.join(',')
+        this.showDialogSetWage = true
+      },
+      setWage (row) {
+        this.id = String(row.userId)
+        this.showDialogSetWage = true
+      },
+      handleSelectionChange (rows) {
+        this.choicedRows = rows
+        this.disableSetWage = this.choicedRows.length < 1
       },
       // 我的日工资
       mylist (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
@@ -138,10 +146,51 @@
             this.total = totalSize || data.length
             // 增加工资总额
             data = data.map((item) => {
-              item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
+              item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
               return item
             })
             this.data = data
+            cb()
+            setTimeout(() => {
+              loading.text = '加载成功!'
+            }, 100)
+          } else loading.text = '加载失败!'
+        }, (rep) => {
+          // error
+        }).finally(() => {
+          setTimeout(() => {
+            loading.close()
+          }, 100)
+        })
+      },
+      mySubSalaryList (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
+        let loading = this.$loading({
+          text: '加载中...',
+          target: this.$refs['table'].$el
+        }, 10000, '加载超时...')
+        let p = {
+          startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
+          endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
+        }
+        if (this.quickStatusIdx >= 0) {
+          if (this.quickStatusIdx === 1) {
+            p.salaryType = 1
+          }
+          if (this.quickStatusIdx === 2) {
+            p.salaryType = 0
+          }
+        }
+        Object.assign(p, option)
+        this.$http.post(api.mySubSalaryList, p).then(({data: {success, userBreads, totalSize, salaryList}}) => {
+          // success
+          if (success === 1) {
+            this.total = totalSize || salaryList.length
+            // 增加工资总额
+            salaryList = salaryList.map((item) => {
+              item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
+              return item
+            })
+            this.data = salaryList
             cb()
             setTimeout(() => {
               loading.text = '加载成功!'
@@ -168,14 +217,20 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
-  .my-salary
+  .daily-wage-set
     .fc-o
       color #f37e0c
     .form-filters
       padding .15rem
+    .el-breadcrumb
+      display inline-block
+      margin-left 0.2rem
     .item
       display inline-block
       margin 0 PW 0 0
     .date-wp
       display inline-block
+    .ds-button.disabled
+      border solid 1px #dbdbdb
+      color #999999
 </style>
