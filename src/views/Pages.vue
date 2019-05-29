@@ -1,13 +1,13 @@
 <template lang="jade">
 
   transition-group.dialog-container(adjusting="adjusting" appear=true v-bind:name="transition ? transition : 'zoom' " tag="section")
-    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]"  @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free")
+    component.dialog-page(v-for="(page, index) in pages" v-on:close="close" v-bind:key="page.href" v-bind:is="page.url" v-bind:page="page"  v-bind:class="[{active: page.active}, page.size, 'page-' + page.id ]" v-bind:style="[ Object.assign({ 'z-index': page.prev },  pageSizes.default,  (page.position = Object.assign(PPP[index < maxPages ? index : maxPages - 1], page.position)), page.position, pageSizes[page.size] || {})]"  @click.native="openAPage(page.id)" v-bind:money="money" v-bind:free="free" v-bind:menus="menus" v-on:tab-idx-change="tabIdxChange")
 
         // .cover(slot="cover" v-bind:class="{show: !page.active}" )
         //- .move-bar(slot="movebar")
         //- .resize-x(slot="resize-x")
         //- .resize-y(slot="resize-y")
-        ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:tabs="page.tabs" v-bind:tabfn="page.tabfn" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)")
+        ToolBar(slot="toolbar" v-bind:volume= "page.volume" v-bind:title="page.title" v-bind:tabs="page.tabs" v-bind:tabfn="page.tabfn" v-bind:star="page.star" v-on:full="full(page, this)" v-on:minus="minus(page)" v-on:close="close(page.id)" v-on:star="star(page)" v-bind:menuid = "page.menuid" v-on:volume="volume(page)" v-bind:tabIndex="tabIndex" v-on:tab-idx-change="tabIdxChange")
 
 </template>
 
@@ -119,7 +119,7 @@ import Transfer from './cashcenter/Transfer'
 import XYB from './cashcenter/XYB'
 // 个人中心
 import myCashRecord from './myCashRecord'
-
+import personalReport from './myGameRecord/report'
 // 代理中心
 import subGameRecord from './subGameRecord'
 import myGameRecord from './myGameRecord'
@@ -139,6 +139,7 @@ export default {
     XYB,
     // 个人中心
     myCashRecord,
+    personalReport,
     // 代理中心
     myGameRecord,
     subGameRecord,
@@ -240,9 +241,10 @@ export default {
   },
   name: 'Pages',
   mixins: [base],
-  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money'],
+  props: ['pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money', 'menus'],
   data () {
     return {
+      tabIndex: 0,
       hasHeader: true,
       hasFooter: true,
       // 可打开的最大的页数
@@ -449,6 +451,9 @@ export default {
     // this.pages.forEach(t => console.log(t.title, 'minus', '????') && this.updatePage('', {size: 'minus'}, t))
   },
   methods: {
+    tabIdxChange (index) {
+      this.tabIndex = index
+    },
     openRoute ({path, params: {url}}) {
       if (url) this.openAPage(url)
     },

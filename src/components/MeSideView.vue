@@ -85,7 +85,7 @@
     text-align center
     .ds-icon-me-avatar
       display block
-      height 1rem
+      height 1.1rem
       margin .3rem 0 .1rem 0
       
   .account
@@ -130,7 +130,7 @@
       padding 0 .2rem 
       .ds-icon-me-avatar
         display inline-block
-        width 1rem
+        width 1.1rem
         float left
       .account
         display none

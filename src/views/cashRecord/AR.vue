@@ -8,37 +8,59 @@
     .user-list.scroll-content
         
       .form.form-filters
-        
-        label.item 类型 
-          el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
-            el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
+        .types-sec
+          //- label.item 类型 
+            el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
+              el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
-        label.item 时间 
+          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
+            SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
+            span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
+              span.mr5 类型&nbsp;
+              span.flex.flex-ai-c.types-choice
+                el-input(v-bind:value="typesValue" v-bind:readonly="true" placeholder="更多类型（可多选）")
+          
+          span
+            template(v-for="(type, i) in choicedTypes")
+              ConditionItemButton(v-bind:id="type.id" v-bind:title="type.title" @close="removeCondiItem")
+            span(v-if="choicedTypes.length >= 6") ...
+        
+        //- label.item 时间 
           el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" @change="detectDate")
 
+        //- label.item 彩票 
+          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
+            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
-        label.item 资金 
+        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+          SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+          span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
+            span.mr5 彩种&nbsp;
+            span.flex.flex-ai-c.lottery-choice
+              i {{curLotteryName}}
+              i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
+        
+        span.date-buts
+          SearchConditions(v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition")
+
+        span.item.ml10 
+          span 资金 
           el-select(clearable placeholder="全" v-model="isFree" style="width: .8rem")
             el-option(v-for="(S, i) in ISFREE" v-bind:label="S" v-bind:value="i")
 
-        label.item(v-if=" !noname ") 用户 
+        //- label.item(v-if=" !noname ") 用户 
           input.ds-input.small(v-model="name" style="width: 1rem")
         
-        .item
+        //- .item
           el-select(clearable  v-model="query" style="width: 1rem; margin-right: .1rem" placeholder="编号查询")
             el-option(v-for="(U, i) in QUERYS" v-bind:label="U" v-bind:value="i")
           el-input(v-model="id" style="width: 1rem")
-        
-        label.item 游戏 
-          el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
-            el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
 
-
-        .buttons(style="margin-left: .3rem")
-          .ds-button.primary.large.bold(@click="list") 搜索
+        .buttons
+          .ds-button.large.primary.large.bold(@click="list") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
           .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
-          label.item(style="margin-left: .32rem") 自身快捷查询：
+          //- label.item(style="margin-left: .32rem") 自身快捷查询：
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTopup") 充值
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myWithdraw") 提现
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myOrder") 投注
@@ -47,12 +69,12 @@
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
-      
+        
       .table-list(style="padding: .15rem .2rem ")
       
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
 
-          el-table-column(class-name="pl2" prop="entry" label="帐变编号"  )
+          el-table-column(class-name="pl2" prop="entry" label="账变编号"  )
             template(scope="scope")
               div
                 .text-blue(v-if="!scope.row.last" style="padding: 0") {{ scope.row.entry }}
@@ -77,7 +99,7 @@
               span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
 
-          el-table-column(prop="balance" label="主帐户余额"  align="right")
+          el-table-column(prop="balance" label="主账户余额"  align="right")
             template(scope="scope")
               span{{ numberWithCommas(scope.row.balance) }}
           
@@ -97,7 +119,7 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-      
+      //- SearchConditionOrderTypes(v-bind:typeData="typeData" v-bind:sure="choicedTypeData")  
 </template>
 
 <script>
@@ -106,9 +128,18 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   import store from '../../store'
+  import SearchConditionOrderTypes from 'components/SearchConditionOrderTypes'
+  import ConditionItemButton from 'components/ConditionItemButton'
+  import SearchConditions from 'components/SearchConditions'
+  import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     mixins: [setTableMaxHeight],
+    props: ['menus'],
     components: {
+      SearchConditions,
+      SearchConditionLottery,
+      SearchConditionOrderTypes,
+      ConditionItemButton
     },
     data () {
       return {
@@ -141,7 +172,7 @@
         name: '',
         ZONES: ['自己', '直接下级', '所有下级'],
         zone: '',
-        QUERYS: ['注单编号', '追号编号', '帐变编号'],
+        QUERYS: ['注单编号', '追号编号', '账变编号'],
         query: '',
         data: [{}],
         pageSize: 20,
@@ -150,7 +181,27 @@
         preOptions: {},
         amount: [{income: 0, expenditure: 0, difMoney: 0}],
         hideNumber: false,
-        I: 0
+        I: 0,
+
+        typesValue: '',
+        typeData: [],
+        choicedTypes: [],
+
+        lotteryHistory: [],
+        lotteryPopover: false,
+        curLotteryName: '全部',
+
+        searchConditions: ['今天', '昨天', '前天'],
+        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
+        dateMappingConfig: {
+          d0: [0, 0],
+          d1: [1, 1],
+          d2: [2, 2],
+          d3: [3, 3],
+          d4: [4, 4],
+          d5: [5, 5],
+          d6: [6, 6]
+        }
       }
     },
     computed: {
@@ -207,6 +258,7 @@
       if (this.platform === 'ds') {
         this.ISFREE.splice(2)
       }
+      this.initQueryConditionDate()
     },
     methods: {
       __setCRI (i) {
@@ -338,11 +390,12 @@
       list (page, fn) {
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
-          text: '帐变记录加载中...',
+          text: '账变记录加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         // OrderReport.do?method=list&orderId=7&beginDate=20170201000000&endDate=20170303000000&isFree=1&userName=test&scope=1&serialType=2&serialValue=3397&lotteryId=1&methodId=37&issueId=1111&modes=11&page=1&pageSize=20
         if (!fn) {
+          this.type = this.getChoicedOrderType()
           this.preOptions = {
             orderId: this.type.join(','),
             beginDate: dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''),
@@ -359,6 +412,7 @@
             page: 1,
             pageSize: this.pageSize
           }
+          this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -419,7 +473,7 @@
         })
       },
       getOrderType () {
-        this.$http.get(api.getOrderType).then(({data}) => {
+        this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
             this.ME.showSalary && data.orderTypeList.push({
@@ -430,6 +484,86 @@
           }
         }, (rep) => {
           // error
+        })
+      },
+      initQueryConditionDate () {
+        let count = 0
+        let curDate = null
+        let dateStr = ''
+        for (let o in this.dateMappingConfig) {
+          count++
+          if (count > 3) {
+            curDate = new Date()
+            curDate.setDate(curDate.getDate() - this.dateMappingConfig[o][0])
+            dateStr = `${String(curDate.getMonth() + 1).padStart(2, '0')}月${String(curDate.getDate()).padStart(2, '0')}日`
+            this.searchConditions.push(dateStr)
+          }
+        }
+      },
+      choicedTypeData (types) {
+        this.typeData = types
+        this.inputLimitShowTypeData()
+        this.quickChoiceLimitShowTypeData()
+      },
+      inputLimitShowTypeData () {
+        this.typesValue = ''
+        let choiceds = []
+        this.typeData.forEach((type) => {
+          if (type.checked) choiceds.push(type.text)
+        })
+        if (choiceds.length > 0) this.typesValue = choiceds.join(' ') + '(可多选)'
+        if (this.typesValue.length > 15) this.typesValue = this.typesValue.substr(0, 15) + '...'
+      },
+      // 限制显示6个
+      quickChoiceLimitShowTypeData () {
+        let ts = []
+        let count = 6
+        for (let i = 0; i < this.typeData.length; i++) {
+          for (let j = 0; j < this.typeData[i].orderList.length; j++) {
+            if (count < 1) break
+            if (count > 0 && this.typeData[i].orderList[j].checked) {
+              ts.push({id: `${i}-${j}`, title: this.typeData[i].orderList[j].cnTitle})
+              count--
+            }
+          }
+        }
+        this.choicedTypes = ts
+      },
+      getChoicedOrderType () {
+        let checkedList = []
+        for (let i = 0; i < this.typeData.length; i++) {
+          for (let j = 0; j < this.typeData[i].orderList.length; j++) {
+            if (this.typeData[i].orderList[j].checked) {
+              checkedList.push(this.typeData[i].orderList[j].ordertypeId)
+            }
+          }
+        }
+        return checkedList
+      },
+      removeCondiItem (id) {
+        let [i, j] = id.split('-')
+        let type = this.typeData[parseInt(i, 10)]
+        type.checked = false
+        type.orderList[parseInt(j, 10)].checked = false
+        this.$set(this.typeData, parseInt(i, 10), type)
+        this.choicedTypeData(this.typeData)
+      },
+      choicedSearchCondition (i, dates) {
+        this.stEt = [dates.startDate, dates.endDate]
+      },
+      choicedLottery (lottery) {
+        if (!lottery.gameid) return
+        this.gameid = lottery.gameid
+        this.curLotteryName = lottery.title + ((lottery.subTitle || '').length > 0 ? `(${lottery.subTitle})` : '')
+      },
+      setLotteryHistory (lottery) {
+        if (!lottery || !lottery.gameid || this.findHistoryById(lottery.gameid) !== -1) return
+        this.lotteryHistory.push(lottery)
+        if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
+      },
+      findHistoryById (gameid) {
+        return this.lotteryHistory.findIndex((item) => {
+          return item.gameid === gameid
         })
       }
     }
@@ -456,6 +590,23 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .form-filters
+    .buttons
+      display inline-block
+      .ds-button
+        min-width 0.87rem
+        padding 0
+        vertical-align inherit
+      .cancel.large
+        background #444444
+    .el-select
+      top 0
+      vertical-align inherit
+  .types-sec
+    &>span
+      display inline-block
+  .types-choice-condi
+    width 2.4rem
   .user-list
     .form
       padding PWX
@@ -463,6 +614,8 @@
   .item
     display inline-block
     margin 0 PW .1rem 0
+    &.ml10
+      margin-left 0.1rem
   .block
     display block
     
@@ -473,4 +626,26 @@
     position relative
     top .01rem
 
+  .types-sec + span
+    display inline-block
+    margin-right 0.1rem
+  .lottery-choice-condi
+    width 2rem
+  .lottery-choice
+    // display inline-block
+    width 1.68rem
+    height 0.3rem
+    background-image linear-gradient(0deg, #f3f3f3 0%, #ffffff 100%)
+    justify-content space-between
+    padding 0 0.1rem
+    box-sizing border-box
+    border solid 1px #e8e8e8
+    font-size 0.12rem
+    
+  .date-buts
+    display inline-block
+</style>
+<style lang="stylus">
+  .search-lottery-popover
+    background-color #fff !important
 </style>
