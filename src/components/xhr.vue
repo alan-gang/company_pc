@@ -116,6 +116,7 @@
             fn && fn()
           } else {
             this.$message.error(data.msg || '用户名不存在！')
+            this._getVerifyImage()
           }
         }, (rep) => {
           // error
