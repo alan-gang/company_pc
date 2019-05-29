@@ -172,8 +172,7 @@
           span.ds-button.text-button.blue(style="float: right" @click="stepIndex--") {{ '<返回上一页' }} 
 
         p(style="padding-left: 30%; margin-top: .7rem")
-          span.text-danger *
-          日工资：&nbsp;&nbsp;
+          span.text-danger * 日工资：&nbsp;&nbsp;
           el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
             el-option(v-for="O in OL.filter(x => x.value >= user.daySalary) " v-bind:label="O.name" v-bind:value="O.value")
 
@@ -186,7 +185,7 @@
           | 有效用户：
           el-input-number(v-model="activityCount")
           |  人
-          span.text-999（投注达到500为有效用户）
+          span.text-999 （投注达到500为有效用户）
           br
           span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem" @click="setSalary") 确认
 
@@ -299,8 +298,7 @@
             .ds-button.text-button(v-for=" (bw, i) in user.backWaterComb  " v-bind:class=" { selected: bwi === i } " @click=" bwi= i ") {{ bw.groupName || bw.groupId }}
         div(style="margin: 0 auto; max-width: 8rem")
           p(style="padding-left: 25%; margin-top: .7rem")
-            span.text-danger *
-            返水级别：&nbsp;&nbsp;
+            span.text-danger * 返水级别：&nbsp;&nbsp;
             el-select(v-model=" bw " style="width: 1.8rem; position: relative; top: -.01rem")
               el-option(v-for=" bw in BWL " v-bind:label=" bw.toFixed(1) " v-bind:value=" bw ")
             span.text-blue  ‰

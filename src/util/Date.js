@@ -48,12 +48,15 @@ window.Number.prototype._padStart = window.String.prototype._padStart = function
   if (s.length > l) s = s.slice(s.length - l)
   return s
 }
+//日 前后
 window.Date.prototype._bf = function (d) {
   return this._setD(this.getDate() + d)
 }
+//月 前后
 window.Date.prototype._bfM = function (d) {
   return new window.Date(new window.Date(this).setMonth(this.getMonth() + d))
 }
+//设置 指定日 日  负数   上月最后一天开始   0本月最后一天
 window.Date.prototype._setD = function (d) {
   return new window.Date(new window.Date(this).setDate(d))
 }
