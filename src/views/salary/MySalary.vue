@@ -138,7 +138,7 @@
             this.total = totalSize || data.length
             // 增加工资总额
             data = data.map((item) => {
-              item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
+              item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
               return item
             })
             this.data = data

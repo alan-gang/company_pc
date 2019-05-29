@@ -8,8 +8,8 @@
     .scroll-content
       .form.form-filters
 
-          label.item( v-if=" type === 1 ") 用户名 
-            input.ds-input.small(v-model="un" style="width: 1rem")
+          label.item 用户 
+            input.ds-input.small(v-model="un" style="width: 1.2rem" placeholder="请输入用户名" maxLength="20")
 
           label.item 时间 
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
@@ -38,9 +38,13 @@
           el-table-column(prop="totBuyAmount" label="团队销量"  align="right")
           el-table-column(prop="buyAmount" label="有效销量"  align="right")
           el-table-column(prop="activitUser" label="有效人数"  align="right")
+          el-table-column(prop="salaryLevel" label="工资级别"  align="right")
           el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right")
           el-table-column(prop="subSalary" label="下级工资总额"  align="right")
           el-table-column(prop="daySalary" label="个人工资"  align="center")
+          el-table-column(class-name="pl2 pr2" prop="isDone" label="状态")
+            template(scope="scope")
+              span(:class=" {'text-green': scope.row.isDone, 'text-danger': !scope.row.isDone} ") {{ scope.row.isDone ? '已领取' : '未领取' }}
           //- el-table-column(prop="getDaySalary" label="本人已领工资"  align="right")
             template(scope="scope")
               span(:class=" { 'text-green': scope.row.getDaySalary && scope.row.getDaySalary._o0() } ") {{ scope.row.getDaySalary && scope.row.getDaySalary._o0() ? '+' : ''}} {{ scope.row.getDaySalary }}
@@ -115,13 +119,14 @@
         }, 0)
       },
       cellClick (row, column, cell, event) {
-        if (column.property === 'userName' && this.type) {
-          this.list(undefined, undefined, row.userId)
+        if (['userName', 'subSalary'].indexOf(column.property) !== -1 && parseFloat(row.subSalary.replace(/,/g, '')) > 0) {
+          this.id = row.userId
+          this.list({userId: row.userId}, undefined)
         }
       },
       link (B, i) {
         this.id = B.userId
-        this.list(undefined, undefined, B.userId)
+        this.list({userId: B.userId}, undefined)
       },
       // 我的日工资
       list (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
@@ -130,8 +135,8 @@
           target: this.$refs['itable'].$el
         }, 10000, '加载超时...')
         let p = {
-          // userId: this.ME.userId,
-          // userId: '',
+          userId: option.userId || this.id || this.ME.userId,
+          userName: this.un,
           startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
           endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, ''),
           userState: 3,
@@ -148,10 +153,11 @@
             this.showOperColumn = p.startDate !== p.endDate
             // 增加工资总额
             data = data.map((item) => {
-              item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
+              item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
               return item
             })
             this.data = data
+            this.getSubBreadByUserId(option.userId || this.ME.userId)
             cb()
             setTimeout(() => {
               loading.text = '加载成功!'
@@ -163,6 +169,15 @@
           setTimeout(() => {
             loading.close()
           }, 100)
+        })
+      },
+      getSubBreadByUserId (userId) {
+        this.$http.get(api.subBread, {userId: userId}).then(({data: {success, userBreads}}) => {
+          if (success === 1) {
+            if (userBreads.length > 0) {
+              this.BL = userBreads.concat([{}])
+            }
+          }
         })
       },
       viewDailyDetail (row) {
@@ -223,7 +238,7 @@
 
   .item
     display inline-block
-    margin 0 PW .1rem 0
+    margin 0 PW 0 0
   .date-wp
       display inline-block
 </style>

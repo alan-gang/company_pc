@@ -22,7 +22,7 @@
       
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0" )
-          .ds-button.primary.large.bold(@click="setWage") 设置日工资
+          .ds-button.primary.large(@click="patchSetWage" v-bind:class="{'disabled': disableSetWage}") 设置日工资
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
@@ -31,20 +31,22 @@
           el-table-column(prop="userName" label="用户名")
           el-table-column(prop="registertime" label="注册日期" align="center")
           el-table-column(prop="teamCount" label="团队人数"  align="center")
-          el-table-column(prop="salary" label="工资级别"  align="center") 
+          el-table-column(label="工资级别"  align="center") 
+            template(scope="scope")
+              span {{scope.row.salary}} 万
           el-table-column(prop="teamSales" label="团队销量"  align="center")
           el-table-column(prop="activityCount" label="有效人数"  align="center")
-          el-table-column(class-name="pl2 pr2" prop="isopen" label="状态")
+          el-table-column(class-name="pl2 pr2" label="状态")
             template(scope="scope")
-              span(:class=" {'text-green': scope.row.isopen == 1, 'text-danger': scope.row.isopen == 0} ") {{ scope.row.isopen ? '已设置' : '未设置' }}
+              span(:class=" {'text-green': scope.row.salary > 0, 'text-danger': scope.row.salary < 1} ") {{ scope.row.salary > 0 ? '已设置' : '未设置' }}
           el-table-column(label="操作" )
             template(slot-scope="scope")
-              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" scope.row.isopen == 0 || scope.row.isopen == 1 " @click="setWage()") 设置日工资
+              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" scope.row.salary >= 0 " @click="setWage(scope.row)") 设置日工资
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
 
-      DialogSetDailyWage(v-bind:showDialogSetWage="showDialogSetWage")
+      DialogSetDailyWage(v-if="showDialogSetWage" v-bind:showDialogSetWage="showDialogSetWage" v-bind:id="id" v-on:close="showDialogSetWage = false" v-on:set-wage="mySubSalaryList")
     
 
 
@@ -77,16 +79,17 @@
           {title: '自己'},
           {}
         ],
-        did: '',
         fn: 'mySubSalaryList',
         id: '',
+        choicedRows: [],
         pageSize: 15,
         defaultDateIdx: -1,
         searchConditions: ['昨天', '前天', '最近7天'],
         dateMappingConfig: { d0: [1, 1], d1: [2, 2], d2: [6, 0] },
         quickStatusIdx: -1,
         statusButtons: ['全部', '已设置', '未设置'],
-        showDialogSetWage: false
+        showDialogSetWage: false,
+        disableSetWage: true
       }
     },
     mounted () {
@@ -102,9 +105,22 @@
         this.id = B.userId
         this.list(undefined, undefined, B.userId)
       },
-      setWage () {},
-      handleSelectionChange (row) {
-        console.log('row=', row)
+      patchSetWage () {
+        if (this.disableSetWage || this.choicedRows.length < 1) return
+        let ids = []
+        this.choicedRows.forEach(row => {
+          ids.push(row.userId)
+        })
+        this.id = ids.join(',')
+        this.showDialogSetWage = true
+      },
+      setWage (row) {
+        this.id = String(row.userId)
+        this.showDialogSetWage = true
+      },
+      handleSelectionChange (rows) {
+        this.choicedRows = rows
+        this.disableSetWage = this.choicedRows.length < 1
       },
       // 我的日工资
       mylist (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
@@ -156,8 +172,13 @@
           startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
           endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
         }
-        if (this.quickStatusIdx - 1 >= 0) {
-          p.isdone = this.quickStatusIdx - 1
+        if (this.quickStatusIdx >= 0) {
+          if (this.quickStatusIdx === 1) {
+            p.salaryType = 1
+          }
+          if (this.quickStatusIdx === 2) {
+            p.salaryType = 0
+          }
         }
         Object.assign(p, option)
         this.$http.post(api.mySubSalaryList, p).then(({data: {success, userBreads, totalSize, salaryList}}) => {
@@ -209,4 +230,7 @@
       margin 0 PW 0 0
     .date-wp
       display inline-block
+    .ds-button.disabled
+      border solid 1px #dbdbdb
+      color #999999
 </style>
