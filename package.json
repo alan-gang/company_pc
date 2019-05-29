@@ -25,6 +25,7 @@
     "echarts": "^4.1.0",
     "lodash": "^4.17.4",
     "simple-web-worker": "^1.2.0",
+    "store": "^2.0.12",
     "vue": "^2.5.16",
     "vue-awesome-swiper": "^2.4.2",
     "vue-clipboard2": "0.0.6",

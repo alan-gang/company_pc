@@ -485,7 +485,7 @@ export default {
                   menuid: '57',
                   title: '团队报表',
                   // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
-                  tabs: ['彩票', '棋牌', '棋牌', '微游'],
+                  tabs: ['彩票', '三方', '棋牌', '微游'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -543,7 +543,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
@@ -738,7 +738,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },

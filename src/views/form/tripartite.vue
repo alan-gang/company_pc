@@ -1,5 +1,4 @@
-// 团队盈亏-棋牌   gameType= 4
-// 团队盈亏-微游   gameType= 8
+// 团队盈亏-三方
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -73,83 +72,152 @@
               >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
             </el-breadcrumb>
           </p>
-          <el-table
-            class="header-bold nopadding"
-            :data="data"
-            style="margin: 0;"
-            ref="table"
-            stripe="stripe"
-            v-bind:summary-method="getSummaries"
-            @cell-click="cellClick"
-            v-bind:row-class-name="tableRowClassName"
-            v-bind:max-height=" MH "
-            @sort-change="sortChange"
-          >
-            <el-table-column class-name="pl2" prop="userName" label="用户名">
-              <template scope="scope">
-                <span>
-                  {{ scope.row.userName }}
-                  <template v-if="me.account==scope.row.userName">(我)</template>
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="gameUserCount"
-              :label="(Daily ? '日均' : '') +'游戏人数'"
-              sortable="custom"
-              align="center"
+          <!-- 三方团队列表 -->
+          <!-- @cell-click="cellClick" -->
+          <div v-show="profitmark === 'list'">
+            <el-table
+              class="header-bold nopadding"
+              :data="data"
+              style="margin: 0;"
+              ref="table"
+              stripe="stripe"
+              v-bind:row-class-name="tableRowClassName"
+              v-bind:max-height=" MH "
+              @sort-change="sortChange"
             >
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.gameUserCount) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.profit) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.rewards) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.platfee) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="right"
-              prop="settle"
-              label="总盈亏"
-              sortable="custom"
-              class-name="pr2"
+              <el-table-column class-name="pl2" prop="userName" label="用户名">
+                <template scope="scope">
+                  <span>
+                    {{ scope.row.userName }}
+                    <template v-if="me.account==scope.row.userName">(我)</template>
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.profit) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.rewards) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.platfee) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="right"
+                prop="settle"
+                label="总盈亏"
+                sortable="custom"
+                class-name="pr2"
+              >
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.settle) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="userpoint" label="操作" align="center">
+                <template scope="scope">
+                  <div
+                    v-show="scope.$index+1 != data.length"
+                    @click="ClickProfitInfo(scope.row)"
+                    class="ds-button text-button blue"
+                    style="padding: 0 .05rem;"
+                  >明细</div>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div v-show="profitmark === 'info'">
+            <!-- 三方团队明细  月 -->
+            <!-- 三方团队明细  日 -->
+            <el-table
+              class="header-bold nopadding"
+              :data="data"
+              style="margin: 0;"
+              ref="table"
+              stripe="stripe"
+              v-bind:summary-method="getSummaries"
+              v-bind:row-class-name="tableRowClassName"
+              v-bind:max-height=" MH "
+              @sort-change="sortChange"
             >
-              <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.settle) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="userpoint" label="操作" align="center">
-              <template scope="scope">
-                <div
-                  v-show="scope.row.userId&&Daily"
-                  class="ds-button text-button blue"
-                  style="padding: 0 .05rem;"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
-                >明细</div>
-              </template>
-            </el-table-column>
-          </el-table>
+              <el-table-column class-name="pl2" prop="userName" label="游戏类型">
+                <template scope="scope">
+                  <span>
+                    {{ scope.row.userName }}
+                    <template v-if="me.account==scope.row.userName">(我)</template>
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="gameUserCount"
+                :label="(Daily ? '日均' : '') +'游戏人数'"
+                sortable="custom"
+                align="center"
+              ></el-table-column>
+              <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.profit) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.rewards) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.platfee) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="right"
+                prop="settle"
+                :label="Daily ? '结算' :  '盈亏'"
+                sortable="custom"
+                class-name="pr2"
+              >
+                <template scope="scope">
+                  <span v-show="!Daily">{{ numberWithCommas(scope.row.settle) }}</span>
+                  <span v-show="Daily">{{ numberWithCommas(scope.row.totalProfit) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="userpoint" label="操作" align="center">
+                <template scope="scope">
+                  <div
+                    v-show="scope.$index+1 != data.length && Daily"
+                    class="ds-button text-button blue"
+                    style="padding: 0 .05rem;"
+                    @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
+                  >明细</div>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
           <el-pagination
             :total="total"
             v-bind:page-size="pageSize"
@@ -163,6 +231,8 @@
         </div>
       </div>
     </div>
+    <!-- 弹窗  团队明细 -->
+    <!-- 弹窗  个人明细 -->
     <div class="modal" v-show="showDetail">
       <div class="mask"></div>
       <div class="box-wrapper">
@@ -253,7 +323,6 @@ export default {
   components: {
     // ProfitLossDetail: resolve => require(["../ProfitLossDetail"], resolve)
   },
-  props: ["gameType"],
   data() {
     return {
       numberWithCommas,
@@ -285,7 +354,8 @@ export default {
       I: 0,
       ot: "0",
       orderBy: "",
-      ascOrDesc: 1
+      ascOrDesc: 1,
+      profitmark: "list" // list:三方团队列表   info:三方团队明细
     };
   },
   watch: {
@@ -294,9 +364,6 @@ export default {
       this.profitList();
     },
     ot() {
-      this.profitList();
-    },
-    gameType() {
       this.profitList();
     }
   },
@@ -310,26 +377,11 @@ export default {
         ? !0 //每天
         : !1; //时间范围是一天
     }
-    //上个月
-    //上上个月
   },
   mounted() {
     this.profitList();
   },
   methods: {
-    getSummaries(param) {
-      const { columns } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总计";
-          return;
-        } else {
-          sums[index] = numberWithCommas(this.totalJson[column.property]);
-        }
-      });
-      return sums;
-    },
     //点击筛选 某月
     ClickMonth(multiple) {
       let r = [];
@@ -410,16 +462,23 @@ export default {
         this.ccurrentPage = cp;
       });
     },
-    cellClick(row, column, cell, event) {
-      if (column.property === "username") {
-        this.profitList(undefined, undefined, row.userId);
-      }
+    // cellClick(row, column, cell, event) {
+    //   if (column.property === "username") {
+    //     this.profitList(undefined, undefined, row.userId);
+    //   }
+    // },
+    ClickProfitInfo(row) {
+      this.profitmark = "info";
+      this.profitList(undefined, undefined, row.userId, row);
     },
     link(B, i) {
+      this.profitmark =
+        !B.userId || B.userId === this.me.userId ? "list" : "info";
       this.profitList(undefined, undefined, B.userId);
     },
     // 盈亏报表列表
-    profitList(page, fn, id) {
+    profitList(page, fn, id, row) {
+      console.log(row);
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -430,7 +489,7 @@ export default {
       );
       if (!fn) {
         this.preOptions = {
-          gameType: this.$props.gameType,
+          gameType: this.profitmark === "list" ? 0 : 999,
           username: this.name,
           userId: id || this.BL[this.BL.length - 2].userId,
           scope: this.zone !== "" ? this.zone + 1 : "",
@@ -473,7 +532,23 @@ export default {
                */
               $store.set("SearchUserNameList", param);
               this.data = data.items;
-              this.BL = data.userBreads.concat([{}]);
+              if (data.userBreads) this.BL = data.userBreads.concat([{}]);
+              if (this.profitmark === "info") {
+                let r = [
+                  {
+                    userId: this.me.userId,
+                    userName: this.me.userName
+                  }
+                ];
+                if (row && row.userId && row.userId !== this.me.userId) {
+                  r.push({
+                    userId: row.userId,
+                    userName: row.userName
+                  });
+                }
+                r.push({});
+                this.BL = r;
+              }
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -505,7 +580,7 @@ export default {
       );
       if (!fn) {
         this.cpreOptions = {
-          gameType: this.$props.gameType,
+          gameType: 0,
           username: this.name,
           userId: id,
           scope: this.zone !== "" ? this.zone + 1 : "",
@@ -550,7 +625,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '~@/var.stylus';
 
 .stock-list {
   // top TH
@@ -571,7 +646,7 @@ export default {
 
 
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '~@/var.stylus';
 
 bg = #d8d8d8;
 bg-hover = #ececec;

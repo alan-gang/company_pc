@@ -1,5 +1,5 @@
+// 团队盈亏-彩票
 <template>
-  <!-- 团队盈亏-彩票 -->
   <div class="group-page">
     <slot name="cover"></slot>
     <slot name="movebar"></slot>
@@ -17,9 +17,21 @@
         </label>
         <label class="item">
           排序
-          <el-button size="small">投注</el-button>
-          <el-button size="small">总盈亏</el-button>
-          <el-button size="small">游戏盈亏</el-button>
+          <el-button size="small" @click="ClickSort('betAmount')">
+            投注
+            <template v-if="orderBy=='betAmount'&&ascOrDesc==2">↑</template>
+            <template v-if="orderBy=='betAmount'&&ascOrDesc==1">↓</template>
+          </el-button>
+          <el-button size="small" @click="ClickSort('settleAmount')">
+            总盈亏
+            <template v-if="orderBy=='settleAmount'&&ascOrDesc==2">↑</template>
+            <template v-if="orderBy=='settleAmount'&&ascOrDesc==1">↓</template>
+          </el-button>
+          <el-button size="small" @click="ClickSort('gameSettleAmount')">
+            游戏盈亏
+            <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2">↑</template>
+            <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1">↓</template>
+          </el-button>
         </label>
         <label class="item">
           显示
@@ -30,17 +42,24 @@
         </label>
         <label class="item">
           团队
-          <input class="ds-input small" v-model="name" placeholder="请输入用户名" style="width: 1rem;">
+          <el-autocomplete
+            v-model="name"
+            :fetch-suggestions="UserSearch"
+            placeholder="请输入用户名"
+            style="width: 1.1rem;"
+            @select="profitList"
+          ></el-autocomplete>
         </label>
         <div class="ds-button primary large bold" @click="profitList()">搜索</div>
       </div>
 
       <div>
-        <div class="table-list" style="padding: .15rem .2rem ;">
+        <div class="table-list" style="padding: .15rem .2rem;">
           <p style="margin: 0 0 .15rem 0;">
             <el-breadcrumb separator=">">
               <el-breadcrumb-item
                 v-for="(B, i) in BL"
+                :key="B.userId"
                 @click.native=" link(B, i) "
               >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
             </el-breadcrumb>
@@ -67,33 +86,39 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="gameUserCount" label="日均游戏人数" align="center"></el-table-column>
-            <el-table-column prop="betAmount" label="投注" align="center">
+            <el-table-column
+              prop="gameUserCount"
+              :label="(Daily ? '日均' : '') +'游戏人数'"
+              sortable="custom"
+              align="center"
+            ></el-table-column>
+            <el-table-column prop="betAmount" label="投注" sortable="custom" align="center">
               <template scope="scope">
                 <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="prizeAmount" label="派奖" align="center">
+            <el-table-column prop="prizeAmount" label="派奖" sortable="custom" align="center">
               <template scope="scope">
                 <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="GameProfitAndLoss" label="游戏盈亏" align="center"></el-table-column>
-            <el-table-column prop="pointAmount" label="返点" align="center"></el-table-column>
-            <el-table-column prop="activityAmount" label="活动" align="center">
+            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="activityAmount" label="活动" sortable="custom" align="center">
               <template scope="scope">
                 <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="salaryAmount" label="日工资" align="center">
+            <el-table-column prop="salaryAmount" label="日工资" sortable="custom" align="center">
               <template scope="scope">
                 <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="totalProfitAndLoss" label="总盈亏" align="center"></el-table-column>
+            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center"></el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
                 <div
+                  v-show="Daily"
                   class="ds-button text-button blue"
                   style="padding: 0 .05rem;"
                   @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
@@ -202,61 +227,24 @@
 </template>
 
 <script>
-import Stock from "../group/Stock";
-import TStock from "../group/TStock";
-import setTableMaxHeight from "components/setTableMaxHeight";
-import ProfitLossDetail from "./ProfitLossDetail";
-import { numberWithCommas } from "../../util/Number";
-// import { dateFormat } from '../../util/Date'
-import api from "../../http/api";
-import store from "../../store";
+import setTableMaxHeight from "@/components/setTableMaxHeight";
+import { numberWithCommas } from "@/util/Number";
+import api from "@/http/api";
+import store from "@/store";
+const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ProfitLossDetail,
-    Stock,
-    TStock
+    ProfitLossDetail: resolve => require(["./ProfitLossDetail"], resolve),
+    Stock: resolve => require(["../group/Stock"], resolve),
+    TStock: resolve => require(["../group/TStock"], resolve)
   },
   data() {
     return {
       TH: 270,
-      numberWithCommas: numberWithCommas,
+      numberWithCommas,
       me: store.state.user,
       clearableOnTime: false,
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近二个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 60);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ],
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        }
-      },
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
       data: [],
@@ -276,11 +264,21 @@ export default {
       ascOrDesc: 1,
       totalJson: {},
       showDetail: "",
-      firstHalfval: '', //上半个月
-      secondHalfval: '' //下半个月
+      firstHalfval: "", //上半个月
+      secondHalfval: "" //下半个月
     };
   },
-  computed: {},
+  computed: {
+    //统计时间是否大于1天
+    Daily() {
+      //统计时间为1天时,为【游戏人数】，大于1天时为【日均游戏人数】
+      return new Date(this.stEt[1]).getTime() -
+        new Date(this.stEt[0]).getTime() >
+        1000 * 60 * 60 * 24
+        ? !0 //每天
+        : !1; //时间范围是一天
+    }
+  },
   watch: {
     //时间范围
     stEt() {
@@ -296,18 +294,37 @@ export default {
     }
   },
   mounted() {
+    // console.log($store)
     this.profitList();
-    this.firstHalfval = this.firstHalf().month;//上半个月
-    this.secondHalfval = this.secondHalf().month;//下半个月
+    this.firstHalfval = this.firstHalf().month; //上半个月
+    this.secondHalfval = this.secondHalf().month; //下半个月
     // console.log(new Date()._toDayString())
   },
   methods: {
+    //用户名搜索
+    UserSearch(queryString, cb) {
+      let list = [];
+      let param = $store.get("SearchUserNameList") || {};
+      if (!param[this.me.account]) {
+        param[this.me.account] = []; //用户搜索有效列表
+      }
+      param[this.me.account].forEach(_ => {
+        list.push({ value: _, label: _ });
+      });
+      let results = queryString
+        ? list.filter(this.createFilter(queryString))
+        : list;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return restaurant => {
+        return restaurant.value.indexOf(queryString.toLowerCase()) === 0;
+      };
+    },
     //点击 今天
     ClickToday() {
-      this.stEt = [
-        new Date()._toDayString(),
-        new Date()._toDayString()
-      ];
+      this.stEt = [new Date()._toDayString(), new Date()._toDayString()];
     },
     //点击 昨天
     ClickYesterday() {
@@ -331,67 +348,111 @@ export default {
     ClickSecondHalf() {
       this.stEt = this.secondHalf().time;
     },
-    //计算一个月有多少天
-    //val 月
-    getCountDays(val) {
-      //月份: 1-12
-      if (val < 0 && val > 13) return 0;
-      let myDate = new Date();
-      myDate.setMonth(val);
-      myDate.setDate(0);
-      return myDate.getDate();//返回val月的天数
-    },
     //自定义 上半个月 不足当月一半天数  放弃
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     firstHalf() {
-      let myDate = new Date();
-      let year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-      let month = myDate.getMonth();      //获取当前月份(0-11,0代表1月)
-      let date = myDate.getDate();        //获取当前日(1-31)
-      let MonthDays = this.getCountDays(month + 1);//本月天数
-      let FirstMonthDays = this.getCountDays(month === 0 ? '12' : month);//上个月天数
+      let date = new Date().getDate(); //获取当前日
+      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
+      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
       let r = {
-        month: '',
+        month: "",
         time: []
       };
       //当前日  为 下旬时   上半个月为 上个月的下旬
       if (date > parseInt(MonthDays / 2)) {
-        r.month = `${month}月下半月`;
-        r.time.push(`${year}-${(month)}-${parseInt(FirstMonthDays / 2) + 1}`)
-        r.time.push(`${year}-${(month)}-${FirstMonthDays}`);
-      } else { //当前日 为 上旬时   上半个月为 上个月的上旬
-        r.month = `${month}月上半月`;
-        r.time.push(`${year}-${(month)}-1`);
-        r.time.push(`${year}-${(month)}-${parseInt(FirstMonthDays / 2)}`)
+        r.month = `${new Date()
+          ._bfM(0)
+          ._setD(1)
+          .getMonth()}月下半月`;
+        r.time.push(
+          new Date()
+            ._bfM(-1)
+            ._setD(parseInt(FirstMonthDays / 2) + 1)
+            ._toDayString()
+        );
+        r.time.push(
+          new Date()
+            ._bfM(0)
+            ._setD(0)
+            ._toDayString()
+        );
+      } else {
+        //当前日 为 上旬时   上半个月为 上个月的上旬
+        r.month = `${new Date()
+          ._bfM(0)
+          ._setD(1)
+          .getMonth()}月上半月`;
+        r.time.push(
+          new Date()
+            ._bfM(-1)
+            ._setD(1)
+            ._toDayString()
+        );
+        r.time.push(
+          new Date()
+            ._bfM(-1)
+            ._setD(parseInt(FirstMonthDays / 2))
+            ._toDayString()
+        );
       }
-      // console.log(r);
+      // console.log(111, r);
       return r;
     },
     //自定义 下半个月 不足当月一半天数  放弃
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     secondHalf() {
-      let myDate = new Date();
-      let year = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-      let month = myDate.getMonth();      //获取当前月份(0-11,0代表1月)
-      let date = myDate.getDate();        //获取当前日(1-31)
-      let MonthDays = this.getCountDays(month + 1);//本月天数
-      let FirstMonthDays = this.getCountDays(month === 0 ? '12' : month);//上个月天数
+      let date = new Date().getDate(); //获取当前日
+      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
+      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
       let r = {
-        month: '',
+        month: "",
         time: []
       };
       //当前日  为 下旬时   下半个月为 本月的上旬
       if (date > parseInt(MonthDays / 2)) {
-        r.month = `${month + 1}月上半月`;
-        r.time.push(`${year}-${(month + 1)}-1`);
-        r.time.push(`${year}-${(month + 1)}-${parseInt(FirstMonthDays / 2)}`)
-      } else { //当前日 为 上旬时   上半个月为 上个月的下旬
-        r.month = `${month}月下半月`;
-        r.time.push(`${year}-${(month)}-${parseInt(FirstMonthDays / 2) + 1}`)
-        r.time.push(`${year}-${(month)}-${FirstMonthDays}`);
+        r.month = `${new Date()
+          ._bfM(1)
+          ._setD(1)
+          .getMonth()}月上半月`;
+        r.time.push(
+          new Date()
+            ._bfM(0)
+            ._setD(1)
+            ._toDayString()
+        );
+        r.time.push(
+          new Date()
+            ._bfM(0)
+            ._setD(parseInt(MonthDays / 2))
+            ._toDayString()
+        );
+      } else {
+        //当前日 为 上旬时   上半个月为 上个月的下旬
+        r.month = `${new Date()
+          ._bfM(0)
+          ._setD(1)
+          .getMonth()}月下半月`;
+        r.time.push(
+          new Date()
+            ._bfM(-1)
+            ._setD(parseInt(FirstMonthDays / 2) + 1)
+            ._toDayString()
+        );
+        r.time.push(
+          new Date()
+            ._bfM(0)
+            ._setD(0)
+            ._toDayString()
+        );
       }
-      // console.log(r);
+      // console.log(222, r);
       return r;
+    },
+    //点击排序
+    ClickSort(orderBy) {
+      this.ascOrDesc = this.ascOrDesc === 2 ? 1 : 2;
+      this.orderBy = orderBy;
+      this.profitList();
     },
     sortChange({ column, prop, order }) {
       this.ascOrDesc = order === "ascending" ? 2 : 1;
@@ -399,7 +460,7 @@ export default {
       this.profitList();
     },
     sm(a, b) {
-      console.log(a, b, "???");
+      // console.log(a, b, "???");
       return a - b;
     },
     __setProfitLossI(I) {
@@ -410,7 +471,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "团队总计";
+          sums[index] = "总计";
           return;
         } else {
           sums[index] = numberWithCommas(this.totalJson[column.property]);
@@ -465,7 +526,7 @@ export default {
           beginDate: this.stEt[0],
           endDate: this.stEt[1],
           userId: id || this.BL[this.BL.length - 2].userId,
-          parentId: this.zone !== "" ? this.zone + 1 : "",
+          // parentId: this.zone !== "" ? this.zone + 1 : "",
           username: this.name,
           // orderType: this.S === '' ? '' : this.S + 1,
           // sort: this.btos === '' ? 2 : this.btos + 1,
@@ -484,12 +545,27 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
-              data.items.forEach(_ => {
-                // 游戏盈亏 = 派奖 - 投注
-                _['GameProfitAndLoss'] = Number(_.prizeAmount) - Number(_.betAmount);
-                // 总盈亏 = 游戏盈亏 + 返点 + 活动 + 日工资
-                _['totalProfitAndLoss'] = Number(_.prizeAmount) - Number(_.betAmount) + Number(_.pointAmount) + Number(_.activityAmount) + Number(_.salaryAmount);
-              })
+              //记录当前用户搜索的有效用户名
+              let param = $store.get("SearchUserNameList") || {};
+              if (!param[this.me.account]) {
+                param[this.me.account] = []; //用户搜索有效列表
+              }
+              if (
+                data.items.length &&
+                this.name &&
+                this.name.replace(/(^\s*)|(\s*)$/g, "") !== this.me.account && //搜索内容过滤前后空格
+                param[this.me.account].indexOf(this.name) === -1 //过滤 重复
+              ) {
+                param[this.me.account].push(this.name);
+              }
+              /**
+               * 用户搜索有效列表 缓存格式
+               * key SearchUserNameList
+               * value {
+               *    username:[username1,username2]
+               * }
+               */
+              $store.set("SearchUserNameList", param);
               if (data.items.filter(x => x.userName === "团队合计：")[0]) {
                 this.totalJson = data.items.pop();
               }

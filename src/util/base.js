@@ -39,7 +39,7 @@
  * @param m
  * @returns {Number}
  */
-function permutationChoice (n, m) {
+function permutationChoice(n, m) {
   return factorial(n) / factorial(n - m)
 }
 /**
@@ -49,7 +49,7 @@ function permutationChoice (n, m) {
  * @returns {Number}
  * combineChoice
  */
-function C (n, m) {
+function C(n, m) {
   // console.log(n, m, '||||||||||||||||||||||||')
   if (!n || !m || n < m || n < 0 || m < 0) return 0
   else if (n === m) return 1
@@ -63,7 +63,7 @@ function C (n, m) {
  * @param  {[type]} n [description]
  * @return {[type]}   [description]
  */
-function factorial (n) {
+function factorial(n) {
   // console.log(n)
   if (n === 0) return 1
   return n * factorial(n - 1)
@@ -83,10 +83,12 @@ let repeat = (s, t) => {
 // @params o 重复号的判断加入是否排序后比较相等
 let removeDuplicate = (s, i, join, o, l) => {
   let has = false
-  return { s: s.split(i).filter((n, i, arr) => {
-    if (!n.match(new RegExp('\\d{' + (l || 1) + '}', 'g'))) return false
-    return i === arr.findIndex(nn => !o ? nn === n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
-  }).join(join || ' '), has: has }
+  return {
+    s: s.split(i).filter((n, i, arr) => {
+      if (!n.match(new RegExp('\\d{' + (l || 1) + '}', 'g'))) return false
+      return i === arr.findIndex(nn => !o ? nn === n : nn.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('') === n.match(new RegExp('\\d{' + (l || 1) + '}', 'g')).sort((a, b) => a - b).join('')) || !(has = true)
+    }).join(join || ' '), has: has
+  }
 }
 
 let padStart = (s, l, w) => {
