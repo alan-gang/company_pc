@@ -124,7 +124,7 @@
                 <template scope="scope">
                   <div
                     v-show="scope.$index+1 != data.length"
-                    @click="ClickProfitInfo(scope)"
+                    @click="ClickProfitInfo(scope.row)"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
                   >明细</div>
@@ -467,12 +467,13 @@ export default {
       this.profitList(undefined, undefined, row.userId, row);
     },
     link(B, i) {
-      this.profitmark = this.BL.length === 2 ? "list" : "info";
+      this.profitmark =
+        !B.userId || B.userId === this.me.userId ? "list" : "info";
       this.profitList(undefined, undefined, B.userId);
     },
     // 盈亏报表列表
     profitList(page, fn, id, row) {
-      // console.log(row);
+      console.log(row);
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -534,7 +535,7 @@ export default {
                     userName: this.me.userName
                   }
                 ];
-                if (row && row.userId !== this.me.userId) {
+                if (row && row.userId && row.userId !== this.me.userId) {
                   r.push({
                     userId: row.userId,
                     userName: row.userName
