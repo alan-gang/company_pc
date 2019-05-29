@@ -13,9 +13,18 @@
             <el-button @click="ClickToday" size="small">今天</el-button>
             <el-button @click="ClickYesterday" size="small">昨天</el-button>
             <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
-            <el-button @click="ClickMonth(0)" size="small">{{getLastMonth(0).month}}月</el-button>
-            <el-button @click="ClickMonth(1)" size="small">{{getLastMonth(1).month}}月</el-button>
-            <el-button @click="ClickMonth(2)" size="small">{{getLastMonth(2).month}}月</el-button>
+            <el-button
+              @click="ClickMonth(0)"
+              size="small"
+            >{{new Date()._bfM(0)._setD(1).getMonth() + 1}}月</el-button>
+            <el-button
+              @click="ClickMonth(-1)"
+              size="small"
+            >{{new Date()._bfM(-1)._setD(1).getMonth() + 1}}月</el-button>
+            <el-button
+              @click="ClickMonth(-2)"
+              size="small"
+            >{{new Date()._bfM(-2)._setD(1).getMonth() + 1}}月</el-button>
           </label>
           <label class="item">
             排序
@@ -306,7 +315,6 @@
 <script>
 import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
-import { getCountDays, getLastMonth } from "@/util/base";
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
@@ -318,7 +326,6 @@ export default {
   data() {
     return {
       numberWithCommas,
-      getLastMonth,
       TH: 270,
       me: store.state.user,
       clearableOnTime: false,
@@ -379,20 +386,18 @@ export default {
     ClickMonth(multiple) {
       let r = [];
       r.push(
-        new Date(
-          `${getLastMonth(multiple).year}-${getLastMonth(multiple).month}-01`
-        )._toDayString()
+        new Date()
+          ._bfM(multiple)
+          ._setD(1)
+          ._toDayString()
       );
       r.push(
-        new Date(
-          `${getLastMonth(multiple).year}-${
-            getLastMonth(multiple).month
-          }-${getCountDays({
-            year: getLastMonth(multiple).year,
-            month: getLastMonth(multiple).month
-          })}`
-        )._toDayString()
+        new Date()
+          ._bfM(multiple + 1)
+          ._setD(0)
+          ._toDayString()
       );
+      r.push;
       // console.log(222, r);
       this.stEt = r;
     },

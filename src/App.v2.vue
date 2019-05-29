@@ -535,7 +535,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
@@ -722,7 +722,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },

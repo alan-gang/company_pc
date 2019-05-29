@@ -69,33 +69,6 @@ function factorial(n) {
   return n * factorial(n - 1)
 }
 
-//计算一个月有多少天
-//month 月  year 年
-function getCountDays({ year, month }) {
-  //月份: 1-12
-  if (month < 0 && month > 13) return 0;
-  let myDate = new Date(`${year}-${month}`);
-  myDate.setMonth(month);
-  myDate.setDate(0);
-  return myDate.getDate(); //返回 month 月的天数
-}
-
-//获取当前月  上个月  上上个月
-//multiple=0 本月  multiple=1 上个月 multiple=2 上上个月
-function getLastMonth(multiple) {
-  multiple = multiple || 0; //倍数
-  let myDate = new Date();
-  let year = myDate.getFullYear();
-  let month = myDate.getMonth() + 1;
-  if (month - multiple < 0) {
-    year = year - 1;
-    month = 12 + 1 - (multiple - month);
-  } else {
-    month = month - multiple;
-  }
-  return { year: year, month: month };
-}
-
 // repeat a string s t times
 let repeat = (s, t) => {
   if (typeof s.repeat === 'function') return s.repeat(t)
@@ -141,7 +114,5 @@ module.exports = {
   C,
   removeDuplicate,
   padStart,
-  isPrime,
-  getCountDays,
-  getLastMonth
+  isPrime
 }
