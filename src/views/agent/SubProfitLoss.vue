@@ -8,7 +8,7 @@
   .scroll-content
     .search-bar.pl20
         span.date-wp
-          SearchConditions(@choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
+          SearchConditions(@choiced="choicedSearchCondition")
         
         label.item.ml10 查询范围 
           el-select(clearable v-model="range" style="width: 1.2rem" popper-class="search-range-slt")
@@ -29,14 +29,22 @@
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
 
     template(v-if=" I === 0 ")
-      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table")  
+      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
 
         el-table-column(label="操作")
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
-      
+            el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '总计'") 明细
+
+      el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal")  
+        el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+        el-table-column(label="操作")
+          template(slot-scope="scope")
+            el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '总计'") 返回上级
+            el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
+
+      p 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
@@ -117,21 +125,33 @@ export default {
       pageSize: 20,
       curPage: 1,
       totalSize: 0,
-
+      showThirdGameDetal: false, // 是否盈亏总表 -明细-第三方游戏表格
       range: 0,
       searchRange: ['所有下级', '直接下级', '间接下级'],
-
+      // profitAndLossSummaryTableColumn: {
+      //   date: '时间',
+      //   chesettle: '棋牌盈亏',
+      //   egamesettle: '电游盈亏',
+      //   esptsettle: '电竞盈亏',
+      //   fishsettle: '扑鱼盈亏',
+      //   ltrsettle: '彩票盈亏',
+      //   othltrsettle: 'KG基诺彩盈亏',
+      //   sptsettle: '体育盈亏',
+      //   vidsettle: '真人盈亏',
+      //   litsettle: '微游盈亏'
+      // },
       profitAndLossSummaryTableColumn: {
-        date: '时间',
-        chesettle: '棋牌盈亏',
-        egamesettle: '电游盈亏',
-        esptsettle: '电竞盈亏',
-        fishsettle: '扑鱼盈亏',
-        ltrsettle: '彩票盈亏',
-        othltrsettle: 'KG基诺彩盈亏',
-        sptsettle: '体育盈亏',
-        vidsettle: '真人盈亏',
-        litsettle: '微游盈亏'
+        userName: '用户名',
+        buy: '投注',
+        gameProfit: '游戏盈亏',
+        totalProfit: '总盈亏',
+        subType: '下级类型'
+      },
+      thirdGamesColumn: {
+        userName: '类型',
+        buy: '投注',
+        gameProfit: '游戏盈亏',
+        totalProfit: '总盈亏'
       },
       otherCommonTableColumn: {
         userName: '用户名',
@@ -145,6 +165,7 @@ export default {
       },
 
       profitAndLossSummaryData: [],
+      thirdGamesDetailData: [],
       otherCommonReportData: [],
       dailyReportData: [],
 
@@ -221,13 +242,13 @@ export default {
           if (items.length > 0) {
             items[items.length - 1].date = '总计'
             items[items.length - 1].userName = '总计'
+            items = items.map((item, i) => {
+              if (i < items.length - 1) item.subType = this.searchRange[this.range]
+              return item
+            })
             if (this.I === 0) {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
-              items = items.map((item) => {
-                item.subType = this.searchRange[this.range]
-                return item
-              })
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
@@ -250,7 +271,7 @@ export default {
     /**
      * 逐日报表
      */
-    getDailyPersonalProfit (params = {}) {
+    getDailyPersonalProfit (params = {}, from) {
       let loading = this.$loading({
         text: '盈亏报表加载中...',
         target: this.$el
@@ -268,7 +289,11 @@ export default {
         this.dailyReportData = []
         if (success === 1 && items.length > 0) {
           items[items.length - 1].date = '合计'
-          this.dailyReportData = items
+          if (this.showThirdGameDetal && this.curGameType === -1) {
+            this.thirdGamesDetailData = items
+          } else {
+            this.dailyReportData = items
+          }
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
@@ -409,6 +434,19 @@ export default {
     viewHighterLevel (row) {
       console.log('row=', row)
       this.getUserBread(row.userId)
+    },
+    viewDetail (row) {
+      this.subUserId = row.userId
+      this.curGameType = -1
+      this.showThirdGameDetal = true
+      this.curSubUserName = row.userName
+      this.getDailyPersonalProfit()
+    },
+    viewThirdGameDailyProfitDetail (row) {
+      this.subUserId = row.userId
+      this.curGameType = row.gameType
+      this.getDailyPersonalProfit()
+      this.isShowDailyProfitDialog = true
     },
     viewDailyProfitDetail (row) {
       this.subUserId = row.userId
