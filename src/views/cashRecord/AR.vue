@@ -134,7 +134,19 @@
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     mixins: [setTableMaxHeight],
-    props: ['menus'],
+    // props: ['menus'],
+    props: {
+      menus: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      useSource: {
+        type: Number,
+        default: 0
+      }
+    },
     components: {
       SearchConditions,
       SearchConditionLottery,
@@ -144,6 +156,7 @@
     data () {
       return {
         ME: store.state.user,
+        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
         pickerOptions: {
@@ -403,7 +416,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
