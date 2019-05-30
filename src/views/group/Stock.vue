@@ -52,7 +52,7 @@
 
           el-table-column(prop="bonusRate" label="分红比例")
             template(scope="scope")
-              span {{ scope.row.bonusRate }}%
+              span {{ scope.row.bonusRate * 100 }}%
 
 
           el-table-column(prop="bonus" label="分红金额")

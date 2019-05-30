@@ -935,6 +935,7 @@ export default {
     '$route': 'openRoute'
   },
   mounted () {
+    this.getLotterys()
     this.getCfgInfo()
     this.chatUrl()
     this.setUser({mode: 'classic v2'})
@@ -953,6 +954,25 @@ export default {
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
   },
   methods: {
+    getLotterys () {
+      this.$http.get(api.getLotterys).then(({data}) => {
+        // success
+        // data.lotteryList.splice(0, 5)
+        if (data.success === 1) {
+          this.menus[6].groups.forEach(x => {
+            x.items.forEach(y => {
+              // delete y.menuid
+              if (y.gameid && data.lotteryList.findIndex(z => z.lotteryId === y.gameid) === -1) {
+                this.$set(y, '$removed', true)
+              }
+            })
+          })
+          this.setPages(this._getPages())
+        }
+      }, (rep) => {
+        // error
+      })
+    },
     canGetIngots () {
       this.$http.get(api.canGetIngots).then(({data: {success, showIngots, beginTime, endTime}}) => {
         if (success) {
@@ -1222,7 +1242,7 @@ export default {
           // if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
-            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid + ',') === -1)) {
+            if (i.$removed || g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid + ',') === -1)) {
               // g.items.splice(ii, 1)
               this.$set(i, 'removed', true)
               return p
