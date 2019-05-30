@@ -1,7 +1,7 @@
 <template lang="jade">
 .sub-cash-record
   slot(name="toolbar")
-  AR.scroll-content(v-if=" I === 0 " v-bind:menus="menus")
+  AR.scroll-content(v-if=" I === 0 " v-bind:menus="menus" v-bind:useSource="2")
 
 </template>
 
