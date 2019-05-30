@@ -127,10 +127,22 @@
       SearchConditions,
       SearchConditionLottery
     },
-    props: ['menus'],
+    props: {
+      menus: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      useSource: {
+        type: Number,
+        default: 0
+      }
+    },
     mixins: [setTableMaxHeight],
     data () {
       return {
+        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',

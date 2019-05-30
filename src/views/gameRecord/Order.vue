@@ -96,7 +96,7 @@
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
-    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event" v-on:cancel-order="cancelOrder")  
+    BetDetail(v-show="show" v-bind:row="row" v-on:close="show = $event" v-on:show-follow="showFollow = $event" v-on:cancel-order="cancelOrder" v-bind:showCancelOrder="showCancelOrder")  
 
     //- .modal.bet-detail-modal(v-show="show" )
       .mask
@@ -281,10 +281,24 @@
       SearchConditionLottery,
       BetDetail
     },
-    props: ['menus'],
+    // props: ['menus'],
+    props: {
+      menus: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      useSource: {
+        type: Number,
+        default: 0
+      }
+    },
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
+        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         TH: 300,
         ACCOUNT: store.state.user.account,
         pickerOptions: {
@@ -392,6 +406,7 @@
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
       this.getGameHistory()
+      this.showCancelOrder = this.useSource !== this.USE_SOURCE_AGENT // 下级彩票记录不显示撤单
     },
     methods: {
       __setGOI (i) {
@@ -545,7 +560,7 @@
             stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
