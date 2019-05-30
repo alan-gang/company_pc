@@ -5,7 +5,7 @@
     
     MyMenu(:menus="menus.slice(0, 13).concat(menus[17]).concat(menus[18])" v-on:open-page="openTab")
 
-    router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
+    router-view.scroll-content.page(:pages="pages" v-bind:menus="menus" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
 
 
     el-carousel.ad(:interval="4000" arrow="always")

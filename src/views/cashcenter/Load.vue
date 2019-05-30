@@ -32,7 +32,7 @@
             .btns
               .ds-button.text-button.quota-item.mr15(v-for=" (v, i) in quotaList " v-bind:class="{ selected: quotaIdx === i }" @click="choiceQuota(v, i)" ) {{ v }}
             i.mr20 &nbsp;元
-            i 实际到帐：
+            i 实际到账：
             i.fc-o {{actualAmount}}
             i &nbsp;元
 
@@ -50,7 +50,7 @@
             input(class="i-num-input" v-model="amount" type="text" @keyup.enter="topUpNow" v-bind:maxlength="9" @keyup="amountChange" placeholder="请勿输入小数")
             i.mr20 &nbsp;元
             span(v-show="actualAmount > 0")
-              i 实际到帐：
+              i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
 
@@ -71,9 +71,10 @@
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
           
           .search-wp
-            span.mr10 时间
-            el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
-            .ds-button.primary.large.ml15(@click="search") 搜索
+            SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
+            //- span.mr10 时间
+            //- el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: curConditionIdx === i}" @click="curConditionIdx = i") {{c}}
+            //- .ds-button.primary.large.ml15(@click="search") 搜索
 
           .notice(style="margin: .2rem 0 .2rem 0")
             span.title 温馨提示：
@@ -82,9 +83,9 @@
               span.text-blue 充值
               | 为
               span.text-danger 1-2分钟
-              | 之内到帐;
+              | 之内到账;
               br
-              | 因为银行或第三方网络延迟，如果超过5分钟没有到帐，可以填写催到帐申请（每个记录只有一次机会可申请催到帐），或直接联系客服。
+              | 因为银行或第三方网络延迟，如果超过5分钟没有到账，可以填写催到账申请（每个记录只有一次机会可申请催到账），或直接联系客服。
 
           el-table.header-bold.margin(:data="data" style="margin: .2rem 0" stripe)
             el-table-column(prop="payerTime" label="充值时间")
@@ -103,7 +104,7 @@
 
             el-table-column(label="操作")
               template(scope="scope")
-                span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到帐
+                span.ds-button.text-button(:class="{ blue: scope.row.errorEntry === '0', 'light wg': scope.row.errorEntry !== '0' }" v-if="scope.row.isDone !== '充值成功'" @click="showReq(scope.row)" style="padding: 0") 催到账
 
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -168,7 +169,7 @@
       .box-wrapper
         .box(style="width: 6rem")
           .tool-bar(style="padding: .03rem .08rem 0 .15rem; line-height: .5rem")
-            span.title.text-black(style="font-size: .18rem;") 催到帐
+            span.title.text-black(style="font-size: .18rem;") 催到账
             el-button-group
               i.el-icon-close.ds-button.text-button(@click="showRequest = false" )
 
@@ -303,6 +304,7 @@ import { dateTimeFormat } from '../../util/Date'
 import {numberWithCommas, MMath} from '../../util/Number'
 import Modal from 'components/Modal'
 import store from '../../store'
+import SearchConditions from 'components/SearchConditions'
 export default {
   data () {
     return {
@@ -352,7 +354,7 @@ export default {
       showRequest: false,
       ALLBANKS: BANKS,
 
-      // 催帐
+      // 催账
       row: {},
       CbankIndex: '',
       Cname: '',
@@ -370,7 +372,7 @@ export default {
       merBankList: [],
       merNoBankList: [],
 
-      // 非银行转帐类
+      // 非银行转账类
       epay: [],
       radioIndex: 0,
       name: '',
@@ -388,7 +390,7 @@ export default {
       perRate: 0,
       rechargeRange: '',
       canShowPayTypeDetail: false,
-      actualAmount: '', // 实际到帐
+      actualAmount: '', // 实际到账
       quotaIdx: 0,
       showAmountInput: true,        // 金额输入
       namePlaceHolder: '请输入您的支付宝真名',
@@ -396,7 +398,7 @@ export default {
       isShowResponseConfirm: false,   // 支付结果状态确认
       isShowResponseConfirmRs: false,  // 支付结果状态确认完成提示
       responseSucc: false,          // 支付结果-成功
-      responseWait: false,           // 支付结果-暂未到帐
+      responseWait: false,           // 支付结果-暂未到账
       responseFailed: false,        // 支付结果-失败
 
       billNo: ''
@@ -468,7 +470,7 @@ export default {
       }
     },
     radioIndex () {
-      // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转帐') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
+      // if (this.type < 2 || (this.type > 2 && this.epay[this.type - 3].title === '在线支付') || (this.type > 2 && this.epay[this.type - 3].title === '网银转账') || (this.type > 2 && this.epay[this.type - 3].title === '大额网银')) this.selectBank = {}
     },
     type () {
       // this.amount = 0
@@ -509,9 +511,9 @@ export default {
       // if (!this.Ccardno) return this.$message.warning('带星号的内容不能为空！')
       if (!this.Camount) return this.$message.warning('付款金额不能为0！')
       let loading = this.$loading({
-        text: '催帐中...',
+        text: '催账中...',
         target: this.$el
-      }, 10000, '催帐超时...')
+      }, 10000, '催账超时...')
       this.$http.post(api.addPayError, {
         apiName: this.Cbank.apiName,
         payName: this.Cname,
@@ -524,7 +526,7 @@ export default {
         getName: this.CRname
       }).then(({data}) => {
         if (data.success === 1) {
-          loading.text = '恭喜您，催帐成功！'
+          loading.text = '恭喜您，催账成功！'
           this.Cbank = {}
           this.Cname = ''
           this.Ccardno = ''
@@ -536,7 +538,7 @@ export default {
           this.showRequest = false
           this.qryRecharge()
           // this.row.errorEntry = data.errorEntry || '22050'
-        } else loading.text = data.msg || '不好意思，催帐失败！'
+        } else loading.text = data.msg || '不好意思，催账失败！'
       }).catch(rpe => {
       }).finally(() => {
         setTimeout(() => {
@@ -546,15 +548,15 @@ export default {
     },
     queryPayError (page, fn) {
       let loading = this.$loading({
-        text: '催帐详情获取中...',
+        text: '催账详情获取中...',
         target: this.$el
-      }, 10000, '催帐详情获取超时...')
+      }, 10000, '催账详情获取超时...')
       this.$http.get(api.queryPayError, {
         entry: this.row.errorEntry
       }).then(({data}) => {
         if (data.success === 1) {
           this.detail = data
-        } else loading.text = data.msg || '催帐详情查询失败'
+        } else loading.text = data.msg || '催账详情查询失败'
       }).catch(rpe => {
       }).finally(() => {
         setTimeout(() => {
@@ -764,7 +766,7 @@ export default {
       if (!this.curPayType.saveWay) return this.$message.warning({message: '请选择支付方式!'})
       // if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
       // if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
-      // if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转帐' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
+      // if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转账' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
       if (this.curBank.hasOwnProperty('commitAdd') && this.curBank.commitAdd) {
         this.$modal.confirm({
           content: `为了提高充值成功率，有时充值金额需要包含小数，因此系统可能会将您的充值金额随机增加或减少0.01~${this.curBank.commitAdd}元。`,
@@ -867,36 +869,21 @@ export default {
       return (rs && rs[0].class) || ''
     },
     search () {
-      let curDate = new Date()
-      if (this.curConditionIdx > -1) {
-        let days = 0
-        let month = 0
-        let daysConfig = {d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [7, 0]}
-        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][0])
-        days = curDate.getDate()
-        days = (days + '').padStart(2, '0')
-        month = curDate.getMonth() + 1
-        month = (month + '').padStart(2, '0')
-        this.st = `${curDate.getFullYear()}${month}${days}000000`
-
-        curDate = new Date()
-        curDate.setDate(curDate.getDate() - daysConfig['d' + this.curConditionIdx][1])
-        let edays = curDate.getDate()
-        let emonth = curDate.getMonth() + 1
-        edays = (edays + '').padStart(2, '0')
-        emonth = (emonth + '').padStart(2, '0')
-        this.et = `${curDate.getFullYear()}${emonth}${edays}235959`
-      }
       this.qryRecharge()
     },
     iconPointerPosition (left) {
       let icon = this.$refs.iconPointer
       icon.style.left = (left - (icon.offsetWidth / 2) - icon.parentElement.offsetLeft) + 'px'
     },
+    choicedSearchCondition (i, dates) {
+      this.st = dates.startDateStr
+      this.et = dates.endDateStr
+    },
     numberWithCommas
   },
   components: {
-    Modal
+    Modal,
+    SearchConditions
   }
 }
 </script>

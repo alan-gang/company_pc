@@ -841,7 +841,7 @@ export default {
           setTimeout(() => {
             this.__setCall({fn: '__orderlist'})
           }, 400)
-
+          this.setHistoryLottery(parseInt(this.page.gameid))
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
@@ -893,6 +893,14 @@ export default {
           loading.close()
         }, 100)
       })
+    },
+    setHistoryLottery (gameId) {
+      if (!gameId || !window.localStorage) return
+      let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+      if (historis.indexOf(gameId) !== -1) return
+      historis.unshift(gameId)
+      if (historis.length > 3) historis.pop()
+      window.localStorage.setItem('STORAGE_HISTORY_LOTTERIES', JSON.stringify(historis))
     },
     setType (type) {
       this.type = type

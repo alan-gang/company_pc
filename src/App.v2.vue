@@ -296,16 +296,16 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-hl3d', id: '1-5-8', menuid: '17', title: '欢乐3D', volume: true, gameid: 32},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
                 // {menuid: '98', class: 'ds-icon-game-jn sign', id: '1-7-1', title: 'KG', fn: '18:203'},
-                {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
+                // {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             },
             {
               title: '基诺彩票',
               url: 'KG',
               items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: '基诺彩', fn: '18:203'},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45}
               ]
@@ -434,8 +434,10 @@ export default {
                 {
                   id: '2-2-1',
                   menuid: '50',
-                  title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  // tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
                 },
@@ -458,6 +460,15 @@ export default {
                   menuid: '34',
                   title: '银行卡管理',
                   url: 'Bank'
+                },
+                {
+                  id: '2-2-6',
+                  menuid: '99',
+                  title: '盈亏报表',
+                  // tabs: ['盈亏总表', '彩票', '体育:18718185', '真人:18718185', '老虎机:18718185', '电竟:18718185', '捕鱼:18718185', '棋牌:18718185', '基诺彩:18718185'],
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'personalReport'
                 },
                 {
                   id: '2-2-5',
@@ -566,13 +577,17 @@ export default {
                   id: '2-1-2',
                   menuid: '32',
                   title: '提现',
-                  url: 'Withdraw'
+                  url: 'Withdraw',
+                  tabs: ['提现', '提现记录'],
+                  tabfn: '__setWithdrawI'
                 },
                 {
                   id: '2-1-3',
                   menuid: '20',
-                  title: '转账',
-                  url: 'Transfer'
+                  title: '钱包转账',
+                  url: 'Transfer',
+                  tabs: ['钱包转账', '转账记录'],
+                  tabfn: '__setTransferI'
                 },
                 {
                   id: '2-1-4',
@@ -599,8 +614,9 @@ export default {
                 {
                   id: '2-2-1',
                   menuid: '50',
-                  title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
                 },
@@ -623,6 +639,14 @@ export default {
                   menuid: '34',
                   title: '银行卡管理',
                   url: 'Bank'
+                },
+                {
+                  id: '2-2-6',
+                  menuid: '99',
+                  title: '盈亏报表',
+                  tabs: ['盈亏总表', '彩票', '体育:18718185', '真人:18718185', '老虎机:18718185', '电竟:18718185', '捕鱼:18718185', '棋牌:18718185', '基诺彩:18718185'],
+                  tabfn: '__setReportI',
+                  url: 'personalReport'
                 },
                 {
                   id: '2-2-5',
