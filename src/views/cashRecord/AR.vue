@@ -13,7 +13,7 @@
             el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
               el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
 
-          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
+          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" v-model="showOrderTypePopover" )
             SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
             span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
               span.mr5 类型&nbsp;
@@ -201,7 +201,8 @@
           d4: [4, 4],
           d5: [5, 5],
           d6: [6, 6]
-        }
+        },
+        showOrderTypePopover: false
       }
     },
     computed: {
@@ -504,6 +505,7 @@
         this.typeData = types
         this.inputLimitShowTypeData()
         this.quickChoiceLimitShowTypeData()
+        this.showOrderTypePopover = false
       },
       inputLimitShowTypeData () {
         this.typesValue = ''
