@@ -478,7 +478,7 @@ export default {
     },
     // 盈亏报表列表
     profitList(page, fn, id, row) {
-      console.log(row);
+      // console.log(row);
       let loading = this.$loading(
         {
           text: "加载中...",

@@ -1,3 +1,4 @@
+// 我的分红  下级分红
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -9,20 +10,12 @@
       <div class="form">
         <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <label class="item">
-            发放日期&nbsp;
-            <el-date-picker
-              :picker-options="pickerOptions"
-              v-model="stEt"
-              type="daterange"
-              placeholder="请选择日期时间范围"
-              v-bind:clearable="clearableOnTime"
-            ></el-date-picker>
+            结算日&nbsp;
+            <el-button v-for="v in settlementSub" :key="v" size="small" @click="settlement=v">{{v}}</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;
-            <el-select v-model="s" clearable="clearable" style="width: .9rem;">
-              <el-option v-for="S in STATUS" v-bind:label="S.title" v-bind:value="S.id"></el-option>
-            </el-select>
+            <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
           </label>
           <label class="item" v-if="$props.typeCode === 1">
             用户名&nbsp;
@@ -35,17 +28,17 @@
           :data="bonusList"
           ref="table"
           stripe="stripe"
+          show-summary="show-summary"
+          v-bind:summary-method="getSummaries"
           v-bind:max-height=" MH "
           v-bind:row-class-name="tableRowClassName"
         >
-          <el-table-column
-            class-name="pl2"
-            align="center"
-            prop="userName"
-            label="用户名"
-            v-if="$props.typeCode === 1"
-          ></el-table-column>
-          <el-table-column class-name="pl2" prop="issue" label="分红期号"></el-table-column>
+          <el-table-column prop="issue" label="结算日期"></el-table-column>
+          <el-table-column label="分红周期">
+            <template scope="scope">
+              <span>{{ ProfitPeriodCount(scope.row) }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="彩票总销量">
             <template scope="scope">
               <span>{{ numberWithCommas(scope.row.saleAmount) }}</span>
@@ -137,33 +130,11 @@ export default {
   components: {
     StockDetail
   },
-  props: ['typeCode'],
+  props: ["typeCode"],
   data() {
     return {
       numberWithCommas: numberWithCommas,
       TH: 250,
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
       stEt: [
         new Date()
           ._setHMS("0:0:0")
@@ -181,8 +152,9 @@ export default {
       // typeCode: 0,
       STATUS: [
         { css: "text-danger", id: "0", title: "未发放", class: "waiting-pay" },
-        { css: "text-green", id: 1, title: "已发放", class: "paid" },
-        { css: "text-oblue", id: 2, title: "待确认", class: "wait" }
+        { css: "text-green", id: "1", title: "已发放", class: "paid" },
+        { css: "text-oblue", id: "2", title: "待确认", class: "wait" },
+        { css: "text-oblue", id: "", title: "全部", class: "all" }
         // {id: 2, title: '已发放', class: 'paid'},
         // {id: 3, title: '平台外已发放', class: 'paid-out'}
       ],
@@ -197,36 +169,24 @@ export default {
       preOptions: {},
       showDetail: false,
       name: "",
+      settlementSub: [], //结算日 按钮组
+      settlement: "", //当前结算日
+      bonusSent: "", //@只需对分红金额进行总计
       groupId: 0
     };
   },
   computed: {
-    apiBonus() {
-      return this.me.role <= 2
-        ? [api.myBonus, api.mySubBouns][this.$props.typeCode]
-        : [api.myBonus, api.mySubBouns][this.$props.typeCode];
-    }
   },
   watch: {
+    //监听 当前结算日
+    settlement() {
+      this.bonus();
+    },
+    //监听 状态
+    s() {
+      this.bonus();
+    },
     typeCode(n) {
-      if (n) {
-        this.stEt = [
-          new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS("0:0:0"),
-          new Date()._setHMS("23:59:59")
-        ];
-      } else {
-        this.stEt = [
-          new Date()
-            ._setHMS("0:0:0")
-            ._bfM(-2)
-            ._setD(1),
-          new Date()
-            ._setD(1)
-            ._setHMS("0:0:0")
-            ._bfM(1)
-            ._setS(-1)
-        ];
-      }
       this.bonus();
     }
   },
@@ -234,19 +194,76 @@ export default {
     this.bonus();
   },
   methods: {
+    getSummaries(param) {
+      const { columns } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "总计";
+          return;
+        } else if (column.label === "分红金额") {
+          sums[index] = this.bonusSent;
+        } else {
+          sums[index] = "";
+        }
+      });
+      return sums;
+    },
+    //结算日 init
+    settlementInit() {
+      //结算日按钮组
+      let r = [
+        new Date()
+          ._bfM(0)
+          ._setD(0)
+          ._toDayString(), //1个月前最后一天
+        new Date()
+          ._bfM(-1)
+          ._setD(0)
+          ._toDayString() //2个月前最后一天
+      ];
+      if (new Date().getDate() >= 16) {
+        r = [new Date()._setD(16)._toDayString()].concat(r); //本月16号
+      } else {
+        r.push(
+          new Date()
+            ._bfM(-2)
+            ._setD(0)
+            ._toDayString() //3个月前最后一天
+        );
+      }
+      this.settlement = this.settlement || r[0]; //初始化 当前结算日
+      this.settlementSub = r;
+    },
+    //分红周期计算
+    //月       [开始时间]<15 && [结束时间] > 16
+    //月上半月  [开始时间]<15 && [结束时间]<= 16
+    //月下半月  [开始时间]>15
+    //return '4月上半月'
+    ProfitPeriodCount({ startDate, endDate }) {
+      if (new Date(startDate).getDate() < 15) {
+        if (new Date(endDate).getDate() > 16) {
+          return `${new Date(startDate).getMonth() + 1}月`;
+        } else {
+          return `${new Date(endDate).getMonth() + 1}月上半月`;
+        }
+      } else {
+        return `${new Date(startDate).getMonth() + 1}月下半月`;
+      }
+    },
     pageChanged(cp) {
       this.bonus(cp, () => {
         this.currentPage = cp;
       });
     },
     expand(row, expanded) {
-      console.log(111, row);
+      // console.log(111, row);
       if (expanded && !row.topDetailList) {
         this.topBonuDetail(row);
       }
     },
     topBonuDetail(row) {
-      console.log(222, row);
+      // console.log(222, row);
       let loading = this.$loading(
         {
           text: "分红详情加载中...",
@@ -280,22 +297,23 @@ export default {
           }, 100);
         });
     },
-    goContractDetail(id) {
-      this.$router.push({
-        path: "/group/3-3-4",
-        query: { id: id }
-      });
-    },
-    goStockDetail(id) {
-      this.$router.push({
-        path: "/group/3-3-2",
-        query: { id: id, self: !this.$props.typeCode }
-      });
-    },
+    // goContractDetail(id) {
+    //   this.$router.push({
+    //     path: "/group/3-3-4",
+    //     query: { id: id }
+    //   });
+    // },
+    // goStockDetail(id) {
+    //   this.$router.push({
+    //     path: "/group/3-3-2",
+    //     query: { id: id, self: !this.$props.typeCode }
+    //   });
+    // },
     __bonus() {
       this.bonus();
     },
     bonus(page, fn) {
+      this.settlementInit(); //结算日初始化
       let loading = this.$loading(
         {
           text: "分红加载中...",
@@ -307,21 +325,8 @@ export default {
 
       if (!fn) {
         this.preOptions = {
-          startDate: this.stEt[0]
-            ? dateFormat(window.newDate(this.stEt[0]).getTime()).replace(
-                /[\s:-]*/g,
-                ""
-              )
-            : "",
-          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
-          endDate: this.stEt[1]
-            ? dateFormat(window.newDate(this.stEt[1]).getTime()).replace(
-                /[\s:-]*/g,
-                ""
-              )
-            : "",
-          // startDate: this.st ? dateFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
-          // endDate: this.et ? dateFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
+          startDate: this.settlement, //当前结算日
+          endDate: this.settlement, //当前结算日
           status: this.s,
           page: 1,
           pageSize: this.pageSize,
@@ -333,17 +338,17 @@ export default {
       }
 
       this.$http
-        .get(this.apiBonus, this.preOptions)
+        .get(api.myBonusMobile, this.preOptions)
         .then(
           ({ data }) => {
             // success
             if (data.success === 1) {
-              let bonus = data.myBonus || data.mySubBonus;
-              this.bonusList = bonus;
-              data.topBonuList && (this.topBonuList = data.topBonuList);
+              // 我的分红列表   下级分红
+              this.bonusList =
+                this.$props.typeCode === 0 ? data.my : data.myBonus;
+              this.total = data.totalSize;
+              this.bonusSent = data.bonus.sent; //@只需对分红金额进行总计
 
-              this.total =
-                data.totalSize || (data.topBonuList || this.bonusList).length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {

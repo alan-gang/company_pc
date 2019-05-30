@@ -1,10 +1,11 @@
+// 彩票分红管理
 <template>
   <div class="lottery-stock">
     <slot name="toolbar"></slot>
     <Stock class="scroll-content" v-if=" I === 0 " :typeCode="0"/>
     <Stock class="scroll-content" v-if=" I === 1 " :typeCode="1"/>
-    <Contract class="scroll-content" v-if=" I === 2 "/>
-    <ExpectStock class="scroll-content" v-if=" I === 3 "/>
+    <ExpectStock class="scroll-content" v-if=" I === 2 "/>
+    <Contract class="scroll-content" v-if=" I === 3 "/>
   </div>
 </template>
 
