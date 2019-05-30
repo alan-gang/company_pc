@@ -57,7 +57,7 @@
       p 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" default-sort = "{prop: 'buy', order: 'descending'}")  
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" default-sort="{prop: 'buy', order: 'descending'}" v-bind:summary-method="getSummaries")  
         //- el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
         el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
         el-table-column(label="操作" )
@@ -166,6 +166,7 @@ export default {
       profitAndLossSummaryData: [],
       thirdGamesDetailData: [],
       otherCommonReportData: [],
+      otherCommonReportSummaryCoummonData: [],
       dailyReportData: [],
 
       startDate: '',
@@ -251,6 +252,7 @@ export default {
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
+            this.otherCommonReportSummaryCoummonData.push(this.otherCommonReportData.pop())
             this.setNameHistory(p.username)
           } else {
             this.profitAndLossSummaryData = []
@@ -452,6 +454,17 @@ export default {
       this.curSubUserName = row.userName
       this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
+    },
+    getSummaries (param) {
+      const { columns, data } = param
+      let sums
+      if (this.otherCommonReportSummaryCoummonData.length > 0) {
+        let data = this.otherCommonReportSummaryCoummonData[0].values()
+        for (let i = 0; i < data.length; i++) {
+          sums.push(data[i])
+        }
+      }
+      return sums
     },
     numberWithCommas
   }
