@@ -448,6 +448,8 @@ let Group = {
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
+  getUserAll: '/team/useList.do?method=getUserAll',
+  getUserSubCopy: '/team/useList.do?method=getUserSubCopy',
   // 代充
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=recharge&destId=5&amount=100.5
   recharge: '/team/useList.do?method=recharge',

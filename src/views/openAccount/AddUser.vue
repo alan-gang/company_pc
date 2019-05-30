@@ -7,169 +7,210 @@
     slot(name="toolbar")
     .add-user.scroll-content
 
-      div
+      .bgc-w.mg_20.pd_20
+        
+        .w_700.mg_0a.pd_20
 
-        .notice(style="margin: .2rem")
-          span.title 例如：
-          p.content
-            | 您当前的
-            span.text-blue 直选返点
-            | 为 
-            span.text-danger {{ 0.8 }}%
-            |  并且您的
-            span.text-blue 不定位返点
-            | 为 
-            span.text-danger {{ 0.6 }}%
-            | ，而您在下面 “
-            span.text-blue 保留返点
-            | ” 处填写
-            span.text-danger {{ 0.5 }}
-            br
-            | 那么：您开设新帐户的
-            span.text-blue 直选返点
-            | 即为 
-            span.text-danger {{ 0.3 }}%
-            | ，不定位返点 
-            span.text-blue 不定位返点
-            | 为
-            span.text-danger {{ 0.1 }}%
 
-        p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
-          input.ds-input.larget(v-model="account")
-          span(style="color: #999; font-size: .12rem") （由0-9，a-z，A-Z组成的6-16个字符）
-        p(style="padding: .05rem .4rem") 登录密码： &nbsp;&nbsp;
-          input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
-          span(style="color: #999; font-size: .12rem") （登录密码默认为：{{ '123456a'}} )
- 
-     
+          //- p.mb_20 剩余开户额：
+            span.text-blue  *个
+
+          p.mb_20 登录帐号： &nbsp;&nbsp;
+            input.ds-input.larget(v-model="n")
+            span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符
+
+          p 登录密码： &nbsp;&nbsp;
+            input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
+            span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ '123456a'}} )
+   
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
-        p(style="padding: .1rem .4rem" v-if="PS[0]") 剩余开户额：
-          label(style="display: inline-block")
-            span(style="margin: 0 .15rem " v-for="P in PS")
-              // span.text-blue(v-if=" platform !== 'ds' ") [{{ P.point }}]:
-              span.text-danger  {{ P.count }}个
+        .w_700.mg_0a.pd_20
+          .mb_20
+            .ds-radio-label(:class="{active: i === 0 }" @click=" i = 0 " style="padding-left: 0")
+              .ds-radio.white
+              | 为下级进行设置
+            .ds-radio-label(:class="{active: i === 1 }" @click=" i = 1 ")
+              .ds-radio.white
+              | 使用已有下级设置
+          
+          div(style="overflow: hidden")
+            .users.inlb.v_t.w_200(v-if=" users.length > 0 && i ")
+              .hlh_30
+                el-autocomplete.inline-input.wp_100(v-model='un', v-bind:fetch-suggestions='querySearch', icon="search" placeholder='搜索用户', @select='handleSelect')
 
-        p(style="padding: 0rem .4rem") 您的返点级别：
-          span.amount {{ point  }}
-          | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 保留返点：
-          el-input(v-model="p" style="width: .6rem")
-          // |  % 
-          span.text-money  (可填范围：{{ range.min }} ~ {{ range.max }})
+              ul.pd_0.mh_500.mg_0
+                li.hlh_40.pointer(v-for=" (v, i) in users_ " @click=" (un_ = v.userName) && setBackWaters(v.back) ")
+                  span.inlb.w_50
+                    .ds-radio.white(v-bind:class="  {active: un_ === v.userName} "  )
+                  span {{ v.userName }}
 
-        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
-       
-        div.buttons(style="padding: .1rem .4rem")
-          .ds-button.primary.large.bold(@click="openAccount") 开户
-          .ds-button.cancel.large.bold(@click="back()") 返回
+            ul.inlb.mh_500.pd_0.mg_0.v_t.as
+              li.mb_20(v-for=" (v, i) in  data" v-bind:key="i")
+                span.text-danger.pd_5 *
+                span(v-if=" !v.groupname ") 彩票返点 
+                span(v-else) {{ v.groupname  }}返水 
+                el-select(v-model="v.$" clearable style="width: 1.7rem")
+                  el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+
+                span(v-if=" !v.groupname ")
+                  span.text-blue  % 
+                  span.c_03（百分符）
+                span(v-else) 
+                  span.text-blue  ‰
+                  span.text-999（千分符）
+          
+          .buttons.mb_20.pl_70(:class=" i &&  users.length > 1 && 'mt_20' ")
+            .ds-button.primary.large.bold.w_140.hlh_40(@click="openAccount") 开户
         
 
       
 </template>
 
 <script>
-  import store from '../../store'
   import Validate from '../../util/Validate'
   import api from '../../http/api'
   export default {
     data () {
       return {
-        me: store.state.user,
-        // 用户级别
-        UL: [
-          [
-            {id: 2, title: '直属总代'},
-            {id: 3, title: '总代'}
-          ],
-          [
-            {id: 3, title: '总代'},
-            {id: 4, title: '代理'}
-          ]
-        ],
-        u: {},
-        // 调点
-        PS: [{}],
-        account: '',
-        // defaultPwd: this.platform === 'ds' ? '123456a' : '123qwe',
+        n: '',
         pwd: '123456a',
-        range: {
-          min: 0.00,
-          max: 3.00
-        },
-        point: '',
-        p: ''
+        i: 0,
+        data: [],
+        users: [],
+        un: '',
+        un_: ''
       }
     },
     computed: {
+      users_ () {
+        return this.users.filter(x => x.userName.indexOf(this.un) !== -1)
+      },
+      user () {
+        return this.users.filter(x => x.userName === this.un_)[0] || {}
+      },
+      // 最近搜索
+      rs () {
+        return this.local.search_un.split(',').filter(x => x.indexOf(this.un) !== -1)
+      }
     },
     watch: {
-      account () {
-        this.account = this.account.trim()
+      n () {
+        this.n = this.n.trim()
       },
       pwd () {
         this.pwd = this.pwd.trim()
       },
-      // p () {
-      //   setTimeout(() => {
-      //     this.p = parseFloat(this.p) || ''
-      //     let i = (this.p + '').lastIndexOf('.')
-      //     if (i !== -1 && (this.p + '').slice(i).length > 2) {
-      //       this.p = parseFloat((Math.floor(this.p * 100) / 100).toFixed(1))
-      //     }
-      //   }, 1000)
-      // },
-      p () {
-        setTimeout(() => {
-          this.p = this.p.trim()
-          this.p = this.p.replace(/[^0-9,.]/g, '').replace(/[,.]{2,}/g, ',')
-          let [l, r, t] = this.p.split('.')
-          if (r) this.p = l + '.' + r.slice(0, 1)
-          if ((r && r.split(/[,]/)[1]) || t) this.p = l + '.' + r.split(/[.,]/)[0].slice(0, 1)
-        }, 0)
+      un () {
+        this.un = this.un.trim()
+      },
+      user (n) {
+        if (n && n.back && !n.back[1]) {
+          this.getBackWater(n)
+        } else if (n && n.back) {
+          this.setBackWaters(n.back)
+        }
+        if (this.un) {
+          this.__setLocal({search_un: this.un + ',' + this.local.search_un.replace(this.un + ',', '')})
+        }
       }
     },
     mounted () {
-      // this.pwd = '123qwe'
       this.showRegistUser()
+      this.getUserList()
     },
     methods: {
-      back () {
-        window.history.back()
-      },
       openAccount () {
-        if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
-        if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
+        if (!this.n) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
+        if (!Validate.account(this.n)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
         if (!this.pwd) return this.$message.warning({target: this.$el, message: '请输入密码！'})
-        if (this.p > this.range.max || this.p < this.range.min) return this.$message.warning({target: this.$el, message: '返点值太大或太小！'})
-        // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=registUser&userName=abcdefg&password=123qwe&nickName=test1234&keepPoint=0.2
-        this.$http.get(api.registUser, { userName: this.account, password: this.pwd, keepPoint: this.p, proxyType: this.u.id || '' }).then(({data}) => {
-          // success
+        this.$http.post(api.registUser, {
+          userName: this.n,
+          password: this.pwd,
+          keepPoint: (this.data[0].backwater - this.data[0].$).toFixed(1),
+          proxyType: '',
+          pointArr: JSON.stringify({
+            myBack: this.data.slice(1).map(x => {
+              return {
+                groupid: x.groupid,
+                groupname: x.groupname,
+                backwater: x.$ / 1000
+              }
+            })
+          }),
+          type: 1
+        }).then(({data}) => {
           if (data.success === 1) {
             this.$message.success(data.msg || '开户成功！')
-            this.account = ''
+            this.n = ''
             this.pwd = '123456a'
-            // this.point = ''
-            this.u = {}
             this.showRegistUser()
             this.$router.push('/group/2-3-4')
           } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
-          // error
           this.$message.error('开户失败！')
         })
       },
       showRegistUser () {
         this.$http.get(api.showRegistUser).then(({data}) => {
-          // success
           if (data.success === 1) {
-            this.PS = data.addUsers || []
-            if (data.range.min === 0) data.range.min = 0.00
-            this.range = data.range
-            this.point = data.userPoint
+            data.back.unshift({
+              backwater: data.userPoint
+            })
+            data.back.forEach((x, i) => {
+              x.$ = ''
+              x.$s = x.backwater * (i ? 10000 : 10)
+            })
+            this.data = data.back
           } else this.$message.error(data.msg || '开户信息获取失败！')
         }, (rep) => {
-          // error
           this.$message.error('开户信息获取失败！')
+        })
+      },
+      querySearch (q, cb) {
+        cb(this.local.search_un ? this.local.search_un.split(',').filter(x => x.indexOf(q.trim()) !== -1).map(y => ({ value: y })) : [])
+      },
+      handleSelect (item) {
+      },
+      getUserList () {
+        this.$http.post(api.getUserList, {
+          userId: '',
+          userName: '',
+          minPoint: '',
+          maxPoint: '',
+          cType: '',
+          sortType: 3,
+          sort: 2,
+          page: 1,
+          pageSize: 1000
+        }).then(({data}) => {
+          if (data.success === 1) {
+            data.subUserInfo.forEach(x => {
+              x.back = [
+                {
+                  backWater: x.userPoint
+                }
+              ]
+            })
+            this.users = data.subUserInfo
+          }
+        }, (rep) => {
+        }).finally(() => {
+        })
+      },
+      getBackWater (user) {
+        this.$http.get(api.getBackWater, {
+          userId: user.userId
+        }).then(({data: {success, backWaterComb}}) => {
+          if (success === 1) {
+            user.back = user.back.slice(0, 1).concat(backWaterComb)
+            this.setBackWaters(user.back)
+          }
+        })
+      },
+      setBackWaters (back) {
+        back.forEach(x => {
+          (this.data.find(y => y.groupid === x.groupId || (!x.groupId && !y.groupid)) || {}).$ = x.backWater ? (x.backWater * (!x.groupId ? 1 : 1000)).toFixed(1) : ''
         })
       }
     }
@@ -198,17 +239,52 @@
   .text-money
     color #999
   
-  .notice
-    font-size .12rem
-    line-height .22rem
-    margin 0 .2rem
-    padding PWX
-    background-color #fffde8
-    border 1px solid #d5d09b
-    radius()
-    .content
-      display inline-block
-      margin 0
-      line-height .25rem
-      vertical-align top
+  .ds-radio-label
+  .c_03
+    color #033333
+  
+  .hlh_40
+    line-height .4rem
+  .users
+  .as
+    position relative
+    list-style none
+              
+    padding-bottom 100%
+    margin-bottom -100%
+    background-color #fff
+    overflow auto
+  .users + .as
+    padding-left .5rem
+    padding-right .5rem
+    padding-top .2rem
+    background-color #f8f8f8
+
+  .users
+    padding-top .3rem
+    &>.hlh_30
+      // background-color #cccccc
+      color #333
+      font-weight bold
+      position absolute
+      top 0
+      width 100%
+      z-index 1
+    li:nth-child(odd)
+      background-color #e7e7e7
+    li:nth-child(even)
+      background-color #f8f8f8
+    li.pointer:hover
+      color #000
+      font-weight bold
+      // background-color #999
+      
+  ul
+    overflow auto
+  
+  
+    
+    
+    
+    
 </style>
