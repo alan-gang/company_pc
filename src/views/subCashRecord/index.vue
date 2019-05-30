@@ -1,7 +1,7 @@
 <template lang="jade">
 .sub-cash-record
   slot(name="toolbar")
-  AR.scroll-content(v-if=" I === 0 ")
+  AR.scroll-content(v-if=" I === 0 " v-bind:menus="menus")
 
 </template>
 
@@ -12,7 +12,7 @@ export default {
     AR
   },
   name: 'sub-cash-record',
-  props: [],
+  props: ['menus'],
   data () {
     return {
       I: 0

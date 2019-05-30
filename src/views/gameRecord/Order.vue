@@ -9,12 +9,13 @@
      
       .form.form-filters
 
-        //- label.item(v-if="!noname") 用户 
-        //-   input.ds-input.small(v-model="name" style="width: 1rem")
+        label.item(v-if="!noname") 用户 
+          input.ds-input.small(v-model="name" style="width: 1.2rem" placeholder="请输入用户名" maxLength="20")
         
         //- label.item 时间 
           //- el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime" size="small")
-        SearchConditions(@choiced="choicedSearchCondition")
+        span.date-wp 
+          SearchConditions(@choiced="choicedSearchCondition")
 
         //- label.item 彩种  
         //-   el-select(clearable v-bind:disabled=" !gameList[0] "  v-model="gameid" style="width: 1.2rem" placeholder="全")
@@ -42,57 +43,43 @@
         //- .buttons(style="margin-left: .3rem")
           .ds-button.cancel.large(@click="clear(true)") 清空
       
-      .table-list(style="padding: .15rem .2rem ")
+      .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+        el-breadcrumb(separator=">")
+          el-breadcrumb-item(v-for="(b, i) in userBreadcrumb" ) {{ i === 0 ? '自己' : b.userName }}
+
+      .table-list(style="padding: 0 .2rem .15rem .2rem ")
       
         el-table.header-bold.nopadding(:data="Cdata"   style=""   ref="table" show-summary v-bind:summary-method="getSummaries"  stripe v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected")
-
           el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
             template(scope="scope")
               div
                 span( style="padding: 0") {{ scope.row.projectId }}
-
-          el-table-column(prop="userName" label="用户" v-if="!noname")
-          
+          el-table-column(prop="userName" label="用户" v-if="this.useSource !== this.USE_SOURCE_AGENT")
           el-table-column(prop="writeTime" label="投注时间" min-width="120")
             template(scope="scope")
               span() {{ scope.row.writeTime }}
-
           el-table-column(prop="lotteryName" label="游戏")
-
           el-table-column(prop="methodName" label="玩法" min-width="120")
             template(scope="scope")
               div() {{ scope.row.methodName }}（{{ scope.row.codeType === '1' ? '复式' : '单式'}}）
-
           el-table-column(prop="issue" label="期号")
-
           el-table-column(prop="multiple" label="倍数")
-
           el-table-column(prop="totalPrice" label="总金额" align="right")
             template(scope="scope")
               span.text-danger(v-if=" scope.row.totalPrice && scope.row.totalPrice._o0() ") -{{ scope.row.totalPrice && scope.row.totalPrice._nwc() }}
-
-
           el-table-column(class-name="pr2" prop="bonus" label="奖金" align="right")
             template(scope="scope")
               span.text-green(v-if=" scope.row.bonus && scope.row.bonus._o0() ") +{{ scope.row.bonus && scope.row.bonus._nwc() }}
-
-
           // STATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
           el-table-column(label="状态" align="center")
             template(scope="scope")
               span(:class=" [STATUSCLASS[scope.row.stat]] ") {{ STATUS[scope.row.stat] }}
-          
           el-table-column(label="操作" width="200")
             template(scope="scope")
-
               div()
-
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click=" OrderDetail(scope.row, 0) ") 注单详情
-
                 .ds-button.text-button.blue(v-if="scope.row.taskId !== '0' " style="padding: 0 .05rem" @click.stop="showFollow = scope.row.taskId ") 追号详情
-
                 .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) " v-if="platform !== 'ds' ") 打印
-        
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
@@ -281,10 +268,24 @@
       SearchConditionLottery,
       BetDetail
     },
-    props: ['menus'],
+    // props: ['menus'],
+    props: {
+      menus: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      useSource: {
+        type: Number,
+        default: 0
+      }
+    },
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
+        USE_SOURCE_AGENT: 2, // 代理中心-下级彩票记录
         TH: 300,
         ACCOUNT: store.state.user.account,
         pickerOptions: {
@@ -359,7 +360,9 @@
 
         lotteryHistory: [],
         lotteryPopover: false,
-        curLotteryName: '全部'
+        curLotteryName: '全部',
+
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -392,10 +395,15 @@
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
       this.getGameHistory()
+      this.getBreadByUserId(this.me.userId)
     },
     methods: {
       __setGOI (i) {
         this.I = i
+      },
+      link (B, i) {
+        // this.id = B.userId
+        // this.list({userId: B.userId}, undefined)
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -691,6 +699,15 @@
             this.setLotteryHistory(game)
           }
         }
+      },
+      getBreadByUserId (userId) {
+        this.$http.get(api.subBread, {userId: userId}).then(({data: {success, userBreads}}) => {
+          if (success === 1) {
+            if (userBreads.length > 0) {
+              this.userBreadcrumb = userBreads.concat([{}])
+            }
+          }
+        })
       }
     }
   }
@@ -707,7 +724,10 @@
   .user-list
     .form
       padding PWX
-
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
   .item
     display inline-block
     margin 0 PW 0 0
