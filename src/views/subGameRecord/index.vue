@@ -5,7 +5,7 @@
   slot(name="resize-x")
   slot(name="resize-y")
   slot(name="toolbar")
-  Order.scroll-content(v-if=" I === 0 ")
+  Order.scroll-content(v-if=" I === 0 " v-bind:menus="menus")
   VROrder.scroll-content(v-if=" I === 1 ")
   SportRecord.scroll-content(v-if=" I === 2 ")
   VideoRecord.scroll-content(v-if=" I === 3 ")
@@ -34,7 +34,7 @@ export default {
     CardRecord
   },
   name: 'sub-game-record',
-  props: [],
+  props: ['menus'],
   data () {
     return {
       I: 0
