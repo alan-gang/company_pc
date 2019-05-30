@@ -20,8 +20,18 @@ export default {
   },
   watch: {
     '$root.miniIframeGameRetract' () {
-      this.retract = this.$root.miniIframeGameRetract
-      this.retract && (this.checkedIndex = -1)
+      if (this.me.login) {
+        this.retract = this.$root.miniIframeGameRetract
+        this.retract && (this.checkedIndex = -1)
+      }
+    },
+    'me.login' () {
+      if (!this.me.login) {
+        this.checkedIndex = -1
+        setTimeout(() => {
+          this.retract = false
+        }, 100)
+      }
     }
   },
   methods: {

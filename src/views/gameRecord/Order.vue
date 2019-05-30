@@ -391,6 +391,7 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.Orderlist()
+      this.getGameHistory()
     },
     methods: {
       __setGOI (i) {
@@ -552,7 +553,7 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -669,6 +670,27 @@
       cancelOrder (status) {
         this.show = false
         this.Orderlist()
+      },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
       }
     }
   }

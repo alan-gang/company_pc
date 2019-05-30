@@ -238,6 +238,7 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       this.followList()
+      this.getGameHistory()
     },
     methods: {
       __setGFI (i) {
@@ -388,7 +389,7 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -475,6 +476,27 @@
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120

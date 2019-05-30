@@ -279,7 +279,7 @@ export default {
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG账户:2:bgmoney', 'IBC账户:3:tcgmoney', '开元帐户:7:kymoney', 'PT账户:5:ptmoney', 'AG账户:4:agmoney', '沙巴账户:9:sbmoney', '乐游账户:15:lymoney', 'U赢账户:17:uwinmoney', 'KG账户:18:kgmoney', '微游账户:25:litAmount', '平博账户:19:pbAmount', 'LG账户:21:lgAmount', '幸运账户:22:xyAmount'],
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount'],
       quickAmounts: ['50', '100', '500', '全部'],
       tabIdx: 0,
       accounts: [
