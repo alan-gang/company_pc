@@ -7,8 +7,8 @@
           .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 投注记录
           .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 追号记录
       
-      Order.pip(v-if="type === 0" v-bind:menus="menus")
-      Follow.pip(v-if="type === 1" v-bind:menus="menus")
+      Order.pip(v-if="type === 0" v-bind:menus="menus" v-bind:useSource="2")
+      Follow.pip(v-if="type === 1" v-bind:menus="menus" v-bind:useSource="2")
 
 </template>
 
