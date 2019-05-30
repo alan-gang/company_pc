@@ -12,14 +12,13 @@
           //- label.item 类型 
             el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
               el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
-
-          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
-            SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
-            span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
-              span.mr5 类型&nbsp;
-              span.flex.flex-ai-c.types-choice
-                el-input(v-bind:value="typesValue" v-bind:readonly="true" placeholder="更多类型（可多选）")
-          
+          div
+            el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
+              SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
+              span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
+                span.mr5 类型&nbsp;
+                span.flex.flex-ai-c.types-choice
+                  el-input(v-bind:value="typesValue" v-bind:readonly="true" placeholder="更多类型（可多选）")
           span
             template(v-for="(type, i) in choicedTypes")
               ConditionItemButton(v-bind:id="type.id" v-bind:title="type.title" @close="removeCondiItem")
@@ -32,13 +31,24 @@
           el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
-        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
-          SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
-          span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
-            span.mr5 彩种&nbsp;
-            span.flex.flex-ai-c.lottery-choice
-              i {{curLotteryName}}
-              i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
+        label.item(v-if="!noname") 用户 
+          el-autocomplete(
+            class="inline-input uname-ipt"
+            v-model="name"
+            v-bind:fetch-suggestions="querySearchName"
+            placeholder="请输入用户名"
+            v-bind:maxlength="12"
+            v-bind:clearable="true"
+          )
+          
+        span.item
+          el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+            SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+            span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
+              span.mr5 彩种&nbsp;
+              span.flex.flex-ai-c.lottery-choice
+                i {{curLotteryName}}
+                i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
         
         span.date-buts
           SearchConditions(v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition")
@@ -134,7 +144,18 @@
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     mixins: [setTableMaxHeight],
-    props: ['menus'],
+    props: {
+      menus: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      useSource: {
+        type: Number,
+        default: 0
+      }
+    },
     components: {
       SearchConditions,
       SearchConditionLottery,
@@ -143,6 +164,7 @@
     },
     data () {
       return {
+        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         ME: store.state.user,
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
@@ -192,16 +214,8 @@
         curLotteryName: '全部',
 
         searchConditions: ['今天', '昨天', '前天'],
-        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
-        dateMappingConfig: {
-          d0: [0, 0],
-          d1: [1, 1],
-          d2: [2, 2],
-          d3: [3, 3],
-          d4: [4, 4],
-          d5: [5, 5],
-          d6: [6, 6]
-        }
+        dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] },
+        names: []
       }
     },
     computed: {
@@ -293,54 +307,54 @@
       detectDate (v) {
         // console.log(v)
       },
-      myTopup () {
-        this.clear()
-        this.zone = 0
-        this.type = [1]
-        this.list()
-      },
-      myWithdraw () {
-        this.clear()
-        this.zone = 0
-        this.type = [2, 3]
-        this.list()
-      },
-      myOrder () {
-        this.clear()
-        this.zone = 0
-        this.type = [7]
-        this.list()
-      },
-      myFollow () {
-        this.clear()
-        this.zone = 0
-        this.type = [9]
-        this.list()
-      },
-      myBonus () {
-        this.clear()
-        this.zone = 0
-        this.type = [12, 16]
-        this.list()
-      },
-      myPoint () {
-        this.clear()
-        this.zone = 0
-        this.type = [11, 15]
-        this.list()
-      },
-      mySalary () {
-        this.clear()
-        this.zone = 0
-        this.type = [37]
-        this.list()
-      },
-      myTransfer () {
-        this.clear()
-        this.zone = 0
-        this.type = [70]
-        this.list()
-      },
+      // myTopup () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [1]
+      //   this.list()
+      // },
+      // myWithdraw () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [2, 3]
+      //   this.list()
+      // },
+      // myOrder () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [7]
+      //   this.list()
+      // },
+      // myFollow () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [9]
+      //   this.list()
+      // },
+      // myBonus () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [12, 16]
+      //   this.list()
+      // },
+      // myPoint () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [11, 15]
+      //   this.list()
+      // },
+      // mySalary () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [37]
+      //   this.list()
+      // },
+      // myTransfer () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [70]
+      //   this.list()
+      // },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -402,7 +416,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
@@ -565,6 +579,17 @@
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      querySearchName (name, cb) {
+        let rs = name ? this.names.filter((n) => {
+          return n.value.indexOf(name) === 0
+        }) : this.names
+        cb(rs)
+      },
+      setNameHistory (name) {
+        if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+        this.names.push({value: name, address: name})
+        if (this.names.length > 3) this.names.shift()
       }
     }
   }
@@ -590,6 +615,24 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .user-list
+    .form
+      padding PWX
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
+      .search-condition-date
+        float none
+    .uname-ipt
+      width 1.3rem
+  .item
+    display inline-block
+    margin 0 PW 0 0
+
+</style>
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
   .form-filters
     .buttons
       display inline-block
@@ -602,6 +645,10 @@
     .el-select
       top 0
       vertical-align inherit
+    .item
+      display inline-block
+    .types-choice-condi
+      margin-bottom 0
   .types-sec
     &>span
       display inline-block
