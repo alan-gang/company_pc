@@ -448,6 +448,8 @@ let Group = {
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
+  getUserAll: '/team/useList.do?method=getUserAll',
+  getUserSubCopy: '/team/useList.do?method=getUserSubCopy',
   // 代充
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=recharge&destId=5&amount=100.5
   recharge: '/team/useList.do?method=recharge',
@@ -505,6 +507,12 @@ let Group = {
   // 查询我的奖金
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=myBonus&startDate=20170101200000&endDate=20170115200000
   myBonus: '/team/contractBonus.do?method=myBonus',
+  // 我的彩票佣金分红
+  myBonusMobile: '/team/contractBonus.do?method=myBonusMobile',
+  // 预期分红与预期佣金分红
+  mySubExpectedBounsMobile: '/team/contractBonus.do?method=mySubExpectedBounsMobile',
+  // 契约彩票，佣金
+  mySubContractMobile: '/team/contractBonus.do?method=mySubContractMobile',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonus&startDate=20170310&endDate=20170316&issue=20170315
   topBonus: '/team/topBonus.do?method=topBonus',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonuDetail&issue=20170315

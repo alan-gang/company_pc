@@ -13,13 +13,17 @@ export default (Vue) => {
     sh: 0,
     sw: 0
   }
+  let local = {
+    search_un: window.localStorage.getItem('search_un') || ''
+  }
   Vue.mixin({
     data () {
       return {
         window: window,
         call: call,
         platform: window.platform,
-        global: g
+        global: g,
+        local: local
       }
     },
     // watch: {
@@ -33,7 +37,7 @@ export default (Vue) => {
     //   }
     // },
     created () {
-      if (Object.keys(this.$options.methods).join(',').match(/__(?!(setCall|loading|setGlobal))/g)) {
+      if (Object.keys(this.$options.methods).join(',').match(/__(?!(setCall|loading|setGlobal|setLocal))/g)) {
         // console.log(Object.keys(this.$options.methods))
         this.$watch('call', () => {
           if (this.call.fn && typeof this[this.call.fn] === 'function') {
@@ -65,6 +69,12 @@ export default (Vue) => {
       },
       __setGlobal (global) {
         this.global = Object.assign(this.global, global)
+      },
+      __setLocal (local = {}) {
+        this.local = Object.assign(this.local, local)
+        Object.entries(local).forEach(([k, v]) => {
+          window.localStorage.setItem(k, String(v))
+        })
       }
     }
   })
