@@ -12,7 +12,7 @@
             input.ds-input.small(v-model="un" style="width: 1.2rem" placeholder="请输入用户名" maxLength="20")
 
           label.item 时间 
-            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime" v-on:change="dateChange")
           
           span.date-wp 
             SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
@@ -29,19 +29,19 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '自己' : B.userName }}
 
-        el-table.header-bold.nopadding(:data="data" stripe ref="itable" v-bind:max-height=" MH " @cell-click="cellClick")
+        el-table.header-bold.nopadding(:data="mySubWageData" stripe ref="itable" v-bind:max-height=" MH " @cell-click="cellClick" v-on:sort-change="sortChange")
 
           el-table-column(class-name="pl2" prop="userName" label="用户名" )
             template(scope="scope")
               span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === ME.account } ") {{ scope.row.userName }}
           
-          el-table-column(prop="totBuyAmount" label="团队销量"  align="right")
-          el-table-column(prop="buyAmount" label="有效销量"  align="right")
-          el-table-column(prop="activitUser" label="有效人数"  align="right")
+          el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
+          el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
+          el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
           el-table-column(prop="salaryLevel" label="工资级别"  align="right")
-          el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right")
-          el-table-column(prop="subSalary" label="下级工资总额"  align="right")
-          el-table-column(prop="daySalary" label="个人工资"  align="center")
+          el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right" sortable="custom")
+          el-table-column(prop="subSalary" label="下级工资总额"  align="right" sortable="custom")
+          el-table-column(prop="daySalary" label="个人工资"  align="center" sortable="custom")
           el-table-column(class-name="pl2 pr2" prop="isDone" label="状态")
             template(scope="scope")
               span(:class=" {'text-green': scope.row.isDone, 'text-danger': !scope.row.isDone} ") {{ scope.row.isDone ? '已领取' : '未领取' }}
@@ -79,6 +79,7 @@
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
   import { MMath } from '../../util/Number'
+  import { listOrderByField } from '../../util'
   export default {
     mixins: [setTableMaxHeight, page],
     components: {
@@ -106,13 +107,32 @@
         quickStatusIdx: -1,
         statusButtons: ['全部', '未领取', '已领取'],
         showOperColumn: true,
-        subUserName: ''
+        subUserName: '',
+        mySubWageData: []
       }
     },
     mounted () {
       this.list()
     },
     methods: {
+      dateChange (d) {
+        let sdate = this.stEt[0]._toDayString().replace(/-/g, '')
+        let edate = this.stEt[1]._toDayString().replace(/-/g, '')
+        let diff = parseInt(edate, 10) - parseInt(sdate, 10)
+        this.defaultDateIdx = -1
+        if (parseInt(sdate, 10) >= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][0])._toDayString().replace(/-/g, '')) &&
+          parseInt(edate, 10) <= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][1])._toDayString().replace(/-/g, ''))) {
+          this.defaultDateIdx = 2
+        }
+        if (sdate === edate) {
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d0'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 0
+          }
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d1'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 1
+          }
+        }
+      },
       goToGift () {
         setTimeout(() => {
           this.$router.push('/activity/5-1-2')
@@ -156,7 +176,7 @@
               item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
               return item
             })
-            this.data = data
+            this.mySubWageData = data
             this.getSubBreadByUserId(option.userId || this.ME.userId)
             cb()
             setTimeout(() => {
@@ -190,8 +210,12 @@
       },
       choiceStatus (i) {
         this.quickStatusIdx = i
-      }
-
+      },
+      sortChange (column, row) {
+        if (!column) return
+        this.mySubWageData = this.listOrderByField(this.mySubWageData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
+      },
+      listOrderByField
       // 下级日工资
       // list (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }, id) {
       //   let loading = this.$loading({

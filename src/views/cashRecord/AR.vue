@@ -276,6 +276,7 @@
         this.ISFREE.splice(2)
       }
       this.initQueryConditionDate()
+      this.getGameHistory()
     },
     methods: {
       __setCRI (i) {
@@ -429,7 +430,7 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -579,6 +580,27 @@
         this.lotteryHistory.push(lottery)
         if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
       },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
+      },
       findHistoryById (gameid) {
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
@@ -651,8 +673,6 @@
       vertical-align inherit
     .item
       display inline-block
-    .types-choice-condi
-      margin-bottom 0
   .types-sec
     &>span
       display inline-block
