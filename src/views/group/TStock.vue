@@ -49,7 +49,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column prop="actUser" label="对应分红规则"></el-table-column>
+          <!-- <el-table-column prop="actUser" label="对应分红规则"></el-table-column> -->
           <el-table-column prop="bonusRate" label="分红比例">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
@@ -94,39 +94,6 @@ export default {
     return {
       numberWithCommas: numberWithCommas,
       TH: 250,
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 89);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
-      stEt: [
-        new Date()
-          ._setHMS("0:0:0")
-          ._bfM(-2)
-          ._setD(1),
-        new Date()
-          ._setD(1)
-          ._setHMS("0:0:0")
-          ._bfM(1)
-          ._setS(-1)
-      ],
       me: store.state.user,
       // 0 我的分红
       // 1 下级分红

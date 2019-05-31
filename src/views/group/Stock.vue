@@ -11,7 +11,7 @@
         <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <label class="item">
             结算日&nbsp;
-            <el-button v-for="v in settlementSub" :key="v" size="small" @click="settlement=v">{{v}}</el-button>
+            <el-button v-for="(v,i) in settlementSub" :key="i" size="small" @click="settlement=v">{{v}}</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;

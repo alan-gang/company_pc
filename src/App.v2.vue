@@ -554,7 +554,7 @@ export default {
                   id: '2-3-8',
                   menuid: '44',
                   title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -749,7 +749,7 @@ export default {
                   id: '2-3-8',
                   menuid: '44',
                   title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
