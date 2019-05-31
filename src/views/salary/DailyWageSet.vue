@@ -27,8 +27,8 @@
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
         el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH " @selection-change="handleSelectionChange")
-          el-table-column(type="selection" width="100px" class-name="pl2")
-          el-table-column(prop="userName" label="用户名")
+          //- el-table-column(type="selection" width="100px" class-name="pl2")
+          el-table-column(prop="userName" label="用户名" class-name="pl2")
           el-table-column(prop="registertime" label="注册日期" align="center")
           el-table-column(prop="teamCount" label="团队人数"  align="center")
           el-table-column(label="工资级别"  align="center") 

@@ -19,9 +19,15 @@ import M from './M'
  */
 function listOrderByField(list, fieldName, order) {
   let temp
+  let current
+  let next
   for (let i = 0; i < list.length; i++) {
     for (let j = 0; j < list.length - i; j++) {
-      if (list[j][fieldName] > (list[j + 1] && list[j + 1][fieldName])) {
+      current = list[j][fieldName]
+      next = list[j + 1] && list[j + 1][fieldName]
+      current = parseFloat(String(current).replace(/,/g, ''))
+      next = parseFloat(String(next).replace(/,/g, ''))
+      if (current > next) {
         temp = list[j + 1]
         list[j + 1] = list[j]
         list[j] = temp

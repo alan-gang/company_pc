@@ -48,6 +48,9 @@ export default {
       this.quickDateIdx = this.defaultDateIdx
     }
   },
+  mounted () {
+    this.quickDateIdx = this.defaultDateIdx
+  },
   methods: {
     choiceDate (i) {
       this.quickDateIdx = i
