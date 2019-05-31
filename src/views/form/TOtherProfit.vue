@@ -65,7 +65,7 @@
           v-if=" total > pageSize "
           v-on:current-change="pageChanged"
         ></el-pagination>
-        <p>温馨提示：预期佣金是基于阶段性数据测算得出，仅为预测下一次佣金发放提供参考，不作为发放佣金的依据。</p>
+        <p style="margin: 10px;font-size: 12px;color: #999;">温馨提示：预期佣金是基于阶段性数据测算得出，仅为预测下一次佣金发放提供参考，不作为发放佣金的依据。</p>
       </div>
     </div>
   </div>

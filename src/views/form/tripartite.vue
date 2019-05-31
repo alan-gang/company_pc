@@ -16,15 +16,15 @@
             <el-button
               @click="ClickMonth(0)"
               size="small"
-            >{{new Date()._bfM(0)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(0).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-1)"
               size="small"
-            >{{new Date()._bfM(-1)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-2)"
               size="small"
-            >{{new Date()._bfM(-2)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
           </label>
           <label class="item">
             排序

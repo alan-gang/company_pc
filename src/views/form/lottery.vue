@@ -361,17 +361,19 @@ export default {
       //当前日  为 下旬时   上半个月为 上个月的下旬
       if (date > parseInt(MonthDays / 2)) {
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月下半月`;
         r.time.push(
           new Date()
+          ._setD(1)
             ._bfM(-1)
             ._setD(parseInt(FirstMonthDays / 2) + 1)
             ._toDayString()
         );
         r.time.push(
           new Date()
+          ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()
@@ -379,17 +381,18 @@ export default {
       } else {
         //当前日 为 上旬时   上半个月为 上个月的上旬
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月上半月`;
         r.time.push(
           new Date()
-            ._bfM(-1)
             ._setD(1)
+            ._bfM(-1)
             ._toDayString()
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(-1)
             ._setD(parseInt(FirstMonthDays / 2))
             ._toDayString()
@@ -411,17 +414,18 @@ export default {
       //当前日  为 下旬时   下半个月为 本月的上旬
       if (date > parseInt(MonthDays / 2)) {
         r.month = `${new Date()
-          ._bfM(1)
           ._setD(1)
+          ._bfM(1)
           .getMonth()}月上半月`;
         r.time.push(
           new Date()
-            ._bfM(0)
             ._setD(1)
+            ._bfM(0)
             ._toDayString()
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(0)
             ._setD(parseInt(MonthDays / 2))
             ._toDayString()
@@ -429,8 +433,8 @@ export default {
       } else {
         //当前日 为 上旬时   上半个月为 上个月的下旬
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月下半月`;
         r.time.push(
           new Date()
@@ -440,6 +444,7 @@ export default {
         );
         r.time.push(
           new Date()
+          ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()

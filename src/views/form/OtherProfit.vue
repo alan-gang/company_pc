@@ -317,6 +317,7 @@ export default {
     }
   },
   mounted() {
+    this.settlementInit(); //结算日初始化
     this.bonus();
   },
   methods: {
@@ -507,7 +508,6 @@ export default {
       });
     },
     bonus(page, fn) {
-      this.settlementInit(); //结算日初始化
       let loading = this.$loading(
         {
           text: "佣金加载中...",
