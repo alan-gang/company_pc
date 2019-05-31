@@ -12,13 +12,14 @@
           //- label.item 类型 
             el-select(clearable multiple placeholder="全" v-model="type" v-bind:style="multipleSelectStyle" v-bind:multiple-limit="typeMax")
               el-option(v-for="(S, i) in TYPES" v-bind:label="S.cnTitle" v-bind:value="S.ordertypeId")
-          div
-            el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" )
-              SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
-              span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
-                span.mr5 类型&nbsp;
-                span.flex.flex-ai-c.types-choice
-                  el-input(v-bind:value="typesValue" v-bind:readonly="true" placeholder="更多类型（可多选）")
+
+          el-popover(placement="bottom" width="890" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" v-model="showOrderTypePopover" )
+            SearchConditionOrderTypes(v-bind:typeData="typeData" v-on:sure="choicedTypeData")
+            span.flex.flex-ai-c.types-choice-condi.mb15(slot="reference") 
+              span.mr5 类型&nbsp;
+              span.flex.flex-ai-c.types-choice
+                el-input(v-bind:value="typesValue" v-bind:readonly="true" placeholder="更多类型（可多选）")
+          
           span
             template(v-for="(type, i) in choicedTypes")
               ConditionItemButton(v-bind:id="type.id" v-bind:title="type.title" @close="removeCondiItem")
@@ -144,6 +145,7 @@
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
     mixins: [setTableMaxHeight],
+    // props: ['menus'],
     props: {
       menus: {
         type: Array,
@@ -164,8 +166,8 @@
     },
     data () {
       return {
-        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         ME: store.state.user,
+        USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
         pickerOptions: {
@@ -215,7 +217,8 @@
 
         searchConditions: ['今天', '昨天', '前天'],
         dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] },
-        names: []
+        names: [],
+        showOrderTypePopover: false
       }
     },
     computed: {
@@ -518,6 +521,7 @@
         this.typeData = types
         this.inputLimitShowTypeData()
         this.quickChoiceLimitShowTypeData()
+        this.showOrderTypePopover = false
       },
       inputLimitShowTypeData () {
         this.typesValue = ''
