@@ -973,6 +973,9 @@ export default {
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
   },
   methods: {
+    showBonus () {
+      return this.menuids.indexOf(',45,') !== -1
+    },
     getLotterys () {
       this.$http.get(api.getLotterys).then(({data}) => {
         // success
