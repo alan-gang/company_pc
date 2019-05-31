@@ -10,13 +10,21 @@
       
         .form.form-filters
           
-          //- label.item(v-if="!noname") 用户 
-          //-   input.ds-input.small(v-model="name" style="width: 1rem")
-          
+          label.item(v-if="!noname") 用户 
+            //- input.ds-input.small(v-model="name" style="width: 1rem")
+            el-autocomplete(
+              class="inline-input uname-ipt"
+              v-model="name"
+              v-bind:fetch-suggestions="querySearchName"
+              placeholder="请输入用户名"
+              v-bind:maxlength="12"
+              v-bind:clearable="true"
+            )
+
           //- label.item 追号时间 
           //-   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-          SearchConditions(@choiced="choicedSearchCondition")
+          span.date-wp 
+            SearchConditions(@choiced="choicedSearchCondition")
 
           //- label.item 彩种 
           //-   el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
@@ -224,7 +232,8 @@
         lotteryHistory: [],
         lotteryPopover: false,
         curLotteryName: '全部',
-        STATUS_FINISH: 2
+        STATUS_FINISH: 2,
+        names: []
       }
     },
     computed: {
@@ -509,6 +518,17 @@
             this.setLotteryHistory(game)
           }
         }
+      },
+      querySearchName (name, cb) {
+        let rs = name ? this.names.filter((n) => {
+          return n.value.indexOf(name) === 0
+        }) : this.names
+        cb(rs)
+      },
+      setNameHistory (name) {
+        if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+        this.names.push({value: name, address: name})
+        if (this.names.length > 3) this.names.shift()
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120
@@ -527,12 +547,21 @@
   @import '../../var.stylus'
   .user-list
     // top TH
+    .form-filters > *
+      display inline-block
     .form
       padding PWX
-
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
+      .search-condition-date
+        float none
+    .uname-ipt
+      width 1.3rem
   .item
     display inline-block
-    margin 0 PW .1rem 0
+    margin 0 PW 0 0
 
     
   .el-select

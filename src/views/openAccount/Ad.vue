@@ -7,52 +7,48 @@
     slot(name="toolbar")
     .ad.scroll-content
 
-      div
-
-        .notice(style="margin: .2rem; margin-bottom: .1rem")
-          span.title 自动注册说明：
-          p.content
-            | 1. 请选择自动注册用户时，您自身希望保留的返点值
-            br
-            | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;例如：您当前的直选返点为
-            span 6.5% 
-            | 而您在下面 “
-            span.text-blue 保留返点
-            | ”处填写 
-            span.text-danger 0.5
-            br
-            | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么：您自动注册的新账户的
-            span.text-blue 直选返点
-            即为 
-            span.text-danger 6.0%    
-            br
-            | 2. 自动注册用户最大返点级别为 
-            span.text-danger {{ autoRegistMinPoint }}
-            ，自动注册不需要开户配额
-            br
-            | 3. 自动注册设置完成之后，页面下方将会显示自动注册推广链接地址
+      .bgc-w.mg_20.t_c
+        .pd_25
+          p.ft18(style="padding: 0rem 1rem") 您的推广码： 
+            span.text-blue {{ promotionCode }}
         
-        p(style="padding: 0rem 1rem") 您的返点级别：
-          span.amount {{ userPoint }}
-        p(style="padding: 0rem 1rem") 您的推广码&nbsp;&nbsp;&nbsp;&nbsp;： 
-          span.text-blue {{ promotionCode }}
+        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
 
-        p(style="padding: .05rem 1rem") 保留返点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;： 
-          el-select(v-model="p")
-            el-option(v-for="P in PS" v-bind:label="P" v-bind:value="P")
-       
-        div(style="padding: .05rem 0.15rem 0.05rem 1rem; user-select: text;") 
-          span(style="position: absolute; line-height: 2") 自动注册地址： &nbsp;
-          .box(style="padding-left: 1rem")
-            div.text-blue(style="display: inline-block; " v-for=" (url, i) in urls ")
-              input.ds-input(v-bind:value="url") 
-              span.ds-button.text-button.green(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError") 复制注册地址
-              br
-              .QR.ds-icon-QR(:style="QRS[i]")
-                p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
-           
-        div.buttons(style="padding: .1rem 2.03rem")
-          .ds-button.primary.large.bold(@click="setKeepPoint") 提交
+        .pd_25
+          p.ft18.pb_25 推广链接设置
+          .mh_500.w_700.mg_0a.t_l
+            .mb_20.wp_50.inlb.v_t(v-for=" (v, i) in  data" v-bind:key="i")
+              span.text-danger.pd_5 *
+              span(v-if=" !v.groupname ") 彩票返点 
+              span(v-else) {{ v.groupname  }}返水 
+              el-select(v-model="v.$" clearable style="width: 1.7rem")
+                el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+
+              span(v-if=" !v.groupname ")
+                span.text-blue  % 
+                span.c_03（百分符）
+              span(v-else) 
+                span.text-blue  ‰
+                span.text-999（千分符）
+
+
+        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
+        
+        .pd_25
+          p.ft18.pb_25 自动注册地址
+          
+          div(style="user-select: text;") 
+            .box
+              div.text-blue.inlb.ml_40.mr_40.v_t(v-for=" (url, i) in urls ")
+                input.ds-input(v-bind:value="url") 
+                span.ds-button.text-button.blue(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError" style="position: absolute;padding: 0 10px") 复制
+                br
+                .QR.ds-icon-QR(:style="QRS[i]")
+                  p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
+              
+
+          .buttons(style="padding: .1rem 2.03rem")
+            .ds-button.primary.large.bold.w_140.hlh_40(@click="setKeepPoint") 提交
 
 
         
@@ -66,13 +62,10 @@
     data () {
       return {
         // 调点
-        PS: [],
-        p: 0,
         urls: [],
         qrs: [],
-        userPoint: 0,
-        autoRegistMinPoint: 6.5,
-        promotionCode: ''
+        promotionCode: '',
+        data: []
       }
     },
     computed: {
@@ -100,7 +93,6 @@
     mounted () {
       this.showSpreadLinks()
       this.getQR()
-      // this.createQr()
     },
     methods: {
       copySuccess () {
@@ -113,16 +105,6 @@
           message: '复制失败!'
         })
       },
-      // createQr () {
-      //   this.$http.get(api.createQr).then(({data}) => {
-      //     // success
-      //     if (data.success === 1) {
-      //     } else this.$message.error(data.msg || '二维码获取失败！')
-      //   }, (rep) => {
-      //     // error
-      //     this.$message.error('二维码获取失败！')
-      //   })
-      // },
       getQR () {
         this.$http.get(api.createQr).then(({data}) => {
           // success
@@ -138,17 +120,17 @@
         this.$http.get(api.showSpreadLinks).then(({data}) => {
           // success
           if (data.success === 1) {
-            // block8/3 console.log(data.userPoint, data.range)
             this.promotionCode = data.promotionCode
-            this.userPoint = data.userPoint
-            this.autoRegistMinPoint = data.autoRegistMinPoint
             this.urls = data.url
-            this.p = (data.autoPoint <= data.range.min ? data.range.min : data.autoPoint >= data.range.max ? data.range.max : data.autoPoint).toFixed(1)
-            for (let i = data.range.min; i <= data.range.max; i += 0.1) {
-              if (i !== data.range.min) this.PS.push((Math.round(i * 10) / 10).toFixed(1))
-              else this.PS.push(i)
-            }
-            if (this.PS.length > 0 && (parseFloat(this.PS[this.PS.length - 1]) < data.range.max)) this.PS.push(data.range.max)
+            data.back.unshift({
+              backwater: data.userPoint
+            })
+            data.back.forEach((x, i) => {
+              x.$ = x.value * 1000
+              x.$s = x.backwater * (i ? 10000 : 10)
+            })
+            data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1)
+            this.data = data.back
           } else this.$message.error(data.msg || '自动注册链接获取失败！')
         }, (rep) => {
           // error
@@ -156,7 +138,18 @@
         })
       },
       setKeepPoint () {
-        this.$http.get(api.setKeepPoint, {keepPoint: this.p}).then(({data}) => {
+        this.$http.get(api.setKeepPoint, {
+          keepPoint: (this.data[0].backwater - this.data[0].$).toFixed(1),
+          pointArr: JSON.stringify({
+            myBack: this.data.slice(1).map(x => {
+              return {
+                groupid: x.groupid,
+                groupname: x.groupname,
+                backwater: x.$ / 1000
+              }
+            })
+          })
+        }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.$message.success(data.msg || '保留返点设置成功！')
@@ -167,8 +160,6 @@
           this.$message.error('保留返点设置失败！')
         })
       }
-      // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=setKeepPoint&keepPoint=0.1
-
     }
   }
 </script>
@@ -205,4 +196,11 @@
       margin 0
       line-height .25rem
       vertical-align top
+  
+  .hlh_40
+    line-height .4rem
+  ul
+    list-style none
+  .c_03
+    color #033333
 </style>

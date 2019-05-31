@@ -48,11 +48,17 @@ window.Number.prototype._padStart = window.String.prototype._padStart = function
   if (s.length > l) s = s.slice(s.length - l)
   return s
 }
+//日 前后
 window.Date.prototype._bf = function (d) {
   return this._setD(this.getDate() + d)
 }
+//月 前后
 window.Date.prototype._bfM = function (d) {
   return new window.Date(new window.Date(this).setMonth(this.getMonth() + d))
+}
+
+window.Date.prototype._bfY = function (d) {
+  return new window.Date(new window.Date(this).setFullYear(this.getFullYear() + d))
 }
 window.Date.prototype._setD = function (d) {
   return new window.Date(new window.Date(this).setDate(d))
@@ -88,4 +94,28 @@ let week = ['日', '一', '二', '三', '四', '五', '六']
 let prefix = '星期'
 window.Date.prototype._toWeek = function () {
   return prefix + week[this.getDay()]
+}
+
+// 今天/明天/昨天/后天
+window.Date.prototype._toDayStringCN = function () {
+  let x = this._toDayString()
+  let t = new Date(window.lstt)
+  if (x === t._toDayString()) {
+    return '今天'
+  } else if (x === t._bf(-1)._toDayString()) {
+    return '昨天'
+  } else if (x === t._bf(-2)._toDayString()) {
+    return '前天'
+  } else {
+    return x
+  }
+}
+
+window.Date.prototype._toDayGapString = function (t1 = '前') {
+  let t = (new Date(window.lstt).getTime() - this.getTime()) / 1000
+  if (t > 3600 * 24) {
+    return Math.floor((t / (3600 * 24) )) + '天' + t1
+  } else {
+    return ''
+  }
 }

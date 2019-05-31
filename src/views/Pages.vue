@@ -128,6 +128,7 @@ import salary from './salary'
 import lotteryStock from './lotteryStock'
 import otherStock from './otherStock'
 import subCashRecord from './subCashRecord'
+import subProfitLoss from './agent/SubProfitLoss'
 
 export default {
   components: {
@@ -148,6 +149,8 @@ export default {
     lotteryStock,
     otherStock,
     subCashRecord,
+    subProfitLoss,
+
     // new
     ToolBar,
     // game

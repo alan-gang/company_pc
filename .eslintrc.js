@@ -12,6 +12,13 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
+    "camelcase": 0,// 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号，
+    "accessor-pairs": 0, // 指定数组的元素之间要以空格隔开(,后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
+    "spaced-comment": 0,//注释风格不要有空格什么的
+    "no-unused-vars": 0,//不能有声明后未被使用的变量或参数
+    'space-before-function-paren': 0,//函数定义时括号前面要不要有空格
+    'quotes': 0,//引号类型 `` "" ''
+    'semi': 0,//语句强制分号结尾
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await

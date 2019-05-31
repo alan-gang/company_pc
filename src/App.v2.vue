@@ -488,7 +488,8 @@ export default {
                   id: '2-3-1',
                   menuid: '57',
                   title: '团队报表',
-                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['彩票', '三方', '棋牌', '微游'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -496,18 +497,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级帐变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -530,7 +540,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -538,7 +548,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
@@ -546,7 +556,7 @@ export default {
                   id: '2-3-8',
                   menuid: '44',
                   title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -683,18 +693,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级帐变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -717,7 +736,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -725,7 +744,7 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
@@ -733,7 +752,7 @@ export default {
                   id: '2-3-8',
                   menuid: '44',
                   title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }

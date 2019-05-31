@@ -1,0 +1,463 @@
+<template lang="jade">
+.my-report-record
+  slot(name="cover")
+  slot(name="movebar")
+  slot(name="resize-x")
+  slot(name="resize-y")
+  slot(name="toolbar")
+  .scroll-content
+    .search-bar.pl20
+        span.date-wp
+          SearchConditions(@choiced="choicedSearchCondition")
+        
+        label.item.ml10 查询范围 
+          el-select(clearable v-model="range" style="width: 1.2rem" popper-class="search-range-slt")
+            el-option(v-for="(o, i) in searchRange" v-bind:label="o" v-bind:value="i")
+
+        label.item.ml10 用户&nbsp;
+          //- input.ds-input.small(v-model="subUserName" style="width: 1rem")
+          el-autocomplete(
+            class="inline-input uname-ipt"
+            v-model="subUserName"
+            v-bind:fetch-suggestions="querySearchName"
+            placeholder="请输入用户名"
+            v-bind:maxlength="12"
+            v-bind:clearable="true"
+            v-on:select="handleSelectName"
+          )
+
+        .ds-button.primary.large.bold.ml10(@click="search()") 搜索
+
+    template(v-if=" I === 0 ")
+      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
+        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+        //- el-table-column(prop="userName" label="用户名" class-name="pl2")
+        //- el-table-column(prop="buy" label="投注" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+        //- el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+        //- el-table-column(prop="totalProfit" label="总盈亏" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
+        //- el-table-column(prop="subType" label="下级类型" )
+        el-table-column(label="操作")
+          template(slot-scope="scope")
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '总计'") 明细
+
+      el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal")  
+        el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+        el-table-column(label="操作")
+          template(slot-scope="scope")
+            el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '总计'") 返回上级
+            el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
+
+      p 温馨提示：仅保留最近7天的数据
+
+    template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
+        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+        el-table-column(label="操作" )
+          template(slot-scope="scope")
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '总计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '总计'") 每日明细
+      p 温馨提示：仅保留最近7天的数据
+    el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
+    
+    el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
+      .higher-level-breaks
+        el-breadcrumb(separator-class="el-icon-arrow-right" separator=">")
+          el-breadcrumb-item(v-for="(info, i) in higherLevelUserBreads") {{info.userName}}
+        .ds-button.primary.large.bold.ml10(@click="isShowHigherLevelDialog = false") 确定
+    
+    el-dialog(custom-class="daily-profit-dialog" v-bind:visible.sync="isShowDailyProfitDialog" center v-bind:modal="false" )
+      span(slot="title") 每日明细
+      .daily-profit-dialog-ctx
+        .info-header 每日明细-{{curSubUserName}}(个人)
+        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="dailyReportSortChange") 
+          el-table-column(prop="date" label="日期" class-name="pl2" )
+            template(scope="scope")
+              span {{scope.row.date}}
+
+          el-table-column(prop="buy" label="投注" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+
+          el-table-column(prop="prize" label="中奖" v-if="I === 1" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
+
+          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+
+          el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
+
+          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
+
+          el-table-column(prop="reward" label="活动" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "reward", scope.row)}}
+
+          el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
+</template>
+
+<script>
+import api from 'src/http/api'
+import { dateFormat, dateTimeFormat } from '../../util/Date'
+import SearchConditions from 'components/SearchConditions'
+import store from '../../store'
+import { numberWithCommas } from '../../util/Number'
+import { listOrderByField } from '../../util'
+export default {
+  components: {
+    SearchConditions
+  },
+  name: 'my-game-record',
+  props: ['menus'],
+  data () {
+    return {
+      me: store.state.user,
+      // userId: '',
+      I: 0,
+      stEt: [new Date(new Date().getTime() - 3600 * 1000 * 24 * 7), new Date(new Date().getTime())],
+      pageSize: 20,
+      curPage: 1,
+      totalSize: 0,
+      showThirdGameDetal: false, // 是否盈亏总表 -明细-第三方游戏表格
+      range: 0,
+      searchRange: ['所有下级', '直接下级', '间接下级'],
+      profitAndLossSummaryTableColumn: [
+        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'buy', name: '投注', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
+        { prop: 'subType', name: '下级类型', sortable: false }
+      ],
+      thirdGamesColumn: {
+        userName: '类型',
+        buy: '投注',
+        gameProfit: '游戏盈亏',
+        totalProfit: '总盈亏'
+      },
+      otherCommonTableColumn: [
+        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'buy', name: '投注', sortable: 'custom' },
+        { prop: 'prize', name: '中奖', sortable: 'custom' },
+        { prop: 'point', name: '返点', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'reward', name: '活动', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
+        { prop: 'subType', name: '下级类型' }
+      ],
+
+      profitAndLossSummaryData: [],
+      thirdGamesDetailData: [],
+      otherCommonReportData: [],
+      otherCommonReportSummaryCoummonData: [],
+      dailyReportData: [],
+
+      startDate: '',
+      endDate: '',
+      subUserName: '',
+      gameTypeMap: {
+        tab0: -1,
+        tab1: 0,
+        tab2: 6,
+        tab3: 3,
+        tab4: 2,
+        tab5: 1,
+        tab6: 5,
+        tab7: 4,
+        tab8: 7
+      },
+      curGameType: -1,
+
+      names: [],
+      higherLevelUserBreads: [],
+      isShowHigherLevelDialog: false,
+      isShowDailyProfitDialog: false,
+
+      amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
+
+      subUserId: '',
+      curSubUserName: ''
+
+    }
+  },
+  computed: {
+    userId () {
+      return this.me.userId
+    }
+  },
+  mounted () {
+    this.curGameType = this.gameTypeMap['tab' + this.I]
+    this.getPersonalReport()
+  },
+  methods: {
+    __setReportI (i) {
+      this.I = i
+      this.curGameType = this.gameTypeMap['tab' + this.I]
+      this.getPersonalReport()
+    },
+    tableCellDataFormat (columns, prop, row) {
+      return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
+    /**
+     * 盈亏汇总数据
+     */
+    getPersonalReport (params = {}, source) {
+      let loading = this.$loading({
+        text: '盈亏报表加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      let p = {
+        gameType: this.curGameType,
+        userId: this.userId,
+        page: this.curPage,
+        pageSize: this.pageSize,
+        scope: this.range === '' ? 0 : this.range,
+        beginDate: dateTimeFormat(this.stEt[0]).split(' ')[0],
+        endDate: dateTimeFormat(this.stEt[1]).split(' ')[0]
+      }
+      if (this.subUserName) {
+        p.username = this.subUserName
+        delete p.userId
+      }
+      Object.assign(p, params)
+      this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
+        if (success === 1) {
+          if (items.length > 0) {
+            items[items.length - 1].date = '总计'
+            items[items.length - 1].userName = '总计'
+            items = items.map((item, i) => {
+              if (i < items.length - 1) item.subType = this.searchRange[this.range]
+              return item
+            })
+            if (this.I === 0) {
+              this.profitAndLossSummaryData = items // items.slice(items.length - 1)
+            } else {
+              this.otherCommonReportData = items
+              this.totalSize = totalSize
+            }
+            this.setNameHistory(p.username)
+          } else {
+            this.profitAndLossSummaryData = []
+            this.otherCommonReportData = []
+            this.totalSize = 0
+            if (source === 'search' && this.subUserName) {
+              this.$message.error({target: this.$el, message: '该下级不存在'})
+            }
+          }
+        }
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
+    /**
+     * 逐日报表
+     */
+    getDailyPersonalProfit (params = {}, from) {
+      let loading = this.$loading({
+        text: '盈亏报表加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      let p = {
+        // scope: 0,
+        userId: this.subUserId,
+        pageSize: this.pageSize,
+        gameType: this.curGameType,
+        beginDate: dateFormat((window.newDate(this.stEt[0])).getTime()),
+        endDate: dateFormat((window.newDate(this.stEt[1])).getTime())
+      }
+      Object.assign(p, params)
+      this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
+        this.dailyReportData = []
+        if (success === 1 && items.length > 0) {
+          items[items.length - 1].date = '合计'
+          if (this.showThirdGameDetal && this.curGameType === -1) {
+            this.thirdGamesDetailData = items
+          } else {
+            this.dailyReportData = items
+          }
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else {
+          loading.text = '加载失败!'
+        }
+      }, (rep) => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
+    getUserBread (userId) {
+      let loading = this.$loading({
+        text: '加载中...',
+        target: this.$el
+      }, 10000, '加载超时...')
+      this.$http.get(api.getUserBread, {userId}).then(({data: {userBreads, success}}) => {
+        if (success === 1) {
+          // let msg = ``
+          this.higherLevelUserBreads = userBreads
+          this.isShowHigherLevelDialog = true
+          // this.$modal.confirm({
+          //   title: '',
+          //   boxStyle: {
+          //     width: '580px'
+          //   },
+          //   content: '<pre class="text-666" style="text-align: left;">' + userBreads + '</pre>',
+          //   btn: ['知道了'],
+          //   ok () {
+          //   },
+          //   close () {
+          //   },
+          //   O: this
+          // })
+          setTimeout(() => {
+            loading.text = '加载成功!'
+          }, 100)
+        } else {
+          loading.text = '加载失败!'
+        }
+      }, (rep) => {
+      }).finally(() => {
+        setTimeout(() => {
+          loading.close()
+        }, 100)
+      })
+    },
+    choicedSearchCondition (i, dates) {
+      this.stEt = [dates.startDate, dates.endDate]
+    },
+    search () {
+      this.getPersonalReport({}, 'search')
+      if (this.I === 0) {
+        this.showThirdGameDetal = false
+      }
+    },
+    pageChanged (p) {
+      this.curPage = p
+      this.getPersonalReport()
+    },
+    querySearchName (name, cb) {
+      let rs = name ? this.names.filter((n) => {
+        return n.value.indexOf(name) === 0
+      }) : this.names
+      cb(rs)
+    },
+    handleSelectName (item) {
+      console.log(item)
+    },
+    setNameHistory (name) {
+      if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      this.names.push({value: name, address: name})
+      if (this.names.length > 3) this.names.shift()
+    },
+    viewHighterLevel (row) {
+      console.log('row=', row)
+      this.getUserBread(row.userId)
+    },
+    viewDetail (row) {
+      this.subUserId = row.userId
+      this.curGameType = -1
+      this.showThirdGameDetal = true
+      this.curSubUserName = row.userName
+      this.getDailyPersonalProfit()
+    },
+    viewThirdGameDailyProfitDetail (row) {
+      this.subUserId = row.userId
+      this.curGameType = row.gameType
+      this.getDailyPersonalProfit()
+      this.isShowDailyProfitDialog = true
+    },
+    viewDailyProfitDetail (row) {
+      this.subUserId = row.userId
+      this.curSubUserName = row.userName
+      this.getDailyPersonalProfit()
+      this.isShowDailyProfitDialog = true
+    },
+    sortChange (column) {
+      if (!column) return
+      this.getPersonalReport({
+        orderBy: column.prop,
+        ascOrDesc: {ascending: 2, descending: 1}[column.order]
+      })
+    },
+    dailyReportSortChange (column) {
+      if (!column) return
+      let summaryRow = this.dailyReportData.pop()
+      this.dailyReportData = this.listOrderByField(this.dailyReportData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
+      this.dailyReportData.push(summaryRow)
+    },
+    listOrderByField,
+    numberWithCommas
+  }
+}
+</script>
+
+<style lang="stylus">
+.my-report-record
+  .fc-o
+    color #f37e0c
+  .scroll-content
+    padding: 0 0.2rem;
+  .search-bar
+    line-height 0.7rem
+  .tb-cell
+    text-indent 0.2rem;
+  .date-wp
+    display inline-block
+  .uname-ipt
+    width 1.3rem
+  .higher-level-breaks
+    text-align center
+    background #fff
+    padding 0.5rem 0.2rem
+    .el-breadcrumb
+      margin-bottom 0.2rem
+      text-align center
+    .el-breadcrumb__item
+      float none
+  .higher-level-breaks-dialog
+    width 4.5rem
+    .el-dialog__header
+      background #fff
+
+  .daily-profit-dialog
+    background #fff
+    .daily-profit-dialog-ctx
+      padding 0.2rem
+    .info-header
+      background-color #2d86ea
+      color #fff
+      line-height 0.36rem
+      text-align center
+</style>
+<style lang="stylus">
+.search-range-slt
+  &.el-select-dropdown
+    background-color #fff
+    .el-select-dropdown__item.selected, 
+    .el-select-dropdown__item.hover
+      color #48576a
+      background-color #e4e8f1
+    .el-select-dropdown__item
+      color #48576a
+</style>

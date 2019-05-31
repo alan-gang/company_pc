@@ -103,11 +103,9 @@
               el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="9")
-                游戏用户：
+              el-col(:span="9") 游戏用户：
                 span.text-black {{ row.nickName }}
-              el-col(:span="5")
-                游戏：
+              el-col(:span="5") 游戏：
                 span.text-black {{ row.lotteryName }}
 
               el-col(:span="5")
@@ -118,39 +116,30 @@
                   span 开奖号码：
                     span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
-              el-col(:span="5")
-                总金额：
+              el-col(:span="5") 总金额：
                 span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="9")
-                注单编号：
+              el-col(:span="9") 注单编号：
                 span.text-black {{ row.projectId }}
-              el-col(:span="5")
-                玩法：
+              el-col(:span="5") 玩法：
                 span.text-black {{ row.methodName }}
-              el-col(:span="5")
-                注单状态：
+              el-col(:span="5") 注单状态：
                 span.text-black {{ STATUS[row.stat] }}
 
-              el-col(:span="5")
-                倍数模式：
+              el-col(:span="5") 倍数模式：
                 span.text-black {{ row.multiple }}
 
             
             el-row
-              el-col(:span="9")
-                投单时间：
+              el-col(:span="9") 投单时间：
                 span.text-black {{ row.writeTime }}
-              el-col(:span="5")
-                奖期：
+              el-col(:span="5") 奖期：
                 span.text-black {{ row.issue }}
-              el-col(:span="5")
-                注单奖金：
+              el-col(:span="5") 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              el-col(:span="5")
-                动态奖金返点：
+              el-col(:span="5") 动态奖金返点：
                 span.text-black {{ row.userPoint }}
 
             p.textarea-label

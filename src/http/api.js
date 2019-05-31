@@ -425,13 +425,16 @@ let Me = {
   addPayError: '/person/recharge.do?method=addPayError',
   // 查询催到账记录
   // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
-  queryPayError: '/person/recharge.do?method=queryPayError'
+  queryPayError: '/person/recharge.do?method=queryPayError',
+  // 查询用户上级
+  getUserBread: '/report/profit.do?method=getUserBread'
 }
 
 let Group = {
   getSysContractRange: '/team/contractBonus.do?method=getSysContractRange',
   setSalary: '/team/setDaySalary.do?method=setSalary',
   subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
+  mySubSalaryList: '/team/setDaySalary.do?method=mySubSalaryList',
   // 团队余额
   // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
   getTeamBalance: '/team/useList.do?method=getTeamBalance',
@@ -445,6 +448,8 @@ let Group = {
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
+  getUserAll: '/team/useList.do?method=getUserAll',
+  getUserSubCopy: '/team/useList.do?method=getUserSubCopy',
   // 代充
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=recharge&destId=5&amount=100.5
   recharge: '/team/useList.do?method=recharge',
@@ -502,6 +507,12 @@ let Group = {
   // 查询我的奖金
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=myBonus&startDate=20170101200000&endDate=20170115200000
   myBonus: '/team/contractBonus.do?method=myBonus',
+  // 我的彩票佣金分红
+  myBonusMobile: '/team/contractBonus.do?method=myBonusMobile',
+  // 预期分红与预期佣金分红
+  mySubExpectedBounsMobile: '/team/contractBonus.do?method=mySubExpectedBounsMobile',
+  // 契约彩票，佣金
+  mySubContractMobile: '/team/contractBonus.do?method=mySubContractMobile',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonus&startDate=20170310&endDate=20170316&issue=20170315
   topBonus: '/team/topBonus.do?method=topBonus',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonuDetail&issue=20170315
@@ -620,8 +631,11 @@ let Form = {
 //   下级确认佣金（如果是平台外发放）
 // issue:佣金期号 如：2018-07-01
 // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
-  subCheckComm: '/team/contractBonus.do?method=subCheckComm'
-
+  subCheckComm: '/team/contractBonus.do?method=subCheckComm',
+  // 下级个人赢亏
+  subPersonalProfit: '/report/personalProfit.do?method=total',
+  // 用户层级
+  subBread: '/report/personalProfit.do?method=subBread'
 }
 
 let Help = {

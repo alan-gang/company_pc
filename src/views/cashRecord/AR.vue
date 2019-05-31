@@ -32,13 +32,24 @@
           el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
-        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
-          SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
-          span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
-            span.mr5 彩种&nbsp;
-            span.flex.flex-ai-c.lottery-choice
-              i {{curLotteryName}}
-              i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
+        label.item(v-if="!noname") 用户 
+          el-autocomplete(
+            class="inline-input uname-ipt"
+            v-model="name"
+            v-bind:fetch-suggestions="querySearchName"
+            placeholder="请输入用户名"
+            v-bind:maxlength="12"
+            v-bind:clearable="true"
+          )
+          
+        span.item
+          el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+            SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+            span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
+              span.mr5 彩种&nbsp;
+              span.flex.flex-ai-c.lottery-choice
+                i {{curLotteryName}}
+                i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
         
         span.date-buts
           SearchConditions(v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition")
@@ -101,11 +112,11 @@
 
           el-table-column(prop="balance" label="主账户余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.balance) }}
+              span {{ numberWithCommas(scope.row.balance) }}
           
           el-table-column(prop="speBalance"  label="特殊余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.speBalance) }}
+              span {{ numberWithCommas(scope.row.speBalance) }}
 
           //- el-table-column(prop="isFree"  label="优惠券"  align="right")
             template(scope="scope")
@@ -205,16 +216,8 @@
         curLotteryName: '全部',
 
         searchConditions: ['今天', '昨天', '前天'],
-        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
-        dateMappingConfig: {
-          d0: [0, 0],
-          d1: [1, 1],
-          d2: [2, 2],
-          d3: [3, 3],
-          d4: [4, 4],
-          d5: [5, 5],
-          d6: [6, 6]
-        },
+        dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] },
+        names: [],
         showOrderTypePopover: false
       }
     },
@@ -273,6 +276,7 @@
         this.ISFREE.splice(2)
       }
       this.initQueryConditionDate()
+      this.getGameHistory()
     },
     methods: {
       __setCRI (i) {
@@ -307,54 +311,54 @@
       detectDate (v) {
         // console.log(v)
       },
-      myTopup () {
-        this.clear()
-        this.zone = 0
-        this.type = [1]
-        this.list()
-      },
-      myWithdraw () {
-        this.clear()
-        this.zone = 0
-        this.type = [2, 3]
-        this.list()
-      },
-      myOrder () {
-        this.clear()
-        this.zone = 0
-        this.type = [7]
-        this.list()
-      },
-      myFollow () {
-        this.clear()
-        this.zone = 0
-        this.type = [9]
-        this.list()
-      },
-      myBonus () {
-        this.clear()
-        this.zone = 0
-        this.type = [12, 16]
-        this.list()
-      },
-      myPoint () {
-        this.clear()
-        this.zone = 0
-        this.type = [11, 15]
-        this.list()
-      },
-      mySalary () {
-        this.clear()
-        this.zone = 0
-        this.type = [37]
-        this.list()
-      },
-      myTransfer () {
-        this.clear()
-        this.zone = 0
-        this.type = [70]
-        this.list()
-      },
+      // myTopup () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [1]
+      //   this.list()
+      // },
+      // myWithdraw () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [2, 3]
+      //   this.list()
+      // },
+      // myOrder () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [7]
+      //   this.list()
+      // },
+      // myFollow () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [9]
+      //   this.list()
+      // },
+      // myBonus () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [12, 16]
+      //   this.list()
+      // },
+      // myPoint () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [11, 15]
+      //   this.list()
+      // },
+      // mySalary () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [37]
+      //   this.list()
+      // },
+      // myTransfer () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [70]
+      //   this.list()
+      // },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -426,7 +430,7 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
@@ -576,10 +580,42 @@
         this.lotteryHistory.push(lottery)
         if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
       },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
+      },
       findHistoryById (gameid) {
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      querySearchName (name, cb) {
+        let rs = name ? this.names.filter((n) => {
+          return n.value.indexOf(name) === 0
+        }) : this.names
+        cb(rs)
+      },
+      setNameHistory (name) {
+        if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+        this.names.push({value: name, address: name})
+        if (this.names.length > 3) this.names.shift()
       }
     }
   }
@@ -605,6 +641,24 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .user-list
+    .form
+      padding PWX
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
+      .search-condition-date
+        float none
+    .uname-ipt
+      width 1.3rem
+  .item
+    display inline-block
+    margin 0 PW 0 0
+
+</style>
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
   .form-filters
     .buttons
       display inline-block
@@ -617,6 +671,8 @@
     .el-select
       top 0
       vertical-align inherit
+    .item
+      display inline-block
   .types-sec
     &>span
       display inline-block
