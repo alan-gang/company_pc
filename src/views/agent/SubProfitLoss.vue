@@ -30,8 +30,18 @@
 
     template(v-if=" I === 0 ")
       el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal")  
-        el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-
+        //- el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+        el-table-column(prop="userName" label="用户名" class-name="pl2")
+        el-table-column(prop="buy" label="投注" sortable)
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+        el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+        el-table-column(prop="totalProfit" label="总盈亏" sortable)
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
+        el-table-column(prop="subType" label="下级类型" )
         el-table-column(label="操作")
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
@@ -47,8 +57,9 @@
       p 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table")  
-        el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" default-sort="{prop: 'buy', order: 'descending'}" v-bind:summary-method="getSummaries")  
+        //- el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
         el-table-column(label="操作" )
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '总计'") 查看上级
@@ -128,18 +139,6 @@ export default {
       showThirdGameDetal: false, // 是否盈亏总表 -明细-第三方游戏表格
       range: 0,
       searchRange: ['所有下级', '直接下级', '间接下级'],
-      // profitAndLossSummaryTableColumn: {
-      //   date: '时间',
-      //   chesettle: '棋牌盈亏',
-      //   egamesettle: '电游盈亏',
-      //   esptsettle: '电竞盈亏',
-      //   fishsettle: '扑鱼盈亏',
-      //   ltrsettle: '彩票盈亏',
-      //   othltrsettle: 'KG基诺彩盈亏',
-      //   sptsettle: '体育盈亏',
-      //   vidsettle: '真人盈亏',
-      //   litsettle: '微游盈亏'
-      // },
       profitAndLossSummaryTableColumn: {
         userName: '用户名',
         buy: '投注',
@@ -153,20 +152,21 @@ export default {
         gameProfit: '游戏盈亏',
         totalProfit: '总盈亏'
       },
-      otherCommonTableColumn: {
-        userName: '用户名',
-        buy: '投注',
-        prize: '中奖',
-        point: '返点',
-        gameProfit: '游戏盈亏',
-        reward: '活动',
-        totalProfit: '总盈亏',
-        subType: '下级类型'
-      },
+      otherCommonTableColumn: [
+        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'buy', name: '投注', sortable: true },
+        { prop: 'prize', name: '中奖', sortable: true },
+        { prop: 'point', name: '返点', sortable: true },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: true },
+        { prop: 'reward', name: '活动', sortable: true },
+        { prop: 'totalProfit', name: '总盈亏', sortable: true },
+        { prop: 'subType', name: '下级类型' }
+      ],
 
       profitAndLossSummaryData: [],
       thirdGamesDetailData: [],
       otherCommonReportData: [],
+      otherCommonReportSummaryCoummonData: [],
       dailyReportData: [],
 
       startDate: '',
@@ -252,6 +252,7 @@ export default {
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
+            this.otherCommonReportSummaryCoummonData.push(this.otherCommonReportData.pop())
             this.setNameHistory(p.username)
           } else {
             this.profitAndLossSummaryData = []
@@ -453,6 +454,17 @@ export default {
       this.curSubUserName = row.userName
       this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
+    },
+    getSummaries (param) {
+      const { columns, data } = param
+      let sums
+      if (this.otherCommonReportSummaryCoummonData.length > 0) {
+        let data = this.otherCommonReportSummaryCoummonData[0].values()
+        for (let i = 0; i < data.length; i++) {
+          sums.push(data[i])
+        }
+      }
+      return sums
     },
     numberWithCommas
   }

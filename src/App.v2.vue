@@ -506,16 +506,17 @@ export default {
                 {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级帐变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -701,16 +702,17 @@ export default {
                 {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级帐变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },

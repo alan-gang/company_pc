@@ -7,32 +7,7 @@
     slot(name="toolbar")
     .add-user.scroll-content
 
-      div
-
-        .notice(style="margin: .2rem")
-          span.title 例如：
-          p.content
-            | 您当前的
-            span.text-blue 直选返点
-            | 为 
-            span.text-danger {{ 0.8 }}%
-            |  并且您的
-            span.text-blue 不定位返点
-            | 为 
-            span.text-danger {{ 0.6 }}%
-            | ，而您在下面 “
-            span.text-blue 保留返点
-            | ” 处填写
-            span.text-danger {{ 0.5 }}
-            br
-            | 那么：您开设新帐户的
-            span.text-blue 直选返点
-            | 即为 
-            span.text-danger {{ 0.3 }}%
-            | ，不定位返点 
-            span.text-blue 不定位返点
-            | 为
-            span.text-danger {{ 0.1 }}%
+      .bgc-w
 
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
@@ -212,4 +187,5 @@
       margin 0
       line-height .25rem
       vertical-align top
+      
 </style>
