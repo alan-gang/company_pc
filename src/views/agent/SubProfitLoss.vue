@@ -29,19 +29,19 @@
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
 
     template(v-if=" I === 0 ")
-      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal")  
-        //- el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-        el-table-column(prop="userName" label="用户名" class-name="pl2")
-        el-table-column(prop="buy" label="投注" sortable)
-            template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
-        el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
-            template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
-        el-table-column(prop="totalProfit" label="总盈亏" sortable)
-            template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
-        el-table-column(prop="subType" label="下级类型" )
+      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
+        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+        //- el-table-column(prop="userName" label="用户名" class-name="pl2")
+        //- el-table-column(prop="buy" label="投注" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
+        //- el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+        //- el-table-column(prop="totalProfit" label="总盈亏" sortable)
+        //-     template(scope="scope")
+        //-       span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
+        //- el-table-column(prop="subType" label="下级类型" )
         el-table-column(label="操作")
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
@@ -57,8 +57,7 @@
       p 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" default-sort="{prop: 'buy', order: 'descending'}" v-bind:summary-method="getSummaries")  
-        //- el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
         el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
         el-table-column(label="操作" )
           template(slot-scope="scope")
@@ -77,40 +76,40 @@
       span(slot="title") 每日明细
       .daily-profit-dialog-ctx
         .info-header 每日明细-{{curSubUserName}}(个人)
-        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit") 
+        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="dailyReportSortChange") 
           el-table-column(prop="date" label="日期" class-name="pl2" )
             template(scope="scope")
               span {{scope.row.date}}
 
-          el-table-column(prop="buy" label="投注" )
+          el-table-column(prop="buy" label="投注" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
 
-          el-table-column(prop="prize" label="中奖" v-if="I === 1")
+          el-table-column(prop="prize" label="中奖" v-if="I === 1" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
 
-          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn")
+          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
 
-          el-table-column(prop="gameProfit" label="游戏盈亏" )
+          el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
 
-          el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" )
+          el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
 
-          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn")
+          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
 
-          el-table-column(prop="reward" label="活动")
+          el-table-column(prop="reward" label="活动" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "reward", scope.row)}}
 
-          el-table-column(prop="totalProfit" label="总盈亏" )
+          el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
 </template>
@@ -121,6 +120,7 @@ import { dateFormat, dateTimeFormat } from '../../util/Date'
 import SearchConditions from 'components/SearchConditions'
 import store from '../../store'
 import { numberWithCommas } from '../../util/Number'
+import { listOrderByField } from '../../util'
 export default {
   components: {
     SearchConditions
@@ -139,13 +139,13 @@ export default {
       showThirdGameDetal: false, // 是否盈亏总表 -明细-第三方游戏表格
       range: 0,
       searchRange: ['所有下级', '直接下级', '间接下级'],
-      profitAndLossSummaryTableColumn: {
-        userName: '用户名',
-        buy: '投注',
-        gameProfit: '游戏盈亏',
-        totalProfit: '总盈亏',
-        subType: '下级类型'
-      },
+      profitAndLossSummaryTableColumn: [
+        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'buy', name: '投注', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
+        { prop: 'subType', name: '下级类型', sortable: false }
+      ],
       thirdGamesColumn: {
         userName: '类型',
         buy: '投注',
@@ -154,12 +154,12 @@ export default {
       },
       otherCommonTableColumn: [
         { prop: 'userName', name: '用户名', sortable: false },
-        { prop: 'buy', name: '投注', sortable: true },
-        { prop: 'prize', name: '中奖', sortable: true },
-        { prop: 'point', name: '返点', sortable: true },
-        { prop: 'gameProfit', name: '游戏盈亏', sortable: true },
-        { prop: 'reward', name: '活动', sortable: true },
-        { prop: 'totalProfit', name: '总盈亏', sortable: true },
+        { prop: 'buy', name: '投注', sortable: 'custom' },
+        { prop: 'prize', name: '中奖', sortable: 'custom' },
+        { prop: 'point', name: '返点', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'reward', name: '活动', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
         { prop: 'subType', name: '下级类型' }
       ],
 
@@ -252,7 +252,6 @@ export default {
               this.otherCommonReportData = items
               this.totalSize = totalSize
             }
-            this.otherCommonReportSummaryCoummonData.push(this.otherCommonReportData.pop())
             this.setNameHistory(p.username)
           } else {
             this.profitAndLossSummaryData = []
@@ -308,70 +307,6 @@ export default {
         }, 100)
       })
     },
-
-    /**
-     * 彩票报表
-     */
-    getLotteryReportData (params = {}) {
-      let loading = this.$loading({
-        text: '盈亏报表加载中...',
-        target: this.$el
-      }, 10000, '加载超时...')
-      let p = {
-        userId: this.me.userId,
-        pageSize: this.pageSize,
-        startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-        endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
-      }
-      Object.assign(p, params)
-      this.$http.get(api.personList, p).then(({data: {allDate, success}}) => {
-        if (success === 1) {
-          this.personaLotteryData = allDate
-          setTimeout(() => {
-            loading.text = '加载成功!'
-          }, 100)
-        } else {
-          loading.text = '加载失败!'
-        }
-      }, (rep) => {
-      }).finally(() => {
-        setTimeout(() => {
-          loading.close()
-        }, 100)
-      })
-    },
-    /**
-     * 第三方游戏（体育，真人....）报表
-     */
-    getOtherReportData (params = {}) {
-      let loading = this.$loading({
-        text: '盈亏报表加载中...',
-        target: this.$el
-      }, 10000, '加载超时...')
-      let p = {
-        scope: 0,
-        pageSize: this.pageSize,
-        gameType: this.curGameType,
-        startDay: dateFormat((window.newDate(this.stEt[0])).getTime()).replace(/[-]/g, ''),
-        endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
-      }
-      Object.assign(p, params)
-      this.$http.get(api.outerReport, p).then(({data: {items, success}}) => {
-        if (success === 1) {
-          this.otherCommonReportData = items
-          setTimeout(() => {
-            loading.text = '加载成功!'
-          }, 100)
-        } else {
-          loading.text = '加载失败!'
-        }
-      }, (rep) => {
-      }).finally(() => {
-        setTimeout(() => {
-          loading.close()
-        }, 100)
-      })
-    },
     getUserBread (userId) {
       let loading = this.$loading({
         text: '加载中...',
@@ -413,6 +348,9 @@ export default {
     },
     search () {
       this.getPersonalReport({}, 'search')
+      if (this.I === 0) {
+        this.showThirdGameDetal = false
+      }
     },
     pageChanged (p) {
       this.curPage = p
@@ -455,17 +393,20 @@ export default {
       this.getDailyPersonalProfit()
       this.isShowDailyProfitDialog = true
     },
-    getSummaries (param) {
-      const { columns, data } = param
-      let sums
-      if (this.otherCommonReportSummaryCoummonData.length > 0) {
-        let data = this.otherCommonReportSummaryCoummonData[0].values()
-        for (let i = 0; i < data.length; i++) {
-          sums.push(data[i])
-        }
-      }
-      return sums
+    sortChange (column) {
+      if (!column) return
+      this.getPersonalReport({
+        orderBy: column.prop,
+        ascOrDesc: {ascending: 2, descending: 1}[column.order]
+      })
     },
+    dailyReportSortChange (column) {
+      if (!column) return
+      let summaryRow = this.dailyReportData.pop()
+      this.dailyReportData = this.listOrderByField(this.dailyReportData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
+      this.dailyReportData.push(summaryRow)
+    },
+    listOrderByField,
     numberWithCommas
   }
 }

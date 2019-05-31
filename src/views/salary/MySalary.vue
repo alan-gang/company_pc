@@ -9,7 +9,7 @@
       .form.form-filters
 
           label.item 时间 
-            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime" v-on:change="dateChange")
           
           span.date-wp 
             SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
@@ -28,16 +28,16 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
-        el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH ")
+        el-table.header-bold.nopadding(:data="myWageData" stripe ref="table" v-bind:max-height=" MH " v-on:sort-change="sortChange")
 
           el-table-column(class-name="pl2" prop="date" label="日期" )
-          el-table-column(prop="totBuyAmount" label="团队销量"  align="right")
-          el-table-column(prop="buyAmount" label="有效销量"  align="right")
-          el-table-column(prop="activitUser" label="有效人数"  align="right")
+          el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
+          el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
+          el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
           el-table-column(prop="salaryLevel" label="工资级别"  align="right")
-          el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right")
-          el-table-column(prop="subSalary" label="下级工资总额"  align="right")
-          el-table-column(class-name="pr2" prop="daySalary" label="我的工资"  align="right")
+          el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right" sortable="custom")
+          el-table-column(prop="subSalary" label="下级工资总额"  align="right" sortable="custom")
+          el-table-column(class-name="pr2" prop="daySalary" label="我的工资"  align="right" sortable="custom")
             template(scope="scope")
               span(:class=" { 'text-green': scope.row.daySalary && scope.row.daySalary._o0() } ") {{ scope.row.daySalary && scope.row.daySalary._o0() ? '+' : ''}} {{ scope.row.daySalary }}
           el-table-column(class-name="pl2 pr2" prop="isDone" label="状态")
@@ -69,6 +69,7 @@
   import setTableMaxHeight from 'components/setTableMaxHeight'
   import api from '../../http/api'
   import store from '../../store'
+  import { listOrderByField } from '../../util'
   import { MMath } from '../../util/Number'
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
@@ -98,13 +99,32 @@
         searchConditions: ['昨天', '前天', '最近7天'],
         dateMappingConfig: { d0: [1, 1], d1: [2, 2], d2: [6, 0] },
         quickStatusIdx: -1,
-        statusButtons: ['全部', '未领取', '已领取']
+        statusButtons: ['全部', '未领取', '已领取'],
+        myWageData: []
       }
     },
     mounted () {
       this.mylist()
     },
     methods: {
+      dateChange (d) {
+        let sdate = this.stEt[0]._toDayString().replace(/-/g, '')
+        let edate = this.stEt[1]._toDayString().replace(/-/g, '')
+        let diff = parseInt(edate, 10) - parseInt(sdate, 10)
+        this.defaultDateIdx = -1
+        if (parseInt(sdate, 10) >= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][0])._toDayString().replace(/-/g, '')) &&
+          parseInt(edate, 10) <= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][1])._toDayString().replace(/-/g, ''))) {
+          this.defaultDateIdx = 2
+        }
+        if (sdate === edate) {
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d0'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 0
+          }
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d1'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 1
+          }
+        }
+      },
       goToGift () {
         setTimeout(() => {
           this.$router.push('/activity/5-1-2')
@@ -141,7 +161,7 @@
               item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
               return item
             })
-            this.data = data
+            this.myWageData = data
             cb()
             setTimeout(() => {
               loading.text = '加载成功!'
@@ -161,7 +181,12 @@
       },
       choiceStatus (i) {
         this.quickStatusIdx = i
-      }
+      },
+      sortChange (column, row) {
+        if (!column) return
+        this.myWageData = this.listOrderByField(this.myWageData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
+      },
+      listOrderByField
     }
   }
 </script>
