@@ -11,7 +11,12 @@
         <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <label class="item">
             结算日&nbsp;
-            <el-button v-for="(v,i) in settlementSub" :key="i" size="small" @click="settlement=v">{{v}}</el-button>
+            <el-button
+              v-for="(v,i) in settlementSub"
+              :key="i"
+              size="small"
+              @click="settlement=v"
+            >{{v}}</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;
@@ -175,8 +180,7 @@ export default {
       groupId: 0
     };
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     //监听 当前结算日
     settlement() {
@@ -212,6 +216,10 @@ export default {
     //结算日 init
     settlementInit() {
       //结算日按钮组
+      //当前日期 = 1号  那么结算日期是 本月1号   结算开始日期是上月1号  结算结束日期是上月最后一天
+      //当前日期 = 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
+      //当前日期 >16号  那么结算日期是 下月1号   结算开始日期是本月1号  结算结束日期是本月当前日期
+
       let r = [
         new Date()
           ._bfM(0)
