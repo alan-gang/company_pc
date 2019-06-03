@@ -87,35 +87,45 @@
             >
               <el-table-column class-name="pl2" prop="userName" label="用户名">
                 <template scope="scope">
-                  <span>
+                  <span :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ">
                     {{ scope.row.userName }}
                     <template v-if="me.account==scope.row.userName">(我)</template>
                   </span>
                 </template>
               </el-table-column>
               <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
-                </template>
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
+                >{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
+              </template>
               </el-table-column>
               <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.profit) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
+                >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
+                >{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.rewards) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
+                >{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.platfee) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
+                >{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -126,7 +136,9 @@
                 class-name="pr2"
               >
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.settle) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
+                >{{ scope.row.settle && scope.row.settle._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">

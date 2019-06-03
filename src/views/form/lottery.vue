@@ -79,8 +79,9 @@
           >
             <el-table-column class-name="pl2" prop="userName" label="用户名">
               <template scope="scope">
-                <!-- :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } " -->
-                <span>
+                <span
+                  :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
+                >
                   {{ scope.row.userName }}
                   <template v-if="me.account==scope.row.userName">(我)</template>
                 </span>
@@ -94,27 +95,54 @@
             ></el-table-column>
             <el-table-column prop="betAmount" label="投注" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.betAmount && scope.row.betAmount._o0(), 'text-danger': scope.row.betAmount && scope.row.betAmount._l0() } "
+                >{{ scope.row.betAmount && scope.row.betAmount._nwc()}}</span>
+                <!-- <span>{{ numberWithCommas(scope.row.betAmount) }}</span> -->
               </template>
             </el-table-column>
             <el-table-column prop="prizeAmount" label="派奖" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.prizeAmount && scope.row.prizeAmount._o0(), 'text-danger': scope.row.prizeAmount && scope.row.prizeAmount._l0() } "
+                >{{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center"></el-table-column>
-            <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } "
+                >{{ scope.row.gameSettleAmount && scope.row.gameSettleAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.pointAmount && scope.row.pointAmount._o0(), 'text-danger': scope.row.pointAmount && scope.row.pointAmount._l0() } "
+                >{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="activityAmount" label="活动" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.activityAmount && scope.row.activityAmount._o0(), 'text-danger': scope.row.activityAmount && scope.row.activityAmount._l0() } "
+                >{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="salaryAmount" label="日工资" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
+                >{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } "
+                >{{ scope.row.settleAmount && scope.row.settleAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
                 <div
