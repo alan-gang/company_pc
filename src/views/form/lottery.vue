@@ -314,7 +314,6 @@ export default {
       let results = queryString
         ? list.filter(this.createFilter(queryString))
         : list;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
@@ -352,8 +351,14 @@ export default {
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     firstHalf() {
       let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
-      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
+      let MonthDays = new Date()
+        ._bfM(1)
+        ._setD(0)
+        .getDate(); //本月最后一天
+      let FirstMonthDays = new Date()
+        ._bfM(0)
+        ._setD(0)
+        .getDate(); //上个月最后一天
       let r = {
         month: "",
         time: []
@@ -366,14 +371,14 @@ export default {
           .getMonth()}月下半月`;
         r.time.push(
           new Date()
-          ._setD(1)
+            ._setD(1)
             ._bfM(-1)
             ._setD(parseInt(FirstMonthDays / 2) + 1)
             ._toDayString()
         );
         r.time.push(
           new Date()
-          ._setD(1)
+            ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()
@@ -405,8 +410,14 @@ export default {
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     secondHalf() {
       let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
-      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
+      let MonthDays = new Date()
+        ._bfM(1)
+        ._setD(0)
+        .getDate(); //本月最后一天
+      let FirstMonthDays = new Date()
+        ._bfM(0)
+        ._setD(0)
+        .getDate(); //上个月最后一天
       let r = {
         month: "",
         time: []
@@ -444,7 +455,7 @@ export default {
         );
         r.time.push(
           new Date()
-          ._setD(1)
+            ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()
@@ -576,6 +587,15 @@ export default {
               }
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
+              if (
+                this.name &&
+                !data.userBreads.find(_ => _.userName === this.name)
+              ) {
+                this.$message.error({
+                  target: this.$el,
+                  message: "该下级不存在"
+                });
+              }
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -829,13 +849,15 @@ bg-active = #e2e2e2;
     padding: 0;
   }
 
-  .el-button:focus, .el-button:hover {
+  .el-button:focus,
+  .el-button:hover {
     border: solid 1px #f37e0c;
     color: #666;
   }
 
   .el-button.selected {
-    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%), linear-gradient(#f37e0c, #f37e0c);
+    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%),
+      linear-gradient(#f37e0c, #f37e0c);
     border: solid 1px #f37e0c;
   }
 }

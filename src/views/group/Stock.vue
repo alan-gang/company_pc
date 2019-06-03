@@ -339,7 +339,7 @@ export default {
           ]
         });
       }
-      console.log(JSON.stringify(r));
+      // console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
       this.settlementSub = r;
     },

@@ -363,7 +363,6 @@ export default {
       let results = queryString
         ? list.filter(this.createFilter(queryString))
         : list;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
@@ -475,6 +474,15 @@ export default {
               $store.set("SearchUserNameList", param);
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
+              if (
+                this.name &&
+                !data.userBreads.find(_ => _.userName === this.name)
+              ) {
+                this.$message.error({
+                  target: this.$el,
+                  message: "该下级不存在"
+                });
+              }
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
