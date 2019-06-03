@@ -1,3 +1,4 @@
+// 佣金契约
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -6,33 +7,15 @@
     <slot name="resize-y"></slot>
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
-      <div class="form" v-if="stepIndex === 0 ">
+      <div class="form">
         <div class="form-filters">
-          <div style="text-align: center; min-height: .2rem;">
-            <div class="ds-button-group" v-if="me.role >= 2" style="margin: 0;">
-              <div
-                class="ds-button x-small text-button"
-                :class=" { selected: type === 0 } "
-                @click=" type = 0 "
-              >我的佣金契约</div>
-              <div
-                class="ds-button x-small text-button"
-                :class=" { selected: type === 1 } "
-                @click=" type = 1 "
-              >下级佣金契约</div>
-            </div>
-          </div>
-          <label class="item" v-if="type === 1">
+          <label class="item">
             用户名&nbsp;
             <input class="ds-input small" v-model="name" style="width: 1rem;">
           </label>
-          <!-- label.item 时间-->
-          <!--   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")-->
           <label class="item">
             &nbsp;状态&nbsp;
-            <el-select clearable="clearable" v-model="s" placeholder="全" style="width: .8rem;">
-              <el-option v-for="S in STATUS.slice(0, 4)" v-bind:label="S.title" v-bind:value="S.id"></el-option>
-            </el-select>
+            <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
           </label>&nbsp;&nbsp;
           <div class="ds-button primary large bold" @click="contract">搜索</div>
         </div>
@@ -44,10 +27,33 @@
           v-bind:row-class-name="tableRowClassName"
           ref="table"
         >
-          <el-table-column class-name="pl2" prop="userName" label="用户名" v-if="type === 1"></el-table-column>
-          <el-table-column class-name="pl2" prop="beginTm" label="开始时间"></el-table-column>
-          <el-table-column class-name="pl2" prop="expireTm" label="截止时间"></el-table-column>
-          <el-table-column prop="status" label="状态">
+          <el-table-column class-name="pl2" prop="userName" label="用户名">
+            <template scope="scope">
+              <span>
+                {{ scope.row.userName }}
+                <template v-if="me.account==scope.row.userName">(队长)</template>
+              </span>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="registertime" label="注册时间">
+            <template scope="scope">
+              <span>{{new Date(scope.row.registertime)._toString()}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="subCount" label="团队人数"></el-table-column>
+          <el-table-column prop="beginTm" label="签约日期"></el-table-column>
+          <el-table-column prop="sendCycle" label="分红周期">
+            <template scope="scope">
+              <span>{{TIME[scope.row.sendCycle]}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="STYPE" label="发放方式">
+            <template scope="scope">
+              <span>{{STYPE[scope.row.sendType]}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="签约状态">
             <template scope="scope">
               <span
                 :class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} "
@@ -64,13 +70,13 @@
               >查看详情</div>
               <div
                 class="ds-button text-button blue"
-                v-if="  ruleCfg.length > 0 && type === 1 && scope.row.stat === '未签订' "
+                v-if="  ruleCfg.length > 0 && scope.row.stat === '未签订' "
                 style="padding: 0 .05rem;"
                 @click="++stepIndex && (user = scope.row)"
               >新建契约</div>
               <div
                 class="ds-button text-button blue"
-                v-if=" ruleCfg.length > 0 && type === 1 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')"
+                v-if=" ruleCfg.length > 0 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')"
                 style="padding: 0 .05rem;"
                 @click="++stepIndex && (user = scope.row)"
               >重新发起</div>
@@ -88,7 +94,22 @@
           v-on:current-change="pageChanged"
         ></el-pagination>
       </div>
-      <div v-if="stepIndex === 1 ">
+
+
+        <!-- 弹窗 -->
+    <div class="modal" v-if="stepIndex === 1">
+      <div class="mask"></div>
+      <div class="box-wrapper">
+        <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
+          <div class="tool-bar">
+            <span class="title">分红详情</span>
+            <el-button-group>
+              <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
+            </el-button-group>
+          </div>
+
+
+      <div>
         <div class="notice" style="margin-top: .2rem;">
           <span class="title">温馨提示：</span>
           <p class="content">
@@ -99,7 +120,9 @@
             <br>2.
             <span class="text-danger">[手动发放]</span>
             即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
-            <span class="text-danger">分红列表-分红详情</span>中进行点击确认发放
+            <span
+              class="text-danger"
+            >分红列表-分红详情</span>中进行点击确认发放
             <br>3.
             <span class="text-danger">[自动发放]</span>是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
             <span class="text-danger">手动执行</span>
@@ -111,13 +134,13 @@
             <span class="text-danger">500元</span>，为一个有效用户
           </p>
         </div>
-        <p class="title text-black">
+        <!-- <p class="title text-black">
           <span
             class="ds-button text-button blue"
             style="float: right;"
             @click="stepIndex--"
           >{{ '<返回上一页' }}</span>
-        </p>
+        </p> -->
         <div
           style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem;"
           v-bind:class="[ user.state ]"
@@ -223,6 +246,18 @@
           </div>
         </div>
       </div>
+
+
+
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+
     </div>
     <div class="modal" v-if="showDetail">
       <div class="mask"></div>
@@ -379,7 +414,8 @@ export default {
       stEt: ["", ""],
       stEtA: ["", ""],
       me: store.state.user,
-      time: ["月"],
+      STYPE: ["手动发放", "自动发放"],
+      time: ["月", "半月", "周"],
       sendCycle: [1],
       SV: "",
       type: 0,
@@ -390,7 +426,8 @@ export default {
         { id: 1, title: "已签订" },
         { id: 2, title: "未签订", reason: "已作废" },
         { id: 3, title: "已拒绝", reason: "已拒绝" },
-        { id: 4, title: "待确认", reason: "重新发起" }
+        { id: "", title: "全部" }
+        // {id: 4, title: '待确认', reason: '重新发起'}
       ],
       s: "",
       data: [],
@@ -499,7 +536,9 @@ export default {
       showDetail: false,
       I: 1,
       cType: 1,
-      ruleCfg: []
+      ruleCfg: [],
+      // 契约时间类型
+      TIME: ["", "月", "半月", "周"]
     };
   },
   computed: {
@@ -530,9 +569,9 @@ export default {
     }
   },
   watch: {
-    type() {
-      this.contract();
-    },
+    // type() {
+    //   this.contract();
+    // },
     hasRepeat() {
       this.hasRepeat &&
         this.$modal.warn({
@@ -601,12 +640,12 @@ export default {
     //     // error
     //   })
     // },
-    goContractDetail(id) {
-      this.$router.push({
-        path: "/group/3-3-4",
-        query: { id: id, self: !this.type }
-      });
-    },
+    // goContractDetail(id) {
+    //   this.$router.push({
+    //     path: "/group/3-3-4",
+    //     query: { id: id, self: !this.type }
+    //   });
+    // },
     contract(page, fn) {
       let loading = this.$loading(
         {
@@ -632,7 +671,7 @@ export default {
           status: this.s || "",
           page: 1,
           pageSize: this.pageSize,
-          userName: this.type === 1 ? this.name : "",
+          userName: this.name,
           cType: this.cType
         };
       } else {
@@ -641,7 +680,8 @@ export default {
 
       this.$http
         .get(
-          this.type === 0 ? api.queryMyContract : api.mySubContract,
+          // this.type === 0 ? api.queryMyContract : api.mySubContract,
+          api.mySubContractMobile,
           this.preOptions
         )
         .then(
@@ -657,8 +697,8 @@ export default {
               // })
               // this.cType = data.cType
               this.ruleCfg = data.ruleCfg || [];
-              this.data = data.contractList || data.mySubContract;
-              this.total = data.totalSize || this.data.length;
+              this.data = data.my.concat(data.mySubContract);
+              this.total = data.totalSize;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {

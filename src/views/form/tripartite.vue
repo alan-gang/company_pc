@@ -16,15 +16,15 @@
             <el-button
               @click="ClickMonth(0)"
               size="small"
-            >{{new Date()._bfM(0)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(0).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-1)"
               size="small"
-            >{{new Date()._bfM(-1)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-2)"
               size="small"
-            >{{new Date()._bfM(-2)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
           </label>
           <label class="item">
             排序
@@ -244,6 +244,7 @@
             </el-button-group>
           </div>
           <div class="table-list" style="padding: .15rem .2rem ;">
+            <div class="myinfo">明细-{{this.BL[this.BL.length - 2].userName}}(个人)</div>
             <el-table
               class="header-bold nopadding"
               :data="cdata"
@@ -355,6 +356,8 @@ export default {
       ot: "0",
       orderBy: "",
       ascOrDesc: 1,
+      InfoUsername: "",
+      CurUserId: "", //当前面包屑 userid
       profitmark: "list" // list:三方团队列表   info:三方团队明细
     };
   },
@@ -365,6 +368,10 @@ export default {
     },
     ot() {
       this.profitList();
+    },
+    //当前面包屑 userid
+    CurUserId() {
+      this.getBreadByUserId();
     }
   },
   computed: {
@@ -387,12 +394,13 @@ export default {
       let r = [];
       r.push(
         new Date()
-          ._bfM(multiple)
           ._setD(1)
+          ._bfM(multiple)
           ._toDayString()
       );
       r.push(
         new Date()
+          ._setD(1)
           ._bfM(multiple + 1)
           ._setD(0)
           ._toDayString()
@@ -468,17 +476,32 @@ export default {
     //   }
     // },
     ClickProfitInfo(row) {
+      this.CurUserId = row.userId;
       this.profitmark = "info";
       this.profitList(undefined, undefined, row.userId, row);
     },
     link(B, i) {
+      this.name = '';
+      this.CurUserId = B.userId;
       this.profitmark =
         !B.userId || B.userId === this.me.userId ? "list" : "info";
       this.profitList(undefined, undefined, B.userId);
     },
+    //用户层级
+    getBreadByUserId() {
+      this.$http
+        .get(api.subBread, { userId: this.CurUserId })
+        .then(({ data: { success, userBreads } }) => {
+          if (success === 1) {
+            if (userBreads.length > 0) {
+              this.BL = userBreads.concat([{}]);
+            }
+          }
+        });
+    },
     // 盈亏报表列表
     profitList(page, fn, id, row) {
-      // console.log(row);
+      //InfoUsername
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -533,22 +556,7 @@ export default {
               $store.set("SearchUserNameList", param);
               this.data = data.items;
               if (data.userBreads) this.BL = data.userBreads.concat([{}]);
-              if (this.profitmark === "info") {
-                let r = [
-                  {
-                    userId: this.me.userId,
-                    userName: this.me.userName
-                  }
-                ];
-                if (row && row.userId && row.userId !== this.me.userId) {
-                  r.push({
-                    userId: row.userId,
-                    userName: row.userName
-                  });
-                }
-                r.push({});
-                this.BL = r;
-              }
+
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -786,5 +794,15 @@ bg-active = #e2e2e2;
       }
     }
   }
+}
+</style>
+<style lang="less">
+.myinfo {
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  background: #2d86ea;
+  color: #fff;
+  font-weight: bold;
 }
 </style>

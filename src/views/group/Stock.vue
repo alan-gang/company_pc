@@ -11,7 +11,12 @@
         <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <label class="item">
             结算日&nbsp;
-            <el-button v-for="(v,i) in settlementSub" :key="i" size="small" @click="settlement=v">{{v}}</el-button>
+            <el-button
+              v-for="(v,i) in settlementSub"
+              :key="i"
+              size="small"
+              @click="settlement=v"
+            >{{v.label}}</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;
@@ -175,8 +180,7 @@ export default {
       groupId: 0
     };
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     //监听 当前结算日
     settlement() {
@@ -191,6 +195,7 @@ export default {
     }
   },
   mounted() {
+    this.settlementInit(); //结算日初始化
     this.bonus();
   },
   methods: {
@@ -212,26 +217,129 @@ export default {
     //结算日 init
     settlementInit() {
       //结算日按钮组
-      let r = [
-        new Date()
-          ._bfM(0)
-          ._setD(0)
-          ._toDayString(), //1个月前最后一天
-        new Date()
-          ._bfM(-1)
-          ._setD(0)
-          ._toDayString() //2个月前最后一天
-      ];
-      if (new Date().getDate() >= 16) {
-        r = [new Date()._setD(16)._toDayString()].concat(r); //本月16号
-      } else {
-        r.push(
-          new Date()
-            ._bfM(-2)
-            ._setD(0)
-            ._toDayString() //3个月前最后一天
-        );
+      let r = [];
+      //当前日期 = 1号  那么结算日期是 本月1号   结算开始日期是上月1号  结算结束日期是上月最后一天
+      if (new Date().getDate() === 1) {
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()
+            ._setD(16)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(15)
+              ._bfM(-1)
+              ._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()
+            ._setD(1)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-2)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
       }
+      //当前日期 = 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
+      if (new Date().getDate() === 16) {
+        r.push({
+          label: new Date()._setD(16)._toDayString(),
+          value: [
+            new Date()._setD(1)._toDayString(),
+            new Date()._setD(15)._toDayString()
+          ]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()
+            ._setD(16)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(15)
+              ._bfM(-1)
+              ._toDayString()
+          ]
+        });
+      }
+      //当前日期 >16号  那么结算日期是 下月1号   结算开始日期是本月1号  结算结束日期是本月当前日期
+      if (new Date().getDate() > 16) {
+        r.push({
+          label: new Date()
+            ._setD(1)
+            ._bfM(1)
+            ._toDayString(),
+          value: [new Date()._setD(1)._toDayString(), new Date()._toDayString()]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()._setD(16)._toDayString(),
+          value: [
+            new Date()._setD(1)._toDayString(),
+            new Date()._setD(15)._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+      }
+      // console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
       this.settlementSub = r;
     },
@@ -313,7 +421,6 @@ export default {
       this.bonus();
     },
     bonus(page, fn) {
-      this.settlementInit(); //结算日初始化
       let loading = this.$loading(
         {
           text: "分红加载中...",
@@ -325,8 +432,8 @@ export default {
 
       if (!fn) {
         this.preOptions = {
-          startDate: this.settlement, //当前结算日
-          endDate: this.settlement, //当前结算日
+          startDate: this.settlement.value[0], //当前结算日
+          endDate: this.settlement.value[1], //当前结算日
           status: this.s,
           page: 1,
           pageSize: this.pageSize,
@@ -336,7 +443,6 @@ export default {
       } else {
         this.preOptions.page = page;
       }
-
       this.$http
         .get(api.myBonusMobile, this.preOptions)
         .then(
