@@ -268,8 +268,8 @@ export default {
           ]
         });
       }
-      //当前日期 = 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
-      if (new Date().getDate() === 16) {
+      //当前日期 <= 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
+      if (new Date().getDate() <= 16) {
         r.push({
           label: new Date()._setD(16)._toDayString(),
           value: [
@@ -339,7 +339,7 @@ export default {
           ]
         });
       }
-      // console.log(JSON.stringify(r));
+      console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
       this.settlementSub = r;
     },
