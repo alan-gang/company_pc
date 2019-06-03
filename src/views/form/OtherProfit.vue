@@ -38,52 +38,53 @@
           v-bind:max-height=" MH "
           v-bind:row-class-name="tableRowClassName"
         >
-          <el-table-column align="center" prop="userName" label="结算日期">
-            <template scope="scope">
-              <span>{{'--'}}</span>
-            </template>
+          <el-table-column align="center" prop="issue" label="结算日期">
           </el-table-column>
           <el-table-column align="center" prop="sendCycle" label="佣金周期">
             <template scope="scope">
-              <span>{{ sendCycles[scope.row.sendCycle]||'--'}}</span>
+              <span>{{ ProfitPeriodCount(scope.row) }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="sptProfit" label="体育">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.sptProfit && scope.row.sptProfit._o0(), 'text-danger': scope.row.sptProfit && scope.row.sptProfit._l0() } "
-              >{{ scope.row.sptProfit &&scope.row.sptProfit._nwc()||'--' }}</span>
+              >{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="vidProfit" label="真人">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.vidProfit && scope.row.vidProfit._o0(), 'text-danger': scope.row.vidProfit && scope.row.vidProfit._l0() } "
-              >{{ scope.row.vidProfit &&scope.row.vidProfit._nwc()||'--' }}</span>
+              >{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="userName" label="老虎机">
-            <template scope="scope">
-              <span>{{'--'}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="egameProfit" label="电竞">
+          <el-table-column align="center" prop="egameProfit" label="老虎机">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.egameProfit && scope.row.egameProfit._o0(), 'text-danger': scope.row.egameProfit && scope.row.egameProfit._l0() } "
-              >{{ scope.row.egameProfit &&scope.row.egameProfit._nwc()||'--' }}</span>
+              >{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="esptProfit" label="电竞">
+            <template scope="scope">
+              <span
+                :class=" {'text-green': scope.row.esptProfit && scope.row.esptProfit._o0(), 'text-danger': scope.row.esptProfit && scope.row.esptProfit._l0() } "
+              >{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="fishProfit" label="捕鱼">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.fishProfit && scope.row.fishProfit._o0(), 'text-danger': scope.row.fishProfit && scope.row.fishProfit._l0() } "
-              >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc() ||'--'}}</span>
+              >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="userName" label="基诺彩">
+          <el-table-column align="center" prop="othltrProfit" label="基诺彩">
             <template scope="scope">
-              <span>{{'--'}}</span>
+              <span
+                :class=" {'text-green': scope.row.othltrProfit && scope.row.othltrProfit._o0(), 'text-danger': scope.row.othltrProfit && scope.row.othltrProfit._l0() } "
+              >{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="总盈亏">
@@ -321,6 +322,22 @@ export default {
     this.bonus();
   },
   methods: {
+    //分红周期计算
+    //月       [开始时间]<15 && [结束时间] > 16
+    //月上半月  [开始时间]<15 && [结束时间]<= 16
+    //月下半月  [开始时间]>15
+    //return '4月上半月'
+    ProfitPeriodCount({ startDate, endDate }) {
+      if (new Date(startDate).getDate() < 15) {
+        if (new Date(endDate).getDate() > 16) {
+          return `${new Date(startDate).getMonth() + 1}月`;
+        } else {
+          return `${new Date(endDate).getMonth() + 1}月上半月`;
+        }
+      } else {
+        return `${new Date(startDate).getMonth() + 1}月下半月`;
+      }
+    },
     getSummaries1(param) {
       const { columns } = param;
       const sums = [];

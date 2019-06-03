@@ -8,14 +8,14 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form form-filters">
-        <label class="item">
+        <label class="item my-el">
           <el-button @click="ClickToday" size="small">今天</el-button>
           <el-button @click="ClickYesterday" size="small">昨天</el-button>
           <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
           <el-button @click="ClickFirstHalf" size="small">{{firstHalfval}}</el-button>
           <el-button @click="ClickSecondHalf" size="small">{{secondHalfval}}</el-button>
         </label>
-        <label class="item">
+        <label class="item my-el">
           排序
           <el-button size="small" @click="ClickSort('betAmount')">
             投注
@@ -815,6 +815,28 @@ bg-active = #e2e2e2;
         }
       }
     }
+  }
+}
+</style>
+<style lang="less">
+.my-el {
+  display: flex;
+  align-items: center;
+
+  .el-button {
+    min-width: 0.8rem;
+    height: 0.3rem;
+    padding: 0;
+  }
+
+  .el-button:focus, .el-button:hover {
+    border: solid 1px #f37e0c;
+    color: #666;
+  }
+
+  .el-button.selected {
+    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%), linear-gradient(#f37e0c, #f37e0c);
+    border: solid 1px #f37e0c;
   }
 }
 </style>

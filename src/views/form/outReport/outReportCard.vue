@@ -335,12 +335,13 @@ export default {
       let r = [];
       r.push(
         new Date()
-          ._bfM(multiple)
           ._setD(1)
+          ._bfM(multiple)
           ._toDayString()
       );
       r.push(
         new Date()
+          ._setD(1)
           ._bfM(multiple + 1)
           ._setD(0)
           ._toDayString()
