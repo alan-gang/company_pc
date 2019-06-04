@@ -162,7 +162,7 @@
               class="header-bold nopadding"
               :data="data"
               style="margin: 0;"
-              ref="table"
+              ref="table2"
               stripe="stripe"
               v-bind:summary-method="getSummaries"
               v-bind:row-class-name="tableRowClassName"
@@ -394,12 +394,12 @@ export default {
   },
   watch: {
     //时间范围
-    stEt() {
-      this.profitList();
-    },
-    ot() {
-      this.profitList();
-    },
+    // stEt() {
+    //   this.profitList();
+    // },
+    // ot() {
+    //   this.profitList();
+    // },
     //当前面包屑 userid
     CurUserId() {
       this.getBreadByUserId();
@@ -541,6 +541,14 @@ export default {
         10000,
         "加载超时..."
       );
+      let loading2 = this.$loading(
+        {
+          text: "加载中...",
+          target: this.$refs["table2"].$el
+        },
+        10000,
+        "加载超时..."
+      );
       if (!fn) {
         this.preOptions = {
           gameType: this.profitmark === "list" ? 0 : 999,
@@ -602,8 +610,12 @@ export default {
               !fn && (this.currentPage = 1);
               setTimeout(() => {
                 loading.text = "加载成功!";
+                loading2.text = "加载成功!";
               }, 100);
-            } else loading.text = "加载失败!";
+            } else {
+              loading.text = "加载失败!";
+              loading2.text = "加载失败!";
+            }
           },
           rep => {
             // error
@@ -612,6 +624,7 @@ export default {
         .finally(() => {
           setTimeout(() => {
             loading.close();
+            loading2.close();
           }, 100);
         });
     },

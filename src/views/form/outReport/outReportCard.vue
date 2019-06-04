@@ -330,12 +330,12 @@ export default {
   },
   watch: {
     //时间范围
-    stEt() {
-      this.profitList();
-    },
-    ot() {
-      this.profitList();
-    },
+    // stEt() {
+    //   this.profitList();
+    // },
+    // ot() {
+    //   this.profitList();
+    // },
     gameType() {
       this.profitList();
     }
