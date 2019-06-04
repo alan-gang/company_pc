@@ -129,7 +129,13 @@
                 >{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="salaryAmount" label="日工资" sortable="custom" align="center">
+            <el-table-column
+              prop="salaryAmount"
+              label="日工资"
+              sortable="custom"
+              align="center"
+              v-if="me.showSalary"
+            >
               <template scope="scope">
                 <span
                   :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
@@ -229,17 +235,21 @@
               </el-table-column>
               <el-table-column
                 align="right"
-                prop="userPoint"
-                label="返点级别"
-                v-if="profitDetailROW && profitDetailROW.hasSub==0"
+                prop="pointAmount"
+                label="返点"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
               ></el-table-column>
-              <el-table-column align="right" prop="pointAmount" label="返点"></el-table-column>
               <el-table-column align="right" prop="activityAmount" label="活动">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="salaryAmount" label="日工资">
+              <el-table-column
+                align="right"
+                prop="salaryAmount"
+                label="日工资"
+                v-if="me.showSalary"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>
@@ -297,6 +307,7 @@ export default {
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
       profitDetailROW: null,
+      // IssalaryAmount: !1, //个人详情报表中  是否有日工资
       data: [],
       pageSize: 20,
       total: 0,
