@@ -10,10 +10,10 @@
             input( v-model="r.un" autofocus placeholder="用户名")
 
           dd.ab
-              input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password")
+              input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password" maxLength="20")
 
           dd.ac
-              input(v-model="r.pwda" type="password" placeholder="确认密码")
+              input(v-model="r.pwda" type="password" placeholder="确认密码" maxLength="20")
           dd.ad
               input(v-model="r.code" placeholder="推广码")
   
@@ -157,7 +157,9 @@ export default {
       if (!this.r.un) return this.$message.warning({target: this.$el, message: '请输入用户名'})
       if (!Validate.account(this.r.un)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
       if (!this.r.pwd) return this.$message.warning({target: this.$el, message: '请输入密码'})
+      if (!Validate.pwd(this.r.pwd)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
       if (this.r.pwd !== this.r.pwda) return this.$message.warning({target: this.$el, message: '两次密码输入不一致'})
+      if (!Validate.pwd(this.r.pwda)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
       if (!this.tag && !this.r.code) return this.$message.warning({target: this.$el, message: '请输入推广码'})
       if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码'})
       this.$http.post(api.autoRegist, {

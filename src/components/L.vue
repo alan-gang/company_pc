@@ -8,7 +8,7 @@
       input( v-model="l.un" autofocus placeholder="用户名" @change="getGreetingMsg")
 
     dd.ab
-        input(v-model="l.pwd" type="password" placeholder="密码" autocomplete="new-password")
+        input(v-model="l.pwd" type="password" placeholder="密码" autocomplete="new-password" maxLength="20")
 
     dd.ae
       input.aea( v-model="code_" @keyup.enter="login" placeholder="验证码")

@@ -17,7 +17,7 @@
       input( v-model="un_" @change="getGreetingMsg" autofocus)
 
     dd.ds-icon-pwd(v-bind:class="{disabled: disablePwd}")
-        input(v-model="pwd" v-bind:disabled="disablePwd" type="password" )
+        input(v-model="pwd" v-bind:disabled="disablePwd" type="password" maxLength="20")
 
     dd.ds-icon-edit(v-bind:class="{disabled: !pwd}")
       input( v-model="code_" @keyup.enter="login" v-bind:disabled="!pwd")
