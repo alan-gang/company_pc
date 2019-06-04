@@ -87,45 +87,47 @@
             >
               <el-table-column class-name="pl2" prop="userName" label="用户名">
                 <template scope="scope">
-                  <span :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ">
+                  <span
+                    :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
+                  >
                     {{ scope.row.userName }}
                     <template v-if="me.account==scope.row.userName">(我)</template>
                   </span>
                 </template>
               </el-table-column>
               <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
-              <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
-                >{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
-              </template>
+                <template scope="scope">
+                  <span
+                    :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
+                  >{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
+                </template>
               </el-table-column>
               <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
                 <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
-                >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
+                  <span
+                    :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
+                  >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
                 <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
-                >{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
+                  <span
+                    :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
+                  >{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
                 <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
-                >{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
+                  <span
+                    :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
+                  >{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
                 <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
-                >{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
+                  <span
+                    :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
+                  >{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -136,9 +138,9 @@
                 class-name="pr2"
               >
                 <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
-                >{{ scope.row.settle && scope.row.settle._nwc()}}</span>
+                  <span
+                    :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
+                  >{{ scope.row.settle && scope.row.settle._nwc()}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">
@@ -256,7 +258,14 @@
             </el-button-group>
           </div>
           <div class="table-list" style="padding: .15rem .2rem ;">
-            <div class="lotterymyinfo">明细-{{BL[BL.length - 2].userName}}(个人)</div>
+            <div
+              class="lotterymyinfo"
+              :class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'"
+            >
+              明细-{{profitDetailROW && profitDetailROW.userName}}(
+              {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              )
+            </div>
             <el-table
               class="header-bold nopadding"
               :data="cdata"
@@ -273,7 +282,7 @@
                     :class=" { 'text-danger': scope.row.userName === me.account } "
                   >{{ scope.row.userName }}</span>
                 </template>
-              </el-table-column> -->
+              </el-table-column>-->
               <el-table-column prop="date" label="日期"></el-table-column>
               <el-table-column align="right" prop="realBuy" label="销量">
                 <template scope="scope">
@@ -285,7 +294,12 @@
                   <span>{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
@@ -295,7 +309,12 @@
                   <span>{{ numberWithCommas(scope.row.rewards) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="platfee" label="平台费">
+              <el-table-column
+                align="right"
+                prop="platfee"
+                label="平台费"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.platfee) }}</span>
                 </template>
@@ -303,8 +322,7 @@
               <el-table-column align="right" prop="settle" label="总结算" class-name="pr2">
                 <template scope="scope">
                   <!-- :class=" {'text-green': !scope.row.settle.startsWith('-'), 'text-danger': scope.row.settle.startsWith('-') } " -->
-                  <span
-                  >{{ numberWithCommas(scope.row.settle) }}</span>
+                  <span>{{ numberWithCommas(scope.row.settle) }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -344,6 +362,7 @@ export default {
       clearableOnTime: false,
       // stEt: [new Date()._setD(1)._setHMS("0:0:0"),new Date()._setD(1)._setHMS("0:0:0")._bfM(1)._setS(-1)],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
+      profitDetailROW: null,
       data: [],
       pageSize: 20,
       total: 0,
@@ -487,6 +506,7 @@ export default {
     //   }
     // },
     ClickProfitInfo(row) {
+      this.profitDetailROW = row;
       this.CurUserId = row.userId;
       this.profitmark = "info";
       this.profitList(undefined, undefined, row.userId, row);
