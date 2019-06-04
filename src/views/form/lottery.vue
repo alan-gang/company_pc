@@ -244,12 +244,7 @@
                   <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="right"
-                prop="salaryAmount"
-                label="日工资"
-                v-if="me.showSalary"
-              >
+              <el-table-column align="right" prop="salaryAmount" label="日工资" v-if="me.showSalary">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>
@@ -342,16 +337,16 @@ export default {
   },
   watch: {
     //时间范围
-    stEt() {
-      this.profitList();
-    },
+    // stEt() {
+    //   this.profitList();
+    // },
+    // ot() {
+    //   this.profitList();
+    // },
     I() {
       if (this.I === 0) {
         setTimeout(this.profitList);
       }
-    },
-    ot() {
-      this.profitList();
     }
   },
   mounted() {
