@@ -22,7 +22,7 @@
       
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0" )
-          .ds-button.primary.large(@click="patchSetWage" v-bind:class="{'disabled': disableSetWage}") 设置日工资
+          //- .ds-button.primary.large(@click="patchSetWage" v-bind:class="{'disabled': disableSetWage}") 设置日工资
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
@@ -224,7 +224,7 @@
       padding .15rem
     .el-breadcrumb
       display inline-block
-      margin-left 0.2rem
+      // margin-left 0.2rem
     .item
       display inline-block
       margin 0 PW 0 0

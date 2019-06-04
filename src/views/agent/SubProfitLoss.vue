@@ -23,36 +23,25 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
-            v-on:select="handleSelectName"
           )
 
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
 
     template(v-if=" I === 0 ")
-      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-on:sort-change="sortChange")  
-        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
-        //- el-table-column(prop="userName" label="用户名" class-name="pl2")
-        //- el-table-column(prop="buy" label="投注" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
-        //- el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
-        //- el-table-column(prop="totalProfit" label="总盈亏" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
-        //- el-table-column(prop="subType" label="下级类型" )
-        el-table-column(label="操作")
-          template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '合计'") 明细
-
-      el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
-        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
-        el-table-column(label="操作")
-          template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上级
-            el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '合计'") 每日明细
+      keep-alive
+        el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-on:sort-change="sortChange" )  
+          el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" v-bind:width="o.width" align="center" )
+          el-table-column(label="操作" align="center" )
+            template(slot-scope="scope")
+              el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
+              el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '合计'") 明细
+      keep-alive
+        el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
+          el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
+          el-table-column(label="操作" align="center" )
+            template(slot-scope="scope")
+              el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上级
+              el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '合计'") 每日明细
 
       p 温馨提示：仅保留最近7天的数据
 
@@ -140,7 +129,8 @@ export default {
       range: 0,
       searchRange: ['所有下级', '直接下级', '间接下级'],
       profitAndLossSummaryTableColumn: [
-        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'userName', name: '用户名', sortable: false, width: 150 },
+        { prop: 'date', name: '时间', sortable: false, width: 350 },
         { prop: 'buy', name: '投注', sortable: 'custom' },
         { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
         { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
@@ -203,6 +193,9 @@ export default {
     }
   },
   mounted () {
+    let sDate = new Date()
+    sDate.setDate(sDate.getDate() - 6)
+    this.$set(this.stEt, 0, sDate)
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this.getPersonalReport()
   },
@@ -247,6 +240,10 @@ export default {
               return item
             })
             if (this.I === 0) {
+              items = items.map((item, i) => {
+                item.date = `${dateTimeFormat(this.stEt[0]).split(' ')[0]} 00:00:00 ~ ${dateTimeFormat(this.stEt[1]).split(' ')[0]} 23:59:59`
+                return item
+              })
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
               this.otherCommonReportData = items
@@ -362,16 +359,12 @@ export default {
       }) : this.names
       cb(rs)
     },
-    handleSelectName (item) {
-      console.log(item)
-    },
     setNameHistory (name) {
       if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
       this.names.push({value: name, address: name})
       if (this.names.length > 3) this.names.shift()
     },
     viewHighterLevel (row) {
-      console.log('row=', row)
       this.getUserBread(row.userId)
     },
     viewDetail (row) {
