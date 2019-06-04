@@ -71,6 +71,7 @@ let Login = {
   chatUrl: '/login/login.do?method=getChatUrl',
   lul: '/report/dwReport.do?method=list',
   outerReportDetail: '/report/otherReport.do?method=detail',
+  sumDetail: '/report/personalProfit.do?method=sumDetail',
   outerReport: '/report/otherReport.do?method=list',
   // 逐日盈亏
   personalProfit: '/report/personalProfit.do?method=dailyDetail',
