@@ -256,7 +256,7 @@
             </el-button-group>
           </div>
           <div class="table-list" style="padding: .15rem .2rem ;">
-            <div class="myinfo">明细-{{this.BL[this.BL.length - 2].userName}}(个人)</div>
+            <div class="lotterymyinfo">明细-{{BL[BL.length - 2].userName}}(个人)</div>
             <el-table
               class="header-bold nopadding"
               :data="cdata"
@@ -266,14 +266,14 @@
               v-bind:row-class-name="tableRowClassName"
               style="margin: .2rem 0 0 0;"
             >
-              <el-table-column class-name="pl2" prop="userName" label="用户名">
+              <!-- <el-table-column class-name="pl2" prop="userName" label="用户名">
                 <template scope="scope">
                   <span
                     class="pointer text-blue"
                     :class=" { 'text-danger': scope.row.userName === me.account } "
                   >{{ scope.row.userName }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="date" label="日期"></el-table-column>
               <el-table-column align="right" prop="realBuy" label="销量">
                 <template scope="scope">
@@ -302,8 +302,8 @@
               </el-table-column>
               <el-table-column align="right" prop="settle" label="总结算" class-name="pr2">
                 <template scope="scope">
+                  <!-- :class=" {'text-green': !scope.row.settle.startsWith('-'), 'text-danger': scope.row.settle.startsWith('-') } " -->
                   <span
-                    :class=" {'text-green': !scope.row.settle.startsWith('-'), 'text-danger': scope.row.settle.startsWith('-') } "
                   >{{ numberWithCommas(scope.row.settle) }}</span>
                 </template>
               </el-table-column>
@@ -817,7 +817,7 @@ bg-active = #e2e2e2;
 }
 </style>
 <style lang="less">
-.myinfo {
+.lotterymyinfo {
   height: 36px;
   line-height: 36px;
   text-align: center;
