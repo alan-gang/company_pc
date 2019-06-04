@@ -9,7 +9,7 @@
       
       .cashpwd-form.form(v-if="stepIndex === -1" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow()")
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="!me.safeCheck && checkNow()" maxLength="20")
 
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
