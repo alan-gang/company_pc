@@ -11,7 +11,12 @@
         <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <label class="item">
             结算日&nbsp;
-            <el-button v-for="(v,i) in settlementSub" :key="i" size="small" @click="settlement=v">{{v}}</el-button>
+            <el-button
+              v-for="(v,i) in settlementSub"
+              :key="i"
+              size="small"
+              @click="settlement=v"
+            >{{v.label}}</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;
@@ -33,34 +38,53 @@
           v-bind:max-height=" MH "
           v-bind:row-class-name="tableRowClassName"
         >
-          <el-table-column align="center" prop="userName" label="用户名"></el-table-column>
-          <el-table-column align="center" prop="issue" label="佣金期号"></el-table-column>
-          <el-table-column align="center" prop="sptProfit" label="体育盈亏">
+          <el-table-column align="center" prop="issue" label="结算日期">
+          </el-table-column>
+          <el-table-column align="center" prop="sendCycle" label="佣金周期">
+            <template scope="scope">
+              <span>{{ ProfitPeriodCount(scope.row) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="sptProfit" label="体育">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.sptProfit && scope.row.sptProfit._o0(), 'text-danger': scope.row.sptProfit && scope.row.sptProfit._l0() } "
-              >{{ scope.row.sptProfit &&scope.row.sptProfit._nwc() }}</span>
+              >{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="vidProfit" label="真人盈亏">
+          <el-table-column align="center" prop="vidProfit" label="真人">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.vidProfit && scope.row.vidProfit._o0(), 'text-danger': scope.row.vidProfit && scope.row.vidProfit._l0() } "
-              >{{ scope.row.vidProfit &&scope.row.vidProfit._nwc() }}</span>
+              >{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="egameProfit" label="电游盈亏">
+          <el-table-column align="center" prop="egameProfit" label="老虎机">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.egameProfit && scope.row.egameProfit._o0(), 'text-danger': scope.row.egameProfit && scope.row.egameProfit._l0() } "
-              >{{ scope.row.egameProfit &&scope.row.egameProfit._nwc() }}</span>
+              >{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="fishProfit" label="捕鱼盈亏">
+          <el-table-column align="center" prop="esptProfit" label="电竞">
+            <template scope="scope">
+              <span
+                :class=" {'text-green': scope.row.esptProfit && scope.row.esptProfit._o0(), 'text-danger': scope.row.esptProfit && scope.row.esptProfit._l0() } "
+              >{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="fishProfit" label="捕鱼">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.fishProfit && scope.row.fishProfit._o0(), 'text-danger': scope.row.fishProfit && scope.row.fishProfit._l0() } "
-              >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc() }}</span>
+              >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="othltrProfit" label="基诺彩">
+            <template scope="scope">
+              <span
+                :class=" {'text-green': scope.row.othltrProfit && scope.row.othltrProfit._o0(), 'text-danger': scope.row.othltrProfit && scope.row.othltrProfit._l0() } "
+              >{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="总盈亏">
@@ -275,19 +299,45 @@ export default {
       commissionDetail: {},
       bonusSent: "", //@只需对分红金额进行总计
       settlementSub: [], //结算日 按钮组
-      settlement: "" //当前结算日
+      settlement: "", //当前结算日
+      sendCycles: {
+        //契约发放周期（1:月 2：半月 3：周）
+        1: "月",
+        2: "半月",
+        3: "周"
+      }
     };
   },
   computed: {},
   watch: {
     typeCode(n) {
       this.bonus();
+    },
+    settlement() {
+      this.bonus();
     }
   },
   mounted() {
+    this.settlementInit(); //结算日初始化
     this.bonus();
   },
   methods: {
+    //分红周期计算
+    //月       [开始时间]<15 && [结束时间] > 16
+    //月上半月  [开始时间]<15 && [结束时间]<= 16
+    //月下半月  [开始时间]>15
+    //return '4月上半月'
+    ProfitPeriodCount({ startDate, endDate }) {
+      if (new Date(startDate).getDate() < 15) {
+        if (new Date(endDate).getDate() > 16) {
+          return `${new Date(startDate).getMonth() + 1}月`;
+        } else {
+          return `${new Date(endDate).getMonth() + 1}月上半月`;
+        }
+      } else {
+        return `${new Date(startDate).getMonth() + 1}月下半月`;
+      }
+    },
     getSummaries1(param) {
       const { columns } = param;
       const sums = [];
@@ -295,7 +345,7 @@ export default {
         if (index === 0) {
           sums[index] = "总计";
           return;
-        } else if (column.label === "分红金额") {
+        } else if (column.label === "佣金金额") {
           sums[index] = this.bonusSent;
         } else {
           sums[index] = "";
@@ -306,26 +356,129 @@ export default {
     //结算日 init
     settlementInit() {
       //结算日按钮组
-      let r = [
-        new Date()
-          ._bfM(0)
-          ._setD(0)
-          ._toDayString(), //1个月前最后一天
-        new Date()
-          ._bfM(-1)
-          ._setD(0)
-          ._toDayString() //2个月前最后一天
-      ];
-      if (new Date().getDate() >= 16) {
-        r = [new Date()._setD(16)._toDayString()].concat(r); //本月16号
-      } else {
-        r.push(
-          new Date()
-            ._bfM(-2)
-            ._setD(0)
-            ._toDayString() //3个月前最后一天
-        );
+      let r = [];
+      //当前日期 = 1号  那么结算日期是 本月1号   结算开始日期是上月1号  结算结束日期是上月最后一天
+      if (new Date().getDate() === 1) {
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()
+            ._setD(16)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(15)
+              ._bfM(-1)
+              ._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()
+            ._setD(1)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-2)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
       }
+      //当前日期 <= 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
+      if (new Date().getDate() <= 16) {
+        r.push({
+          label: new Date()._setD(16)._toDayString(),
+          value: [
+            new Date()._setD(1)._toDayString(),
+            new Date()._setD(15)._toDayString()
+          ]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()
+            ._setD(16)
+            ._bfM(-1)
+            ._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(15)
+              ._bfM(-1)
+              ._toDayString()
+          ]
+        });
+      }
+      //当前日期 >16号  那么结算日期是 下月1号   结算开始日期是本月1号  结算结束日期是本月当前日期
+      if (new Date().getDate() > 16) {
+        r.push({
+          label: new Date()
+            ._setD(1)
+            ._bfM(1)
+            ._toDayString(),
+          value: [new Date()._setD(1)._toDayString(), new Date()._toDayString()]
+        });
+        //向前推算 最近2个结算日, 最近的两个 1号  16号
+        r.push({
+          label: new Date()._setD(16)._toDayString(),
+          value: [
+            new Date()._setD(1)._toDayString(),
+            new Date()._setD(15)._toDayString()
+          ]
+        });
+        r.push({
+          label: new Date()._setD(1)._toDayString(),
+          value: [
+            new Date()
+              ._setD(1)
+              ._bfM(-1)
+              ._toDayString(),
+            new Date()
+              ._setD(1)
+              ._bf(-1)
+              ._toDayString()
+          ]
+        });
+      }
+      // console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
       this.settlementSub = r;
     },
@@ -372,7 +525,6 @@ export default {
       });
     },
     bonus(page, fn) {
-      this.settlementInit(); //结算日初始化
       let loading = this.$loading(
         {
           text: "佣金加载中...",
@@ -383,8 +535,8 @@ export default {
       );
       if (!fn) {
         this.preOptions = {
-          startDate: this.settlement, //当前结算日
-          endDate: this.settlement, //当前结算日
+          startDate: this.settlement.value[0], //当前结算日
+          endDate: this.settlement.value[1], //当前结算日
           status: this.s,
           page: 1,
           pageSize: this.pageSize,

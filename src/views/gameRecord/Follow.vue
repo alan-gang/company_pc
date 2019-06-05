@@ -47,10 +47,14 @@
             el-input(v-model="id" style="width: 1rem")
 
 
-          .ds-button.primary.large.bold(@click="followList()") 搜索
+          .ds-button.primary.large.bold(@click="followList({}, null, 'search')") 搜索
           //- .buttons(style="margin-left: .3rem")
             .ds-button.cancel.large(@click="clear(true)") 清空
         
+        .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+          el-breadcrumb(separator=">")
+            el-breadcrumb-item(v-for="(b, i) in userBreadcrumb"  @click.native="link(b, i)") {{ i === 0 ? '自己' : b.userName }}
+
         .table-list(style="padding: .15rem .2rem ")
         
           el-table.header-bold.nopadding(:data="Cdata"  style=""   ref="table" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
@@ -60,7 +64,7 @@
                 div
                   span( style="padding: 0") {{ scope.row.taskId }}
 
-            el-table-column(prop="userName" label="用户" v-if="!noname")
+            //- el-table-column(prop="userName" label="用户" v-if="!noname")
             
             el-table-column(prop="beginTime" label="追号时间"  min-width="120")
               template(scope="scope")
@@ -233,7 +237,8 @@
         lotteryPopover: false,
         curLotteryName: '全部',
         STATUS_FINISH: 2,
-        names: []
+        names: [],
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -258,12 +263,21 @@
     mounted () {
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
-      this.followList()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.followList()
+      }
       this.getGameHistory()
     },
     methods: {
       __setGFI (i) {
         this.I = i
+      },
+      link (B, i) {
+        this.subUserId = B.userId
+        // this.name = B.userName
+        this.name = ''
+        this.followList()
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -385,7 +399,13 @@
           }, 100)
         })
       },
-      followList (page, fn) {
+      followList (page, fn, source) {
+        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+          if (!this.name) {
+            this.$message.warning({message: '请输入用户名'})
+            return
+          }
+        }
         let loading = this.$loading({
           text: '追号记录加载中...',
           target: this.$refs['table'].$el

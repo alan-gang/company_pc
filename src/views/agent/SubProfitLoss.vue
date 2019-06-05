@@ -23,46 +23,35 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
-            v-on:select="handleSelectName"
           )
 
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
 
     template(v-if=" I === 0 ")
-      el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
-        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
-        //- el-table-column(prop="userName" label="用户名" class-name="pl2")
-        //- el-table-column(prop="buy" label="投注" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
-        //- el-table-column(prop="gameProfit" label="游戏盈亏" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
-        //- el-table-column(prop="totalProfit" label="总盈亏" sortable)
-        //-     template(scope="scope")
-        //-       span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
-        //- el-table-column(prop="subType" label="下级类型" )
-        el-table-column(label="操作")
-          template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '总计'") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '总计'") 明细
-
-      el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal")  
-        el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
-        el-table-column(label="操作")
-          template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '总计'") 返回上级
-            el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '总计'") 每日明细
+      keep-alive
+        el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-on:sort-change="sortChange" )  
+          el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" v-bind:width="o.width" align="center" )
+          el-table-column(label="操作" align="center" )
+            template(slot-scope="scope")
+              el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
+              el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '合计'") 明细
+      keep-alive
+        el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
+          el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
+          el-table-column(label="操作" align="center" )
+            template(slot-scope="scope")
+              el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上级
+              el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '合计'") 每日明细
 
       p 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
-      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="sortChange")  
+      el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-on:sort-change="sortChange")  
         el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
         el-table-column(label="操作" )
           template(slot-scope="scope")
-            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '总计'") 查看上级
-            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '总计'") 每日明细
+            el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
+            el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '合计'") 每日明细
       p 温馨提示：仅保留最近7天的数据
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
     
@@ -76,7 +65,7 @@
       span(slot="title") 每日明细
       .daily-profit-dialog-ctx
         .info-header 每日明细-{{curSubUserName}}(个人)
-        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-bind:default-sort="{prop: 'buy', order: 'descending'}" v-on:sort-change="dailyReportSortChange") 
+        el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-on:sort-change="dailyReportSortChange") 
           el-table-column(prop="date" label="日期" class-name="pl2" )
             template(scope="scope")
               span {{scope.row.date}}
@@ -140,18 +129,19 @@ export default {
       range: 0,
       searchRange: ['所有下级', '直接下级', '间接下级'],
       profitAndLossSummaryTableColumn: [
-        { prop: 'userName', name: '用户名', sortable: false },
+        { prop: 'userName', name: '用户名', sortable: false, width: 150 },
+        { prop: 'date', name: '时间', sortable: false, width: 350 },
         { prop: 'buy', name: '投注', sortable: 'custom' },
         { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
         { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
         { prop: 'subType', name: '下级类型', sortable: false }
       ],
-      thirdGamesColumn: {
-        userName: '类型',
-        buy: '投注',
-        gameProfit: '游戏盈亏',
-        totalProfit: '总盈亏'
-      },
+      thirdGamesColumn: [
+        { prop: 'userName', name: '类型', sortable: false },
+        { prop: 'buy', name: '投注', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' }
+      ],
       otherCommonTableColumn: [
         { prop: 'userName', name: '用户名', sortable: false },
         { prop: 'buy', name: '投注', sortable: 'custom' },
@@ -203,6 +193,9 @@ export default {
     }
   },
   mounted () {
+    let sDate = new Date()
+    sDate.setDate(sDate.getDate() - 6)
+    this.$set(this.stEt, 0, sDate)
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this.getPersonalReport()
   },
@@ -240,13 +233,19 @@ export default {
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
           if (items.length > 0) {
-            items[items.length - 1].date = '总计'
-            items[items.length - 1].userName = '总计'
+            // items[items.length - 1].date = '总计'
+            // items[items.length - 1].userName = '总计'
             items = items.map((item, i) => {
-              if (i < items.length - 1) item.subType = this.searchRange[this.range]
+              if (i < items.length - 1) {
+                item.subType = String(item.parentid) === String(this.me.userId) ? '直接下级' : '间接下级'
+              }
               return item
             })
             if (this.I === 0) {
+              items = items.map((item, i) => {
+                item.date = `${dateTimeFormat(this.stEt[0]).split(' ')[0]} 00:00:00 ~ ${dateTimeFormat(this.stEt[1]).split(' ')[0]} 23:59:59`
+                return item
+              })
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
               this.otherCommonReportData = items
@@ -257,9 +256,6 @@ export default {
             this.profitAndLossSummaryData = []
             this.otherCommonReportData = []
             this.totalSize = 0
-            if (source === 'search' && this.subUserName) {
-              this.$message.error({target: this.$el, message: '该下级不存在'})
-            }
           }
         }
       }).finally(() => {
@@ -362,16 +358,12 @@ export default {
       }) : this.names
       cb(rs)
     },
-    handleSelectName (item) {
-      console.log(item)
-    },
     setNameHistory (name) {
       if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
       this.names.push({value: name, address: name})
       if (this.names.length > 3) this.names.shift()
     },
     viewHighterLevel (row) {
-      console.log('row=', row)
       this.getUserBread(row.userId)
     },
     viewDetail (row) {
@@ -399,6 +391,12 @@ export default {
         orderBy: column.prop,
         ascOrDesc: {ascending: 2, descending: 1}[column.order]
       })
+    },
+    thirdGameDetailSortChange (column) {
+      if (!column) return
+      let summaryRow = this.thirdGamesDetailData.pop()
+      this.thirdGamesDetailData = this.listOrderByField(this.thirdGamesDetailData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
+      this.thirdGamesDetailData.push(summaryRow)
     },
     dailyReportSortChange (column) {
       if (!column) return

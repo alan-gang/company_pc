@@ -17,15 +17,15 @@
             <el-button
               @click="ClickMonth(0)"
               size="small"
-            >{{new Date()._bfM(0)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(0).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-1)"
               size="small"
-            >{{new Date()._bfM(-1)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月</el-button>
             <el-button
               @click="ClickMonth(-2)"
               size="small"
-            >{{new Date()._bfM(-2)._setD(1).getMonth() + 1}}月</el-button>
+            >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
           </label>
           <label class="item">
             排序
@@ -87,7 +87,9 @@
           >
             <el-table-column class-name="pl2" prop="userName" label="用户名">
               <template scope="scope">
-                <span>
+                <span
+                  :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
+                >
                   {{ scope.row.userName }}
                   <template v-if="me.account==scope.row.userName">(我)</template>
                 </span>
@@ -100,32 +102,44 @@
               align="center"
             >
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.gameUserCount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.gameUserCount && scope.row.gameUserCount._o0(), 'text-danger': scope.row.gameUserCount && scope.row.gameUserCount._l0() } "
+                >{{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
+                >{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.profit) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
+                >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
+                >{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.rewards) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
+                >{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.platfee) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
+                >{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -136,7 +150,9 @@
               class-name="pr2"
             >
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.settle) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
+                >{{ scope.row.settle && scope.row.settle._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="userpoint" label="操作" align="center">
@@ -145,7 +161,7 @@
                   v-show="scope.row.userId&&Daily"
                   class="ds-button text-button blue"
                   style="padding: 0 .05rem;"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
                 >明细</div>
               </template>
             </el-table-column>
@@ -174,6 +190,14 @@
             </el-button-group>
           </div>
           <div class="table-list" style="padding: .15rem .2rem ;">
+            <div
+              class="lotterymyinfo"
+              :class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'"
+            >
+              明细-{{profitDetailROW && profitDetailROW.userName}}(
+              {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              )
+            </div>
             <el-table
               class="header-bold nopadding"
               :data="cdata"
@@ -183,16 +207,21 @@
               v-bind:row-class-name="tableRowClassName"
               style="margin: .2rem 0 0 0;"
             >
-              <el-table-column class-name="pl2" prop="userName" label="用户名">
+              <!-- <el-table-column class-name="pl2" prop="userName" label="用户名">
                 <template scope="scope">
                   <span
                     class="pointer text-blue"
                     :class=" { 'text-danger': scope.row.userName === me.account } "
                   >{{ scope.row.userName }}</span>
                 </template>
+              </el-table-column>-->
+              <el-table-column prop="date" label="日期" align="center">
+                <template scope="scope">
+                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
+                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
+                </template>
               </el-table-column>
-              <el-table-column prop="date" label="日期"></el-table-column>
-              <el-table-column align="right" prop="realBuy" label="销量">
+              <el-table-column align="right" prop="realBuy" label="投注">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
                 </template>
@@ -202,7 +231,12 @@
                   <span>{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
@@ -212,7 +246,12 @@
                   <span>{{ numberWithCommas(scope.row.rewards) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="platfee" label="平台费">
+              <el-table-column
+                align="right"
+                prop="platfee"
+                label="平台费"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.platfee) }}</span>
                 </template>
@@ -262,6 +301,7 @@ export default {
       clearableOnTime: false,
       // stEt: [new Date()._setD(1)._setHMS("0:0:0"),new Date()._setD(1)._setHMS("0:0:0")._bfM(1)._setS(-1)],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
+      profitDetailROW: null,
       data: [],
       pageSize: 20,
       total: 0,
@@ -290,12 +330,12 @@ export default {
   },
   watch: {
     //时间范围
-    stEt() {
-      this.profitList();
-    },
-    ot() {
-      this.profitList();
-    },
+    // stEt() {
+    //   this.profitList();
+    // },
+    // ot() {
+    //   this.profitList();
+    // },
     gameType() {
       this.profitList();
     }
@@ -335,12 +375,13 @@ export default {
       let r = [];
       r.push(
         new Date()
-          ._bfM(multiple)
           ._setD(1)
+          ._bfM(multiple)
           ._toDayString()
       );
       r.push(
         new Date()
+          ._setD(1)
           ._bfM(multiple + 1)
           ._setD(0)
           ._toDayString()
@@ -362,7 +403,6 @@ export default {
       let results = queryString
         ? list.filter(this.createFilter(queryString))
         : list;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
@@ -474,6 +514,15 @@ export default {
               $store.set("SearchUserNameList", param);
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
+              if (
+                this.name &&
+                !data.userBreads.find(_ => _.userName === this.name)
+              ) {
+                this.$message.error({
+                  target: this.$el,
+                  message: "该下级不存在"
+                });
+              }
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -493,7 +542,8 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id) {
+    profitDetail(page, fn, id, row) {
+      if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
         {
@@ -711,5 +761,20 @@ bg-active = #e2e2e2;
       }
     }
   }
+}
+</style>
+<style lang="less">
+.lotterymyinfo {
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+.lotterymyinfo.team {
+  background: #f37e0c;
+}
+.lotterymyinfo.my {
+  background: #2d86ea;
 }
 </style>

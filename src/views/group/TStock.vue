@@ -73,6 +73,7 @@
           v-if=" total > pageSize "
           v-on:current-change="pageChanged"
         ></el-pagination>
+        <p style="margin: 10px;font-size: 12px;color: #999;">温馨提示：预期分红是基于阶段性数据测算得出,仅为预测下一次分红提供参考,不作为发放分红依据。</p>
       </div>
     </div>
   </div>

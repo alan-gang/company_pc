@@ -486,7 +486,7 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
+                  title: '团队盈亏',
                   // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabs: ['彩票', '三方', '棋牌', '微游'],
                   tabfn: '__setTotalAccountI',
@@ -554,7 +554,7 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
+                  title: '三方佣金管理',
                   tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
@@ -683,7 +683,7 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
+                  title: '团队盈亏',
                   tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
@@ -750,7 +750,7 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
+                  title: '三方佣金管理',
                   tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'

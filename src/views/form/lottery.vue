@@ -8,14 +8,14 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form form-filters">
-        <label class="item">
+        <label class="item my-el">
           <el-button @click="ClickToday" size="small">今天</el-button>
           <el-button @click="ClickYesterday" size="small">昨天</el-button>
           <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
           <el-button @click="ClickFirstHalf" size="small">{{firstHalfval}}</el-button>
           <el-button @click="ClickSecondHalf" size="small">{{secondHalfval}}</el-button>
         </label>
-        <label class="item">
+        <label class="item my-el">
           排序
           <el-button size="small" @click="ClickSort('betAmount')">
             投注
@@ -79,8 +79,9 @@
           >
             <el-table-column class-name="pl2" prop="userName" label="用户名">
               <template scope="scope">
-                <!-- :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } " -->
-                <span>
+                <span
+                  :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
+                >
                   {{ scope.row.userName }}
                   <template v-if="me.account==scope.row.userName">(我)</template>
                 </span>
@@ -94,34 +95,67 @@
             ></el-table-column>
             <el-table-column prop="betAmount" label="投注" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.betAmount && scope.row.betAmount._o0(), 'text-danger': scope.row.betAmount && scope.row.betAmount._l0() } "
+                >{{ scope.row.betAmount && scope.row.betAmount._nwc()}}</span>
+                <!-- <span>{{ numberWithCommas(scope.row.betAmount) }}</span> -->
               </template>
             </el-table-column>
             <el-table-column prop="prizeAmount" label="派奖" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.prizeAmount && scope.row.prizeAmount._o0(), 'text-danger': scope.row.prizeAmount && scope.row.prizeAmount._l0() } "
+                >{{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center"></el-table-column>
-            <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } "
+                >{{ scope.row.gameSettleAmount && scope.row.gameSettleAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.pointAmount && scope.row.pointAmount._o0(), 'text-danger': scope.row.pointAmount && scope.row.pointAmount._l0() } "
+                >{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="activityAmount" label="活动" sortable="custom" align="center">
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.activityAmount && scope.row.activityAmount._o0(), 'text-danger': scope.row.activityAmount && scope.row.activityAmount._l0() } "
+                >{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="salaryAmount" label="日工资" sortable="custom" align="center">
+            <el-table-column
+              prop="salaryAmount"
+              label="日工资"
+              sortable="custom"
+              align="center"
+              v-if="me.showSalary"
+            >
               <template scope="scope">
-                <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
+                <span
+                  :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
+                >{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center">
+              <template scope="scope">
+                <span
+                  :class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } "
+                >{{ scope.row.settleAmount && scope.row.settleAmount._nwc()}}</span>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
                 <div
                   v-show="Daily"
                   class="ds-button text-button blue"
                   style="padding: 0 .05rem;"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
                 >明细</div>
               </template>
             </el-table-column>
@@ -152,6 +186,14 @@
             </el-button-group>
           </div>
           <div class="table-list" style="padding: .15rem .2rem ;">
+            <div
+              class="lotterymyinfo"
+              :class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'"
+            >
+              明细-{{profitDetailROW && profitDetailROW.userName}}(
+              {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              )
+            </div>
             <el-table
               class="header-bold nopadding"
               :data="cdata"
@@ -162,35 +204,47 @@
               v-bind:row-class-name="tableRowClassName"
               style="margin: .2rem 0 0 0;"
             >
-              <el-table-column class-name="pl2" prop="userName" label="用户名">
+              <!-- <el-table-column class-name="pl2" prop="userName" label="用户名">
                 <template scope="scope">
                   <span
                     class="pointer text-blue"
                     :class=" { 'text-danger': scope.row.userName === me.account } "
                   >{{ scope.row.userName }}</span>
                 </template>
+              </el-table-column>-->
+              <el-table-column prop="date" label="日期" align="center">
+                <template scope="scope">
+                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
+                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
+                </template>
               </el-table-column>
-              <el-table-column prop="date" label="日期" align="center"></el-table-column>
-              <el-table-column align="right" prop="betAmount" label="投注总额">
+              <el-table-column align="right" prop="betAmount" label="投注">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="pointAmount" label="返点总额"></el-table-column>
-              <el-table-column align="right" prop="prizeAmount" label="派奖总额">
+              <el-table-column align="right" prop="prizeAmount" label="派奖">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="vrBetAmount" label="VR投注"></el-table-column>
-              <el-table-column align="right" prop="vrPointAmount" label="VR返点"></el-table-column>
-              <el-table-column align="right" prop="vrPrizeAmount" label="VR派奖"></el-table-column>
-              <el-table-column align="right" prop="activityAmount" label="彩票活动">
+              <el-table-column align="right" prop="gameSettleAmount" label="游戏盈亏">
+                <template scope="scope">
+                  <span>{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                align="right"
+                prop="pointAmount"
+                label="返点"
+                v-if="profitDetailROW && profitDetailROW.hasSub==1"
+              ></el-table-column>
+              <el-table-column align="right" prop="activityAmount" label="活动">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="salaryAmount" label="工资">
+              <el-table-column align="right" prop="salaryAmount" label="日工资" v-if="me.showSalary">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>
@@ -247,6 +301,8 @@ export default {
       clearableOnTime: false,
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
+      profitDetailROW: null,
+      // IssalaryAmount: !1, //个人详情报表中  是否有日工资
       data: [],
       pageSize: 20,
       total: 0,
@@ -281,16 +337,16 @@ export default {
   },
   watch: {
     //时间范围
-    stEt() {
-      this.profitList();
-    },
+    // stEt() {
+    //   this.profitList();
+    // },
+    // ot() {
+    //   this.profitList();
+    // },
     I() {
       if (this.I === 0) {
         setTimeout(this.profitList);
       }
-    },
-    ot() {
-      this.profitList();
     }
   },
   mounted() {
@@ -314,7 +370,6 @@ export default {
       let results = queryString
         ? list.filter(this.createFilter(queryString))
         : list;
-      // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
@@ -352,8 +407,14 @@ export default {
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     firstHalf() {
       let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
-      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
+      let MonthDays = new Date()
+        ._bfM(1)
+        ._setD(0)
+        .getDate(); //本月最后一天
+      let FirstMonthDays = new Date()
+        ._bfM(0)
+        ._setD(0)
+        .getDate(); //上个月最后一天
       let r = {
         month: "",
         time: []
@@ -361,17 +422,19 @@ export default {
       //当前日  为 下旬时   上半个月为 上个月的下旬
       if (date > parseInt(MonthDays / 2)) {
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月下半月`;
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(-1)
             ._setD(parseInt(FirstMonthDays / 2) + 1)
             ._toDayString()
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()
@@ -379,17 +442,18 @@ export default {
       } else {
         //当前日 为 上旬时   上半个月为 上个月的上旬
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月上半月`;
         r.time.push(
           new Date()
-            ._bfM(-1)
             ._setD(1)
+            ._bfM(-1)
             ._toDayString()
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(-1)
             ._setD(parseInt(FirstMonthDays / 2))
             ._toDayString()
@@ -402,8 +466,14 @@ export default {
     // return  {month:5,time:[2019-12-01,2019-12-15]}
     secondHalf() {
       let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()._bfM(1)._setD(0).getDate(); //本月最后一天
-      let FirstMonthDays = new Date()._bfM(0)._setD(0).getDate(); //上个月最后一天
+      let MonthDays = new Date()
+        ._bfM(1)
+        ._setD(0)
+        .getDate(); //本月最后一天
+      let FirstMonthDays = new Date()
+        ._bfM(0)
+        ._setD(0)
+        .getDate(); //上个月最后一天
       let r = {
         month: "",
         time: []
@@ -411,17 +481,18 @@ export default {
       //当前日  为 下旬时   下半个月为 本月的上旬
       if (date > parseInt(MonthDays / 2)) {
         r.month = `${new Date()
-          ._bfM(1)
           ._setD(1)
+          ._bfM(1)
           .getMonth()}月上半月`;
         r.time.push(
           new Date()
-            ._bfM(0)
             ._setD(1)
+            ._bfM(0)
             ._toDayString()
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(0)
             ._setD(parseInt(MonthDays / 2))
             ._toDayString()
@@ -429,8 +500,8 @@ export default {
       } else {
         //当前日 为 上旬时   上半个月为 上个月的下旬
         r.month = `${new Date()
-          ._bfM(0)
           ._setD(1)
+          ._bfM(0)
           .getMonth()}月下半月`;
         r.time.push(
           new Date()
@@ -440,6 +511,7 @@ export default {
         );
         r.time.push(
           new Date()
+            ._setD(1)
             ._bfM(0)
             ._setD(0)
             ._toDayString()
@@ -571,6 +643,15 @@ export default {
               }
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
+              if (
+                this.name &&
+                !data.userBreads.find(_ => _.userName === this.name)
+              ) {
+                this.$message.error({
+                  target: this.$el,
+                  message: "该下级不存在"
+                });
+              }
               this.total = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -594,7 +675,8 @@ export default {
     // 盈亏详情列表（按用户和时间范围查询）
     // http://192.168.169.44:9901/cagamesclient/report/profit.do?method=detail&destUserId=2&startDay=20170101&endDay=20170301
     // profitDetail: api + 'report/profit.do?method=detail',
-    profitDetail(page, fn, id) {
+    profitDetail(page, fn, id, row) {
+      if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
         {
@@ -811,5 +893,42 @@ bg-active = #e2e2e2;
       }
     }
   }
+}
+</style>
+<style lang="less">
+.my-el {
+  display: flex;
+  align-items: center;
+
+  .el-button {
+    min-width: 0.8rem;
+    height: 0.3rem;
+    padding: 0;
+  }
+
+  .el-button:focus,
+  .el-button:hover {
+    border: solid 1px #f37e0c;
+    color: #666;
+  }
+
+  .el-button.selected {
+    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%),
+      linear-gradient(#f37e0c, #f37e0c);
+    border: solid 1px #f37e0c;
+  }
+}
+.lotterymyinfo {
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+.lotterymyinfo.team {
+  background: #f37e0c;
+}
+.lotterymyinfo.my {
+  background: #2d86ea;
 }
 </style>
