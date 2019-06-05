@@ -62,7 +62,7 @@
             template(scope="scope")
               div
                 span( style="padding: 0") {{ scope.row.projectId }}
-          el-table-column(prop="userName" label="用户" v-if="!noname")
+          //- el-table-column(prop="userName" label="用户" v-if="!noname")
           el-table-column(prop="writeTime" label="投注时间" min-width="120")
             template(scope="scope")
               span() {{ scope.row.writeTime }}
@@ -404,7 +404,10 @@
     mounted () {
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
-      this.Orderlist()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.Orderlist()
+      }
       this.getGameHistory()
       this.getBreadByUserId(this.me.userId)
       this.showCancelOrder = this.useSource !== this.USE_SOURCE_AGENT // 下级彩票记录不显示撤单
@@ -414,10 +417,11 @@
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
         // this.name = B.userName
         this.name = ''
-        this.Orderlist()
+        this.Orderlist({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -554,7 +558,13 @@
           }, 100)
         })
       },
-      Orderlist (page, fn, source) {
+      Orderlist (page, fn, source, params = {}) {
+        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+          if (!this.name) {
+            this.$message.warning({message: '请输入用户名'})
+            return
+          }
+        }
         let loading = this.$loading({
           text: '投注记录加载中...',
           target: this.$refs['table'].$el
@@ -567,7 +577,7 @@
             stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
@@ -579,7 +589,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.Orderlist, this.preOptions).then(({data}) => {
+        this.$http.post(api.Orderlist, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -589,7 +599,9 @@
             !fn && (this.currentPage = 1)
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            this.userBreadcrumb = data.userBreads.concat([{}])
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             if (!data.recordList || data.recordList.length < 1) {
               if (this.name && this.preOptions.scope === 1 && !data.userBreads.find((item) => { return item.userName === this.preOptions.userName }) && data.msg) {
                 this.$message.error({target: this.$el, message: data.msg}) // || '该下级不存在'

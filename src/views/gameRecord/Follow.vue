@@ -47,10 +47,14 @@
             el-input(v-model="id" style="width: 1rem")
 
 
-          .ds-button.primary.large.bold(@click="followList()") 搜索
+          .ds-button.primary.large.bold(@click="followList({}, null, 'search')") 搜索
           //- .buttons(style="margin-left: .3rem")
             .ds-button.cancel.large(@click="clear(true)") 清空
         
+        .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+          el-breadcrumb(separator=">")
+            el-breadcrumb-item(v-for="(b, i) in userBreadcrumb"  @click.native="link(b, i)") {{ i === 0 ? '自己' : b.userName }}
+
         .table-list(style="padding: .15rem .2rem ")
         
           el-table.header-bold.nopadding(:data="Cdata"  style=""   ref="table" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
@@ -60,7 +64,7 @@
                 div
                   span( style="padding: 0") {{ scope.row.taskId }}
 
-            el-table-column(prop="userName" label="用户" v-if="!noname")
+            //- el-table-column(prop="userName" label="用户" v-if="!noname")
             
             el-table-column(prop="beginTime" label="追号时间"  min-width="120")
               template(scope="scope")
@@ -126,6 +130,7 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
+  import store from '../../store'
   import SearchConditions from 'components/SearchConditions'
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
@@ -150,6 +155,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         pickerOptions: {
           shortcuts: [{
@@ -233,7 +239,8 @@
         lotteryPopover: false,
         curLotteryName: '全部',
         STATUS_FINISH: 2,
-        names: []
+        names: [],
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -258,12 +265,21 @@
     mounted () {
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
-      this.followList()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.followList()
+      }
       this.getGameHistory()
     },
     methods: {
       __setGFI (i) {
         this.I = i
+      },
+      link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
+        this.subUserId = B.userId
+        this.name = ''
+        this.followList({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -385,7 +401,13 @@
           }, 100)
         })
       },
-      followList (page, fn) {
+      followList (page, fn, source, params = {}) {
+        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+          if (!this.name) {
+            this.$message.warning({message: '请输入用户名'})
+            return
+          }
+        }
         let loading = this.$loading({
           text: '追号记录加载中...',
           target: this.$refs['table'].$el
@@ -402,7 +424,7 @@
             // stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
@@ -414,7 +436,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.followList, this.preOptions).then(({data}) => {
+        this.$http.post(api.followList, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -431,6 +453,9 @@
             })
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {

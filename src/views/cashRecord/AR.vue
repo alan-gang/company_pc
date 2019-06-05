@@ -68,7 +68,7 @@
           el-input(v-model="id" style="width: 1rem")
 
         .buttons
-          .ds-button.large.primary.large.bold(@click="list") 搜索
+          .ds-button.large.primary.large.bold(@click="list({}, null, 'search')") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
           .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
           //- label.item(style="margin-left: .32rem") 自身快捷查询：
@@ -78,9 +78,13 @@
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="me.showSalary") 工资
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
-        
+
+      .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+        el-breadcrumb(separator=">")
+          el-breadcrumb-item(v-for="(b, i) in userBreadcrumb"  @click.native="link(b, i)") {{ i === 0 ? '自己' : b.userName }}
+  
       .table-list(style="padding: .15rem .2rem ")
       
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
@@ -92,7 +96,7 @@
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
 
-          el-table-column(prop="userName" label="用户名" v-if="!noname")
+          //- el-table-column(prop="userName" label="用户名" v-if="!noname")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.userName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
@@ -166,7 +170,7 @@
     },
     data () {
       return {
-        ME: store.state.user,
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
@@ -198,7 +202,7 @@
         zone: '',
         QUERYS: ['注单编号', '追号编号', '账变编号'],
         query: '',
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,
@@ -218,7 +222,8 @@
         searchConditions: ['今天', '昨天', '前天'],
         dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] },
         names: [],
-        showOrderTypePopover: false
+        showOrderTypePopover: false,
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -271,7 +276,10 @@
     mounted () {
       this.getLotterys()
       this.getOrderType()
-      this.list()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.list()
+      }
       if (this.platform === 'ds') {
         this.ISFREE.splice(2)
       }
@@ -281,6 +289,12 @@
     methods: {
       __setCRI (i) {
         this.I = i
+      },
+      link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
+        this.subUserId = B.userId
+        this.name = ''
+        this.list({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -405,7 +419,13 @@
           }, 100)
         })
       },
-      list (page, fn) {
+      list (page, fn, source, params = {}) {
+        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+          if (!this.name) {
+            this.$message.warning({message: '请输入用户名'})
+            return
+          }
+        }
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
           text: '账变记录加载中...',
@@ -420,7 +440,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
@@ -434,7 +454,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.list, this.preOptions).then(({data}) => {
+        this.$http.post(api.list, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
@@ -442,6 +462,9 @@
             this.data = data.orderRecordList
             // this.data.forEach(x => (x.inout = parseFloat(x.inout) * -1))
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -494,7 +517,7 @@
         this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.ME.showSalary && data.orderTypeList.push({
+            this.me.showSalary && data.orderTypeList.push({
               cnTitle: '日工资',
               ordertypeId: 37
             })
