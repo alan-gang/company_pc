@@ -417,10 +417,11 @@
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
         // this.name = B.userName
         this.name = ''
-        this.Orderlist()
+        this.Orderlist({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -557,7 +558,7 @@
           }, 100)
         })
       },
-      Orderlist (page, fn, source) {
+      Orderlist (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -588,7 +589,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.Orderlist, this.preOptions).then(({data}) => {
+        this.$http.post(api.Orderlist, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -598,7 +599,9 @@
             !fn && (this.currentPage = 1)
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            this.userBreadcrumb = data.userBreads.concat([{}])
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             if (!data.recordList || data.recordList.length < 1) {
               if (this.name && this.preOptions.scope === 1 && !data.userBreads.find((item) => { return item.userName === this.preOptions.userName }) && data.msg) {
                 this.$message.error({target: this.$el, message: data.msg}) // || '该下级不存在'

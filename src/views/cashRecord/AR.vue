@@ -78,7 +78,7 @@
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="me.showSalary") 工资
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
 
       .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
@@ -170,7 +170,7 @@
     },
     data () {
       return {
-        ME: store.state.user,
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
@@ -291,10 +291,10 @@
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
-        // this.name = B.userName
         this.name = ''
-        this.Orderlist()
+        this.list({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -419,7 +419,7 @@
           }, 100)
         })
       },
-      list (page, fn, source) {
+      list (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -454,7 +454,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.list, this.preOptions).then(({data}) => {
+        this.$http.post(api.list, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
@@ -462,6 +462,9 @@
             this.data = data.orderRecordList
             // this.data.forEach(x => (x.inout = parseFloat(x.inout) * -1))
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -514,7 +517,7 @@
         this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.ME.showSalary && data.orderTypeList.push({
+            this.me.showSalary && data.orderTypeList.push({
               cnTitle: '日工资',
               ordertypeId: 37
             })

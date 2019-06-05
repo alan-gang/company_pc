@@ -130,6 +130,7 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
+  import store from '../../store'
   import SearchConditions from 'components/SearchConditions'
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
@@ -154,6 +155,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         pickerOptions: {
           shortcuts: [{
@@ -274,10 +276,10 @@
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
-        // this.name = B.userName
         this.name = ''
-        this.followList()
+        this.followList({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -399,7 +401,7 @@
           }, 100)
         })
       },
-      followList (page, fn, source) {
+      followList (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -434,7 +436,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.followList, this.preOptions).then(({data}) => {
+        this.$http.post(api.followList, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -451,6 +453,9 @@
             })
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
