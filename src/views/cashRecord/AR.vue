@@ -440,7 +440,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
