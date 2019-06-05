@@ -62,7 +62,7 @@
             template(scope="scope")
               div
                 span( style="padding: 0") {{ scope.row.projectId }}
-          el-table-column(prop="userName" label="用户" v-if="!noname")
+          //- el-table-column(prop="userName" label="用户" v-if="!noname")
           el-table-column(prop="writeTime" label="投注时间" min-width="120")
             template(scope="scope")
               span() {{ scope.row.writeTime }}
@@ -404,7 +404,10 @@
     mounted () {
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
-      this.Orderlist()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.Orderlist()
+      }
       this.getGameHistory()
       this.getBreadByUserId(this.me.userId)
       this.showCancelOrder = this.useSource !== this.USE_SOURCE_AGENT // 下级彩票记录不显示撤单
@@ -555,6 +558,12 @@
         })
       },
       Orderlist (page, fn, source) {
+        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+          if (!this.name) {
+            this.$message.warning({message: '请输入用户名'})
+            return
+          }
+        }
         let loading = this.$loading({
           text: '投注记录加载中...',
           target: this.$refs['table'].$el

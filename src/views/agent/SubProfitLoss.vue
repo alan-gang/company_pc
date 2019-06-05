@@ -236,7 +236,9 @@ export default {
             // items[items.length - 1].date = '总计'
             // items[items.length - 1].userName = '总计'
             items = items.map((item, i) => {
-              if (i < items.length - 1) item.subType = this.searchRange[this.range]
+              if (i < items.length - 1) {
+                item.subType = String(item.parentid) === String(this.me.userId) ? '直接下级' : '间接下级'
+              }
               return item
             })
             if (this.I === 0) {
@@ -254,9 +256,6 @@ export default {
             this.profitAndLossSummaryData = []
             this.otherCommonReportData = []
             this.totalSize = 0
-            if (source === 'search' && this.subUserName) {
-              this.$message.error({target: this.$el, message: '该下级不存在'})
-            }
           }
         }
       }).finally(() => {
