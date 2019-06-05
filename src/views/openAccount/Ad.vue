@@ -126,7 +126,7 @@
               backwater: data.userPoint
             })
             data.back.forEach((x, i) => {
-              x.$ = x.value * 1000
+              x.$ = (x.backwater - x.value).toFixed(4) * 1000
               x.$s = x.backwater * (i ? 10000 : 10)
             })
             data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1)
@@ -145,7 +145,7 @@
               return {
                 groupid: x.groupid,
                 groupname: x.groupname,
-                backwater: x.$ / 1000
+                backwater: (x.backwater - x.$ / 1000).toFixed(4)
               }
             })
           })
