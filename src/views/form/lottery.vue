@@ -301,6 +301,7 @@ export default {
       clearableOnTime: false,
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
+      tableTime: [new Date()._toDayString(), new Date()._toDayString()], //表格当前筛选时间
       profitDetailROW: null,
       // IssalaryAmount: !1, //个人详情报表中  是否有日工资
       data: [],
@@ -328,8 +329,8 @@ export default {
     //统计时间是否大于1天
     Daily() {
       //统计时间为1天时,为【游戏人数】，大于1天时为【日均游戏人数】
-      return new Date(this.stEt[1]).getTime() -
-        new Date(this.stEt[0]).getTime() >
+      return new Date(this.tableTime[1]).getTime() -
+        new Date(this.tableTime[0]).getTime() >
         1000 * 60 * 60 * 24
         ? !0 //每天
         : !1; //时间范围是一天
@@ -617,6 +618,7 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
+              this.tableTime = this.stEt;//当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
               if (!param[this.me.account]) {
