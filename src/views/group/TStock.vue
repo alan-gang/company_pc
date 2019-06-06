@@ -90,7 +90,7 @@
       <div class="modal" v-if="ruleInfoList">
         <div class="mask"></div>
         <div class="box-wrapper">
-          <div class="box" ref="box" style="max-width: 5rem;  max-height: 6rem;">
+          <div class="box" ref="box" style="max-width: 5rem;min-width: 3rem;  max-height: 6rem;">
             <div class="tool-bar">
               <!-- <span class="title">分红详情</span> -->
               <el-button-group>
