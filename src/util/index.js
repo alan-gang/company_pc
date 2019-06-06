@@ -25,8 +25,8 @@ function listOrderByField(list, fieldName, order) {
     for (let j = 0; j < list.length - i; j++) {
       current = list[j][fieldName]
       next = list[j + 1] && list[j + 1][fieldName]
-      current = parseFloat(String(current).replace(/,/g, ''))
-      next = parseFloat(String(next).replace(/,/g, ''))
+      current = parseFloat(String(current).replace(/[-\s:.,]/g, ''))
+      next = parseFloat(String(next).replace(/[-\s:.,]/g, ''))
       if (current > next) {
         temp = list[j + 1]
         list[j + 1] = list[j]
@@ -34,7 +34,7 @@ function listOrderByField(list, fieldName, order) {
       }
     }
   }
-  if (order == 'desc') {
+  if (order === 'desc') {
     list = list.reverse()
   }
   return list

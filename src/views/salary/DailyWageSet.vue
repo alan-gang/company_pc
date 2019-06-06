@@ -14,7 +14,7 @@
           span.date-wp 
             SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
 
-          span.ml10 状态 
+          span.ml10 日工资 
           span
             .ds-button.btn-item.mr10(v-for="(c, i) in statusButtons" v-bind:class="{selected: quickStatusIdx === i}" @click="choiceStatus(i)") {{c}}
 
@@ -26,11 +26,11 @@
           el-breadcrumb(separator=">")
             el-breadcrumb-item(v-for="(B, i) in BL" ) {{ B.title }}
 
-        el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH " @selection-change="handleSelectionChange")
+        el-table.header-bold.nopadding(:data="data" stripe ref="table" v-bind:max-height=" MH " @selection-change="handleSelectionChange" v-on:sort-change="sortChange")
           //- el-table-column(type="selection" width="100px" class-name="pl2")
           el-table-column(prop="userName" label="用户名" class-name="pl2")
-          el-table-column(prop="registertime" label="注册日期" align="center")
-          el-table-column(prop="teamCount" label="团队人数"  align="center")
+          el-table-column(prop="registertime" label="注册日期" align="center" sortable="custom")
+          el-table-column(prop="teamCount" label="团队人数"  align="center" sortable="custom")
           el-table-column(label="工资级别"  align="center") 
             template(scope="scope")
               span {{scope.row.salary}} 万
@@ -103,7 +103,7 @@
       },
       link (B, i) {
         this.id = B.userId
-        this.list(undefined, undefined, B.userId)
+        this.mySubSalaryList(undefined, undefined, B.userId)
       },
       patchSetWage () {
         if (this.disableSetWage || this.choicedRows.length < 1) return
@@ -121,47 +121,6 @@
       handleSelectionChange (rows) {
         this.choicedRows = rows
         this.disableSetWage = this.choicedRows.length < 1
-      },
-      // 我的日工资
-      mylist (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
-        let loading = this.$loading({
-          text: '加载中...',
-          target: this.$refs['table'].$el
-        }, 10000, '加载超时...')
-        let p = {
-          // userId: this.ME.userId,
-          // userId: '',
-          startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
-          endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, ''),
-          userState: 1,
-          port: 1
-        }
-        if (this.quickStatusIdx - 1 >= 0) {
-          p.isdone = this.quickStatusIdx - 1
-        }
-        Object.assign(p, option)
-        this.$http.post(api.getSalaryById, p).then(({data: {success, userBreads, totalSize, data}}) => {
-          // success
-          if (success === 1) {
-            this.total = totalSize || data.length
-            // 增加工资总额
-            data = data.map((item) => {
-              item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
-              return item
-            })
-            this.data = data
-            cb()
-            setTimeout(() => {
-              loading.text = '加载成功!'
-            }, 100)
-          } else loading.text = '加载失败!'
-        }, (rep) => {
-          // error
-        }).finally(() => {
-          setTimeout(() => {
-            loading.close()
-          }, 100)
-        })
       },
       mySubSalaryList (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
         let loading = this.$loading({
@@ -210,6 +169,46 @@
       },
       choiceStatus (i) {
         this.quickStatusIdx = i
+      },
+      sortChange (column, row) {
+        if (!column) return
+        this.data = this.listOrderByField(this.data, column.prop, {ascending: 'asc', descending: 'desc'}[column.order], column.prop === 'teamCount' ? 'registertime' : '').slice(0)
+      },
+      listOrderByField (list, fieldName, order, fieldName1) {
+        let temp
+        let current
+        let next
+        let currentOtherfield
+        let nextOtherfield
+        for (let i = 0; i < list.length; i++) {
+          for (let j = 0; j < list.length - i; j++) {
+            current = list[j][fieldName]
+            next = list[j + 1] && list[j + 1][fieldName]
+            current = parseFloat(String(current).replace(/[-\s:.,]/g, ''))
+            next = parseFloat(String(next).replace(/[-\s:.,]/g, ''))
+            if (current > next) {
+              temp = list[j + 1]
+              list[j + 1] = list[j]
+              list[j] = temp
+            } else {
+              if (current === next && fieldName1) {
+                currentOtherfield = list[j][fieldName1]
+                nextOtherfield = list[j + 1] && list[j + 1][fieldName1]
+                currentOtherfield = parseFloat(String(currentOtherfield).replace(/[-\s:.,]/g, ''))
+                nextOtherfield = parseFloat(String(nextOtherfield).replace(/[-\s:.,]/g, ''))
+                if (currentOtherfield > nextOtherfield) {
+                  temp = list[j + 1]
+                  list[j + 1] = list[j]
+                  list[j] = temp
+                }
+              }
+            }
+          }
+        }
+        if (order === 'desc') {
+          list = list.reverse()
+        }
+        return list
       }
     }
   }
