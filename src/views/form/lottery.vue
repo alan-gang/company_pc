@@ -524,7 +524,7 @@ export default {
     ClickSort(orderBy) {
       this.ascOrDesc = this.ascOrDesc === 2 ? 1 : 2;
       this.orderBy = orderBy;
-      this.profitList();
+      // this.profitList();
     },
     sortChange({ column, prop, order }) {
       this.ascOrDesc = order === "ascending" ? 2 : 1;
