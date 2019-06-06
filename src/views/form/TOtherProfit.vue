@@ -45,8 +45,19 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <!-- <el-table-column align="center" prop="issue" label="对应分红规则"></el-table-column> -->
-          <el-table-column align="center" prop="issue" label="分红比例"></el-table-column>
+          <el-table-column prop="ruleid" label="对应分红规则">
+            <template scope="scope">
+              <span
+                @click="ruleInfoList=!0,ruleInfoListRow=scope.row"
+                style="cursor:pointer;"
+              >{{ GetRuleName(scope.row) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="bonusRate" label="分红比例">
+            <template scope="scope">
+              <span>{{ scope.row.bonusRate }}%</span>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="bonus" label="个人预期佣金金额">
             <template scope="scope">
               <span
@@ -65,8 +76,38 @@
           v-if=" total > pageSize "
           v-on:current-change="pageChanged"
         ></el-pagination>
-        <p style="margin: 10px;font-size: 12px;color: #999;">温馨提示：预期佣金是基于阶段性数据测算得出，仅为预测下一次佣金发放提供参考，不作为发放佣金的依据。</p>
+        <p
+          style="margin: 10px;font-size: 12px;color: #999;"
+        >温馨提示：预期佣金是基于阶段性数据测算得出，仅为预测下一次佣金发放提供参考，不作为发放佣金的依据。</p>
       </div>
+      
+      <!-- 弹窗 规则列表 -->
+      <div class="modal" v-if="ruleInfoList">
+        <div class="mask"></div>
+        <div class="box-wrapper">
+          <div class="box" ref="box" style="max-width: 5rem;min-width: 3rem;  max-height: 6rem;">
+            <div class="tool-bar">
+              <!-- <span class="title">分红详情</span> -->
+              <el-button-group>
+                <el-button class="close" icon="close" @click="ruleInfoList = 0"></el-button>
+              </el-button-group>
+            </div>
+            <div class="ruleInfoLists">
+              <ul>
+                <li
+                  v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
+                  :class="{'on':v.id==ruleInfoListRow.ruleid}"
+                  :key="v.id"
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate*100}}%</li>
+              </ul>
+              <div class="my-el ruleInfoListSub">
+                <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹窗 ↑↑  -->
     </div>
   </div>
 </template>
@@ -83,6 +124,40 @@ export default {
   data() {
     return {
       numberWithCommas: numberWithCommas,
+      RULES: [
+        "规则一",
+        "规则二",
+        "规则三",
+        "规则四",
+        "规则五",
+        "规则六",
+        "规则七",
+        "规则八",
+        "规则九",
+        "规则十",
+        "规则十一",
+        "规则十二",
+        "规则十三",
+        "规则十四",
+        "规则十五",
+        "规则十六",
+        "规则十七",
+        "规则十八",
+        "规则十九",
+        "规则二十",
+        "规则二十一",
+        "规则二十二",
+        "规则二十三",
+        "规则二十四",
+        "规则二十五",
+        "规则二十六",
+        "规则二十七",
+        "规则二十八",
+        "规则二十九",
+        "规则三十"
+      ],
+      ruleInfoList: !1, //规则列表弹窗
+      ruleInfoListRow: {},
       TH: 250,
       pickerOptions: {
         shortcuts: [
@@ -171,6 +246,14 @@ export default {
     this.bonus();
   },
   methods: {
+    //根据规则列表 获取规则名
+    GetRuleName({ bounsruleListBy, ruleid }) {
+      let r = null;
+      bounsruleListBy.forEach((v, i) => {
+        if (v.id === ruleid) r = i;
+      });
+      return this.RULES[r];
+    },
     getSummaries1(param) {
       const { columns } = param;
       const sums = [];
