@@ -90,7 +90,7 @@
       <div class="modal" v-if="ruleInfoList">
         <div class="mask"></div>
         <div class="box-wrapper">
-          <div class="box" ref="box" style="max-width: 3.4rem;  max-height: 6rem;">
+          <div class="box" ref="box" style="max-width: 5rem;  max-height: 6rem;">
             <div class="tool-bar">
               <!-- <span class="title">分红详情</span> -->
               <el-button-group>
@@ -103,7 +103,7 @@
                   v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
                   :class="{'on':v.id==ruleInfoListRow.ruleid}"
                   :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actUser}}，分红比例{{v.bounsRate}}%</li>
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate*100}}%</li>
               </ul>
               <div class="my-el ruleInfoListSub">
                 <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
