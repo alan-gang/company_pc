@@ -10,14 +10,31 @@
       <div class="form">
         <div class="form-filters">
           <label class="item">
-            用户名&nbsp;
-            <input class="ds-input small" v-model="name" style="width: 1rem;">
+            时间
+            <el-date-picker
+              :picker-options="pickerOptions"
+              v-model="stEt"
+              format="yyyy-MM-dd"
+              type="daterange"
+              placeholder="选择日期范围"
+              v-bind:clearable="clearableOnTime"
+              v-on:change="dateChange"
+            ></el-date-picker>
+            <el-button @click="stEt=['', '']" size="small">不限</el-button>
+            <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
+            <el-button @click="stEt=[new Date(), new Date()]" size="small">今天</el-button>
           </label>
           <label class="item">
             &nbsp;状态&nbsp;
             <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
           </label>&nbsp;&nbsp;
-          <div class="ds-button primary large bold" @click="contract">搜索</div>
+          <label class="item">
+            用户名&nbsp;
+            <input class="ds-input small" v-model="name" style="width: 1rem;">
+          </label>
+          <label class="item">
+            <div class="ds-button primary large bold" @click="contract">搜索</div>
+          </label>
         </div>
         <el-table
           class="header-bold nopadding"
@@ -66,7 +83,7 @@
                 class="ds-button text-button blue"
                 v-if=" scope.row.stat !== '未签订' "
                 style="padding: 0 .05rem;"
-                @click.stop=" (showDetail = scope.row.id) "
+                @click.stop=" (showDetail = scope.row.id ,Ismyself = me.account==scope.row.userName?!0:!1) "
               >查看详情</div>
               <div
                 class="ds-button text-button blue"
@@ -95,169 +112,158 @@
         ></el-pagination>
       </div>
 
+      <!-- 弹窗 -->
+      <div class="modal" v-if="stepIndex === 1">
+        <div class="mask"></div>
+        <div class="box-wrapper">
+          <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
+            <div class="tool-bar">
+              <span class="title">分红详情</span>
+              <el-button-group>
+                <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
+              </el-button-group>
+            </div>
 
-        <!-- 弹窗 -->
-    <div class="modal" v-if="stepIndex === 1">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">分红详情</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
-            </el-button-group>
-          </div>
-
-
-      <div>
-        <div class="notice" style="margin-top: .2rem;">
-          <span class="title">温馨提示：</span>
-          <p class="content">
-            <span class="text-danger">在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用</span>
-            <br>1.
-            <span class="text-danger">销量</span>和
-            <span class="text-danger">亏损</span>只要达到规则，都应按照规则的分红比例派发分红
-            <br>2.
-            <span class="text-danger">[手动发放]</span>
-            即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
-            <span
-              class="text-danger"
-            >分红列表-分红详情</span>中进行点击确认发放
-            <br>3.
-            <span class="text-danger">[自动发放]</span>是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
-            <span class="text-danger">手动执行</span>
-            <br>4. 契约执行周期为：[按月]
-            <span class="text-danger">1号</span>；[按半月]
-            <span class="text-danger">1号</span>和
-            <span class="text-danger">16号</span>
-            <br>5. 一天内投注额达到
-            <span class="text-danger">500元</span>，为一个有效用户
-          </p>
-        </div>
-        <!-- <p class="title text-black">
+            <div>
+              <div class="notice" style="margin-top: .2rem;">
+                <span class="title">温馨提示：</span>
+                <p class="content">
+                  <span class="text-danger">在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用</span>
+                  <br>1.
+                  <span class="text-danger">销量</span>和
+                  <span class="text-danger">亏损</span>只要达到规则，都应按照规则的分红比例派发分红
+                  <br>2.
+                  <span class="text-danger">[手动发放]</span>
+                  即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
+                  <span
+                    class="text-danger"
+                  >分红列表-分红详情</span>中进行点击确认发放
+                  <br>3.
+                  <span class="text-danger">[自动发放]</span>是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
+                  <span class="text-danger">手动执行</span>
+                  <br>4. 契约执行周期为：[按月]
+                  <span class="text-danger">1号</span>；[按半月]
+                  <span class="text-danger">1号</span>和
+                  <span class="text-danger">16号</span>
+                  <br>5. 一天内投注额达到
+                  <span class="text-danger">500元</span>，为一个有效用户
+                </p>
+              </div>
+              <!-- <p class="title text-black">
           <span
             class="ds-button text-button blue"
             style="float: right;"
             @click="stepIndex--"
           >{{ '<返回上一页' }}</span>
-        </p> -->
-        <div
-          style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem;"
-          v-bind:class="[ user.state ]"
-        >
-          <p class="item block">
-            <span class="text-danger">*</span>用户名：&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="text-black">{{ user.userName }}</span>
-          </p>
-          <div class="item block">
-            <span class="text-danger">*</span>契约时间：
-            <el-date-picker
-              :picker-options="ApickerOptions"
-              v-model="stEtA"
-              type="datetimerange"
-              placeholder="请选择日期时间范围"
-              v-bind:clearable="clearableOnTime"
-            ></el-date-picker>
-          </div>
-          <p class="item block">
-            <span class="text-danger">*</span>发放周期：
-            <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
-              <el-option v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S"></el-option>
-              <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
-            </el-select>
-          </p>
-          <p class="item block">
-            <span class="text-danger">*</span>发放方式：
-            <label
-              class="text-black ds-radio-label"
-              style="padding: 0; margin-left: -.05rem ;"
-              @click=" sendType = 0 "
-              v-bind:class=" { active: sendType === 0 } "
-            >
-              <span class="ds-radio white"></span>手动发放
-            </label>
-            <label
-              class="text-black ds-radio-label"
-              style="padding: 0 .1rem;"
-              @click=" sendType = 1 "
-              v-bind:class=" { active: sendType === 1 } "
-            >
-              <span class="ds-radio white"></span>自动发放
-              <span class="text-green">( 推荐 )</span>
-            </label>
-          </p>
-          <p class="item block" v-for=" (CR, i) in CRULES ">
-            <span class="text-danger">{{ i===0? '*': '&nbsp;'}}</span>
-            {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-            <span class="text-black">累计</span>
-            <el-select v-model="CR.ruletype" style="width: .7rem;" placeholder="全">
-              <el-option v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id"></el-option>
-            </el-select>&nbsp;&nbsp;
-            <el-input-number
-              class="text-danger text-right"
-              style="width: .8rem;"
-              v-model="CR.sales"
-              v-bind:debounce="2000"
-            ></el-input-number>
-            <span class="text-black">&nbsp;万，有效人数&nbsp;</span>
-            <el-input-number
-              class="text-danger text-right"
-              style="width: .6rem;"
-              v-model="CR.actUser"
-              v-bind:min="1"
-              v-bind:debounce="2000"
-            ></el-input-number>
-            <span class="text-black">人，分红比例</span>
-            <el-select v-model=" CR.bounsRate " style="width: .7rem;" placeholder="全">
-              <el-option
-                v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) "
-                v-bind:label="R.bounsRate + '%' "
-                v-bind:value="R.bounsRate"
-              ></el-option>
-            </el-select>
-            <span v-if="CR.bounsRate">
-              &nbsp;最低
-              <span
-                class="text-blue"
-              >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}</span>万，
-              <span
-                class="text-blue"
-              >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}</span>人
-            </span>
-          </p>
-          <div class="buttons item block" style="padding-left: .55rem;">
-            <div
-              class="ds-button x-small text-button el-icon-plus blue"
-              @click=" ruleLength++ "
-              v-if="ruleLength < 21"
-            >
-              <span class="text-black">&nbsp;再加一行</span>
+              </p>-->
+              <div
+                style="margin: 0 10% 0 25%; margin-top: .3rem; min-width: 6rem;"
+                v-bind:class="[ user.state ]"
+              >
+                <p class="item block">
+                  <span class="text-danger">*</span>用户名：&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span class="text-black">{{ user.userName }}</span>
+                </p>
+                <div class="item block">
+                  <span class="text-danger">*</span>契约时间：
+                  <el-date-picker
+                    :picker-options="ApickerOptions"
+                    v-model="stEtA"
+                    type="datetimerange"
+                    placeholder="请选择日期时间范围"
+                    v-bind:clearable="clearableOnTime"
+                  ></el-date-picker>
+                </div>
+                <p class="item block">
+                  <span class="text-danger">*</span>发放周期：
+                  <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
+                    <el-option v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S"></el-option>
+                    <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
+                  </el-select>
+                </p>
+                <p class="item block">
+                  <span class="text-danger">*</span>发放方式：
+                  <label
+                    class="text-black ds-radio-label"
+                    style="padding: 0; margin-left: -.05rem ;"
+                    @click=" sendType = 0 "
+                    v-bind:class=" { active: sendType === 0 } "
+                  >
+                    <span class="ds-radio white"></span>手动发放
+                  </label>
+                  <label
+                    class="text-black ds-radio-label"
+                    style="padding: 0 .1rem;"
+                    @click=" sendType = 1 "
+                    v-bind:class=" { active: sendType === 1 } "
+                  >
+                    <span class="ds-radio white"></span>自动发放
+                    <span class="text-green">( 推荐 )</span>
+                  </label>
+                </p>
+                <p class="item block" v-for=" (CR, i) in CRULES ">
+                  <span class="text-danger">{{ i===0? '*': '&nbsp;'}}</span>
+                  {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
+                  <span class="text-black">累计</span>
+                  <el-select v-model="CR.ruletype" style="width: .7rem;" placeholder="全">
+                    <el-option v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id"></el-option>
+                  </el-select>&nbsp;&nbsp;
+                  <el-input-number
+                    class="text-danger text-right"
+                    style="width: .8rem;"
+                    v-model="CR.sales"
+                    v-bind:debounce="2000"
+                  ></el-input-number>
+                  <span class="text-black">&nbsp;万，有效人数&nbsp;</span>
+                  <el-input-number
+                    class="text-danger text-right"
+                    style="width: .6rem;"
+                    v-model="CR.actUser"
+                    v-bind:min="1"
+                    v-bind:debounce="2000"
+                  ></el-input-number>
+                  <span class="text-black">人，分红比例</span>
+                  <el-select v-model=" CR.bounsRate " style="width: .7rem;" placeholder="全">
+                    <el-option
+                      v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) "
+                      v-bind:label="R.bounsRate + '%' "
+                      v-bind:value="R.bounsRate"
+                    ></el-option>
+                  </el-select>
+                  <span v-if="CR.bounsRate">
+                    &nbsp;最低
+                    <span
+                      class="text-blue"
+                    >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}</span>万，
+                    <span
+                      class="text-blue"
+                    >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}</span>人
+                  </span>
+                </p>
+                <div class="buttons item block" style="padding-left: .55rem;">
+                  <div
+                    class="ds-button x-small text-button el-icon-plus blue"
+                    @click=" ruleLength++ "
+                    v-if="ruleLength < 21"
+                  >
+                    <span class="text-black">&nbsp;再加一行</span>
+                  </div>
+                  <div
+                    class="ds-button x-small text-button el-icon-minus blue"
+                    @click=" ruleLength-- "
+                    v-if="ruleLength > 3 "
+                  >
+                    <span class="text-black">&nbsp;减最后一行</span>
+                  </div>
+                </div>
+                <div class="buttons item block" style="padding-left: .6rem;">
+                  <div class="ds-button primary bold" @click="createContract">确认发送</div>
+                </div>
+              </div>
             </div>
-            <div
-              class="ds-button x-small text-button el-icon-minus blue"
-              @click=" ruleLength-- "
-              v-if="ruleLength > 3 "
-            >
-              <span class="text-black">&nbsp;减最后一行</span>
-            </div>
-          </div>
-          <div class="buttons item block" style="padding-left: .6rem;">
-            <div class="ds-button primary bold" @click="createContract">确认发送</div>
           </div>
         </div>
       </div>
-
-
-
-          
-        </div>
-      </div>
-    </div>
-
-
-
-
-
     </div>
     <div class="modal" v-if="showDetail">
       <div class="mask"></div>
@@ -271,7 +277,7 @@
           </div>
           <ContractDetail
             v-bind:id=" showDetail "
-            v-bind:myself=" !this.type "
+            v-bind:myself="Ismyself "
             v-bind:cType="cType"
             style="min-height: 5rem;"
           ></ContractDetail>
@@ -294,6 +300,7 @@ export default {
   },
   data() {
     return {
+      Ismyself: !1, //我的  我的下级
       TH: 180,
       // 0 我的契约
       // 1 下级契约
@@ -600,12 +607,14 @@ export default {
       deep: true,
       handler() {
         this.CRULES.forEach(CR => {
+          CR.sales = parseInt(CR.sales); //仅整数
+          CR.actUser = parseInt(CR.actUser); //仅整数
           let rule = this.ruleCfg.find(
             x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate
           );
           if (!rule) return;
-          let sales = rule.sales;
-          let actUser = rule.actUser;
+          let sales = parseInt(rule.sales);
+          let actUser = parseInt(rule.actUser);
           setTimeout(() => {
             if (CR.actUser < actUser) CR.actUser = actUser;
             if (CR.sales < sales) CR.sales = sales;
@@ -660,11 +669,11 @@ export default {
         this.preOptions = {
           // beginDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
           startDate: this.stEt[0]
-            ? dateTimeFormat(this.stEt[0]).replace(/[\s:-]*/g, "")
+            ? this.stEt[0]._toDayString().replace(/[\s:-]*/g, "")
             : "",
           // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',
           endDate: this.stEt[1]
-            ? dateTimeFormat(this.stEt[1]).replace(/[\s:-]*/g, "")
+            ? this.stEt[1]._toDayString().replace(/[\s:-]*/g, "")
             : "",
           // startDate: this.st ? dateTimeFormat(this.st.getTime()).replace(/[\s:-]*/g, '') : '',
           // endDate: this.et ? dateTimeFormat(this.et.getTime()).replace(/[\s:-]*/g, '') : '',

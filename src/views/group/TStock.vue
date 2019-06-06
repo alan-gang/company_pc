@@ -14,6 +14,8 @@
           :data="bonusList"
           ref="table"
           stripe="stripe"
+          show-summary="show-summary"
+          v-bind:summary-method="getSummaries"
           v-bind:max-height=" MH "
           v-bind:row-class-name="tableRowClassName"
         >
@@ -49,7 +51,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="actUser" label="有效人数"></el-table-column>
-          <!-- <el-table-column prop="actUser" label="对应分红规则"></el-table-column> -->
+          <el-table-column prop="ruleid" label="对应分红规则">
+            <template scope="scope">
+              <span
+                @click="ruleInfoList=!0,ruleInfoListRow=scope.row"
+                style="cursor:pointer;"
+              >{{ GetRuleName(scope.row) }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="bonusRate" label="分红比例">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
@@ -73,8 +82,37 @@
           v-if=" total > pageSize "
           v-on:current-change="pageChanged"
         ></el-pagination>
-        <p style="margin: 10px;font-size: 12px;color: #999;">温馨提示：预期分红是基于阶段性数据测算得出,仅为预测下一次分红提供参考,不作为发放分红依据。</p>
+        <p
+          style="margin: 10px;font-size: 12px;color: #999;"
+        >温馨提示：预期分红是基于阶段性数据测算得出,仅为预测下一次分红提供参考,不作为发放分红依据。</p>
       </div>
+      <!-- 弹窗 规则列表 -->
+      <div class="modal" v-if="ruleInfoList">
+        <div class="mask"></div>
+        <div class="box-wrapper">
+          <div class="box" ref="box" style="max-width: 5rem;min-width: 3rem;  max-height: 6rem;">
+            <div class="tool-bar">
+              <!-- <span class="title">分红详情</span> -->
+              <el-button-group>
+                <el-button class="close" icon="close" @click="ruleInfoList = 0"></el-button>
+              </el-button-group>
+            </div>
+            <div class="ruleInfoLists">
+              <ul>
+                <li
+                  v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
+                  :class="{'on':v.id==ruleInfoListRow.ruleid}"
+                  :key="v.id"
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate*100}}%</li>
+              </ul>
+              <div class="my-el ruleInfoListSub">
+                <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹窗 ↑↑  -->
     </div>
   </div>
 </template>
@@ -96,6 +134,42 @@ export default {
       numberWithCommas: numberWithCommas,
       TH: 250,
       me: store.state.user,
+      RULES: [
+        "规则一",
+        "规则二",
+        "规则三",
+        "规则四",
+        "规则五",
+        "规则六",
+        "规则七",
+        "规则八",
+        "规则九",
+        "规则十",
+        "规则十一",
+        "规则十二",
+        "规则十三",
+        "规则十四",
+        "规则十五",
+        "规则十六",
+        "规则十七",
+        "规则十八",
+        "规则十九",
+        "规则二十",
+        "规则二十一",
+        "规则二十二",
+        "规则二十三",
+        "规则二十四",
+        "规则二十五",
+        "规则二十六",
+        "规则二十七",
+        "规则二十八",
+        "规则二十九",
+        "规则三十"
+      ],
+      ruleInfoList: !1, //规则列表弹窗
+      ruleInfoListRow: {},
+      // 销售盈亏类型
+      TYPE: ["销售>=", "亏损<="],
       // 0 我的分红
       // 1 下级分红
       // type: 0,
@@ -106,6 +180,7 @@ export default {
         // {id: 2, title: '已发放', class: 'paid'},
         // {id: 3, title: '平台外已发放', class: 'paid-out'}
       ],
+      bonusSent: "",
       s: "",
       bonusList: [],
       topBonuList: [],
@@ -126,6 +201,29 @@ export default {
     this.bonus();
   },
   methods: {
+    getSummaries(param) {
+      const { columns } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "总计";
+          return;
+        } else if (column.label === "个人预期分红金额") {
+          sums[index] = this.bonusSent;
+        } else {
+          sums[index] = "";
+        }
+      });
+      return sums;
+    },
+    //根据规则列表 获取规则名
+    GetRuleName({ bounsruleListBy, ruleid }) {
+      let r = null;
+      bounsruleListBy.forEach((v, i) => {
+        if (v.id === ruleid) r = i;
+      });
+      return this.RULES[r];
+    },
     //距离结算日       结算日时间减去当前时间
     DistanceSettlementDate({ issue }) {
       return (
@@ -228,7 +326,7 @@ export default {
               //
               this.bonusList = data.my.concat(data.myBonus);
               this.total = data.totalSize;
-              // this.bonusSent = data.bonus.sent; //@只需对分红金额进行总计
+              this.bonusSent = data.bonus.sent; //@总计
 
               this.total = data.totalSize;
               typeof fn === "function" && fn();
@@ -421,6 +519,45 @@ bg-active = #e2e2e2;
         }
       }
     }
+  }
+}
+</style>
+<style lang="less">
+.ruleInfoLists {
+  ul {
+    list-style-type: none;
+    padding: 0 0.2rem;
+    .on {
+      color: #f17d0b;
+    }
+    li {
+      margin: 0.1rem 0;
+    }
+  }
+  .ruleInfoListSub {
+    text-align: center;
+    padding-bottom: 0.2rem;
+  }
+}
+div.my-el {
+  display: block;
+
+  .el-button {
+    min-width: 0.8rem;
+    height: 0.3rem;
+    padding: 0;
+  }
+
+  .el-button:focus,
+  .el-button:hover {
+    border: solid 1px #f37e0c;
+    color: #666;
+  }
+
+  .el-button.selected {
+    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%),
+      linear-gradient(#f37e0c, #f37e0c);
+    border: solid 1px #f37e0c;
   }
 }
 </style>
