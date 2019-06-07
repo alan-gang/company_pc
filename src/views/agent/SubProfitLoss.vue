@@ -137,7 +137,7 @@ export default {
         { prop: 'subType', name: '下级类型', sortable: false }
       ],
       thirdGamesColumn: [
-        { prop: 'userName', name: '类型', sortable: false },
+        { prop: 'userName', name: '游戏类别', sortable: false },
         { prop: 'buy', name: '投注', sortable: 'custom' },
         { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
         { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' }
@@ -198,6 +198,7 @@ export default {
     this.$set(this.stEt, 0, sDate)
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this.getPersonalReport()
+    this.names = JSON.parse(window.sessionStorage.getItem('SUB_PROFIT_LOSS_NAMES_HISTORY') || '[]')
   },
   methods: {
     __setReportI (i) {
@@ -362,6 +363,7 @@ export default {
       if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
       this.names.push({value: name, address: name})
       if (this.names.length > 3) this.names.shift()
+      window.sessionStorage.setItem('SUB_PROFIT_LOSS_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
     },
     viewHighterLevel (row) {
       this.getUserBread(row.userId)
