@@ -60,6 +60,7 @@
               placeholder="请输入用户名"
               style="width: 1.1rem;"
               @select="profitList"
+              popper-class="autocompleteuser"
             ></el-autocomplete>
           </label>
           <div class="ds-button primary large bold" @click="profitList()">搜索</div>
@@ -399,7 +400,7 @@ export default {
         param[this.me.account] = []; //用户搜索有效列表
       }
       param[this.me.account].reverse().forEach((_, i) => {
-        i < 5 && list.push({ value: _, label: _ });//显示最后5条
+        i < 5 && list.push({ value: _, label: _ }); //显示最后5条
       });
       let results = queryString
         ? list.filter(this.createFilter(queryString))
@@ -492,7 +493,7 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
-              this.tableTime = this.stEt;//当前表格筛选时间
+              this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
               if (!param[this.me.account]) {
@@ -780,5 +781,11 @@ bg-active = #e2e2e2;
 }
 .lotterymyinfo.my {
   background: #2d86ea;
+}
+.autocompleteuser {
+  .el-autocomplete-suggestion__list::before {
+    content: "近期搜索";
+    display: block;    padding: 0 10px;
+  }
 }
 </style>
