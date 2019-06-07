@@ -365,8 +365,8 @@ export default {
       if (!param[this.me.account]) {
         param[this.me.account] = []; //用户搜索有效列表
       }
-      param[this.me.account].forEach(_ => {
-        list.push({ value: _, label: _ });
+      param[this.me.account].reverse().forEach((_, i) => {
+        i < 5 && list.push({ value: _, label: _ });//显示最后5条
       });
       let results = queryString
         ? list.filter(this.createFilter(queryString))
@@ -600,7 +600,7 @@ export default {
           endDate: this.stEt[1],
           userId: id || this.BL[this.BL.length - 2].userId,
           // parentId: this.zone !== "" ? this.zone + 1 : "",
-          username: this.name,
+          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
           // orderType: this.S === '' ? '' : this.S + 1,
           // sort: this.btos === '' ? 2 : this.btos + 1,
           page: 1,
@@ -618,7 +618,7 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
-              this.tableTime = this.stEt;//当前表格筛选时间
+              this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
               if (!param[this.me.account]) {
@@ -649,9 +649,11 @@ export default {
                 this.name &&
                 !data.userBreads.find(_ => _.userName === this.name)
               ) {
-                this.$message.error({
-                  target: this.$el,
-                  message: "该下级不存在"
+                this.$modal.warn({
+                  // target: VM.$el,
+                  content: "该下级不存在",
+                  btn: ["确定"],
+                  close() {}
                 });
               }
               this.total = data.totalSize || this.data.length;
