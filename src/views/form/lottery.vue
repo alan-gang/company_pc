@@ -221,17 +221,23 @@
               </el-table-column>
               <el-table-column align="right" prop="betAmount" label="投注">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
+                  <span
+                    :class=" {'text-green': scope.row.betAmount && scope.row.betAmount._o0(), 'text-danger': scope.row.betAmount && scope.row.betAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.betAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="prizeAmount" label="派奖">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
+                  <span
+                    :class=" {'text-green': scope.row.prizeAmount && scope.row.prizeAmount._o0(), 'text-danger': scope.row.prizeAmount && scope.row.prizeAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.prizeAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="gameSettleAmount" label="游戏盈亏">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
+                  <span
+                    :class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -239,15 +245,25 @@
                 prop="pointAmount"
                 label="返点"
                 v-if="profitDetailROW && profitDetailROW.hasSub==1"
-              ></el-table-column>
+              >
+                <template scope="scope">
+                  <span
+                    :class=" {'text-green': scope.row.pointAmount && scope.row.pointAmount._o0(), 'text-danger': scope.row.pointAmount && scope.row.pointAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.pointAmount) }}</span>
+                </template>
+              </el-table-column>
               <el-table-column align="right" prop="activityAmount" label="活动">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
+                  <span
+                    :class=" {'text-green': scope.row.activityAmount && scope.row.activityAmount._o0(), 'text-danger': scope.row.activityAmount && scope.row.activityAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="salaryAmount" label="日工资" v-if="me.showSalary">
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
+                  <span
+                    :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
+                  >{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -939,7 +955,8 @@ bg-active = #e2e2e2;
 .autocompleteuser {
   .el-autocomplete-suggestion__list::before {
     content: "近期搜索";
-    display: block;    padding: 0 10px;
+    display: block;
+    padding: 0 10px;
   }
 }
 </style>
