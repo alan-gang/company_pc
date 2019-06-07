@@ -30,7 +30,7 @@
 
         el-table.header-bold.nopadding(:data="myWageData" stripe ref="table" v-bind:max-height=" MH " v-on:sort-change="sortChange")
 
-          el-table-column(class-name="pl2" prop="date" label="日期" )
+          el-table-column(class-name="pl2" prop="date" label="日期" sortable="custom")
           el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
           el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
           el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")

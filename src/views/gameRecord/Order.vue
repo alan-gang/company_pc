@@ -18,6 +18,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
           )
         
         //- label.item 时间 
@@ -411,16 +412,18 @@
       this.getGameHistory()
       this.getBreadByUserId(this.me.userId)
       this.showCancelOrder = this.useSource !== this.USE_SOURCE_AGENT // 下级彩票记录不显示撤单
+      this.names = JSON.parse(window.sessionStorage.getItem('ORDER_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setGOI (i) {
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
         // this.name = B.userName
         this.name = ''
-        this.Orderlist()
+        this.Orderlist({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -557,7 +560,7 @@
           }, 100)
         })
       },
-      Orderlist (page, fn, source) {
+      Orderlist (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -576,7 +579,7 @@
             stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
@@ -588,7 +591,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.Orderlist, this.preOptions).then(({data}) => {
+        this.$http.post(api.Orderlist, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -598,15 +601,16 @@
             !fn && (this.currentPage = 1)
             this.Cdata = data.recordList
             this.total = data.totalSize || this.data.length
-            this.userBreadcrumb = data.userBreads.concat([{}])
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
             if (!data.recordList || data.recordList.length < 1) {
               if (this.name && this.preOptions.scope === 1 && !data.userBreads.find((item) => { return item.userName === this.preOptions.userName }) && data.msg) {
                 this.$message.error({target: this.$el, message: data.msg}) // || '该下级不存在'
               }
-            } else {
-              if (this.preOptions.userName) {
-                this.setNameHistory(this.preOptions.userName)
-              }
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
             }
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
@@ -750,8 +754,14 @@
       },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('ORDER_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
     }
   }

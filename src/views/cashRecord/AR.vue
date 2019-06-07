@@ -40,6 +40,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
           )
           
         span.item
@@ -78,7 +79,7 @@
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="me.showSalary") 工资
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
 
       .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
@@ -170,7 +171,7 @@
     },
     data () {
       return {
-        ME: store.state.user,
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
@@ -285,16 +286,17 @@
       }
       this.initQueryConditionDate()
       this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('AR_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setCRI (i) {
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
-        // this.name = B.userName
         this.name = ''
-        this.Orderlist()
+        this.list({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -419,7 +421,7 @@
           }, 100)
         })
       },
-      list (page, fn, source) {
+      list (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -440,7 +442,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
@@ -454,7 +456,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.list, this.preOptions).then(({data}) => {
+        this.$http.post(api.list, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
@@ -462,6 +464,12 @@
             this.data = data.orderRecordList
             // this.data.forEach(x => (x.inout = parseFloat(x.inout) * -1))
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -514,7 +522,7 @@
         this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.ME.showSalary && data.orderTypeList.push({
+            this.me.showSalary && data.orderTypeList.push({
               cnTitle: '日工资',
               ordertypeId: 37
             })
@@ -632,10 +640,21 @@
         }) : this.names
         cb(rs)
       },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('AR_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
     }
   }

@@ -59,6 +59,7 @@
               placeholder="请输入用户名"
               style="width: 1.1rem;"
               @select="profitList"
+              popper-class="autocompleteuser"
             ></el-autocomplete>
           </label>
           <div class="ds-button primary large bold" @click="profitList()">搜索</div>
@@ -362,6 +363,7 @@ export default {
       clearableOnTime: false,
       // stEt: [new Date()._setD(1)._setHMS("0:0:0"),new Date()._setD(1)._setHMS("0:0:0")._bfM(1)._setS(-1)],
       stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
+      tableTime: [new Date()._toDayString(), new Date()._toDayString()], //表格当前筛选时间
       profitDetailROW: null,
       data: [],
       pageSize: 20,
@@ -409,8 +411,8 @@ export default {
     //统计时间是否大于1天
     Daily() {
       //统计时间为1天时,为【游戏人数】，大于1天时为【日均游戏人数】
-      return new Date(this.stEt[1]).getTime() -
-        new Date(this.stEt[0]).getTime() >
+      return new Date(this.tableTime[1]).getTime() -
+        new Date(this.tableTime[0]).getTime() >
         1000 * 60 * 60 * 24
         ? !0 //每天
         : !1; //时间范围是一天
@@ -447,8 +449,8 @@ export default {
       if (!param[this.me.account]) {
         param[this.me.account] = []; //用户搜索有效列表
       }
-      param[this.me.account].forEach(_ => {
-        list.push({ value: _, label: _ });
+      param[this.me.account].reverse().forEach((_, i) => {
+        i < 5 && list.push({ value: _, label: _ }); //显示最后5条
       });
       let results = queryString
         ? list.filter(this.createFilter(queryString))
@@ -470,7 +472,7 @@ export default {
     ClickSort(orderBy) {
       this.ascOrDesc = this.ascOrDesc === 2 ? 1 : 2;
       this.orderBy = orderBy;
-      this.profitList();
+      // this.profitList();
     },
     //点击 今天
     ClickToday() {
@@ -552,7 +554,7 @@ export default {
       if (!fn) {
         this.preOptions = {
           gameType: this.profitmark === "list" ? 0 : 999,
-          username: this.name,
+          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
           userId: id || this.BL[this.BL.length - 2].userId,
           scope: this.zone !== "" ? this.zone + 1 : "",
           page: 1,
@@ -572,6 +574,7 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
+              this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
               if (!param[this.me.account]) {
@@ -599,9 +602,11 @@ export default {
                 this.name &&
                 !data.userBreads.find(_ => _.userName === this.name)
               ) {
-                this.$message.error({
-                  target: this.$el,
-                  message: "该下级不存在"
+                this.$modal.warn({
+                  // target: VM.$el,
+                  content: "该下级不存在",
+                  btn: ["确定"],
+                  close() {}
                 });
               }
 
@@ -857,5 +862,11 @@ bg-active = #e2e2e2;
   background: #2d86ea;
   color: #fff;
   font-weight: bold;
+}
+.autocompleteuser {
+  .el-autocomplete-suggestion__list::before {
+    content: "近期搜索";
+    display: block;    padding: 0 10px;
+  }
 }
 </style>

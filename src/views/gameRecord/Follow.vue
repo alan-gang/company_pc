@@ -19,6 +19,7 @@
               placeholder="请输入用户名"
               v-bind:maxlength="12"
               v-bind:clearable="true"
+              v-on:select="nameHandleSelect"
             )
 
           //- label.item 追号时间 
@@ -130,6 +131,7 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
+  import store from '../../store'
   import SearchConditions from 'components/SearchConditions'
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
@@ -154,6 +156,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         pickerOptions: {
           shortcuts: [{
@@ -268,16 +271,17 @@
         this.followList()
       }
       this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('FOLLOW_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setGFI (i) {
         this.I = i
       },
       link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
         this.subUserId = B.userId
-        // this.name = B.userName
         this.name = ''
-        this.followList()
+        this.followList({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -399,7 +403,7 @@
           }, 100)
         })
       },
-      followList (page, fn, source) {
+      followList (page, fn, source, params = {}) {
         if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
           if (!this.name) {
             this.$message.warning({message: '请输入用户名'})
@@ -422,7 +426,7 @@
             // stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
@@ -434,7 +438,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.followList, this.preOptions).then(({data}) => {
+        this.$http.post(api.followList, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -451,6 +455,12 @@
             })
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -545,10 +555,21 @@
         }) : this.names
         cb(rs)
       },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('FOLLOW_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120

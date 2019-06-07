@@ -83,7 +83,7 @@
                   class="ds-button text-button blue"
                   v-if=" scope.row.stat !== '未签订' "
                   style="padding: 0 .05rem;"
-                  @click.stop=" (showDetail = scope.row.id) "
+                  @click.stop=" (showDetail = scope.row.id,Ismyself = me.account==scope.row.userName?!0:!1) "
                 >查看详情</div>
                 <div
                   class="ds-button text-button blue"
@@ -284,7 +284,7 @@
           </div>
           <ContractDetail
             v-bind:id=" showDetail "
-            v-bind:myself=" !1 "
+            v-bind:myself="Ismyself "
             v-bind:cType="cType"
             style="min-height: 5rem;"
           ></ContractDetail>
@@ -309,6 +309,7 @@ export default {
   },
   data() {
     return {
+      Ismyself: !1, //我的  我的下级
       TH: 180,
       // 0 我的契约
       // 1 下级契约
@@ -615,12 +616,14 @@ export default {
       deep: true,
       handler() {
         this.CRULES.forEach(CR => {
+          CR.sales = parseInt(CR.sales); //仅整数
+          CR.actUser = parseInt(CR.actUser); //仅整数
           let rule = this.ruleCfg.find(
             x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate
           );
           if (!rule) return;
-          let sales = rule.sales;
-          let actUser = rule.actUser;
+          let sales = parseInt(rule.sales);
+          let actUser = parseInt(rule.actUser);
           setTimeout(() => {
             if (CR.actUser < actUser) CR.actUser = actUser;
             if (CR.sales < sales) CR.sales = sales;
