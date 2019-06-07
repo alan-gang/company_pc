@@ -67,7 +67,7 @@
       .daily-profit-dialog-ctx
         .info-header 每日明细-{{curSubUserName}}(个人)
         el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-on:sort-change="dailyReportSortChange") 
-          el-table-column(prop="date" label="日期" class-name="pl2" )
+          el-table-column(prop="date" label="时间" class-name="pl2" )
             template(scope="scope")
               span {{scope.row.date}}
 
@@ -75,7 +75,7 @@
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
 
-          el-table-column(prop="prize" label="中奖" v-if="I === 1" sortable="custom")
+          el-table-column(prop="prize" label="中奖" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
 
