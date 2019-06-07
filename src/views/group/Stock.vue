@@ -46,7 +46,9 @@
           </el-table-column>
           <el-table-column label="彩票总销量">
             <template scope="scope">
-              <span>{{ numberWithCommas(scope.row.saleAmount) }}</span>
+              <span
+                :class=" {'text-green': numberWithCommas(scope.row.saleAmount) && numberWithCommas(scope.row.saleAmount)._o0(), 'text-danger': numberWithCommas(scope.row.saleAmount) && numberWithCommas(scope.row.saleAmount)._l0() } "
+              >{{ numberWithCommas(scope.row.saleAmount) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="彩票总盈亏">
@@ -59,7 +61,9 @@
           <el-table-column prop="actUser" label="有效人数"></el-table-column>
           <el-table-column prop="rewards" label="活动费用">
             <template scope="scope">
-              <span>{{ scope.row.rewards &&scope.row.rewards._nwc() }}</span>
+              <span
+                :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
+              >{{ scope.row.rewards &&scope.row.rewards._nwc() }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="bonusRate" label="分红比例">
