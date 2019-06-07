@@ -647,7 +647,8 @@
         activityCount: 0,
         bwi: 0,
         bw: '',
-        BWL: null
+        BWL: null,
+        gogetUserList: false
       }
     },
     computed: {
@@ -800,6 +801,8 @@
       },
       stepIndex () {
         if (this.stepIndex === 0) {
+          if (this.gogetUserList) this.getUserList()
+          this.gogetUserList = false
           this.cpwd = ''
           this.safeCheckCode = ''
           this.money = ''
@@ -861,6 +864,7 @@
               content: data.msg || '同步成功',
               btn: []
             })
+            this.gogetUserList = true
           }
         })
       },
