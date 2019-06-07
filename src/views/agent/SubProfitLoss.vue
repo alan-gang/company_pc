@@ -23,6 +23,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
           )
 
         .ds-button.primary.large.bold.ml10(@click="search()") 搜索
@@ -40,7 +41,7 @@
           el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
           el-table-column(label="操作" align="center" )
             template(slot-scope="scope")
-              el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上级
+              el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上一步
               el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '合计'") 每日明细
 
       p 温馨提示：仅保留最近7天的数据
@@ -145,8 +146,8 @@ export default {
       otherCommonTableColumn: [
         { prop: 'userName', name: '用户名', sortable: false },
         { prop: 'buy', name: '投注', sortable: 'custom' },
-        { prop: 'prize', name: '中奖', sortable: 'custom' },
-        { prop: 'point', name: '返点', sortable: 'custom' },
+        { prop: 'prize', name: '中奖', sortable: false },
+        { prop: 'point', name: '返点', sortable: false },
         { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
         { prop: 'reward', name: '活动', sortable: 'custom' },
         { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
@@ -361,9 +362,14 @@ export default {
     },
     setNameHistory (name) {
       if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-      this.names.push({value: name, address: name})
-      if (this.names.length > 3) this.names.shift()
+      let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+      this.names.unshift({value: name, address: name})
+      if (this.names.length > 5) this.names.pop()
+      this.names.unshift(tipItem)
       window.sessionStorage.setItem('SUB_PROFIT_LOSS_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+    },
+    nameHandleSelect (e) {
+      if (e.value === '近期搜索') this.subUserName = ''
     },
     viewHighterLevel (row) {
       this.getUserBread(row.userId)
@@ -451,6 +457,10 @@ export default {
       text-align center
 </style>
 <style lang="stylus">
+.el-scrollbar__wrap
+  overflow auto
+.el-autocomplete-suggestion__wrap
+  padding 0 0 8px 0
 .search-range-slt
   &.el-select-dropdown
     background-color #fff

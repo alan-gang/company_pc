@@ -40,6 +40,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
           )
           
         span.item
@@ -285,6 +286,7 @@
       }
       this.initQueryConditionDate()
       this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('AR_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setCRI (i) {
@@ -465,6 +467,9 @@
             if (this.useSource === this.USE_SOURCE_AGENT) {
               this.userBreadcrumb = data.userBreads.concat([{}])
             }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -635,10 +640,21 @@
         }) : this.names
         cb(rs)
       },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('AR_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
     }
   }
