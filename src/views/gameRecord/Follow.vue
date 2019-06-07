@@ -19,6 +19,7 @@
               placeholder="请输入用户名"
               v-bind:maxlength="12"
               v-bind:clearable="true"
+              v-on:select="nameHandleSelect"
             )
 
           //- label.item 追号时间 
@@ -270,6 +271,7 @@
         this.followList()
       }
       this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('FOLLOW_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setGFI (i) {
@@ -456,6 +458,9 @@
             if (this.useSource === this.USE_SOURCE_AGENT) {
               this.userBreadcrumb = data.userBreads.concat([{}])
             }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -550,10 +555,21 @@
         }) : this.names
         cb(rs)
       },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('FOLLOW_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120

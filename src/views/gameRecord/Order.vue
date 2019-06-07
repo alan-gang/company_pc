@@ -18,6 +18,7 @@
             placeholder="请输入用户名"
             v-bind:maxlength="12"
             v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
           )
         
         //- label.item 时间 
@@ -411,6 +412,7 @@
       this.getGameHistory()
       this.getBreadByUserId(this.me.userId)
       this.showCancelOrder = this.useSource !== this.USE_SOURCE_AGENT // 下级彩票记录不显示撤单
+      this.names = JSON.parse(window.sessionStorage.getItem('ORDER_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setGOI (i) {
@@ -606,10 +608,9 @@
               if (this.name && this.preOptions.scope === 1 && !data.userBreads.find((item) => { return item.userName === this.preOptions.userName }) && data.msg) {
                 this.$message.error({target: this.$el, message: data.msg}) // || '该下级不存在'
               }
-            } else {
-              if (this.preOptions.userName) {
-                this.setNameHistory(this.preOptions.userName)
-              }
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
             }
           } else loading.text = data.msg || '加载失败!'
         }, (rep) => {
@@ -753,8 +754,14 @@
       },
       setNameHistory (name) {
         if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
-        this.names.push({value: name, address: name})
-        if (this.names.length > 3) this.names.shift()
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('ORDER_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
     }
   }
