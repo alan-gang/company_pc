@@ -799,7 +799,20 @@
         }, 0)
       },
       stepIndex () {
-        // if (this.stepIndex === 0) this.getUserList()
+        if (this.stepIndex === 0) {
+          this.cpwd = ''
+          this.safeCheckCode = ''
+          this.money = ''
+          this.teamSales = ''
+          this.activityCount = ''
+          this.un = ''
+          this.RULES.forEach(x => {
+            x.sales = ''
+            x.actUser = ''
+            x.bounsRate = ''
+          })
+          this.ruleLength = 3
+        }
       },
       point () {
         setTimeout(() => {
@@ -808,6 +821,16 @@
           let [l, r, t] = this.point.split('.')
           if (r) this.point = l + '.' + r.slice(0, 1)
           if ((r && r.split(/[,]/)[1]) || t) this.point = l + '.' + r.split(/[.,]/)[0].slice(0, 1)
+        }, 0)
+      },
+      teamSales () {
+        setTimeout(() => {
+          this.teamSales = parseInt(this.teamSales)
+        }, 0)
+      },
+      activityCount () {
+        setTimeout(() => {
+          this.activityCount = parseInt(this.activityCount)
         }, 0)
       }
     },
