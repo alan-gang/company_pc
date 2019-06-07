@@ -32,6 +32,8 @@
       keep-alive
         el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table" v-show="!showThirdGameDetal" v-on:sort-change="sortChange" )  
           el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" v-bind:width="o.width" align="center" )
+            template(slot-scope="scope")
+              span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
           el-table-column(label="操作" align="center" )
             template(slot-scope="scope")
               el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
@@ -39,6 +41,8 @@
       keep-alive
         el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
           el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
+            template(slot-scope="scope")
+              span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
           el-table-column(label="操作" align="center" )
             template(slot-scope="scope")
               el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上一步
@@ -49,6 +53,8 @@
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-on:sort-change="sortChange")  
         el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+          template(slot-scope="scope")
+            span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
         el-table-column(label="操作" )
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
@@ -67,7 +73,7 @@
       .daily-profit-dialog-ctx
         .info-header 每日明细-{{curSubUserName}}(个人)
         el-table.header-bold.nopadding(:data="dailyReportData" style="margin: .2rem 0" stripe ref="table-daily-profit" v-on:sort-change="dailyReportSortChange") 
-          el-table-column(prop="date" label="日期" class-name="pl2" )
+          el-table-column(prop="date" label="时间" class-name="pl2" )
             template(scope="scope")
               span {{scope.row.date}}
 
@@ -75,7 +81,7 @@
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "buy", scope.row)}}
 
-          el-table-column(prop="prize" label="中奖" v-if="I === 1" sortable="custom")
+          el-table-column(prop="prize" label="中奖" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
 
@@ -85,8 +91,7 @@
 
           el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
             template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
-
+              span(:class="getCellClass(scope.row.gameProfit, true)") {{tableCellDataFormat(amountColumnProp, "gameProfit", scope.row)}}
           el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
@@ -101,7 +106,7 @@
 
           el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
             template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
+              span(:class="getCellClass(scope.row.totalProfit, true)") {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}  
 </template>
 
 <script>
@@ -133,24 +138,24 @@ export default {
         { prop: 'userName', name: '用户名', sortable: false, width: 150 },
         { prop: 'date', name: '时间', sortable: false, width: 350 },
         { prop: 'buy', name: '投注', sortable: 'custom' },
-        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
-        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', mcolor: true, sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', mcolor: true, sortable: 'custom' },
         { prop: 'subType', name: '下级类型', sortable: false }
       ],
       thirdGamesColumn: [
         { prop: 'userName', name: '游戏类别', sortable: false },
         { prop: 'buy', name: '投注', sortable: 'custom' },
-        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
-        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' }
+        { prop: 'gameProfit', name: '游戏盈亏', mcolor: true, sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', mcolor: true, sortable: 'custom' }
       ],
       otherCommonTableColumn: [
         { prop: 'userName', name: '用户名', sortable: false },
         { prop: 'buy', name: '投注', sortable: 'custom' },
         { prop: 'prize', name: '中奖', sortable: false },
         { prop: 'point', name: '返点', sortable: false },
-        { prop: 'gameProfit', name: '游戏盈亏', sortable: 'custom' },
+        { prop: 'gameProfit', name: '游戏盈亏', mcolor: true, sortable: 'custom' },
         { prop: 'reward', name: '活动', sortable: 'custom' },
-        { prop: 'totalProfit', name: '总盈亏', sortable: 'custom' },
+        { prop: 'totalProfit', name: '总盈亏', mcolor: true, sortable: 'custom' },
         { prop: 'subType', name: '下级类型' }
       ],
 
@@ -209,6 +214,9 @@ export default {
     },
     tableCellDataFormat (columns, prop, row) {
       return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
+    getCellClass (cloumnV, needColor) {
+      return needColor ? {'text-green': parseFloat(String(cloumnV).replace(/[,]/g, '')) > 0, 'text-danger': parseFloat(String(cloumnV).replace(/[,]/g, '')) < 0} : ''
     },
     /**
      * 盈亏汇总数据
