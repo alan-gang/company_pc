@@ -40,7 +40,9 @@
           </el-table-column>
           <el-table-column label="彩票总销量">
             <template scope="scope">
-              <span>{{ numberWithCommas(scope.row.saleAmount) }}</span>
+              <span
+                :class=" {'text-green': numberWithCommas(scope.row.saleAmount) && numberWithCommas(scope.row.saleAmount)._o0(), 'text-danger': numberWithCommas(scope.row.saleAmount) && numberWithCommas(scope.row.saleAmount)._l0() } "
+              >{{ numberWithCommas(scope.row.saleAmount) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="彩票总盈亏">
