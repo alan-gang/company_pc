@@ -763,6 +763,10 @@
         deep: true,
         handler () {
           this.CRULES.forEach(CR => {
+            setTimeout(() => {
+              CR.actUser = parseInt(CR.actUser)
+              CR.sales = parseInt(CR.sales)
+            }, 0)
             let rule = this.ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate)
             if (!rule) return
             let sales = rule.sales

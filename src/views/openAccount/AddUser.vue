@@ -46,7 +46,7 @@
                   span {{ v.userName }}
 
             ul.inlb.mh_500.pd_0.mg_0.v_t.as
-              li.mb_20(v-for=" (v, i) in  data" v-bind:key="i")
+              li.mb_20(v-for=" (v, i) in  data" v-bind:key="i" v-if=" v.$s ")
                 span.text-danger.pd_5 *
                 span(v-if=" !v.groupname ") 彩票返点 
                 span(v-else) {{ v.groupname  }}返水 
