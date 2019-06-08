@@ -48,42 +48,36 @@
           <el-table-column align="center" prop="sptProfit" label="体育">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.sptProfit && scope.row.sptProfit._o0(), 'text-danger': scope.row.sptProfit && scope.row.sptProfit._l0() } "
               >{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="vidProfit" label="真人">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.vidProfit && scope.row.vidProfit._o0(), 'text-danger': scope.row.vidProfit && scope.row.vidProfit._l0() } "
               >{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="egameProfit" label="老虎机">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.egameProfit && scope.row.egameProfit._o0(), 'text-danger': scope.row.egameProfit && scope.row.egameProfit._l0() } "
               >{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="esptProfit" label="电竞">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.esptProfit && scope.row.esptProfit._o0(), 'text-danger': scope.row.esptProfit && scope.row.esptProfit._l0() } "
               >{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="fishProfit" label="捕鱼">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.fishProfit && scope.row.fishProfit._o0(), 'text-danger': scope.row.fishProfit && scope.row.fishProfit._l0() } "
               >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="othltrProfit" label="基诺彩">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.othltrProfit && scope.row.othltrProfit._o0(), 'text-danger': scope.row.othltrProfit && scope.row.othltrProfit._l0() } "
               >{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
             </template>
           </el-table-column>
@@ -108,7 +102,6 @@
           <el-table-column align="center" prop="bonus" label="佣金金额">
             <template scope="scope">
               <span
-                :class=" {'text-green': scope.row.bonus && scope.row.bonus._o0(), 'text-danger': scope.row.bonus && scope.row.bonus._l0() } "
               >{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
             </template>
           </el-table-column>

@@ -65,14 +65,14 @@
               >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
             </el-breadcrumb>
           </p>
+          <!-- show-summary="show-summary"
+          v-bind:summary-method="getSummaries"-->
           <el-table
             class="header-bold nopadding"
             :data="data"
             style="; margin: 0;"
             ref="table"
             stripe="stripe"
-            show-summary="show-summary"
-            v-bind:summary-method="getSummaries"
             @cell-click="cellClick"
             v-bind:row-class-name="tableRowClassName"
             v-bind:max-height=" MH "
@@ -96,17 +96,13 @@
             ></el-table-column>
             <el-table-column prop="betAmount" label="投注" sortable="custom" align="center">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.betAmount && scope.row.betAmount._o0(), 'text-danger': scope.row.betAmount && scope.row.betAmount._l0() } "
-                >{{ scope.row.betAmount && scope.row.betAmount._nwc()}}</span>
+                <span>{{ scope.row.betAmount && scope.row.betAmount._nwc()}}</span>
                 <!-- <span>{{ numberWithCommas(scope.row.betAmount) }}</span> -->
               </template>
             </el-table-column>
             <el-table-column prop="prizeAmount" label="派奖" sortable="custom" align="center">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.prizeAmount && scope.row.prizeAmount._o0(), 'text-danger': scope.row.prizeAmount && scope.row.prizeAmount._l0() } "
-                >{{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}</span>
+                <span>{{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center">
@@ -118,16 +114,12 @@
             </el-table-column>
             <el-table-column prop="pointAmount" label="返点" sortable="custom" align="center">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.pointAmount && scope.row.pointAmount._o0(), 'text-danger': scope.row.pointAmount && scope.row.pointAmount._l0() } "
-                >{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
+                <span>{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="activityAmount" label="活动" sortable="custom" align="center">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.activityAmount && scope.row.activityAmount._o0(), 'text-danger': scope.row.activityAmount && scope.row.activityAmount._l0() } "
-                >{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
+                <span>{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -138,9 +130,7 @@
               v-if="me.showSalary"
             >
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
-                >{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
+                <span>{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center">
@@ -195,12 +185,12 @@
               {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
               )
             </div>
+            <!-- v-bind:summary-method="getSummaries" -->
             <el-table
               class="header-bold nopadding"
               :data="cdata"
               stripe="stripe"
               ref="itable"
-              v-bind:summary-method="getSummaries"
               max-height="500"
               v-bind:row-class-name="tableRowClassName"
               style="margin: .2rem 0 0 0;"
@@ -221,16 +211,12 @@
               </el-table-column>
               <el-table-column align="right" prop="betAmount" label="投注">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.betAmount && scope.row.betAmount._o0(), 'text-danger': scope.row.betAmount && scope.row.betAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.betAmount) }}</span>
+                  <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="prizeAmount" label="派奖">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.prizeAmount && scope.row.prizeAmount._o0(), 'text-danger': scope.row.prizeAmount && scope.row.prizeAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.prizeAmount) }}</span>
+                  <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="gameSettleAmount" label="游戏盈亏">
@@ -247,23 +233,17 @@
                 v-if="profitDetailROW && profitDetailROW.hasSub==1"
               >
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.pointAmount && scope.row.pointAmount._o0(), 'text-danger': scope.row.pointAmount && scope.row.pointAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.pointAmount) }}</span>
+                  <span>{{ numberWithCommas(scope.row.pointAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="activityAmount" label="活动">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.activityAmount && scope.row.activityAmount._o0(), 'text-danger': scope.row.activityAmount && scope.row.activityAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.activityAmount) }}</span>
+                  <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="salaryAmount" label="日工资" v-if="me.showSalary">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.salaryAmount && scope.row.salaryAmount._o0(), 'text-danger': scope.row.salaryAmount && scope.row.salaryAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.salaryAmount) }}</span>
+                  <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -556,19 +536,19 @@ export default {
     __setProfitLossI(I) {
       this.I = I;
     },
-    getSummaries(param) {
-      const { columns } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总计";
-          return;
-        } else {
-          sums[index] = numberWithCommas(this.totalJson[column.property]);
-        }
-      });
-      return sums;
-    },
+    // getSummaries(param) {
+    //   const { columns } = param;
+    //   const sums = [];
+    //   columns.forEach((column, index) => {
+    //     if (index === 0) {
+    //       sums[index] = "合计";
+    //       return;
+    //     } else {
+    //       sums[index] = numberWithCommas(this.totalJson[column.property]);
+    //     }
+    //   });
+    //   return sums;
+    // },
     pageChanged(cp) {
       this.profitList(cp, () => {
         this.currentPage = cp;
@@ -657,9 +637,12 @@ export default {
                * }
                */
               $store.set("SearchUserNameList", param);
-              if (data.items.filter(x => x.userName === "团队合计：")[0]) {
-                this.totalJson = data.items.pop();
-              }
+              data.items.forEach(_ => {
+                _.userName = _.userName === "团队合计：" ? "合计" : _.userName;
+              });
+              // if (data.items.filter(x => x.userName === "团队合计：")[0]) {
+              //   this.totalJson = data.items.pop();
+              // }
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
               if (

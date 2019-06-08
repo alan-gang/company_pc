@@ -74,13 +74,13 @@
               >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
             </el-breadcrumb>
           </p>
+          <!-- v-bind:summary-method="getSummaries" -->
           <el-table
             class="header-bold nopadding"
             :data="data"
             style="margin: 0;"
             ref="table"
             stripe="stripe"
-            v-bind:summary-method="getSummaries"
             @cell-click="cellClick"
             v-bind:row-class-name="tableRowClassName"
             v-bind:max-height=" MH "
@@ -103,16 +103,12 @@
               align="center"
             >
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.gameUserCount && scope.row.gameUserCount._o0(), 'text-danger': scope.row.gameUserCount && scope.row.gameUserCount._l0() } "
-                >{{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}</span>
+                <span>{{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
-                >{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
+                <span>{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
@@ -124,23 +120,17 @@
             </el-table-column>
             <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
-                >{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
+                <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
-                >{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
+                <span>{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
               <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
-                >{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
+                <span>{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -224,9 +214,7 @@
               </el-table-column>
               <el-table-column align="right" prop="realBuy" label="投注">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.realBuy && scope.row.realBuy._o0(), 'text-danger': scope.row.realBuy && scope.row.realBuy._l0() } "
-                  >{{ numberWithCommas(scope.row.realBuy) }}</span>
+                  <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="profit" label="游戏盈亏">
@@ -243,16 +231,12 @@
                 v-if="profitDetailROW && profitDetailROW.hasSub==1"
               >
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.getpoint && scope.row.getpoint._o0(), 'text-danger': scope.row.getpoint && scope.row.getpoint._l0() } "
-                  >{{ numberWithCommas(scope.row.getpoint) }}</span>
+                  <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="rewards" label="活动">
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.rewards && scope.row.rewards._o0(), 'text-danger': scope.row.rewards && scope.row.rewards._l0() } "
-                  >{{ numberWithCommas(scope.row.rewards) }}</span>
+                  <span>{{ numberWithCommas(scope.row.rewards) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -262,15 +246,13 @@
                 v-if="profitDetailROW && profitDetailROW.hasSub==1"
               >
                 <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.platfee && scope.row.platfee._o0(), 'text-danger': scope.row.platfee && scope.row.platfee._l0() } "
-                  >{{ numberWithCommas(scope.row.platfee) }}</span>
+                  <span>{{ numberWithCommas(scope.row.platfee) }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="settle" label="总结算" class-name="pr2">
                 <template scope="scope">
                   <span
-                    :class=" {'text-green': !scope.row.settle.startsWith('-'), 'text-danger': scope.row.settle.startsWith('-') } "
+                    :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
                   >{{ numberWithCommas(scope.row.settle) }}</span>
                 </template>
               </el-table-column>
@@ -369,19 +351,19 @@ export default {
     this.profitList();
   },
   methods: {
-    getSummaries(param) {
-      const { columns } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总计";
-          return;
-        } else {
-          sums[index] = numberWithCommas(this.totalJson[column.property]);
-        }
-      });
-      return sums;
-    },
+    // getSummaries(param) {
+    //   const { columns } = param;
+    //   const sums = [];
+    //   columns.forEach((column, index) => {
+    //     if (index === 0) {
+    //       sums[index] = "总计";
+    //       return;
+    //     } else {
+    //       sums[index] = numberWithCommas(this.totalJson[column.property]);
+    //     }
+    //   });
+    //   return sums;
+    // },
     //点击筛选 某月
     ClickMonth(multiple) {
       let r = [];
@@ -525,6 +507,9 @@ export default {
                * }
                */
               $store.set("SearchUserNameList", param);
+              data.items.forEach(_ => {
+                _.userName = _.userName === "团队合计" ? "合计" : _.userName;
+              });
               this.data = data.items;
               this.BL = data.userBreads.concat([{}]);
               if (
