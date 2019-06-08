@@ -516,7 +516,7 @@ export default {
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级帐变明细',
+                  title: '下级账变明细',
                   // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
@@ -712,7 +712,7 @@ export default {
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级帐变明细',
+                  title: '下级账变明细',
                   // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
