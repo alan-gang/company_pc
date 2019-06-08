@@ -466,7 +466,7 @@ export default {
 </style>
 <style lang="stylus">
 .el-scrollbar__wrap
-  overflow auto
+  // overflow auto
 .el-autocomplete-suggestion__wrap
   padding 0 0 8px 0
 .search-range-slt
