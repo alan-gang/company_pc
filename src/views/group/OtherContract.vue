@@ -11,6 +11,7 @@
         <div class="form-filters">
           <label class="item">
             时间
+            <!-- v-on:change="dateChange" -->
             <el-date-picker
               :picker-options="pickerOptions"
               v-model="stEt"
@@ -18,7 +19,7 @@
               type="daterange"
               placeholder="选择日期范围"
               v-bind:clearable="clearableOnTime"
-              v-on:change="dateChange"
+              
             ></el-date-picker>
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
             <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
