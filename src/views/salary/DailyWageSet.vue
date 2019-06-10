@@ -7,9 +7,11 @@
     slot(name="toolbar")
     .scroll-content
       .form.form-filters
+          label.item 用户 
+            input.ds-input.small(v-model="un" style="width: 1.2rem" placeholder="请输入用户名" maxLength="20")
 
           label.item 注册时间 
-            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
+            el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime" v-on:change="dateChange")
           
           span.date-wp 
             SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
@@ -93,9 +95,27 @@
       }
     },
     mounted () {
-      this.mySubSalaryList()
+      // this.mySubSalaryList()
     },
     methods: {
+      dateChange (d) {
+        let sdate = this.stEt[0]._toDayString().replace(/-/g, '')
+        let edate = this.stEt[1]._toDayString().replace(/-/g, '')
+        let diff = parseInt(edate, 10) - parseInt(sdate, 10)
+        this.defaultDateIdx = -1
+        if (parseInt(sdate, 10) >= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][0])._toDayString().replace(/-/g, '')) &&
+          parseInt(edate, 10) <= parseInt(new Date()._bf(-this.dateMappingConfig['d2'][1])._toDayString().replace(/-/g, ''))) {
+          this.defaultDateIdx = 2
+        }
+        if (sdate === edate) {
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d0'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 0
+          }
+          if (sdate === new Date()._bf(-this.dateMappingConfig['d1'][0])._toDayString().replace(/-/g, '')) {
+            this.defaultDateIdx = 1
+          }
+        }
+      },
       goToGift () {
         setTimeout(() => {
           this.$router.push('/activity/5-1-2')
@@ -128,6 +148,7 @@
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         let p = {
+          userName: this.un,
           startDate: this.stEt[0] && this.stEt[0]._toDayString().replace(/-/g, ''),
           endDate: this.stEt[1] && this.stEt[1]._toDayString().replace(/-/g, '')
         }
