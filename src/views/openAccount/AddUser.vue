@@ -124,6 +124,7 @@
         if (!this.n) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
         if (!Validate.account(this.n)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
         if (!this.pwd) return this.$message.warning({target: this.$el, message: '请输入密码！'})
+        if (!Validate.pwd(this.pwd)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         this.$http.post(api.registUser, {
           userName: this.n,
           password: this.pwd,
