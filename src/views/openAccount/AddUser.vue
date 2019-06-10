@@ -140,6 +140,7 @@
         if (!this.account) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
         if (!Validate.account(this.account)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
         if (!this.pwd) return this.$message.warning({target: this.$el, message: '请输入密码！'})
+        if (!Validate.pwd(this.pwd)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.p > this.range.max || this.p < this.range.min) return this.$message.warning({target: this.$el, message: '返点值太大或太小！'})
         // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=registUser&userName=abcdefg&password=123qwe&nickName=test1234&keepPoint=0.2
         this.$http.get(api.registUser, { userName: this.account, password: this.pwd, keepPoint: this.p, proxyType: this.u.id || '' }).then(({data}) => {
