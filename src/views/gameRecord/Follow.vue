@@ -14,6 +14,7 @@
             //- input.ds-input.small(v-model="name" style="width: 1rem")
             el-autocomplete(
               class="inline-input uname-ipt"
+              popper-class="username-auto-ipt"
               v-model="name"
               v-bind:fetch-suggestions="querySearchName"
               placeholder="请输入用户名"
@@ -750,4 +751,9 @@
 <style lang="stylus">
   .search-lottery-popover
     background-color #fff !important
+</style>
+<style lang="stylus">
+.username-auto-ipt
+  .el-scrollbar__wrap
+    overflow auto
 </style>
