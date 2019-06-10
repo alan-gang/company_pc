@@ -155,7 +155,7 @@ export default {
         { prop: 'prize', name: '中奖', sortable: false },
         { prop: 'point', name: '返点', sortable: false },
         { prop: 'gameProfit', name: '游戏盈亏', mcolor: true, sortable: 'custom' },
-        { prop: 'reward', name: '活动', sortable: 'custom' },
+        { prop: 'reward', name: '活动', sortable: false },
         { prop: 'totalProfit', name: '总盈亏', mcolor: true, sortable: 'custom' },
         { prop: 'subType', name: '下级类型' }
       ],
