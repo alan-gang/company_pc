@@ -18,6 +18,7 @@
           //- input.ds-input.small(v-model="subUserName" style="width: 1rem")
           el-autocomplete(
             class="inline-input uname-ipt"
+            popper-class="username-auto-ipt"
             v-model="subUserName"
             v-bind:fetch-suggestions="querySearchName"
             placeholder="请输入用户名"
@@ -463,6 +464,11 @@ export default {
       color #fff
       line-height 0.36rem
       text-align center
+</style>
+<style lang="stylus">
+.username-auto-ipt
+  .el-scrollbar__wrap
+    overflow auto
 </style>
 <style lang="stylus">
 .el-scrollbar__wrap
