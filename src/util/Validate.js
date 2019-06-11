@@ -1,3 +1,5 @@
+import checkPwdScore, {getPwdSafeLevel} from './pwd'
+
 let pwd = pwd => {
   // return pwd.length >= 6 && pwd.length <= 16 && !pwd.match(/([a-zA-Z\d]){1}?\1{2,}/) && pwd.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)
   return /^.{6,20}$/g.test(pwd) && /\d/g.test(pwd) && /[a-zA-Z~!@#$%^&*()_+]/g.test(pwd) && !/([a-zA-Z\d~!@#$%^&*()_+]){1}\1{2,}/g.test(pwd)
@@ -34,5 +36,7 @@ module.exports = {
   chinese,
   chineseName,
   account,
-  nickName
+  nickName,
+  checkPwdScore,
+  getPwdSafeLevel
 }

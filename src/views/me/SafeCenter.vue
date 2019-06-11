@@ -43,25 +43,32 @@
                 span.mynotice （旧密码与手机验证码输入其一）
 
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newPwd" type="password")
+                input.ds-input.large(v-model="newPwd" type="password" name="newPwd" maxLength="20" v-on:keyup="pwdKeyUp")
                 span.mynotice 由字母和数字组成6-20个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="pwdState")
               p 确认新密码：
-                input.ds-input.large(v-model="newPwdAgain" type="password")
+                input.ds-input.large(v-model="newPwdAgain" type="password" name="newPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="aPwdState")
 
               
 
             .cashpwd-form.form(v-if="tabIndex === 2 && !me.cashPwd")
 
               p 设置密码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newCashPwd" type="password")
+                input.ds-input.large(v-model="newCashPwd" type="password" name="newCashPwd" maxLength="20" v-on:keyup="pwdKeyUp")
                 span.mynotice 由字母和数字组成6-20个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newCashPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdState")
               p 确认密码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newCashPwdAgain" type="password")
-
+                input.ds-input.large(v-model="newCashPwdAgain" type="password" name="newCashPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newCashPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdAgainState")
 
 
             .cashpwd-form.form(v-if="tabIndex === 2 && me.cashPwd")
@@ -79,13 +86,16 @@
                 span.mynotice （旧密码与手机验证码输入其一）
 
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(type="password"  v-model="newCashPwd")
+                input.ds-input.large(type="password"  v-model="newCashPwd" name="newCashPwd" maxLength="20" v-on:keyup="pwdKeyUp")
                 span.mynotice 由字母和数字组成6-20个字符;
                   br
                   必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newCashPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdState")
               p 确认新密码：
-                input.ds-input.large(type="password"  v-model="newCashPwdAgain")
-
+                input.ds-input.large(type="password"  v-model="newCashPwdAgain" name="newCashPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newCashPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdAgainState")
 
             .buttons(style="margin-left: .85rem")
               .ds-button.primary.large(@click="changePwd") 提交
@@ -364,6 +374,7 @@ import api from '../../http/api'
 import store from '../../store'
 import Validate from '../../util/Validate'
 import xhr from 'components/xhr'
+import PwdStatusCheckBar from 'components/PwdStatusCheckBar'
 export default {
   mixins: [xhr],
   data () {
@@ -392,7 +403,13 @@ export default {
       stepIndex: 0,
       qrStr: '',
       qrDescrb: '',
-      birthday: ''
+      birthday: '',
+
+      pwdState: -1,
+      aPwdState: -1,
+      newCashPwdState: -1,
+      newCashPwdAgainState: -1
+
     }
   },
   computed: {
@@ -467,6 +484,24 @@ export default {
     this.createCBqr()
   },
   methods: {
+    pwdKeyUp (event) {
+      switch (event.target.name) {
+        case 'newPwd':
+          this.pwdState = Validate.getPwdSafeLevel(this.newPwd) - 1
+          break
+        case 'newPwdAgain':
+          this.aPwdState = Validate.getPwdSafeLevel(this.newPwdAgain) - 1
+          break
+        case 'newCashPwd':
+          this.newCashPwdState = Validate.getPwdSafeLevel(this.newCashPwd) - 1
+          break
+        case 'newCashPwdAgain':
+          this.newCashPwdAgainState = Validate.getPwdSafeLevel(this.newCashPwdAgain) - 1
+          break
+        default:
+          break
+      }
+    },
     changBirthday () {
       if (!this.birthday) return
       this.$http.get(api.setBirthday + this.birthday._toDayString()).then(({data: {success, msg}}) => {
@@ -830,7 +865,8 @@ export default {
   // setSafeQuestion: api + 'person/accountSecur.do?method=setSafeQuestion&question1=abc&question2=def&answer1=ghi&answer2=jkl'
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=setsecurityCheck&checkType=1&verifyCode=2444
   components: {
-    MeSideView
+    MeSideView,
+    PwdStatusCheckBar
   }
 }
 </script>
@@ -861,6 +897,8 @@ export default {
     left 2.5rem
       
   .safe-detail-info
+    .pwd-status-check-row
+      padding-left 0.84rem
     &>.el-row
       padding 0 PWX
       &:hover
