@@ -30,7 +30,7 @@
  * 
  * @param {String} pwd 密码
  */
-function checkPwdScore(pwd) {
+export function checkPwdScore(pwd) {
   pwd = String(pwd)
   if (!pwd) return 0
 
@@ -90,4 +90,23 @@ function checkPwdScore(pwd) {
   }
 
   return (rule1Score + rule2Score + rule3Score + rule4Score + rule5Score)
+}
+
+/**
+ * 获取密码强度级别
+ * @param {String} pwd 
+ */
+export function getPwdSafeLevel (pwd) {
+  let score = checkPwdScore(pwd)
+  let level = 1
+  if (score >= 90) {
+    level = 4
+  } else if (score >= 70) {
+    level = 3
+  } else if (score >= 50) {
+    level = 2
+  } else {
+    level = 1
+  }
+  return level
 }

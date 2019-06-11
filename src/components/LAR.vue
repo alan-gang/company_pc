@@ -10,10 +10,13 @@
             input( v-model="r.un" autofocus placeholder="用户名")
 
           dd.ab
-              input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password" maxLength="20")
-
+            input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password" maxLength="20" v-on:keyup="pwdKeyUp")
+          dd.pwd-status-check-row(v-show="r.pwd.length > 0")
+            PwdStatusCheckBar(v-bind:state="pwdState")
           dd.ac
-              input(v-model="r.pwda" type="password" placeholder="确认密码" maxLength="20")
+              input(v-model="r.pwda" type="password" placeholder="确认密码" maxLength="20" v-on:keyup="aPwdKeyUp")
+          dd.pwd-status-check-row(v-show="r.pwda.length > 0")
+            PwdStatusCheckBar(v-bind:state="aPwdState")
           dd.ad
               input(v-model="r.code" placeholder="推广码")
   
@@ -61,9 +64,11 @@ import xhr from './xhr'
 import api from '../http/api'
 import Validate from '../util/Validate'
 import store from '../store'
+import PwdStatusCheckBar from './PwdStatusCheckBar'
 export default {
   mixins: [xhr],
   components: {
+    PwdStatusCheckBar
   },
   name: 'login-and-register',
   props: [],
@@ -83,7 +88,9 @@ export default {
         un: '',
         pwd: ''
       },
-      regard: false
+      regard: false,
+      pwdState: -1,
+      aPwdState: -1
     }
   },
   created () {
@@ -98,6 +105,12 @@ export default {
   methods: {
     __LARCODE () {
       this._getVerifyImage()
+    },
+    pwdKeyUp () {
+      this.pwdState = Validate.getPwdSafeLevel(this.r.pwd) - 1
+    },
+    aPwdKeyUp () {
+      this.aPwdState = Validate.getPwdSafeLevel(this.r.pwda) - 1
     },
     // 登录
     login () {
@@ -214,8 +227,11 @@ export default {
 // 建议不添加scoped， 所有样式最多嵌套2层
 .login-and-register
   background-color #e9e9e9
+  .pwd-status-check-row
+    background-color transparent
+    // margin -0.1rem 0 0.05rem 0
   .content-width
-    height 3.49rem
+    min-height 3.49rem
     
   .a, .b, .c, .d
     min-height 3rem
