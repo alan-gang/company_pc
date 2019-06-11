@@ -39,6 +39,7 @@
             template(slot-scope="scope")
               el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
               el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '合计'") 明细
+        el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged")
       keep-alive
         el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
           el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
@@ -61,7 +62,8 @@
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
             el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '合计'") 每日明细
       p 温馨提示：仅保留最近7天的数据
-    el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
+
+    el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged")
     
     el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
       .higher-level-breaks
@@ -186,7 +188,7 @@ export default {
       higherLevelUserBreads: [],
       isShowHigherLevelDialog: false,
       isShowDailyProfitDialog: false,
-
+      showUserPointColumn: false,
       amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
 
       subUserId: '',
@@ -210,6 +212,7 @@ export default {
   methods: {
     __setReportI (i) {
       this.I = i
+      this.curPage = 1
       this.curGameType = this.gameTypeMap['tab' + this.I]
       this.getPersonalReport()
     },
@@ -260,8 +263,8 @@ export default {
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
             } else {
               this.otherCommonReportData = items
-              this.totalSize = totalSize
             }
+            this.totalSize = totalSize
             this.setNameHistory(p.username)
           } else {
             this.profitAndLossSummaryData = []
@@ -300,6 +303,13 @@ export default {
             this.thirdGamesDetailData = items
           } else {
             this.dailyReportData = items
+          }
+          this.showUserPointColumn = false
+          for (let i = 0; i < items.length; i++) {
+            if (parseFloat(items[i].point) > 0) {
+              this.showUserPointColumn = true
+              break
+            }
           }
           setTimeout(() => {
             loading.text = '加载成功!'

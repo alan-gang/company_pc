@@ -20,8 +20,9 @@
             span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符
 
           p 登录密码： &nbsp;&nbsp;
-            input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
-            span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ '123456a'}} )
+            //- input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
+            input.ds-input.larget(v-bind:value="pwd" class="default" readonly)
+            span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ pwd}} )
    
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
@@ -74,7 +75,7 @@
     data () {
       return {
         n: '',
-        pwd: '123456a',
+        pwd: '',
         i: 0,
         data: [],
         users: [],
@@ -154,6 +155,7 @@
       showRegistUser () {
         this.$http.get(api.showRegistUser).then(({data}) => {
           if (data.success === 1) {
+            this.pwd = data.defaultPwd
             data.back.unshift({
               backwater: data.userPoint
             })
