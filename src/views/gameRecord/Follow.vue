@@ -66,7 +66,7 @@
                 div
                   span( style="padding: 0") {{ scope.row.taskId }}
 
-            //- el-table-column(prop="userName" label="用户" v-if="!noname")
+            el-table-column(prop="userName" label="用户" v-if="!noname")
             
             el-table-column(prop="beginTime" label="追号时间"  min-width="120")
               template(scope="scope")
@@ -268,9 +268,11 @@
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
       // 代理中心入口，进入默认不查数据需用户手动搜索数据
-      if (this.useSource !== this.USE_SOURCE_AGENT) {
-        this.followList()
-      }
+      // patch 2019-06-11 放开规则(反复修改)，进入页面默认展示数据
+      // if (this.useSource !== this.USE_SOURCE_AGENT) {
+      //   this.followList()
+      // }
+      this.followList()
       this.getGameHistory()
       this.names = JSON.parse(window.sessionStorage.getItem('FOLLOW_NAMES_HISTORY') || '[]')
     },
@@ -405,12 +407,12 @@
         })
       },
       followList (page, fn, source, params = {}) {
-        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
-          if (!this.name) {
-            this.$message.warning({message: '请输入用户名'})
-            return
-          }
-        }
+        // if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+        //   if (!this.name) {
+        //     this.$message.warning({message: '请输入用户名'})
+        //     return
+        //   }
+        // }
         let loading = this.$loading({
           text: '追号记录加载中...',
           target: this.$refs['table'].$el

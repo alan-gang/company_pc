@@ -98,7 +98,7 @@
                 span(v-if="scope.row.last" style="padding: 0") {{ scope.row.entry }}
 
 
-          //- el-table-column(prop="userName" label="用户名" v-if="!noname")
+          el-table-column(prop="userName" label="用户名" v-if="!noname")
             template(scope="scope")
               span(v-if="!scope.row.last") {{ scope.row.userName }}
               span.text-blue(v-if="scope.row.last") {{ scope.row.difMoney }}
@@ -423,12 +423,12 @@
         })
       },
       list (page, fn, source, params = {}) {
-        if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
-          if (!this.name) {
-            this.$message.warning({message: '请输入用户名'})
-            return
-          }
-        }
+        // if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+        //   if (!this.name) {
+        //     this.$message.warning({message: '请输入用户名'})
+        //     return
+        //   }
+        // }
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
           text: '账变记录加载中...',
