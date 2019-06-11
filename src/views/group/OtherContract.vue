@@ -19,7 +19,6 @@
               type="daterange"
               placeholder="选择日期范围"
               v-bind:clearable="clearableOnTime"
-              
             ></el-date-picker>
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
             <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
