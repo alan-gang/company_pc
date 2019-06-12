@@ -27,8 +27,8 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="startDate" label="预算开始时间"></el-table-column>
-          <el-table-column label="预算结束时间">
+          <el-table-column prop="startDate" label="测算开始时间"></el-table-column>
+          <el-table-column label="测算结束时间">
             <template scope="scope">
               <span>{{new Date()._toDayString()}}</span>
             </template>
@@ -68,7 +68,7 @@
           <el-table-column prop="bonus" label="个人预期分红金额">
             <template scope="scope">
               <span
-              >{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus._nwc() }}</span>
+              >{{ scope.row.bonus && scope.row.bonus._nwc() }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -206,7 +206,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "总计";
+          sums[index] = "下级预期总分红金额";
           return;
         } else if (column.label === "个人预期分红金额") {
           sums[index] = this.bonusSent;

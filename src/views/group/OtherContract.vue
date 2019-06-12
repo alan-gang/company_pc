@@ -12,8 +12,8 @@
           <label class="item">
             时间
             <!-- v-on:change="dateChange" -->
+            <!-- :picker-options="pickerOptions" -->
             <el-date-picker
-              :picker-options="pickerOptions"
               v-model="stEt"
               format="yyyy-MM-dd"
               type="daterange"
@@ -304,76 +304,76 @@ export default {
       TH: 180,
       // 0 我的契约
       // 1 下级契约
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近六个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起六个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起一年",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-        // disabledDate (time) {
-        //   return time.getTime() > Date.now()
-        // }
-      },
+      // pickerOptions: {
+      //   shortcuts: [
+      //     {
+      //       text: "最近一个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "最近三个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "最近六个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起一个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起三个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起六个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 180);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起一年",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 360);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     }
+      //   ]
+      //   // disabledDate (time) {
+      //   //   return time.getTime() > Date.now()
+      //   // }
+      // },
       ApickerOptions: {
         shortcuts: [
           {
