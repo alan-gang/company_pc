@@ -393,7 +393,7 @@
             // stat: this.status,
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             lotteryId: this.gameid,
             methodId: this.method.methodId,
             issue: this.issue,
