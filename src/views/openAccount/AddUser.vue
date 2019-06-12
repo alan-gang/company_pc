@@ -15,7 +15,7 @@
           //- p.mb_20 剩余开户额：
             span.text-blue  *个
 
-          p.mb_20 登录帐号： &nbsp;&nbsp;
+          p.mb_20 登录账号： &nbsp;&nbsp;
             input.ds-input.larget(v-model="n")
             span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符
 
