@@ -711,7 +711,7 @@ export default {
               this.cdata = data.items;
               this.ctotal = data.totalSize || this.data.length;
               typeof fn === "function" && fn();
-              !fn && (this.currentPage = 1);
+              !fn && (this.ccurrentPage = 1);
               setTimeout(() => {
                 loading.text = "加载成功!";
               }, 100);
