@@ -202,7 +202,7 @@
                 |  调整返点/返水
 
               .mh_500.w_500.mg_0a.pd_50
-                .mb_20(v-for=" (v, i) in  user.back" v-bind:key="i")
+                .mb_20(v-for=" (v, i) in  user.back" v-bind:key="i" v-if=" v.$s ")
                   span.text-danger.pd_5 *
                   span(v-if=" !v.groupName ") 彩票返点 
                   span(v-else) {{ v.groupName  }}返水 
