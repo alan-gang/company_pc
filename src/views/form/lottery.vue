@@ -7,15 +7,15 @@
     <slot name="resize-y"></slot>
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
-      <div class="form form-filters">
-        <label class="item my-el">
+      <div class="form form-filters my-el">
+        <span>
           <el-button @click="ClickToday" size="small">今天</el-button>
           <el-button @click="ClickYesterday" size="small">昨天</el-button>
           <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
           <el-button @click="ClickFirstHalf" size="small">{{firstHalfval}}</el-button>
           <el-button @click="ClickSecondHalf" size="small">{{secondHalfval}}</el-button>
-        </label>
-        <label class="item my-el">
+        </span>
+        <span>
           排序
           <el-button size="small" @click="ClickSort('betAmount')">
             投注
@@ -32,15 +32,15 @@
             <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2">↑</template>
             <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1">↓</template>
           </el-button>
-        </label>
-        <label class="item">
+        </span>
+        <span>
           显示
           <el-select v-model="ot" placeholder="请选择">
             <el-option label="投注的" value="0"/>
             <el-option label="全部" value="1"/>
           </el-select>
-        </label>
-        <label class="item">
+        </span>
+        <span>
           团队
           <el-autocomplete
             v-model="name"
@@ -50,7 +50,7 @@
             @select="profitList"
             popper-class="autocompleteuser"
           ></el-autocomplete>
-        </label>
+        </span>&nbsp;&nbsp;
         <div class="ds-button primary large bold" @click="profitList()">搜索</div>
       </div>
 
@@ -901,28 +901,6 @@ bg-active = #e2e2e2;
 }
 </style>
 <style lang="less">
-.my-el {
-  display: flex;
-  align-items: center;
-
-  .el-button {
-    min-width: 0.8rem;
-    height: 0.3rem;
-    padding: 0;
-  }
-
-  .el-button:focus,
-  .el-button:hover {
-    border: solid 1px #f37e0c;
-    color: #666;
-  }
-
-  .el-button.selected {
-    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%),
-      linear-gradient(#f37e0c, #f37e0c);
-    border: solid 1px #f37e0c;
-  }
-}
 .lotterymyinfo {
   height: 36px;
   line-height: 36px;
