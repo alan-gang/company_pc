@@ -206,7 +206,10 @@ export default {
     sDate.setDate(sDate.getDate() - 6)
     this.$set(this.stEt, 0, sDate)
     this.curGameType = this.gameTypeMap['tab' + this.I]
-    this.getPersonalReport()
+    this.getPersonalReport({
+      ascOrDesc: 1,
+      orderBy: 'totalProfit'
+    })
     this.names = JSON.parse(window.sessionStorage.getItem('SUB_PROFIT_LOSS_NAMES_HISTORY') || '[]')
   },
   methods: {
@@ -214,7 +217,14 @@ export default {
       this.I = i
       this.curPage = 1
       this.curGameType = this.gameTypeMap['tab' + this.I]
-      this.getPersonalReport()
+      let params = {}
+      if (i === 0) {
+        params = {
+          ascOrDesc: 1,
+          orderBy: 'totalProfit'
+        }
+      }
+      this.getPersonalReport(params)
     },
     tableCellDataFormat (columns, prop, row) {
       return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
