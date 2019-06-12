@@ -9,8 +9,8 @@
     <div class="stock-list scroll-content">
       <div v-if=" I === 0 ">
         <div class="form">
-          <div class="form-filters">
-            <label class="item">
+          <div class="form-filters my-el">
+            <span>
               注册时间
               <!-- :picker-options="pickerOptions" -->
               <el-date-picker
@@ -24,18 +24,18 @@
               <el-button @click="stEt=['', '']" size="small">不限</el-button>
               <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
               <el-button @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]" size="small">今天</el-button>
-            </label>
-            <label class="item">
+            </span>
+            <span>
               &nbsp;状态&nbsp;
               <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-            </label>
-            <label class="item">
+            </span>
+            <span>
               用户名&nbsp;
               <input class="ds-input small" v-model="name" style="width: 1rem;">
-            </label>
-            <label class="item">
+            </span>&nbsp;&nbsp;
+            <span>
               <div class="ds-button primary large bold" @click="contract">搜索</div>
-            </label>
+            </span>
           </div>
           <el-table
             class="header-bold nopadding"

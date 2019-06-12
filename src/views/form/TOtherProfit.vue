@@ -45,7 +45,7 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column prop="ruleid" label="对应分红规则">
+          <el-table-column prop="ruleid" label="对应佣金规则">
             <template scope="scope">
               <span
                 @click="ruleInfoList=!0,ruleInfoListRow=scope.row"
@@ -53,7 +53,7 @@
               >{{ GetRuleName(scope.row) }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="bonusRate" label="分红比例">
+          <el-table-column align="center" prop="bonusRate" label="佣金比例">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
             </template>
@@ -98,7 +98,7 @@
                   v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
                   :class="{'on':v.id==ruleInfoListRow.ruleid}"
                   :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate*100}}%</li>
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，佣金比例{{v.bounsrate*100}}%</li>
               </ul>
               <div class="my-el ruleInfoListSub">
                 <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
@@ -293,7 +293,7 @@ export default {
     topBonuDetail(row) {
       let loading = this.$loading(
         {
-          text: "分红详情加载中...",
+          text: "详情加载中...",
           target: this.$el
         },
         10000,

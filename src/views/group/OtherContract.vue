@@ -8,8 +8,8 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form">
-        <div class="form-filters">
-          <label class="item">
+        <div class="form-filters my-el">
+          <span>
             时间
             <!-- v-on:change="dateChange" -->
             <!-- :picker-options="pickerOptions" -->
@@ -23,18 +23,18 @@
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
             <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
             <el-button @click="stEt=[new Date(), new Date()]" size="small">今天</el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             &nbsp;状态&nbsp;
             <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </label>&nbsp;&nbsp;
-          <label class="item">
+          </span>&nbsp;&nbsp;
+          <span>
             用户名&nbsp;
             <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </label>
-          <label class="item">
+          </span>&nbsp;&nbsp;
+          <span>
             <div class="ds-button primary large bold" @click="contract">搜索</div>
-          </label>
+          </span>
         </div>
         <el-table
           class="header-bold nopadding"
@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column prop="subCount" label="团队人数"></el-table-column>
           <el-table-column prop="beginTm" label="签约日期"></el-table-column>
-          <el-table-column prop="sendCycle" label="分红周期">
+          <el-table-column prop="sendCycle" label="佣金周期">
             <template scope="scope">
               <span>{{TIME[scope.row.sendCycle]}}</span>
             </template>
@@ -118,7 +118,7 @@
         <div class="box-wrapper">
           <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
             <div class="tool-bar">
-              <span class="title">分红详情</span>
+              <span class="title">佣金详情</span>
               <el-button-group>
                 <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
               </el-button-group>
