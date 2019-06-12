@@ -276,11 +276,11 @@ function calcRepeatScore (pass) {
 export function getPwdSafeLevel (pwd) {
   let score = checkPwdScore(pwd)
   let level = 1
-  if (score >= 90) {
+  if (score >= 80) {
     level = 4
-  } else if (score >= 70) {
+  } else if (score >= 60) {
     level = 3
-  } else if (score >= 50) {
+  } else if (score >= 40) {
     level = 2
   } else {
     level = 1
