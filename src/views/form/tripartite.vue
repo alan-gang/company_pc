@@ -108,7 +108,13 @@
                   >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                sortable="custom"
+                v-if="me.showBackWater"
+              >
                 <template scope="scope">
                   <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
                 </template>
@@ -162,7 +168,7 @@
               v-bind:max-height=" MH "
               @sort-change="sortChange"
             >
-              <el-table-column class-name="pl2" prop="userName" label="游戏类型">
+              <el-table-column class-name="pl2" prop="userName" label="游戏类别">
                 <template scope="scope">
                   <span>
                     {{ scope.row.userName }}
@@ -188,7 +194,13 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                sortable="custom"
+                v-if="me.showBackWater"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
@@ -284,7 +296,12 @@
                   >{{ scope.row.userName }}</span>
                 </template>
               </el-table-column>-->
-              <el-table-column prop="date" label="日期"></el-table-column>
+              <el-table-column prop="date" label="日期">
+                <template scope="scope">
+                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
+                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
+                </template>
+              </el-table-column>
               <el-table-column align="right" prop="realBuy" label="销量">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
@@ -297,12 +314,7 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="right"
-                prop="getpoint"
-                label="返水"
-                v-if="profitDetailROW && profitDetailROW.hasSub==1"
-              >
+              <el-table-column align="right" prop="getpoint" label="返水" v-if="me.showBackWater">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
