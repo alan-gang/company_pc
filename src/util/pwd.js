@@ -20,11 +20,11 @@ function checkPwdScore (pwd) {
 
   // 加分规则二：大写字母, +((len-n)*2)
   upperCaseLen =  (pwd.match(/[A-Z]/g) || []).length
-  totalScore += (len - upperCaseLen) * 2
+  totalScore += upperCaseLen * 2
 
   // 加分规则三：小写字母, +((len-n)*2)
   lowerCaseLen = (pwd.match(/[a-z]/g) || []).length
-  totalScore += (len - upperCaseLen) * 2
+  totalScore += lowerCaseLen * 2
 
   // 加分规则四：数字, +(n*4)
   nums = (pwd.match(/\d/g) || []).length
@@ -37,7 +37,7 @@ function checkPwdScore (pwd) {
   totalScore += signLen * 6
 
   // 加分规则六：位于中间的数字或符号
-  if (len > 2) {
+  if (len > 2 && (!/^\d.+$/g.test(pwd) && !/^.+\d$/g.test(pwd))) {
     let midStr = pwd.substring(1, len - 1)
     let numAndSignLen = (midStr.match(/[\d~\!@#\$%\^&\*\(\)\-_=\+]/g) || []).length
     totalScore += numAndSignLen * 2
@@ -63,6 +63,7 @@ function checkPwdScore (pwd) {
 
   // 加分规则七：最低条件要求满足条目1并至少满足条目2-5中的任意三条
   if (len >= 8 && lowestCondiCount >= 3) {
+    lowestCondiCount++
     totalScore += lowestCondiCount * 2
   }
 
@@ -83,8 +84,8 @@ function checkPwdScore (pwd) {
   let upperCaseSeries = pwd.match(/[A-Z]+/g)
   if (upperCaseSeries) {
     upperCaseSeries.forEach(function(s) {
-      if (s.length > 1) {
-        totalScore -= s.length - 1
+      if (s.length > 2) {
+        totalScore -= (s.length - 1) * 2
       }
     })
   }
@@ -93,8 +94,8 @@ function checkPwdScore (pwd) {
   let lowerCaseSeries = pwd.match(/[a-z]+/g)
   if (lowerCaseSeries) {
     lowerCaseSeries.forEach(function(s) {
-      if (s.length > 1) {
-        totalScore -= s.length - 1
+      if (s.length > 2) {
+        totalScore -= (s.length - 1) * 2
       }
     })
   }
@@ -103,8 +104,8 @@ function checkPwdScore (pwd) {
   let numRepeat = pwd.match(/\d+/g)
   if (numRepeat) {
     numRepeat.forEach(function(s) {
-      if (s.length > 1) {
-        totalScore -= s.length - 1
+      if (s.length > 2) {
+        totalScore -= (s.length - 1) * 2
       }
     })
   }
@@ -117,7 +118,7 @@ function checkPwdScore (pwd) {
     alphabetSeries.forEach(function(s) {
       // 连续3个才扣分
       if (s.length >= 3) {
-        totalScore -= s.length - 2 // 例1：如输入ABC，则n=1，例2：如输入dcBA，则n=2
+        totalScore -= (s.length - 2) * 3 // 例1：如输入ABC，则n=1，例2：如输入dcBA，则n=2
       }
     })
   }
@@ -125,7 +126,7 @@ function checkPwdScore (pwd) {
   if (alphabetSeriesReverse) {
     alphabetSeriesReverse.forEach(function(s) {
       if (s.length >= 3) {
-        totalScore -= s.length - 2 // 例1：如输入ABC，则n=1，例2：如输入dcBA，则n=2
+        totalScore -= (s.length - 2) * 3 // 例1：如输入ABC，则n=1，例2：如输入dcBA，则n=2
       }
     })
   }
@@ -137,7 +138,7 @@ function checkPwdScore (pwd) {
   if (numSeries) {
     numSeries.forEach(function(s) {
       if (s.length >= 3) {
-        totalScore -= s.length - 2
+        totalScore -= (s.length - 2) * 3
       }
     })
   }
@@ -145,7 +146,7 @@ function checkPwdScore (pwd) {
   if (numSeriesReverse) {
     numSeriesReverse.forEach(function(s) {
       if (s.length >= 3) {
-        totalScore -= s.length - 2
+        totalScore -= (s.length - 2) * 3
       }
     })
   }
