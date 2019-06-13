@@ -375,6 +375,7 @@ import store from '../../store'
 import Validate from '../../util/Validate'
 import xhr from 'components/xhr'
 import PwdStatusCheckBar from 'components/PwdStatusCheckBar'
+import md5 from 'md5'
 export default {
   mixins: [xhr],
   data () {
@@ -605,7 +606,7 @@ export default {
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
         if (this.pwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
+        this.$http.post(api.changLoginPwd, {password: md5(this.oldPwd), newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
@@ -633,7 +634,7 @@ export default {
         if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
         if (this.newCashPwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
-        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
+        this.$http.post(api.changSecurePwd, {password: md5(this.oldCashPwd), newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             let message = '恭喜您， 资金密码修改成功。'
             if (!this.me.cashPwd) message = '恭喜您， 资金密码设置成功。'

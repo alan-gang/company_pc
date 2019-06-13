@@ -194,6 +194,7 @@ import { Radio, RadioGroup, RadioButton } from 'element-ui'
 import SearchConditions from 'components/SearchConditions'
 import InputNumber from 'components/InputNumber'
 import Timer from '../../util/timer'
+import md5 from 'md5'
 // import util from '../../util'
 export default {
   mixins: [xhr],
@@ -365,7 +366,7 @@ export default {
       this.checkSecurityPwd()
     },
     checkSecurityPwd () {
-      this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
+      this.$http.post(api.checkSecurityPwd, {password: md5(this.cpwd)}).then(({data}) => {
         if (data.success === 1) {
           if (this.me.safeCheck) {
             return this.checkSafeCode()

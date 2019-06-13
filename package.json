@@ -24,6 +24,7 @@
   "dependencies": {
     "echarts": "^4.1.0",
     "lodash": "^4.17.4",
+    "md5": "^2.2.1",
     "simple-web-worker": "^1.2.0",
     "vue": "^2.5.16",
     "vue-awesome-swiper": "^2.4.2",
@@ -48,7 +49,7 @@
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^4.0.2",
     "css-loader": "^0.25.0",
-    "element-ui": "^2.3.9",
+    "element-ui": "1.2.9",
     "eslint": "^3.7.1",
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",
