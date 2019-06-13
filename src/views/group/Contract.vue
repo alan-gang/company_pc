@@ -13,13 +13,13 @@
             <span>
               注册时间
               <!-- :picker-options="pickerOptions" -->
+                <!-- v-on:change="dateChange" -->
               <el-date-picker
                 v-model="stEt"
                 format="yyyy-MM-dd"
                 type="daterange"
                 placeholder="选择日期范围"
                 v-bind:clearable="clearableOnTime"
-                v-on:change="dateChange"
               ></el-date-picker>
               <el-button @click="stEt=['', '']" size="small">不限</el-button>
               <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
@@ -645,52 +645,52 @@ export default {
     // }
   },
   methods: {
-    dateChange(d) {
-      console.log(this.stEt());
-      return console.log(d);
-      // let sdate = this.stEt[0]._toDayString().replace(/-/g, "");
-      // let edate = this.stEt[1]._toDayString().replace(/-/g, "");
-      // let diff = parseInt(edate, 10) - parseInt(sdate, 10);
-      // this.defaultDateIdx = -1;
-      // if (
-      //   parseInt(sdate, 10) >=
-      //     parseInt(
-      //       new Date()
-      //         ._bf(-this.dateMappingConfig["d2"][0])
-      //         ._toDayString()
-      //         .replace(/-/g, "")
-      //     ) &&
-      //   parseInt(edate, 10) <=
-      //     parseInt(
-      //       new Date()
-      //         ._bf(-this.dateMappingConfig["d2"][1])
-      //         ._toDayString()
-      //         .replace(/-/g, "")
-      //     )
-      // ) {
-      //   this.defaultDateIdx = 2;
-      // }
-      // if (sdate === edate) {
-      //   if (
-      //     sdate ===
-      //     new Date()
-      //       ._bf(-this.dateMappingConfig["d0"][0])
-      //       ._toDayString()
-      //       .replace(/-/g, "")
-      //   ) {
-      //     this.defaultDateIdx = 0;
-      //   }
-      //   if (
-      //     sdate ===
-      //     new Date()
-      //       ._bf(-this.dateMappingConfig["d1"][0])
-      //       ._toDayString()
-      //       .replace(/-/g, "")
-      //   ) {
-      //     this.defaultDateIdx = 1;
-      //   }
-      // }
-    },
+    // dateChange(d) {
+    //   console.log(this.stEt());
+    //   return console.log(d);
+    //   // let sdate = this.stEt[0]._toDayString().replace(/-/g, "");
+    //   // let edate = this.stEt[1]._toDayString().replace(/-/g, "");
+    //   // let diff = parseInt(edate, 10) - parseInt(sdate, 10);
+    //   // this.defaultDateIdx = -1;
+    //   // if (
+    //   //   parseInt(sdate, 10) >=
+    //   //     parseInt(
+    //   //       new Date()
+    //   //         ._bf(-this.dateMappingConfig["d2"][0])
+    //   //         ._toDayString()
+    //   //         .replace(/-/g, "")
+    //   //     ) &&
+    //   //   parseInt(edate, 10) <=
+    //   //     parseInt(
+    //   //       new Date()
+    //   //         ._bf(-this.dateMappingConfig["d2"][1])
+    //   //         ._toDayString()
+    //   //         .replace(/-/g, "")
+    //   //     )
+    //   // ) {
+    //   //   this.defaultDateIdx = 2;
+    //   // }
+    //   // if (sdate === edate) {
+    //   //   if (
+    //   //     sdate ===
+    //   //     new Date()
+    //   //       ._bf(-this.dateMappingConfig["d0"][0])
+    //   //       ._toDayString()
+    //   //       .replace(/-/g, "")
+    //   //   ) {
+    //   //     this.defaultDateIdx = 0;
+    //   //   }
+    //   //   if (
+    //   //     sdate ===
+    //   //     new Date()
+    //   //       ._bf(-this.dateMappingConfig["d1"][0])
+    //   //       ._toDayString()
+    //   //       .replace(/-/g, "")
+    //   //   ) {
+    //   //     this.defaultDateIdx = 1;
+    //   //   }
+    //   // }
+    // },
     __setGCI(i) {
       this.I = i;
     },
