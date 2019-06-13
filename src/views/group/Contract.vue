@@ -178,7 +178,7 @@
                     <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
                       <el-option
                         v-for="S in sendCycle"
-                        v-bind:label=" time[S - 1] "
+                        v-bind:label=" TIME[S] "
                         v-bind:value="S"
                       ></el-option>
                       <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
@@ -554,7 +554,7 @@ export default {
       cType: 0,
       ruleCfg: [],
       // 契约时间类型
-      TIME: ["", "月", "半月", "周"]
+      TIME: ["", "每月", "每半月", "每周"]
     };
   },
   computed: {
