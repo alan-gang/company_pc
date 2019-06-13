@@ -8,8 +8,8 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div v-if=" I === 0 ">
-        <div class="form form-filters">
-          <label class="item">
+        <div class="form form-filters my-el">
+          <span>
             <el-button @click="ClickToday" size="small">今天</el-button>
             <el-button @click="ClickYesterday" size="small">昨天</el-button>
             <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
@@ -25,8 +25,8 @@
               @click="ClickMonth(-2)"
               size="small"
             >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             排序
             <el-button size="small" @click="ClickSort('realbuy')">
               投注
@@ -43,15 +43,15 @@
               <template v-if="orderBy=='profit'&&ascOrDesc==2">↑</template>
               <template v-if="orderBy=='profit'&&ascOrDesc==1">↓</template>
             </el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             显示
             <el-select v-model="ot" placeholder="请选择">
               <el-option label="投注的" value="0"/>
               <el-option label="全部" value="1"/>
             </el-select>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             团队
             <el-autocomplete
               v-model="name"
@@ -61,7 +61,7 @@
               @select="profitList"
               popper-class="autocompleteuser"
             ></el-autocomplete>
-          </label>
+          </span>&nbsp;&nbsp;
           <div class="ds-button primary large bold" @click="profitList()">搜索</div>
         </div>
         <div class="table-list" style="padding: .15rem .2rem ;">
@@ -108,7 +108,13 @@
                   >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                sortable="custom"
+                v-if="me.showBackWater"
+              >
                 <template scope="scope">
                   <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
                 </template>
@@ -138,8 +144,9 @@
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">
                 <template scope="scope">
+                  <!-- 最后一条合计 不显示操作按钮 -->
                   <div
-                    v-show="scope.$index+1 != data.length"
+                    v-show="Daily && scope.$index+1 != data.length"
                     @click="ClickProfitInfo(scope.row)"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
@@ -162,7 +169,7 @@
               v-bind:max-height=" MH "
               @sort-change="sortChange"
             >
-              <el-table-column class-name="pl2" prop="userName" label="游戏类型">
+              <el-table-column class-name="pl2" prop="userName" label="游戏类别">
                 <template scope="scope">
                   <span>
                     {{ scope.row.userName }}
@@ -188,7 +195,13 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="getpoint" label="返水" sortable="custom">
+              <el-table-column
+                align="right"
+                prop="getpoint"
+                label="返水"
+                sortable="custom"
+                v-if="me.showBackWater"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>
@@ -223,8 +236,9 @@
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">
                 <template scope="scope">
+                  <!-- 最后一条合计 不显示操作按钮 -->
                   <div
-                    v-show="scope.$index+1 != data.length && Daily"
+                    v-show="Daily && scope.$index+1 != data.length"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
                     @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
@@ -284,7 +298,12 @@
                   >{{ scope.row.userName }}</span>
                 </template>
               </el-table-column>-->
-              <el-table-column prop="date" label="日期"></el-table-column>
+              <el-table-column prop="date" label="日期">
+                <template scope="scope">
+                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
+                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
+                </template>
+              </el-table-column>
               <el-table-column align="right" prop="realBuy" label="销量">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
@@ -297,12 +316,7 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                align="right"
-                prop="getpoint"
-                label="返水"
-                v-if="profitDetailROW && profitDetailROW.hasSub==1"
-              >
+              <el-table-column align="right" prop="getpoint" label="返水" v-if="me.showBackWater">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
                 </template>

@@ -95,7 +95,7 @@
       }
     },
     mounted () {
-      // this.mySubSalaryList()
+      this.mySubSalaryList()
     },
     methods: {
       dateChange (d) {

@@ -1,4 +1,4 @@
-// 我的佣金 下级拥挤
+// 我的佣金 下级佣金
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -8,8 +8,8 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form">
-        <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
-          <label class="item">
+        <div class="form-filters my-el" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
+          <span>
             结算日&nbsp;
             <el-button
               v-for="(v,i) in settlementSub"
@@ -17,15 +17,15 @@
               size="small"
               @click="settlement=v"
             >{{v.label}}</el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             &nbsp;状态&nbsp;
             <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </label>
-          <label class="item" v-if="$props.typeCode === 1">
+          </span>
+          <span v-if="$props.typeCode === 1">
             用户名&nbsp;
             <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </label>
+          </span>&nbsp;&nbsp;
           <div class="ds-button primary large bold" @click="bonus">搜索</div>
         </div>
         <el-table
@@ -38,8 +38,7 @@
           v-bind:max-height=" MH "
           v-bind:row-class-name="tableRowClassName"
         >
-          <el-table-column align="center" prop="issue" label="结算日期">
-          </el-table-column>
+          <el-table-column align="center" prop="issue" label="结算日期"></el-table-column>
           <el-table-column align="center" prop="sendCycle" label="佣金周期">
             <template scope="scope">
               <span>{{ ProfitPeriodCount(scope.row) }}</span>
@@ -47,38 +46,32 @@
           </el-table-column>
           <el-table-column align="center" prop="sptProfit" label="体育">
             <template scope="scope">
-              <span
-              >{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
+              <span>{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="vidProfit" label="真人">
             <template scope="scope">
-              <span
-              >{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
+              <span>{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="egameProfit" label="老虎机">
             <template scope="scope">
-              <span
-              >{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
+              <span>{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="esptProfit" label="电竞">
             <template scope="scope">
-              <span
-              >{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
+              <span>{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="fishProfit" label="捕鱼">
             <template scope="scope">
-              <span
-              >{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
+              <span>{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="othltrProfit" label="基诺彩">
             <template scope="scope">
-              <span
-              >{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
+              <span>{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="总盈亏">
@@ -101,8 +94,7 @@
           </el-table-column>
           <el-table-column align="center" prop="bonus" label="佣金金额">
             <template scope="scope">
-              <span
-              >{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
+              <span>{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="status" label="状态">
@@ -305,10 +297,10 @@ export default {
   watch: {
     typeCode(n) {
       this.bonus();
-    },
-    settlement() {
-      this.bonus();
     }
+    // settlement() {
+    //   this.bonus();
+    // }
   },
   mounted() {
     this.settlementInit(); //结算日初始化
@@ -349,11 +341,13 @@ export default {
     //结算日 init
     settlementInit() {
       //结算日按钮组
-      let r = [];
-      //当前日期 = 1号  那么结算日期是 本月1号   结算开始日期是上月1号  结算结束日期是上月最后一天
-      if (new Date().getDate() === 1) {
-        r.push({
-          label: new Date()._setD(1)._toDayString(),
+      //前三个月  显示结算日为  前三个月的每月1号
+      let r = [
+        {
+          label: new Date()
+            ._setD(1)
+            ._bfM(-1)
+            ._toDayString(),
           value: [
             new Date()
               ._setD(1)
@@ -364,28 +358,11 @@ export default {
               ._bf(-1)
               ._toDayString()
           ]
-        });
-        //向前推算 最近2个结算日, 最近的两个 1号  16号
-        r.push({
-          label: new Date()
-            ._setD(16)
-            ._bfM(-1)
-            ._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-1)
-              ._toDayString(),
-            new Date()
-              ._setD(15)
-              ._bfM(-1)
-              ._toDayString()
-          ]
-        });
-        r.push({
+        },
+        {
           label: new Date()
             ._setD(1)
-            ._bfM(-1)
+            ._bfM(-2)
             ._toDayString(),
           value: [
             new Date()
@@ -398,79 +375,25 @@ export default {
               ._bf(-1)
               ._toDayString()
           ]
-        });
-      }
-      //当前日期 <= 16号 那么结算日期是 本月16号  结算开始日期是本月1号  结算结束日期是本月15号
-      if (new Date().getDate() <= 16) {
-        r.push({
-          label: new Date()._setD(16)._toDayString(),
-          value: [
-            new Date()._setD(1)._toDayString(),
-            new Date()._setD(15)._toDayString()
-          ]
-        });
-        //向前推算 最近2个结算日, 最近的两个 1号  16号
-        r.push({
-          label: new Date()._setD(1)._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-1)
-              ._toDayString(),
-            new Date()
-              ._setD(1)
-              ._bf(-1)
-              ._toDayString()
-          ]
-        });
-        r.push({
-          label: new Date()
-            ._setD(16)
-            ._bfM(-1)
-            ._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-1)
-              ._toDayString(),
-            new Date()
-              ._setD(15)
-              ._bfM(-1)
-              ._toDayString()
-          ]
-        });
-      }
-      //当前日期 >16号  那么结算日期是 下月1号   结算开始日期是本月1号  结算结束日期是本月当前日期
-      if (new Date().getDate() > 16) {
-        r.push({
+        },
+        {
           label: new Date()
             ._setD(1)
-            ._bfM(1)
+            ._bfM(-3)
             ._toDayString(),
-          value: [new Date()._setD(1)._toDayString(), new Date()._toDayString()]
-        });
-        //向前推算 最近2个结算日, 最近的两个 1号  16号
-        r.push({
-          label: new Date()._setD(16)._toDayString(),
-          value: [
-            new Date()._setD(1)._toDayString(),
-            new Date()._setD(15)._toDayString()
-          ]
-        });
-        r.push({
-          label: new Date()._setD(1)._toDayString(),
           value: [
             new Date()
               ._setD(1)
-              ._bfM(-1)
+              ._bfM(-3)
               ._toDayString(),
             new Date()
               ._setD(1)
+              ._bfM(-2)
               ._bf(-1)
               ._toDayString()
           ]
-        });
-      }
+        }
+      ];
       // console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
       this.settlementSub = r;

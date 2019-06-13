@@ -20,8 +20,8 @@
                   span.text-black {{ row.writeTime }}
               el-row
                 el-col(:span="12") 是否追号：
-                span {{row.taskId ? '是' : '否'}}
-                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
+                  span {{row.taskId ? '是' : '否'}}
+                  span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
 
             .middle-info
               el-row

@@ -48,7 +48,7 @@
           // 日工资 ? if showSalary
           el-table-column(prop="daySalary"  label="日工资" v-if=" showSalary  ")
 
-          el-table-column(prop="teamBalance"  label="主帐户余额"  align="right")
+          el-table-column(prop="teamBalance"  label="主账户余额"  align="right")
               template(scope="scope")
                   span {{ numberWithCommas(scope.row.teamBalance) }}
 
@@ -586,7 +586,7 @@
         f: 2,
         Filters: [
           {id: 1, title: '返点级别'},
-          {id: 2, title: '帐户余额'},
+          {id: 2, title: '账户余额'},
           {id: 3, title: '注册时间'},
           {id: 4, title: '登录时间'}
           // {id: 5, title: '日工资'}

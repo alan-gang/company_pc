@@ -27,8 +27,8 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="startDate" label="预算开始时间"></el-table-column>
-          <el-table-column label="预算结束时间">
+          <el-table-column prop="startDate" label="测算开始时间"></el-table-column>
+          <el-table-column label="测算结束时间">
             <template scope="scope">
               <span>{{new Date()._toDayString()}}</span>
             </template>
@@ -68,7 +68,7 @@
           <el-table-column prop="bonus" label="个人预期分红金额">
             <template scope="scope">
               <span
-              >{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus._nwc() }}</span>
+              >{{ scope.row.bonus && scope.row.bonus._nwc() }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -103,7 +103,7 @@
                   v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
                   :class="{'on':v.id==ruleInfoListRow.ruleid}"
                   :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate*100}}%</li>
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate}}%</li>
               </ul>
               <div class="my-el ruleInfoListSub">
                 <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
@@ -206,7 +206,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "总计";
+          sums[index] = "下级预期总分红金额";
           return;
         } else if (column.label === "个人预期分红金额") {
           sums[index] = this.bonusSent;
@@ -537,27 +537,6 @@ bg-active = #e2e2e2;
   .ruleInfoListSub {
     text-align: center;
     padding-bottom: 0.2rem;
-  }
-}
-div.my-el {
-  display: block;
-
-  .el-button {
-    min-width: 0.8rem;
-    height: 0.3rem;
-    padding: 0;
-  }
-
-  .el-button:focus,
-  .el-button:hover {
-    border: solid 1px #f37e0c;
-    color: #666;
-  }
-
-  .el-button.selected {
-    background-image: linear-gradient(0deg, #fff3e9 0%, #fffaf6 100%),
-      linear-gradient(#f37e0c, #f37e0c);
-    border: solid 1px #f37e0c;
   }
 }
 </style>

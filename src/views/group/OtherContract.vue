@@ -8,12 +8,12 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form">
-        <div class="form-filters">
-          <label class="item">
+        <div class="form-filters my-el">
+          <span>
             时间
             <!-- v-on:change="dateChange" -->
+            <!-- :picker-options="pickerOptions" -->
             <el-date-picker
-              :picker-options="pickerOptions"
               v-model="stEt"
               format="yyyy-MM-dd"
               type="daterange"
@@ -21,20 +21,20 @@
               v-bind:clearable="clearableOnTime"
             ></el-date-picker>
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
-            <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
-            <el-button @click="stEt=[new Date(), new Date()]" size="small">今天</el-button>
-          </label>
-          <label class="item">
+            <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
+            <el-button @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]" size="small">今天</el-button>
+          </span>
+          <span>
             &nbsp;状态&nbsp;
             <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </label>&nbsp;&nbsp;
-          <label class="item">
+          </span>&nbsp;&nbsp;
+          <span>
             用户名&nbsp;
             <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </label>
-          <label class="item">
+          </span>&nbsp;&nbsp;
+          <span>
             <div class="ds-button primary large bold" @click="contract">搜索</div>
-          </label>
+          </span>
         </div>
         <el-table
           class="header-bold nopadding"
@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column prop="subCount" label="团队人数"></el-table-column>
           <el-table-column prop="beginTm" label="签约日期"></el-table-column>
-          <el-table-column prop="sendCycle" label="分红周期">
+          <el-table-column prop="sendCycle" label="佣金周期">
             <template scope="scope">
               <span>{{TIME[scope.row.sendCycle]}}</span>
             </template>
@@ -118,7 +118,7 @@
         <div class="box-wrapper">
           <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
             <div class="tool-bar">
-              <span class="title">分红详情</span>
+              <span class="title">佣金详情</span>
               <el-button-group>
                 <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
               </el-button-group>
@@ -177,7 +177,7 @@
                 <p class="item block">
                   <span class="text-danger">*</span>发放周期：
                   <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
-                    <el-option v-for="S in sendCycle" v-bind:label=" time[S - 1] " v-bind:value="S"></el-option>
+                    <el-option v-for="S in sendCycle" v-bind:label=" TIME[S] " v-bind:value="S"></el-option>
                     <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
                   </el-select>
                 </p>
@@ -304,76 +304,76 @@ export default {
       TH: 180,
       // 0 我的契约
       // 1 下级契约
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近六个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起六个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 180);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "今起一年",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              end.setTime(end.getTime() + 3600 * 1000 * 24 * 360);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-        // disabledDate (time) {
-        //   return time.getTime() > Date.now()
-        // }
-      },
+      // pickerOptions: {
+      //   shortcuts: [
+      //     {
+      //       text: "最近一个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "最近三个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "最近六个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起一个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起三个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起六个月",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 180);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     },
+      //     {
+      //       text: "今起一年",
+      //       onClick(picker) {
+      //         const end = new Date();
+      //         const start = new Date();
+      //         end.setTime(end.getTime() + 3600 * 1000 * 24 * 360);
+      //         picker.$emit("pick", [start, end]);
+      //       }
+      //     }
+      //   ]
+      //   // disabledDate (time) {
+      //   //   return time.getTime() > Date.now()
+      //   // }
+      // },
       ApickerOptions: {
         shortcuts: [
           {
@@ -545,7 +545,7 @@ export default {
       cType: 1,
       ruleCfg: [],
       // 契约时间类型
-      TIME: ["", "月", "半月", "周"]
+      TIME: ["", "每月", "每半月", "每周"]
     };
   },
   computed: {

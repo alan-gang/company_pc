@@ -423,6 +423,7 @@
         })
       },
       list (page, fn, source, params = {}) {
+        this.hideNumber = false
         // if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
         //   if (!this.name) {
         //     this.$message.warning({message: '请输入用户名'})

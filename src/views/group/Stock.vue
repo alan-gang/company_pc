@@ -8,8 +8,8 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div class="form">
-        <div class="form-filters" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
-          <label class="item">
+        <div class="form-filters my-el" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
+          <span>
             结算日&nbsp;
             <el-button
               v-for="(v,i) in settlementSub"
@@ -17,16 +17,18 @@
               size="small"
               @click="settlement=v"
             >{{v.label}}</el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             &nbsp;状态&nbsp;
             <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </label>
-          <label class="item" v-if="$props.typeCode === 1">
+          </span>
+          <span v-if="$props.typeCode === 1">
             用户名&nbsp;
             <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </label>
-          <div class="ds-button primary large bold" @click="bonus">搜索</div>
+          </span>&nbsp;&nbsp;
+          <span>
+            <div class="ds-button primary large bold" @click="bonus">搜索</div>
+          </span>
         </div>
         <el-table
           class="header-bold nopadding"
@@ -183,14 +185,14 @@ export default {
   },
   computed: {},
   watch: {
-    //监听 当前结算日
-    settlement() {
-      this.bonus();
-    },
-    //监听 状态
-    s() {
-      this.bonus();
-    },
+    // //监听 当前结算日
+    // settlement() {
+    //   this.bonus();
+    // },
+    // //监听 状态
+    // s() {
+    //   this.bonus();
+    // },
     typeCode(n) {
       this.bonus();
     }
