@@ -457,7 +457,7 @@
         TIME: ['', '月', '半月', '周'],
         // 复制下级设置
         // 分红佣金
-        stEtA: [new Date()._bfY(-1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
+        stEtA: [new Date()._setHMS('0:0:0'), new Date()._bfY(10)._setHMS('23:59:59')],
         ApickerOptions: {
           shortcuts: [{
             text: '今起一个月',
