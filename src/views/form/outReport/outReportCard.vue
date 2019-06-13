@@ -9,8 +9,8 @@
     <slot name="toolbar"></slot>
     <div class="stock-list scroll-content">
       <div v-if=" I === 0 ">
-        <div class="form form-filters">
-          <label class="item">
+        <div class="form form-filters my-el">
+          <span>
             <el-button @click="ClickToday" size="small">今天</el-button>
             <el-button @click="ClickYesterday" size="small">昨天</el-button>
             <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
@@ -26,8 +26,8 @@
               @click="ClickMonth(-2)"
               size="small"
             >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             排序
             <el-button size="small" @click="ClickSort('realbuy')">
               投注
@@ -44,15 +44,15 @@
               <template v-if="orderBy=='profit'&&ascOrDesc==2">↑</template>
               <template v-if="orderBy=='profit'&&ascOrDesc==1">↓</template>
             </el-button>
-          </label>
-          <label class="item">
+          </span>
+          <span class="item">
             显示
             <el-select v-model="ot" placeholder="请选择">
               <el-option label="投注的" value="0"/>
               <el-option label="全部" value="1"/>
             </el-select>
-          </label>
-          <label class="item">
+          </span>
+          <span>
             团队
             <el-autocomplete
               v-model="name"
@@ -62,7 +62,7 @@
               @select="profitList"
               popper-class="autocompleteuser"
             ></el-autocomplete>
-          </label>
+          </span>&nbsp;&nbsp;
           <div class="ds-button primary large bold" @click="profitList()">搜索</div>
         </div>
         <div class="table-list" style="padding: .15rem .2rem ;">
