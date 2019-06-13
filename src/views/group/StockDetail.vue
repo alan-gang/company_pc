@@ -28,7 +28,7 @@
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
-          button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
+          button.ds-button.large.bold.primary(@click="subCheckBonus") 平台外已接收
 
 
 
