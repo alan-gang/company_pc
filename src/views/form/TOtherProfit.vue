@@ -98,7 +98,7 @@
                   v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
                   :class="{'on':v.id==ruleInfoListRow.ruleid}"
                   :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，佣金比例{{v.bounsrate*100}}%</li>
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，佣金比例{{v.bounsrate}}%</li>
               </ul>
               <div class="my-el ruleInfoListSub">
                 <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
