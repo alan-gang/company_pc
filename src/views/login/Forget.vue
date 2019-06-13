@@ -141,7 +141,7 @@ export default {
       this.time = 5
       let t = setInterval(() => {
         this.time--
-        if (this.time === 0) this.$router.push('/login') && clearInterval(t)
+        if (this.time === 0) this.$router.push('/') && clearInterval(t)
       }, 1000)
     },
     next () {

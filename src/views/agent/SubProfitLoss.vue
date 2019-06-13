@@ -267,7 +267,7 @@ export default {
             })
             if (this.I === 0) {
               items = items.map((item, i) => {
-                item.date = `${dateTimeFormat(this.stEt[0]).split(' ')[0]} 00:00:00 ~ ${dateTimeFormat(this.stEt[1]).split(' ')[0]} 23:59:59`
+                item.date = i < items.length - 1 ? (`${dateTimeFormat(this.stEt[0]).split(' ')[0]} 00:00:00 ~ ${dateTimeFormat(this.stEt[1]).split(' ')[0]} 23:59:59`) : ''
                 return item
               })
               this.profitAndLossSummaryData = items // items.slice(items.length - 1)
