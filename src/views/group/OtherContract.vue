@@ -21,8 +21,8 @@
               v-bind:clearable="clearableOnTime"
             ></el-date-picker>
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
-            <el-button @click="stEt=[new Date(), new Date()._bf(-7)]" size="small">最近七天</el-button>
-            <el-button @click="stEt=[new Date(), new Date()]" size="small">今天</el-button>
+            <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
+            <el-button @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]" size="small">今天</el-button>
           </span>
           <span>
             &nbsp;状态&nbsp;
