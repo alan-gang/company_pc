@@ -1,4 +1,4 @@
-import checkPwdScore, {getPwdSafeLevel} from './pwd'
+import {checkPwdScore, getPwdSafeLevel} from './pwd'
 
 let pwd = pwd => {
   // return pwd.length >= 6 && pwd.length <= 16 && !pwd.match(/([a-zA-Z\d]){1}?\1{2,}/) && pwd.match(/(\d+[a-zA-Z]+)|([a-zA-Z]+\d+)/g)

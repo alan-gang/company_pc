@@ -603,6 +603,7 @@ export default {
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
+        if (this.pwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
         this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
@@ -617,7 +618,7 @@ export default {
         }, (rep) => {
         })
       } else {
-      // 资金密码
+        // 资金密码
         // 修改
         if (this.me.cashPwd) {
           if (this.me.phone) {
@@ -630,6 +631,7 @@ export default {
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
         if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
+        if (this.newCashPwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
         this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {

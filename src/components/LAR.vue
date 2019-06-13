@@ -173,6 +173,7 @@ export default {
       if (!Validate.pwd(this.r.pwd)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
       if (this.r.pwd !== this.r.pwda) return this.$message.warning({target: this.$el, message: '两次密码输入不一致'})
       if (!Validate.pwd(this.r.pwda)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
+      if (this.pwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
       if (!this.tag && !this.r.code) return this.$message.warning({target: this.$el, message: '请输入推广码'})
       if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码'})
       this.$http.post(api.autoRegist, {

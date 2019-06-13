@@ -198,6 +198,10 @@ function calcRepeatScore (pass) {
 
 /**
  * 获取密码强度级别
+ * 4 : 非常安全
+ * 3 : 安全
+ * 2 : 一般
+ * 1 : 弱
  * @param {String} pwd 
  */
 function getPwdSafeLevel (pwd) {
