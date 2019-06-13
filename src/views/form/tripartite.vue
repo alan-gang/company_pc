@@ -144,8 +144,9 @@
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">
                 <template scope="scope">
+                  <!-- 最后一条合计 不显示操作按钮 -->
                   <div
-                    v-show="scope.$index+1 != data.length"
+                    v-show="Daily && scope.$index+1 != data.length"
                     @click="ClickProfitInfo(scope.row)"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
@@ -235,8 +236,9 @@
               </el-table-column>
               <el-table-column prop="userpoint" label="操作" align="center">
                 <template scope="scope">
+                  <!-- 最后一条合计 不显示操作按钮 -->
                   <div
-                    v-show="scope.$index+1 != data.length && Daily"
+                    v-show="Daily && scope.$index+1 != data.length"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
                     @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
