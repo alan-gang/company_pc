@@ -28,6 +28,7 @@ import xhr from './xhr'
 import api from '../http/api'
 // import Validate from '../util/Validate'
 import store from '../store'
+import md5 from 'md5'
 export default {
   mixins: [xhr],
   components: {
@@ -54,7 +55,7 @@ export default {
         this.$message.warning('输入值不能为空')
       } else {
         this._checkVerifyCode(() => {
-          this.$http.post(api.validate, {userName: this.l.un, userPwd: this.l.pwd, verifyCode: this.code_, channelType: 'web', timeout: 5000}).then(({data}) => {
+          this.$http.post(api.validate, {userName: this.l.un, userPwd: md5(this.l.pwd), verifyCode: this.code_, channelType: 'web', timeout: 5000}).then(({data}) => {
             // success
             if (data.success === 1) {
               this.__setCall({fn: '__loginSuccess', args: data, callId: undefined})
