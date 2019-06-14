@@ -70,7 +70,7 @@
   import api from '../../http/api'
   import store from '../../store'
   import { listOrderByField } from '../../util'
-  import { MMath } from '../../util/Number'
+  import { MMath, numberWithCommas } from '../../util/Number'
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
@@ -159,6 +159,7 @@
             // 增加工资总额
             data = data.map((item) => {
               item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
+              item.groupTotalAmount = this.numberWithCommas(item.groupTotalAmount.toFixed(2))
               return item
             })
             this.myWageData = data
@@ -186,7 +187,8 @@
         if (!column) return
         this.myWageData = this.listOrderByField(this.myWageData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
       },
-      listOrderByField
+      listOrderByField,
+      numberWithCommas
     }
   }
 </script>
