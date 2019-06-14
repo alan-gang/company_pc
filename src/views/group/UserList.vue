@@ -354,9 +354,9 @@
               .bgc-w.pd_15
                 p 下级用户名：
                   span.text-blue {{ user.userName }}
-                p.ft18.t_c.pd_10.pb_30 第一步 选择复制内容
+                p.ft18.t_c.pb_15 第一步 选择复制内容
               .pd_15(v-if=" user.all ")
-                .wp_15.h_570.inlb.relative(v-if=" user.all.subPointArr && user.all.subPointArr[0] ")
+                .wp_15.h_450.inlb.relative(v-if=" user.all.subPointArr && user.all.subPointArr[0] ")
                   .absolute.hlh36.plr15
                     .ds-checkbox-label.text-bold(v-bind:class=" { active: rp } " @click=" rp = !rp ")
                       .ds-checkbox
@@ -369,7 +369,7 @@
                       span {{ v.groupname }}返水：{{ (v.backwater * 1000).toFixed(1) }}‰
 
 
-                .wp_15.h_570.inlb.relative(v-if=" user.all.myDayArr && user.all.myDayArr[0] ")
+                .wp_15.h_450.inlb.relative(v-if=" user.all.myDayArr && user.all.myDayArr[0] ")
                   .absolute.hlh36.plr15
                     .ds-checkbox-label.text-bold(v-bind:class=" { active: ds } " @click=" ds = !ds ")
                       .ds-checkbox
@@ -379,7 +379,7 @@
                       .hlh3 有效人数>={{ user.all.myDayArr[0].activityuser }}
                       .hlh3 每1万{{ user.all.myDayArr[0].salary }}
 
-                .wp_35.h_570.inlb.relative(v-if=" user.all.cpArr && user.all.cpArr[0] ")
+                .wp_35.h_450.inlb.relative(v-if=" user.all.cpArr && user.all.cpArr[0] ")
                   .absolute.hlh36.plr15
                     .ds-checkbox-label.text-bold(v-bind:class=" { active: _contract } " @click=" _contract = !_contract ")
                       .ds-checkbox
@@ -387,9 +387,9 @@
                   .xcontent.pd_15
                     .hlh3 每{{ TIME[user.all.cpArr[0].sendcycle] }}，{{ STYPE[user.all.cpArr[0].sendtype] }}
                     .hlh3 {{ user.all.cpArr[0].begintm.split(' ')[0] }} 开始， {{ user.all.cpArr[0].expiretm.split(' ')[0] }} 结束
-                    .hlh3(v-for=" (v, i) in  user.all.cpArr[0].myBounCpArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
+                    .hlh3(v-for=" (v, i) in  user.all.cpArr[0].myBounCpArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
 
-                .wp_35.h_570.inlb.relative(v-if=" user.all.yjArr && user.all.yjArr[0] ")
+                .wp_35.h_450.inlb.relative(v-if=" user.all.yjArr && user.all.yjArr[0] ")
                   .absolute.hlh36.plr15
                     .ds-checkbox-label.text-bold(v-bind:class=" { active: _bonus } " @click=" _bonus = !_bonus ")
                       .ds-checkbox
@@ -397,20 +397,21 @@
                   .xcontent.pd_15
                     .hlh3 每{{ TIME[user.all.yjArr[0].sendcycle] }}，{{ STYPE[user.all.yjArr[0].sendtype] }}
                     .hlh3 {{ user.all.yjArr[0].begintm.split(' ')[0] }} 开始， {{ user.all.yjArr[0].expiretm.split(' ')[0] }} 结束
-                    .hlh3(v-for=" (v, i) in  user.all.yjArr[0].myBounYjArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
+                    .hlh3(v-for=" (v, i) in  user.all.yjArr[0].myBounYjArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
 
                 .buttons.h_30.pt_15
                   .ds-button.primary.large.w_180.f_r(v-show=" rp || ds || _contract || _bonus " @click=" $refs.copy.scrollTop = 10000 ") 下一步
 
-              .bgc-w.pd_15
-                p.ft18.t_c.pd_10.pb_30 第二步 选择复制用户
-              .pd_15
-                div(style="overflow: hidden; height: 5.3rem")
+              .bgc-w.pd_20
+                .h_5
+                p.ft18.t_c 第二步 选择复制用户
+              .pl_15.pt_15.pr_15
+                div(style="overflow: hidden; height: 4.2rem")
                   .users.inlb.v_t.wp_20(v-if=" users.length > 0")
                     .hlh_30
                       el-autocomplete.inline-input.wp_100(v-model='un', v-bind:fetch-suggestions='querySearch', icon="search" placeholder='搜索用户')
 
-                    ul.pd_0.mh_500.mg_0
+                    ul.pd_0.mh_390.mg_0
                       li.hlh_40.pointer(v-for=" (v, i) in users_ " @click=" v.checked = !v.checked ")
                         span.inlb.w_50.t_c
                           .ds-checkbox.white(v-bind:class="  {active: v.checked} "  )
@@ -422,14 +423,15 @@
                       span.pd_5
                       .ds-button.outline(@click=" users_.forEach(x => (x.checked = false)) ") 清空
                       span.f_r {{ users_.filter(x => x.checked).length }} / {{ users_.length }}
-                    .mh_500.pd_0.mg_0
+                    .mh_350.pd_0.mg_0
                       .ds-button.outline.withclose(v-for=" (v, i) in users_.filter(x => x.checked) ") {{ v.userName }}
                         el-button.close(icon="close" @click=" v.checked = false ")
+
 
                 .t_c.pd_10.bgc-w
                   .ds-button.success.large.w_180(@click="keepSame") 同步数据 
 
-                .t_c.pd_10(style="text-align: right")
+                .t_c.pt_10.pl_10.pb_5(style="text-align: right")
                   .ds-button.primary.large.w_180(@click=" (stepType = '') || (stepIndex = 0) ") 完成 
                   span.pd_5
                   .ds-button.cancel.large.w_180(@click=" $refs.copy.scrollTop = 0 ") 上一步 
@@ -653,7 +655,7 @@
     },
     computed: {
       users_ () {
-        return this.users.filter(x => x.userName.indexOf(this.un) !== -1)
+        return this.users.filter(x => x.userName.indexOf(this.un) !== -1 && x.userId !== this.user.userId)
       },
       user_ () {
         return this.users.filter(x => x.userName === this.un_)[0] || {}
@@ -738,6 +740,9 @@
           this.RULES.forEach(x => (x.ruletype = 0))
           this.SV = ''
           this.contract()
+        }
+        if (n === 'copy') {
+          this._getUserList()
         }
         // if (!n) {
         //   let B = this.BL[this.BL.length - 2]
@@ -1246,7 +1251,6 @@
                 }
               ]
             })
-            this.users = data.subUserInfo
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -1477,7 +1481,7 @@
   .stepType_copy
     .box
       width 11rem !important
-      height 7.55rem
+      height 6rem
       overflow hidden !important
       padding-top .4rem
       .tool-bar
@@ -1489,7 +1493,7 @@
           height 100%
           overflow-y auto
         
-    .h_570
+    .h_450
       overflow hidden
       margin-right 0 !important
       .xcontent
