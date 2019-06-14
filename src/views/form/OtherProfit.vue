@@ -12,11 +12,11 @@
           <span>
             结算日&nbsp;
             <el-button
-              v-for="(v,i) in settlementSub"
-              :key="i"
+              v-for="v in settlementSub"
+              :key="v"
               size="small"
               @click="settlement=v"
-            >{{v.label}}</el-button>
+            >{{v}}</el-button>
           </span>
           <span>
             &nbsp;状态&nbsp;
@@ -341,58 +341,17 @@ export default {
     //结算日 init
     settlementInit() {
       //结算日按钮组
-      //前三个月  显示结算日为  前三个月的每月1号
+      //显示结算日为  前三个 1号 包含当天是1号
       let r = [
-        {
-          label: new Date()
-            ._setD(1)
-            ._bfM(-1)
-            ._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-1)
-              ._toDayString(),
-            new Date()
-              ._setD(1)
-              ._bf(-1)
-              ._toDayString()
-          ]
-        },
-        {
-          label: new Date()
-            ._setD(1)
-            ._bfM(-2)
-            ._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-2)
-              ._toDayString(),
-            new Date()
-              ._setD(1)
-              ._bfM(-1)
-              ._bf(-1)
-              ._toDayString()
-          ]
-        },
-        {
-          label: new Date()
-            ._setD(1)
-            ._bfM(-3)
-            ._toDayString(),
-          value: [
-            new Date()
-              ._setD(1)
-              ._bfM(-3)
-              ._toDayString(),
-            new Date()
-              ._setD(1)
-              ._bfM(-2)
-              ._bf(-1)
-              ._toDayString()
-          ]
-        }
+        new Date()._setD(1)._toDayString(),
+        new Date()
+          ._setD(1)
+          ._bfM(-1)
+          ._toDayString(),
+        new Date()
+          ._setD(1)
+          ._bfM(-2)
+          ._toDayString()
       ];
       // console.log(JSON.stringify(r));
       this.settlement = this.settlement || r[0]; //初始化 当前结算日
@@ -451,8 +410,8 @@ export default {
       );
       if (!fn) {
         this.preOptions = {
-          startDate: this.settlement.value[0], //当前结算日
-          endDate: this.settlement.value[1], //当前结算日
+          startDate: this.settlement, //当前结算日
+          endDate: this.settlement, //当前结算日
           status: this.s,
           page: 1,
           pageSize: this.pageSize,
