@@ -30,7 +30,7 @@
 
         el-table.header-bold.nopadding(:data="myWageData" stripe ref="table" v-bind:max-height=" MH " v-on:sort-change="sortChange")
 
-          el-table-column(class-name="pl2" prop="date" label="日期" sortable="custom")
+          el-table-column(class-name="pl2" prop="date" label="销售日期" sortable="custom")
           el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
           el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
           el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
@@ -56,7 +56,7 @@
       .box-wrapper
         .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
-            span.title 明细
+            span.title 每日明细
             el-button-group
               el-button.close(icon="close" @click=" did = ''")
 
