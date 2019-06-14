@@ -62,7 +62,7 @@
       .box-wrapper
         .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
-            span.title 明细
+            span.title 每日明细
             el-button-group
               el-button.close(icon="close" @click=" did = ''")
 
