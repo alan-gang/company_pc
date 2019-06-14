@@ -81,6 +81,11 @@ export default {
           this.BL = (data.userBreads).concat([{}])
 
           this.showSalary = data.showSalary
+          let user = data.subUserInfo.filter((u) => { return u.userId === parseInt(id) })[0] || {}
+          this.salary = user.daySalary
+          this.activityCount = user.actUser
+          this.teamSales = user.teamSales
+          data.salaryComb = data.salaryComb.filter((item) => { return item.value >= user.daySalary })
           this.OL = data.salaryComb
 
           typeof fn === 'function' && fn()

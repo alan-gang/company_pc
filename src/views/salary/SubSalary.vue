@@ -78,8 +78,9 @@
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
-  import { MMath } from '../../util/Number'
+  import { MMath, numberWithCommas } from '../../util/Number'
   import { listOrderByField } from '../../util'
+
   export default {
     mixins: [setTableMaxHeight, page],
     components: {
@@ -174,6 +175,7 @@
             // 增加工资总额
             data = data.map((item) => {
               item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
+              item.groupTotalAmount = this.numberWithCommas(item.groupTotalAmount.toFixed(2))
               return item
             })
             this.mySubWageData = data
@@ -215,7 +217,8 @@
         if (!column) return
         this.mySubWageData = this.listOrderByField(this.mySubWageData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
       },
-      listOrderByField
+      listOrderByField,
+      numberWithCommas
       // 下级日工资
       // list (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }, id) {
       //   let loading = this.$loading({

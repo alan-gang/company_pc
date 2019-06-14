@@ -44,7 +44,7 @@ import setTableMaxHeight from 'components/setTableMaxHeight'
 import page from 'components/page'
 import api from '../../http/api'
 import store from '../../store'
-import { MMath } from '../../util/Number'
+import { MMath, numberWithCommas } from '../../util/Number'
 export default {
   mixins: [setTableMaxHeight, page],
   components: {
@@ -61,6 +61,7 @@ export default {
   mounted () {
     this.list()
   },
+
   methods: {
     list (option = {page: 1, pageSize: this.pageSize}, cb = () => { this.currentPage = 1 }) {
       let loading = this.$loading({
@@ -80,7 +81,8 @@ export default {
         if (success === 1) {
           // 增加工资总额
           data = data.map((item) => {
-            item.groupTotalAmount = MMath.add(item.subSalary, item.daySalary)
+            item.groupTotalAmount = MMath.add(String(item.subSalary).replace(/,/g, ''), String(item.daySalary).replace(/,/g, ''))
+            item.groupTotalAmount = this.numberWithCommas(item.groupTotalAmount.toFixed(2))
             return item
           })
           this.data = data
@@ -92,7 +94,8 @@ export default {
           loading.close()
         }, 100)
       })
-    }
+    },
+    numberWithCommas
   }
 }
 </script>
