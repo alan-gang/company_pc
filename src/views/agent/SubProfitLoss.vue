@@ -39,7 +39,9 @@
             template(slot-scope="scope")
               el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)" v-show="scope.row.userName != '合计'") 查看上级
               el-button(type="text" size="small" class="fc-o" @click="viewDetail(scope.row)" v-show="scope.row.userName != '合计'") 明细
-        el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged")
+
+      p(v-show="!showThirdGameDetal") 温馨提示：仅保留最近7天的数据
+      el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged" v-show="!showThirdGameDetal")
       keep-alive
         el-table.header-bold.nopadding(:data="thirdGamesDetailData" style="margin: .2rem 0" stripe ref="table" v-show="showThirdGameDetal" v-on:sort-change="thirdGameDetailSortChange")  
           el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in thirdGamesColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable" align="center" )
@@ -50,7 +52,7 @@
               el-button(type="text" size="small" class="fc-o" @click="showThirdGameDetal = false" v-show="scope.row.userName != '合计'") 返回上一步
               el-button(type="text" size="small" class="fc-o" @click="viewThirdGameDailyProfitDetail(scope.row)" v-show="scope.row.userName != '合计'") 每日明细
 
-      p 温馨提示：仅保留最近7天的数据
+      p(v-show="showThirdGameDetal") 温馨提示：仅保留最近7天的数据
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-on:sort-change="sortChange")  
@@ -62,8 +64,7 @@
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
             el-button(type="text" size="small" class="fc-o" @click="viewDailyProfitDetail(scope.row)"  v-show="scope.row.userName != '合计'") 每日明细
       p 温馨提示：仅保留最近7天的数据
-
-    el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged")
+      el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > pageSize " v-on:current-change="pageChanged")
     
     el-dialog(custom-class="higher-level-breaks-dialog" v-bind:visible.sync="isShowHigherLevelDialog" center v-bind:modal="false" )
       .higher-level-breaks
@@ -314,13 +315,14 @@ export default {
           } else {
             this.dailyReportData = items
           }
-          this.showUserPointColumn = false
-          for (let i = 0; i < items.length; i++) {
-            if (parseFloat(items[i].point) > 0) {
-              this.showUserPointColumn = true
-              break
-            }
-          }
+          this.showUserPointColumn = parseFloat(pointLevel) > 0
+          // this.showUserPointColumn = false
+          // for (let i = 0; i < items.length; i++) {
+          //   if (parseFloat(items[i].point) > 0) {
+          //     this.showUserPointColumn = true
+          //     break
+          //   }
+          // }
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
@@ -374,6 +376,7 @@ export default {
       this.stEt = [dates.startDate, dates.endDate]
     },
     search () {
+      this.curPage = 1
       this.getPersonalReport({}, 'search')
       if (this.I === 0) {
         this.showThirdGameDetal = false
