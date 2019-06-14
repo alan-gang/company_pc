@@ -35,7 +35,7 @@
           el-table-column(prop="teamCount" label="团队人数"  align="center" sortable="custom")
           el-table-column(label="工资级别"  align="center") 
             template(scope="scope")
-              span {{scope.row.salary}} 万
+              span 1w{{scope.row.salary}}
           el-table-column(prop="teamSales" label="团队销量"  align="center")
           el-table-column(prop="activityCount" label="有效人数"  align="center")
           el-table-column(class-name="pl2 pr2" label="状态")

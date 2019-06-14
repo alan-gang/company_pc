@@ -30,7 +30,7 @@
 
         el-table.header-bold.nopadding(:data="myWageData" stripe ref="table" v-bind:max-height=" MH " v-on:sort-change="sortChange")
 
-          el-table-column(class-name="pl2" prop="date" label="日期" sortable="custom")
+          el-table-column(class-name="pl2" prop="date" label="销售日期" sortable="custom")
           el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
           el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
           el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
@@ -56,7 +56,7 @@
       .box-wrapper
         .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
-            span.title 明细
+            span.title 每日明细
             el-button-group
               el-button.close(icon="close" @click=" did = ''")
 
@@ -70,7 +70,7 @@
   import api from '../../http/api'
   import store from '../../store'
   import { listOrderByField } from '../../util'
-  import { MMath } from '../../util/Number'
+  import { MMath, numberWithCommas } from '../../util/Number'
   import page from 'components/page'
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
@@ -159,6 +159,7 @@
             // 增加工资总额
             data = data.map((item) => {
               item.groupTotalAmount = MMath.add(item.subSalary.replace(/,/g, ''), item.daySalary.replace(/,/g, ''))
+              item.groupTotalAmount = this.numberWithCommas(item.groupTotalAmount.toFixed(2))
               return item
             })
             this.myWageData = data
@@ -186,7 +187,8 @@
         if (!column) return
         this.myWageData = this.listOrderByField(this.myWageData, column.prop, {ascending: 'asc', descending: 'desc'}[column.order]).slice(0)
       },
-      listOrderByField
+      listOrderByField,
+      numberWithCommas
     }
   }
 </script>

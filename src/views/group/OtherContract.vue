@@ -93,7 +93,7 @@
               >新建契约</div>
               <div
                 class="ds-button text-button blue"
-                v-if=" ruleCfg.length > 0 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')"
+                v-if="me.account!=scope.row.userName && ruleCfg.length > 0 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')"
                 style="padding: 0 .05rem;"
                 @click="++stepIndex && (user = scope.row)"
               >重新发起</div>
