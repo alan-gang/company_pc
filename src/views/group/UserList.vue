@@ -387,7 +387,7 @@
                   .xcontent.pd_15
                     .hlh3 每{{ TIME[user.all.cpArr[0].sendcycle] }}，{{ STYPE[user.all.cpArr[0].sendtype] }}
                     .hlh3 {{ user.all.cpArr[0].begintm.split(' ')[0] }} 开始， {{ user.all.cpArr[0].expiretm.split(' ')[0] }} 结束
-                    .hlh3(v-for=" (v, i) in  user.all.cpArr[0].myBounCpArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
+                    .hlh3(v-for=" (v, i) in  user.all.cpArr[0].myBounCpArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ parseInt(v.bounsrate * 100) }}%
 
                 .wp_35.h_450.inlb.relative(v-if=" user.all.yjArr && user.all.yjArr[0] ")
                   .absolute.hlh36.plr15
@@ -397,7 +397,7 @@
                   .xcontent.pd_15
                     .hlh3 每{{ TIME[user.all.yjArr[0].sendcycle] }}，{{ STYPE[user.all.yjArr[0].sendtype] }}
                     .hlh3 {{ user.all.yjArr[0].begintm.split(' ')[0] }} 开始， {{ user.all.yjArr[0].expiretm.split(' ')[0] }} 结束
-                    .hlh3(v-for=" (v, i) in  user.all.yjArr[0].myBounYjArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ v.bounsrate * 100 }}%
+                    .hlh3(v-for=" (v, i) in  user.all.yjArr[0].myBounYjArr ") 规则{{ i + 1 }}： 累计{{ TYPE[v.ruletype].title }}>={{ v.sales / 10000 }}万，有效人数>={{ v.actuser }}，分红比例{{ parseInt(v.bounsrate * 100) }}%
 
                 .buttons.h_30.pt_15
                   .ds-button.primary.large.w_180.f_r(v-show=" rp || ds || _contract || _bonus " @click=" $refs.copy.scrollTop = 10000 ") 下一步
