@@ -85,7 +85,10 @@ export default {
           this.salary = user.daySalary
           this.activityCount = user.actUser
           this.teamSales = user.teamSales
-          data.salaryComb = data.salaryComb.filter((item) => { return item.value >= user.daySalary })
+          data.salaryComb = data.salaryComb.filter((item) => { return item.value >= user.daySalary && item.value > 0 })
+          if (!this.salary) {
+            this.salary = data.salaryComb[0].value
+          }
           this.OL = data.salaryComb
 
           typeof fn === 'function' && fn()
