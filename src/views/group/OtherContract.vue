@@ -573,9 +573,43 @@ export default {
         }
         return p;
       }, {}).flag;
+    },
+    // 规则设置
+    // 规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．
+    // rerun [验证未通过的规则]
+    SetRule() {
+      if (this.dataRules.length) {
+        let r = [];
+        let last = this.dataRules[0];
+        this.dataRules.forEach((_, i) => {
+          if (
+            i &&
+            (_.sales <= last.sales || // 销售亏损金额
+              _.bounsRate <= last.bounsRate) // 分红比例
+          ) {
+            r.push(this.RULES[i]);
+          }
+          last = _;
+        });
+        return r;
+      } else {
+        return [];
+      }
     }
   },
   watch: {
+    //监听 规则设置
+    SetRule() {
+      // console.log(this.SetRule);
+      this.SetRule.length &&
+        this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
+          btn: ["好的"]
+        });
+    },
     // type() {
     //   this.contract();
     // },

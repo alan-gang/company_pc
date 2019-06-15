@@ -13,7 +13,7 @@
             <span>
               注册时间
               <!-- :picker-options="pickerOptions" -->
-                <!-- v-on:change="dateChange" -->
+              <!-- v-on:change="dateChange" -->
               <el-date-picker
                 v-model="stEt"
                 format="yyyy-MM-dd"
@@ -23,7 +23,10 @@
               ></el-date-picker>
               <el-button @click="stEt=['', '']" size="small">不限</el-button>
               <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
-              <el-button @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]" size="small">今天</el-button>
+              <el-button
+                @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]"
+                size="small"
+              >今天</el-button>
             </span>
             <span>
               &nbsp;状态&nbsp;
@@ -176,11 +179,7 @@
                   <p class="item block">
                     <span class="text-danger">*</span>发放周期：
                     <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
-                      <el-option
-                        v-for="S in sendCycle"
-                        v-bind:label=" TIME[S] "
-                        v-bind:value="S"
-                      ></el-option>
+                      <el-option v-for="S in sendCycle" v-bind:label=" TIME[S] " v-bind:value="S"></el-option>
                       <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
                     </el-select>
                   </p>
@@ -564,13 +563,14 @@ export default {
     dataRules() {
       return this.CRULES.filter(c => c.sales >= 0 && c.bounsRate > 0).map(n => {
         return {
-          ruletype: n.ruletype,
-          sales: n.sales,
-          bounsRate: n.bounsRate,
-          actUser: n.actUser
+          ruletype: n.ruletype, // 销售亏损
+          sales: n.sales, // 销售亏损金额
+          bounsRate: n.bounsRate, // 分红比例
+          actUser: n.actUser // 有效人数
         };
       });
     },
+    // 重复验证
     hasRepeat() {
       return this.dataRules.reduce((p, m, i) => {
         let M = Object.assign({}, m);
@@ -582,9 +582,43 @@ export default {
         }
         return p;
       }, {}).flag;
+    },
+    // 规则设置
+    // 规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．
+    // rerun [验证未通过的规则]
+    SetRule() {
+      if (this.dataRules.length) {
+        let r = [];
+        let last = this.dataRules[0];
+        this.dataRules.forEach((_, i) => {
+          if (
+            i &&
+            (_.sales <= last.sales || // 销售亏损金额
+              _.bounsRate <= last.bounsRate) // 分红比例
+          ) {
+            r.push(this.RULES[i]);
+          }
+          last = _;
+        });
+        return r;
+      } else {
+        return [];
+      }
     }
   },
   watch: {
+    //监听 规则设置
+    SetRule() {
+      // console.log(this.SetRule);
+      this.SetRule.length &&
+        this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
+          btn: ["好的"]
+        });
+    },
     // type() {
     //   this.contract();
     // },
@@ -819,6 +853,15 @@ export default {
         return this.$modal.warn({
           target: this.$el,
           content: "请不要输入完全相同的规则!",
+          btn: ["好的"]
+        });
+      }
+      if (this.SetRule.length) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
           btn: ["好的"]
         });
       }
