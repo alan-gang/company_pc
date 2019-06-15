@@ -965,6 +965,7 @@
               target: this.$el,
               close () {
                 this.stepType = ''
+                this.stepIndex = 0
               },
               O: this
             })
