@@ -580,16 +580,32 @@ export default {
     SetRule() {
       if (this.dataRules.length) {
         let r = [];
-        let last = this.dataRules[0];
+        // 0 销售 1 亏损
+        let ruletype0 = null;
+        let ruletype1 = null;
         this.dataRules.forEach((_, i) => {
-          if (
-            i &&
-            (_.sales <= last.sales || // 销售亏损金额
-              _.bounsRate <= last.bounsRate) // 分红比例
-          ) {
-            r.push(this.RULES[i]);
+          // 销售
+          if (_.ruletype === 0) {
+            if (
+              ruletype0 &&
+              (_.sales <= ruletype0.sales || // 销售亏损金额
+                _.bounsRate <= ruletype0.bounsRate) // 分红比例
+            ) {
+              r.push(this.RULES[i]);
+            }
+            ruletype0 = _;
           }
-          last = _;
+          // 亏损
+          if (_.ruletype1 === 1) {
+            if (
+              ruletype1 &&
+              (_.sales <= ruletype1.sales || // 销售亏损金额
+                _.bounsRate <= ruletype1.bounsRate) // 分红比例
+            ) {
+              r.push(this.RULES[i]);
+            }
+            ruletype1 = _;
+          }
         });
         return r;
       } else {
