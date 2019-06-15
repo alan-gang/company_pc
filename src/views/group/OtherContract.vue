@@ -22,7 +22,10 @@
             ></el-date-picker>
             <el-button @click="stEt=['', '']" size="small">不限</el-button>
             <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
-            <el-button @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]" size="small">今天</el-button>
+            <el-button
+              @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]"
+              size="small"
+            >今天</el-button>
           </span>
           <span>
             &nbsp;状态&nbsp;
@@ -573,7 +576,7 @@ export default {
         }
         return p;
       }, {}).flag;
-    },
+    }
     // 规则设置
     // 规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．
     // rerun [验证未通过的规则]
