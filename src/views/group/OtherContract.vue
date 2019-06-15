@@ -794,6 +794,15 @@ export default {
           btn: ["好的"]
         });
       }
+      if (this.SetRule.length) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
+          btn: ["好的"]
+        });
+      }
       this.$http
         .post(api.createContract, {
           beginTm: dateTimeFormat(
