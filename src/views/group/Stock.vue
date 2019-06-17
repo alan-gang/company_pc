@@ -207,7 +207,8 @@ export default {
           sums[index] = "";
         }
       });
-      return sums;
+      // 我的分红 接口数据异常暂时不暂时 合计
+      return this.$props.typeCode === 1 ? sums : [];
     },
     //结算日 init
     settlementInit() {
