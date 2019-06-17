@@ -631,10 +631,24 @@ export default {
               if (
                 data.items.length &&
                 this.name &&
-                this.name.replace(/(^\s*)|(\s*)$/g, "") !== this.me.account && //搜索内容过滤前后空格
-                param[this.me.account].indexOf(this.name) === -1 //过滤 重复
+                this.name.replace(/(^\s*)|(\s*)$/g, "") !== this.me.account //搜索内容过滤前后空格
+                // && param[this.me.account].indexOf(this.name) === -1 //过滤 重复
               ) {
-                param[this.me.account].push(this.name);
+                //去除 搜索 name 保留后4个不包含 name值
+                let inx = param[this.me.account].indexOf(
+                  this.name.replace(/(^\s*)|(\s*)$/g, "")
+                );
+                let r = [];
+                if (inx > -1) {
+                  param[this.me.account].splice(inx, 1);
+                }
+                r = param[this.me.account]
+                  .reverse()
+                  .slice(0, 4)
+                  .reverse()
+                  .concat([this.name.replace(/(^\s*)|(\s*)$/g, "")]);
+
+                param[this.me.account] = r;
               }
               /**
                * 用户搜索有效列表 缓存格式
