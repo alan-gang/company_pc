@@ -46,7 +46,7 @@
               //- span.text-green.pointer(style=" padding: 0 .05rem" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
           el-table-column(label="操作" )
             template(slot-scope="scope")
-              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" scope.row.canGet " @click=" goToGift() ") 立即领取
+              span.pointer(style=" padding: 0 .05rem" class="fc-o" v-if=" canGet(scope.row) " @click=" goToGift() ") 立即领取
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
@@ -124,6 +124,13 @@
             this.defaultDateIdx = 1
           }
         }
+      },
+      canGet (row) {
+        let curDate = Date.now()
+        let [y, m, d] = row.date.split('-').map(d => { d = parseInt(d, 10); return d })
+        let salaryDateTime = new Date(y, m - 1, d).getTime()
+        let THREE_DAY_TIMES = 259200000
+        return row.isDone === 0 && (salaryDateTime + THREE_DAY_TIMES) > curDate
       },
       goToGift () {
         setTimeout(() => {
