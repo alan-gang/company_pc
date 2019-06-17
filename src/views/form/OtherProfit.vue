@@ -11,12 +11,7 @@
         <div class="form-filters my-el" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
           <span>
             结算日&nbsp;
-            <el-button
-              v-for="v in settlementSub"
-              :key="v"
-              size="small"
-              @click="settlement=v"
-            >{{v}}</el-button>
+            <el-button v-for="v in settlementSub" :key="v" size="small" @click="settlement=v">{{v}}</el-button>
           </span>
           <span>
             &nbsp;状态&nbsp;
@@ -67,6 +62,11 @@
           <el-table-column align="center" prop="fishProfit" label="捕鱼">
             <template scope="scope">
               <span>{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="cheProfit" label="棋牌">
+            <template scope="scope">
+              <span>{{ scope.row.cheProfit &&scope.row.cheProfit._nwc()}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="othltrProfit" label="基诺彩">
