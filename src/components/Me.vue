@@ -318,8 +318,8 @@ export default {
         // success
         if (data.success) {
           this.notices = data.sysNotices || []
-          this.marqueeData = data.sysNotices.slice(0, 3).map((item) => {
-            return (`【${item.subject}】 ${item.content}`).replace(/\r\n/g, '')
+          this.marqueeData = data.sysNotices.slice(0, 3).map((item, i) => {
+            return (`${i + 1}.【${item.subject}】 ${item.content}`).replace(/\r\n/g, '')
           })
         }
       }, (rep) => {
@@ -401,6 +401,16 @@ body.cb.v2
       
 </style>
 
+<style lang="stylus">
+.marquee-bar-wp
+  width 3.5rem
+  cursor pointer
+  .mq-content-wp
+    height 0.4rem
+    .items 
+      li
+        padding 0 0.25rem
+</style>
 <style lang="stylus" scoped>
   @import '../var.stylus'
   @import '../path.stylus'
@@ -411,12 +421,6 @@ body.cb.v2
     background-color #ffa930
     color #484342
 
-    .marquee-bar-wp
-      width 3.5rem
-      // float right
-      cursor pointer
-      .mq-content-wp
-        height 0.4rem
     .l .text-button
       color #fff
       padding 0 .1rem !important
