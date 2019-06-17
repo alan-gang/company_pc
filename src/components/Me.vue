@@ -48,10 +48,10 @@
         span.ds-button.primary(@click="transferNowBG") 确认转入
 
     el-row.content-width
-      el-col.l(:span="9")
+      el-col.l.flex(:span="9")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
         // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
-        
+        Marquee(v-bind:show="true" v-bind:content="marqueeData" @click="$router.push('/help/6-2-1')")
       el-col.r(:span="15")
         // Menus(:menus="menus")
 
@@ -137,10 +137,12 @@ import { numberWithCommas } from '../util/Number'
 import store from '../store'
 import api from '../http/api'
 import Menus from './Menu'
+import Marquee from './Marquee'
 export default {
   props: ['menus'],
   components: {
-    Menus
+    Menus,
+    Marquee
   },
   data () {
     return {
@@ -156,7 +158,8 @@ export default {
       m: '',
       transferBG: false,
       bg: 0,
-      numberWithCommas: numberWithCommas
+      numberWithCommas: numberWithCommas,
+      marqueeData: []
     }
   },
   watch: {
@@ -315,6 +318,9 @@ export default {
         // success
         if (data.success) {
           this.notices = data.sysNotices || []
+          this.marqueeData = data.sysNotices.slice(0, 3).map((item) => {
+            return (`【${item.subject}】 ${item.content}`).replace(/\r\n/g, '')
+          })
         }
       }, (rep) => {
         // error
@@ -405,8 +411,12 @@ body.cb.v2
     background-color #ffa930
     color #484342
 
-      
-
+    .marquee-bar-wp
+      width 3.5rem
+      // float right
+      cursor pointer
+      .mq-content-wp
+        height 0.4rem
     .l .text-button
       color #fff
       padding 0 .1rem !important
