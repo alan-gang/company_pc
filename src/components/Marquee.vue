@@ -68,7 +68,6 @@ export default {
             this.duration = this.width / this.speed
             this.animationClass = 'run'
           }
-          console.log('handler')
         })
       },
       immediate: true
@@ -86,7 +85,6 @@ export default {
       this.$nextTick(() => {
         this.duration = (this.width + this.wrapWidth) / this.speed
         this.animationClass = 'run-infinite'
-        console.log('onAnimationEnd')
       })
     }
   }
