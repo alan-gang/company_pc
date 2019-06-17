@@ -149,7 +149,7 @@
             <el-table-column prop="userpoint" label="操作" align="center">
               <template scope="scope">
                 <div
-                  v-show="scope.row.userId&&Daily"
+                  v-show="scope.row.userId && Daily && scope.$index+1!=data.length"
                   class="ds-button text-button blue"
                   style="padding: 0 .05rem;"
                   @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
