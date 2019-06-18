@@ -488,10 +488,6 @@ let Group = {
   // 自动注册
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=autoRegist&tag=7F593EF2F9B3537291FF912CAA7C49A5&userName=test123&nickName=test123&verifyCode=4953
   autoRegist: '/team/createAccount.do?method=autoRegist',
-  // 0 = 彩票  1=佣金
-  // 最新分红比例接口
-  // /contractBonus.do?method=myRule&cType=0
-  myRule: '/contractBonus.do?method=myRule',
   // 获取契约分红的最大分红上线
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=getMaxBonusRate
   getMaxBonusRate: '/team/contractBonus.do?method=getMaxBonusRate',
