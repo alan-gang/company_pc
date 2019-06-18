@@ -21,7 +21,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
   if (window.location.host.split('.')[0].startsWith('v')) {
     api = 'https://' + window.location.host + '/dscagamesclient'
   }
-// 外网测试环境
+  // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
   api = 'http://112.199.101.98:9901/cagamesclient'
@@ -35,6 +35,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  rconfig: '/team/contractBonus.do?method=myRule',
   useCoupon: '/ext/bg.do?method=transferToBG',
   getHisIssue: '/issuehistory.do?method=getHisIssue',
   getOldUserPrize: '/activity.do?method=getOldUserPrize',
@@ -624,14 +625,14 @@ let Form = {
   // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
   qryCommDetail: '/team/contractBonus.do?method=qryCommDetail',
   // 发放佣金
-// userId：下级用户ID 7
-// issue:佣金期号2018-07-01
-// chanelType：0 平台内发放 1:平台外发放
-// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
+  // userId：下级用户ID 7
+  // issue:佣金期号2018-07-01
+  // chanelType：0 平台内发放 1:平台外发放
+  // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
   sendCtComm: '/team/contractBonus.do?method=sendCtComm',
-//   下级确认佣金（如果是平台外发放）
-// issue:佣金期号 如：2018-07-01
-// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
+  //   下级确认佣金（如果是平台外发放）
+  // issue:佣金期号 如：2018-07-01
+  // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
   subCheckComm: '/team/contractBonus.do?method=subCheckComm',
   // 下级个人赢亏
   subPersonalProfit: '/report/personalProfit.do?method=total',

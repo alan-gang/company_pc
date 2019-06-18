@@ -907,13 +907,7 @@
         })
       },
       contract (page, fn) {
-        this.$http.get(api.mySubContract, {
-          startDate: '',
-          endDate: '',
-          status: '',
-          pageSize: 15,
-          page: 1,
-          userName: '',
+        this.$http.get(api.rconfig, {
           cType: this.cType
         }).then(({data}) => {
           // success

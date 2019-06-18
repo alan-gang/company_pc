@@ -1164,6 +1164,7 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
+          displayPermission: data.displayPermission, // 显示权限
           showBackWater: data.showBackWater,
           showSalary: data.showSalary === 1,
           name: data.nickName,
