@@ -1061,6 +1061,7 @@
               loading.text = '工资调整成功!'
               this.stepIndex = 0
               this.stepType = ''
+              this.getUserList()
               // this.subSalaryList()
             }, 100)
           } else loading.text = data.msg || '工资调整失败!'
