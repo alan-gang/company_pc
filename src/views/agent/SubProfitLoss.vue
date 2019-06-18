@@ -89,6 +89,10 @@
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
 
+          el-table-column(prop="pointLevel" label="彩票返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "pointLevel", scope.row)}}
+
           el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
@@ -310,6 +314,12 @@ export default {
         this.dailyReportData = []
         if (success === 1 && items.length > 0) {
           items[items.length - 1].date = '合计'
+          if (this.I === 1) {
+            items = items.map((item) => {
+              item.pointLevel = pointLevel
+              return item
+            })
+          }
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
