@@ -233,12 +233,24 @@
                   >{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="userPoint" label="返点级别" v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater">
+              <!-- me.showBackWater -->
+              <el-table-column
+                align="right"
+                prop="userPoint"
+                label="返点级别"
+                v-if="profitDetailROW && profitDetailROW.hasSub==0 && profitDetailROW.userPoint!=0"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.userPoint) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="pointAmount" label="返点" v-if="me.showBackWater">
+              <!-- me.showBackWate -->
+              <el-table-column
+                align="right"
+                prop="pointAmount"
+                label="返点"
+                v-if="profitDetailROW && profitDetailROW.userPoint!=0"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.pointAmount) }}</span>
                 </template>
