@@ -35,8 +35,9 @@
             template(scope="scope")
               span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === ME.account } ") {{ scope.row.userName }}
           
-          el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
-          el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
+          //- el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
+          //- el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
+          el-table-column(prop="totBuyAmount" label="有效销量"  align="right" sortable="custom")
           el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
           el-table-column(prop="salaryLevel" label="工资级别"  align="right")
           el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right" sortable="custom")
