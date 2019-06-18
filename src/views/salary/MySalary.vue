@@ -31,8 +31,9 @@
         el-table.header-bold.nopadding(:data="myWageData" stripe ref="table" v-bind:max-height=" MH " v-on:sort-change="sortChange")
 
           el-table-column(class-name="pl2" prop="date" label="销售日期" sortable="custom")
-          el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
-          el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
+          //- el-table-column(prop="totBuyAmount" label="团队销量"  align="right" sortable="custom")
+          el-table-column(prop="totBuyAmount" label="有效销量"  align="right" sortable="custom")
+          //- el-table-column(prop="buyAmount" label="有效销量"  align="right" sortable="custom")
           el-table-column(prop="activitUser" label="有效人数"  align="right" sortable="custom")
           el-table-column(prop="salaryLevel" label="工资级别"  align="right")
           el-table-column(prop="groupTotalAmount" label="团队工资总额"  align="right" sortable="custom")

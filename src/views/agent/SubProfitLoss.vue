@@ -89,6 +89,10 @@
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "prize", scope.row)}}
 
+          el-table-column(prop="pointLevel" label="彩票返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "pointLevel", scope.row)}}
+
           el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
@@ -99,6 +103,10 @@
           el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
+
+          el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
+            template(scope="scope")
+              span {{tableCellDataFormat(amountColumnProp, "pointLevel", scope.row)}}
 
           el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
@@ -162,7 +170,7 @@ export default {
         { prop: 'totalProfit', name: '总盈亏', mcolor: true, sortable: 'custom' },
         { prop: 'subType', name: '下级类型' }
       ],
-
+      otherGamesName: ['', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
       profitAndLossSummaryData: [],
       thirdGamesDetailData: [],
       otherCommonReportData: [],
@@ -310,6 +318,10 @@ export default {
         this.dailyReportData = []
         if (success === 1 && items.length > 0) {
           items[items.length - 1].date = '合计'
+          items = items.map((item) => {
+            item.pointLevel = pointLevel
+            return item
+          })
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
@@ -471,6 +483,8 @@ export default {
     .el-breadcrumb
       margin-bottom 0.2rem
       text-align center
+      word-break break-all
+      word-wrap break-word
     .el-breadcrumb__item
       float none
   .higher-level-breaks-dialog
