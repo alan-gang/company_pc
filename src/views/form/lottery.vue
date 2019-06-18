@@ -117,7 +117,7 @@
               label="返点"
               sortable="custom"
               align="center"
-              v-if="me.showBackWater"
+              v-if="me.displayPermission.showpoint"
             >
               <template scope="scope">
                 <span>{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
@@ -133,7 +133,7 @@
               label="日工资"
               sortable="custom"
               align="center"
-              v-if="me.showSalary"
+              v-if="me.displayPermission.showSalary"
             >
               <template scope="scope">
                 <span>{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
@@ -238,7 +238,7 @@
                 align="right"
                 prop="userPoint"
                 label="返点级别"
-                v-if="profitDetailROW && profitDetailROW.hasSub==0 && profitDetailROW.userPoint!=0"
+                v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint"
               >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.userPoint) }}</span>
@@ -249,7 +249,7 @@
                 align="right"
                 prop="pointAmount"
                 label="返点"
-                v-if="profitDetailROW && profitDetailROW.userPoint!=0"
+                v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.pointAmount) }}</span>
@@ -260,7 +260,12 @@
                   <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="salaryAmount" label="日工资" v-if="me.showSalary">
+              <el-table-column
+                align="right"
+                prop="salaryAmount"
+                label="日工资"
+                v-if="me.displayPermission.showSalary"
+              >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
                 </template>

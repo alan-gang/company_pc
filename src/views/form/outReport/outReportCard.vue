@@ -118,7 +118,13 @@
                 >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" prop="getpoint" label="返水" sortable="custom" v-if="me.showBackWater">
+            <el-table-column
+              align="right"
+              prop="getpoint"
+              label="返水"
+              sortable="custom"
+              v-if="me.displayPermission.showpoint"
+            >
               <template scope="scope">
                 <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
               </template>
@@ -228,7 +234,7 @@
                 align="right"
                 prop="getpoint"
                 label="返水"
-                v-if="me.showBackWater"
+                v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
