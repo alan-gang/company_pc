@@ -486,6 +486,7 @@
       width 6.7rem
     .el-col
       word-break break-all
+      word-wrap break-word
     .el-col[classname="codes-col"]
       padding-right 0.1rem
   .title
