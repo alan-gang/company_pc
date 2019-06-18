@@ -113,7 +113,7 @@
                 prop="getpoint"
                 label="返水"
                 sortable="custom"
-                v-if="me.showBackWater"
+                v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
                   <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
@@ -200,7 +200,7 @@
                 prop="getpoint"
                 label="返水"
                 sortable="custom"
-                v-if="me.showBackWater"
+                v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
