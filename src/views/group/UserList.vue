@@ -84,7 +84,7 @@
                 div(v-if="scope.row.showTeanBalance")
                  span.text-danger {{numberWithCommas(scope.row.myTeamBalance) }}
 
-              .ds-button.text-button.blue(v-if=" canTopUp && (scope.row.userId !== id) "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 给下级转帐
+              .ds-button.text-button.blue(v-if=" canTopUp && (scope.row.userId !== id) "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 给下级转账
 
               .ds-button.text-button.blue(v-if=" scope.row.isSub "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调整返点/返水
               
