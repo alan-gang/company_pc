@@ -255,7 +255,7 @@
                   <span>{{ numberWithCommas(scope.row.platfee) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="settle" label="总结算" class-name="pr2">
+              <el-table-column align="right" prop="settle" label="总盈亏" class-name="pr2">
                 <template scope="scope">
                   <span
                     :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
