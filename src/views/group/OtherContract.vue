@@ -671,7 +671,6 @@ export default {
     }
   },
   mounted() {
-    this.rconfig(); //最新分红比例接口
     this.contract();
     // this.getSysContractRange()
     // if (this.platform === 'ds') {
@@ -718,6 +717,7 @@ export default {
         .finally(() => {});
     },
     contract(page, fn) {
+      this.rconfig(); //最新分红比例接口
       let loading = this.$loading(
         {
           text: "契约列表加载中...",
