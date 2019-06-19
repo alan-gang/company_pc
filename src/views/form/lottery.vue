@@ -376,9 +376,8 @@ export default {
       }
     },
     // 分红周期，-1:没有契约； 1:月；2:半月；3:周；
-    bonusReleaseCycle() {
+    bonusReleaseCycle(val) {
       let r = [];
-      let val = 2;
       // 前三个月包括本月
       if (val && val < 2) {
         r.push(
