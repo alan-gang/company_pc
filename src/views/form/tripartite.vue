@@ -304,7 +304,7 @@
                   <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="realBuy" label="销量">
+              <el-table-column align="right" prop="realBuy" label="投注">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
                 </template>
