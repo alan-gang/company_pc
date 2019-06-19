@@ -118,7 +118,13 @@
                 >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" prop="getpoint" label="返水" sortable="custom" v-if="me.showBackWater">
+            <el-table-column
+              align="right"
+              prop="getpoint"
+              label="返水"
+              sortable="custom"
+              v-if="me.displayPermission.showpoint"
+            >
               <template scope="scope">
                 <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
               </template>
@@ -224,10 +230,21 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
+              <!-- me.showBackWater ‰-->
+              <el-table-column
+                align="right"
+                label="返水级别"
+                v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater"
+              >
+                <template scope="scope">
+                  <span v-if="numberWithCommas(cuserBackWater)">{{ numberWithCommas(Number(cuserBackWater))}}‰</span>
+                  <span v-if="!numberWithCommas(cuserBackWater)">--</span>
+                </template>
+              </el-table-column>
               <el-table-column
                 align="right"
                 prop="getpoint"
-                label="返水"
+                label="返水金额"
                 v-if="me.showBackWater"
               >
                 <template scope="scope">
@@ -249,7 +266,7 @@
                   <span>{{ numberWithCommas(scope.row.platfee) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="settle" label="总结算" class-name="pr2">
+              <el-table-column align="right" prop="settle" label="总盈亏" class-name="pr2">
                 <template scope="scope">
                   <span
                     :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
@@ -312,6 +329,7 @@ export default {
       S: "",
       btos: "",
       cdata: [],
+      cuserBackWater: null,
       ctotal: 0,
       ccurrentPage: 1,
       cpreOptions: {},
@@ -569,6 +587,7 @@ export default {
       );
       if (!fn) {
         this.cpreOptions = {
+          groupid: this.$props.gameType,
           gameType: this.$props.gameType,
           username: this.name,
           userId: id,
@@ -589,6 +608,7 @@ export default {
             if (data.success === 1) {
               this.cdata = data.items;
               this.ctotal = data.totalSize || this.data.length;
+              this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {

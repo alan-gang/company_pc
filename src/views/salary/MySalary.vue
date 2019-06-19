@@ -130,8 +130,8 @@
         let curDate = Date.now()
         let [y, m, d] = row.date.split('-').map(d => { d = parseInt(d, 10); return d })
         let salaryDateTime = new Date(y, m - 1, d).getTime()
-        let THREE_DAY_TIMES = 259200000
-        return row.isDone === 0 && (salaryDateTime + THREE_DAY_TIMES) > curDate
+        let FOUR_DAY_TIMES = 345600000
+        return row.isDone === 0 && (salaryDateTime + FOUR_DAY_TIMES) >= curDate
       },
       goToGift () {
         setTimeout(() => {

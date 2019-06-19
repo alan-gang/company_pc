@@ -86,12 +86,12 @@
 
               .ds-button.text-button.blue(v-if=" canTopUp && (scope.row.userId !== id) "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 给下级转账
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub "  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调整返点/返水
+              .ds-button.text-button.blue(v-if=" scope.row.isSub && (showback || showpoint)"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调整返点/返水
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && $root.$children[0].showBonus() " style="padding: 0 .05rem" @click=" (stepType = 'contract') && ++stepIndex && (user = scope.row)  ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && $root.$children[0].showBonus() " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整佣金
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" (stepType = 'contract') && ++stepIndex && (user = scope.row)  ") 调整分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整佣金
               .ds-button.text-button.blue(v-if=" scope.row.isSub " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
               
 
@@ -550,7 +550,7 @@
         numberWithCommas: numberWithCommas,
         TH: 300,
         showDaySalary: 0,
-        showSalary: 0,
+        // showSalary: 0,
         // me: store.state.user,
         me: store.state.user,
         id: '',
@@ -697,6 +697,21 @@
       },
       CBW () {
         return this.user.backWaterComb ? this.user.backWaterComb[this.bwi] : undefined
+      },
+      showSalary () {
+        return this.me.displayPermission.showSalary === 1
+      },
+      showback () {
+        return this.me.displayPermission.showback === 1
+      },
+      showpoint () {
+        return this.me.displayPermission.showpoint === 1
+      },
+      showcpfh () {
+        return this.me.displayPermission.showCpfh === 1
+      },
+      showsfyj () {
+        return this.me.displayPermission.showSfyj === 1
       }
       // BWL () {
       //   if (this.CBW && this.CBW.maxBackWater) {
@@ -845,7 +860,7 @@
     mounted () {
       this.getUserList()
       this.getSysContractRange()
-      this.contract()
+      this.showcpfh && this.contract()
     },
     methods: {
       keepSame () {
@@ -1274,7 +1289,8 @@
             // this.showDaySalary = data.showDaySalary
             // this.OL = data.loseSlaryData
             // this.OOL = data.winSlaryData
-            this.showSalary = data.showSalary
+
+            // this.showSalary = data.showSalary
             this.OL = data.salaryComb
 
             this.data = data.subUserInfo
