@@ -241,7 +241,7 @@
                     v-show="Daily && scope.$index+1 != data.length"
                     class="ds-button text-button blue"
                     style="padding: 0 .05rem;"
-                    @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId)"
+                    @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
                   >明细</div>
                 </template>
               </el-table-column>
@@ -304,7 +304,7 @@
                   <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="right" prop="realBuy" label="销量">
+              <el-table-column align="right" prop="realBuy" label="投注">
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
                 </template>
@@ -319,13 +319,12 @@
               <!-- me.showBackWater ‰-->
               <el-table-column
                 align="right"
-                prop="otherPointLevel"
                 label="返水级别"
                 v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater"
               >
                 <template scope="scope">
-                  <span v-if="numberWithCommas(scope.row.otherPointLevel)">{{ numberWithCommas(Number(scope.row.otherPointLevel)*1000)}}‰</span>
-                  <span v-if="!numberWithCommas(scope.row.otherPointLevel)">--</span>
+                  <span v-if="numberWithCommas(cuserBackWater)">{{ numberWithCommas(Number(cuserBackWater))}}‰</span>
+                  <span v-if="!numberWithCommas(cuserBackWater)">--</span>
                 </template>
               </el-table-column>
               <el-table-column align="right" prop="getpoint" label="返水金额" v-if="me.showBackWater">
@@ -410,6 +409,7 @@ export default {
       S: "",
       btos: "",
       cdata: [],
+      cuserBackWater: null,
       ctotal: 0,
       ccurrentPage: 1,
       cpreOptions: {},
@@ -680,7 +680,7 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id) {
+    profitDetail(page, fn, id, row) {
       this.cdata = [];
       let loading = this.$loading(
         {
@@ -692,6 +692,7 @@ export default {
       );
       if (!fn) {
         this.cpreOptions = {
+          groupid: row.gameType,
           gameType: 0,
           username: this.name,
           userId: id,
@@ -712,6 +713,7 @@ export default {
             if (data.success === 1) {
               this.cdata = data.items;
               this.ctotal = data.totalSize || this.data.length;
+              this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {
