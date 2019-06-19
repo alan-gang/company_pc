@@ -233,7 +233,7 @@
                   >{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
                 </template>
               </el-table-column>
-              <!-- me.showBackWater -->
+              <!-- me.showBackWater ‰-->
               <el-table-column
                 align="right"
                 prop="userPoint"
@@ -241,7 +241,8 @@
                 v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint"
               >
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.userPoint) || '--'}}</span>
+                  <span v-if="numberWithCommas(scope.row.userPoint)">{{ numberWithCommas(scope.row.userPoint)}}%</span>
+                  <span v-if="!numberWithCommas(scope.row.userPoint)">--</span>
                 </template>
               </el-table-column>
               <!-- me.showBackWate -->
