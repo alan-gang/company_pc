@@ -328,7 +328,7 @@ export default {
             item.pointLevel = pointLevel
             return item
           })
-          this.thirdGamesDetailData = false
+          this.showUserPointColumn = false
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
