@@ -230,11 +230,23 @@
                   >{{ numberWithCommas(scope.row.profit) }}</span>
                 </template>
               </el-table-column>
+              <!-- me.showBackWater ‰-->
+              <el-table-column
+                align="right"
+                prop="otherPointLevel"
+                label="返水级别"
+                v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater"
+              >
+                <template scope="scope">
+                  <span v-if="numberWithCommas(scope.row.otherPointLevel)">{{ numberWithCommas(Number(scope.row.otherPointLevel)*1000)}}‰</span>
+                  <span v-if="!numberWithCommas(scope.row.otherPointLevel)">--</span>
+                </template>
+              </el-table-column>
               <el-table-column
                 align="right"
                 prop="getpoint"
-                label="返水"
-                v-if="me.displayPermission.showpoint"
+                label="返水金额"
+                v-if="me.showBackWater"
               >
                 <template scope="scope">
                   <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
