@@ -208,6 +208,12 @@ export default {
   computed: {
     userId () {
       return this.me.userId
+    },
+    showback () {
+      return this.me.displayPermission.showback === 1
+    },
+    showpoint () {
+      return this.me.displayPermission.showpoint === 1
     }
   },
   mounted () {
@@ -322,19 +328,15 @@ export default {
             item.pointLevel = pointLevel
             return item
           })
+          this.thirdGamesDetailData = false
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
+            this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && parseFloat(pointLevel) > 0
             this.dailyReportData = items
           }
-          this.showUserPointColumn = parseFloat(pointLevel) > 0
-          // this.showUserPointColumn = false
-          // for (let i = 0; i < items.length; i++) {
-          //   if (parseFloat(items[i].point) > 0) {
-          //     this.showUserPointColumn = true
-          //     break
-          //   }
-          // }
+          // this.showUserPointColumn = parseFloat(pointLevel) > 0
+
           setTimeout(() => {
             loading.text = '加载成功!'
           }, 100)
