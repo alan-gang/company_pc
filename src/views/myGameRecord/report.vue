@@ -37,7 +37,7 @@
           template(scope="scope")
             span(:class="getCellClass(scope.row.gameProfit, true)") {{tableCellDataFormat(amountColumnProp, "gameProfit", scope.row)}}
 
-        el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" )
+        el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalary" )
           template(scope="scope")
             span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
 
@@ -126,16 +126,21 @@ export default {
       },
       curGameType: 0,
 
-      showSalaryColumn: false,
+      // showSalaryColumn: false,
       showUserPointColumn: false
+    }
+  },
+  computed: {
+    showSalary () {
+      return this.me.displayPermission.showSalary === 1
     }
   },
   created () {
   },
   mounted () {
-    this.acctSecureInfo((data) => {
-      this.showSalaryColumn = data.showSalary > 0
-    })
+    // this.acctSecureInfo((data) => {
+    //   this.showSalaryColumn = data.showSalary > 0
+    // })
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this[this.methodsMap['tab' + this.I]]()
   },
