@@ -233,13 +233,12 @@
               <!-- me.showBackWater ‰-->
               <el-table-column
                 align="right"
-                prop="otherPointLevel"
                 label="返水级别"
                 v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater"
               >
                 <template scope="scope">
-                  <span v-if="numberWithCommas(scope.row.otherPointLevel)">{{ numberWithCommas(Number(scope.row.otherPointLevel)*1000)}}‰</span>
-                  <span v-if="!numberWithCommas(scope.row.otherPointLevel)">--</span>
+                  <span v-if="numberWithCommas(cuserBackWater)">{{ numberWithCommas(Number(cuserBackWater))}}‰</span>
+                  <span v-if="!numberWithCommas(cuserBackWater)">--</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -330,6 +329,7 @@ export default {
       S: "",
       btos: "",
       cdata: [],
+      cuserBackWater: null,
       ctotal: 0,
       ccurrentPage: 1,
       cpreOptions: {},
@@ -587,6 +587,7 @@ export default {
       );
       if (!fn) {
         this.cpreOptions = {
+          groupid: this.$props.gameType,
           gameType: this.$props.gameType,
           username: this.name,
           userId: id,
@@ -607,6 +608,7 @@ export default {
             if (data.success === 1) {
               this.cdata = data.items;
               this.ctotal = data.totalSize || this.data.length;
+              this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {

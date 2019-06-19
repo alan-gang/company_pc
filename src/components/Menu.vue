@@ -29,12 +29,11 @@
                 dt
                   span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
 
-                dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
-
-                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]" v-if="item.menuid==45 && me.displayPermission.showCpfh==0 || item.menuid==44 && me.displayPermission.showSfyj==0 ? !1 : !0") {{ item.atitle || item.title }} 
+                dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide" v-show="item.menuid==45 && me.displayPermission&&me.displayPermission.showCpfh==0 || item.menuid==44 && me.displayPermission&&me.displayPermission.showSfyj==0 ? !1 : !0") 
                   //- 特殊菜单 独立控制显示
                   //- me.displayPermission.showCpfh    彩票分红管理 menuid 45
                   //- me.displayPermission.showSfyj  三方佣金管理 menuid 44
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]" ) {{ item.atitle || item.title }} 
                   
                   // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                     span.text-gold {{ item.pretitle }}
