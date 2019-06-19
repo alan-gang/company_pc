@@ -236,13 +236,12 @@
               <!-- me.showBackWater ‰-->
               <el-table-column
                 align="right"
-                prop="userPoint"
                 label="返点级别"
                 v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint"
               >
                 <template scope="scope">
-                  <span v-if="numberWithCommas(scope.row.userPoint)">{{ numberWithCommas(scope.row.userPoint)}}%</span>
-                  <span v-if="!numberWithCommas(scope.row.userPoint)">--</span>
+                  <span v-if="numberWithCommas(cuserPoint)">{{ numberWithCommas(cuserPoint)}}%</span>
+                  <span v-if="!numberWithCommas(cuserPoint)">--</span>
                 </template>
               </el-table-column>
               <!-- me.showBackWate -->
@@ -317,6 +316,7 @@ export default {
   },
   data() {
     return {
+      cuserPoint: null,
       TH: 270,
       numberWithCommas,
       me: store.state.user,
@@ -748,6 +748,7 @@ export default {
             if (data.success === 1) {
               this.cdata = data.items;
               this.ctotal = data.totalSize || this.data.length;
+              this.cuserPoint = data.userPoint;
               typeof fn === "function" && fn();
               !fn && (this.ccurrentPage = 1);
               setTimeout(() => {

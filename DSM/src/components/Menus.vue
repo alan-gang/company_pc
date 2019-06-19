@@ -7,7 +7,7 @@
         | {{ m.stitle || m.title }}
       el-menu-item-group(v-for="(g, ii) in m.groups" v-if="g.items.filter(function(x){return !x.removed})[0]")
         template(slot="title") {{ g.title }}
-        el-menu-item(style="margin: .05rem 0" v-for="(item, iii) in g.items" v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-bind:index=" '/' + m.url + '/' + item.id" v-if="!item.removed && item.id && !item.hide" v-show="item.menuid==45 && me.displayPermission.showCpfh==0 || item.menuid==44 && me.displayPermission.showSfyj==0 ? !1 : !0") {{ item.title }}
+        el-menu-item(style="margin: .05rem 0" v-for="(item, iii) in g.items" v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-bind:index=" '/' + m.url + '/' + item.id" v-if="!item.removed && item.id && !item.hide" v-show="item.menuid==45 && me.displayPermission&&me.displayPermission.showCpfh==0 || item.menuid==44 && me.displayPermission&&me.displayPermission.showSfyj==0 ? !1 : !0") {{ item.title }}
         //- 特殊菜单 独立控制显示
         //- me.displayPermission.showCpfh    彩票分红管理 menuid 45
         //- me.displayPermission.showSfyj  三方佣金管理 menuid 44
