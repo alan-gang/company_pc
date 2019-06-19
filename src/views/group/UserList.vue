@@ -886,7 +886,8 @@
           sortType: 3,
           sort: 2,
           page: 1,
-          pageSize: 1000
+          pageSize: 1000,
+          subType: 1
         }).then(({data}) => {
           if (data.success === 1) {
             this.users = data.subUserInfo
