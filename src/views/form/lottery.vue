@@ -241,7 +241,7 @@
                 v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint"
               >
                 <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.userPoint) }}</span>
+                  <span>{{ numberWithCommas(scope.row.userPoint) || '--'}}</span>
                 </template>
               </el-table-column>
               <!-- me.showBackWate -->

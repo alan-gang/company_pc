@@ -179,7 +179,7 @@
                 </div>
                 <p class="item block">
                   <span class="text-danger">*</span>发放周期：
-                  <el-select v-model=" SV " style="width: .7rem;" placeholder="无">
+                  <el-select v-model=" SV " style="width: .9rem;" placeholder="无">
                     <el-option v-for="S in sendCycle" v-bind:label=" TIME[S] " v-bind:value="S"></el-option>
                     <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
                   </el-select>
@@ -576,59 +576,53 @@ export default {
         }
         return p;
       }, {}).flag;
-    }
+    },
     // 规则设置
     // 规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．
     // rerun [验证未通过的规则]
-    // SetRule() {
-    //   if (this.dataRules.length) {
-    //     let r = [];
-    //     // 0 销售 1 亏损
-    //     let ruletype0 = null;
-    //     let ruletype1 = null;
-    //     this.dataRules.forEach((_, i) => {
-    //       // 销售
-    //       if (_.ruletype === 0) {
-    //         if (
-    //           ruletype0 &&
-    //           (_.sales <= ruletype0.sales || // 销售亏损金额
-    //             _.bounsRate <= ruletype0.bounsRate) // 分红比例
-    //         ) {
-    //           r.push(this.RULES[i]);
-    //         }
-    //         ruletype0 = _;
-    //       }
-    //       // 亏损
-    //       if (_.ruletype1 === 1) {
-    //         if (
-    //           ruletype1 &&
-    //           (_.sales <= ruletype1.sales || // 销售亏损金额
-    //             _.bounsRate <= ruletype1.bounsRate) // 分红比例
-    //         ) {
-    //           r.push(this.RULES[i]);
-    //         }
-    //         ruletype1 = _;
-    //       }
-    //     });
-    //     return r;
-    //   } else {
-    //     return [];
-    //   }
-    // }
+    SetRule() {
+      if (this.dataRules.length) {
+        let r = [];
+        // 0 销售 1 亏损
+        let ruletype0 = null;
+        let ruletype1 = null;
+        this.dataRules.forEach((_, i) => {
+          // 销售
+          if (_.ruletype === 0) {
+            // 分红比例
+            if (ruletype0 && _.bounsRate <= ruletype0.bounsRate) {
+              r.push(this.RULES[i]);
+            }
+            ruletype0 = _;
+          }
+          // 亏损
+          if (_.ruletype1 === 1) {
+            // 分红比例
+            if (ruletype1 && _.bounsRate <= ruletype1.bounsRate) {
+              r.push(this.RULES[i]);
+            }
+            ruletype1 = _;
+          }
+        });
+        return r;
+      } else {
+        return [];
+      }
+    }
   },
   watch: {
     //监听 规则设置
-    // SetRule() {
-    //   // console.log(this.SetRule);
-    //   this.SetRule.length &&
-    //     this.$modal.warn({
-    //       target: this.$el,
-    //       content: `${
-    //         this.SetRule[0].title
-    //       } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
-    //       btn: ["好的"]
-    //     });
-    // },
+    SetRule() {
+      // console.log(this.SetRule);
+      this.SetRule.length &&
+        this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中分红比例"都必须成递增关系("分红比例"大于上一条规则的"分红比例")．`,
+          btn: ["好的"]
+        });
+    },
     // type() {
     //   this.contract();
     // },
@@ -640,22 +634,22 @@ export default {
           btn: ["好的"]
         });
     },
-    stEt: {
-      deep: true,
-      handler() {
-        if (!this.stEt) this.stEt = this.defaultStEt;
-        if (
-          this.stEt[0] &&
-          this.stEt[1] &&
-          window.newDate(this.stEt[0]).getTime() ===
-            window.newDate(this.stEt[1]).getTime()
-        ) {
-          this.stEt[1] = dateTimeFormat(
-            window.newDate(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000
-          );
-        }
-      }
-    },
+    // stEt: {
+    //   deep: true,
+    //   handler() {
+    //     if (!this.stEt) this.stEt = this.defaultStEt;
+    //     if (
+    //       this.stEt[0] &&
+    //       this.stEt[1] &&
+    //       window.newDate(this.stEt[0]).getTime() ===
+    //         window.newDate(this.stEt[1]).getTime()
+    //     ) {
+    //       this.stEt[1] = dateTimeFormat(
+    //         window.newDate(this.stEt[1]).getTime() + 3600 * 1000 * 24 - 1000
+    //       );
+    //     }
+    //   }
+    // },
     CRULES: {
       deep: true,
       handler() {
@@ -708,7 +702,22 @@ export default {
     //     query: { id: id, self: !this.type }
     //   });
     // },
+    //最新分红比例接口
+    rconfig() {
+      this.$http
+        .get(api.rconfig, { cType: 1 })
+        .then(
+          ({ data }) => {
+            if (data.success === 1) {
+              this.ruleCfg = data.ruleCfg || [];
+            }
+          },
+          rep => {}
+        )
+        .finally(() => {});
+    },
     contract(page, fn) {
+      this.rconfig(); //最新分红比例接口
       let loading = this.$loading(
         {
           text: "契约列表加载中...",
@@ -758,7 +767,7 @@ export default {
               //   }
               // })
               // this.cType = data.cType
-              this.ruleCfg = data.ruleCfg || [];
+              // this.ruleCfg = data.ruleCfg || [];
               this.data = data.my.concat(data.mySubContract);
               this.total = data.totalSize;
               typeof fn === "function" && fn();
@@ -813,15 +822,15 @@ export default {
           btn: ["好的"]
         });
       }
-      // if (this.SetRule.length) {
-      //   return this.$modal.warn({
-      //     target: this.$el,
-      //     content: `${
-      //       this.SetRule[0].title
-      //     } 不符合契约规则:规则中"销售/亏损"和"分红比例"都必须成递增关系("销售/亏损"大于上一条规则的"销售/亏损","分红比例"大于上一条规则的"分红比例")．`,
-      //     btn: ["好的"]
-      //   });
-      // }
+      if (this.SetRule.length) {
+        return this.$modal.warn({
+          target: this.$el,
+          content: `${
+            this.SetRule[0].title
+          } 不符合契约规则:规则中分红比例"都必须成递增关系("分红比例"大于上一条规则的"分红比例")．`,
+          btn: ["好的"]
+        });
+      }
       this.$http
         .post(api.createContract, {
           beginTm: dateTimeFormat(
