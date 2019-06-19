@@ -106,9 +106,9 @@
 
           el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
-              span {{tableCellDataFormat(amountColumnProp, "pointLevel", scope.row)}}
+              span {{parseFloat(scope.row.pointLevel) * 1000}}‰
 
-          el-table-column(prop="point" label="返水" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
+          el-table-column(prop="point" label="返水金额" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
 
