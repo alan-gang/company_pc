@@ -31,7 +31,10 @@
 
                 dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
 
-                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }} 
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]" v-if="item.menuid==45 && me.displayPermission.showCpfh==0 || item.menuid==44 && me.displayPermission.showSfyj==0 ? !1 : !0") {{ item.atitle || item.title }} 
+                  //- 特殊菜单 独立控制显示
+                  //- me.displayPermission.showCpfh    彩票分红管理 menuid 45
+                  //- me.displayPermission.showSfyj  三方佣金管理 menuid 44
                   
                   // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
                     span.text-gold {{ item.pretitle }}
@@ -42,13 +45,13 @@
 </template>
 
 <script>
-// import store from '../store'
 // import api from '../http/api'
+import store from "@/store";
 export default {
   props: ['menus'],
   data () {
     return {
-      // Me: store.state.user,
+      me: store.state.user,
       shows: {}
     }
   },
