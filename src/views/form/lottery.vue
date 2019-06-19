@@ -12,8 +12,12 @@
           <el-button @click="ClickToday" size="small">今天</el-button>
           <el-button @click="ClickYesterday" size="small">昨天</el-button>
           <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
-          <el-button @click="ClickFirstHalf" size="small">{{firstHalfval}}</el-button>
-          <el-button @click="ClickSecondHalf" size="small">{{secondHalfval}}</el-button>
+          <el-button
+            v-for="v in dateSub"
+            :key="v.label"
+            size="small"
+            @click="stEt = v.val"
+          >{{v.label}}</el-button>
         </span>
         <span>
           排序
@@ -316,6 +320,7 @@ export default {
   },
   data() {
     return {
+      bonusReleaseCycle: null, // 分红周期，-1:没有契约； 1:月；2:半月；3:周；
       cuserPoint: null,
       TH: 270,
       numberWithCommas,
@@ -343,8 +348,7 @@ export default {
       ascOrDesc: 1,
       totalJson: {},
       showDetail: "",
-      firstHalfval: "", //上半个月
-      secondHalfval: "" //下半个月
+      dateSub: [] //日期 按钮组
     };
   },
   computed: {
@@ -370,14 +374,150 @@ export default {
       if (this.I === 0) {
         setTimeout(this.profitList);
       }
+    },
+    // 分红周期，-1:没有契约； 1:月；2:半月；3:周；
+    bonusReleaseCycle() {
+      let r = [];
+      let val = 2;
+      // 前三个月包括本月
+      if (val && val < 2) {
+        r.push(
+          {
+            label: `${new Date().getMonth() + 1}月`,
+            val: [
+              new Date()._setD(1)._toDayString(),
+              new Date()
+                ._setD(1)
+                ._bfM(1)
+                ._bf(-1)
+                ._toDayString()
+            ]
+          },
+          {
+            label: `${new Date().getMonth()}月`,
+            val: [
+              new Date()
+                ._setD(1)
+                ._bfM(-1)
+                ._toDayString(),
+              new Date()
+                ._setD(1)
+                ._bf(-1)
+                ._toDayString()
+            ]
+          },
+          {
+            label: `${new Date()
+              ._setD(1)
+              ._bfM(-1)
+              .getMonth()}月`,
+            val: [
+              new Date()
+                ._setD(1)
+                ._bfM(-2)
+                ._toDayString(),
+              new Date()
+                ._setD(1)
+                ._bfM(-1)
+                ._bf(-1)
+                ._toDayString()
+            ]
+          }
+        );
+      }
+      // 前三个半月
+      if (val && val === 2) {
+        //
+        if (new Date().getDate() > 16) {
+          r.push(
+            {
+              label: `${new Date().getMonth() + 1}月上半月`,
+              val: [
+                new Date()._setD(1)._toDayString(),
+                new Date()._setD(15)._toDayString()
+              ]
+            },
+            {
+              label: `${new Date().getMonth()}月下半月`,
+              val: [
+                new Date()
+                  ._setD(16)
+                  ._bfM(-1)
+                  ._toDayString(),
+                new Date()
+                  ._setD(1)
+                  ._bf(-1)
+                  ._toDayString()
+              ]
+            },
+            {
+              label: `${new Date().getMonth()}月上半月`,
+              val: [
+                new Date()
+                  ._setD(1)
+                  ._bfM(-1)
+                  ._toDayString(),
+                new Date()
+                  ._setD(15)
+                  ._bfM(-1)
+                  ._toDayString()
+              ]
+            }
+          );
+        } else {
+          r.push(
+            {
+              label: `${new Date().getMonth()}月下半月`,
+              val: [
+                new Date()
+                  ._setD(16)
+                  ._bfM(-1)
+                  ._toDayString(),
+                new Date()
+                  ._setD(1)
+                  ._bf(-1)
+                  ._toDayString()
+              ]
+            },
+            {
+              label: `${new Date().getMonth()}月上半月`,
+              val: [
+                new Date()
+                  ._setD(1)
+                  ._bfM(-1)
+                  ._toDayString(),
+                new Date()
+                  ._setD(15)
+                  ._bfM(-1)
+                  ._toDayString()
+              ]
+            },
+            {
+              label: `${new Date()
+                ._setD(1)
+                ._bfM(-1)
+                .getMonth()}月下半月`,
+              val: [
+                new Date()
+                  ._setD(15)
+                  ._bfM(-2)
+                  ._toDayString(),
+                new Date()
+                  ._setD(1)
+                  ._bfM(-1)
+                  ._bf(-1)
+                  ._toDayString()
+              ]
+            }
+          );
+        }
+      }
+      this.dateSub = r;
     }
   },
   mounted() {
     // console.log($store)
     this.profitList();
-    this.firstHalfval = this.firstHalf().month; //上半个月
-    this.secondHalfval = this.secondHalf().month; //下半个月
-    // console.log(new Date()._toDayString())
   },
   methods: {
     //用户名搜索
@@ -417,131 +557,6 @@ export default {
         new Date()._bf(-2)._toDayString(),
         new Date()._bf(-2)._toDayString()
       ];
-    },
-    //点击 上半个月
-    ClickFirstHalf() {
-      this.stEt = this.firstHalf().time;
-    },
-    //点击 下半个月
-    ClickSecondHalf() {
-      this.stEt = this.secondHalf().time;
-    },
-    //自定义 上半个月 不足当月一半天数  放弃
-    // return  {month:5,time:[2019-12-01,2019-12-15]}
-    firstHalf() {
-      let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()
-        ._bfM(1)
-        ._setD(0)
-        .getDate(); //本月最后一天
-      let FirstMonthDays = new Date()
-        ._bfM(0)
-        ._setD(0)
-        .getDate(); //上个月最后一天
-      let r = {
-        month: "",
-        time: []
-      };
-      //当前日  为 下旬时   上半个月为 上个月的下旬
-      if (date > parseInt(MonthDays / 2)) {
-        r.month = `${new Date()
-          ._setD(1)
-          ._bfM(0)
-          .getMonth()}月下半月`;
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(-1)
-            ._setD(parseInt(FirstMonthDays / 2) + 1)
-            ._toDayString()
-        );
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(0)
-            ._setD(0)
-            ._toDayString()
-        );
-      } else {
-        //当前日 为 上旬时   上半个月为 上个月的上旬
-        r.month = `${new Date()
-          ._setD(1)
-          ._bfM(0)
-          .getMonth()}月上半月`;
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(-1)
-            ._toDayString()
-        );
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(-1)
-            ._setD(parseInt(FirstMonthDays / 2))
-            ._toDayString()
-        );
-      }
-      // console.log(111, r);
-      return r;
-    },
-    //自定义 下半个月 不足当月一半天数  放弃
-    // return  {month:5,time:[2019-12-01,2019-12-15]}
-    secondHalf() {
-      let date = new Date().getDate(); //获取当前日
-      let MonthDays = new Date()
-        ._bfM(1)
-        ._setD(0)
-        .getDate(); //本月最后一天
-      let FirstMonthDays = new Date()
-        ._bfM(0)
-        ._setD(0)
-        .getDate(); //上个月最后一天
-      let r = {
-        month: "",
-        time: []
-      };
-      //当前日  为 下旬时   下半个月为 本月的上旬
-      if (date > parseInt(MonthDays / 2)) {
-        r.month = `${new Date()
-          ._setD(1)
-          ._bfM(1)
-          .getMonth()}月上半月`;
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(0)
-            ._toDayString()
-        );
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(0)
-            ._setD(parseInt(MonthDays / 2))
-            ._toDayString()
-        );
-      } else {
-        //当前日 为 上旬时   上半个月为 上个月的下旬
-        r.month = `${new Date()
-          ._setD(1)
-          ._bfM(0)
-          .getMonth()}月下半月`;
-        r.time.push(
-          new Date()
-            ._bfM(-1)
-            ._setD(parseInt(FirstMonthDays / 2) + 1)
-            ._toDayString()
-        );
-        r.time.push(
-          new Date()
-            ._setD(1)
-            ._bfM(0)
-            ._setD(0)
-            ._toDayString()
-        );
-      }
-      // console.log(222, r);
-      return r;
     },
     //点击排序
     ClickSort(orderBy) {
@@ -640,6 +655,7 @@ export default {
           ({ data }) => {
             // success
             if (data.success === 1) {
+              this.bonusReleaseCycle = data.bonusReleaseCycle;
               this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
