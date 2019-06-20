@@ -509,11 +509,11 @@ let Group = {
   // 查询我的奖金
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=myBonus&startDate=20170101200000&endDate=20170115200000
   myBonus: '/team/contractBonus.do?method=myBonus',
-  // 我的彩票其他分红分红
+  // 我的彩票其它游戏分红分红
   myBonusMobile: '/team/contractBonus.do?method=myBonusMobile',
-  // 预期分红与预期其他分红分红
+  // 预期分红与预期其它游戏分红分红
   mySubExpectedBounsMobile: '/team/contractBonus.do?method=mySubExpectedBounsMobile',
-  // 契约彩票，其他分红
+  // 契约彩票，其它游戏分红
   mySubContractMobile: '/team/contractBonus.do?method=mySubContractMobile',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonus&startDate=20170310&endDate=20170316&issue=20170315
   topBonus: '/team/topBonus.do?method=topBonus',
@@ -621,17 +621,17 @@ let Form = {
   // /cagamesclient/issuehistory.do?method=list&id=2&size=100&data=
   trendData: '/issuehistory.do?method=list',
   // -------------wilon + 新接口--------------
-  // 查看其他分红详情
+  // 查看其它游戏分红详情
   // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
   qryCommDetail: '/team/contractBonus.do?method=qryCommDetail',
-  // 发放其他分红
+  // 发放其它游戏分红
   // userId：下级用户ID 7
-  // issue:其他分红期号2018-07-01
+  // issue:其它游戏分红期号2018-07-01
   // chanelType：0 平台内发放 1:平台外发放
   // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
   sendCtComm: '/team/contractBonus.do?method=sendCtComm',
-  //   下级确认其他分红（如果是平台外发放）
-  // issue:其他分红期号 如：2018-07-01
+  //   下级确认其它游戏分红（如果是平台外发放）
+  // issue:其它游戏分红期号 如：2018-07-01
   // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
   subCheckComm: '/team/contractBonus.do?method=subCheckComm',
   // 下级个人赢亏
