@@ -11,7 +11,7 @@
         // p.title.text-black
         //   span.ds-button.text-button.blue(style="float: left" @click="  __setCall({fn: '__back', args: undefined}) ") {{ '<返回上一页' }}
 
-        h2.text-black(style="margin: .3rem 0; text-align: center") 其他分红详情
+        h2.text-black(style="margin: .3rem 0; text-align: center") 其它游戏分红详情
         p.item 用户名：&nbsp;&nbsp;&nbsp;{{ commissionDetail.userName }}
         p.item 分红状态：{{  STATUS[commissionDetail.isDone].title }}
         p.item 期号：{{ commissionDetail.issue }}
@@ -45,7 +45,7 @@
     data () {
       return {
         me: store.state.user,
-        // 我的其他分红
+        // 我的其它游戏分红
         self: true,
         // 分红状态
         STATUS: [
@@ -141,7 +141,7 @@
           }
         })
       },
-      // 发放其他分红
+      // 发放其它游戏分红
       // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
       sendCtComm (modal, type) {
         this.$http.get(api.sendCtComm, {
