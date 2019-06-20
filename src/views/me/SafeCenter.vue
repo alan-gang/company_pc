@@ -329,17 +329,20 @@
             
             .safe-check-form.form(style="margin-top: .3rem")
               .ds-checkbox-label.active.disabled
-                .ds-checkbox 资金密码验证
+                .ds-checkbox 
+                | 资金密码验证
 
               .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
-                .ds-checkbox 邮箱验证
+                .ds-checkbox 
+                | 邮箱验证
                 
               // .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
               //  .ds-checkbox
               //  手机验证
 
               .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
-                .ds-checkbox 信游安全认证
+                .ds-checkbox 
+                | 信游安全认证
 
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
