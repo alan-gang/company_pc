@@ -554,8 +554,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方佣金管理',
-                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
+                  title: '三方其他分红管理',
+                  tabs: ['我的其他分红', '下级其他分红', '预期其他分红', '其他分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -750,8 +750,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方佣金管理',
-                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
+                  title: '三方其他分红管理',
+                  tabs: ['我的其他分红', '下级其他分红', '预期其他分红', '其他分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }

@@ -28,7 +28,7 @@
 
           el-table-column(align="center" prop="userName" label="用户名"  v-if="type === 1")
 
-          el-table-column(align="center" prop="issue" label="佣金期号"  )
+          el-table-column(align="center" prop="issue" label="其他分红期号"  )
 
           el-table-column(align="center" prop="sptProfit" label="体育盈亏")
             template(scope="scope")
@@ -64,11 +64,11 @@
 
           el-table-column(align="center" prop="actUser" label="有效人数")
 
-          el-table-column(align="center" prop="bonusRate" label="佣金比例")
+          el-table-column(align="center" prop="bonusRate" label="其他分红比例")
             template(scope="scope")
               span {{ scope.row.bonusRate }}%
 
-          el-table-column(align="center" prop="bonus" label="佣金金额")
+          el-table-column(align="center" prop="bonus" label="其他分红金额")
             template(scope="scope")
               span(:class=" {'text-green': scope.row.bonus && scope.row.bonus._o0(), 'text-danger': scope.row.bonus && scope.row.bonus._l0() } ")  {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}
 
@@ -92,7 +92,7 @@
       .box-wrapper
         .box(ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
-            span.title 佣金详情
+            span.title 其他分红详情
             el-button-group
               el-button.close(icon="close" @click="showDetail = ''")
           StockDetail(style="min-height: 5.7rem;")
@@ -102,7 +102,7 @@
       .box-wrapper
         .box(ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;")
           .tool-bar
-            span.title 佣金详情
+            span.title 其他分红详情
             el-button-group
               el-button.close(icon="close" @click="showDetail1 = ''")
           .table-list(style="padding: .15rem .2rem ")
@@ -113,7 +113,7 @@
                 template(scope="scope")
                   span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
 
-              el-table-column(align="left" prop="issue" label="佣金期号")
+              el-table-column(align="left" prop="issue" label="其他分红期号")
 
               el-table-column(align="left" prop="gameName" label="游戏")
 
@@ -181,8 +181,8 @@
         defaultStEt: ['', ''],
         stEt: [new Date()._setHMS('0:0:0')._bfM(-2)._setD(1), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],
         me: store.state.user,
-        // 0 我的佣金
-        // 1 下级佣金
+        // 0 我的其他分红
+        // 1 下级其他分红
         type: 1,
         // st: '',
         // et: '',
@@ -275,7 +275,7 @@
       },
       bonus (page, fn) {
         let loading = this.$loading({
-          text: '佣金加载中...',
+          text: '加载中...',
           target: this.$refs['table'].$el
         }, 10000, '加载超时...')
         if (!fn) {
@@ -318,7 +318,7 @@
           }, 100)
         })
       },
-      // 佣金详情列表（按用户和时间范围查询）
+      // 其他分红详情列表（按用户和时间范围查询）
       // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
       // profitDetail: api + 'report/profit.do?method=detail',
       qryCommDetail (userId, issue) {

@@ -1,4 +1,4 @@
-// 佣金契约
+// 其他分红契约
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -63,7 +63,7 @@
           </el-table-column>
           <el-table-column prop="subCount" label="团队人数"></el-table-column>
           <el-table-column prop="beginTm" label="签约日期"></el-table-column>
-          <el-table-column prop="sendCycle" label="佣金周期">
+          <el-table-column prop="sendCycle" label="其他分红周期">
             <template scope="scope">
               <span>{{TIME[scope.row.sendCycle]}}</span>
             </template>
@@ -121,7 +121,7 @@
         <div class="box-wrapper">
           <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
             <div class="tool-bar">
-              <span class="title">佣金详情</span>
+              <span class="title">其他分红详情</span>
               <el-button-group>
                 <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
               </el-button-group>
