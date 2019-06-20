@@ -1,4 +1,4 @@
-// 我的佣金 下级佣金
+// 我的其他分红 下级其他分红
 <template>
   <div class="group-page">
     <slot name="cover"></slot>
@@ -34,7 +34,7 @@
           v-bind:row-class-name="tableRowClassName"
         >
           <el-table-column align="center" prop="issue" label="结算日期"></el-table-column>
-          <el-table-column align="center" prop="sendCycle" label="佣金周期">
+          <el-table-column align="center" prop="sendCycle" label="其他分红周期">
             <template scope="scope">
               <span>{{ ProfitPeriodCount(scope.row) }}</span>
             </template>
@@ -87,12 +87,12 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column align="center" prop="bonusRate" label="佣金比例">
+          <el-table-column align="center" prop="bonusRate" label="其他分红比例">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="bonus" label="佣金金额">
+          <el-table-column align="center" prop="bonus" label="其他分红金额">
             <template scope="scope">
               <span>{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
             </template>
@@ -142,7 +142,7 @@
       <div class="box-wrapper">
         <div class="box" ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;">
           <div class="tool-bar">
-            <span class="title">佣金详情</span>
+            <span class="title">其他分红详情</span>
             <el-button-group>
               <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
             </el-button-group>
@@ -156,7 +156,7 @@
       <div class="box-wrapper">
         <div class="box" ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;">
           <div class="tool-bar">
-            <span class="title">佣金详情</span>
+            <span class="title">其他分红详情</span>
             <el-button-group>
               <el-button class="close" icon="close" @click="showDetail1 = ''"></el-button>
             </el-button-group>
@@ -181,7 +181,7 @@
                   >{{ scope.row.userName }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="left" prop="issue" label="佣金期号"></el-table-column>
+              <el-table-column align="left" prop="issue" label="其他分红期号"></el-table-column>
               <el-table-column align="left" prop="gameName" label="游戏"></el-table-column>
               <el-table-column align="left" prop="profitAmt" label="游戏盈亏">
                 <template scope="scope">
@@ -250,8 +250,8 @@ export default {
           ._setS(-1)
       ],
       me: store.state.user,
-      // 0 我的佣金
-      // 1 下级佣金
+      // 0 我的其他分红
+      // 1 下级其他分红
       // type: 0,
       // st: '',
       // et: '',
@@ -330,7 +330,7 @@ export default {
         if (index === 0) {
           sums[index] = "总计";
           return;
-        } else if (column.label === "佣金金额") {
+        } else if (column.label === "其他分红金额") {
           sums[index] = this.bonusSent;
         } else {
           sums[index] = "";
@@ -402,7 +402,7 @@ export default {
     bonus(page, fn) {
       let loading = this.$loading(
         {
-          text: "佣金加载中...",
+          text: "加载中...",
           target: this.$refs["table"].$el
         },
         10000,
@@ -452,7 +452,7 @@ export default {
           }, 100);
         });
     },
-    // 佣金详情列表（按用户和时间范围查询）
+    // 其他分红详情列表（按用户和时间范围查询）
     // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
     // profitDetail: api + 'report/profit.do?method=detail',
     qryCommDetail(userId, issue) {

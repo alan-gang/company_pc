@@ -1,4 +1,4 @@
-// 佣金管理
+// 其他分红管理
 <template>
   <div class="other-stock">
     <slot name="toolbar"/>
@@ -12,9 +12,9 @@
 <script>
 export default {
   components: {
-    OtherProfit: resolve => require(["../form/OtherProfit"], resolve), //我的佣金  下级佣金
-    TOtherProfit: resolve => require(["../form/TOtherProfit"], resolve), //预期佣金
-    OtherContract: resolve => require(["../group/OtherContract"], resolve) //契约佣金
+    OtherProfit: resolve => require(["../form/OtherProfit"], resolve), //我的其他分红  下级其他分红
+    TOtherProfit: resolve => require(["../form/TOtherProfit"], resolve), //预期其他分红
+    OtherContract: resolve => require(["../group/OtherContract"], resolve) //契约其他分红
   },
   name: "other-stock",
   props: [],

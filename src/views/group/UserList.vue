@@ -91,7 +91,7 @@
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
               .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" (stepType = 'contract') && ++stepIndex && (user = scope.row)  ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整佣金
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整其他分红
               .ds-button.text-button.blue(v-if=" scope.row.isSub " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
               
 
@@ -287,11 +287,11 @@
                 .buttons.item.block(style="padding-left: .6rem")
                   .ds-button.primary.bold(style="width: 2rem" @click="createContract") 确定
                   .ds-button.cancel.bold(style="width: 2rem" @click=" (stepType = '') || (stepIndex = 0) ") 取消
-            //- 调整佣金
+            //- 调整其他分红
             div(key="5" v-if="stepIndex === 1 && stepType === 'bonus' ")
               p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户 
                 span.text-blue {{ user.userName }}
-                |  调整佣金
+                |  调整其他分红
 
 
               div(style="margin: 0 10% 0 15%; margin-top: .3rem; margin-bottom: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
@@ -393,7 +393,7 @@
                   .absolute.hlh36.plr15
                     .ds-checkbox-label.text-bold(v-bind:class=" { active: _bonus } " @click=" _bonus = !_bonus ")
                       .ds-checkbox
-                      | 三方佣金
+                      | 三方其他分红
                   .xcontent.pd_15
                     .hlh3 每{{ TIME[user.all.yjArr[0].sendcycle] }}，{{ STYPE[user.all.yjArr[0].sendtype] }}
                     .hlh3 {{ user.all.yjArr[0].begintm.split(' ')[0] }} 开始， {{ user.all.yjArr[0].expiretm.split(' ')[0] }} 结束
@@ -458,7 +458,7 @@
         STYPE: ['手动发放', '自动发放'],
         TIME: ['', '月', '半月', '周'],
         // 复制下级设置
-        // 分红佣金
+        // 分红其他分红
         stEtA: [new Date()._setHMS('0:0:0'), new Date()._bfY(10)._setHMS('23:59:59')],
         ApickerOptions: {
           shortcuts: [{
@@ -561,7 +561,7 @@
           salary: '调整工资',
           point: '调整返点/返水',
           contract: '调整分红',
-          bonus: '调整佣金',
+          bonus: '调整其他分红',
           copy: '复制下级设置'
         },
         // topUp, point
