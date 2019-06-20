@@ -34,7 +34,7 @@
           v-bind:row-class-name="tableRowClassName"
         >
           <el-table-column align="center" prop="issue" label="结算日期"></el-table-column>
-          <el-table-column align="center" prop="sendCycle" label="其它游戏分红周期">
+          <el-table-column align="center" prop="sendCycle" label="其它游戏分红周期" width="100">
             <template scope="scope">
               <span>{{ ProfitPeriodCount(scope.row) }}</span>
             </template>
@@ -87,12 +87,12 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column align="center" prop="bonusRate" label="其它游戏分红比例">
+          <el-table-column align="center" prop="bonusRate" label="其它游戏分红比例" width="100">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="bonus" label="其它游戏分红金额">
+          <el-table-column align="center" prop="bonus" label="其它游戏分红金额" width="100">
             <template scope="scope">
               <span>{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
             </template>
