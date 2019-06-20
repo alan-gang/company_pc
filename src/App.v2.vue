@@ -554,8 +554,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方其他分红管理',
-                  tabs: ['我的其他分红', '下级其他分红', '预期其他分红', '其他分红契约'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -750,8 +750,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方其他分红管理',
-                  tabs: ['我的其他分红', '下级其他分红', '预期其他分红', '其他分红契约'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
