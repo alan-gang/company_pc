@@ -90,8 +90,9 @@
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" (stepType = 'contract') && ++stepIndex && (user = scope.row)  ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整其它游戏分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整佣金
+ 
               .ds-button.text-button.blue(v-if=" scope.row.isSub " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
               
 
@@ -109,7 +110,7 @@
             .tool-bar
               span.title {{ stepTitle[stepType] }}
               el-button-group
-                el-button.close(icon="close" @click=" (stepType = '') || (stepIndex = 0) ")
+                el-button.close(icon="close" @click=" (stepType = '') || (stepIndex = 0) || (topUpIndex = 0) ")
 
             // 充值
             div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
@@ -745,7 +746,7 @@
           this.cType = 1
           this.RULES.forEach(x => (x.ruletype = 1))
           this.SV = ''
-          this.contract()
+          // this.contract()
         }
         if (n === 'contract') {
           this.TYPE = [{id: 0, title: '销售'}, {id: 1, title: '亏损'}]
@@ -754,7 +755,7 @@
           this.cType = 0
           this.RULES.forEach(x => (x.ruletype = 0))
           this.SV = ''
-          this.contract()
+          // this.contract()
         }
         if (n === 'copy') {
           this._getUserList()
@@ -860,7 +861,6 @@
     mounted () {
       this.getUserList()
       this.getSysContractRange()
-      this.showcpfh && this.contract()
     },
     methods: {
       keepSame () {
@@ -922,13 +922,14 @@
           }
         })
       },
-      contract (page, fn) {
+      contract (fn, cType) {
         this.$http.get(api.rconfig, {
-          cType: this.cType
+          cType: cType || this.cType
         }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.ruleCfg = data.ruleCfg || []
+            fn && fn()
           }
         }, (rep) => {
         })
