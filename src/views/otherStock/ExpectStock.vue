@@ -12,8 +12,8 @@
         .form-filters(style="padding: .15rem; margin: .1rem 0 .2rem 0; ")
           div(style="text-align: center; min-height: .2rem" )
             .ds-button-group(v-if="me.role >= 2" style="margin: 0")
-              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的预期佣金
-              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级预期佣金
+              .ds-button.x-small.text-button(:class=" { selected: type === 0 } " @click=" type = 0 " ) 我的预期其它游戏分红
+              .ds-button.x-small.text-button(:class=" { selected: type === 1 } " @click=" type = 1 " ) 下级预期其它游戏分红
 
           //- label.item 发放日期&nbsp;
             el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
@@ -32,7 +32,7 @@
 
           el-table-column(align="center" prop="userName" label="用户名"  v-if="type === 1")
 
-          el-table-column(align="center" prop="issue" label="佣金期号"  )
+          el-table-column(align="center" prop="issue" label="其它游戏分红期号"  )
 
           el-table-column(align="center" prop="sptProfit" label="体育盈亏")
             template(scope="scope")
@@ -68,11 +68,11 @@
 
           el-table-column(align="center" prop="actUser" label="有效人数")
 
-          el-table-column(align="center" prop="bonusRate" label="佣金比例")
+          el-table-column(align="center" prop="bonusRate" label="其它游戏分红比例")
             template(scope="scope")
               span {{ scope.row.bonusRate }}%
 
-          el-table-column(align="center" prop="bonus" label="佣金金额")
+          el-table-column(align="center" prop="bonus" label="其它游戏分红金额")
             template(scope="scope")
               span(:class=" {'text-green': scope.row.bonus && scope.row.bonus._o0(), 'text-danger': scope.row.bonus && scope.row.bonus._l0() } ")  {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}
 

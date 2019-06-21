@@ -189,6 +189,7 @@ body.cb.v2
         // width 1.4rem
         height .34rem
         line-height .34rem
+        padding 0
         &:hover
           background-color BLUE
           color #fff

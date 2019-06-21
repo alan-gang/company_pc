@@ -80,12 +80,13 @@ export default {
       display inline-block
       // height .37rem
       // line-height .37rem
-      width 1rem
+      // width 1rem
       position relative
       cursor pointer
       border-top 3px solid #a8a8a8
       box-sizing border-box
       background none
+      padding 0 0.2rem
       &:hover
         color BLUE
       &.selected

@@ -118,7 +118,7 @@
             </el-table-column>
             <el-table-column
               prop="pointAmount"
-              label="返点"
+              label="返点金额"
               sortable="custom"
               align="center"
               v-if="me.displayPermission.showpoint"
@@ -252,7 +252,7 @@
               <el-table-column
                 align="right"
                 prop="pointAmount"
-                label="返点"
+                label="返点金额"
                 v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
@@ -430,6 +430,40 @@ export default {
         if (new Date().getDate() > 16) {
           r.push(
             {
+              label: `${new Date().getMonth() + 1}月下半月`,
+              val: [
+                new Date()._setD(16)._toDayString(),
+                new Date()
+                  ._setD(1)
+                  ._bfM(1)
+                  ._bf(-1)
+                  ._toDayString()
+              ]
+            },
+            {
+              label: `${new Date().getMonth() + 1}月上半月`,
+              val: [
+                new Date()._setD(1)._toDayString(),
+                new Date()._setD(15)._toDayString()
+              ]
+            },
+            {
+              label: `${new Date().getMonth()}月下半月`,
+              val: [
+                new Date()
+                  ._setD(16)
+                  ._bfM(-1)
+                  ._toDayString(),
+                new Date()
+                  ._setD(1)
+                  ._bf(-1)
+                  ._toDayString()
+              ]
+            }
+          );
+        } else {
+          r.push(
+            {
               label: `${new Date().getMonth() + 1}月上半月`,
               val: [
                 new Date()._setD(1)._toDayString(),
@@ -459,52 +493,6 @@ export default {
                 new Date()
                   ._setD(15)
                   ._bfM(-1)
-                  ._toDayString()
-              ]
-            }
-          );
-        } else {
-          r.push(
-            {
-              label: `${new Date().getMonth()}月下半月`,
-              val: [
-                new Date()
-                  ._setD(16)
-                  ._bfM(-1)
-                  ._toDayString(),
-                new Date()
-                  ._setD(1)
-                  ._bf(-1)
-                  ._toDayString()
-              ]
-            },
-            {
-              label: `${new Date().getMonth()}月上半月`,
-              val: [
-                new Date()
-                  ._setD(1)
-                  ._bfM(-1)
-                  ._toDayString(),
-                new Date()
-                  ._setD(15)
-                  ._bfM(-1)
-                  ._toDayString()
-              ]
-            },
-            {
-              label: `${new Date()
-                ._setD(1)
-                ._bfM(-1)
-                .getMonth()}月下半月`,
-              val: [
-                new Date()
-                  ._setD(15)
-                  ._bfM(-2)
-                  ._toDayString(),
-                new Date()
-                  ._setD(1)
-                  ._bfM(-1)
-                  ._bf(-1)
                   ._toDayString()
               ]
             }

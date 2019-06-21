@@ -236,6 +236,7 @@ export default {
                 {class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
+                {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153}
               ]
@@ -289,6 +290,7 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
                 {url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
+                {url: 'PK10', class: 'ds-icon-game-alysc sign new', id: '1-5-123', menuid: '123', title: '阿里云赛车', volume: true, gameid: 162},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
@@ -554,8 +556,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方佣金管理',
-                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -750,8 +752,8 @@ export default {
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '三方佣金管理',
-                  tabs: ['我的佣金', '下级佣金', '预期佣金', '佣金契约'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }

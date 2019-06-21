@@ -111,7 +111,7 @@
               <el-table-column
                 align="right"
                 prop="getpoint"
-                label="返水"
+                label="返水金额"
                 sortable="custom"
                 v-if="me.displayPermission.showpoint"
               >
@@ -198,7 +198,7 @@
               <el-table-column
                 align="right"
                 prop="getpoint"
-                label="返水"
+                label="返水金额"
                 sortable="custom"
                 v-if="me.displayPermission.showpoint"
               >

@@ -93,7 +93,7 @@
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "pointLevel", scope.row)}}
 
-          el-table-column(prop="point" label="返点" v-if="I === 1 && showUserPointColumn" sortable="custom")
+          el-table-column(prop="point" label="返点金额" v-if="I === 1 && showUserPointColumn" sortable="custom")
             template(scope="scope")
               span {{tableCellDataFormat(amountColumnProp, "point", scope.row)}}
 
@@ -328,7 +328,7 @@ export default {
             item.pointLevel = pointLevel
             return item
           })
-          this.thirdGamesDetailData = false
+          this.showUserPointColumn = false
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {

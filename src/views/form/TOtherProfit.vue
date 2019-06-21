@@ -45,7 +45,7 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column prop="ruleid" label="对应佣金规则">
+          <el-table-column prop="ruleid" label="对应其它游戏分红规则">
             <template scope="scope">
               <span
                 @click="ruleInfoList=!0,ruleInfoListRow=scope.row"
@@ -53,12 +53,12 @@
               >{{ GetRuleName(scope.row) }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="bonusRate" label="佣金比例">
+          <el-table-column align="center" prop="bonusRate" label="其它游戏分红比例">
             <template scope="scope">
               <span>{{ scope.row.bonusRate }}%</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="bonus" label="个人预期佣金金额">
+          <el-table-column align="center" prop="bonus" label="个人预期其它游戏分红金额">
             <template scope="scope">
               <span
                 :class=" {'text-green': scope.row.bonus && scope.row.bonus._o0(), 'text-danger': scope.row.bonus && scope.row.bonus._l0() } "
@@ -78,7 +78,7 @@
         ></el-pagination>
         <p
           style="margin: 10px;font-size: 12px;color: #999;"
-        >温馨提示：预期佣金是基于阶段性数据测算得出，仅为预测下一次佣金发放提供参考，不作为发放佣金的依据。</p>
+        >温馨提示：预期其它游戏分红是基于阶段性数据测算得出，仅为预测下一次其它游戏分红发放提供参考，不作为发放其它游戏分红的依据。</p>
       </div>
       
       <!-- 弹窗 规则列表 -->
@@ -98,7 +98,7 @@
                   v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
                   :class="{'on':v.id==ruleInfoListRow.ruleid}"
                   :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，佣金比例{{v.bounsrate}}%</li>
+                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，其它游戏分红比例{{v.bounsrate}}%</li>
               </ul>
               <div class="my-el ruleInfoListSub">
                 <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
@@ -259,9 +259,9 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "下级预期总佣金金额";
+          sums[index] = "下级预期总其它游戏分红金额";
           return;
-        } else if (column.label === "个人预期佣金金额") {
+        } else if (column.label === "个人预期其它游戏分红金额") {
           sums[index] = this.bonusSent;
         } else {
           sums[index] = "";

@@ -36,7 +36,9 @@
             i.fc-o {{actualAmount}}
             i &nbsp;元
 
-        .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：充值金额范围 
+        .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：
+          template(v-if="curPayType.saveWay=='zfb'") 付款时请尽量选择支付宝绑定的银行卡付款，使用支付宝余额或余额宝付款可能导致付款失败．<br/>
+          | 充值金额范围 
           i.fc-o(v-html="rechargeRange")
           | ，充值手续费：
           i.fc-o {{perRate}}%
