@@ -118,7 +118,7 @@
             </el-table-column>
             <el-table-column
               prop="pointAmount"
-              label="返点"
+              label="返点金额"
               sortable="custom"
               align="center"
               v-if="me.displayPermission.showpoint"
