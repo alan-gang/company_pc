@@ -252,7 +252,7 @@
               <el-table-column
                 align="right"
                 prop="pointAmount"
-                label="返点"
+                label="返点金额"
                 v-if="me.displayPermission.showpoint"
               >
                 <template scope="scope">
