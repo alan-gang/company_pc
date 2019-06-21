@@ -15,7 +15,8 @@
                 span(style="float: right;margin-right: 30px;") 订单打印
               div(style="padding: 15px 30px;")
                 p(style="position: relative; line-height: 25px; min-width: 100px; padding-left: 100px; margin: 0 0 15px 0; color: #333; word-break: break-all;" v-for=" (v, k, i) in data ")
-                  span(style="position: absolute; left: 2px; font-weight: bold;") {{ k }}： {{ v || '暂无' }}
+                  span(style="position: absolute; left: 2px; font-weight: bold;") {{ k }}： 
+                  {{ v || '暂无' }}
           .buttons(style="margin-bottom: .3rem")
             .ds-button.primary.full(@click="print") 打印
 
