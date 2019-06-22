@@ -172,7 +172,7 @@
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       //- 手机绑定
-      el-row.phone(v-bind:class="{expand: index === 4 }")
+      el-row.phone(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 4 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-phone 手机绑定
@@ -205,8 +205,8 @@
              button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 解绑
              .ds-button.cancel.large(@click="clearPhone") 清空
 
-      // 邮箱绑定
-      el-row.email(v-bind:class="{expand: index === 5 }")
+      //- 邮箱绑定
+      el-row.email(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 5 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-email 邮箱绑定
