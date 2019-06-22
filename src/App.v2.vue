@@ -1166,6 +1166,7 @@ export default {
         this.__getUserFund()
         this.setUser({login: true,
           displayPermission: data.displayPermission, // 显示权限
+          showPhoneEmail: data.showPhoneEmail, // 0 : 不显示手机邮箱   1：显示手机邮箱
           showBackWater: data.showBackWater,
           showSalary: data.showSalary === 1,
           name: data.nickName,
