@@ -266,7 +266,7 @@
                   | &nbsp;&nbsp;
                   el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
                   span.text-black &nbsp;万，有效人数&nbsp;
-                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser")
                   span.text-black  人，分红比例 
                   //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
                   el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
@@ -693,6 +693,35 @@
           return p
         }, {}).flag
       },
+      SetRule() {
+        if (this.dataRules.length) {
+          let r = [];
+          // 0 销售 1 亏损
+          let ruletype0 = null;
+          let ruletype1 = null;
+          this.dataRules.forEach((_, i) => {
+            // 销售
+            if (_.ruletype === 0) {
+              // 分红比例
+              if (ruletype0 && _.bounsRate <= ruletype0.bounsRate) {
+                r.push(this.RULES[i]);
+              }
+              ruletype0 = _;
+            }
+            // 亏损
+            if (_.ruletype === 1) {
+              // 分红比例
+              if (ruletype1 && _.bounsRate <= ruletype1.bounsRate) {
+                r.push(this.RULES[i]);
+              }
+              ruletype1 = _;
+            }
+          });
+          return r;
+        } else {
+          return [];
+        }
+      },
       textMoney () {
         return digitUppercase(this.money)
       },
@@ -730,6 +759,18 @@
       // }
     },
     watch: {
+      //监听 规则设置
+      SetRule() {
+        // console.log(this.SetRule);
+        this.SetRule.length &&
+          this.$modal.warn({
+            target: this.$el,
+            content: `${
+              this.SetRule[0].title
+            } 不符合契约规则:规则中分红比例"都必须成递增关系("分红比例"大于上一条规则的"分红比例")．`,
+            btn: ["好的"]
+          });
+      },
       un () {
         this.un = this.un.trim()
       },
@@ -786,16 +827,16 @@
         handler () {
           this.CRULES.forEach(CR => {
             setTimeout(() => {
-              CR.actUser = parseInt(CR.actUser)
-              CR.sales = parseInt(CR.sales)
+              CR.actUser = parseInt(CR.actUser) || 0
+              CR.sales = parseInt(CR.sales) || 0
             }, 0)
             let rule = this.ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate)
             if (!rule) return
             let sales = rule.sales
             let actUser = rule.actUser
             setTimeout(() => {
-              if (CR.actUser < actUser) CR.actUser = actUser
-              if (CR.sales < sales) CR.sales = sales
+              if (CR.actUser < actUser) CR.actUser = actUser || 0
+              if (CR.sales < sales) CR.sales = sales || 0
             }, 0)
             // if (CR.actUser < actUser) CR.actUser = actUser
             // if (CR.sales < sales) CR.sales = sales

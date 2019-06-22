@@ -595,7 +595,7 @@ export default {
             ruletype0 = _;
           }
           // 亏损
-          if (_.ruletype1 === 1) {
+          if (_.ruletype === 1) {
             // 分红比例
             if (ruletype1 && _.bounsRate <= ruletype1.bounsRate) {
               r.push(this.RULES[i]);
