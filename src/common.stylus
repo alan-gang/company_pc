@@ -162,6 +162,8 @@
 .hlh100
   height 1rem
   line-height 1rem
+.h100p
+  height 100%
 // font-size
 .ft36
   font-size .36rem
