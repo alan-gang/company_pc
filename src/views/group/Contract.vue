@@ -223,7 +223,6 @@
                       class="text-danger text-right"
                       style="width: .6rem;"
                       v-model="CR.actUser"
-                      v-bind:min="1"
                       v-bind:debounce="2000"
                     ></el-input-number>
                     <span class="text-black">人，分红比例</span>
@@ -461,90 +460,90 @@ export default {
       TYPE: [{ id: 0, title: "销售" }, { id: 1, title: "亏损" }],
       r: { id: 0, title: "销售" },
       RULES: [
-        { title: "规则一", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则二", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则三", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则四", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则五", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则六", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则七", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则八", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则九", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十一", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十二", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十三", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十四", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十五", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十六", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十七", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十八", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则十九", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
-        { title: "规则二十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 },
+        { title: "规则一", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则二", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则三", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则四", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则五", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则六", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则七", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则八", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则九", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十一", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十二", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十三", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十四", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十五", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十六", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十七", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十八", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则十九", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
+        { title: "规则二十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 },
         {
           title: "规则二十一",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十二",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十三",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十四",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十五",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十六",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十七",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十八",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
         {
           title: "规则二十九",
           ruletype: 0,
           sales: 0,
           bounsRate: 0,
-          actUser: 1
+          actUser: 0
         },
-        { title: "规则三十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 1 }
+        { title: "规则三十", ruletype: 0, sales: 0, bounsRate: 0, actUser: 0 }
       ],
       ruleLength: 3,
       name: "",
