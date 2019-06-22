@@ -90,8 +90,9 @@
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" (stepType = 'contract') && ++stepIndex && (user = scope.row)  ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" (stepType = 'bonus') && ++stepIndex && (user = scope.row)  ") 调整其它游戏分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整佣金
+ 
               .ds-button.text-button.blue(v-if=" scope.row.isSub " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
               
 
@@ -109,7 +110,7 @@
             .tool-bar
               span.title {{ stepTitle[stepType] }}
               el-button-group
-                el-button.close(icon="close" @click=" (stepType = '') || (stepIndex = 0) ")
+                el-button.close(icon="close" @click=" (stepType = '') || (stepIndex = 0) || (topUpIndex = 0) ")
 
             // 充值
             div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
@@ -265,7 +266,7 @@
                   | &nbsp;&nbsp;
                   el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
                   span.text-black &nbsp;万，有效人数&nbsp;
-                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser")
                   span.text-black  人，分红比例 
                   //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
                   el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
@@ -327,7 +328,7 @@
                   | &nbsp;&nbsp;
                   el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
                   span.text-black &nbsp;万，有效人数&nbsp;
-                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser" v-bind:min="1")
+                  el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser")
                   span.text-black  人，分红比例 
                   //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
                   el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
@@ -512,36 +513,36 @@
         // r: {id: 1, title: '亏损'},
 
         RULES: [
-          {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则二十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1},
-          {title: '规则三十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 1}
+          {title: '规则一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十一', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十二', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十三', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十四', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十五', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十六', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十七', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十八', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则二十九', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0},
+          {title: '规则三十', ruletype: 0, sales: 0, bounsRate: 0, actUser: 0}
         ],
         ruleLength: 3,
         cType: 0,
@@ -692,6 +693,35 @@
           return p
         }, {}).flag
       },
+      SetRule() {
+        if (this.dataRules.length) {
+          let r = [];
+          // 0 销售 1 亏损
+          let ruletype0 = null;
+          let ruletype1 = null;
+          this.dataRules.forEach((_, i) => {
+            // 销售
+            if (_.ruletype === 0) {
+              // 分红比例
+              if (ruletype0 && _.bounsRate <= ruletype0.bounsRate) {
+                r.push(this.RULES[i]);
+              }
+              ruletype0 = _;
+            }
+            // 亏损
+            if (_.ruletype === 1) {
+              // 分红比例
+              if (ruletype1 && _.bounsRate <= ruletype1.bounsRate) {
+                r.push(this.RULES[i]);
+              }
+              ruletype1 = _;
+            }
+          });
+          return r;
+        } else {
+          return [];
+        }
+      },
       textMoney () {
         return digitUppercase(this.money)
       },
@@ -729,6 +759,18 @@
       // }
     },
     watch: {
+      //监听 规则设置
+      SetRule() {
+        // console.log(this.SetRule);
+        this.SetRule.length &&
+          this.$modal.warn({
+            target: this.$el,
+            content: `${
+              this.SetRule[0].title
+            } 不符合契约规则:规则中分红比例"都必须成递增关系("分红比例"大于上一条规则的"分红比例")．`,
+            btn: ["好的"]
+          });
+      },
       un () {
         this.un = this.un.trim()
       },
@@ -745,7 +787,7 @@
           this.cType = 1
           this.RULES.forEach(x => (x.ruletype = 1))
           this.SV = ''
-          this.contract()
+          // this.contract()
         }
         if (n === 'contract') {
           this.TYPE = [{id: 0, title: '销售'}, {id: 1, title: '亏损'}]
@@ -754,7 +796,7 @@
           this.cType = 0
           this.RULES.forEach(x => (x.ruletype = 0))
           this.SV = ''
-          this.contract()
+          // this.contract()
         }
         if (n === 'copy') {
           this._getUserList()
@@ -785,16 +827,16 @@
         handler () {
           this.CRULES.forEach(CR => {
             setTimeout(() => {
-              CR.actUser = parseInt(CR.actUser)
-              CR.sales = parseInt(CR.sales)
+              CR.actUser = parseInt(CR.actUser) || 0
+              CR.sales = parseInt(CR.sales) || 0
             }, 0)
             let rule = this.ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate)
             if (!rule) return
             let sales = rule.sales
             let actUser = rule.actUser
             setTimeout(() => {
-              if (CR.actUser < actUser) CR.actUser = actUser
-              if (CR.sales < sales) CR.sales = sales
+              if (CR.actUser < actUser) CR.actUser = actUser || 0
+              if (CR.sales < sales) CR.sales = sales || 0
             }, 0)
             // if (CR.actUser < actUser) CR.actUser = actUser
             // if (CR.sales < sales) CR.sales = sales
@@ -860,7 +902,6 @@
     mounted () {
       this.getUserList()
       this.getSysContractRange()
-      this.showcpfh && this.contract()
     },
     methods: {
       keepSame () {
@@ -922,13 +963,14 @@
           }
         })
       },
-      contract (page, fn) {
+      contract (fn, cType) {
         this.$http.get(api.rconfig, {
-          cType: this.cType
+          cType: cType || this.cType
         }).then(({data}) => {
           // success
           if (data.success === 1) {
             this.ruleCfg = data.ruleCfg || []
+            fn && fn()
           }
         }, (rep) => {
         })
