@@ -11,7 +11,7 @@
           el-col(:span="12")
             span.l-label 追号编号：
             span.text-black {{ detail.taskId }}  
-            span.follow-status.c_f(:class=" STATUSCLASS[detail.status] "){{ STATUS[detail.status] }}
+            span.follow-status.c_f(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
           el-col(:span="12")
             span.l-label 追号时间：
             span.text-black {{ detail.begintime }}
@@ -486,6 +486,7 @@
       width 6.7rem
     .el-col
       word-break break-all
+      word-wrap break-word
     .el-col[classname="codes-col"]
       padding-right 0.1rem
   .title

@@ -10,13 +10,23 @@
       
         .form.form-filters
           
-          //- label.item(v-if="!noname") 用户 
-          //-   input.ds-input.small(v-model="name" style="width: 1rem")
-          
+          label.item(v-if="!noname") 用户 
+            //- input.ds-input.small(v-model="name" style="width: 1rem")
+            el-autocomplete(
+              class="inline-input uname-ipt"
+              popper-class="username-auto-ipt"
+              v-model="name"
+              v-bind:fetch-suggestions="querySearchName"
+              placeholder="请输入用户名"
+              v-bind:maxlength="12"
+              v-bind:clearable="true"
+              v-on:select="nameHandleSelect"
+            )
+
           //- label.item 追号时间 
           //-   el-date-picker(:picker-options="pickerOptions" v-model="stEt" type="datetimerange" placeholder="请选择日期时间范围" v-bind:clearable="clearableOnTime")
-
-          SearchConditions(@choiced="choicedSearchCondition")
+          span.date-wp 
+            SearchConditions(@choiced="choicedSearchCondition")
 
           //- label.item 彩种 
           //-   el-select(clearable v-bind:disabled=" !gameList[0] " placeholder="全" v-model="gameid" style="width: 1.2rem")
@@ -39,10 +49,14 @@
             el-input(v-model="id" style="width: 1rem")
 
 
-          .ds-button.primary.large.bold(@click="followList()") 搜索
+          .ds-button.primary.large.bold(@click="followList({}, null, 'search')") 搜索
           //- .buttons(style="margin-left: .3rem")
             .ds-button.cancel.large(@click="clear(true)") 清空
         
+        .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+          el-breadcrumb(separator=">")
+            el-breadcrumb-item(v-for="(b, i) in userBreadcrumb"  @click.native="link(b, i)") {{ i === 0 ? '自己' : b.userName }}
+
         .table-list(style="padding: .15rem .2rem ")
         
           el-table.header-bold.nopadding(:data="Cdata"  style=""   ref="table" show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" )
@@ -118,6 +132,7 @@
   import { dateTimeFormat } from '../../util/Date'
   import api from '../../http/api'
   // import util from '../../util'
+  import store from '../../store'
   import SearchConditions from 'components/SearchConditions'
   import SearchConditionLottery from 'components/SearchConditionLottery'
   export default {
@@ -142,6 +157,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级彩票记录
         pickerOptions: {
           shortcuts: [{
@@ -224,7 +240,9 @@
         lotteryHistory: [],
         lotteryPopover: false,
         curLotteryName: '全部',
-        STATUS_FINISH: 2
+        STATUS_FINISH: 2,
+        names: [],
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -249,12 +267,24 @@
     mounted () {
       this.getLotterys()
       this.$route.query.gameid && (this.gameid = this.$route.query.gameid)
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      // patch 2019-06-11 放开规则(反复修改)，进入页面默认展示数据
+      // if (this.useSource !== this.USE_SOURCE_AGENT) {
+      //   this.followList()
+      // }
       this.followList()
       this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('FOLLOW_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setGFI (i) {
         this.I = i
+      },
+      link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
+        this.subUserId = B.userId
+        this.name = ''
+        this.followList({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -376,7 +406,13 @@
           }, 100)
         })
       },
-      followList (page, fn) {
+      followList (page, fn, source, params = {}) {
+        // if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+        //   if (!this.name) {
+        //     this.$message.warning({message: '请输入用户名'})
+        //     return
+        //   }
+        // }
         let loading = this.$loading({
           text: '追号记录加载中...',
           target: this.$refs['table'].$el
@@ -405,7 +441,7 @@
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.followList, this.preOptions).then(({data}) => {
+        this.$http.post(api.followList, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             setTimeout(() => {
@@ -422,6 +458,12 @@
             })
             this.Cdata = data.taskList
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             // this.summary()
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -509,6 +551,28 @@
             this.setLotteryHistory(game)
           }
         }
+      },
+      querySearchName (name, cb) {
+        let rs = name ? this.names.filter((n) => {
+          return n.value.indexOf(name) === 0
+        }) : this.names
+        cb(rs)
+      },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
+      setNameHistory (name) {
+        if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('FOLLOW_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120
@@ -527,12 +591,21 @@
   @import '../../var.stylus'
   .user-list
     // top TH
+    .form-filters > *
+      display inline-block
     .form
       padding PWX
-
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
+      .search-condition-date
+        float none
+    .uname-ipt
+      width 1.3rem
   .item
     display inline-block
-    margin 0 PW .1rem 0
+    margin 0 PW 0 0
 
     
   .el-select
@@ -680,4 +753,9 @@
 <style lang="stylus">
   .search-lottery-popover
     background-color #fff !important
+</style>
+<style lang="stylus">
+.username-auto-ipt
+  .el-scrollbar__wrap
+    overflow auto
 </style>

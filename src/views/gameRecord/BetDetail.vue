@@ -13,23 +13,19 @@
               .issue-nums.txt-c.mt10
                 span.op-num.ft24(v-for="(n, i) in row.prizeCode ? (row.prizeCode.split(',')) : defaultPrizeCode" v-bind:class="{red: row.stat == 1 || row.stat == 1}") {{n}}
               el-row
-                el-col(:span="12")
-                  注单编号：
+                el-col(:span="12") 注单编号：
                   span.text-black {{ row.projectId }}
                   span.order-status.c_f(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
-                el-col(:span="12")
-                  投单时间：
+                el-col(:span="12") 投单时间：
                   span.text-black {{ row.writeTime }}
               el-row
-                el-col(:span="12")
-                是否追号：
-                span {{row.taskId ? '是' : '否'}}
-                span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
+                el-col(:span="12") 是否追号：
+                  span {{row.taskId ? '是' : '否'}}
+                  span.c-o(v-if="!!row.taskId" @click.stop="$emit('show-follow', row.taskId)" v-show="showFollowBtn") &nbsp;&nbsp;查看追号单>
 
             .middle-info
               el-row
-                el-col(:span="12")
-                  玩法：
+                el-col(:span="12") 玩法：
                   span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
                 el-col(:span="12")
                   是否单挑：

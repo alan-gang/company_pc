@@ -236,6 +236,7 @@ export default {
                 {class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
+                {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153}
               ]
@@ -289,6 +290,7 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
                 {url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
+                {url: 'PK10', class: 'ds-icon-game-alysc sign new', id: '1-5-123', menuid: '123', title: '阿里云赛车', volume: true, gameid: 162},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
@@ -486,8 +488,9 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
-                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  title: '团队盈亏',
+                  // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['彩票', '三方', '棋牌', '微游'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -495,18 +498,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级账变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -529,7 +541,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -537,15 +549,15 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -673,7 +685,7 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
+                  title: '团队盈亏',
                   tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
@@ -682,18 +694,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级账变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -716,7 +737,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -724,15 +745,15 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -953,6 +974,9 @@ export default {
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
   },
   methods: {
+    showBonus () {
+      return this.menuids.indexOf(',45,') !== -1
+    },
     getLotterys () {
       this.$http.get(api.getLotterys).then(({data}) => {
         // success
@@ -1141,6 +1165,8 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
+          displayPermission: data.displayPermission, // 显示权限
+          showPhoneEmail: data.showPhoneEmail, // 0 : 不显示手机邮箱   1：显示手机邮箱
           showBackWater: data.showBackWater,
           showSalary: data.showSalary === 1,
           name: data.nickName,

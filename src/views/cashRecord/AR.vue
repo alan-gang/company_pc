@@ -32,13 +32,26 @@
           el-select(clearable placeholder="全" v-model="gameid" style="width: 1.2rem; ")
             el-option(v-for="U in gameList" v-bind:label="U.cnName" v-bind:value="U.lotteryId")
         
-        el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
-          SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
-          span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
-            span.mr5 彩种&nbsp;
-            span.flex.flex-ai-c.lottery-choice
-              i {{curLotteryName}}
-              i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
+        label.item(v-if="!noname") 用户 
+          el-autocomplete(
+            class="inline-input uname-ipt"
+            popper-class="username-auto-ipt"
+            v-model="name"
+            v-bind:fetch-suggestions="querySearchName"
+            placeholder="请输入用户名"
+            v-bind:maxlength="12"
+            v-bind:clearable="true"
+            v-on:select="nameHandleSelect"
+          )
+          
+        span.item
+          el-popover(placement="bottom" width="536" trigger="click" popper-class="search-lottery-popover" v-bind:visible-arrow="false" @show="lotteryPopover = true" @hide="lotteryPopover = false")
+            SearchConditionLottery(v-bind:lotteryLs="menus.slice(6, 7)[0].groups" v-bind:historyLs="lotteryHistory" @choiced="choicedLottery")
+            span.flex.flex-ai-c.lottery-choice-condi(slot="reference") 
+              span.mr5 彩种&nbsp;
+              span.flex.flex-ai-c.lottery-choice
+                i {{curLotteryName}}
+                i(v-bind:class="{'el-icon-caret-bottom': !lotteryPopover, 'el-icon-caret-top': lotteryPopover}")
         
         span.date-buts
           SearchConditions(v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition")
@@ -57,7 +70,7 @@
           el-input(v-model="id" style="width: 1rem")
 
         .buttons
-          .ds-button.large.primary.large.bold(@click="list") 搜索
+          .ds-button.large.primary.large.bold(@click="list({}, null, 'search')") 搜索
           .ds-button.cancel.large(@click="clear(true)") 清空
           .ds-button.cancel.large(@click=" hideNumber = !hideNumber ") {{ hideNumber ? '显示' : '隐藏' }}小数
           //- label.item(style="margin-left: .32rem") 自身快捷查询：
@@ -67,9 +80,13 @@
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myFollow") 追号
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myBonus") 奖金
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myPoint") 返点
-            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="ME.showSalary") 工资
+            span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="mySalary" v-if="me.showSalary") 工资
             span.ds-button.text-button.blue(style="padding: 0 .05rem" @click="myTransfer") 转账
-        
+
+      .user-breadcrumb(v-if="this.useSource === this.USE_SOURCE_AGENT")
+        el-breadcrumb(separator=">")
+          el-breadcrumb-item(v-for="(b, i) in userBreadcrumb"  @click.native="link(b, i)") {{ i === 0 ? '自己' : b.userName }}
+  
       .table-list(style="padding: .15rem .2rem ")
       
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe show-summary v-bind:summary-method="getSummaries" v-bind:max-height=" MH " v-bind:row-class-name="tableRowClassName"  v-on:row-click="setSelected")
@@ -101,11 +118,11 @@
 
           el-table-column(prop="balance" label="主账户余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.balance) }}
+              span {{ numberWithCommas(scope.row.balance) }}
           
           el-table-column(prop="speBalance"  label="特殊余额"  align="right")
             template(scope="scope")
-              span{{ numberWithCommas(scope.row.speBalance) }}
+              span {{ numberWithCommas(scope.row.speBalance) }}
 
           //- el-table-column(prop="isFree"  label="优惠券"  align="right")
             template(scope="scope")
@@ -155,7 +172,7 @@
     },
     data () {
       return {
-        ME: store.state.user,
+        me: store.state.user,
         USE_SOURCE_AGENT: 2, // 使用：代理中心-下级资金记录
         numberWithCommas: numberWithCommas,
         clearableOnTime: false,
@@ -187,7 +204,7 @@
         zone: '',
         QUERYS: ['注单编号', '追号编号', '账变编号'],
         query: '',
-        data: [{}],
+        data: [],
         pageSize: 20,
         total: 0,
         currentPage: 1,
@@ -205,17 +222,10 @@
         curLotteryName: '全部',
 
         searchConditions: ['今天', '昨天', '前天'],
-        // dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] }
-        dateMappingConfig: {
-          d0: [0, 0],
-          d1: [1, 1],
-          d2: [2, 2],
-          d3: [3, 3],
-          d4: [4, 4],
-          d5: [5, 5],
-          d6: [6, 6]
-        },
-        showOrderTypePopover: false
+        dateMappingConfig: { d0: [0, 0], d1: [1, 1], d2: [2, 2], d3: [3, 3], d4: [4, 4], d5: [5, 5], d6: [6, 6] },
+        names: [],
+        showOrderTypePopover: false,
+        userBreadcrumb: [{title: '自己'}, {}]
       }
     },
     computed: {
@@ -268,15 +278,26 @@
     mounted () {
       this.getLotterys()
       this.getOrderType()
-      this.list()
+      // 代理中心入口，进入默认不查数据需用户手动搜索数据
+      if (this.useSource !== this.USE_SOURCE_AGENT) {
+        this.list()
+      }
       if (this.platform === 'ds') {
         this.ISFREE.splice(2)
       }
       this.initQueryConditionDate()
+      this.getGameHistory()
+      this.names = JSON.parse(window.sessionStorage.getItem('AR_NAMES_HISTORY') || '[]')
     },
     methods: {
       __setCRI (i) {
         this.I = i
+      },
+      link (B, i) {
+        if (String(B.userId) === String(this.me.userId)) return
+        this.subUserId = B.userId
+        this.name = ''
+        this.list({}, null, '', {userName: B.userName})
       },
       getSummaries (param) {
         const { columns, data } = param
@@ -307,54 +328,54 @@
       detectDate (v) {
         // console.log(v)
       },
-      myTopup () {
-        this.clear()
-        this.zone = 0
-        this.type = [1]
-        this.list()
-      },
-      myWithdraw () {
-        this.clear()
-        this.zone = 0
-        this.type = [2, 3]
-        this.list()
-      },
-      myOrder () {
-        this.clear()
-        this.zone = 0
-        this.type = [7]
-        this.list()
-      },
-      myFollow () {
-        this.clear()
-        this.zone = 0
-        this.type = [9]
-        this.list()
-      },
-      myBonus () {
-        this.clear()
-        this.zone = 0
-        this.type = [12, 16]
-        this.list()
-      },
-      myPoint () {
-        this.clear()
-        this.zone = 0
-        this.type = [11, 15]
-        this.list()
-      },
-      mySalary () {
-        this.clear()
-        this.zone = 0
-        this.type = [37]
-        this.list()
-      },
-      myTransfer () {
-        this.clear()
-        this.zone = 0
-        this.type = [70]
-        this.list()
-      },
+      // myTopup () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [1]
+      //   this.list()
+      // },
+      // myWithdraw () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [2, 3]
+      //   this.list()
+      // },
+      // myOrder () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [7]
+      //   this.list()
+      // },
+      // myFollow () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [9]
+      //   this.list()
+      // },
+      // myBonus () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [12, 16]
+      //   this.list()
+      // },
+      // myPoint () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [11, 15]
+      //   this.list()
+      // },
+      // mySalary () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [37]
+      //   this.list()
+      // },
+      // myTransfer () {
+      //   this.clear()
+      //   this.zone = 0
+      //   this.type = [70]
+      //   this.list()
+      // },
       tableRowClassName (row, index) {
         if (row.selected) return 'selected-row'
       },
@@ -401,7 +422,14 @@
           }, 100)
         })
       },
-      list (page, fn) {
+      list (page, fn, source, params = {}) {
+        this.hideNumber = false
+        // if (this.useSource === this.USE_SOURCE_AGENT && source === 'search') {
+        //   if (!this.name) {
+        //     this.$message.warning({message: '请输入用户名'})
+        //     return
+        //   }
+        // }
         // console.log(this.stEt[0], this.stEt[1], dateTimeFormat(this.stEt[0]).replace(/[-:\s]/g, ''), dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''))
         let loading = this.$loading({
           text: '账变记录加载中...',
@@ -416,7 +444,7 @@
             endDate: dateTimeFormat(this.stEt[1]).replace(/[-:\s]/g, ''),
             isFree: this.isFree,
             userName: this.name,
-            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 1 : this.zone,
+            scope: this.noname ? 0 : this.useSource === this.USE_SOURCE_AGENT ? 2 : this.zone,
             serialType: this.query,
             serialValue: this.id,
             lotteryId: this.gameid,
@@ -426,11 +454,11 @@
             page: 1,
             pageSize: this.pageSize
           }
-          this.setLotteryHistory({gameid: this.gameid})
+          // this.setLotteryHistory({gameid: this.gameid})
         } else {
           this.preOptions.page = page
         }
-        this.$http.post(api.list, this.preOptions).then(({data}) => {
+        this.$http.post(api.list, Object.assign({}, this.preOptions, params)).then(({data}) => {
           // success
           if (data.success === 1) {
             typeof fn === 'function' && fn()
@@ -438,6 +466,12 @@
             this.data = data.orderRecordList
             // this.data.forEach(x => (x.inout = parseFloat(x.inout) * -1))
             this.total = data.totalSize || this.data.length
+            if (this.useSource === this.USE_SOURCE_AGENT) {
+              this.userBreadcrumb = data.userBreads.concat([{}])
+            }
+            if (this.preOptions.userName) {
+              this.setNameHistory(this.preOptions.userName)
+            }
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
@@ -490,7 +524,7 @@
         this.$http.get(api.getOrderType, {version: 1}).then(({data}) => {
           // success
           if (data.success === 1) {
-            this.ME.showSalary && data.orderTypeList.push({
+            this.me.showSalary && data.orderTypeList.push({
               cnTitle: '日工资',
               ordertypeId: 37
             })
@@ -576,10 +610,53 @@
         this.lotteryHistory.push(lottery)
         if (this.lotteryHistory.length > 3) this.lotteryHistory.shift()
       },
+      getGameById (id) {
+        let gameGroups = this.menus.slice(6, 7)[0].groups
+        for (let i = 0; i < gameGroups.length; i++) {
+          for (let j = 0; j < gameGroups[i].items.length; j++) {
+            if (id === gameGroups[i].items[j].gameid) {
+              return gameGroups[i].items[j]
+            }
+          }
+        }
+      },
+      getGameHistory () {
+        let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+        historis = historis.slice(0, 3)
+        let game = null
+        for (let i = 0; i < historis.length; i++) {
+          game = this.getGameById(historis[i])
+          if (game) {
+            this.setLotteryHistory(game)
+          }
+        }
+      },
       findHistoryById (gameid) {
         return this.lotteryHistory.findIndex((item) => {
           return item.gameid === gameid
         })
+      },
+      querySearchName (name, cb) {
+        let rs = name ? this.names.filter((n) => {
+          return n.value.indexOf(name) === 0
+        }) : this.names
+        cb(rs)
+      },
+      // setNameHistory (name) {
+      //   if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+      //   this.names.push({value: name, address: name})
+      //   if (this.names.length > 3) this.names.shift()
+      // },
+      setNameHistory (name) {
+        if (!name || this.names.filter((n) => n.value.indexOf(name) === 0).length > 0) return
+        let tipItem = this.names.length > 0 && this.names[0].value === '近期搜索' ? this.names.shift() : {value: '近期搜索', address: ''}
+        this.names.unshift({value: name, address: name})
+        if (this.names.length > 5) this.names.pop()
+        this.names.unshift(tipItem)
+        window.sessionStorage.setItem('AR_NAMES_HISTORY', JSON.stringify(this.names || '[]'))
+      },
+      nameHandleSelect (e) {
+        if (e.value === '近期搜索') this.name = ''
       }
     }
   }
@@ -605,6 +682,24 @@
 
 <style lang="stylus" scoped>
   @import '../../var.stylus'
+  .user-list
+    .form
+      padding PWX
+    .user-breadcrumb
+      margin: 0.1rem 0.2rem 0rem 0.2rem
+    .date-wp
+      display inline-block
+      .search-condition-date
+        float none
+    .uname-ipt
+      width 1.3rem
+  .item
+    display inline-block
+    margin 0 PW 0 0
+
+</style>
+<style lang="stylus" scoped>
+  @import '../../var.stylus'
   .form-filters
     .buttons
       display inline-block
@@ -617,6 +712,8 @@
     .el-select
       top 0
       vertical-align inherit
+    .item
+      display inline-block
   .types-sec
     &>span
       display inline-block
@@ -663,4 +760,9 @@
 <style lang="stylus">
   .search-lottery-popover
     background-color #fff !important
+</style>
+<style lang="stylus">
+.username-auto-ipt
+  .el-scrollbar__wrap
+    overflow auto
 </style>

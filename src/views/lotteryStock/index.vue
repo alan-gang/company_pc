@@ -1,55 +1,32 @@
-<template lang="jade">
-
-.lottery-stock
-  slot(name="toolbar")
-  //- MyContract.scroll-content(v-if=" I === 0 ")
-  //- SubContract.scroll-content(v-if=" I === 1 ")
-  //- MyStock.scroll-content(v-if=" I === 2 ")
-  //- SubStock.scroll-content(v-if=" I === 3 ")
-  //- ExpectStock.scroll-content(v-if=" I === 4 ")
-
-  Contract.scroll-content(v-if=" I === 0 ")
-  Stock.scroll-content(v-if=" I === 1 ")
-  ExpectStock.scroll-content(v-if=" I === 2 ")
-
+// 彩票分红管理
+<template>
+  <div class="lottery-stock">
+    <slot name="toolbar"></slot>
+    <Stock class="scroll-content" v-if=" I === 0 " :typeCode="0"/>
+    <Stock class="scroll-content" v-if=" I === 1 " :typeCode="1"/>
+    <TStock class="scroll-content" v-if=" I === 2 "/>
+    <Contract class="scroll-content" v-if=" I === 3 "/>
+  </div>
 </template>
 
 <script>
-// import MyContract from './MyContract'
-// import SubContract from './SubContract'
-// import MyStock from './MyStock'
-// import SubStock from './SubStock'
-// import ExpectStock from './ExpectStock'
-import Contract from '../group/Contract'
-import Stock from '../group/Stock'
-import ExpectStock from '../group/TStock'
-
 export default {
   components: {
-    Contract,
-    Stock,
-    ExpectStock
-    // MyContract,
-    // SubContract,
-    // MyStock,
-    // SubStock,
-    // ExpectStock
+    Stock: resolve => require(["../group/Stock"], resolve), //我的分红  下级分红
+    TStock: resolve => require(["../group/TStock"], resolve), //预期分红
+    Contract: resolve => require(["../group/Contract"], resolve) //彩票分红契约
   },
-  name: 'lottery-stock',
+  name: "lottery-stock",
   props: [],
-  data () {
+  data() {
     return {
       I: 0
-    }
+    };
   },
   methods: {
-    __setLotteryStockI (i) {
-      this.I = i
+    __setLotteryStockI(i) {
+      this.I = i;
     }
   }
-}
+};
 </script>
-
-<style lang="stylus">
-// 建议不添加scoped， 所有样式最多嵌套2层
-</style>

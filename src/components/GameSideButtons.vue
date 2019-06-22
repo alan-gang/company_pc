@@ -12,11 +12,9 @@
           .ds-button.recent-codes.fix-right(ref="instruction" style="padding: .05rem .1rem; position: absolute; left: 0; width: .4rem; top: 0; line-height: 1.5; z-index: 9999") 玩法说明
         slot
             p(style="line-height: .25rem")
-              span.label.text-blue.text-bold 玩法说明：
-              {{ type.description || '暂无' }}
+              span.label.text-blue.text-bold 玩法说明： {{ type.description || '暂无' }}
             p(style="line-height: .25rem")
-              span.label.text-blue.text-bold 中奖举例：
-              {{ type.example || '暂无' }}
+              span.label.text-blue.text-bold 中奖举例： {{ type.example || '暂无' }}
       
      
         

@@ -36,7 +36,8 @@
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 3")
         label(for="cb") 信游安全码：
-        input(v-model="cb_" id="cb" @keyup.enter="next")
+        span.table-cell.h100p
+          input(v-model="cb_" id="cb" @keyup.enter="next")
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
         label 已绑定手机为: 
@@ -141,7 +142,7 @@ export default {
       this.time = 5
       let t = setInterval(() => {
         this.time--
-        if (this.time === 0) this.$router.push('/login') && clearInterval(t)
+        if (this.time === 0) this.$router.push('/') && clearInterval(t)
       }, 1000)
     },
     next () {
@@ -327,6 +328,8 @@ export default {
             vertical-align middle
           label
             color LIGHT
+        .table-cell
+          display table-cell
         input
           height 100%
           border 0

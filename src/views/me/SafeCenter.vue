@@ -46,7 +46,7 @@
                 input.ds-input.large(v-model="newPwd" type="password")
                 span.mynotice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
                 input.ds-input.large(v-model="newPwdAgain" type="password")
 
@@ -58,7 +58,7 @@
                 input.ds-input.large(v-model="newCashPwd" type="password")
                 span.mynotice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
               p 确认密码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="newCashPwdAgain" type="password")
 
@@ -82,7 +82,7 @@
                 input.ds-input.large(type="password"  v-model="newCashPwd")
                 span.mynotice 由字母和数字组成6-16个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
               p 确认新密码：
                 input.ds-input.large(type="password"  v-model="newCashPwdAgain")
 
@@ -127,7 +127,7 @@
                 span.text-danger.ds-icon-unset(v-if="!me.birthday") 未设置
                 span(style="font-size: .12rem") （生日只能设置一次）
 
-              el-col(:span="4").toggle(v-show=" !me.birthday ")
+              el-col.toggle(:span="4" v-show=" !me.birthday ") 
                 .ds-button.text-button.blue(@click="index === 9 ? index = 0 : index = 9") {{ index === 9 ? '收起' : !me.birthday ? '立即设置' : '立即修改' }}
 
             el-row.action(v-if="index === 9" style="padding-left: 0")
@@ -162,7 +162,7 @@
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       //- 手机绑定
-      el-row.phone(v-bind:class="{expand: index === 4 }")
+      el-row.phone(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 4 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-phone 手机绑定
@@ -195,8 +195,8 @@
              button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 解绑
              .ds-button.cancel.large(@click="clearPhone") 清空
 
-      // 邮箱绑定
-      el-row.email(v-bind:class="{expand: index === 5 }")
+      //- 邮箱绑定
+      el-row.email(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 5 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-email 邮箱绑定
@@ -319,20 +319,20 @@
             
             .safe-check-form.form(style="margin-top: .3rem")
               .ds-checkbox-label.active.disabled
-                .ds-checkbox
-                资金密码验证
+                .ds-checkbox 
+                | 资金密码验证
 
               .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
-                .ds-checkbox
-                邮箱验证
+                .ds-checkbox 
+                | 邮箱验证
                 
               // .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
               //  .ds-checkbox
               //  手机验证
 
               .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
-                .ds-checkbox
-                信游安全认证
+                .ds-checkbox 
+                | 信游安全认证
 
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox

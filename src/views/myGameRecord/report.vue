@@ -13,7 +13,7 @@
       el-table.header-bold.nopadding(:data="profitAndLossSummaryData" style="margin: .2rem 0" stripe ref="table")  
         el-table-column(v-bind:prop="k" v-bind:label="v" v-for="(v, k, i) in profitAndLossSummaryTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''")
           template(scope="scope")
-            span {{tableCellDataFormat(profitAndLossSummaryAmountProp, k, scope.row)}}
+            span(:class="getCellClass(scope.row[k], profitAndLossSummaryAmountProp.indexOf(k) !== -1)") {{tableCellDataFormat(profitAndLossSummaryAmountProp, k, scope.row)}}
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table2")  
@@ -35,9 +35,9 @@
 
         el-table-column(prop="gameProfit" label="游戏盈亏" )
           template(scope="scope")
-            span {{tableCellDataFormat(amountColumnProp,"gameProfit", scope.row)}}
+            span(:class="getCellClass(scope.row.gameProfit, true)") {{tableCellDataFormat(amountColumnProp, "gameProfit", scope.row)}}
 
-        el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalaryColumn" )
+        el-table-column(prop="salary" label="日工资" v-if="I === 1 && showSalary" )
           template(scope="scope")
             span {{tableCellDataFormat(amountColumnProp,"salary", scope.row)}}    
 
@@ -51,7 +51,7 @@
 
         el-table-column(prop="totalProfit" label="总盈亏" )
           template(scope="scope")
-            span {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}
+            span(:class="getCellClass(scope.row.totalProfit, true)") {{tableCellDataFormat(amountColumnProp, "totalProfit", scope.row)}}
 
     el-pagination(:total="totalSize" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="curPage" small v-if=" totalSize > 20 " v-on:current-change="pageChanged")
 
@@ -126,16 +126,21 @@ export default {
       },
       curGameType: 0,
 
-      showSalaryColumn: false,
+      // showSalaryColumn: false,
       showUserPointColumn: false
+    }
+  },
+  computed: {
+    showSalary () {
+      return this.me.displayPermission.showSalary === 1
     }
   },
   created () {
   },
   mounted () {
-    this.acctSecureInfo((data) => {
-      this.showSalaryColumn = data.showSalary > 0
-    })
+    // this.acctSecureInfo((data) => {
+    //   this.showSalaryColumn = data.showSalary > 0
+    // })
     this.curGameType = this.gameTypeMap['tab' + this.I]
     this[this.methodsMap['tab' + this.I]]()
   },
@@ -147,6 +152,9 @@ export default {
     },
     tableCellDataFormat (columns, prop, row) {
       return columns.indexOf(prop) !== -1 ? this.numberWithCommas(row[`${prop}`]) : row[`${prop}`]
+    },
+    getCellClass (cloumnV, needColor) {
+      return needColor ? {'text-green': parseFloat(String(cloumnV).replace(/[,]/g, '')) > 0, 'text-danger': parseFloat(String(cloumnV).replace(/[,]/g, '')) < 0} : ''
     },
     /**
      * 盈亏汇总数据
