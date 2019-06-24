@@ -13,7 +13,7 @@
 
       .cashpwd-form.form(v-if="tabIndex === 0 && stepIndex === 0" style="padding-top: .4rem")
         p 资金密码： &nbsp;&nbsp;
-          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow")
+          input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkNow" maxLength="20")
         p(v-if=" me.safeCheck && me.safeCheck !== 3" style="margin-top: .2rem") 安全验证码：
             input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
             button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
@@ -194,6 +194,7 @@ import { Radio, RadioGroup, RadioButton } from 'element-ui'
 import SearchConditions from 'components/SearchConditions'
 import InputNumber from 'components/InputNumber'
 import Timer from '../../util/timer'
+import md5 from 'md5'
 // import util from '../../util'
 export default {
   mixins: [xhr],
@@ -365,7 +366,7 @@ export default {
       this.checkSecurityPwd()
     },
     checkSecurityPwd () {
-      this.$http.post(api.checkSecurityPwd, {password: this.cpwd}).then(({data}) => {
+      this.$http.post(api.checkSecurityPwd, {password: md5(this.cpwd)}).then(({data}) => {
         if (data.success === 1) {
           if (this.me.safeCheck) {
             return this.checkSafeCode()

@@ -9,11 +9,11 @@
 
     div.form-item
       label.item.ds-input &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码:
-        input(v-model="pwd"  type="password" placeholder="请输入密码")
+        input(v-model="pwd"  type="password" placeholder="请输入密码" maxLength="20")
 
     div.form-item
       label.item.ds-input 确认密码:
-        input(v-model="pwda"  type="password" placeholder="请再次输入密码")
+        input(v-model="pwda"  type="password" placeholder="请再次输入密码" maxLength="20")
 
     div.form-item
       label.item.ds-input &nbsp;&nbsp;&nbsp;&nbsp;推广码:
