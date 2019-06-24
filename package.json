@@ -24,6 +24,7 @@
   "dependencies": {
     "echarts": "^4.1.0",
     "lodash": "^4.17.4",
+    "md5": "^2.2.1",
     "simple-web-worker": "^1.2.0",
     "store": "^2.0.12",
     "vue": "^2.5.16",

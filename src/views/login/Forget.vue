@@ -243,7 +243,7 @@ export default {
           break
         case 2:
           noEmpty = this.newpwd
-          if (!Validate.pwd(this.newpwd)) (notice = '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！') && (noEmpty = false)
+          if (!Validate.pwd(this.newpwd)) (notice = '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！') && (noEmpty = false)
           else if (this.newpwdrepeat !== this.newpwd) (notice = '两次输入的密码不一致！') && (noEmpty = false)
       }
       if (!noEmpty) {

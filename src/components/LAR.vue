@@ -10,10 +10,13 @@
             input( v-model="r.un" autofocus placeholder="用户名")
 
           dd.ab
-              input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password")
-
+            input(v-model="r.pwd" type="password" placeholder="密码" autocomplete="new-password" maxLength="20" v-on:keyup="pwdKeyUp")
+          dd.pwd-status-check-row(v-show="r.pwd.length > 0")
+            PwdStatusCheckBar(v-bind:state="pwdState")
           dd.ac
-              input(v-model="r.pwda" type="password" placeholder="确认密码")
+              input(v-model="r.pwda" type="password" placeholder="确认密码" maxLength="20" v-on:keyup="aPwdKeyUp")
+          dd.pwd-status-check-row(v-show="r.pwda.length > 0")
+            PwdStatusCheckBar(v-bind:state="aPwdState")
           dd.ad
               input(v-model="r.code" placeholder="推广码")
   
@@ -61,9 +64,11 @@ import xhr from './xhr'
 import api from '../http/api'
 import Validate from '../util/Validate'
 import store from '../store'
+import PwdStatusCheckBar from './PwdStatusCheckBar'
 export default {
   mixins: [xhr],
   components: {
+    PwdStatusCheckBar
   },
   name: 'login-and-register',
   props: [],
@@ -83,7 +88,9 @@ export default {
         un: '',
         pwd: ''
       },
-      regard: false
+      regard: false,
+      pwdState: -1,
+      aPwdState: -1
     }
   },
   created () {
@@ -98,6 +105,12 @@ export default {
   methods: {
     __LARCODE () {
       this._getVerifyImage()
+    },
+    pwdKeyUp () {
+      this.pwdState = Validate.getPwdSafeLevel(this.r.pwd) - 1
+    },
+    aPwdKeyUp () {
+      this.aPwdState = Validate.getPwdSafeLevel(this.r.pwda) - 1
     },
     // 登录
     login () {
@@ -157,7 +170,10 @@ export default {
       if (!this.r.un) return this.$message.warning({target: this.$el, message: '请输入用户名'})
       if (!Validate.account(this.r.un)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
       if (!this.r.pwd) return this.$message.warning({target: this.$el, message: '请输入密码'})
+      if (!Validate.pwd(this.r.pwd)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
       if (this.r.pwd !== this.r.pwda) return this.$message.warning({target: this.$el, message: '两次密码输入不一致'})
+      if (!Validate.pwd(this.r.pwda)) return this.$message.warning({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
+      if (this.pwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
       if (!this.tag && !this.r.code) return this.$message.warning({target: this.$el, message: '请输入推广码'})
       if (!this.code_) return this.$message.error({target: this.$el, message: '请输入验证码'})
       this.$http.post(api.autoRegist, {
@@ -212,8 +228,11 @@ export default {
 // 建议不添加scoped， 所有样式最多嵌套2层
 .login-and-register
   background-color #e9e9e9
+  .pwd-status-check-row
+    background-color transparent
+    // margin -0.1rem 0 0.05rem 0
   .content-width
-    height 3.49rem
+    min-height 3.49rem
     
   .a, .b, .c, .d
     min-height 3rem
