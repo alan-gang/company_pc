@@ -1,12 +1,12 @@
 // 其他分红管理
-<template>
-  <div class="other-stock">
-    <slot name="toolbar"/>
-    <OtherProfit class="scroll-content" v-if=" I === 0 " :typeCode="0"/>
-    <OtherProfit class="scroll-content" v-if=" I === 1 " :typeCode="1"/>
-    <TOtherProfit class="scroll-content" v-if=" I === 2 "/>
-    <OtherContract class="scroll-content" v-if=" I === 3 "/>
-  </div>
+<template lang="jade">
+  .other-stock
+    slot(name='toolbar')
+    otherprofit.scroll-content(v-if=' I === 0 ', :typecode='0')
+    otherprofit.scroll-content(v-if=' I === 1 ', :typecode='1')
+    totherprofit.scroll-content(v-if=' I === 2 ')
+    othercontract.scroll-content(v-if=' I === 3 ')
+
 </template>
 
 <script>
