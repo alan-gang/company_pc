@@ -2,10 +2,10 @@
 <template lang="jade">
   .lottery-stock
     slot(name='toolbar')
-    stock.scroll-content(v-if=' I === 0 ', :typecode='0')
-    stock.scroll-content(v-if=' I === 1 ', :typecode='1')
-    tstock.scroll-content(v-if=' I === 2 ')
-    contract.scroll-content(v-if=' I === 3 ')
+    Stock.scroll-content(v-if=' I === 0 ', :typecode='0')
+    Stock.scroll-content(v-if=' I === 1 ', :typecode='1')
+    TStock.scroll-content(v-if=' I === 2 ')
+    Contract.scroll-content(v-if=' I === 3 ')
 
 </template>
 
