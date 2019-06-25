@@ -320,7 +320,7 @@ export default {
   },
   data() {
     return {
-      bonusReleaseCycle: null, // 分红周期，-1:没有契约； 1:月；2:半月；3:周；
+      bonusReleaseCycle: null, // 分红周期，-1:没有契约(显示半月)； 1:月；2:半月；3:周；
       cuserPoint: null,
       TH: 270,
       numberWithCommas,
@@ -379,7 +379,7 @@ export default {
     bonusReleaseCycle(val) {
       let r = [];
       // 前三个月包括本月
-      if (val && val < 2) {
+      if (val && val === 1) {
         r.push(
           {
             label: `${new Date().getMonth() + 1}月`,
@@ -425,7 +425,7 @@ export default {
         );
       }
       // 前三个半月
-      if (val && val === 2) {
+      if (val && val === 2 || val === -1) {
         //
         if (new Date().getDate() > 16) {
           r.push(

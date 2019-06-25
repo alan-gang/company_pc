@@ -21,7 +21,7 @@
           span &nbsp;&nbsp;期
           //- p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
           el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' + ' g_' + gameid " v-bind:visible-arrow=" va ") 
-            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 || gameid === 29 " style="cursor: pointer;") 开奖号码说明
+            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 ||gameid === 162 || gameid === 161 || gameid === 29 " style="cursor: pointer;") 开奖号码说明
             slot
               div(style="width: 8.5rem" v-if=" gameid === 150 ")
                 div
@@ -53,6 +53,10 @@
                   p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
                   p 腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
+              div(style="width: 8.5rem" v-if=" gameid === 161 ")
+                div(v-html="game161info")
+              div(style="width: 8.5rem" v-if=" gameid === 162 ")
+                div(v-html="game162info" style="word-wrap: break-word;word-break: normal;")
               div(style="width: 6rem" v-if=" gameid === 29 ")
                 div
                   p 腾讯分分彩，开奖数据源于每分钟腾讯QQ的在线用户人数数字生成一个五位数字。
@@ -125,7 +129,34 @@ export default {
       volume: false,
       ranks: [],
       preissue: '',
-      lstt: ''
+      lstt: '',
+      //阿里云分分彩 开奖号码说明
+      game161info: `《阿里云分分彩》每期开奖号码根据阿里云官网主页（<a class="default" target="_blank" href="https:/cn.aliyun.com/">https:/cn.aliyun.com/</a>）“防御攻击次数”计算而成。<br/>
+阿里云分分彩规则介绍：<br/>
+1、以每分钟阿里云的防御攻击次数数字生成一个五位数字作为阿里云分分彩当期的开奖号码；<br/>
+2、开奖号码的第一位（即万位）数字为阿里云官网当前防御攻击次数总和的尾数；<br/>
+&nbsp;（如：当期采集数据为14,530,580,511，即开奖号码万位为1+4+5+3+0+5+8+0+5+1+1=33 取尾数3）<br/>
+3、开奖号码的后四位（即千百十位）数字对应防御攻击次数的后四位数字 ；<br/>
+&nbsp;（如：当期采集数据为14,530,580,511，即后四位开奖号码为,0511，结合第二点，完整开奖号即为3 0511）<br/>
+&nbsp;4、阿里云分分彩种每分钟一期，全天24小时不间断开放。<br/>
+&nbsp;5、阿里云分分彩开奖结果数据源来源请参考：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/5">https://www.qiju.info/#/qijuData/5</a><br/>
+<br/>
+此彩种注数限制75%，单期限额30万，单挑限额2万。<br/>
+如当期开奖号码官网未开奖且三分钟内未进行补开，或开奖号码与上期相同，则进行撤单处理。`,
+      //阿里云赛车 开奖号码说明
+      game162info: `阿里云赛车（PK10）开奖号码是使用当期「阿里云实时防御攻击次数」加上「统计时间」以及【防御次数数字之和】， 使用SHA512哈希算法执行哈希取得哈希值后，依据最先出现的数字做为赛车结果，0代表10号车。<br/>
+<br/>
+<br/>
+以统计时间2019-06-21 14:47:00为范例，当期的阿里云实时防御攻击次数为4193188428， 系统会利用阿里云实时防御攻击次数+统计时间+防御攻击次数数字总和=> 41931884282019-06-21 14:47:0048执行SHA512哈希算法取得赛车结果。<br/>
+<br/>
+bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78b55de027ddca3108c72215ded704ba005dbf92eb83f7d96b
+<br/>
+在这个哈希值中，数字4最先出现，数字2次之，再是数字3，之后分别是数字6、数字1、数字10、数字5、数字8、数字7、数字9。
+<br/>
+因此当期的赛车结果为：4,2,3,6,1,10,5,8,7,9。
+<br/>
+<br/>
+腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/5">https://www.qiju.info/#/qijuData/5</a>`
     }
   },
   computed: {
