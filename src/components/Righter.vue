@@ -48,7 +48,7 @@
         Me: store.state.user,
         store: store,
         amount: 0,
-        skins: ['/static/skins/bg_10.jpg', '/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
+        skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
         // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
     },
