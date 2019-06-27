@@ -19,12 +19,12 @@
 <script>
 import lottery from "../lottery"; //彩票
 import tripartite from "../tripartite"; //三方
-import outReportCard from "../outReport/outReportCard"; //棋牌   //微游
+import outreportcard from "../outReport/outReportCard"; //棋牌   //微游
 export default {
   components: {
     lottery,
     tripartite,
-    outReportCard
+    outreportcard
     // lottery: resolve => require(["../lottery"], resolve), //彩票
     // tripartite: resolve => require(["../tripartite"], resolve), //三方
     // outReportCard: resolve => require(["../outReport/outReportCard"], resolve) //棋牌   //微游

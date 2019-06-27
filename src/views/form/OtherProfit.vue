@@ -112,7 +112,7 @@
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import profitSend from "./profitSend";
+import profitsend from "./profitSend";
 import { numberWithCommas } from "../../util/Number";
 import api from "../../http/api";
 import store from "../../store";
@@ -120,7 +120,7 @@ import { dateFormat } from "../../util/Date";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    profitSend
+    profitsend
   },
   props: ["typeCode"],
   data() {

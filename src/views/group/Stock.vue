@@ -63,7 +63,7 @@
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import StockDetail from "./StockDetail";
+import stockdetail from "./StockDetail";
 import api from "../../http/api";
 import store from "../../store";
 import { dateFormat } from "../../util/Date";
@@ -71,7 +71,7 @@ import { numberWithCommas } from "../../util/Number";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    StockDetail
+    stockdetail
   },
   props: ["typeCode"],
   data() {
