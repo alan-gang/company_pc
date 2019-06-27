@@ -161,7 +161,7 @@
             span.title 契约详情
             el-button-group
               el-button.close(icon='close', @click="showDetail = ''")
-          contractdetail(v-bind:id=' showDetail ', v-bind:myself='Ismyself ', v-bind:ctype='cType', style='min-height: 5rem;')
+          contractdetail(v-bind:id=' showDetail ', v-bind:myself='Ismyself ', v-bind:cType='cType', style='min-height: 5rem;')
 
 </template>
 
