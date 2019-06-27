@@ -148,9 +148,9 @@ const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ProfitLossDetail: resolve => require(["./ProfitLossDetail"], resolve),
-    Stock: resolve => require(["../group/Stock"], resolve),
-    TStock: resolve => require(["../group/TStock"], resolve)
+    profitlossdetail: resolve => require(["./ProfitLossDetail"], resolve),
+    stock: resolve => require(["../group/Stock"], resolve),
+    tstock: resolve => require(["../group/TStock"], resolve)
   },
   data() {
     return {

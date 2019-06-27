@@ -169,16 +169,16 @@
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import ContractDetail from "./ContractDetail";
-import OtherContract from "./OtherContract";
+import contractdetail from "./ContractDetail";
+import othercontract from "./OtherContract";
 import api from "../../http/api";
 import { dateTimeFormat } from "../../util/Date";
 import store from "../../store";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ContractDetail,
-    OtherContract
+    contractdetail,
+    othercontract
   },
   data() {
     return {

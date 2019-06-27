@@ -12,9 +12,9 @@
 <script>
 export default {
   components: {
-    OtherProfit: resolve => require(["../form/OtherProfit"], resolve), //我的其他分红  下级其他分红
-    TOtherProfit: resolve => require(["../form/TOtherProfit"], resolve), //预期其他分红
-    OtherContract: resolve => require(["../group/OtherContract"], resolve) //契约其他分红
+    otherprofit: resolve => require(["../form/OtherProfit"], resolve), //我的其他分红  下级其他分红
+    totherprofit: resolve => require(["../form/TOtherProfit"], resolve), //预期其他分红
+    othercontract: resolve => require(["../group/OtherContract"], resolve) //契约其他分红
   },
   name: "other-stock",
   props: [],
