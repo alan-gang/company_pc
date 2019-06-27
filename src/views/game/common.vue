@@ -494,8 +494,8 @@ export default {
         // })
         if (data.success > 0) {
           this.PS = data.items
-          this.dtMaxPrize = (data.dtMaxPrize || 30000) * 1
-          this.dzMaxPrize = (data.dzMaxPrize || 400000) * 1
+          this.dtMaxPrize = (data.dtMaxPrize * 1) || 30000
+          this.dzMaxPrize = (data.dzMaxPrize * 1) || 400000
         }
         this.menuItemArray.forEach(mi => {
           // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
