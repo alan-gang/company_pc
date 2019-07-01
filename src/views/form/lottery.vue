@@ -1,308 +1,142 @@
 // 团队盈亏-彩票
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div class="form form-filters my-el">
-        <span>
-          <el-button @click="ClickToday" size="small">今天</el-button>
-          <el-button @click="ClickYesterday" size="small">昨天</el-button>
-          <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
-          <el-button
-            v-for="v in dateSub"
-            :key="v.label"
-            size="small"
-            @click="stEt = v.val"
-          >{{v.label}}</el-button>
-        </span>
-        <span>
-          排序
-          <el-button size="small" @click="ClickSort('betAmount')">
-            投注
-            <template v-if="orderBy=='betAmount'&&ascOrDesc==2">↑</template>
-            <template v-if="orderBy=='betAmount'&&ascOrDesc==1">↓</template>
-          </el-button>
-          <el-button size="small" @click="ClickSort('settleAmount')">
-            总盈亏
-            <template v-if="orderBy=='settleAmount'&&ascOrDesc==2">↑</template>
-            <template v-if="orderBy=='settleAmount'&&ascOrDesc==1">↓</template>
-          </el-button>
-          <el-button size="small" @click="ClickSort('gameSettleAmount')">
-            游戏盈亏
-            <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2">↑</template>
-            <template v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1">↓</template>
-          </el-button>
-        </span>
-        <span>
-          显示
-          <el-select v-model="ot" placeholder="请选择">
-            <el-option label="投注的" value="0"/>
-            <el-option label="全部" value="1"/>
-          </el-select>
-        </span>
-        <span>
-          团队
-          <el-autocomplete
-            v-model="name"
-            :fetch-suggestions="UserSearch"
-            placeholder="请输入用户名"
-            style="width: 1.1rem;"
-            @select="profitList"
-            popper-class="autocompleteuser"
-          ></el-autocomplete>
-        </span>&nbsp;&nbsp;
-        <div class="ds-button primary large bold" @click="profitList()">搜索</div>
-      </div>
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      .form.form-filters.my-el
+        span
+          el-button(@click='ClickToday', size='small') 今天
+          el-button(@click='ClickYesterday', size='small') 昨天
+          el-button(@click='ClickBeforeYesterday', size='small') 前天
+          el-button(v-for='v in dateSub', :key='v.label', size='small', @click='stEt = v.val') {{v.label}}
+        span
+          | 排序
+          el-button(size='small', @click="ClickSort('betAmount')")
+            | 投注
+            template(v-if="orderBy=='betAmount'&&ascOrDesc==2") ↑
+            template(v-if="orderBy=='betAmount'&&ascOrDesc==1") ↓
+          el-button(size='small', @click="ClickSort('settleAmount')")
+            | 总盈亏
+            template(v-if="orderBy=='settleAmount'&&ascOrDesc==2") ↑
+            template(v-if="orderBy=='settleAmount'&&ascOrDesc==1") ↓
+          el-button(size='small', @click="ClickSort('gameSettleAmount')")
+            | 游戏盈亏
+            template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2") ↑
+            template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1") ↓
+        span
+          | 显示
+          el-select(v-model='ot', placeholder='请选择')
+            el-option(label='投注的', value='0')
+              el-option(label='全部', value='1')
+        span
+          | 团队
+          el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+        .ds-button.primary.large.bold(@click='profitList()') 搜索
+      div
+        .table-list(style='padding: .15rem .2rem;')
+          p(style='margin: 0 0 .15rem 0;')
+            el-breadcrumb(separator='>')
+              el-breadcrumb-item(v-for='(B, i) in BL', :key='B.userId', @click.native=' link(B, i) ') {{ i === 0 ? '自己' : B.userName }}
+          //
+            show-summary="show-summary"
+            v-bind:summary-method="getSummaries"
+          el-table.header-bold.nopadding(:data='data', style='; margin: 0;', ref='table', stripe='stripe', @cell-click='cellClick', v-bind:row-class-name='tableRowClassName', v-bind:max-height=' MH ', @sort-change='sortChange')
+            el-table-column(class-name='pl2', prop='userName', label='用户名')
+              template(scope='scope')
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                  | {{ scope.row.userName }}
+                  template(v-if='me.account==scope.row.userName') (我)
+            el-table-column(prop='gameUserCount', :label="(Daily ? '日均' : '') +'游戏人数'", sortable='custom', align='center')
+            el-table-column(prop='betAmount', label='投注', sortable='custom', align='center')
+              template(scope='scope')
+                span {{ scope.row.betAmount && scope.row.betAmount._nwc()}}
+                // <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
+            el-table-column(prop='prizeAmount', label='派奖', sortable='custom', align='center')
+              template(scope='scope')
+                span {{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}
+            el-table-column(prop='gameSettleAmount', label='游戏盈亏', sortable='custom', align='center')
+              template(scope='scope')
+                span(:class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } ") {{ scope.row.gameSettleAmount && scope.row.gameSettleAmount._nwc()}}
+            el-table-column(prop='pointAmount', label='返点金额', sortable='custom', align='center', v-if='me.displayPermission.showpoint')
+              template(scope='scope')
+                span {{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}
+            el-table-column(prop='activityAmount', label='活动', sortable='custom', align='center')
+              template(scope='scope')
+                span {{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}
+            el-table-column(prop='salaryAmount', label='日工资', sortable='custom', align='center', v-if='me.displayPermission.showSalary')
+              template(scope='scope')
+                span {{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}
+            el-table-column(prop='settleAmount', label='总盈亏', sortable='custom', align='center')
+              template(scope='scope')
+                span(:class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } ") {{ scope.row.settleAmount && scope.row.settleAmount._nwc()}}
+            el-table-column(label='操作', align='center')
+              template(scope='scope')
+                // 最后一条合计 不显示操作按钮
+                .ds-button.text-button.blue(v-show='Daily && scope.$index+1!=data.length', style='padding: 0 .05rem;', @click.stop='(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)') 明细
+          el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+      stock(v-if=' I === 1 ')
+      tstock(v-if=' I === 2 ')
+    .modal(v-show='showDetail')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='width: 10rem; max-height: 9rem; height: 6.2rem;')
+          .tool-bar
+            span.title 明细
+            el-button-group
+              el-button.close(icon='close', @click="showDetail = ''")
+          .table-list(style='padding: .15rem .2rem ;')
+            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
+              | 明细-{{profitDetailROW && profitDetailROW.userName}}(
+              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              | )
+            // v-bind:summary-method="getSummaries"
+            el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
+              //
+                <el-table-column class-name="pl2" prop="userName" label="用户名">
+                <template scope="scope">
+                <span
+                class="pointer text-blue"
+                :class=" { 'text-danger': scope.row.userName === me.account } "
+                >{{ scope.row.userName }}</span>
+                </template>
+                </el-table-column>
+              el-table-column(prop='date', label='日期', align='center')
+                template(scope='scope')
+                  span(v-if="scope.row.userName=='合计'") {{ scope.row.userName }}
+                  span(v-if="scope.row.userName!='合计'") {{ scope.row.date }}
+              el-table-column(align='right', prop='betAmount', label='投注')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.betAmount) }}
+              el-table-column(align='right', prop='prizeAmount', label='派奖')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.prizeAmount) }}
+              el-table-column(align='right', prop='gameSettleAmount', label='游戏盈亏')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } ") {{ numberWithCommas(scope.row.gameSettleAmount) }}
+              // me.showBackWater ‰
+              el-table-column(align='right', label='返点级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint')
+                template(scope='scope')
+                  span(v-if='numberWithCommas(cuserPoint)') {{ numberWithCommas(cuserPoint)}}%
+                  span(v-if='!numberWithCommas(cuserPoint)') --
+              // me.showBackWate
+              el-table-column(align='right', prop='pointAmount', label='返点金额', v-if='me.displayPermission.showpoint')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.pointAmount) }}
+              el-table-column(align='right', prop='activityAmount', label='活动')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.activityAmount) }}
+              el-table-column(align='right', prop='salaryAmount', label='日工资', v-if='me.displayPermission.showSalary')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.salaryAmount) }}
+              el-table-column(align='right', class-name=' pr2 ', prop='settleAmount', label='总盈亏', min-width='120')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } ") {{ scope.row.settleAmount &&scope.row.settleAmount._nwc() }}
+            el-pagination(:total='ctotal', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='ccurrentPage', small='small', v-if=' ctotal > pageSize ', v-on:current-change='cpageChanged')
 
-      <div>
-        <div class="table-list" style="padding: .15rem .2rem;">
-          <p style="margin: 0 0 .15rem 0;">
-            <el-breadcrumb separator=">">
-              <el-breadcrumb-item
-                v-for="(B, i) in BL"
-                :key="B.userId"
-                @click.native=" link(B, i) "
-              >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
-            </el-breadcrumb>
-          </p>
-          <!-- show-summary="show-summary"
-          v-bind:summary-method="getSummaries"-->
-          <el-table
-            class="header-bold nopadding"
-            :data="data"
-            style="; margin: 0;"
-            ref="table"
-            stripe="stripe"
-            @cell-click="cellClick"
-            v-bind:row-class-name="tableRowClassName"
-            v-bind:max-height=" MH "
-            @sort-change="sortChange"
-          >
-            <el-table-column class-name="pl2" prop="userName" label="用户名">
-              <template scope="scope">
-                <span
-                  :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
-                >
-                  {{ scope.row.userName }}
-                  <template v-if="me.account==scope.row.userName">(我)</template>
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="gameUserCount"
-              :label="(Daily ? '日均' : '') +'游戏人数'"
-              sortable="custom"
-              align="center"
-            ></el-table-column>
-            <el-table-column prop="betAmount" label="投注" sortable="custom" align="center">
-              <template scope="scope">
-                <span>{{ scope.row.betAmount && scope.row.betAmount._nwc()}}</span>
-                <!-- <span>{{ numberWithCommas(scope.row.betAmount) }}</span> -->
-              </template>
-            </el-table-column>
-            <el-table-column prop="prizeAmount" label="派奖" sortable="custom" align="center">
-              <template scope="scope">
-                <span>{{ scope.row.prizeAmount && scope.row.prizeAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="gameSettleAmount" label="游戏盈亏" sortable="custom" align="center">
-              <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } "
-                >{{ scope.row.gameSettleAmount && scope.row.gameSettleAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="pointAmount"
-              label="返点金额"
-              sortable="custom"
-              align="center"
-              v-if="me.displayPermission.showpoint"
-            >
-              <template scope="scope">
-                <span>{{ scope.row.pointAmount && scope.row.pointAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="activityAmount" label="活动" sortable="custom" align="center">
-              <template scope="scope">
-                <span>{{ scope.row.activityAmount && scope.row.activityAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="salaryAmount"
-              label="日工资"
-              sortable="custom"
-              align="center"
-              v-if="me.displayPermission.showSalary"
-            >
-              <template scope="scope">
-                <span>{{ scope.row.salaryAmount && scope.row.salaryAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="settleAmount" label="总盈亏" sortable="custom" align="center">
-              <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } "
-                >{{ scope.row.settleAmount && scope.row.settleAmount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" align="center">
-              <template scope="scope">
-                <!-- 最后一条合计 不显示操作按钮 -->
-                <div
-                  v-show="Daily && scope.$index+1!=data.length"
-                  class="ds-button text-button blue"
-                  style="padding: 0 .05rem;"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
-                >明细</div>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            :total="total"
-            v-bind:page-size="pageSize"
-            layout="prev, pager, next, total"
-            v-bind:page-sizes="[5, 10, 15, 20]"
-            v-bind:current-page="currentPage"
-            small="small"
-            v-if=" total > pageSize "
-            v-on:current-change="pageChanged"
-          ></el-pagination>
-        </div>
-      </div>
-      <Stock v-if=" I === 1 "></Stock>
-      <TStock v-if=" I === 2 "></TStock>
-    </div>
-    <div class="modal" v-show="showDetail">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">明细</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
-            </el-button-group>
-          </div>
-          <div class="table-list" style="padding: .15rem .2rem ;">
-            <div
-              class="lotterymyinfo"
-              :class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'"
-            >
-              明细-{{profitDetailROW && profitDetailROW.userName}}(
-              {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
-              )
-            </div>
-            <!-- v-bind:summary-method="getSummaries" -->
-            <el-table
-              class="header-bold nopadding"
-              :data="cdata"
-              stripe="stripe"
-              ref="itable"
-              max-height="500"
-              v-bind:row-class-name="tableRowClassName"
-              style="margin: .2rem 0 0 0;"
-            >
-              <!-- <el-table-column class-name="pl2" prop="userName" label="用户名">
-                <template scope="scope">
-                  <span
-                    class="pointer text-blue"
-                    :class=" { 'text-danger': scope.row.userName === me.account } "
-                  >{{ scope.row.userName }}</span>
-                </template>
-              </el-table-column>-->
-              <el-table-column prop="date" label="日期" align="center">
-                <template scope="scope">
-                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
-                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="betAmount" label="投注">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.betAmount) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="prizeAmount" label="派奖">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.prizeAmount) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="gameSettleAmount" label="游戏盈亏">
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.gameSettleAmount && scope.row.gameSettleAmount._o0(), 'text-danger': scope.row.gameSettleAmount && scope.row.gameSettleAmount._l0() } "
-                  >{{ numberWithCommas(scope.row.gameSettleAmount) }}</span>
-                </template>
-              </el-table-column>
-              <!-- me.showBackWater ‰-->
-              <el-table-column
-                align="right"
-                label="返点级别"
-                v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.displayPermission.showpoint"
-              >
-                <template scope="scope">
-                  <span v-if="numberWithCommas(cuserPoint)">{{ numberWithCommas(cuserPoint)}}%</span>
-                  <span v-if="!numberWithCommas(cuserPoint)">--</span>
-                </template>
-              </el-table-column>
-              <!-- me.showBackWate -->
-              <el-table-column
-                align="right"
-                prop="pointAmount"
-                label="返点金额"
-                v-if="me.displayPermission.showpoint"
-              >
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.pointAmount) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="activityAmount" label="活动">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.activityAmount) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="right"
-                prop="salaryAmount"
-                label="日工资"
-                v-if="me.displayPermission.showSalary"
-              >
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.salaryAmount) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="right"
-                class-name=" pr2 "
-                prop="settleAmount"
-                label="总盈亏"
-                min-width="120"
-              >
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.settleAmount && scope.row.settleAmount._o0(), 'text-danger': scope.row.settleAmount && scope.row.settleAmount._l0() } "
-                  >{{ scope.row.settleAmount &&scope.row.settleAmount._nwc() }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-pagination
-              :total="ctotal"
-              v-bind:page-size="pageSize"
-              layout="prev, pager, next, total"
-              v-bind:page-sizes="[5, 10, 15, 20]"
-              v-bind:current-page="ccurrentPage"
-              small="small"
-              v-if=" ctotal > pageSize "
-              v-on:current-change="cpageChanged"
-            ></el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -314,9 +148,9 @@ const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ProfitLossDetail: resolve => require(["./ProfitLossDetail"], resolve),
-    Stock: resolve => require(["../group/Stock"], resolve),
-    TStock: resolve => require(["../group/TStock"], resolve)
+    profitlossdetail: resolve => require(["./ProfitLossDetail"], resolve),
+    stock: resolve => require(["../group/Stock"], resolve),
+    tstock: resolve => require(["../group/TStock"], resolve)
   },
   data() {
     return {

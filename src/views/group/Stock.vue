@@ -1,126 +1,69 @@
 // 我的分红  下级分红
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div class="form">
-        <div class="form-filters my-el" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
-          <span>
-            结算日&nbsp;
-            <el-button v-for="v in settlementSub" :key="v" size="small" @click="settlement=v">{{v}}</el-button>
-          </span>
-          <span>
-            &nbsp;状态&nbsp;
-            <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </span>
-          <span v-if="$props.typeCode === 1">
-            用户名&nbsp;
-            <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </span>&nbsp;&nbsp;
-          <span>
-            <div class="ds-button primary large bold" @click="bonus">搜索</div>
-          </span>
-        </div>
-        <el-table
-          class="header-bold nopadding"
-          :data="bonusList"
-          ref="table"
-          stripe="stripe"
-          show-summary="show-summary"
-          v-bind:summary-method="getSummaries"
-          v-bind:max-height=" MH "
-          v-bind:row-class-name="tableRowClassName"
-        >
-          <el-table-column prop="issue" label="结算日期"></el-table-column>
-          <el-table-column label="分红周期">
-            <template scope="scope">
-              <span>{{ ProfitPeriodCount(scope.row) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="彩票总销量">
-            <template scope="scope">
-              <span>{{ numberWithCommas(scope.row.saleAmount) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="彩票总盈亏">
-            <template scope="scope">
-              <span
-                :class=" {'text-green': scope.row.profitAmount && scope.row.profitAmount._o0(), 'text-danger': scope.row.profitAmount && scope.row.profitAmount._l0() } "
-              >{{ scope.row.profitAmount &&scope.row.profitAmount._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column prop="rewards" label="活动费用">
-            <template scope="scope">
-              <span>{{ scope.row.rewards &&scope.row.rewards._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="bonusRate" label="分红比例">
-            <template scope="scope">
-              <span>{{ scope.row.bonusRate }}%</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="bonus" label="分红金额">
-            <template scope="scope">
-              <span>{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="status" label="状态">
-            <template scope="scope">
-              <span :class=" STATUS[scope.row.isDone].css ">{{ STATUS[scope.row.isDone].title }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="userpoint" label="操作" align="center">
-            <template scope="scope">
-              <div
-                class="ds-button text-button blue"
-                style="padding: 0 .05rem;"
-                @click.stop=" (showDetail = scope.row.id)"
-              >查看详情</div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          :total="total"
-          v-bind:page-size="pageSize"
-          layout="prev, pager, next, total"
-          v-bind:page-sizes="[5, 10, 15, 20]"
-          v-bind:current-page="currentPage"
-          small="small"
-          v-if=" total > pageSize "
-          v-on:current-change="pageChanged"
-        ></el-pagination>
-      </div>
-    </div>
-    <div class="modal" v-if="showDetail">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">分红详情{{this.$props.typeCode }}</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
-            </el-button-group>
-          </div>
-          <StockDetail
-            v-bind:id=" showDetail "
-            v-bind:myself=" !this.$props.typeCode "
-            v-bind:type="'qryBonusById'"
-            style="min-height: 5.7rem;"
-          ></StockDetail>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      .form
+        .form-filters.my-el(style='padding: .15rem; margin: .1rem 0 .2rem 0;')
+          span
+            | 结算日 
+            el-button(v-for='v in settlementSub', :key='v', size='small', @click='settlement=v') {{v}}
+          span
+            | 状态 
+            el-button(v-for='v in STATUS', :key='v.title', size='small', @click='s=v.id') {{v.title}}
+          span(v-if='$props.typeCode === 1')
+            | 用户名 
+            input.ds-input.small(v-model='name', style='width: 1rem;')
+          span
+            .ds-button.primary.large.bold(@click='bonus') 搜索
+        el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
+          el-table-column(prop='issue', label='结算日期')
+          el-table-column(label='分红周期')
+            template(scope='scope')
+              span {{ ProfitPeriodCount(scope.row) }}
+          el-table-column(label='彩票总销量')
+            template(scope='scope')
+              span {{ numberWithCommas(scope.row.saleAmount) }}
+          el-table-column(label='彩票总盈亏')
+            template(scope='scope')
+              span(:class=" {'text-green': scope.row.profitAmount && scope.row.profitAmount._o0(), 'text-danger': scope.row.profitAmount && scope.row.profitAmount._l0() } ") {{ scope.row.profitAmount &&scope.row.profitAmount._nwc() }}
+          el-table-column(prop='actUser', label='有效人数')
+          el-table-column(prop='rewards', label='活动费用')
+            template(scope='scope')
+              span {{ scope.row.rewards &&scope.row.rewards._nwc() }}
+          el-table-column(prop='bonusRate', label='分红比例')
+            template(scope='scope')
+              span {{ scope.row.bonusRate }}%
+          el-table-column(prop='bonus', label='分红金额')
+            template(scope='scope')
+              span
+                | {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus._nwc() }}
+          el-table-column(prop='status', label='状态')
+            template(scope='scope')
+              span(:class=' STATUS[scope.row.isDone].css ') {{ STATUS[scope.row.isDone].title }}
+          el-table-column(prop='userpoint', label='操作', align='center')
+            template(scope='scope')
+              .ds-button.text-button.blue(style='padding: 0 .05rem;', @click.stop=' (showDetail = scope.row.id)') 查看详情
+        el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+    .modal(v-if='showDetail')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='max-width: 5rem; max-height: 9rem; height: 6.2rem;')
+          .tool-bar
+            span.title 分红详情{{this.$props.typeCode}}
+            el-button-group
+              el-button.close(icon='close', @click="showDetail = ''")
+          stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !this.$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
+
 </template>
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import StockDetail from "./StockDetail";
+import stockdetail from "./StockDetail";
 import api from "../../http/api";
 import store from "../../store";
 import { dateFormat } from "../../util/Date";
@@ -128,7 +71,7 @@ import { numberWithCommas } from "../../util/Number";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    StockDetail
+    stockdetail
   },
   props: ["typeCode"],
   data() {

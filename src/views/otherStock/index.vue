@@ -1,20 +1,20 @@
 // 其他分红管理
-<template>
-  <div class="other-stock">
-    <slot name="toolbar"/>
-    <OtherProfit class="scroll-content" v-if=" I === 0 " :typeCode="0"/>
-    <OtherProfit class="scroll-content" v-if=" I === 1 " :typeCode="1"/>
-    <TOtherProfit class="scroll-content" v-if=" I === 2 "/>
-    <OtherContract class="scroll-content" v-if=" I === 3 "/>
-  </div>
+<template lang="jade">
+  .other-stock
+    slot(name='toolbar')
+    otherprofit.scroll-content(v-if=' I === 0 ', :typecode='0')
+    otherprofit.scroll-content(v-if=' I === 1 ', :typecode='1')
+    totherprofit.scroll-content(v-if=' I === 2 ')
+    othercontract.scroll-content(v-if=' I === 3 ')
+
 </template>
 
 <script>
 export default {
   components: {
-    OtherProfit: resolve => require(["../form/OtherProfit"], resolve), //我的其他分红  下级其他分红
-    TOtherProfit: resolve => require(["../form/TOtherProfit"], resolve), //预期其他分红
-    OtherContract: resolve => require(["../group/OtherContract"], resolve) //契约其他分红
+    otherprofit: resolve => require(["../form/OtherProfit"], resolve), //我的其他分红  下级其他分红
+    totherprofit: resolve => require(["../form/TOtherProfit"], resolve), //预期其他分红
+    othercontract: resolve => require(["../group/OtherContract"], resolve) //契约其他分红
   },
   name: "other-stock",
   props: [],

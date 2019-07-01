@@ -1,12 +1,12 @@
 // 彩票分红管理
-<template>
-  <div class="lottery-stock">
-    <slot name="toolbar"></slot>
-    <Stock class="scroll-content" v-if=" I === 0 " :typeCode="0"/>
-    <Stock class="scroll-content" v-if=" I === 1 " :typeCode="1"/>
-    <TStock class="scroll-content" v-if=" I === 2 "/>
-    <Contract class="scroll-content" v-if=" I === 3 "/>
-  </div>
+<template lang="jade">
+  .lottery-stock
+    slot(name='toolbar')
+    Stock.scroll-content(v-if=' I === 0 ', :typecode='0')
+    Stock.scroll-content(v-if=' I === 1 ', :typecode='1')
+    TStock.scroll-content(v-if=' I === 2 ')
+    Contract.scroll-content(v-if=' I === 3 ')
+
 </template>
 
 <script>

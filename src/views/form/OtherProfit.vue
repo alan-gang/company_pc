@@ -1,228 +1,118 @@
 // 我的其它游戏分红 下级其它游戏分红
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div class="form">
-        <div class="form-filters my-el" style="padding: .15rem; margin: .1rem 0 .2rem 0;">
-          <span>
-            结算日&nbsp;
-            <el-button v-for="v in settlementSub" :key="v" size="small" @click="settlement=v">{{v}}</el-button>
-          </span>
-          <span>
-            &nbsp;状态&nbsp;
-            <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-          </span>
-          <span v-if="$props.typeCode === 1">
-            用户名&nbsp;
-            <input class="ds-input small" v-model="name" style="width: 1rem;">
-          </span>&nbsp;&nbsp;
-          <div class="ds-button primary large bold" @click="bonus">搜索</div>
-        </div>
-        <el-table
-          class="header-bold nopadding"
-          :data="bonusList"
-          ref="table"
-          stripe="stripe"
-          show-summary="show-summary"
-          v-bind:summary-method="getSummaries1"
-          v-bind:max-height=" MH "
-          v-bind:row-class-name="tableRowClassName"
-        >
-          <el-table-column align="center" prop="issue" label="结算日期"></el-table-column>
-          <el-table-column align="center" prop="sendCycle" label="其它游戏分红周期" width="100">
-            <template scope="scope">
-              <span>{{ ProfitPeriodCount(scope.row) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="sptProfit" label="体育">
-            <template scope="scope">
-              <span>{{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="vidProfit" label="真人">
-            <template scope="scope">
-              <span>{{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="egameProfit" label="老虎机">
-            <template scope="scope">
-              <span>{{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="esptProfit" label="电竞">
-            <template scope="scope">
-              <span>{{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="fishProfit" label="捕鱼">
-            <template scope="scope">
-              <span>{{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="cheProfit" label="棋牌">
-            <template scope="scope">
-              <span>{{ scope.row.cheProfit &&scope.row.cheProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="othltrProfit" label="基诺彩">
-            <template scope="scope">
-              <span>{{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="总盈亏">
-            <template scope="scope">
-              <span
-                :class=" {'text-green': scope.row.totProfit && scope.row.totProfit._o0(), 'text-danger': scope.row.totProfit && scope.row.totProfit._l0() } "
-              >{{ scope.row.totProfit &&scope.row.totProfit._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="lastProft" label="上期结余">
-            <template scope="scope">
-              <span>{{ scope.row.lastProft &&scope.row.lastProft._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column align="center" prop="bonusRate" label="其它游戏分红比例" width="100">
-            <template scope="scope">
-              <span>{{ scope.row.bonusRate }}%</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="bonus" label="其它游戏分红金额" width="100">
-            <template scope="scope">
-              <span>{{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="status" label="状态">
-            <template scope="scope">
-              <span :class=" STATUS[scope.row.isDone].css ">{{ STATUS[scope.row.isDone].title }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="userpoint" label="操作" align="center">
-            <template scope="scope">
-              <div
-                class="ds-button text-button blue"
-                v-if="!scope.row.lst"
-                style="padding: 0 .05rem;"
-                @click.stop="(showDetail1 = true) && qryCommDetail(scope.row.userId,scope.row.issue)"
-              >详情</div>
-              <div
-                class="ds-button text-button blue"
-                v-if="scope.row.isDone === 2 && $props.typeCode === 0"
-                style="padding: 0 .05rem;"
-                @click.stop="showComm(scope.row)"
-              >确认</div>
-              <div
-                class="ds-button text-button blue"
-                v-if="scope.row.isDone === 0 && $props.typeCode === 1"
-                style="padding: 0 .05rem;"
-                @click.stop="showComm(scope.row)"
-              >发放</div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          :total="total"
-          v-bind:page-size="pageSize"
-          layout="prev, pager, next, total"
-          v-bind:page-sizes="[5, 10, 15, 20]"
-          v-bind:current-page="currentPage"
-          small="small"
-          v-if=" total > pageSize "
-          v-on:current-change="pageChanged"
-        ></el-pagination>
-      </div>
-    </div>
-    <div class="modal" v-if="showDetail">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">其它游戏分红详情</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
-            </el-button-group>
-          </div>
-          <profitSend style="min-height: 5.7rem;"></profitSend>
-        </div>
-      </div>
-    </div>
-    <div class="modal" v-show="showDetail1">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">其它游戏分红详情</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="showDetail1 = ''"></el-button>
-            </el-button-group>
-          </div>
-          <div class="table-list" style="padding: .15rem .2rem ;">
-            <el-table
-              class="header-bold nopadding"
-              :data="cdata"
-              stripe="stripe"
-              ref="itable"
-              show-summary="show-summary"
-              v-bind:summary-method="getSummaries"
-              max-height="500"
-              v-bind:row-class-name="tableRowClassName"
-              style="margin: .2rem 0 0 0;"
-            >
-              <el-table-column class-name="pl2" prop="userName" label="用户名">
-                <template scope="scope">
-                  <span
-                    class="pointer text-blue"
-                    :class=" { 'text-danger': scope.row.userName === me.account } "
-                  >{{ scope.row.userName }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="left" prop="issue" label="其它游戏分红期号"></el-table-column>
-              <el-table-column align="left" prop="gameName" label="游戏"></el-table-column>
-              <el-table-column align="left" prop="profitAmt" label="游戏盈亏">
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.profitAmt && scope.row.profitAmt._o0(), 'text-danger': scope.row.profitAmt && scope.row.profitAmt._l0() } "
-                  >{{ scope.row.profitAmt &&scope.row.profitAmt._nwc() }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="left" prop="pointAmt" label="返水总额">
-                <template scope="scope">
-                  <span>{{ scope.row.pointAmt &&scope.row.pointAmt._nwc() }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="left" prop="rewards" label="活动费用">
-                <template scope="scope">
-                  <span>{{ scope.row.rewards &&scope.row.rewards._nwc() }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="left" prop="platFee" label="平台费总额">
-                <template scope="scope">
-                  <span>{{ scope.row.platFee &&scope.row.platFee._nwc() }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="left" prop="settle" label="总结算" class-name="pr2">
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
-                  >{{ scope.row.settle &&scope.row.settle._nwc() }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      .form
+        .form-filters.my-el(style='padding: .15rem; margin: .1rem 0 .2rem 0;')
+          span
+            | 结算日 
+            el-button(v-for='v in settlementSub', :key='v', size='small', @click='settlement=v') {{v}}
+          span
+            | 状态 
+            el-button(v-for='v in STATUS', :key='v.title', size='small', @click='s=v.id') {{v.title}}
+          span(v-if='$props.typeCode === 1')
+            | 用户名 
+            input.ds-input.small(v-model='name', style='width: 1rem;')
+          .ds-button.primary.large.bold(@click='bonus') 搜索
+        el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries1', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
+          el-table-column(align='center', prop='issue', label='结算日期')
+          el-table-column(align='center', prop='sendCycle', label='其它游戏分红周期', width='100')
+            template(scope='scope')
+              span {{ ProfitPeriodCount(scope.row) }}
+          el-table-column(align='center', prop='sptProfit', label='体育')
+            template(scope='scope')
+              span {{ scope.row.sptProfit && scope.row.sptProfit._nwc()}}
+          el-table-column(align='center', prop='vidProfit', label='真人')
+            template(scope='scope')
+              span {{ scope.row.vidProfit && scope.row.vidProfit._nwc()}}
+          el-table-column(align='center', prop='egameProfit', label='老虎机')
+            template(scope='scope')
+              span {{ scope.row.egameProfit && scope.row.egameProfit._nwc()}}
+          el-table-column(align='center', prop='esptProfit', label='电竞')
+            template(scope='scope')
+              span {{ scope.row.esptProfit &&scope.row.esptProfit._nwc()}}
+          el-table-column(align='center', prop='fishProfit', label='捕鱼')
+            template(scope='scope')
+              span {{ scope.row.fishProfit &&scope.row.fishProfit._nwc()}}
+          el-table-column(align='center', prop='cheProfit', label='棋牌')
+            template(scope='scope')
+              span {{ scope.row.cheProfit &&scope.row.cheProfit._nwc()}}
+          el-table-column(align='center', prop='othltrProfit', label='基诺彩')
+            template(scope='scope')
+              span {{ scope.row.othltrProfit &&scope.row.othltrProfit._nwc()}}
+          el-table-column(align='center', label='总盈亏')
+            template(scope='scope')
+              span(:class=" {'text-green': scope.row.totProfit && scope.row.totProfit._o0(), 'text-danger': scope.row.totProfit && scope.row.totProfit._l0() } ") {{ scope.row.totProfit &&scope.row.totProfit._nwc() }}
+          el-table-column(align='center', prop='lastProft', label='上期结余')
+            template(scope='scope')
+              span {{ scope.row.lastProft &&scope.row.lastProft._nwc() }}
+          el-table-column(align='center', prop='actUser', label='有效人数')
+          el-table-column(align='center', prop='bonusRate', label='其它游戏分红比例', width='100')
+            template(scope='scope')
+              span {{ scope.row.bonusRate }}%
+          el-table-column(align='center', prop='bonus', label='其它游戏分红金额', width='100')
+            template(scope='scope')
+              span
+                | {{ scope.row.bonus && scope.row.bonus._o0() ? '+' : '' }}{{ scope.row.bonus &&scope.row.bonus._nwc() }}
+          el-table-column(align='center', prop='status', label='状态')
+            template(scope='scope')
+              span(:class=' STATUS[scope.row.isDone].css ') {{ STATUS[scope.row.isDone].title }}
+          el-table-column(prop='userpoint', label='操作', align='center')
+            template(scope='scope')
+              .ds-button.text-button.blue(v-if='!scope.row.lst', style='padding: 0 .05rem;', @click.stop='(showDetail1 = true) && qryCommDetail(scope.row.userId,scope.row.issue)') 详情
+              .ds-button.text-button.blue(v-if='scope.row.isDone === 2 && $props.typeCode === 0', style='padding: 0 .05rem;', @click.stop='showComm(scope.row)') 确认
+              .ds-button.text-button.blue(v-if='scope.row.isDone === 0 && $props.typeCode === 1', style='padding: 0 .05rem;', @click.stop='showComm(scope.row)') 发放
+        el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+    .modal(v-if='showDetail')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='max-width: 5rem; max-height: 9rem; height: 6.2rem;')
+          .tool-bar
+            span.title 其它游戏分红详情
+            el-button-group
+              el-button.close(icon='close', @click="showDetail = ''")
+          profitsend(style='min-height: 5.7rem;')
+    .modal(v-show='showDetail1')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='width: 10rem; max-height: 9rem; height: 6.2rem;')
+          .tool-bar
+            span.title 其它游戏分红详情
+            el-button-group
+              el-button.close(icon='close', @click="showDetail1 = ''")
+          .table-list(style='padding: .15rem .2rem ;')
+            el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', show-summary='show-summary', v-bind:summary-method='getSummaries', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
+              el-table-column(class-name='pl2', prop='userName', label='用户名')
+                template(scope='scope')
+                  span.pointer.text-blue(:class=" { 'text-danger': scope.row.userName === me.account } ") {{ scope.row.userName }}
+              el-table-column(align='left', prop='issue', label='其它游戏分红期号')
+              el-table-column(align='left', prop='gameName', label='游戏')
+              el-table-column(align='left', prop='profitAmt', label='游戏盈亏')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.profitAmt && scope.row.profitAmt._o0(), 'text-danger': scope.row.profitAmt && scope.row.profitAmt._l0() } ") {{ scope.row.profitAmt &&scope.row.profitAmt._nwc() }}
+              el-table-column(align='left', prop='pointAmt', label='返水总额')
+                template(scope='scope')
+                  span {{ scope.row.pointAmt &&scope.row.pointAmt._nwc() }}
+              el-table-column(align='left', prop='rewards', label='活动费用')
+                template(scope='scope')
+                  span {{ scope.row.rewards &&scope.row.rewards._nwc() }}
+              el-table-column(align='left', prop='platFee', label='平台费总额')
+                template(scope='scope')
+                  span {{ scope.row.platFee &&scope.row.platFee._nwc() }}
+              el-table-column(align='left', prop='settle', label='总结算', class-name='pr2')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ scope.row.settle &&scope.row.settle._nwc() }}
+
 </template>
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import profitSend from "./profitSend";
+import profitsend from "./profitSend";
 import { numberWithCommas } from "../../util/Number";
 import api from "../../http/api";
 import store from "../../store";
@@ -230,7 +120,7 @@ import { dateFormat } from "../../util/Date";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    profitSend
+    profitsend
   },
   props: ["typeCode"],
   data() {

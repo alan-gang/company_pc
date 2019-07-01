@@ -264,7 +264,8 @@ export default {
                 {class: 'ds-icon-game-js115', id: '1-3-8', menuid: '102', title: '江苏11选5', volume: true, gameid: 36},
                 {class: 'ds-icon-game-sh115', id: '1-3-6', menuid: '103', title: '上海11选5', volume: true, gameid: 37},
                 {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38},
-                {class: 'ds-icon-game-fj115 sign new', id: '1-3-9', menuid: '120', title: '福建11选5', volume: true, gameid: 159}
+                {class: 'ds-icon-game-fj115 sign new', id: '1-3-9', menuid: '120', title: '福建11选5', volume: true, gameid: 159},
+                {class: 'ds-icon-game-sx115 sign new', id: '1-3-124', menuid: '124', title: '山西11选5', volume: true, gameid: 46}
                 // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
               ]
             },

@@ -1,294 +1,133 @@
 // 团队盈亏-棋牌   gameType= 4
 // 团队盈亏-微游   gameType= 8
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div v-if=" I === 0 ">
-        <div class="form form-filters my-el">
-          <span>
-            <el-button @click="ClickToday" size="small">今天</el-button>
-            <el-button @click="ClickYesterday" size="small">昨天</el-button>
-            <el-button @click="ClickBeforeYesterday" size="small">前天</el-button>
-            <el-button
-              @click="ClickMonth(0)"
-              size="small"
-            >{{new Date()._setD(1)._bfM(0).getMonth() + 1}}月</el-button>
-            <el-button
-              @click="ClickMonth(-1)"
-              size="small"
-            >{{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月</el-button>
-            <el-button
-              @click="ClickMonth(-2)"
-              size="small"
-            >{{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月</el-button>
-          </span>
-          <span>
-            排序
-            <el-button size="small" @click="ClickSort('realbuy')">
-              投注
-              <template v-if="orderBy=='realbuy'&&ascOrDesc==2">↑</template>
-              <template v-if="orderBy=='realbuy'&&ascOrDesc==1">↓</template>
-            </el-button>
-            <el-button size="small" @click="ClickSort('settle')">
-              总盈亏
-              <template v-if="orderBy=='settle'&&ascOrDesc==2">↑</template>
-              <template v-if="orderBy=='settle'&&ascOrDesc==1">↓</template>
-            </el-button>
-            <el-button size="small" @click="ClickSort('profit')">
-              游戏盈亏
-              <template v-if="orderBy=='profit'&&ascOrDesc==2">↑</template>
-              <template v-if="orderBy=='profit'&&ascOrDesc==1">↓</template>
-            </el-button>
-          </span>
-          <span class="item">
-            显示
-            <el-select v-model="ot" placeholder="请选择">
-              <el-option label="投注的" value="0"/>
-              <el-option label="全部" value="1"/>
-            </el-select>
-          </span>
-          <span>
-            团队
-            <el-autocomplete
-              v-model="name"
-              :fetch-suggestions="UserSearch"
-              placeholder="请输入用户名"
-              style="width: 1.1rem;"
-              @select="profitList"
-              popper-class="autocompleteuser"
-            ></el-autocomplete>
-          </span>&nbsp;&nbsp;
-          <div class="ds-button primary large bold" @click="profitList()">搜索</div>
-        </div>
-        <div class="table-list" style="padding: .15rem .2rem ;">
-          <p style="margin: 0 0 .15rem 0;">
-            <el-breadcrumb separator=">">
-              <el-breadcrumb-item
-                v-for="(B, i) in BL"
-                @click.native=" link(B, i) "
-              >{{ i === 0 ? '自己' : B.userName }}</el-breadcrumb-item>
-            </el-breadcrumb>
-          </p>
-          <!-- v-bind:summary-method="getSummaries" -->
-          <el-table
-            class="header-bold nopadding"
-            :data="data"
-            style="margin: 0;"
-            ref="table"
-            stripe="stripe"
-            @cell-click="cellClick"
-            v-bind:row-class-name="tableRowClassName"
-            v-bind:max-height=" MH "
-            @sort-change="sortChange"
-          >
-            <el-table-column class-name="pl2" prop="userName" label="用户名">
-              <template scope="scope">
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      div(v-if=' I === 0 ')
+        .form.form-filters.my-el
+          span
+            el-button(@click='ClickToday', size='small') 今天
+            el-button(@click='ClickYesterday', size='small') 昨天
+            el-button(@click='ClickBeforeYesterday', size='small') 前天
+            el-button(@click='ClickMonth(0)', size='small') {{new Date()._setD(1)._bfM(0).getMonth() + 1}}月
+            el-button(@click='ClickMonth(-1)', size='small') {{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月
+            el-button(@click='ClickMonth(-2)', size='small') {{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月
+          span
+            | 排序
+            el-button(size='small', @click="ClickSort('realbuy')")
+              | 投注
+              template(v-if="orderBy=='realbuy'&&ascOrDesc==2") ↑
+              template(v-if="orderBy=='realbuy'&&ascOrDesc==1") ↓
+            el-button(size='small', @click="ClickSort('settle')")
+              | 总盈亏
+              template(v-if="orderBy=='settle'&&ascOrDesc==2") ↑
+              template(v-if="orderBy=='settle'&&ascOrDesc==1") ↓
+            el-button(size='small', @click="ClickSort('profit')")
+              | 游戏盈亏
+              template(v-if="orderBy=='profit'&&ascOrDesc==2") ↑
+              template(v-if="orderBy=='profit'&&ascOrDesc==1") ↓
+          span.item
+            | 显示
+            el-select(v-model='ot', placeholder='请选择')
+              el-option(label='投注的', value='0')
+                el-option(label='全部', value='1')
+          span
+            | 团队
+            el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+          .ds-button.primary.large.bold(@click='profitList()') 搜索
+        .table-list(style='padding: .15rem .2rem ;')
+          p(style='margin: 0 0 .15rem 0;')
+            el-breadcrumb(separator='>')
+              el-breadcrumb-item(v-for='(B, i) in BL', @click.native=' link(B, i) ') {{ i === 0 ? '自己' : B.userName }}
+          // v-bind:summary-method="getSummaries"
+          el-table.header-bold.nopadding(:data='data', style='margin: 0;', ref='table', stripe='stripe', @cell-click='cellClick', v-bind:row-class-name='tableRowClassName', v-bind:max-height=' MH ', @sort-change='sortChange')
+            el-table-column(class-name='pl2', prop='userName', label='用户名')
+              template(scope='scope')
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                  | {{ scope.row.userName }}
+                  template(v-if='me.account==scope.row.userName') (我)
+            el-table-column(prop='gameUserCount', :label="(Daily ? '日均' : '') +'游戏人数'", sortable='custom', align='center')
+              template(scope='scope')
+                span {{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}
+            el-table-column(prop='realBuy', label='投注', sortable='custom', align='center')
+              template(scope='scope')
+                span {{ scope.row.realBuy && scope.row.realBuy._nwc()}}
+            el-table-column(align='right', prop='profit', label='游戏盈亏', sortable='custom')
+              template(scope='scope')
+                span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ scope.row.profit && scope.row.profit._nwc()}}
+            el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.displayPermission.showpoint')
+              template(scope='scope')
+                span {{ scope.row.getpoint && scope.row.getpoint._nwc()}}
+            el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
+              template(scope='scope')
+                span {{ scope.row.rewards && scope.row.rewards._nwc()}}
+            el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
+              template(scope='scope')
+                span {{ scope.row.platfee && scope.row.platfee._nwc()}}
+            el-table-column(align='right', prop='settle', label='总盈亏', sortable='custom', class-name='pr2')
+              template(scope='scope')
+                span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ scope.row.settle && scope.row.settle._nwc()}}
+            el-table-column(prop='userpoint', label='操作', align='center')
+              template(scope='scope')
+                .ds-button.text-button.blue(v-show='scope.row.userId && Daily && scope.$index+1!=data.length', style='padding: 0 .05rem;', @click.stop='(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)') 明细
+          el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+    .modal(v-show='showDetail')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='width: 10rem; max-height: 9rem; height: 6.2rem;')
+          .tool-bar
+            span.title 明细
+            el-button-group
+              el-button.close(icon='close', @click.native="showDetail = ''")
+          .table-list(style='padding: .15rem .2rem ;')
+            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
+              | 明细-{{profitDetailROW && profitDetailROW.userName}}(
+              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              | )
+            el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
+              //
+                <el-table-column class-name="pl2" prop="userName" label="用户名">
+                <template scope="scope">
                 <span
-                  :class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } "
-                >
-                  {{ scope.row.userName }}
-                  <template v-if="me.account==scope.row.userName">(我)</template>
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="gameUserCount"
-              :label="(Daily ? '日均' : '') +'游戏人数'"
-              sortable="custom"
-              align="center"
-            >
-              <template scope="scope">
-                <span>{{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="realBuy" label="投注" sortable="custom" align="center">
-              <template scope="scope">
-                <span>{{ scope.row.realBuy && scope.row.realBuy._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="profit" label="游戏盈亏" sortable="custom">
-              <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
-                >{{ scope.row.profit && scope.row.profit._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="right"
-              prop="getpoint"
-              label="返水金额"
-              sortable="custom"
-              v-if="me.displayPermission.showpoint"
-            >
-              <template scope="scope">
-                <span>{{ scope.row.getpoint && scope.row.getpoint._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="rewards" label="活动" sortable="custom">
-              <template scope="scope">
-                <span>{{ scope.row.rewards && scope.row.rewards._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right" prop="platfee" label="平台费" sortable="custom">
-              <template scope="scope">
-                <span>{{ scope.row.platfee && scope.row.platfee._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="right"
-              prop="settle"
-              label="总盈亏"
-              sortable="custom"
-              class-name="pr2"
-            >
-              <template scope="scope">
-                <span
-                  :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } "
-                >{{ scope.row.settle && scope.row.settle._nwc()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="userpoint" label="操作" align="center">
-              <template scope="scope">
-                <div
-                  v-show="scope.row.userId && Daily && scope.$index+1!=data.length"
-                  class="ds-button text-button blue"
-                  style="padding: 0 .05rem;"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
-                >明细</div>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            :total="total"
-            v-bind:page-size="pageSize"
-            layout="prev, pager, next, total"
-            v-bind:page-sizes="[5, 10, 15, 20]"
-            v-bind:current-page="currentPage"
-            small="small"
-            v-if=" total > pageSize "
-            v-on:current-change="pageChanged"
-          ></el-pagination>
-        </div>
-      </div>
-    </div>
-    <div class="modal" v-show="showDetail">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="width: 10rem; max-height: 9rem; height: 6.2rem;">
-          <div class="tool-bar">
-            <span class="title">明细</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click.native="showDetail = ''"></el-button>
-            </el-button-group>
-          </div>
-          <div class="table-list" style="padding: .15rem .2rem ;">
-            <div
-              class="lotterymyinfo"
-              :class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'"
-            >
-              明细-{{profitDetailROW && profitDetailROW.userName}}(
-              {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
-              )
-            </div>
-            <el-table
-              class="header-bold nopadding"
-              :data="cdata"
-              stripe="stripe"
-              ref="itable"
-              max-height="500"
-              v-bind:row-class-name="tableRowClassName"
-              style="margin: .2rem 0 0 0;"
-            >
-              <!-- <el-table-column class-name="pl2" prop="userName" label="用户名">
-                <template scope="scope">
-                  <span
-                    class="pointer text-blue"
-                    :class=" { 'text-danger': scope.row.userName === me.account } "
-                  >{{ scope.row.userName }}</span>
+                class="pointer text-blue"
+                :class=" { 'text-danger': scope.row.userName === me.account } "
+                >{{ scope.row.userName }}</span>
                 </template>
-              </el-table-column>-->
-              <el-table-column prop="date" label="日期" align="center">
-                <template scope="scope">
-                  <span v-if="scope.row.userName=='合计'">{{ scope.row.userName }}</span>
-                  <span v-if="scope.row.userName!='合计'">{{ scope.row.date }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="realBuy" label="投注">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.realBuy) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="profit" label="游戏盈亏">
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
-                  >{{ numberWithCommas(scope.row.profit) }}</span>
-                </template>
-              </el-table-column>
-              <!-- me.showBackWater ‰-->
-              <el-table-column
-                align="right"
-                label="返水级别"
-                v-if="profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater"
-              >
-                <template scope="scope">
-                  <span v-if="numberWithCommas(cuserBackWater)">{{ numberWithCommas(Number(cuserBackWater))}}‰</span>
-                  <span v-if="!numberWithCommas(cuserBackWater)">--</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="right"
-                prop="getpoint"
-                label="返水金额"
-                v-if="me.showBackWater"
-              >
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.getpoint) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="rewards" label="活动">
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.rewards) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="right"
-                prop="platfee"
-                label="平台费"
-                v-if="profitDetailROW && profitDetailROW.hasSub==1"
-              >
-                <template scope="scope">
-                  <span>{{ numberWithCommas(scope.row.platfee) }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="right" prop="settle" label="总盈亏" class-name="pr2">
-                <template scope="scope">
-                  <span
-                    :class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } "
-                  >{{ numberWithCommas(scope.row.settle) }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-pagination
-              :total="ctotal"
-              v-bind:page-size="pageSize"
-              layout="prev, pager, next, total"
-              v-bind:page-sizes="[5, 10, 15, 20]"
-              v-bind:current-page="ccurrentPage"
-              small="small"
-              v-if=" ctotal > pageSize "
-              v-on:current-change="cpageChanged"
-            ></el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+                </el-table-column>
+              el-table-column(prop='date', label='日期', align='center')
+                template(scope='scope')
+                  span(v-if="scope.row.userName=='合计'") {{ scope.row.userName }}
+                  span(v-if="scope.row.userName!='合计'") {{ scope.row.date }}
+              el-table-column(align='right', prop='realBuy', label='投注')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.realBuy) }}
+              el-table-column(align='right', prop='profit', label='游戏盈亏')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.profit) }}
+              // me.showBackWater ‰
+              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater')
+                template(scope='scope')
+                  span(v-if='numberWithCommas(cuserBackWater)') {{ numberWithCommas(Number(cuserBackWater))}}‰
+                  span(v-if='!numberWithCommas(cuserBackWater)') --
+              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='me.showBackWater')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.getpoint) }}
+              el-table-column(align='right', prop='rewards', label='活动')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.rewards) }}
+              el-table-column(align='right', prop='platfee', label='平台费', v-if='profitDetailROW && profitDetailROW.hasSub==1')
+                template(scope='scope')
+                  span {{ numberWithCommas(scope.row.platfee) }}
+              el-table-column(align='right', prop='settle', label='总盈亏', class-name='pr2')
+                template(scope='scope')
+                  span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.settle) }}
+            el-pagination(:total='ctotal', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='ccurrentPage', small='small', v-if=' ctotal > pageSize ', v-on:current-change='cpageChanged')
+
 </template>
 
 <script>

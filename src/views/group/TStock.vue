@@ -1,125 +1,67 @@
 // 预期分红
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div class="form">
-        <div class="form-filters" style="padding: .05rem; margin: .1rem 0;"></div>
-        <el-table
-          class="header-bold nopadding"
-          :data="bonusList"
-          ref="table"
-          stripe="stripe"
-          show-summary="show-summary"
-          v-bind:summary-method="getSummaries"
-          v-bind:max-height=" MH "
-          v-bind:row-class-name="tableRowClassName"
-        >
-          <el-table-column class-name="pl2" prop="userName" label="用户名">
-            <template scope="scope">
-              <span>
-                {{ scope.row.userName }}
-                <template v-if="me.account==scope.row.userName">(队长)</template>
-              </span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="startDate" label="测算开始时间"></el-table-column>
-          <el-table-column label="测算结束时间">
-            <template scope="scope">
-              <span>{{new Date()._toDayString()}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="距离结算日">
-            <template scope="scope">
-              <span>{{DistanceSettlementDate(scope.row)}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="彩票总销量">
-            <template scope="scope">
-              <span
-              >{{ numberWithCommas(scope.row.saleAmount) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="彩票总盈亏">
-            <template scope="scope">
-              <span
-                :class=" {'text-green': scope.row.profitAmount && scope.row.profitAmount._o0(), 'text-danger': scope.row.profitAmount && scope.row.profitAmount._l0() } "
-              >{{ scope.row.profitAmount &&scope.row.profitAmount._nwc() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="actUser" label="有效人数"></el-table-column>
-          <el-table-column prop="ruleid" label="对应分红规则">
-            <template scope="scope">
-              <span
-                @click="ruleInfoList=!0,ruleInfoListRow=scope.row"
-                style="cursor:pointer;"
-              >{{ GetRuleName(scope.row) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="bonusRate" label="分红比例">
-            <template scope="scope">
-              <span>{{ scope.row.bonusRate }}%</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="bonus" label="个人预期分红金额">
-            <template scope="scope">
-              <span
-              >{{ scope.row.bonus && scope.row.bonus._nwc() }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          :total="total"
-          v-bind:page-size="pageSize"
-          layout="prev, pager, next, total"
-          v-bind:page-sizes="[5, 10, 15, 20]"
-          v-bind:current-page="currentPage"
-          small="small"
-          v-if=" total > pageSize "
-          v-on:current-change="pageChanged"
-        ></el-pagination>
-        <p
-          style="margin: 10px;font-size: 12px;color: #999;"
-        >温馨提示：预期分红是基于阶段性数据测算得出,仅为预测下一次分红提供参考,不作为发放分红依据。</p>
-      </div>
-      <!-- 弹窗 规则列表 -->
-      <div class="modal" v-if="ruleInfoList">
-        <div class="mask"></div>
-        <div class="box-wrapper">
-          <div class="box" ref="box" style="max-width: 5rem;min-width: 3rem;  max-height: 6rem;">
-            <div class="tool-bar">
-              <!-- <span class="title">分红详情</span> -->
-              <el-button-group>
-                <el-button class="close" icon="close" @click="ruleInfoList = 0"></el-button>
-              </el-button-group>
-            </div>
-            <div class="ruleInfoLists">
-              <ul>
-                <li
-                  v-for="(v, i) in ruleInfoListRow.bounsruleListBy"
-                  :class="{'on':v.id==ruleInfoListRow.ruleid}"
-                  :key="v.id"
-                >{{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate}}%</li>
-              </ul>
-              <div class="my-el ruleInfoListSub">
-                <el-button size="small" @click="ruleInfoList = 0">确定</el-button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 弹窗 ↑↑  -->
-    </div>
-  </div>
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      .form
+        .form-filters(style='padding: .05rem; margin: .1rem 0;')
+        el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
+          el-table-column(class-name='pl2', prop='userName', label='用户名')
+            template(scope='scope')
+              span
+                | {{ scope.row.userName }}
+                template(v-if='me.account==scope.row.userName') (队长)
+          el-table-column(prop='startDate', label='测算开始时间')
+          el-table-column(label='测算结束时间')
+            template(scope='scope')
+              span {{new Date()._toDayString()}}
+          el-table-column(label='距离结算日')
+            template(scope='scope')
+              span {{DistanceSettlementDate(scope.row)}}
+          el-table-column(label='彩票总销量')
+            template(scope='scope')
+              span {{ numberWithCommas(scope.row.saleAmount) }}
+          el-table-column(label='彩票总盈亏')
+            template(scope='scope')
+              span(:class=" {'text-green': scope.row.profitAmount && scope.row.profitAmount._o0(), 'text-danger': scope.row.profitAmount && scope.row.profitAmount._l0() } ") {{ scope.row.profitAmount &&scope.row.profitAmount._nwc() }}
+          el-table-column(prop='actUser', label='有效人数')
+          el-table-column(prop='ruleid', label='对应分红规则')
+            template(scope='scope')
+              span(@click='ruleInfoList=!0,ruleInfoListRow=scope.row', style='cursor:pointer;') {{ GetRuleName(scope.row) }}
+          el-table-column(prop='bonusRate', label='分红比例')
+            template(scope='scope')
+              span {{ scope.row.bonusRate }}%
+          el-table-column(prop='bonus', label='个人预期分红金额')
+            template(scope='scope')
+              span {{ scope.row.bonus && scope.row.bonus._nwc() }}
+        el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+        p(style='margin: 10px;font-size: 12px;color: #999;') 温馨提示：预期分红是基于阶段性数据测算得出,仅为预测下一次分红提供参考,不作为发放分红依据。
+      // 弹窗 规则列表
+      .modal(v-if='ruleInfoList')
+        .mask
+        .box-wrapper
+          .box(ref='box', style='max-width: 5rem;min-width: 3rem;  max-height: 6rem;')
+            .tool-bar
+              // <span class="title">分红详情</span>
+              el-button-group
+                el-button.close(icon='close', @click='ruleInfoList = 0')
+            .ruleInfoLists
+              ul
+                li(v-for='(v, i) in ruleInfoListRow.bounsruleListBy', :class="{'on':v.id==ruleInfoListRow.ruleid}", :key='v.id')
+                  | {{RULES[i]}}：累计{{TYPE[v.ruletype]}}{{v.sales}}万，有效人数>{{v.actuser}}，分红比例{{v.bounsrate}}%
+              .my-el.ruleInfoListSub
+                el-button(size='small', @click='ruleInfoList = 0') 确定
+      // 弹窗 ↑↑
+
 </template>
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import StockDetail from "./StockDetail";
+import stockdetail from "./StockDetail";
 import api from "../../http/api";
 import store from "../../store";
 // import { dateFormat } from '../../util/Date'
@@ -127,7 +69,7 @@ import { numberWithCommas } from "../../util/Number";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    StockDetail
+    stockdetail
   },
   data() {
     return {

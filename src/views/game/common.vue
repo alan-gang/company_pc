@@ -40,7 +40,7 @@
 
 
           <!-- 下单 -->
-          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:wn="nw" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
+          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:wn="nw" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-bind:dtMaxPrize = "dtMaxPrize" v-bind:dzMaxPrize = "dzMaxPrize" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
 
 
           <!-- 投注单 -->
@@ -162,6 +162,9 @@ export default {
       bonus: 0.00,
       // 返点
       point: 0.00,
+      // 单挑、限额
+      dtMaxPrize: 0,
+      dzMaxPrize: 0,
       // 追号信息
       follow: {
         // 显示追号单
@@ -489,7 +492,11 @@ export default {
         //     y.minpoint = '0.078'
         //   })
         // })
-        if (data.success > 0) this.PS = data.items
+        if (data.success > 0) {
+          this.PS = data.items
+          this.dtMaxPrize = (data.dtMaxPrize * 1) || 30000
+          this.dzMaxPrize = (data.dzMaxPrize * 1) || 400000
+        }
         this.menuItemArray.forEach(mi => {
           // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
           this.$set(mi, 'hide', !data.items[M[mi.id + this.idType].split(':')[0]])

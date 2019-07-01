@@ -1,309 +1,184 @@
 // 彩票分红契约
-<template>
-  <div class="group-page">
-    <slot name="cover"></slot>
-    <slot name="movebar"></slot>
-    <slot name="resize-x"></slot>
-    <slot name="resize-y"></slot>
-    <slot name="toolbar"></slot>
-    <div class="stock-list scroll-content">
-      <div v-if=" I === 0 ">
-        <div class="form">
-          <div class="form-filters my-el">
-            <span>
-              注册时间
-              <!-- :picker-options="pickerOptions" -->
-              <!-- v-on:change="dateChange" -->
-              <el-date-picker
-                v-model="stEt"
-                format="yyyy-MM-dd"
-                type="daterange"
-                placeholder="选择日期范围"
-                v-bind:clearable="clearableOnTime"
-              ></el-date-picker>
-              <el-button @click="stEt=['', '']" size="small">不限</el-button>
-              <el-button @click="stEt=[new Date()._bf(-7), new Date()]" size="small">最近七天</el-button>
-              <el-button
-                @click="stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]"
-                size="small"
-              >今天</el-button>
-            </span>
-            <span>
-              &nbsp;状态&nbsp;
-              <el-button v-for="v in STATUS" :key="v.title" size="small" @click="s=v.id">{{v.title}}</el-button>
-            </span>
-            <span>
-              用户名&nbsp;
-              <input class="ds-input small" v-model="name" style="width: 1rem;">
-            </span>&nbsp;&nbsp;
-            <span>
-              <div class="ds-button primary large bold" @click="contract">搜索</div>
-            </span>
-          </div>
-          <el-table
-            class="header-bold nopadding"
-            :data="data"
-            stripe="stripe"
-            v-bind:max-height=" MH "
-            v-bind:row-class-name="tableRowClassName"
-            ref="table"
-          >
-            <el-table-column class-name="pl2" prop="userName" label="用户名">
-              <template scope="scope">
-                <span>
-                  {{ scope.row.userName }}
-                  <template v-if="me.account==scope.row.userName">(队长)</template>
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="registertime" label="注册时间">
-              <template scope="scope">
-                <span>{{new Date(scope.row.registertime)._toString()}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="subCount" label="团队人数"></el-table-column>
-            <el-table-column prop="beginTm" label="签约日期"></el-table-column>
-            <el-table-column prop="sendCycle" label="分红周期">
-              <template scope="scope">
-                <span>{{TIME[scope.row.sendCycle]}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="STYPE" label="发放方式">
-              <template scope="scope">
-                <span>{{STYPE[scope.row.sendType]}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="status" label="签约状态">
-              <template scope="scope">
-                <span
-                  :class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} "
-                >{{ scope.row.stat }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作">
-              <template scope="scope">
-                <div
+<template lang="jade">
+  .group-page
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    .stock-list.scroll-content
+      div(v-if=' I === 0 ')
+        .form
+          .form-filters.my-el
+            span
+              | 注册时间
+              // :picker-options="pickerOptions"
+              // v-on:change="dateChange"
+              el-date-picker(v-model='stEt', format='yyyy-MM-dd', type='daterange', placeholder='选择日期范围', v-bind:clearable='clearableOnTime')
+              el-button(@click="stEt=['', '']", size='small') 不限
+              el-button(@click='stEt=[new Date()._bf(-7), new Date()]', size='small') 最近七天
+              el-button(@click='stEt=[new Date()._setH(0)._setM(0)._setS(0), new Date()._setH(23)._setM(23)._setS(59)]', size='small') 今天
+            span
+              | 状态 
+              el-button(v-for='v in STATUS', :key='v.title', size='small', @click='s=v.id') {{v.title}}
+            span
+              | 用户名 
+              input.ds-input.small(v-model='name', style='width: 1rem;')
+            span
+              .ds-button.primary.large.bold(@click='contract') 搜索
+          el-table.header-bold.nopadding(:data='data', stripe='stripe', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName', ref='table')
+            el-table-column(class-name='pl2', prop='userName', label='用户名')
+              template(scope='scope')
+                span
+                  | {{ scope.row.userName }}
+                  template(v-if='me.account==scope.row.userName') (队长)
+            el-table-column(prop='registertime', label='注册时间')
+              template(scope='scope')
+                span {{new Date(scope.row.registertime)._toString()}}
+            el-table-column(prop='subCount', label='团队人数')
+            el-table-column(prop='beginTm', label='签约日期')
+            el-table-column(prop='sendCycle', label='分红周期')
+              template(scope='scope')
+                span {{TIME[scope.row.sendCycle]}}
+            el-table-column(prop='STYPE', label='发放方式')
+              template(scope='scope')
+                span {{STYPE[scope.row.sendType]}}
+            el-table-column(prop='status', label='签约状态')
+              template(scope='scope')
+                span(:class=" { 'text-danger': scope.row.stat === '未签订',  'text-oblue': scope.row.stat === '待确认', 'text-green': scope.row.stat === '已签订'} ") {{ scope.row.stat }}
+            el-table-column(label='操作')
+              template(scope='scope')
+                .ds-button.text-button.blue(v-if=" scope.row.stat !== '未签订' ", style='padding: 0 .05rem;', @click.stop=' (showDetail = scope.row.id,Ismyself = me.account==scope.row.userName?!0:!1) ') 查看详情
+                .ds-button.text-button.blue(v-if=" ruleCfg.length > 0 &&  scope.row.stat === '未签订' ", style='padding: 0 .05rem;', @click='++stepIndex && (user = scope.row)') 发起契约
+                .ds-button.text-button.blue(v-if="me.account!=scope.row.userName && ruleCfg.length > 0 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')", style='padding: 0 .05rem;', @click='++stepIndex && (user = scope.row)') 重新发起契约
+          el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+        // 弹窗
+        .modal(v-if='stepIndex === 1')
+          .mask
+          .box-wrapper
+            .box(ref='box', style='max-width: 9rem; max-height: 10rem; height: 6.2rem;')
+              .tool-bar
+                span.title 分红设置
+                el-button-group
+                  el-button.close(icon='close', @click='stepIndex = 0')
+              div
+                .notice(style='margin-top: .2rem;')
+                  span.title 温馨提示：
+                  p.content
+                    span.text-danger 在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用
+                    br
+                    | 1.
+                    span.text-danger 销量
+                    | 和
+                    span.text-danger 亏损
+                    | 只要达到规则，都应按照规则的分红比例派发分红
+                    br
+                    | 2.
+                    span.text-danger [手动发放]
+                    |                   即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
+                    span.text-danger 分红列表-分红详情
+                    | 中进行点击确认发放
+                    br
+                    | 3.
+                    span.text-danger [自动发放]
+                    | 是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
+                    span.text-danger 手动执行
+                    br
+                    | 4. 契约执行周期为：[按月]
+                    span.text-danger 1号
+                    | ；[按半月]
+                    span.text-danger 1号
+                    | 和
+                    span.text-danger 16号
+                    br
+                    | 5. 一天内投注额达到
+                    span.text-danger 500元
+                    | ，为一个有效用户
+                //
+                  <p class="title text-black">
+                  <span
                   class="ds-button text-button blue"
-                  v-if=" scope.row.stat !== '未签订' "
-                  style="padding: 0 .05rem;"
-                  @click.stop=" (showDetail = scope.row.id,Ismyself = me.account==scope.row.userName?!0:!1) "
-                >查看详情</div>
-                <div
-                  class="ds-button text-button blue"
-                  v-if=" ruleCfg.length > 0 &&  scope.row.stat === '未签订' "
-                  style="padding: 0 .05rem;"
-                  @click="++stepIndex && (user = scope.row)"
-                >发起契约</div>
-                <div
-                  class="ds-button text-button blue"
-                  v-if="me.account!=scope.row.userName && ruleCfg.length > 0 && (scope.row.stat === '已签订' || scope.row.stat === '已拒绝' || scope.row.stat === '待确认')"
-                  style="padding: 0 .05rem;"
-                  @click="++stepIndex && (user = scope.row)"
-                >重新发起契约</div>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            :total="total"
-            v-bind:page-size="pageSize"
-            layout="prev, pager, next, total"
-            v-bind:page-sizes="[5, 10, 15, 20]"
-            v-bind:current-page="currentPage"
-            small="small"
-            v-if=" total > pageSize "
-            v-on:current-change="pageChanged"
-          ></el-pagination>
-        </div>
-        <!-- 弹窗 -->
+                  style="float: right;"
+                  @click="stepIndex--"
+                  >{{ '<返回上一页' }}</span>
+                  </p>
+                div(style='margin: 0 10% 0 15%; margin-top: .1rem; min-width: 6rem;', v-bind:class='[ user.state ]')
+                  p.item.block
+                    span.text-danger *
+                    | 用户名：    
+                    span.text-black {{ user.userName }}
+                  .item.block
+                    span.text-danger *
+                    | 契约时间：
+                    el-date-picker(:picker-options='ApickerOptions', v-model='stEtA', type='datetimerange', placeholder='请选择日期时间范围', v-bind:clearable='clearableOnTime')
+                  p.item.block
+                    span.text-danger *
+                    | 发放周期：
+                    el-select(v-model=' SV ', style='width: .9rem;', placeholder='无')
+                      el-option(v-for='S in sendCycle', v-bind:label=' TIME[S] ', v-bind:value='S')
+                      span.text-black(style='padding: 0 .16rem;') {{ time[me.shareCycle] }}
+                  p.item.block
+                    span.text-danger *
+                    | 发放方式：
+                    label.text-black.ds-radio-label(style='padding: 0; margin-left: -.05rem ;', @click=' sendType = 0 ', v-bind:class=' { active: sendType === 0 } ')
+                      span.ds-radio.white
+                      | 手动发放
+                    label.text-black.ds-radio-label(style='padding: 0 .1rem;', @click=' sendType = 1 ', v-bind:class=' { active: sendType === 1 } ')
+                      span.ds-radio.white
+                      | 自动发放
+                      span.text-green ( 推荐 )
+                  p.item.block(v-for=' (CR, i) in CRULES ')
+                    span.text-danger {{ i===0? '*': ' '}}
+                    |                   {{ CR.title }} ：   
+                    span.text-black 累计
+                    el-select(v-model='CR.ruletype', style='width: .7rem;', placeholder='全')
+                      el-option(v-for='R in TYPE', v-bind:label='R.title', v-bind:value='R.id')
+                    el-input-number.text-danger.text-right(style='width: .8rem;', v-model='CR.sales', v-bind:debounce='2000')
+                    span.text-black  万，有效人数 
+                    el-input-number.text-danger.text-right(style='width: .6rem;', v-model='CR.actUser', v-bind:debounce='2000')
+                    span.text-black 人，分红比例
+                    el-select(v-model=' CR.bounsRate ', style='width: .7rem;', placeholder='全')
+                      el-option(v-for='R in ruleCfg.filter(x => x.ruletype === CR.ruletype) ', v-bind:label="R.bounsRate + '%' ", v-bind:value='R.bounsRate')
+                    span(v-if='CR.bounsRate')
+                      | 最低
+                      span.text-blue
+                        | {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}
+                      | 万，
+                      span.text-blue
+                        | {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}
+                      | 人
+                  .buttons.item.block(style='padding-left: .55rem;')
+                    .ds-button.x-small.text-button.el-icon-plus.blue(@click=' ruleLength++ ', v-if='ruleLength < 21')
+                      span.text-black  再加一行
+                    .ds-button.x-small.text-button.el-icon-minus.blue(@click=' ruleLength-- ', v-if='ruleLength > 3 ')
+                      span.text-black  减最后一行
+                  .buttons.item.block(style='padding-left: .6rem;')
+                    .ds-button.primary.bold(@click='createContract') 确认发送
+      othercontract.scroll-content(v-if=' I === 1 ')
+    .modal(v-if='showDetail')
+      .mask
+      .box-wrapper
+        .box(ref='box', style='max-width: 5rem; max-height: 9rem; height: 6.06rem;')
+          .tool-bar
+            span.title 契约详情
+            el-button-group
+              el-button.close(icon='close', @click="showDetail = ''")
+          contractdetail(v-bind:id=' showDetail ', v-bind:myself='Ismyself ', v-bind:cType='cType', style='min-height: 5rem;')
 
-        <div class="modal" v-if="stepIndex === 1">
-          <div class="mask"></div>
-          <div class="box-wrapper">
-            <div class="box" ref="box" style="max-width: 9rem; max-height: 10rem; height: 6.2rem;">
-              <div class="tool-bar">
-                <span class="title">分红设置</span>
-                <el-button-group>
-                  <el-button class="close" icon="close" @click="stepIndex = 0"></el-button>
-                </el-button-group>
-              </div>
-              <div>
-                <div class="notice" style="margin-top: .2rem;">
-                  <span class="title">温馨提示：</span>
-                  <p class="content">
-                    <span class="text-danger">在您和下级签订了签约以后，如果每期的下级契约分红没有完成发放，则您的提款和代充功能将暂时会被禁用</span>
-                    <br>1.
-                    <span class="text-danger">销量</span>和
-                    <span class="text-danger">亏损</span>只要达到规则，都应按照规则的分红比例派发分红
-                    <br>2.
-                    <span class="text-danger">[手动发放]</span>
-                    即每次发分红的时候需要您进入{{ platform === 'ds' ? '用户管理' : 团队管理 }}的
-                    <span
-                      class="text-danger"
-                    >分红列表-分红详情</span>中进行点击确认发放
-                    <br>3.
-                    <span class="text-danger">[自动发放]</span>是在您资金足够的情况下，由系统根据您设置的规则自动发放下级分红，资金不足则交由您
-                    <span class="text-danger">手动执行</span>
-                    <br>4. 契约执行周期为：[按月]
-                    <span class="text-danger">1号</span>；[按半月]
-                    <span class="text-danger">1号</span>和
-                    <span class="text-danger">16号</span>
-                    <br>5. 一天内投注额达到
-                    <span class="text-danger">500元</span>，为一个有效用户
-                  </p>
-                </div>
-                <!-- <p class="title text-black">
-            <span
-              class="ds-button text-button blue"
-              style="float: right;"
-              @click="stepIndex--"
-            >{{ '<返回上一页' }}</span>
-                </p>-->
-                <div
-                  style="margin: 0 10% 0 15%; margin-top: .1rem; min-width: 6rem;"
-                  v-bind:class="[ user.state ]"
-                >
-                  <p class="item block">
-                    <span class="text-danger">*</span>用户名：&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span class="text-black">{{ user.userName }}</span>
-                  </p>
-                  <div class="item block">
-                    <span class="text-danger">*</span>契约时间：
-                    <el-date-picker
-                      :picker-options="ApickerOptions"
-                      v-model="stEtA"
-                      type="datetimerange"
-                      placeholder="请选择日期时间范围"
-                      v-bind:clearable="clearableOnTime"
-                    ></el-date-picker>
-                  </div>
-                  <p class="item block">
-                    <span class="text-danger">*</span>发放周期：
-                    <el-select v-model=" SV " style="width: .9rem;" placeholder="无">
-                      <el-option v-for="S in sendCycle" v-bind:label=" TIME[S] " v-bind:value="S"></el-option>
-                      <span class="text-black" style="padding: 0 .16rem;">{{ time[me.shareCycle] }}</span>
-                    </el-select>
-                  </p>
-                  <p class="item block">
-                    <span class="text-danger">*</span>发放方式：
-                    <label
-                      class="text-black ds-radio-label"
-                      style="padding: 0; margin-left: -.05rem ;"
-                      @click=" sendType = 0 "
-                      v-bind:class=" { active: sendType === 0 } "
-                    >
-                      <span class="ds-radio white"></span>手动发放
-                    </label>
-                    <label
-                      class="text-black ds-radio-label"
-                      style="padding: 0 .1rem;"
-                      @click=" sendType = 1 "
-                      v-bind:class=" { active: sendType === 1 } "
-                    >
-                      <span class="ds-radio white"></span>自动发放
-                      <span class="text-green">( 推荐 )</span>
-                    </label>
-                  </p>
-                  <p class="item block" v-for=" (CR, i) in CRULES ">
-                    <span class="text-danger">{{ i===0? '*': '&nbsp;'}}</span>
-                    {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-                    <span
-                      class="text-black"
-                    >累计</span>
-                    <el-select v-model="CR.ruletype" style="width: .7rem;" placeholder="全">
-                      <el-option v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id"></el-option>
-                    </el-select>&nbsp;&nbsp;
-                    <el-input-number
-                      class="text-danger text-right"
-                      style="width: .8rem;"
-                      v-model="CR.sales"
-                      v-bind:debounce="2000"
-                    ></el-input-number>
-                    <span class="text-black">&nbsp;万，有效人数&nbsp;</span>
-                    <el-input-number
-                      class="text-danger text-right"
-                      style="width: .6rem;"
-                      v-model="CR.actUser"
-                      v-bind:debounce="2000"
-                    ></el-input-number>
-                    <span class="text-black">人，分红比例</span>
-                    <el-select v-model=" CR.bounsRate " style="width: .7rem;" placeholder="全">
-                      <el-option
-                        v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) "
-                        v-bind:label="R.bounsRate + '%' "
-                        v-bind:value="R.bounsRate"
-                      ></el-option>
-                    </el-select>
-                    <span v-if="CR.bounsRate">
-                      &nbsp;最低
-                      <span
-                        class="text-blue"
-                      >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}</span>万，
-                      <span
-                        class="text-blue"
-                      >{{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}</span>人
-                    </span>
-                  </p>
-                  <div class="buttons item block" style="padding-left: .55rem;">
-                    <div
-                      class="ds-button x-small text-button el-icon-plus blue"
-                      @click=" ruleLength++ "
-                      v-if="ruleLength < 21"
-                    >
-                      <span class="text-black">&nbsp;再加一行</span>
-                    </div>
-                    <div
-                      class="ds-button x-small text-button el-icon-minus blue"
-                      @click=" ruleLength-- "
-                      v-if="ruleLength > 3 "
-                    >
-                      <span class="text-black">&nbsp;减最后一行</span>
-                    </div>
-                  </div>
-                  <div class="buttons item block" style="padding-left: .6rem;">
-                    <div class="ds-button primary bold" @click="createContract">确认发送</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <OtherContract class="scroll-content" v-if=" I === 1 "></OtherContract>
-    </div>
-    <div class="modal" v-if="showDetail">
-      <div class="mask"></div>
-      <div class="box-wrapper">
-        <div class="box" ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.06rem;">
-          <div class="tool-bar">
-            <span class="title">契约详情</span>
-            <el-button-group>
-              <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
-            </el-button-group>
-          </div>
-          <ContractDetail
-            v-bind:id=" showDetail "
-            v-bind:myself="Ismyself "
-            v-bind:cType="cType"
-            style="min-height: 5rem;"
-          ></ContractDetail>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
 import setTableMaxHeight from "components/setTableMaxHeight";
-import ContractDetail from "./ContractDetail";
-import OtherContract from "./OtherContract";
+import contractdetail from "./ContractDetail";
+import othercontract from "./OtherContract";
 import api from "../../http/api";
 import { dateTimeFormat } from "../../util/Date";
 import store from "../../store";
 export default {
   mixins: [setTableMaxHeight],
   components: {
-    ContractDetail,
-    OtherContract
+    contractdetail,
+    othercontract
   },
   data() {
     return {
