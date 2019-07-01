@@ -57,7 +57,7 @@
             span.title 分红详情
             el-button-group
               el-button.close(icon='close', @click="showDetail = ''")
-          stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !this.$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
+          stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
 
 </template>
 
