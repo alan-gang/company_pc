@@ -54,7 +54,7 @@
       .box-wrapper
         .box(ref='box', style='max-width: 5rem; max-height: 9rem; height: 6.2rem;')
           .tool-bar
-            span.title 分红详情{{this.$props.typeCode}}-{{$props.typeCode}}
+            span.title 分红详情
             el-button-group
               el-button.close(icon='close', @click="showDetail = ''")
           stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !this.$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
