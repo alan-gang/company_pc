@@ -101,7 +101,7 @@
       <div class="box-wrapper">
         <div class="box" ref="box" style="max-width: 5rem; max-height: 9rem; height: 6.2rem;">
           <div class="tool-bar">
-            <span class="title">分红详情</span>
+            <span class="title">分红详情{{this.$props.typeCode }}</span>
             <el-button-group>
               <el-button class="close" icon="close" @click="showDetail = ''"></el-button>
             </el-button-group>
