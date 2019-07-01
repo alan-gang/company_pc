@@ -2,8 +2,8 @@
 <template lang="jade">
   .other-stock
     slot(name='toolbar')
-    otherprofit.scroll-content(v-if=' I === 0 ', :typecode='0')
-    otherprofit.scroll-content(v-if=' I === 1 ', :typecode='1')
+    otherprofit.scroll-content(v-if=' I === 0 ', :typeCode='0')
+    otherprofit.scroll-content(v-if=' I === 1 ', :typeCode='1')
     totherprofit.scroll-content(v-if=' I === 2 ')
     othercontract.scroll-content(v-if=' I === 3 ')
 
