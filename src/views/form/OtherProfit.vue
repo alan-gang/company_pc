@@ -20,6 +20,11 @@
             input.ds-input.small(v-model='name', style='width: 1rem;')
           .ds-button.primary.large.bold(@click='bonus') 搜索
         el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries1', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
+          el-table-column(class-name='pl2', prop='userName', label='用户名')
+            template(scope='scope')
+              span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                | {{ scope.row.userName }}
+                template(v-if='me.account==scope.row.userName') (我)
           el-table-column(align='center', prop='issue', label='结算日期')
           el-table-column(align='center', prop='sendCycle', label='其它游戏分红周期', width='100')
             template(scope='scope')

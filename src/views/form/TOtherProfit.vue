@@ -9,7 +9,7 @@
       .form
         .form-filters(style='padding: .05rem; margin: .1rem 0;')
         el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries1', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
-          el-table-column(prop='userName', label='用户名')
+          el-table-column(class-name='pl2', prop='userName', label='用户名')
             template(scope='scope')
               span
                 | {{ scope.row.userName }}
