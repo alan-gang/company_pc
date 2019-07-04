@@ -128,7 +128,7 @@
             })
             data.back.forEach((x, i) => {
               x.$ = (x.backwater - x.value).toFixed(4) * 1000
-              x.$s = x.backwater * (i ? 10000 : 10)
+              x.$s = Math.ceil(x.backwater * (i ? 10000 : 10))
             })
             data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1)
             this.data = data.back
