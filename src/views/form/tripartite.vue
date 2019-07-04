@@ -34,7 +34,7 @@
             | 显示
             el-select(v-model='ot', placeholder='请选择')
               el-option(label='投注的', value='0')
-                el-option(label='全部', value='1')
+              el-option(label='全部', value='1')
           span
             | 团队
             el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')

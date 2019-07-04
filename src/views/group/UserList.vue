@@ -1065,7 +1065,7 @@
           if (success === 1) {
             backWaterComb.forEach((x, i) => {
               x.$$ = x.$ = x.backWater ? (x.backWater * 1000).toFixed(1) : ''
-              x.$s = x.maxBackWater * 10000
+              x.$s = Math.ceil(x.maxBackWater * 10000)
             })
             row.back = row.back.slice(0, 1).concat(backWaterComb)
           }
