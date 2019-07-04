@@ -21,6 +21,11 @@
           span
             .ds-button.primary.large.bold(@click='bonus') 搜索
         el-table.header-bold.nopadding(:data='bonusList', ref='table', stripe='stripe', show-summary='show-summary', v-bind:summary-method='getSummaries', v-bind:max-height=' MH ', v-bind:row-class-name='tableRowClassName')
+          el-table-column(class-name='pl2', prop='userName', label='用户名')
+            template(scope='scope')
+              span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                | {{ scope.row.userName }}
+                template(v-if='me.account==scope.row.userName') (我)
           el-table-column(prop='issue', label='结算日期')
           el-table-column(label='分红周期')
             template(scope='scope')
@@ -57,7 +62,7 @@
             span.title 分红详情
             el-button-group
               el-button.close(icon='close', @click="showDetail = ''")
-          stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !this.$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
+          stockdetail(v-bind:id=' showDetail ', v-bind:myself=' !$props.typeCode ', v-bind:type="'qryBonusById'", style='min-height: 5.7rem;')
 
 </template>
 
