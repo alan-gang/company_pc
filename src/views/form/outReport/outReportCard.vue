@@ -11,6 +11,11 @@
       div(v-if=' I === 0 ')
         .form.form-filters.my-el
           span
+            | 时间&nbsp;&nbsp;
+            // v-on:change="dateChange"
+            // :picker-options="pickerOptions"
+            el-date-picker(v-model='stEt', format='yyyy-MM-dd', type='daterange', placeholder='选择日期范围', v-bind:clearable='clearableOnTime' v-bind:picker-options="pickerOptions")
+            | &nbsp;&nbsp;
             el-button(@click='ClickToday', size='small') 今天
             el-button(@click='ClickYesterday', size='small') 昨天
             el-button(@click='ClickBeforeYesterday', size='small') 前天
@@ -144,13 +149,20 @@ export default {
   props: ["gameType"],
   data() {
     return {
+      //本月最后一天   到  前三个月的1号
+      pickerOptions: {
+        disabledDate(time) {
+          //- 8.64e7
+          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
+        }
+      },
       numberWithCommas,
       TH: 270,
       me: store.state.user,
       clearableOnTime: false,
       // stEt: [new Date()._setD(1)._setHMS("0:0:0"),new Date()._setD(1)._setHMS("0:0:0")._bfM(1)._setS(-1)],
-      stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
-      tableTime: [new Date()._toDayString(), new Date()._toDayString()], //表格当前筛选时间
+      stEt: [new Date(), new Date()], // 今天[2019-05-21 , 2019-05-21]
+      tableTime: [new Date(), new Date()], //表格当前筛选时间
       profitDetailROW: null,
       data: [],
       pageSize: 20,
@@ -228,14 +240,12 @@ export default {
         new Date()
           ._setD(1)
           ._bfM(multiple)
-          ._toDayString()
       );
       r.push(
         new Date()
           ._setD(1)
           ._bfM(multiple + 1)
           ._setD(0)
-          ._toDayString()
       );
       r.push;
       // console.log(222, r);
@@ -275,20 +285,20 @@ export default {
     },
     //点击 今天
     ClickToday() {
-      this.stEt = [new Date()._toDayString(), new Date()._toDayString()];
+      this.stEt = [new Date(), new Date()];
     },
     //点击 昨天
     ClickYesterday() {
       this.stEt = [
-        new Date()._bf(-1)._toDayString(),
-        new Date()._bf(-1)._toDayString()
+        new Date()._bf(-1),
+        new Date()._bf(-1)
       ];
     },
     //点击 前天
     ClickBeforeYesterday() {
       this.stEt = [
-        new Date()._bf(-2)._toDayString(),
-        new Date()._bf(-2)._toDayString()
+        new Date()._bf(-2),
+        new Date()._bf(-2)
       ];
     },
     pageChanged(cp) {
@@ -327,8 +337,8 @@ export default {
           scope: this.zone !== "" ? this.zone + 1 : "",
           page: 1,
           pageSize: this.pageSize,
-          beginDate: this.stEt[0],
-          endDate: this.stEt[1],
+          beginDate: this.stEt[0]._toDayString(),
+          endDate: this.stEt[1]._toDayString(),
           listAll: this.ot,
           orderBy: this.orderBy || "",
           ascOrDesc: this.ascOrDesc || ""
@@ -433,8 +443,8 @@ export default {
           scope: this.zone !== "" ? this.zone + 1 : "",
           page: 1,
           pageSize: this.pageSize,
-          beginDate: this.stEt[0],
-          endDate: this.stEt[1]
+          beginDate: this.stEt[0]._toDayString(),
+          endDate: this.stEt[1]._toDayString()
         };
       } else {
         this.cpreOptions.page = page;

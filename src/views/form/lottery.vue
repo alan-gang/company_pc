@@ -9,6 +9,11 @@
     .stock-list.scroll-content
       .form.form-filters.my-el
         span
+          | 时间&nbsp;&nbsp;
+          // v-on:change="dateChange"
+          // :picker-options="pickerOptions"
+          el-date-picker(v-model='stEt', format='yyyy-MM-dd', type='daterange', placeholder='选择日期范围', v-bind:clearable='clearableOnTime' v-bind:picker-options="pickerOptions")
+          | &nbsp;&nbsp;
           el-button(@click='ClickToday', size='small') 今天
           el-button(@click='ClickYesterday', size='small') 昨天
           el-button(@click='ClickBeforeYesterday', size='small') 前天
@@ -154,6 +159,13 @@ export default {
   },
   data() {
     return {
+      //本月最后一天   到  前三个月的1号
+      pickerOptions: {
+        disabledDate(time) {
+          //- 8.64e7
+          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
+        }
+      },
       bonusReleaseCycle: null, // 分红周期，-1:没有契约(显示半月)； 1:月；2:半月；3:周；
       cuserPoint: null,
       TH: 270,
@@ -161,8 +173,8 @@ export default {
       me: store.state.user,
       clearableOnTime: false,
       // stEt: [new Date()._setD(new Date().getDate() > 15 ? 16 : 1)._setHMS('0:0:0'), new Date()._setHMS('23:59:59')],
-      stEt: [new Date()._toDayString(), new Date()._toDayString()], // 今天[2019-05-21 , 2019-05-21]
-      tableTime: [new Date()._toDayString(), new Date()._toDayString()], //表格当前筛选时间
+      stEt: [new Date(), new Date()], // 今天[2019-05-21 , 2019-05-21]
+      tableTime: [new Date(), new Date()], //表格当前筛选时间
       profitDetailROW: null,
       // IssalaryAmount: !1, //个人详情报表中  是否有日工资
       data: [],
@@ -218,12 +230,11 @@ export default {
           {
             label: `${new Date().getMonth() + 1}月`,
             val: [
-              new Date()._setD(1)._toDayString(),
+              new Date()._setD(1),
               new Date()
                 ._setD(1)
                 ._bfM(1)
                 ._bf(-1)
-                ._toDayString()
             ]
           },
           {
@@ -231,12 +242,10 @@ export default {
             val: [
               new Date()
                 ._setD(1)
-                ._bfM(-1)
-                ._toDayString(),
+                ._bfM(-1),
               new Date()
                 ._setD(1)
                 ._bf(-1)
-                ._toDayString()
             ]
           },
           {
@@ -247,38 +256,35 @@ export default {
             val: [
               new Date()
                 ._setD(1)
-                ._bfM(-2)
-                ._toDayString(),
+                ._bfM(-2),
               new Date()
                 ._setD(1)
                 ._bfM(-1)
                 ._bf(-1)
-                ._toDayString()
             ]
           }
         );
       }
       // 前三个半月
-      if (val && val === 2 || val === -1) {
+      if ((val && val === 2) || val === -1) {
         //
         if (new Date().getDate() > 16) {
           r.push(
             {
               label: `${new Date().getMonth() + 1}月下半月`,
               val: [
-                new Date()._setD(16)._toDayString(),
+                new Date()._setD(16),
                 new Date()
                   ._setD(1)
                   ._bfM(1)
                   ._bf(-1)
-                  ._toDayString()
               ]
             },
             {
               label: `${new Date().getMonth() + 1}月上半月`,
               val: [
-                new Date()._setD(1)._toDayString(),
-                new Date()._setD(15)._toDayString()
+                new Date()._setD(1),
+                new Date()._setD(15)
               ]
             },
             {
@@ -286,12 +292,10 @@ export default {
               val: [
                 new Date()
                   ._setD(16)
-                  ._bfM(-1)
-                  ._toDayString(),
+                  ._bfM(-1),
                 new Date()
                   ._setD(1)
                   ._bf(-1)
-                  ._toDayString()
               ]
             }
           );
@@ -300,8 +304,8 @@ export default {
             {
               label: `${new Date().getMonth() + 1}月上半月`,
               val: [
-                new Date()._setD(1)._toDayString(),
-                new Date()._setD(15)._toDayString()
+                new Date()._setD(1),
+                new Date()._setD(15)
               ]
             },
             {
@@ -309,12 +313,10 @@ export default {
               val: [
                 new Date()
                   ._setD(16)
-                  ._bfM(-1)
-                  ._toDayString(),
+                  ._bfM(-1),
                 new Date()
                   ._setD(1)
                   ._bf(-1)
-                  ._toDayString()
               ]
             },
             {
@@ -322,12 +324,10 @@ export default {
               val: [
                 new Date()
                   ._setD(1)
-                  ._bfM(-1)
-                  ._toDayString(),
+                  ._bfM(-1),
                 new Date()
                   ._setD(15)
                   ._bfM(-1)
-                  ._toDayString()
               ]
             }
           );
@@ -363,20 +363,20 @@ export default {
     },
     //点击 今天
     ClickToday() {
-      this.stEt = [new Date()._toDayString(), new Date()._toDayString()];
+      this.stEt = [new Date(), new Date()];
     },
     //点击 昨天
     ClickYesterday() {
       this.stEt = [
-        new Date()._bf(-1)._toDayString(),
-        new Date()._bf(-1)._toDayString()
+        new Date()._bf(-1),
+        new Date()._bf(-1)
       ];
     },
     //点击 前天
     ClickBeforeYesterday() {
       this.stEt = [
-        new Date()._bf(-2)._toDayString(),
-        new Date()._bf(-2)._toDayString()
+        new Date()._bf(-2),
+        new Date()._bf(-2)
       ];
     },
     //点击排序
@@ -454,8 +454,8 @@ export default {
       );
       if (!fn) {
         this.preOptions = {
-          beginDate: this.stEt[0],
-          endDate: this.stEt[1],
+          beginDate: this.stEt[0]._toDayString(),
+          endDate: this.stEt[1]._toDayString(),
           userId: id || this.BL[this.BL.length - 2].userId,
           // parentId: this.zone !== "" ? this.zone + 1 : "",
           username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
@@ -571,8 +571,8 @@ export default {
           userId: id,
           page: 1,
           pageSize: this.pageSize,
-          beginDate: this.stEt[0],
-          endDate: this.stEt[1]
+          beginDate: this.stEt[0]._toDayString(),
+          endDate: this.stEt[1]._toDayString()
         };
       } else {
         this.cpreOptions.page = page;
