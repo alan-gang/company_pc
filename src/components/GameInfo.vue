@@ -156,7 +156,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
 因此当期的赛车结果为：4,2,3,6,1,10,5,8,7,9。
 <br/>
 <br/>
-腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/5">https://www.qiju.info/#/qijuData/5</a>`
+阿里云赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/6">https://www.qiju.info/#/qijuData/6</a>`
     }
   },
   computed: {
