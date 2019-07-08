@@ -279,7 +279,7 @@ export default {
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyAmount'],
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyqpAmount'],
       quickAmounts: ['50', '100', '500', '全部'],
       tabIdx: 0,
       accounts: [
@@ -296,7 +296,7 @@ export default {
         { id: '25', transInId: 9, transOutId: 11, title: '微游账户', shotTitle: '微游', name: 'litAmount', balance: 0, className: 'acc-bg-oriange', showIn: true, showOut: true, show: true },
         { id: '19', transInId: 10, transOutId: 12, title: '平博账户', shotTitle: '平博', name: 'pbAmount', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
         { id: '21', transInId: 11, transOutId: 13, title: 'LG账户', shotTitle: 'LG', name: 'lgAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
-        { id: '22', transInId: 12, transOutId: 14, title: '幸运账户', shotTitle: '幸运', name: 'xyAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '22', transInId: 12, transOutId: 14, title: '幸运账户', shotTitle: '幸运', name: 'xyqpAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
         { id: '', transInId: '', transOutId: '', title: '优惠券', shotTitle: '优惠券', name: 'free', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: false, show: true }
       ]
     }
@@ -333,13 +333,13 @@ export default {
         case 13:
           return this.ME.lgAmount
         case 14:
-          return this.ME.xyAmount
+          return this.ME.xyqpAmount
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount, this.ME.xyAmount][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount, this.ME.xyqpAmount][this.t]
         default:
           return this.ME.amoney
         // case 2:
@@ -590,7 +590,7 @@ export default {
             pbAmount: data.pbAmount || 0,
             lgAmount: data.lgAmount || 0,
             xyAmount: data.xyAmount || 0,
-            free: data.xyqpAmount || 0
+            xyqpAmount: data.xyqpAmount || 0
           })
           this.accounts = this.accounts.map((item) => {
             if (this.ME.hasOwnProperty(item.name)) {
