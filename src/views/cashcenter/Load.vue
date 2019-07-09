@@ -736,18 +736,16 @@ export default {
               this.pt_ = this.time_
             // 第三方充值 链接跳转
             } else {
-              window.open(data.href)
-              this.showResponseConfirmModal()
-              // this.$modal.warn({
-              //   content: '立即跳转到第三方去充值？',
-              //   btn: ['进入网上银行'],
-              //   href: [data.href],
-              //   target: this.$el,
-              //   ok () {
-              //     this.showResponseConfirmModal()
-              //   },
-              //   O: this
-              // })
+              this.$modal.warn({
+                content: '立即跳转到第三方去充值？',
+                btn: ['进入网上银行'],
+                href: [data.href],
+                target: this.$el,
+                ok () {
+                  this.showResponseConfirmModal()
+                },
+                O: this
+              })
             }
           }
         } else {
