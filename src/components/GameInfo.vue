@@ -265,7 +265,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115
+    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 ffc_qq
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
