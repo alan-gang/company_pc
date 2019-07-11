@@ -237,9 +237,11 @@ export default {
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
                 {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
+                {class: 'ds-icon-game-hnwfc sign new', id: '1-1-119', menuid: '119', title: '河内5分彩', volume: true, gameid: 158},
+                {class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163},
+                {class: 'ds-icon-game-ffc_qq sign hot', id: '1-1-127', menuid: '127', title: '奇趣分分彩', volume: false, gameid: 164},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
-                {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
-                {class: 'ds-icon-game-hnwfc sign new', id: '1-1-15', menuid: '119', title: '河内5分彩', volume: true, gameid: 158}
+                {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153}
               ]
             },
             {
