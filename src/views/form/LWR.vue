@@ -487,7 +487,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '../../var.stylus';
 
 .stock-list {
   // top TH
@@ -508,7 +508,7 @@ export default {
 
 
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '../../var.stylus';
 
 bg = #d8d8d8;
 bg-hover = #ececec;

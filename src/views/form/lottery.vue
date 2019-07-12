@@ -18,8 +18,9 @@
           el-button(@click='ClickYesterday', size='small') 昨天
           el-button(@click='ClickBeforeYesterday', size='small') 前天
           el-button(v-for='v in dateSub', :key='v.label', size='small', @click='stEt = v.val') {{v.label}}
-        span
+        span.pl_5
           | 排序
+          span.pl_5
           el-button(size='small', @click="ClickSort('betAmount')")
             | 投注
             template(v-if="orderBy=='betAmount'&&ascOrDesc==2") ↑
@@ -32,14 +33,16 @@
             | 游戏盈亏
             template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2") ↑
             template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1") ↓
-        span
+        span.pl_5
           | 显示
+          span.pl_5
           el-select(v-model='ot', placeholder='请选择')
             el-option(label='投注的', value='0')
             el-option(label='全部', value='1')
-        span
+        span.pl_5
           | 团队
           el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+        span.pl_5
         .ds-button.primary.large.bold(@click='profitList()') 搜索
       div
         .table-list(style='padding: .15rem .2rem;')
