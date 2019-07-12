@@ -78,9 +78,9 @@
           |  元
         p(v-show=" n && maxWinAmount <= dzMaxPrize ")
           | 最高可中奖
-          span.text-blue.text-bold  {{ maxWinAmount.toFixed(3)._nwc() }} 
+          span.text-blue.text-bold  {{ maxWinAmount.toFixed(2 + cIndex)._nwc() }} 
           | 元，最高可盈利
-          span.text-blue.text-bold  {{ maxWinProfit.toFixed(3)._nwc() }} 
+          span.text-blue.text-bold  {{ maxWinProfit.toFixed(2 + cIndex)._nwc() }} 
           | 元
         p(v-show=" n && maxWinAmount > dzMaxPrize ")
           span.text-danger 超出奖金限制
