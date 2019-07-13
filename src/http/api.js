@@ -637,7 +637,9 @@ let Form = {
   // 下级个人赢亏
   subPersonalProfit: '/report/personalProfit.do?method=total',
   // 用户层级
-  subBread: '/report/personalProfit.do?method=subBread'
+  subBread: '/report/personalProfit.do?method=subBread',
+  // 获取充提统计
+  rechargeList: '/report/otherReport.do?method=rechargeList'
 }
 
 let Help = {
