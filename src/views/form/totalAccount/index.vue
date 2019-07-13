@@ -13,6 +13,7 @@
     outreportcard.scroll-content(v-if=' I === 2 ', :gameType='4')
         // 微游
     outreportcard.scroll-content(v-if=' I === 3 ', :gameType='8')
+    //- Recharge.scroll-content(v-if="I === 4")
 
 </template>
 
@@ -20,11 +21,13 @@
 import lottery from "../lottery"; //彩票
 import tripartite from "../tripartite"; //三方
 import outreportcard from "../outReport/outReportCard"; //棋牌   //微游
+import Recharge from '../Recharge'
 export default {
   components: {
     lottery,
     tripartite,
-    outreportcard
+    outreportcard,
+    Recharge
     // lottery: resolve => require(["../lottery"], resolve), //彩票
     // tripartite: resolve => require(["../tripartite"], resolve), //三方
     // outReportCard: resolve => require(["../outReport/outReportCard"], resolve) //棋牌   //微游
