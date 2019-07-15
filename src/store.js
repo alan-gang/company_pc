@@ -70,7 +70,8 @@ let defaultUser = {
   diffExp: 0,
   nexMinExp: 0,
   vipChatUrl: '',
-  chatUrlSlave: ''
+  chatUrlSlave: '',
+  blackWaters: {} // 第三方游戏返水
 }
 let defaultUserString = JSON.stringify(defaultUser)
 delete defaultUser.mode

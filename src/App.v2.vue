@@ -1168,6 +1168,10 @@ export default {
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()
+        let backWaters = {}
+        data.backWater.forEach((b) => {
+          backWaters['groupId_' + b.groupId] = b.backWater > 0
+        })
         this.setUser({login: true,
           displayPermission: data.displayPermission, // 显示权限
           showPhoneEmail: data.showPhoneEmail, // 0 : 不显示手机邮箱   1：显示手机邮箱
@@ -1188,7 +1192,8 @@ export default {
           safeCheck: data.verifyType,
           vip: data.isVip,
           isVip: data.isVip,
-          vipChatUrl: data.vipChatUrl
+          vipChatUrl: data.vipChatUrl,
+          backWaters
           // isOldUser: data.isOldUser
         })
         this.showAnnual = !!data.isOldUser
