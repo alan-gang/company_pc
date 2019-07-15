@@ -56,9 +56,31 @@
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-on:sort-change="sortChange")  
-        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
-          template(slot-scope="scope")
-            span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
+        el-table-column(prop="userName" label="用户名" class-name="pl2")
+
+        el-table-column(prop="buy" label="投注" sortable="custom")
+
+        el-table-column(prop="prize" label="中奖" )
+
+        el-table-column(prop="point" label="彩票返点" v-if="I === 1 && showpoint")
+        el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showback")
+
+        el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
+          template(scope="scope")
+            span(v-bind:class="getCellClass(scope.row.gameProfit, true)") {{scope.row.gameProfit}}
+
+        el-table-column(prop="reward" label="活动" )
+
+        el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
+          template(scope="scope")
+            span(v-bind:class="getCellClass(scope.row.gameProfit, true)") {{scope.row.gameProfit}}
+
+        el-table-column(prop="subType" label="下级类型" )
+
+        //- el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+        //-   template(slot-scope="scope")
+        //-     span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
+
         el-table-column(label="操作" )
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
