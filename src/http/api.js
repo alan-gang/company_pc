@@ -639,7 +639,9 @@ let Form = {
   // 用户层级
   subBread: '/report/personalProfit.do?method=subBread',
   // 获取充提统计
-  rechargeList: '/report/otherReport.do?method=rechargeList'
+  rechargeList: '/report/otherReport.do?method=rechargeList',
+  // 获取统计报表明细
+  rechargeDetail: '/report/otherReport.do?method=rechargeDetail'
 }
 
 let Help = {
