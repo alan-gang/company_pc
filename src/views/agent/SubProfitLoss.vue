@@ -62,8 +62,8 @@
 
         el-table-column(prop="prize" label="中奖" )
 
-        el-table-column(prop="point" label="彩票返点" v-if="I === 1 && showpoint")
-        el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showback")
+        el-table-column(prop="point" label="彩票返点" v-if="I === 1 && showpoint && showThirdPointColumn")
+        el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showback && showThirdPointColumn")
 
         el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
           template(scope="scope")
@@ -220,6 +220,7 @@ export default {
       isShowHigherLevelDialog: false,
       isShowDailyProfitDialog: false,
       showUserPointColumn: false,
+      showThirdPointColumn: false,
       amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
 
       subUserId: '',
@@ -236,6 +237,9 @@ export default {
     },
     showpoint () {
       return this.me.displayPermission.showpoint === 1
+    },
+    backWaters () {
+      return this.me.backWaters
     }
   },
   mounted () {
@@ -248,6 +252,7 @@ export default {
       orderBy: 'totalProfit'
     })
     this.names = JSON.parse(window.sessionStorage.getItem('SUB_PROFIT_LOSS_NAMES_HISTORY') || '[]')
+    console.log('this.me.backWaters=', this.me.backWaters)
   },
   methods: {
     __setReportI (i) {
@@ -290,6 +295,7 @@ export default {
         p.username = this.subUserName
         delete p.userId
       }
+      this.showThirdPointColumn = this.backWaters['groupId_' + this.curGameType]
       Object.assign(p, params)
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
