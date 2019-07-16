@@ -32,7 +32,7 @@
             el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='rechargeList', popper-class='autocompleteuser')
           span.pl_5
           .ds-button.primary.large.bold(@click='rechargeList()') 搜索
-        .table-list(style='padding: .15rem .2rem ;')
+        .table-list.mid-load(style='padding: .15rem .2rem ;')
           p(style='margin: 0 0 .15rem 0;')
             el-breadcrumb(separator='>')
               el-breadcrumb-item(v-for='(B, i) in BL', @click.native=' link(B, i) ') {{ i === 0 ? '自己' : B.userName }}
@@ -508,7 +508,13 @@ export default {
 }
 </style>
 
-
+<style lang="stylus">
+  .mid-load {
+    .el-loading-spinner {
+      margin-top: -32px;
+    }
+  }
+</style>
 <style lang="stylus" scoped>
 @import '../../var.stylus';
 
