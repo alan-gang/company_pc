@@ -360,7 +360,8 @@ export default {
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
-            this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && parseFloat(pointLevel) > 0
+            // this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && parseFloat(pointLevel) > 0
+            this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && this.backWaters['groupId_' + this.curGameType]
             this.dailyReportData = items
           }
           // this.showUserPointColumn = parseFloat(pointLevel) > 0
