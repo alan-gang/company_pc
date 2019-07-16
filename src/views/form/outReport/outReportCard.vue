@@ -69,7 +69,7 @@
             el-table-column(align='right', prop='profit', label='游戏盈亏', sortable='custom')
               template(scope='scope')
                 span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ scope.row.profit && scope.row.profit._nwc()}}
-            el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.displayPermission.showback')
+            el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.backWaters.groupId_4')
               template(scope='scope')
                 span {{ scope.row.getpoint && scope.row.getpoint._nwc()}}
             el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
