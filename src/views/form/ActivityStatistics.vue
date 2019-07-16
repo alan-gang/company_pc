@@ -1,4 +1,4 @@
-// 充提统计
+// 活动统计
 <template lang="jade">
   .group-page
     slot(name='cover')
@@ -29,9 +29,9 @@
           span.pl_5
             | 团队
             span.pl_5
-            el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='rechargeList', popper-class='autocompleteuser')
+            el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='activitList', popper-class='autocompleteuser')
           span.pl_5
-          .ds-button.primary.large.bold(@click='rechargeList()') 搜索
+          .ds-button.primary.large.bold(@click='activitList()') 搜索
         .table-list(style='padding: .15rem .2rem ;')
           p(style='margin: 0 0 .15rem 0;')
             el-breadcrumb(separator='>')
@@ -46,39 +46,21 @@
             v-bind:max-height=' MH '
             @sort-change='sortChange'
           )
-            el-table-column(class-name='pl2', prop='userName', label='用户名')
+            el-table-column(class-name='pl2', prop='username', label='用户名' fixed)
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
-                  | {{ scope.row.userName }}
+                span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                  | {{ scope.row.username }}
                   template(v-if='me.account==scope.row.userName') (我)
-            el-table-column(label="充值人数" prop="czpeople"  align='center')
-              template(scope='scope')
-                span {{ scope.row.czpeople}}
-            el-table-column(label='充值笔数' prop="entry" align='center')
-              template(scope='scope')
-                span {{ scope.row.entry }}
-            el-table-column(align='right' prop="amount" label='充值金额' sortable="custom")
-              template(scope='scope')
-                span {{ scope.row.amount }}
-            el-table-column(align='right' prop="firstpeople" label='首充人数')
-              template(scope='scope')
-                span {{ scope.row.firstpeople }}
-            el-table-column(align='right', prop='secondpeople', label='二充人数')
-              template(scope='scope')
-                span {{ scope.row.secondpeople }}
-            el-table-column(align='right', prop='tkpeople', label='提款人数')
-              template(scope='scope')
-                span {{ scope.row.tkpeople }}
-            el-table-column(align='right', prop='tkentry', label='提款笔数')
-              template(scope='scope')
-                span {{ scope.row.tkentry }}
-            el-table-column(align="right" prop="realmoney" label="提款金额" sortable="custom")
-              template(scope="scope")
-                span {{ scope.row.realmoney }}
-            el-table-column(prop='userpoint', label='操作', align='center')
+            el-table-column(:label="(dataCols.length ? item.groupidName : item) + '活动'" class-name="br" align='center' v-for="(item, index) in dataCols.length ? dataCols : defaultTypes")
+              el-table-column(label="领取金额" align="center")
+                template(scope='scope')
+                  span {{ scope.row.gamedate[index].amount }}
+              el-table-column(label="参与人数" class-name="br" align="center")
+                template(scope='scope')
+                  span {{ scope.row.gamedate[index].totalpeople}}
+            el-table-column(label='操作', align='center')
               template(scope='scope')
                 .ds-button.text-button.blue(
-                  v-show="scope.row.userId && Daily && scope.$index + 1 != data.length" 
                   @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
                 ) 明细
           el-pagination(
@@ -108,31 +90,14 @@
               el-table-column(prop='date', label='日期', align='center')
                 template(scope='scope')
                   span(v-if="scope.row.userName=='合计'") {{ scope.row.userName }}
-                  span(v-if="scope.row.userName!='合计'") {{ scope.row.finishdate }}
-              el-table-column(label="充值人数" prop="people"  align='center')
-                template(scope='scope')
-                  span {{ scope.row.people}}
-              el-table-column(label='充值笔数' prop="times" align='center')
-                template(scope='scope')
-                  span {{ scope.row.times }}
-              el-table-column(align='right' prop="totalamount" label='充值金额')
-                template(scope='scope')
-                  span {{ scope.row.totalamount }}
-              el-table-column(align='right' prop="firstpeople" label='首充人数')
-                template(scope='scope')
-                  span {{ scope.row.firstpeople }}
-              el-table-column(align='right', prop='secondpeople', label='二充人数')
-                template(scope='scope')
-                  span {{ scope.row.secondpeople }}
-              el-table-column(align='right', prop='withdrawelpeople', label='提款人数')
-                template(scope='scope')
-                  span {{ scope.row.withdrawelpeople }}
-              el-table-column(align='right', prop='withdraweltimes', label='提款笔数')
-                template(scope='scope')
-                  span {{ scope.row.withdraweltimes }}
-              el-table-column(align="right" prop="withdrawalamount" label="提款金额")
-                template(scope="scope")
-                  span {{ scope.row.withdrawalamount }}
+                  span(v-if="scope.row.userName!='合计'") {{ scope.row.date }}
+              el-table-column(:label="(cdataCols.length ? item.groupidname || item.groupidName : item)  + '活动'" class-name="br" align='center' v-for="(item, index) in cdataCols.length ? cdataCols : defaultTypes")
+                el-table-column(label="领取金额" align="center")
+                  template(scope='scope')
+                    span {{ scope.row.gamedate[index].amount }}
+                el-table-column(label="参与人数" class-name="br" align="center")
+                  template(scope='scope')
+                    span {{ scope.row.gamedate[index].totalpeople }}
             el-pagination(
               :total='ctotal'
               v-bind:page-size='pageSize'
@@ -198,19 +163,20 @@ export default {
       I: 0,
       ot: "0",
       orderBy: "",
-      ascOrDesc: 1
+      ascOrDesc: 1,
+      defaultTypes: ['彩票', '棋牌', '真人', '老虎机', '体育', '电竞', '捕鱼']
     };
   },
   watch: {
     //时间范围
     // stEt() {
-    //   this.rechargeList();
+    //   this.activitList();
     // },
     // ot() {
-    //   this.rechargeList();
+    //   this.activitList();
     // },
     gameType() {
-      this.rechargeList();
+      this.activitList();
     }
   },
   computed: {
@@ -222,12 +188,21 @@ export default {
         1000 * 60 * 60 * 24
         ? !0 //每天
         : !1; //时间范围是一天
-    }
+    },
     //上个月
     //上上个月
+
+    cdataCols () {
+      let arr = this.cdata[0] ? this.cdata[0].gamedate : []
+      return arr
+    },
+    dataCols () {
+      let arr = this.data[0] ? this.data[0].gamedate : []
+      return arr
+    }
   },
   mounted() {
-    this.rechargeList();
+    this.activitList();
   },
   methods: {
     // getSummaries(param) {
@@ -287,13 +262,13 @@ export default {
       if (prop === 'amount') temp = 1
       if (prop === 'realmoney') temp = 2
       this.orderBy = temp
-      this.rechargeList();
+      this.activitList();
     },
     //点击排序
     ClickSort(orderBy) {
       this.ascOrDesc = this.ascOrDesc === 2 ? 1 : 2;
       this.orderBy = orderBy;
-      // this.rechargeList();
+      // this.activitList();
     },
     //点击 今天
     ClickToday() {
@@ -314,7 +289,7 @@ export default {
       ];
     },
     pageChanged(cp) {
-      this.rechargeList(cp, () => {
+      this.activitList(cp, () => {
         this.currentPage = cp;
       });
     },
@@ -325,14 +300,14 @@ export default {
     },
     cellClick(row, column, cell, event) {
       if (column.property === "username") {
-        this.rechargeList(undefined, undefined, row.userId);
+        this.activitList(undefined, undefined, row.userId);
       }
     },
     link(B, i) {
-      this.rechargeList(undefined, undefined, B.userId);
+      this.activitList(undefined, undefined, B.userId);
     },
     // 充提列表
-    rechargeList(page, fn, id) {
+    activitList(page, fn, id) {
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -356,7 +331,7 @@ export default {
         this.preOptions.page = page;
       }
       this.$http
-        .myget(api.rechargeList, this.preOptions)
+        .myget(api.activitList, this.preOptions)
         .then(
           (res) => {
             // success
@@ -456,7 +431,7 @@ export default {
         this.cpreOptions.page = page;
       }
       this.$http
-        .get(api.rechargeDetail, this.cpreOptions)
+        .get(api.activityDetail, this.cpreOptions)
         .then(
           ({ data }) => {
             // success
@@ -506,6 +481,15 @@ export default {
 .el-select, .el-input-number {
   width: 1rem;
 }
+</style>
+
+
+<style lang="stylus">
+  .table-list {
+    th.br {
+      border-right: 2px solid #ccc!important;
+    }
+  }
 </style>
 
 

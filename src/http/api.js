@@ -641,7 +641,11 @@ let Form = {
   // 获取充提统计
   rechargeList: '/report/otherReport.do?method=rechargeList',
   // 获取统计报表明细
-  rechargeDetail: '/report/otherReport.do?method=rechargeDetail'
+  rechargeDetail: '/report/otherReport.do?method=rechargeDetail',
+  // 活动统计列表
+  activitList: '/report/otherReport.do?method=activitList',
+  // 活动统计列表明细
+  activityDetail: '/report/otherReport.do?method=activitDetail'
 }
 
 let Help = {
