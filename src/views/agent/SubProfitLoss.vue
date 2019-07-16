@@ -73,7 +73,7 @@
 
         el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
           template(scope="scope")
-            span(v-bind:class="getCellClass(scope.row.gameProfit, true)") {{scope.row.gameProfit}}
+            span(v-bind:class="getCellClass(scope.row.totalProfit, true)") {{scope.row.totalProfit}}
 
         el-table-column(prop="subType" label="下级类型" )
 
