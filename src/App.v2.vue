@@ -494,7 +494,7 @@ export default {
                   menuid: '57',
                   title: '团队盈亏',
                   // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
-                  tabs: ['彩票', '三方', '棋牌', '微游'],
+                  tabs: ['彩票', '三方', '棋牌', '微游', '充提统计', '活动统计'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
