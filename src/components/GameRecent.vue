@@ -83,7 +83,13 @@ export default {
       return this.codeStyle ? JSON.parse(this.codeStyle) : []
     },
     ccs () {
-      return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+      const r = this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+      if (r && ['String', 'Array'].indexOf(Object.prototype.toString.call(r.value[0]).slice(8, -1)) !== -1) {
+        return r
+      } else {
+        return undefined
+      }
+      // return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
     }
   },
   created () {
@@ -115,7 +121,13 @@ export default {
       return row.codeStyle ? JSON.parse(row.codeStyle) : ''
     },
     row_ccs (row) {
-      return (this.row_cs(row) || []).filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+      const r = (this.row_cs(row) || []).filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
+      if (r && ['String', 'Array'].indexOf(Object.prototype.toString.call(r.value[0]).slice(8, -1)) !== -1) {
+        return r
+      } else {
+        return undefined
+      }
+      // return (this.row_cs(row) || []).filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
     },
     padStart: padStart,
     setPosColor (i) {
