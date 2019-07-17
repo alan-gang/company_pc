@@ -51,7 +51,7 @@
                 span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.hasSub } ")
                   | {{ scope.row.username }}
                   template(v-if='me.account==scope.row.userName') (我)
-            el-table-column(:label="(dataCols.length ? item.groupidName : item) + '活动'" class-name="br" align='center' v-for="(item, index) in dataCols.length ? dataCols : defaultTypes")
+            el-table-column(:label="(dataCols.length ? item.groupname : item) + '活动'" class-name="br" align='center' v-for="(item, index) in dataCols.length ? dataCols : defaultTypes")
               el-table-column(label="领取金额" align="center")
                 template(scope='scope')
                   span {{ scope.row.gamedate[index].amount }}
@@ -61,6 +61,7 @@
             el-table-column(label='操作', align='center')
               template(scope='scope')
                 .ds-button.text-button.blue(
+                  v-show="scope.row.userId && Daily && scope.$index + 1 != data.length"
                   @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
                 ) 明细
           el-pagination(
@@ -91,7 +92,7 @@
                 template(scope='scope')
                   span(v-if="scope.row.userName=='合计'") {{ scope.row.userName }}
                   span(v-if="scope.row.userName!='合计'") {{ scope.row.date }}
-              el-table-column(:label="(cdataCols.length ? item.groupidname || item.groupidName : item)  + '活动'" class-name="br" align='center' v-for="(item, index) in cdataCols.length ? cdataCols : defaultTypes")
+              el-table-column(:label="(cdataCols.length ? item.groupname : item)  + '活动'" class-name="br" align='center' v-for="(item, index) in cdataCols.length ? cdataCols : defaultTypes")
                 el-table-column(label="领取金额" align="center")
                   template(scope='scope')
                     span {{ scope.row.gamedate[index].amount }}
