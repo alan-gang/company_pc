@@ -119,11 +119,11 @@
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.profit) }}
               // me.showBackWater ‰
-              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater')
+              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.backWaters.groupId_4')
                 template(scope='scope')
                   span(v-if='numberWithCommas(cuserBackWater)') {{ numberWithCommas(Number(cuserBackWater))}}‰
                   span(v-if='!numberWithCommas(cuserBackWater)') --
-              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='me.showBackWater')
+              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='me.backWaters.groupId_4')
                 template(scope='scope')
                   span {{ numberWithCommas(scope.row.getpoint) }}
               el-table-column(align='right', prop='rewards', label='活动')
