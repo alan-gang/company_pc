@@ -48,7 +48,7 @@
           )
             el-table-column(class-name='pl2', prop='userName', label='用户名')
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.temacount } ")
                   | {{ scope.row.userName }}
                   template(v-if='me.account==scope.row.userName') (我)
             el-table-column(label="充值人数" prop="czpeople"  align='center')
@@ -79,7 +79,7 @@
               template(scope='scope')
                 .ds-button.text-button.blue(
                   v-show="scope.row.userId && Daily && scope.$index + 1 != data.length" 
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row, scope.row.temacount)"
                 ) 明细
           el-pagination(
             :total='total'
@@ -100,9 +100,9 @@
             el-button-group
               el-button.close(icon='close', @click.native="showDetail = ''")
           .table-list(style='padding: .15rem .2rem ;')
-            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
+            .lotterymyinfo(:class="profitDetailROW && isTeam ? 'team' : 'my'")
               | 明细-{{profitDetailROW && profitDetailROW.userName}}(
-              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              | {{profitDetailROW && isTeam ? '团队' : '个人'}}
               | )
             el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
               el-table-column(prop='date', label='日期', align='center')
@@ -198,7 +198,9 @@ export default {
       I: 0,
       ot: "0",
       orderBy: "",
-      ascOrDesc: 1
+      ascOrDesc: 1,
+      // 是否是团队
+      isTeam: false
     };
   },
   watch: {
@@ -324,7 +326,7 @@ export default {
       });
     },
     cellClick(row, column, cell, event) {
-      if (column.property === "username") {
+      if (column.property === "userName") {
         this.rechargeList(undefined, undefined, row.userId);
       }
     },
@@ -361,6 +363,7 @@ export default {
           (res) => {
             // success
             let data = res.data.data
+            if (data.length <= 1) data = []
             if (res.data.success === 1) {
               this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
@@ -433,7 +436,8 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id, row) {
+    profitDetail(page, fn, id, row, isTeam) {
+      if (isTeam !== undefined) this.isTeam = isTeam
       if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
