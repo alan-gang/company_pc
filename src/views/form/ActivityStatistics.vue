@@ -48,7 +48,7 @@
           )
             el-table-column(class-name='pl2', prop='username', label='用户名' fixed)
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.username != '合计' && scope.row.sumtotalpeople } ")
+                span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.username != '合计' && scope.row.temacount } ")
                   | {{ scope.row.username }}
                   template(v-if='me.account==scope.row.username') (我)
             el-table-column(:label="(dataCols.length ? item.groupname : item) + '活动'" class-name="br" align='center' v-for="(item, index) in dataCols.length ? dataCols : defaultTypes")
@@ -62,7 +62,7 @@
               template(scope='scope')
                 .ds-button.text-button.blue(
                   v-show="scope.row.userid && Daily && scope.$index + 1 != data.length"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userid,scope.row,scope.row.sumtotalpeople)"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userid,scope.row,scope.row.temacount)"
                 ) 明细
           el-pagination(
             :total='total'
@@ -301,7 +301,7 @@ export default {
       });
     },
     cellClick(row, column, cell, event) {
-      if (column.property === "username") {
+      if (column.property === "username" && row.temacount) {
         this.activitList(undefined, undefined, row.userid);
       }
     },
