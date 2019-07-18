@@ -419,6 +419,7 @@ export default {
       if (!fn) {
         this.cpreOptions = {
           userId: id,
+          username: row.username,
           page: 1,
           pageSize: this.pageSize,
           beginDate: this.stEt[0]._toDayString(),
