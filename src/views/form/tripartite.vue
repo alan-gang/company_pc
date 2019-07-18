@@ -67,7 +67,7 @@
               el-table-column(align='right', prop='profit', label='游戏盈亏', sortable='custom')
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ scope.row.profit && scope.row.profit._nwc()}}
-              el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.backWaters.groupId_8')
+              el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='side3')
                 template(scope='scope')
                   span {{ scope.row.getpoint && scope.row.getpoint._nwc()}}
               el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
@@ -100,7 +100,7 @@
               el-table-column(align='right', prop='profit', label='游戏盈亏', sortable='custom')
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.profit) }}
-              el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.backWaters.groupId_8')
+              el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='side3')
                 template(scope='scope')
                   span {{ numberWithCommas(scope.row.getpoint) }}
               el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
@@ -153,12 +153,11 @@
               el-table-column(align='right', prop='profit', label='游戏盈亏')
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.profit) }}
-              // me.showBackWater ‰
-              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.backWaters.groupId_8')
+              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && side3')
                 template(scope='scope')
                   span(v-if='numberWithCommas(cuserBackWater)') {{ numberWithCommas(Number(cuserBackWater))}}‰
                   span(v-if='!numberWithCommas(cuserBackWater)') --
-              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='me.backWaters.groupId_8')
+              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='side3')
                 template(scope='scope')
                   span {{ numberWithCommas(scope.row.getpoint) }}
               el-table-column(align='right', prop='rewards', label='活动')
@@ -240,6 +239,16 @@ export default {
     }
   },
   computed: {
+    // 三方游戏ID集合  若有一个id 有返水 即 返回 !0
+    // 电竞 1 老虎机 2 真人 3 捕鱼 5 体育 6 基诺 7
+    side3() {
+      let arr = [1, 2, 3, 5, 6, 7];
+      let r = 0;
+      arr.forEach(_ => {
+        if (this.me.backWaters['groupId_' + _]) r++
+      });
+      return r > 0
+    },
     //统计时间是否大于1天
     Daily() {
       //统计时间为1天时,为【游戏人数】，大于1天时为【日均游戏人数】
