@@ -222,12 +222,16 @@ export default {
           ._setD(1)
           ._bfM(multiple)
       );
-      r.push(
-        new Date()
-          ._setD(1)
-          ._bfM(multiple + 1)
-          ._setD(0)
-      );
+      if (multiple === 0) {
+        r.push(new Date())
+      } else {
+        r.push(
+          new Date()
+            ._setD(1)
+            ._bfM(multiple + 1)
+            ._setD(0)
+        );
+      }
       r.push;
       // console.log(222, r);
       this.stEt = r;
