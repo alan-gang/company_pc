@@ -4,3 +4,4 @@ npm-debug.log
 test/*
 selenium-debug.log
 .vscode
+src/mock/*

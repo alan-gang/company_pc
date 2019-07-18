@@ -150,11 +150,12 @@
 <script>
 import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
+import dateOptions from '@/mixins/dateOptions'
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     profitlossdetail: resolve => require(["./ProfitLossDetail"], resolve),
     stock: resolve => require(["../group/Stock"], resolve),
@@ -162,13 +163,6 @@ export default {
   },
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       bonusReleaseCycle: null, // 分红周期，-1:没有契约(显示半月)； 1:月；2:半月；3:周；
       cuserPoint: null,
       TH: 270,
