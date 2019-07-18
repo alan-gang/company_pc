@@ -57,7 +57,7 @@
             el-table-column(label='充值笔数' prop="entry" align='center')
               template(scope='scope')
                 span {{ scope.row.entry }}
-            el-table-column(align='right' prop="amount" label='充值金额' sortable="custom")
+            el-table-column(align='right' prop="amount" label='充值金额')
               template(scope='scope')
                 span {{ scope.row.amount }}
             el-table-column(align='right' prop="firstpeople" label='首充人数')
@@ -72,7 +72,7 @@
             el-table-column(align='right', prop='tkentry', label='提款笔数')
               template(scope='scope')
                 span {{ scope.row.tkentry }}
-            el-table-column(align="right" prop="realmoney" label="提款金额" sortable="custom")
+            el-table-column(align="right" prop="realmoney" label="提款金额")
               template(scope="scope")
                 span {{ scope.row.realmoney }}
             el-table-column(prop='userpoint', label='操作', align='center')
@@ -348,9 +348,7 @@ export default {
           pageSize: this.pageSize,
           page: 1,
           userId: id || this.BL[this.BL.length - 2].userId,
-          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
-          orderAcs: this.ascOrDesc || '',
-          orderType: this.orderBy || ''
+          username: this.name.replace(/(^\s*)|(\s*)$/g, "")
         };
       } else {
         this.preOptions.page = page;

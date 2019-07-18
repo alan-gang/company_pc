@@ -323,9 +323,7 @@ export default {
           pageSize: this.pageSize,
           page: 1,
           userId: id || this.BL[this.BL.length - 2].userId,
-          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
-          orderAcs: this.ascOrDesc || '',
-          orderType: this.orderBy || ''
+          username: this.name.replace(/(^\s*)|(\s*)$/g, "")
         };
       } else {
         this.preOptions.page = page;
