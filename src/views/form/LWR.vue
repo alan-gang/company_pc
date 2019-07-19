@@ -32,7 +32,7 @@
             el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='rechargeList', popper-class='autocompleteuser')
           span.pl_5
           .ds-button.primary.large.bold(@click='rechargeList()') 搜索
-        .table-list(style='padding: .15rem .2rem ;')
+        .table-list.mid-load(style='padding: .15rem .2rem ;')
           p(style='margin: 0 0 .15rem 0;')
             el-breadcrumb(separator='>')
               el-breadcrumb-item(v-for='(B, i) in BL', @click.native=' link(B, i) ') {{ i === 0 ? '自己' : B.userName }}
@@ -48,7 +48,7 @@
           )
             el-table-column(class-name='pl2', prop='userName', label='用户名')
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.temacount } ")
                   | {{ scope.row.userName }}
                   template(v-if='me.account==scope.row.userName') (我)
             el-table-column(label="充值人数" prop="czpeople"  align='center')
@@ -57,7 +57,7 @@
             el-table-column(label='充值笔数' prop="entry" align='center')
               template(scope='scope')
                 span {{ scope.row.entry }}
-            el-table-column(align='right' prop="amount" label='充值金额' sortable="custom")
+            el-table-column(align='right' prop="amount" label='充值金额')
               template(scope='scope')
                 span {{ scope.row.amount }}
             el-table-column(align='right' prop="firstpeople" label='首充人数')
@@ -72,14 +72,14 @@
             el-table-column(align='right', prop='tkentry', label='提款笔数')
               template(scope='scope')
                 span {{ scope.row.tkentry }}
-            el-table-column(align="right" prop="realmoney" label="提款金额" sortable="custom")
+            el-table-column(align="right" prop="realmoney" label="提款金额")
               template(scope="scope")
                 span {{ scope.row.realmoney }}
             el-table-column(prop='userpoint', label='操作', align='center')
               template(scope='scope')
                 .ds-button.text-button.blue(
                   v-show="scope.row.userId && Daily && scope.$index + 1 != data.length" 
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row, scope.row.temacount)"
                 ) 明细
           el-pagination(
             :total='total'
@@ -100,9 +100,9 @@
             el-button-group
               el-button.close(icon='close', @click.native="showDetail = ''")
           .table-list(style='padding: .15rem .2rem ;')
-            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
+            .lotterymyinfo(:class="profitDetailROW && isTeam ? 'team' : 'my'")
               | 明细-{{profitDetailROW && profitDetailROW.userName}}(
-              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              | {{profitDetailROW && isTeam ? '团队' : '个人'}}
               | )
             el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
               el-table-column(prop='date', label='日期', align='center')
@@ -139,7 +139,8 @@
               layout='prev, pager, next, total'
               v-bind:page-sizes='[5, 10, 15, 20]'
               v-bind:current-page='ccurrentPage'
-              small='small', v-if=' ctotal > pageSize '
+              small='small'
+              v-if=' ctotal > pageSize '
               v-on:current-change='cpageChanged'
             )
 
@@ -150,22 +151,16 @@ import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
+import dateOptions from '@/mixins/dateOptions'
 const $store = require("store"); //localstorage封装方法
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     // ProfitLossDetail: resolve => require(["../ProfitLossDetail"], resolve)
   },
   props: ["gameType"],
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       numberWithCommas,
       TH: 270,
       me: store.state.user,
@@ -198,7 +193,9 @@ export default {
       I: 0,
       ot: "0",
       orderBy: "",
-      ascOrDesc: 1
+      ascOrDesc: 1,
+      // 是否是团队
+      isTeam: false
     };
   },
   watch: {
@@ -251,12 +248,16 @@ export default {
           ._setD(1)
           ._bfM(multiple)
       );
-      r.push(
-        new Date()
-          ._setD(1)
-          ._bfM(multiple + 1)
-          ._setD(0)
-      );
+      if (multiple === 0) {
+        r.push(new Date())
+      } else {
+        r.push(
+          new Date()
+            ._setD(1)
+            ._bfM(multiple + 1)
+            ._setD(0)
+        );
+      }
       r.push;
       // console.log(222, r);
       this.stEt = r;
@@ -324,7 +325,7 @@ export default {
       });
     },
     cellClick(row, column, cell, event) {
-      if (column.property === "username") {
+      if (column.property === "userName") {
         this.rechargeList(undefined, undefined, row.userId);
       }
     },
@@ -348,9 +349,7 @@ export default {
           pageSize: this.pageSize,
           page: 1,
           userId: id || this.BL[this.BL.length - 2].userId,
-          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
-          orderAcs: this.ascOrDesc || '',
-          orderType: this.orderBy || ''
+          username: this.name.replace(/(^\s*)|(\s*)$/g, "")
         };
       } else {
         this.preOptions.page = page;
@@ -361,6 +360,7 @@ export default {
           (res) => {
             // success
             let data = res.data.data
+            if (data.length <= 1) data = []
             if (res.data.success === 1) {
               this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
@@ -433,7 +433,8 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id, row) {
+    profitDetail(page, fn, id, row, isTeam) {
+      if (isTeam !== undefined) this.isTeam = isTeam
       if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
@@ -447,6 +448,7 @@ export default {
       if (!fn) {
         this.cpreOptions = {
           userId: id,
+          username: row.userName,
           page: 1,
           pageSize: this.pageSize,
           beginDate: this.stEt[0]._toDayString(),
@@ -462,7 +464,7 @@ export default {
             // success
             if (data.success === 1) {
               this.cdata = data.data;
-              this.ctotal = data.totalSize || this.data.length;
+              this.ctotal = data.totalSize || 1;
               this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -508,7 +510,13 @@ export default {
 }
 </style>
 
-
+<style lang="stylus">
+  .mid-load {
+    .el-loading-spinner {
+      margin-top: -32px;
+    }
+  }
+</style>
 <style lang="stylus" scoped>
 @import '../../var.stylus';
 

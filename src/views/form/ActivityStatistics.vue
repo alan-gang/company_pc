@@ -48,9 +48,9 @@
           )
             el-table-column(class-name='pl2', prop='username', label='用户名' fixed)
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                span(:class=" { 'text-danger': scope.row.username === me.account, 'pointer text-blue': scope.row.username != '合计' && scope.row.temacount } ")
                   | {{ scope.row.username }}
-                  template(v-if='me.account==scope.row.userName') (我)
+                  template(v-if='me.account==scope.row.username') (我)
             el-table-column(:label="(dataCols.length ? item.groupname : item) + '活动'" class-name="br" align='center' v-for="(item, index) in dataCols.length ? dataCols : defaultTypes")
               el-table-column(label="领取金额" align="center")
                 template(scope='scope')
@@ -61,8 +61,8 @@
             el-table-column(label='操作', align='center')
               template(scope='scope')
                 .ds-button.text-button.blue(
-                  v-show="scope.row.userId && Daily && scope.$index + 1 != data.length"
-                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)"
+                  v-show="scope.row.userid && Daily && scope.$index + 1 != data.length"
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userid,scope.row,scope.row.temacount)"
                 ) 明细
           el-pagination(
             :total='total'
@@ -83,9 +83,9 @@
             el-button-group
               el-button.close(icon='close', @click.native="showDetail = ''")
           .table-list(style='padding: .15rem .2rem ;')
-            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
-              | 明细-{{profitDetailROW && profitDetailROW.userName}}(
-              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+            .lotterymyinfo(:class="profitDetailROW && isTeam ? 'team' : 'my'")
+              | 明细-{{profitDetailROW && profitDetailROW.username}}(
+              | {{profitDetailROW && isTeam ? '团队' : '个人'}}
               | )
             el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
               el-table-column(prop='date', label='日期', align='center')
@@ -114,24 +114,18 @@
 <script>
 import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
+import dateOptions from '@/mixins/dateOptions'
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     // ProfitLossDetail: resolve => require(["../ProfitLossDetail"], resolve)
   },
   props: ["gameType"],
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       numberWithCommas,
       TH: 270,
       me: store.state.user,
@@ -165,7 +159,8 @@ export default {
       ot: "0",
       orderBy: "",
       ascOrDesc: 1,
-      defaultTypes: ['彩票', '棋牌', '真人', '老虎机', '体育', '电竞', '捕鱼']
+      defaultTypes: ['彩票', '棋牌', '真人', '老虎机', '体育', '电竞', '捕鱼'],
+      isTeam: false
     };
   },
   watch: {
@@ -227,12 +222,16 @@ export default {
           ._setD(1)
           ._bfM(multiple)
       );
-      r.push(
-        new Date()
-          ._setD(1)
-          ._bfM(multiple + 1)
-          ._setD(0)
-      );
+      if (multiple === 0) {
+        r.push(new Date())
+      } else {
+        r.push(
+          new Date()
+            ._setD(1)
+            ._bfM(multiple + 1)
+            ._setD(0)
+        );
+      }
       r.push;
       // console.log(222, r);
       this.stEt = r;
@@ -300,8 +299,8 @@ export default {
       });
     },
     cellClick(row, column, cell, event) {
-      if (column.property === "username") {
-        this.activitList(undefined, undefined, row.userId);
+      if (column.property === "username" && row.temacount) {
+        this.activitList(undefined, undefined, row.userid);
       }
     },
     link(B, i) {
@@ -324,9 +323,7 @@ export default {
           pageSize: this.pageSize,
           page: 1,
           userId: id || this.BL[this.BL.length - 2].userId,
-          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
-          orderAcs: this.ascOrDesc || '',
-          orderType: this.orderBy || ''
+          username: this.name.replace(/(^\s*)|(\s*)$/g, "")
         };
       } else {
         this.preOptions.page = page;
@@ -375,7 +372,7 @@ export default {
                */
               $store.set("SearchUserNameList", param);
               data.forEach(_ => {
-                _.userName = _.userName === "团队合计" ? "合计" : _.userName;
+                _.username = _.username === "团队合计" || _.username === "团队总计" ? "合计" : _.username;
               });
               this.data = data;
               this.BL = res.data.userBreads.concat([{}]);
@@ -409,7 +406,8 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id, row) {
+    profitDetail(page, fn, id, row, isTeam) {
+      if (isTeam !== undefined) this.isTeam = isTeam
       if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
@@ -423,6 +421,7 @@ export default {
       if (!fn) {
         this.cpreOptions = {
           userId: id,
+          username: row.username,
           page: 1,
           pageSize: this.pageSize,
           beginDate: this.stEt[0]._toDayString(),
@@ -438,7 +437,7 @@ export default {
             // success
             if (data.success === 1) {
               this.cdata = data.data;
-              this.ctotal = data.totalSize || this.data.length;
+              this.ctotal = data.totalSize || 1;
               this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);

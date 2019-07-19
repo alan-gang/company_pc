@@ -145,21 +145,15 @@ import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
+import dateOptions from '@/mixins/dateOptions'
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     // ProfitLossDetail: resolve => require(["../ProfitLossDetail"], resolve)
   },
   props: ["gameType"],
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       numberWithCommas,
       TH: 270,
       me: store.state.user,
