@@ -139,7 +139,8 @@
               layout='prev, pager, next, total'
               v-bind:page-sizes='[5, 10, 15, 20]'
               v-bind:current-page='ccurrentPage'
-              small='small', v-if=' ctotal > pageSize '
+              small='small'
+              v-if=' ctotal > pageSize '
               v-on:current-change='cpageChanged'
             )
 
@@ -463,7 +464,7 @@ export default {
             // success
             if (data.success === 1) {
               this.cdata = data.data;
-              this.ctotal = data.totalSize || this.data.length;
+              this.ctotal = data.totalSize || 1;
               this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);

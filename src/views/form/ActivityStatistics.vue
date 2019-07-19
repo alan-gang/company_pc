@@ -437,7 +437,7 @@ export default {
             // success
             if (data.success === 1) {
               this.cdata = data.data;
-              this.ctotal = data.totalSize || this.data.length;
+              this.ctotal = data.totalSize || 1;
               this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
