@@ -18,8 +18,9 @@
           el-button(@click='ClickYesterday', size='small') 昨天
           el-button(@click='ClickBeforeYesterday', size='small') 前天
           el-button(v-for='v in dateSub', :key='v.label', size='small', @click='stEt = v.val') {{v.label}}
-        span
+        span.pl_5
           | 排序
+          span.pl_5
           el-button(size='small', @click="ClickSort('betAmount')")
             | 投注
             template(v-if="orderBy=='betAmount'&&ascOrDesc==2") ↑
@@ -32,14 +33,16 @@
             | 游戏盈亏
             template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==2") ↑
             template(v-if="orderBy=='gameSettleAmount'&&ascOrDesc==1") ↓
-        span
+        span.pl_5
           | 显示
+          span.pl_5
           el-select(v-model='ot', placeholder='请选择')
             el-option(label='投注的', value='0')
             el-option(label='全部', value='1')
-        span
+        span.pl_5
           | 团队
           el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+        span.pl_5
         .ds-button.primary.large.bold(@click='profitList()') 搜索
       div
         .table-list(style='padding: .15rem .2rem;')
@@ -150,8 +153,9 @@ import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
+import dateOptions from '@/mixins/dateOptions'
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     profitlossdetail: resolve => require(["./ProfitLossDetail"], resolve),
     stock: resolve => require(["../group/Stock"], resolve),
@@ -159,13 +163,6 @@ export default {
   },
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       bonusReleaseCycle: null, // 分红周期，-1:没有契约(显示半月)； 1:月；2:半月；3:周；
       cuserPoint: null,
       TH: 270,

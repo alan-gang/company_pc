@@ -1,5 +1,4 @@
-// 团队盈亏-棋牌   gameType= 4
-// 团队盈亏-微游   gameType= 8
+// 充提统计
 <template lang="jade">
   .group-page
     slot(name='cover')
@@ -12,9 +11,14 @@
         .form.form-filters.my-el
           span
             | 时间&nbsp;&nbsp;
-            // v-on:change="dateChange"
-            // :picker-options="pickerOptions"
-            el-date-picker(v-model='stEt', format='yyyy-MM-dd', type='daterange', placeholder='选择日期范围', v-bind:clearable='clearableOnTime' v-bind:picker-options="pickerOptions")
+            el-date-picker(
+              v-model='stEt'
+              format='yyyy-MM-dd'
+              type='daterange'
+              placeholder='选择日期范围'
+              v-bind:clearable="clearableOnTime"
+              v-bind:picker-options="pickerOptions"
+            )
             | &nbsp;&nbsp;
             el-button(@click='ClickToday', size='small') 今天
             el-button(@click='ClickYesterday', size='small') 昨天
@@ -23,68 +27,70 @@
             el-button(@click='ClickMonth(-1)', size='small') {{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月
             el-button(@click='ClickMonth(-2)', size='small') {{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月
           span.pl_5
-            | 排序
-            span.pl_5
-            el-button(size='small', @click="ClickSort('realbuy')")
-              | 投注
-              template(v-if="orderBy=='realbuy'&&ascOrDesc==2") ↑
-              template(v-if="orderBy=='realbuy'&&ascOrDesc==1") ↓
-            el-button(size='small', @click="ClickSort('settle')")
-              | 总盈亏
-              template(v-if="orderBy=='settle'&&ascOrDesc==2") ↑
-              template(v-if="orderBy=='settle'&&ascOrDesc==1") ↓
-            el-button(size='small', @click="ClickSort('profit')")
-              | 游戏盈亏
-              template(v-if="orderBy=='profit'&&ascOrDesc==2") ↑
-              template(v-if="orderBy=='profit'&&ascOrDesc==1") ↓
-          span.item.pl_5
-            | 显示
-            span.pl_5
-            el-select(v-model='ot', placeholder='请选择')
-              el-option(label='投注的', value='0')
-              el-option(label='全部', value='1')
-          span.pl_5
             | 团队
             span.pl_5
-            el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+            el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='rechargeList', popper-class='autocompleteuser')
           span.pl_5
-          .ds-button.primary.large.bold(@click='profitList()') 搜索
-        .table-list(style='padding: .15rem .2rem ;')
+          .ds-button.primary.large.bold(@click='rechargeList()') 搜索
+        .table-list.mid-load(style='padding: .15rem .2rem ;')
           p(style='margin: 0 0 .15rem 0;')
             el-breadcrumb(separator='>')
               el-breadcrumb-item(v-for='(B, i) in BL', @click.native=' link(B, i) ') {{ i === 0 ? '自己' : B.userName }}
           // v-bind:summary-method="getSummaries"
-          el-table.header-bold.nopadding(:data='data', style='margin: 0;', ref='table', stripe='stripe', @cell-click='cellClick', v-bind:row-class-name='tableRowClassName', v-bind:max-height=' MH ', @sort-change='sortChange')
+          el-table.header-bold.nopadding(
+            :data='data'
+            style='margin: 0;'
+            ref='table', stripe='stripe'
+            @cell-click='cellClick'
+            v-bind:row-class-name='tableRowClassName'
+            v-bind:max-height=' MH '
+            @sort-change='sortChange'
+          )
             el-table-column(class-name='pl2', prop='userName', label='用户名')
               template(scope='scope')
-                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.hasSub } ")
+                span(:class=" { 'text-danger': scope.row.userName === me.account, 'pointer text-blue': scope.row.temacount } ")
                   | {{ scope.row.userName }}
                   template(v-if='me.account==scope.row.userName') (我)
-            el-table-column(prop='gameUserCount', :label="(Daily ? '日均' : '') +'游戏人数'", sortable='custom', align='center')
+            el-table-column(label="充值人数" prop="czpeople"  align='center')
               template(scope='scope')
-                span {{ scope.row.gameUserCount && scope.row.gameUserCount._nwc()}}
-            el-table-column(prop='realBuy', label='投注', sortable='custom', align='center')
+                span {{ scope.row.czpeople}}
+            el-table-column(label='充值笔数' prop="entry" align='center')
               template(scope='scope')
-                span {{ scope.row.realBuy && scope.row.realBuy._nwc()}}
-            el-table-column(align='right', prop='profit', label='游戏盈亏', sortable='custom')
+                span {{ scope.row.entry }}
+            el-table-column(align='right' prop="amount" label='充值金额')
               template(scope='scope')
-                span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ scope.row.profit && scope.row.profit._nwc()}}
-            el-table-column(align='right', prop='getpoint', label='返水金额', sortable='custom', v-if='me.displayPermission.showpoint')
+                span {{ scope.row.amount }}
+            el-table-column(align='right' prop="firstpeople" label='首充人数')
               template(scope='scope')
-                span {{ scope.row.getpoint && scope.row.getpoint._nwc()}}
-            el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
+                span {{ scope.row.firstpeople }}
+            el-table-column(align='right', prop='secondpeople', label='二充人数')
               template(scope='scope')
-                span {{ scope.row.rewards && scope.row.rewards._nwc()}}
-            el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
+                span {{ scope.row.secondpeople }}
+            el-table-column(align='right', prop='tkpeople', label='提款人数')
               template(scope='scope')
-                span {{ scope.row.platfee && scope.row.platfee._nwc()}}
-            el-table-column(align='right', prop='settle', label='总盈亏', sortable='custom', class-name='pr2')
+                span {{ scope.row.tkpeople }}
+            el-table-column(align='right', prop='tkentry', label='提款笔数')
               template(scope='scope')
-                span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ scope.row.settle && scope.row.settle._nwc()}}
+                span {{ scope.row.tkentry }}
+            el-table-column(align="right" prop="realmoney" label="提款金额")
+              template(scope="scope")
+                span {{ scope.row.realmoney }}
             el-table-column(prop='userpoint', label='操作', align='center')
               template(scope='scope')
-                .ds-button.text-button.blue(v-show='scope.row.userId && Daily && scope.$index+1!=data.length', style='padding: 0 .05rem;', @click.stop='(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row)') 明细
-          el-pagination(:total='total', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='currentPage', small='small', v-if=' total > pageSize ', v-on:current-change='pageChanged')
+                .ds-button.text-button.blue(
+                  v-show="scope.row.userId && Daily && scope.$index + 1 != data.length" 
+                  @click.stop="(showDetail = true) && profitDetail(undefined, undefined, scope.row.userId,scope.row, scope.row.temacount)"
+                ) 明细
+          el-pagination(
+            :total='total'
+            v-bind:page-size='pageSize'
+            layout='prev, pager, next, total'
+            v-bind:page-sizes='[5, 10, 15, 20]'
+            v-bind:current-page='currentPage'
+            small='small'
+            v-if=' total > pageSize '
+            v-on:current-change='pageChanged'
+          )
     .modal(v-show='showDetail')
       .mask
       .box-wrapper
@@ -94,48 +100,49 @@
             el-button-group
               el-button.close(icon='close', @click.native="showDetail = ''")
           .table-list(style='padding: .15rem .2rem ;')
-            .lotterymyinfo(:class="profitDetailROW && profitDetailROW.hasSub==0 ? 'my' : 'team'")
+            .lotterymyinfo(:class="profitDetailROW && isTeam ? 'team' : 'my'")
               | 明细-{{profitDetailROW && profitDetailROW.userName}}(
-              | {{profitDetailROW && profitDetailROW.hasSub==0 ? '个人' : '团队'}}
+              | {{profitDetailROW && isTeam ? '团队' : '个人'}}
               | )
             el-table.header-bold.nopadding(:data='cdata', stripe='stripe', ref='itable', max-height='500', v-bind:row-class-name='tableRowClassName', style='margin: .2rem 0 0 0;')
-              //
-                <el-table-column class-name="pl2" prop="userName" label="用户名">
-                <template scope="scope">
-                <span
-                class="pointer text-blue"
-                :class=" { 'text-danger': scope.row.userName === me.account } "
-                >{{ scope.row.userName }}</span>
-                </template>
-                </el-table-column>
               el-table-column(prop='date', label='日期', align='center')
                 template(scope='scope')
                   span(v-if="scope.row.userName=='合计'") {{ scope.row.userName }}
-                  span(v-if="scope.row.userName!='合计'") {{ scope.row.date }}
-              el-table-column(align='right', prop='realBuy', label='投注')
+                  span(v-if="scope.row.userName!='合计'") {{ scope.row.finishdate }}
+              el-table-column(label="充值人数" prop="people"  align='center')
                 template(scope='scope')
-                  span {{ numberWithCommas(scope.row.realBuy) }}
-              el-table-column(align='right', prop='profit', label='游戏盈亏')
+                  span {{ scope.row.people}}
+              el-table-column(label='充值笔数' prop="times" align='center')
                 template(scope='scope')
-                  span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.profit) }}
-              // me.showBackWater ‰
-              el-table-column(align='right', label='返水级别', v-if='profitDetailROW && profitDetailROW.hasSub==0 && me.showBackWater')
+                  span {{ scope.row.times }}
+              el-table-column(align='right' prop="totalamount" label='充值金额')
                 template(scope='scope')
-                  span(v-if='numberWithCommas(cuserBackWater)') {{ numberWithCommas(Number(cuserBackWater))}}‰
-                  span(v-if='!numberWithCommas(cuserBackWater)') --
-              el-table-column(align='right', prop='getpoint', label='返水金额', v-if='me.showBackWater')
+                  span {{ scope.row.totalamount }}
+              el-table-column(align='right' prop="firstpeople" label='首充人数')
                 template(scope='scope')
-                  span {{ numberWithCommas(scope.row.getpoint) }}
-              el-table-column(align='right', prop='rewards', label='活动')
+                  span {{ scope.row.firstpeople }}
+              el-table-column(align='right', prop='secondpeople', label='二充人数')
                 template(scope='scope')
-                  span {{ numberWithCommas(scope.row.rewards) }}
-              el-table-column(align='right', prop='platfee', label='平台费', v-if='profitDetailROW && profitDetailROW.hasSub==1')
+                  span {{ scope.row.secondpeople }}
+              el-table-column(align='right', prop='withdrawelpeople', label='提款人数')
                 template(scope='scope')
-                  span {{ numberWithCommas(scope.row.platfee) }}
-              el-table-column(align='right', prop='settle', label='总盈亏', class-name='pr2')
+                  span {{ scope.row.withdrawelpeople }}
+              el-table-column(align='right', prop='withdraweltimes', label='提款笔数')
                 template(scope='scope')
-                  span(:class=" {'text-green': scope.row.profit && scope.row.profit._o0(), 'text-danger': scope.row.profit && scope.row.profit._l0() } ") {{ numberWithCommas(scope.row.settle) }}
-            el-pagination(:total='ctotal', v-bind:page-size='pageSize', layout='prev, pager, next, total', v-bind:page-sizes='[5, 10, 15, 20]', v-bind:current-page='ccurrentPage', small='small', v-if=' ctotal > pageSize ', v-on:current-change='cpageChanged')
+                  span {{ scope.row.withdraweltimes }}
+              el-table-column(align="right" prop="withdrawalamount" label="提款金额")
+                template(scope="scope")
+                  span {{ scope.row.withdrawalamount }}
+            el-pagination(
+              :total='ctotal'
+              v-bind:page-size='pageSize'
+              layout='prev, pager, next, total'
+              v-bind:page-sizes='[5, 10, 15, 20]'
+              v-bind:current-page='ccurrentPage'
+              small='small'
+              v-if=' ctotal > pageSize '
+              v-on:current-change='cpageChanged'
+            )
 
 </template>
 
@@ -144,8 +151,8 @@ import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
-const $store = require("store"); //localstorage封装方法
 import dateOptions from '@/mixins/dateOptions'
+const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight, dateOptions],
   components: {
@@ -186,19 +193,21 @@ export default {
       I: 0,
       ot: "0",
       orderBy: "",
-      ascOrDesc: 1
+      ascOrDesc: 1,
+      // 是否是团队
+      isTeam: false
     };
   },
   watch: {
     //时间范围
     // stEt() {
-    //   this.profitList();
+    //   this.rechargeList();
     // },
     // ot() {
-    //   this.profitList();
+    //   this.rechargeList();
     // },
     gameType() {
-      this.profitList();
+      this.rechargeList();
     }
   },
   computed: {
@@ -215,7 +224,7 @@ export default {
     //上上个月
   },
   mounted() {
-    this.profitList();
+    this.rechargeList();
   },
   methods: {
     // getSummaries(param) {
@@ -239,12 +248,16 @@ export default {
           ._setD(1)
           ._bfM(multiple)
       );
-      r.push(
-        new Date()
-          ._setD(1)
-          ._bfM(multiple + 1)
-          ._setD(0)
-      );
+      if (multiple === 0) {
+        r.push(new Date())
+      } else {
+        r.push(
+          new Date()
+            ._setD(1)
+            ._bfM(multiple + 1)
+            ._setD(0)
+        );
+      }
       r.push;
       // console.log(222, r);
       this.stEt = r;
@@ -271,15 +284,17 @@ export default {
     },
     sortChange({ column, prop, order }) {
       this.ascOrDesc = order === "ascending" ? 2 : 1;
-      prop = prop === "gameUserCount" ? prop : prop.toLowerCase(); //除 gameUserCount 外 其余的排序参数都要小写
-      this.orderBy = prop;
-      this.profitList();
+      let temp = ''
+      if (prop === 'amount') temp = 1
+      if (prop === 'realmoney') temp = 2
+      this.orderBy = temp
+      this.rechargeList();
     },
     //点击排序
     ClickSort(orderBy) {
       this.ascOrDesc = this.ascOrDesc === 2 ? 1 : 2;
       this.orderBy = orderBy;
-      // this.profitList();
+      // this.rechargeList();
     },
     //点击 今天
     ClickToday() {
@@ -300,7 +315,7 @@ export default {
       ];
     },
     pageChanged(cp) {
-      this.profitList(cp, () => {
+      this.rechargeList(cp, () => {
         this.currentPage = cp;
       });
     },
@@ -310,15 +325,15 @@ export default {
       });
     },
     cellClick(row, column, cell, event) {
-      if (column.property === "username") {
-        this.profitList(undefined, undefined, row.userId);
+      if (column.property === "userName") {
+        this.rechargeList(undefined, undefined, row.userId);
       }
     },
     link(B, i) {
-      this.profitList(undefined, undefined, B.userId);
+      this.rechargeList(undefined, undefined, B.userId);
     },
-    // 盈亏报表列表
-    profitList(page, fn, id) {
+    // 充提列表
+    rechargeList(page, fn, id) {
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -329,27 +344,24 @@ export default {
       );
       if (!fn) {
         this.preOptions = {
-          gameType: this.$props.gameType,
-          username: this.name.replace(/(^\s*)|(\s*)$/g, ""),
-          userId: id || this.BL[this.BL.length - 2].userId,
-          scope: this.zone !== "" ? this.zone + 1 : "",
-          page: 1,
-          pageSize: this.pageSize,
           beginDate: this.stEt[0]._toDayString(),
           endDate: this.stEt[1]._toDayString(),
-          listAll: this.ot,
-          orderBy: this.orderBy || "",
-          ascOrDesc: this.ascOrDesc || ""
+          pageSize: this.pageSize,
+          page: 1,
+          userId: id || this.BL[this.BL.length - 2].userId,
+          username: this.name.replace(/(^\s*)|(\s*)$/g, "")
         };
       } else {
         this.preOptions.page = page;
       }
       this.$http
-        .myget(api.outerReport, this.preOptions)
+        .myget(api.rechargeList, this.preOptions)
         .then(
-          ({ data }) => {
+          (res) => {
             // success
-            if (data.success === 1) {
+            let data = res.data.data
+            if (data.length <= 1) data = []
+            if (res.data.success === 1) {
               this.tableTime = this.stEt; //当前表格筛选时间
               //记录当前用户搜索的有效用户名
               let param = $store.get("SearchUserNameList") || {};
@@ -357,7 +369,7 @@ export default {
                 param[this.me.account] = []; //用户搜索有效列表
               }
               if (
-                data.items.length &&
+                data.length &&
                 this.name &&
                 this.name.replace(/(^\s*)|(\s*)$/g, "") !== this.me.account //搜索内容过滤前后空格
                 // && param[this.me.account].indexOf(this.name) === -1 //过滤 重复
@@ -386,14 +398,14 @@ export default {
                * }
                */
               $store.set("SearchUserNameList", param);
-              data.items.forEach(_ => {
+              data.forEach(_ => {
                 _.userName = _.userName === "团队合计" ? "合计" : _.userName;
               });
-              this.data = data.items;
-              this.BL = data.userBreads.concat([{}]);
+              this.data = data;
+              this.BL = res.data.userBreads.concat([{}]);
               if (
                 this.name &&
-                !data.userBreads.find(_ => _.userName === this.name)
+                !res.data.userBreads.find(_ => _.userName === this.name)
               ) {
                 this.$modal.warn({
                   // target: VM.$el,
@@ -402,7 +414,7 @@ export default {
                   close() {}
                 });
               }
-              this.total = data.totalSize || this.data.length;
+              this.total = res.data.totalSize || this.data.length;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
               setTimeout(() => {
@@ -421,7 +433,8 @@ export default {
         });
     },
     // 盈亏详情列表（按用户和时间范围查询）
-    profitDetail(page, fn, id, row) {
+    profitDetail(page, fn, id, row, isTeam) {
+      if (isTeam !== undefined) this.isTeam = isTeam
       if (row) this.profitDetailROW = row;
       this.cdata = [];
       let loading = this.$loading(
@@ -434,11 +447,8 @@ export default {
       );
       if (!fn) {
         this.cpreOptions = {
-          groupid: this.$props.gameType,
-          gameType: this.$props.gameType,
-          username: this.name,
           userId: id,
-          scope: this.zone !== "" ? this.zone + 1 : "",
+          username: row.userName,
           page: 1,
           pageSize: this.pageSize,
           beginDate: this.stEt[0]._toDayString(),
@@ -448,13 +458,13 @@ export default {
         this.cpreOptions.page = page;
       }
       this.$http
-        .get(api.outerReportDetail, this.cpreOptions)
+        .get(api.rechargeDetail, this.cpreOptions)
         .then(
           ({ data }) => {
             // success
             if (data.success === 1) {
-              this.cdata = data.items;
-              this.ctotal = data.totalSize || this.data.length;
+              this.cdata = data.data;
+              this.ctotal = data.totalSize || 1;
               this.cuserBackWater = data.userBackWater;
               typeof fn === "function" && fn();
               !fn && (this.currentPage = 1);
@@ -481,7 +491,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '../../var.stylus';
 
 .stock-list {
   // top TH
@@ -500,9 +510,15 @@ export default {
 }
 </style>
 
-
+<style lang="stylus">
+  .mid-load {
+    .el-loading-spinner {
+      margin-top: -32px;
+    }
+  }
+</style>
 <style lang="stylus" scoped>
-@import '../../../var.stylus';
+@import '../../var.stylus';
 
 bg = #d8d8d8;
 bg-hover = #ececec;

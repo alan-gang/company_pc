@@ -21,8 +21,9 @@
             el-button(@click='ClickMonth(0)', size='small') {{new Date()._setD(1)._bfM(0).getMonth() + 1}}月
             el-button(@click='ClickMonth(-1)', size='small') {{new Date()._setD(1)._bfM(-1).getMonth() + 1}}月
             el-button(@click='ClickMonth(-2)', size='small') {{new Date()._setD(1)._bfM(-2).getMonth() + 1}}月
-          span
+          span.pl_5
             | 排序
+            span.pl_5
             el-button(size='small', @click="ClickSort('realbuy')")
               | 投注
               template(v-if="orderBy=='realbuy'&&ascOrDesc==2") ↑
@@ -35,14 +36,17 @@
               | 游戏盈亏
               template(v-if="orderBy=='profit'&&ascOrDesc==2") ↑
               template(v-if="orderBy=='profit'&&ascOrDesc==1") ↓
-          span
+          span.pl_5
             | 显示
+            span.pl_5
             el-select(v-model='ot', placeholder='请选择')
               el-option(label='投注的', value='0')
               el-option(label='全部', value='1')
-          span
+          span.pl_5
             | 团队
+            span.pl_5
             el-autocomplete(v-model='name', :fetch-suggestions='UserSearch', placeholder='请输入用户名', style='width: 1.1rem;', @select='profitList', popper-class='autocompleteuser')
+          span.pl_5
           .ds-button.primary.large.bold(@click='profitList()') 搜索
         .table-list(style='padding: .15rem .2rem ;')
           p(style='margin: 0 0 .15rem 0;')
@@ -176,20 +180,14 @@ import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
 const $store = require("store"); //localstorage封装方法
+import dateOptions from '@/mixins/dateOptions'
 export default {
-  mixins: [setTableMaxHeight],
+  mixins: [setTableMaxHeight, dateOptions],
   components: {
     // ProfitLossDetail: resolve => require(["../ProfitLossDetail"], resolve)
   },
   data() {
     return {
-      //本月最后一天   到  前三个月的1号
-      pickerOptions: {
-        disabledDate(time) {
-          //- 8.64e7
-          return time.getTime() > new Date()._bfM(1)._setD(0).getTime() || time.getTime() < new Date()._setD(1)._bfM(-2)._setD(0).getTime()
-        }
-      },
       numberWithCommas,
       TH: 270,
       me: store.state.user,
