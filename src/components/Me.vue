@@ -314,7 +314,7 @@ export default {
     },
     // 11、系统公告   ALL
     sysNotices () {
-      this.$http.myget(api.sysNotices).then(({data}) => {
+      this.$http.myget(api.sysNotices, {isReleaseLine: 0}).then(({data}) => {
         // success
         if (data.success) {
           this.notices = data.sysNotices || []

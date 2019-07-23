@@ -62,7 +62,8 @@
         if (!fn) {
           this.preOptions = {
             page: 1,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            isReleaseLine: 0
           }
         } else {
           this.preOptions.page = page

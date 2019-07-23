@@ -206,16 +206,16 @@ export default {
   },
   methods: {
     cancel (force) {
-      if (!force && parseInt(this.row.totalPrice) >= 5000) {
-        return this.$modal.question({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">投注注单金额超过 <span class="text-danger">5000</span> 会收取 <span class="text-danger">0.5%</span> 的手续费注，将扣除您<span class="text-danger"> ' + parseFloat(this.row.totalPrice) * 0.005 + ' </span>元手续费， 您确定要撤单吗？</div>',
-          target: this.$el.parentNode,
-          O: this,
-          ok () {
-            this.cancel(true)
-          }
-        })
-      }
+      // if (!force && parseInt(this.row.totalPrice) >= 5000) {
+      //   return this.$modal.question({
+      //     content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">投注注单金额超过 <span class="text-danger">5000</span> 会收取 <span class="text-danger">0.5%</span> 的手续费注，将扣除您<span class="text-danger"> ' + parseFloat(this.row.totalPrice) * 0.005 + ' </span>元手续费， 您确定要撤单吗？</div>',
+      //     target: this.$el.parentNode,
+      //     O: this,
+      //     ok () {
+      //       this.cancel(true)
+      //     }
+      //   })
+      // }
       let loading = this.$loading({
         text: '撤单中...',
         target: this.$el

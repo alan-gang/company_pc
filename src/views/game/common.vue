@@ -208,8 +208,11 @@ export default {
     gameid () {
       return this.page.gameid
     },
+    allMenus () {
+      return this.mt !== 'kq' && this.kqmenus ? this.menus.concat(this.kqmenus) : this.menus
+    },
     menuItemArray () {
-      return this.menus.reduce((p, m, i) => {
+      return this.allMenus.reduce((p, m, i) => {
         return m.groups.reduce((p, g, j) => {
           return g.items.reduce((p, it, k) => {
             p.push(it)
@@ -498,7 +501,6 @@ export default {
           this.dzMaxPrize = (data.dzMaxPrize * 1) || 400000
         }
         this.menuItemArray.forEach(mi => {
-          // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
           this.$set(mi, 'hide', !data.items[M[mi.id + this.idType].split(':')[0]])
         })
         setTimeout(() => {
