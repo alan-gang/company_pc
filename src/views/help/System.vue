@@ -63,7 +63,7 @@
           this.preOptions = {
             page: 1,
             pageSize: this.pageSize,
-            isReleaseLine: 0
+            isReleaseLine: 1
           }
         } else {
           this.preOptions.page = page

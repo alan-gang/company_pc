@@ -1053,7 +1053,7 @@ export default {
     },
     // 11、系统公告   ALL
     sysNotices () {
-      this.$http.get(api.sysNotices, {page: 1, pageSize: 1, isReleaseLine: 0}).then(({data}) => {
+      this.$http.get(api.sysNotices, {page: 1, pageSize: 1, isReleaseLine: 1}).then(({data}) => {
         // success
         if (data.success) {
           let n = (data.sysNotices || [])[0]

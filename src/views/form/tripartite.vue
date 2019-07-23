@@ -179,8 +179,8 @@ import setTableMaxHeight from "@/components/setTableMaxHeight";
 import { numberWithCommas } from "@/util/Number";
 import api from "@/http/api";
 import store from "@/store";
-const $store = require("store"); //localstorage封装方法
 import dateOptions from '@/mixins/dateOptions'
+const $store = require("store"); //localstorage封装方法
 export default {
   mixins: [setTableMaxHeight, dateOptions],
   components: {
