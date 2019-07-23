@@ -180,7 +180,6 @@ import api from "@/http/api";
 import store from "@/store";
 import dateOptions from '@/mixins/dateOptions'
 const $store = require("store"); //localstorage封装方法
-import dateOptions from '@/mixins/dateOptions'
 export default {
   mixins: [setTableMaxHeight, dateOptions],
   components: {
