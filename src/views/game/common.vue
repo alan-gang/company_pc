@@ -16,7 +16,7 @@
       <!-- 开奖信息 -->
       //- GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
 
-      iframe(ref="pk10df" src=" /xy_activity/pk10/index.html " v-if=" gameType === 'PK10' && showDF && gameid !==  39 " style="border: 0; width: 100%; height: 6.1rem" id="pk10df" @load=" pk10dfload() ")
+      iframe(ref="pk10df" src="/xy_activity/pk10/index.html " v-if=" gameType === 'PK10' && showDF && gameid !==  39 " style="border: 0; width: 100%; height: 6.1rem" id="pk10df" @load=" pk10dfload() ")
       
       <!-- 游戏信息 -->
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="['game-header-' + page.class]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers")
@@ -40,7 +40,7 @@
 
 
           <!-- 下单 -->
-          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:wn="nw" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
+          GameOrderBar.inner-bar(v-bind:timeout="timeout" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none; height: auto"  v-bind:n="n" v-bind:wn="nw" v-bind:pay="pay" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:PA="PA" v-bind:canOrder="canOrder" v-bind:dtMaxPrize = "dtMaxPrize" v-bind:dzMaxPrize = "dzMaxPrize" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook" v-if=" mt !== 'kq' &&  gameType !== 'PCDD' ")
 
 
           <!-- 投注单 -->
@@ -162,6 +162,9 @@ export default {
       bonus: 0.00,
       // 返点
       point: 0.00,
+      // 单挑、限额
+      dtMaxPrize: 0,
+      dzMaxPrize: 0,
       // 追号信息
       follow: {
         // 显示追号单
@@ -205,8 +208,11 @@ export default {
     gameid () {
       return this.page.gameid
     },
+    allMenus () {
+      return this.mt !== 'kq' && this.kqmenus ? this.menus.concat(this.kqmenus) : this.menus
+    },
     menuItemArray () {
-      return this.menus.reduce((p, m, i) => {
+      return this.allMenus.reduce((p, m, i) => {
         return m.groups.reduce((p, g, j) => {
           return g.items.reduce((p, it, k) => {
             p.push(it)
@@ -483,18 +489,18 @@ export default {
     getUserpoint () {
       this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
         // success
-        // fix to array
-        // let a = []
-        // Object.entries(data.items).forEach(([k, v]) => {
-        //   v.forEach(x => {
-        //     x.methodid = k
-        //     a.push(x)
+        // Object.values(data.items).forEach(x => {
+        //   x.forEach(y => {
+        //     y.maxpoint = '0.078'
+        //     y.minpoint = '0.078'
         //   })
         // })
-        // data.items = a
-        if (data.success > 0) this.PS = data.items
+        if (data.success > 0) {
+          this.PS = data.items
+          this.dtMaxPrize = (data.dtMaxPrize * 1) || 30000
+          this.dzMaxPrize = (data.dzMaxPrize * 1) || 400000
+        }
         this.menuItemArray.forEach(mi => {
-          // this.$set(mi, 'hide', !data.items.find(i => (i.methodid + '') === M[mi.id + this.idType].split(':')[0]))
           this.$set(mi, 'hide', !data.items[M[mi.id + this.idType].split(':')[0]])
         })
         setTimeout(() => {
@@ -844,7 +850,7 @@ export default {
           setTimeout(() => {
             this.__setCall({fn: '__orderlist'})
           }, 400)
-
+          this.setHistoryLottery(parseInt(this.page.gameid))
           // this.__loading({
           //   text: '投注成功.',
           //   target: this.$el
@@ -896,6 +902,14 @@ export default {
           loading.close()
         }, 100)
       })
+    },
+    setHistoryLottery (gameId) {
+      if (!gameId || !window.localStorage) return
+      let historis = JSON.parse(window.localStorage.getItem('STORAGE_HISTORY_LOTTERIES') || '[]')
+      if (historis.indexOf(gameId) !== -1) return
+      historis.unshift(gameId)
+      if (historis.length > 3) historis.pop()
+      window.localStorage.setItem('STORAGE_HISTORY_LOTTERIES', JSON.stringify(historis))
     },
     setType (type) {
       this.type = type

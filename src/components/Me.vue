@@ -48,10 +48,10 @@
         span.ds-button.primary(@click="transferNowBG") 确认转入
 
     el-row.content-width
-      el-col.l(:span="9")
+      el-col.l.flex(:span="9")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
         // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
-        
+        Marquee(v-bind:show="true" v-bind:content="marqueeData" @click="$router.push('/help/6-2-1')")
       el-col.r(:span="15")
         // Menus(:menus="menus")
 
@@ -79,7 +79,7 @@
 
                 dl(style="padding-top: .11rem")
                   dd
-                    el-progress(v-bind:text-inside="true" v-bind:stroke-width="30" v-bind:percentage=" Number((Me.exp * 100 / Me.nexMinExp).toFixed(2)) || 0  " status="exception")
+                    el-progress(v-bind:text-inside="true" v-bind:stroke-width="30" v-bind:percentage=" Math.min(Number((Me.exp * 100 / Me.nexMinExp).toFixed(2)) || 0, 100)  " status="exception")
 
               //- dd
                 router-link.ds-button.primary.full(:to=" '/me/2-1-3' ") 进入我的钱包
@@ -137,10 +137,12 @@ import { numberWithCommas } from '../util/Number'
 import store from '../store'
 import api from '../http/api'
 import Menus from './Menu'
+import Marquee from './Marquee'
 export default {
   props: ['menus'],
   components: {
-    Menus
+    Menus,
+    Marquee
   },
   data () {
     return {
@@ -156,7 +158,8 @@ export default {
       m: '',
       transferBG: false,
       bg: 0,
-      numberWithCommas: numberWithCommas
+      numberWithCommas: numberWithCommas,
+      marqueeData: []
     }
   },
   watch: {
@@ -227,7 +230,21 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0, tcgmoney: data.sportsAmount || 0, kymoney: data.kyAmount || 0, ptmoney: data.ptAmount || 0, agmoney: data.agAmount || 0})
+          store.actions.setUser({bgmoney: data.bgAmount || 0,
+            tcgmoney: data.sportsAmount || 0,
+            kymoney: data.kyAmount || 0,
+            ptmoney: data.ptAmount || 0,
+            agmoney: data.agAmount || 0,
+            sbmoney: data.sbAmount || 0,
+            lymoney: data.lyAmount || 0,
+            uwinmoney: data.uwinAmount || 0,
+            kgmoney: data.kgAmount || 0,
+            litAmount: data.litAmount || 0,
+            pbAmount: data.pbAmount || 0,
+            lgAmount: data.lgAmount || 0,
+            xyAmount: data.xyAmount || 0,
+            xyqpAmount: data.xyqpAmount || 0
+          })
           // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
       }).catch(rep => {
@@ -301,6 +318,9 @@ export default {
         // success
         if (data.success) {
           this.notices = data.sysNotices || []
+          this.marqueeData = data.sysNotices.slice(0, 3).map((item, i) => {
+            return (`${i + 1}.【${item.subject}】 ${item.content}`).replace(/\r\n/g, '')
+          })
         }
       }, (rep) => {
         // error
@@ -381,6 +401,16 @@ body.cb.v2
       
 </style>
 
+<style lang="stylus">
+.marquee-bar-wp
+  width 3.5rem
+  cursor pointer
+  .mq-content-wp
+    height 0.4rem
+    .items 
+      li
+        padding 0 0.25rem
+</style>
 <style lang="stylus" scoped>
   @import '../var.stylus'
   @import '../path.stylus'
@@ -390,8 +420,6 @@ body.cb.v2
     line-height .36rem
     background-color #ffa930
     color #484342
-
-      
 
     .l .text-button
       color #fff

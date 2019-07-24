@@ -86,8 +86,7 @@
               | 5：&nbsp;例，您的基础工资为1万20，当日你的考核工资为1万30，那当日工资=团队日量*1万30。例，您的基础工资为1万30，当日你的考核工资为1万10，那当日工资=团队日量*1万30。
 
           p(style="padding-left: 30%; margin-top: .7rem")
-            span.text-danger *
-            日工资：&nbsp;&nbsp;
+            span.text-danger * 日工资：&nbsp;&nbsp;
             el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
               el-option(v-for="O in OL" v-bind:label="O.name" v-bind:value="O.value")
 

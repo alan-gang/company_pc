@@ -18,7 +18,7 @@
 
     // righter
     //- transition(name="slide-right" appear=true)
-    dsRighter
+    dsRighter(v-on:click="righterHandler")
 
     // ggl
     GGL(v-if="ggl")
@@ -65,6 +65,7 @@ import dsLefter from 'mycomponents/Lefter'
 import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
 import GGL from './components/GGL'
+import RightQuickThirdGame from './components/RightQuickThirdGame'
 // import dsFooter from './components/Footer'
 import Print from './components/Print'
 // import Chat from './components/Chat'
@@ -226,6 +227,7 @@ export default {
               items: [
                 {class: 'ds-icon-game-hlsx_cq sign hot', id: '1-1-1', menuid: '11', title: '重庆欢乐生肖', volume: true, gameid: 1},
                 {class: 'ds-icon-game-cqhjssc sign old new', id: '1-1-12', menuid: '116', title: '重庆怀旧时时彩', atitle: '重庆时时彩', subTitle: '怀旧', volume: true, gameid: 155},
+                {class: 'ds-icon-game-cqhjffc sign old new', id: '1-1-14', menuid: '118', title: '重庆怀旧分分彩', atitle: '重庆分分彩', subTitle: '怀旧', volume: true, gameid: 157},
                 {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
                 {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
                 {class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
@@ -234,6 +236,10 @@ export default {
                 {class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156},
                 {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
                 {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
+                {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
+                {class: 'ds-icon-game-hnwfc sign new', id: '1-1-119', menuid: '119', title: '河内5分彩', volume: true, gameid: 158},
+                {class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163},
+                {class: 'ds-icon-game-ffc_qq sign hot', id: '1-1-127', menuid: '127', title: '奇趣分分彩', volume: false, gameid: 164},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153}
               ]
@@ -259,7 +265,9 @@ export default {
                 {class: 'ds-icon-game-hb115', id: '1-3-3', menuid: '81', title: '湖北11选5', volume: true, gameid: 22},
                 {class: 'ds-icon-game-js115', id: '1-3-8', menuid: '102', title: '江苏11选5', volume: true, gameid: 36},
                 {class: 'ds-icon-game-sh115', id: '1-3-6', menuid: '103', title: '上海11选5', volume: true, gameid: 37},
-                {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38}
+                {class: 'ds-icon-game-ah115', id: '1-3-7', menuid: '104', title: '安徽11选5', volume: true, gameid: 38},
+                {class: 'ds-icon-game-fj115 sign new', id: '1-3-9', menuid: '120', title: '福建11选5', volume: true, gameid: 159},
+                {class: 'ds-icon-game-sx115 sign new', id: '1-3-124', menuid: '124', title: '山西11选5', volume: true, gameid: 46}
                 // {url: 'G115', class: 'ds-icon-game-kt115', id: '1-3-5', menuid: '14', title: '快投11选5', volume: true, gameid: 11},
               ]
             },
@@ -272,7 +280,8 @@ export default {
                 {class: 'ds-icon-game-jsK3', id: '1-4-2', menuid: '83', title: '江苏快三', volume: true, gameid: 24},
                 {class: 'ds-icon-game-jlK3 ', id: '1-4-3', menuid: '84', title: '吉林快三', volume: true, gameid: 25},
                 {class: 'ds-icon-game-bjK3 ', id: '1-4-4', menuid: '85', title: '北京快三', volume: true, gameid: 26},
-                {class: 'ds-icon-game-xfK3', id: '1-4-5', menuid: '19', title: '幸福快三', volume: true, gameid: 33}
+                {class: 'ds-icon-game-xfK3', id: '1-4-5', menuid: '19', title: '幸福快三', volume: true, gameid: 33},
+                {class: 'ds-icon-game-fjK3 sign new', id: '1-4-6', menuid: '121', title: '福建快三', volume: true, gameid: 160}
               ]
             },
             {
@@ -285,6 +294,7 @@ export default {
                 {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
                 {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
                 {url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
+                {url: 'PK10', class: 'ds-icon-game-alysc sign new', id: '1-5-123', menuid: '123', title: '阿里云赛车', volume: true, gameid: 162},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
@@ -292,16 +302,16 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-hl3d', id: '1-5-8', menuid: '17', title: '欢乐3D', volume: true, gameid: 32},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-1-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
                 // {menuid: '98', class: 'ds-icon-game-jn sign', id: '1-7-1', title: 'KG', fn: '18:203'},
-                {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
+                // {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
               ]
             },
             {
               title: '基诺彩票',
               url: 'KG',
               items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: 'KG', fn: '18:203'},
+                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: '基诺彩', fn: '18:203'},
                 {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-5-9', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
                 {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-1-8', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45}
               ]
@@ -326,7 +336,8 @@ export default {
           info: [
             {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
             {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
-            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'}
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
+            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'}
           ]
         },
         {
@@ -429,10 +440,21 @@ export default {
                 {
                   id: '2-2-1',
                   menuid: '50',
-                  title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  // tabs: ['彩票', 'VR彩票', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
+                },
+                {
+                  id: '2-2-6',
+                  menuid: '99',
+                  title: '盈亏报表',
+                  // tabs: ['盈亏总表', '彩票', '体育:18718185', '真人:18718185', '老虎机:18718185', '电竟:18718185', '捕鱼:18718185', '棋牌:18718185', '基诺彩:18718185'],
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'personalReport'
                 },
                 {
                   id: '2-2-2',
@@ -470,8 +492,9 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
-                  tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  title: '团队盈亏',
+                  // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
+                  tabs: ['彩票', '三方', '棋牌', '微游', '充提统计', '活动统计'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
@@ -479,18 +502,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育:18718185', '真人:18718185', '电游:18718185', '捕鱼:18718185', '棋牌:18718185'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级账变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -513,7 +545,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -521,15 +553,15 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -553,19 +585,25 @@ export default {
                   id: '2-1-1',
                   menuid: '30',
                   title: '充值',
-                  url: 'Load'
+                  url: 'Load',
+                  tabs: ['充值', '充值记录'],
+                  tabfn: '__setLoadI'
                 },
                 {
                   id: '2-1-2',
                   menuid: '32',
                   title: '提现',
-                  url: 'Withdraw'
+                  url: 'Withdraw',
+                  tabs: ['提现', '提现记录'],
+                  tabfn: '__setWithdrawI'
                 },
                 {
                   id: '2-1-3',
                   menuid: '20',
-                  title: '转账',
-                  url: 'Transfer'
+                  title: '钱包转账',
+                  url: 'Transfer',
+                  tabs: ['钱包转账', '转账记录'],
+                  tabfn: '__setTransferI'
                 },
                 {
                   id: '2-1-4',
@@ -592,10 +630,19 @@ export default {
                 {
                   id: '2-2-1',
                   menuid: '50',
-                  title: '游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setMyGameRecordI',
                   url: 'myGameRecord'
+                },
+                {
+                  id: '2-2-6',
+                  menuid: '99',
+                  title: '盈亏报表',
+                  tabs: ['盈亏总表', '彩票', '体育:18718185', '真人:18718185', '老虎机:18718185', '电竟:18718185', '捕鱼:18718185', '棋牌:18718185', '基诺彩:18718185'],
+                  tabfn: '__setReportI',
+                  url: 'personalReport'
                 },
                 {
                   id: '2-2-2',
@@ -642,7 +689,7 @@ export default {
                 {
                   id: '2-3-1',
                   menuid: '57',
-                  title: '团队报表',
+                  title: '团队盈亏',
                   tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
@@ -651,18 +698,27 @@ export default {
                   }
                 },
                 {
+                  id: '2-3-9',
+                  menuid: '38',
+                  title: '下级个人盈亏',
+                  tabs: ['盈亏总表', '彩票', '体育', '真人', '老虎机', '电竟', '捕鱼', '棋牌', '基诺彩'],
+                  tabfn: '__setReportI',
+                  url: 'subProfitLoss'
+                },
+                {
                   id: '2-3-2',
                   menuid: '50',
-                  title: '下级游戏记录',
-                  tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  title: '下级彩票记录',
+                  // tabs: ['彩票', 'VR彩票:18718185', '体育', '真人', '电游', '捕鱼', '棋牌'],
+                  tabs: ['投注记录', '追号记录'],
                   tabfn: '__setSubGameRecordI',
                   url: 'subGameRecord'
                 },
                 {
                   id: '2-3-3',
                   menuid: '67',
-                  title: '下级资金记录',
-                  tabs: ['账变明细'],
+                  title: '下级账变明细',
+                  // tabs: ['账变明细'],
                   tabfn: '__setSubCashRecordI',
                   url: 'subCashRecord'
                 },
@@ -685,7 +741,7 @@ export default {
                   id: '2-3-6',
                   menuid: '78',
                   title: '日工资管理',
-                  tabs: ['我的日工资', '下级日工资'],
+                  tabs: ['我的日工资', '下级日工资', '日工资设置'],
                   url: 'salary',
                   tabfn: '__setSalaryI'
                 },
@@ -693,15 +749,15 @@ export default {
                   id: '2-3-7',
                   menuid: '45',
                   title: '彩票分红管理',
-                  tabs: ['彩票分红契约', '分红记录', '预期分红'],
+                  tabs: ['我的分红', '下级分红', '预期分红', '彩票分红契约'],
                   url: 'lotteryStock',
                   tabfn: '__setLotteryStockI'
                 },
                 {
                   id: '2-3-8',
                   menuid: '44',
-                  title: '佣金管理',
-                  tabs: ['佣金契约', '佣金记录', '预期佣金'],
+                  title: '其它游戏分红管理',
+                  tabs: ['我的其它游戏分红', '下级其它游戏分红', '预期其它游戏分红', '其它游戏分红契约'],
                   url: 'otherStock',
                   tabfn: '__setOtherStockI'
                 }
@@ -903,6 +959,7 @@ export default {
     '$route': 'openRoute'
   },
   mounted () {
+    this.getLotterys()
     this.getCfgInfo()
     this.chatUrl()
     this.setUser({mode: 'classic v2'})
@@ -921,6 +978,28 @@ export default {
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
   },
   methods: {
+    showBonus () {
+      return this.menuids.indexOf(',45,') !== -1
+    },
+    getLotterys () {
+      this.$http.get(api.getLotterys).then(({data}) => {
+        // success
+        // data.lotteryList.splice(0, 5)
+        if (data.success === 1) {
+          this.menus[6].groups.forEach(x => {
+            x.items.forEach(y => {
+              // delete y.menuid
+              if (y.gameid && data.lotteryList.findIndex(z => z.lotteryId === y.gameid) === -1) {
+                this.$set(y, '$removed', true)
+              }
+            })
+          })
+          this.setPages(this._getPages())
+        }
+      }, (rep) => {
+        // error
+      })
+    },
     canGetIngots () {
       this.$http.get(api.canGetIngots).then(({data: {success, showIngots, beginTime, endTime}}) => {
         if (success) {
@@ -1074,7 +1153,7 @@ export default {
       this.$http.get(api.chatUrl).then(({data}) => {
         // success
         if (data.success === 1) {
-          this.setUser({chatUrl: data.chatUrl})
+          this.setUser({chatUrl: data.chatUrl, chatUrlSlave: data.chatUrlSlave})
         }
       })
     },
@@ -1090,6 +1169,8 @@ export default {
         // this.getUserPrefence()
         this.__getUserFund()
         this.setUser({login: true,
+          displayPermission: data.displayPermission, // 显示权限
+          showPhoneEmail: data.showPhoneEmail, // 0 : 不显示手机邮箱   1：显示手机邮箱
           showBackWater: data.showBackWater,
           showSalary: data.showSalary === 1,
           name: data.nickName,
@@ -1190,7 +1271,7 @@ export default {
           // if (g.items.length >= 8) g.items = util.groupArray(g.items, 4)
           return g.items.reduce((p, i, ii) => {
             // delete un authority
-            if (g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid + ',') === -1)) {
+            if (i.$removed || g.removed || (this.menuids && i.menuid && this.menuids.indexOf(',' + i.menuid + ',') === -1)) {
               // g.items.splice(ii, 1)
               this.$set(i, 'removed', true)
               return p
@@ -1417,6 +1498,14 @@ export default {
       } else {
         Socket.sockets.user && Socket.sockets.user.send(JSON.stringify({action: 'noauth'}))
       }
+    },
+    righterHandler (type, data) {
+      if (type === 'chess') {
+        if (!this.$root.showMiniIframeGame) {
+          this.$root.showMiniIframeGame = !this.$root.showMiniIframeGame
+        }
+        this.$root.miniIframeGameRetract = !this.$root.miniIframeGameRetract
+      }
     }
   },
   components: {
@@ -1430,8 +1519,9 @@ export default {
     Modal,
     L,
     MenuGuide,
-    AnnualCeremoney
+    AnnualCeremoney,
     // Chat
+    RightQuickThirdGame
   }
 }
 </script>
@@ -1528,6 +1618,7 @@ export default {
   @import './1280X800.stylus'
   @import './chat.stranger.1366.stylus'
   @import './classic.v2.stylus'
+  @import './chat.fix.stylus'
   // @import './chat.wap.stylus'
   // @import './chat.wap.iphone.less'
   // @import './pad.stylus'

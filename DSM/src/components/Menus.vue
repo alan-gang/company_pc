@@ -44,8 +44,8 @@ export default {
       let b = this.defaultUrl
       this.defaultUrl = path
       setTimeout(() => {
-        this.$refs.M.closeMenu(b.split('/')[1])
-        this.$refs.M.openMenu(path.split('/')[1])
+        this.$refs.M && this.$refs.M.closeMenu && this.$refs.M.closeMenu(b.split('/')[1])
+        this.$refs.M && this.$refs.M.openMenu && this.$refs.M.openMenu(path.split('/')[1])
       }, 300)
     }
   },

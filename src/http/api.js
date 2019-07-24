@@ -21,7 +21,7 @@ if (window.location.host.indexOf('cb510') !== -1) {
   if (window.location.host.split('.')[0].startsWith('v')) {
     api = 'https://' + window.location.host + '/dscagamesclient'
   }
-// 外网测试环境
+  // 外网测试环境
 } else if (window.location.host.indexOf('.go') !== -1) {
   env = 'odev'
   api = 'http://112.199.101.98:9901/cagamesclient'
@@ -35,6 +35,8 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  rconfig: '/team/contractBonus.do?method=myRule',
+  useCoupon: '/ext/bg.do?method=transferToBG',
   getHisIssue: '/issuehistory.do?method=getHisIssue',
   getOldUserPrize: '/activity.do?method=getOldUserPrize',
   getLotteryGoodPrize: '/ext/bg.do?method=getLotteryGoodPrize',
@@ -70,7 +72,10 @@ let Login = {
   chatUrl: '/login/login.do?method=getChatUrl',
   lul: '/report/dwReport.do?method=list',
   outerReportDetail: '/report/otherReport.do?method=detail',
+  sumDetail: '/report/personalProfit.do?method=sumDetail',
   outerReport: '/report/otherReport.do?method=list',
+  // 逐日盈亏
+  personalProfit: '/report/personalProfit.do?method=dailyDetail',
   outerOrderRecord: '/ext/projectOther.do?method=',
   // cagamesclient/login/login.do?method=dsLog&userId=4&sessionKey=123456
   tryLoginFromUrl: '/login/login.do?method=dsLog',
@@ -204,10 +209,15 @@ let Login = {
   // 测试线路
   // http://192.168.169.41:9901/cagamesclient/login/lineTest.do?method=lineTest
   lineTest: '/login/lineTest.do?method=lineTest',
+  lineJsonpTest: '/login/lineTest.do?method=lineJsonpTest',
   // http://192.168.169.161:8080/cagamesclient/login/forgetPwd.do?method=isOpenCbAuth
   isOpenCbAuth: '/login/forgetPwd.do?method=isOpenCbAuth',
   // 首页活动banner
-  getActivityBanner: '/activity.do?method=getActivityBanner'
+  getActivityBanner: '/activity.do?method=getActivityBanner',
+  // 退出第三方游戏
+  thirdGameLogout: '/ext/bg.do?method=logout',
+  // 彩种历史记录
+  getMyFavourGame: '/person/accountSecur.do?method=getMyFavourGame'
 }
 
 let Game = {
@@ -388,11 +398,13 @@ let Me = {
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=saveAmountRange&bankCode=icbc
   saveAmountRange: '/person/recharge.do?method=saveAmountRange',
   // 新加充值方式接口
-  saveRanges: '/person/recharge.do?method=saveRanges',
+  // saveRanges: '/person/recharge.do?method=saveRanges',
+  saveRanges: '/person/recharge.do?method=saveRangesNew',
   // &userId=1&userName=jock&platId=101&bankCode=icbc
   // 提交充值请求道第三方
   // http://192.168.169.44:9901/cagamesclient/person/recharge.do?method=commit&bankCode=icbc&amount=0.01
-  commit: '/person/recharge.do?method=commit',
+  commit: '/person/recharge.do?method=commitNew',
+  queryLoadStatus: '/person/recharge.do?method=updateBillNew',
   // &userId=1&userName=jock&platId=101&bankCode=icbc&amount=100
   // 在线充值saveType=0*************
   // 获取银行列表
@@ -415,13 +427,16 @@ let Me = {
   addPayError: '/person/recharge.do?method=addPayError',
   // 查询催到账记录
   // http://192.168.169.161:8080/cagamesclient/person/recharge.do?method=queryPayError&startDate=20170607192528&endDate=20170609192528&idDone=0
-  queryPayError: '/person/recharge.do?method=queryPayError'
+  queryPayError: '/person/recharge.do?method=queryPayError',
+  // 查询用户上级
+  getUserBread: '/report/profit.do?method=getUserBread'
 }
 
 let Group = {
   getSysContractRange: '/team/contractBonus.do?method=getSysContractRange',
   setSalary: '/team/setDaySalary.do?method=setSalary',
   subSalaryList: '/team/setDaySalary.do?method=subSalaryList',
+  mySubSalaryList: '/team/setDaySalary.do?method=mySubSalaryList',
   // 团队余额
   // /cagamesclient/team/useList.do?method=getTeamBalance&userId=19
   getTeamBalance: '/team/useList.do?method=getTeamBalance',
@@ -435,6 +450,8 @@ let Group = {
   // 查询子用户
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=getUserList&userName=dd&minPoint=0&maxPoint=8&maxBalance=100000&minBalance=0&startRegistTime=20161101000000&endRegistTime=20161231000000
   getUserList: '/team/useList.do?method=getUserList',
+  getUserAll: '/team/useList.do?method=getUserAll',
+  getUserSubCopy: '/team/useList.do?method=getUserSubCopy',
   // 代充
   // http://192.168.169.44:9901/cagamesclient/team/useList.do?method=recharge&destId=5&amount=100.5
   recharge: '/team/useList.do?method=recharge',
@@ -492,6 +509,12 @@ let Group = {
   // 查询我的奖金
   // http://192.168.169.44:9901/cagamesclient/team/contractBonus.do?method=myBonus&startDate=20170101200000&endDate=20170115200000
   myBonus: '/team/contractBonus.do?method=myBonus',
+  // 我的彩票其它游戏分红分红
+  myBonusMobile: '/team/contractBonus.do?method=myBonusMobile',
+  // 预期分红与预期其它游戏分红分红
+  mySubExpectedBounsMobile: '/team/contractBonus.do?method=mySubExpectedBounsMobile',
+  // 契约彩票，其它游戏分红
+  mySubContractMobile: '/team/contractBonus.do?method=mySubContractMobile',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonus&startDate=20170310&endDate=20170316&issue=20170315
   topBonus: '/team/topBonus.do?method=topBonus',
   // http://192.168.169.44:9901/cagamesclient/team/topBonus.do?method=topBonuDetail&issue=20170315
@@ -539,6 +562,7 @@ let Form = {
   personList: '/report/profit.do?method=personList',
   poolIssue: '/report/buyReport.do?method=poolIssue',
   poolList: '/report/buyReport.do?method=poolList',
+  personalReport: '/report/personalReportAction.do?method=recentTotalReport',
   // 查询日工资（数据要分页）
   // http://192.168.169.161:8080/cagamesclient/report/daySalaryRepor.do?method=list&startDate=20170601&endDate=20170701&page=1&pageSize=10
   daySalaryRepor: '/report/daySalaryRepor.do?method=list',
@@ -597,20 +621,31 @@ let Form = {
   // /cagamesclient/issuehistory.do?method=list&id=2&size=100&data=
   trendData: '/issuehistory.do?method=list',
   // -------------wilon + 新接口--------------
-  // 查看佣金详情
+  // 查看其它游戏分红详情
   // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=qryCommDetail&userId=7&issue=2018-07-01
   qryCommDetail: '/team/contractBonus.do?method=qryCommDetail',
-  // 发放佣金
-// userId：下级用户ID 7
-// issue:佣金期号2018-07-01
-// chanelType：0 平台内发放 1:平台外发放
-// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
+  // 发放其它游戏分红
+  // userId：下级用户ID 7
+  // issue:其它游戏分红期号2018-07-01
+  // chanelType：0 平台内发放 1:平台外发放
+  // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=sendCtComm&userId=7&issue=2018-07-01&chanelType=0
   sendCtComm: '/team/contractBonus.do?method=sendCtComm',
-//   下级确认佣金（如果是平台外发放）
-// issue:佣金期号 如：2018-07-01
-// http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
-  subCheckComm: '/team/contractBonus.do?method=subCheckComm'
-
+  //   下级确认其它游戏分红（如果是平台外发放）
+  // issue:其它游戏分红期号 如：2018-07-01
+  // http://192.168.169.71:8080/cagamesclient/team/contractBonus.do?method=subCheckComm&issue=2018-07-01
+  subCheckComm: '/team/contractBonus.do?method=subCheckComm',
+  // 下级个人赢亏
+  subPersonalProfit: '/report/personalProfit.do?method=total',
+  // 用户层级
+  subBread: '/report/personalProfit.do?method=subBread',
+  // 获取充提统计
+  rechargeList: '/report/otherReport.do?method=rechargeList',
+  // 获取统计报表明细
+  rechargeDetail: '/report/otherReport.do?method=rechargeDetail',
+  // 活动统计列表
+  activitList: '/report/otherReport.do?method=activitList',
+  // 活动统计列表明细
+  activityDetail: '/report/otherReport.do?method=activitDetail'
 }
 
 let Help = {

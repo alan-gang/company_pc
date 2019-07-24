@@ -20,11 +20,11 @@
           span.title {{ NPER }}
           span &nbsp;&nbsp;期
           //- p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
-          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' " v-bind:visible-arrow=" va ") 
-            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 " style="cursor: pointer;") 开奖号码说明
+          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' + ' g_' + gameid " v-bind:visible-arrow=" va ") 
+            p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 ||gameid === 162 || gameid === 161 || gameid === 29 " style="cursor: pointer;") 开奖号码说明
             slot
-              div(style="width: 8.5rem")
-                div(v-if=" gameid === 150 ")
+              div(style="width: 8.5rem" v-if=" gameid === 150 ")
+                div
                   p 微博5分彩，开奖数据源于每5分钟微博热搜榜前20名关键词的搜索次数。
                   br
                   p 取排名第1、第6、第11、第16名的各个关键词的搜索次数的尾数相加，再取这个数的尾数 作为【万位】的开奖号码；
@@ -41,8 +41,9 @@
                   p 则：0+9+8+0=27，27的尾数为7 ，所以01期开奖号码的【万位】就是7。
                   br
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
-
-                div(v-if=" gameid === 151 ")
+              
+              div(style="width: 8.5rem" v-if=" gameid === 151 ")
+                div
                   p 腾讯赛车，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
                   br
                   p 例如：统计时间为： 2019-03-06 21:58:00，当时的腾讯在线人数为：322446581，在线人数数字之和为：3+2+2+4+4+6+5+8+1=35。
@@ -52,13 +53,30 @@
                   p 因此当期的赛车结果为：6,3,5,4,9,1,10,8,2,7。
                   br
                   p 腾讯赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/3">https://www.qiju.info/#/qijuData/3</a>
+              div(style="width: 8.5rem" v-if=" gameid === 161 ")
+                div(v-html="game161info")
+              div(style="width: 8.5rem" v-if=" gameid === 162 ")
+                div(v-html="game162info" style="word-wrap: break-word;word-break: normal;")
+              div(style="width: 6rem" v-if=" gameid === 29 ")
+                div
+                  p 腾讯分分彩，开奖数据源于每分钟腾讯QQ的在线用户人数数字生成一个五位数字。
+                  br
+                  p 计算公式如下：
+                  p 【万位】：依照官方公布当时的在线人数数字之总和，再取尾数；
+                  p 例如：线上人数227415242人，则为2+2+7+4+1+5+2+4+2=29，取尾数9，因此万位数为9）
+                  p 【后四位】：依照官方公布当时的在线人数，取末四位为千百十个这四个号码；
+                  p 例如：线上人数227415242人，则末4码为5242
+                  br
+                  p 腾讯QQ的线用户人数数据可参见齐聚数据网：
+                  p 
+                    <a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/2">https://www.qiju.info/#/qijuData/2</a>
 
         .vm.inlb
 
           RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if=" fromold && preissue ")
             | 取自 
-            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : '' }} 
+            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆欢乐生肖' : '' }} 
             | 第
             span {{ preissue }}
             | 期开奖 
@@ -111,7 +129,34 @@ export default {
       volume: false,
       ranks: [],
       preissue: '',
-      lstt: ''
+      lstt: '',
+      //阿里云分分彩 开奖号码说明
+      game161info: `《阿里云分分彩》每期开奖号码根据阿里云官网主页（<a class="default" target="_blank" href="https:/cn.aliyun.com/">https:/cn.aliyun.com/</a>）“防御攻击次数”计算而成。<br/>
+阿里云分分彩规则介绍：<br/>
+1、以每分钟阿里云的防御攻击次数数字生成一个五位数字作为阿里云分分彩当期的开奖号码；<br/>
+2、开奖号码的第一位（即万位）数字为阿里云官网当前防御攻击次数总和的尾数；<br/>
+&nbsp;（如：当期采集数据为14,530,580,511，即开奖号码万位为1+4+5+3+0+5+8+0+5+1+1=33 取尾数3）<br/>
+3、开奖号码的后四位（即千百十位）数字对应防御攻击次数的后四位数字 ；<br/>
+&nbsp;（如：当期采集数据为14,530,580,511，即后四位开奖号码为,0511，结合第二点，完整开奖号即为3 0511）<br/>
+&nbsp;4、阿里云分分彩种每分钟一期，全天24小时不间断开放。<br/>
+&nbsp;5、阿里云分分彩开奖结果数据源来源请参考：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/5">https://www.qiju.info/#/qijuData/5</a><br/>
+<br/>
+此彩种注数限制75%，单期限额30万，单挑限额2万。<br/>
+如当期开奖号码官网未开奖且三分钟内未进行补开，或开奖号码与上期相同，则进行撤单处理。`,
+      //阿里云赛车 开奖号码说明
+      game162info: `阿里云赛车（PK10）开奖号码是使用当期「阿里云实时防御攻击次数」加上「统计时间」以及【防御次数数字之和】， 使用SHA512哈希算法执行哈希取得哈希值后，依据最先出现的数字做为赛车结果，0代表10号车。<br/>
+<br/>
+<br/>
+以统计时间2019-06-21 14:47:00为范例，当期的阿里云实时防御攻击次数为4193188428， 系统会利用阿里云实时防御攻击次数+统计时间+防御攻击次数数字总和=> 41931884282019-06-21 14:47:0048执行SHA512哈希算法取得赛车结果。<br/>
+<br/>
+bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78b55de027ddca3108c72215ded704ba005dbf92eb83f7d96b
+<br/>
+在这个哈希值中，数字4最先出现，数字2次之，再是数字3，之后分别是数字6、数字1、数字10、数字5、数字8、数字7、数字9。
+<br/>
+因此当期的赛车结果为：4,2,3,6,1,10,5,8,7,9。
+<br/>
+<br/>
+阿里云赛车的在线人数与统计时间及对应的赛车结果，请参见齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/6">https://www.qiju.info/#/qijuData/6</a>`
     }
   },
   computed: {
@@ -131,7 +176,7 @@ export default {
       return this.cs.filter(x => (x.methodId || []).indexOf(this.methodid) !== -1)[0]
     },
     fromold () {
-      return this.gameid === 155 || this.gameid === 156
+      return this.gameid === 155 || this.gameid === 156 || this.gameid === 157
     }
   },
   mounted () {
@@ -220,7 +265,7 @@ export default {
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc txsc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc
+    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 ffc_qq
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
@@ -278,6 +323,8 @@ export default {
   .wb-intro.el-popover
     margin-top 25px
     background-color #fffde8   
+    &.g_29
+      transform translateX(17%)
     
   .hot-rank.el-popover
     margin-top 35px

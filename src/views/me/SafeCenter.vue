@@ -43,25 +43,32 @@
                 span.mynotice （旧密码与手机验证码输入其一）
 
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newPwd" type="password")
-                span.mynotice 由字母和数字组成6-16个字符;
+                input.ds-input.large(v-model="newPwd" type="password" name="newPwd" maxLength="20" v-on:keyup="pwdKeyUp")
+                span.mynotice 由字母和数字组成6-20个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="pwdState")
               p 确认新密码：
-                input.ds-input.large(v-model="newPwdAgain" type="password")
+                input.ds-input.large(v-model="newPwdAgain" type="password" name="newPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="aPwdState")
 
               
 
             .cashpwd-form.form(v-if="tabIndex === 2 && !me.cashPwd")
 
               p 设置密码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newCashPwd" type="password")
-                span.mynotice 由字母和数字组成6-16个字符;
+                input.ds-input.large(v-model="newCashPwd" type="password" name="newCashPwd" maxLength="20" v-on:keyup="pwdKeyUp")
+                span.mynotice 由字母和数字组成6-20个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newCashPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdState")
               p 确认密码：&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(v-model="newCashPwdAgain" type="password")
-
+                input.ds-input.large(v-model="newCashPwdAgain" type="password" name="newCashPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newCashPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdAgainState")
 
 
             .cashpwd-form.form(v-if="tabIndex === 2 && me.cashPwd")
@@ -79,13 +86,16 @@
                 span.mynotice （旧密码与手机验证码输入其一）
 
               p 新密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                input.ds-input.large(type="password"  v-model="newCashPwd")
-                span.mynotice 由字母和数字组成6-16个字符;
+                input.ds-input.large(type="password"  v-model="newCashPwd" name="newCashPwd" maxLength="20" v-on:keyup="pwdKeyUp")
+                span.mynotice 由字母和数字组成6-20个字符;
                   br
-                  必须包含数字和字母，不允许连续三位相同
+                  | 必须包含数字和字母，不允许连续三位相同
+              p.pwd-status-check-row(v-show="newCashPwd.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdState")
               p 确认新密码：
-                input.ds-input.large(type="password"  v-model="newCashPwdAgain")
-
+                input.ds-input.large(type="password"  v-model="newCashPwdAgain" name="newCashPwdAgain" maxLength="20" v-on:keyup="pwdKeyUp")
+              p.pwd-status-check-row(v-show="newCashPwdAgain.length > 0")
+                PwdStatusCheckBar(v-bind:state="newCashPwdAgainState")
 
             .buttons(style="margin-left: .85rem")
               .ds-button.primary.large(@click="changePwd") 提交
@@ -127,7 +137,7 @@
                 span.text-danger.ds-icon-unset(v-if="!me.birthday") 未设置
                 span(style="font-size: .12rem") （生日只能设置一次）
 
-              el-col(:span="4").toggle(v-show=" !me.birthday ")
+              el-col.toggle(:span="4" v-show=" !me.birthday ") 
                 .ds-button.text-button.blue(@click="index === 9 ? index = 0 : index = 9") {{ index === 9 ? '收起' : !me.birthday ? '立即设置' : '立即修改' }}
 
             el-row.action(v-if="index === 9" style="padding-left: 0")
@@ -162,7 +172,7 @@
                 .ds-button.primary.large(style="margin-left: .15rem" @click="setGreetMsg") 提交
       
       //- 手机绑定
-      el-row.phone(v-bind:class="{expand: index === 4 }")
+      el-row.phone(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 4 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-phone 手机绑定
@@ -195,8 +205,8 @@
              button.ds-button.primary.large(@click="unbindPhone" v-if="me.phone") 解绑
              .ds-button.cancel.large(@click="clearPhone") 清空
 
-      // 邮箱绑定
-      el-row.email(v-bind:class="{expand: index === 5 }")
+      //- 邮箱绑定
+      el-row.email(v-if="me.showPhoneEmail==1" v-bind:class="{expand: index === 5 }")
         el-col
           el-row.static
             el-col(:span="6").title.ds-icon-email 邮箱绑定
@@ -319,20 +329,20 @@
             
             .safe-check-form.form(style="margin-top: .3rem")
               .ds-checkbox-label.active.disabled
-                .ds-checkbox
-                资金密码验证
+                .ds-checkbox 
+                | 资金密码验证
 
               .ds-checkbox-label(@click="safeCheck === 2 ? safeCheck = 0 : safeCheck = 2" v-bind:class="{active: safeCheck === 2 }" v-bind:style=" me.safeCheck === 2 && {color: '#1a9ff3'} ")
-                .ds-checkbox
-                邮箱验证
+                .ds-checkbox 
+                | 邮箱验证
                 
               // .ds-checkbox-label(@click="safeCheck === 1 ? safeCheck = 0 : safeCheck = 1" v-bind:class="{active: safeCheck === 1 }" v-bind:style=" me.safeCheck === 1 && {color: '#1a9ff3'} ")
               //  .ds-checkbox
               //  手机验证
 
               .ds-checkbox-label(@click="safeCheck === 3 ? safeCheck = 0 : safeCheck = 3" v-bind:class="{active: safeCheck === 3 }" v-bind:style=" me.safeCheck === 3 && {color: '#1a9ff3'} ")
-                .ds-checkbox
-                信游安全认证
+                .ds-checkbox 
+                | 信游安全认证
 
               //.ds-checkbox-label(@click="safeCheck4 = !safeCheck4" v-bind:class="{active: safeCheck4 }")
               //  .ds-checkbox
@@ -364,6 +374,8 @@ import api from '../../http/api'
 import store from '../../store'
 import Validate from '../../util/Validate'
 import xhr from 'components/xhr'
+import PwdStatusCheckBar from 'components/PwdStatusCheckBar'
+import md5 from 'md5'
 export default {
   mixins: [xhr],
   data () {
@@ -392,7 +404,13 @@ export default {
       stepIndex: 0,
       qrStr: '',
       qrDescrb: '',
-      birthday: ''
+      birthday: '',
+
+      pwdState: -1,
+      aPwdState: -1,
+      newCashPwdState: -1,
+      newCashPwdAgainState: -1
+
     }
   },
   computed: {
@@ -467,6 +485,24 @@ export default {
     this.createCBqr()
   },
   methods: {
+    pwdKeyUp (event) {
+      switch (event.target.name) {
+        case 'newPwd':
+          this.pwdState = Validate.getPwdSafeLevel(this.newPwd) - 1
+          break
+        case 'newPwdAgain':
+          this.aPwdState = Validate.getPwdSafeLevel(this.newPwdAgain) - 1
+          break
+        case 'newCashPwd':
+          this.newCashPwdState = Validate.getPwdSafeLevel(this.newCashPwd) - 1
+          break
+        case 'newCashPwdAgain':
+          this.newCashPwdAgainState = Validate.getPwdSafeLevel(this.newCashPwdAgain) - 1
+          break
+        default:
+          break
+      }
+    },
     changBirthday () {
       if (!this.birthday) return
       this.$http.get(api.setBirthday + this.birthday._toDayString()).then(({data: {success, msg}}) => {
@@ -566,10 +602,11 @@ export default {
           if (!this.oldPwd) return this.$message.warning({target: this.$el, message: '请输入旧密码！'})
         }
         if (!this.newPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
-        if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
+        if (!Validate.pwd(this.newPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newPwdAgain !== this.newPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
+        if (this.pwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changLoginPwd: api + 'person/accountSecur.do?method=changLoginPwd&password=123456&newPwd=000000',
-        this.$http.post(api.changLoginPwd, {password: this.oldPwd, newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
+        this.$http.post(api.changLoginPwd, {password: md5(this.oldPwd), newPwd: this.newPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             this.$message.success({target: this.$el, message: '恭喜您， 登录密码修改成功，系统即将退出，请重新登录。'})
             setTimeout(() => {
@@ -582,7 +619,7 @@ export default {
         }, (rep) => {
         })
       } else {
-      // 资金密码
+        // 资金密码
         // 修改
         if (this.me.cashPwd) {
           if (this.me.phone) {
@@ -593,10 +630,11 @@ export default {
         } else {}
         // 设置
         if (!this.newCashPwd) return this.$message.warning({target: this.$el, message: '请输入新密码！'})
-        if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！'})
+        if (!Validate.pwd(this.newCashPwd)) return this.$message.error({target: this.$el, message: '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！'})
         if (this.newCashPwdAgain !== this.newCashPwd) return this.$message.error({target: this.$el, message: '两次新密码输入不一致！'})
+        if (this.newCashPwdState < 1) return this.$message.warning({target: this.$el, message: '您输入的密码安全级别比较弱'})
         // changSecurePwd: api + 'person/accountSecur.do?method=changSecurePwd&password=123456&newPwd=000000',
-        this.$http.post(api.changSecurePwd, {password: this.oldCashPwd, newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
+        this.$http.post(api.changSecurePwd, {password: md5(this.oldCashPwd), newPwd: this.newCashPwd, smsCode: this.pc_}).then(({data}) => {
           if (data.success === 1) {
             let message = '恭喜您， 资金密码修改成功。'
             if (!this.me.cashPwd) message = '恭喜您， 资金密码设置成功。'
@@ -830,7 +868,8 @@ export default {
   // setSafeQuestion: api + 'person/accountSecur.do?method=setSafeQuestion&question1=abc&question2=def&answer1=ghi&answer2=jkl'
   // http://192.168.169.44:9901/cagamesclient/person/accountSecur.do?method=setsecurityCheck&checkType=1&verifyCode=2444
   components: {
-    MeSideView
+    MeSideView,
+    PwdStatusCheckBar
   }
 }
 </script>
@@ -861,6 +900,8 @@ export default {
     left 2.5rem
       
   .safe-detail-info
+    .pwd-status-check-row
+      padding-left 0.84rem
     &>.el-row
       padding 0 PWX
       &:hover

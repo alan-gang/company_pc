@@ -2,9 +2,17 @@ const BANKS = [
   {apiName: 'qqwallet', class: 'qqwallet', text: 'QQ钱包'},
   {apiName: 'bdwallet', class: 'bdwallet', text: '百度钱包'},
   {apiName: 'zfb', class: 'alipay', text: '支付宝'},
-  {apiName: 'zfb2bank', class: 'alipay', text: '支付宝'},
+  {apiName: 'zfb2bank', class: 'alipay', text: '支付宝转帐'},
   {apiName: 'zfbwap', class: 'alipay', text: '支付宝'},
   {apiName: 'weixin', class: 'wepay', text: '微信'},
+  {apiName: 'weixinquota', class: 'weixinquota', text: '微信定额'},
+  {apiName: 'bank', class: 'bank', text: '网银转账'},
+  {apiName: 'bigBank', class: 'bigbank', text: '大额网银'},
+  {apiName: 'fast', class: 'fast', text: '快捷支付'},
+  {apiName: 'unionpay', class: 'unionpay', text: '银联扫码'},
+  {apiName: 'jd', class: 'jd', text: '京东支付'},
+  {apiName: 'online', class: 'online', text: '在线支付'},
+
   {apiName: 'bob', class: 'bjyh', text: '北京银行'},
   {apiName: 'gdb', class: 'gfyh', text: '广发银行'},
   {apiName: 'hxb', class: 'hxyh', text: '华夏银行'},
@@ -29,9 +37,8 @@ const BANKS = [
   {apiName: 'chbh', class: 'bhyh', text: '渤海银行'},
   {apiName: 'njbc', class: 'njyh', text: '南京银行'},
   {apiName: 'nbbc', class: 'nbyh', text: '宁波银行'},
-  {apiName: 'fast', class: 'fast', text: '快捷支付'},
-  {apiName: 'unionpay', class: 'unionpay', text: '银联扫码'},
-  {apiName: 'jd', class: 'jd', text: '京东支付'}
+  {apiName: 'bigbank', class: 'bigbank', text: '大额网银'}
+  
 ]
 
 const PROVINCES = [

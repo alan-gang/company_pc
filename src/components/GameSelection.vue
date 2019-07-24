@@ -310,7 +310,6 @@
           {ids: '1-1-1-HC6', class: 'code width1-8', title: '特码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '1-1-2-HC6', class: 'code width1-8', title: '正码', min: 1, max: 49, l: 2, hover: true, times: 0, afters: Array(49).fill(0).map(n => (n = 47)), buttons: ['全', '大', '小', '奇', '偶', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪', '金', '木', '水', '火', '土', '清'], btnClass: 'block pl3'},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('鼠').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('鼠')), checkbox: true, after: 47.7, value: 1}]},
-          // {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '鼠', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: '10, 22, 34, 46', numbers: ['10:oblue', '22:green', '34:danger', '46:danger', '-1:o0'], checkbox: true, after: 47.7, value: 1}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '牛', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('牛').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('牛')), checkbox: true, after: 47.7, value: 2}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '虎', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('虎').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('虎')), checkbox: true, after: 47.7, value: 3}]},
           {ids: '2-1-1-HC6, 2-1-2-HC6, 2-1-3-HC6, 2-1-4-HC6, ', class: 'number-array full-width', title: '兔', rowClass: 'half-row', values: [{class: 'small-circle', selected: false, title: getNumberOfAnimal('兔').join(', '), numbers: getColorsOfNumberArray(getNumberOfAnimal('兔')), checkbox: true, after: 47.7, value: 4}]},
@@ -518,6 +517,23 @@
       },
       // win n 可能中奖的注数
       wn () {
+        // console.log('id', this.type.id)
+        // console.log({
+        //   ns: this.ns,
+        //   nsl: this.nsl,
+        //   ps: this.ps,
+        //   psl: this.psl,
+        //   value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
+        //   r: this.r
+        // })
+        // console.log('wn', WN[this.type.id] ? WN[this.type.id]({
+        //   ns: this.ns,
+        //   nsl: this.nsl,
+        //   ps: this.ps,
+        //   psl: this.psl,
+        //   value: this.value.replace(/[^0-9,;\s]+/g, '').replace(/[,;|\s]+/g, ' '),
+        //   r: this.r
+        // }) : 1)
         return WN[this.type.id] ? WN[this.type.id]({
           ns: this.ns,
           nsl: this.nsl,

@@ -7,39 +7,14 @@
     slot(name="toolbar")
     .add-user.scroll-content
 
-      div
-
-        .notice(style="margin: .2rem")
-          span.title 例如：
-          p.content
-            | 您当前的
-            span.text-blue 直选返点
-            | 为 
-            span.text-danger {{ 0.8 }}%
-            |  并且您的
-            span.text-blue 不定位返点
-            | 为 
-            span.text-danger {{ 0.6 }}%
-            | ，而您在下面 “
-            span.text-blue 保留返点
-            | ” 处填写
-            span.text-danger {{ 0.5 }}
-            br
-            | 那么：您开设新帐户的
-            span.text-blue 直选返点
-            | 即为 
-            span.text-danger {{ 0.3 }}%
-            | ，不定位返点 
-            span.text-blue 不定位返点
-            | 为
-            span.text-danger {{ 0.1 }}%
+      .bgc-w
 
         p(style="padding: .05rem .4rem") 登录帐号： &nbsp;&nbsp;
           input.ds-input.larget(v-model="account")
-          span(style="color: #999; font-size: .12rem")（由0-9，a-z，A-Z组成的6-16个字符）
+          span(style="color: #999; font-size: .12rem") （由0-9，a-z，A-Z组成的6-16个字符）
         p(style="padding: .05rem .4rem") 登录密码： &nbsp;&nbsp;
           input.ds-input.larget(v-model="pwd" v-bind:class=" {default: pwd === '123456a' } ")
-          span(style="color: #999; font-size: .12rem")（登录密码默认为：{{ '123456a'}} )
+          span(style="color: #999; font-size: .12rem") （登录密码默认为：{{ '123456a'}} )
  
      
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
@@ -212,4 +187,5 @@
       margin 0
       line-height .25rem
       vertical-align top
+      
 </style>

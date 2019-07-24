@@ -14,7 +14,7 @@
         p.item 分红状态：{{  STATUS[stock.isDone].title }}
         p.item 期号：{{ stock.issue }}
         p.item 发放方式：{{ STYPE[stock.sendType] }}
-        p.item 分红比例：{{  stock.bonusRate }}%
+        p.item 分红比例：{{  (Number(stock.bonusRate)*100).toFixed(4) }}%
 
         .item(style="display: inline-block; margin: 0") 累计盈亏： 
           span(:class=" {'text-green': stock.profitAmount && stock.profitAmount._o0(), 'text-danger': stock.profitAmount && stock.profitAmount._l0() } ")  {{ stock.profitAmount &&stock.profitAmount._nwc() }}
@@ -28,7 +28,7 @@
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
-          button.ds-button.large.bold.primary(@click="subCheckBonus") 已收到分红
+          button.ds-button.large.bold.primary(@click="subCheckBonus") 平台外已接收
 
 
 

@@ -168,6 +168,8 @@ pre
   &:hover
     background-color rgba(0,0,0,.5)
 
+.el-scrollbar__thumb
+  background-color #999
 
 // el-loading 
 .el-loading-mask
@@ -1235,6 +1237,18 @@ pre
       
     &.jd
       background url($ASSETS/bankcard/bank_jd.jpg) #fff .1rem center no-repeat
+
+    &.bank
+      background url($ASSETS/bankcard/bank.jpg) #fff .1rem center no-repeat
+
+    &.bigbank
+      background url($ASSETS/bankcard/dewy.jpg) #fff .1rem center no-repeat
+      
+    &.weixinquota
+      background url($ASSETS/bankcard/weixinquota.jpg) #fff .1rem center no-repeat
+
+    &.online
+      background url($ASSETS/bankcard/icon_zf_zxzf.jpg) #fff .1rem center no-repeat
 
 
   // me/Bank.vue

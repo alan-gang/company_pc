@@ -34,6 +34,8 @@ let defaultUser = {
   litAmount: 0,
   pbAmount: 0,
   lgAmount: 0,
+  xyAmount: 0,
+  xyqpAmount: 0,
   // safeCenter
   email: '',
   phone: '',
@@ -67,7 +69,8 @@ let defaultUser = {
   exp: 0,
   diffExp: 0,
   nexMinExp: 0,
-  vipChatUrl: ''
+  vipChatUrl: '',
+  chatUrlSlave: ''
 }
 let defaultUserString = JSON.stringify(defaultUser)
 delete defaultUser.mode

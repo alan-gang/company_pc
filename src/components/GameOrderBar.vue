@@ -76,13 +76,13 @@
           | 注&nbsp;&nbsp;共 
           span.pay {{ pay.toFixed(3) }}
           |  元
-        p(v-show=" n && maxWinAmount <= 400000 ")
+        p(v-show=" n && maxWinAmount <= dzMaxPrize ")
           | 最高可中奖
-          span.text-blue.text-bold  {{ maxWinAmount.toFixed(3)._nwc() }} 
+          span.text-blue.text-bold  {{ maxWinAmount.toFixed(2 + cIndex)._nwc() }} 
           | 元，最高可盈利
-          span.text-blue.text-bold  {{ maxWinProfit.toFixed(3)._nwc() }} 
+          span.text-blue.text-bold  {{ maxWinProfit.toFixed(2 + cIndex)._nwc() }} 
           | 元
-        p(v-show=" n && maxWinAmount > 400000 ")
+        p(v-show=" n && maxWinAmount > dzMaxPrize ")
           span.text-danger 超出奖金限制
 
 
@@ -144,7 +144,7 @@
 import util from '../util'
 import store from '../store'
 export default {
-  props: ['model', 'times', 'currency', 'point', 'n', 'wn', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout', 'PA'],
+  props: ['model', 'times', 'currency', 'point', 'n', 'wn', 'pay', 'canOrder', 'P', 'gameType', 'type', 'ns', 'timeout', 'PA', 'dtMaxPrize', 'dzMaxPrize'],
   data () {
     return {
       me: store.state.user,
@@ -203,6 +203,8 @@ export default {
       }
     },
     maxWinProfit () {
+      // console.log('wn', this.wn)
+      // console.log('maxWinAmount', this.maxWinAmount)
       return this.maxWinAmount - this.pay
     },
     s () {
@@ -241,7 +243,7 @@ export default {
       return (this.p / 100).toFixed(1) + '%'
     },
     prize () {
-      return (((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
+      return ((((this.MAX - (this.p - this.min) * (this.MAX - this.P.minprize) / (this.max - this.min)) || this.MAX) * this.currencies[this.cIndex].value) * this.t).toFixed(2 + this.cIndex)
     },
     lprize () {
       if (this.LP) {
@@ -422,7 +424,7 @@ export default {
         })
       } else if (!this.type.mutilpOrderPerRow && !this.type.mutilRowPerOrder && this.P.minCount && (this.n < this.P.minCount) && this.me.minOrderPop) {
         return this.$modal.question({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，单期最高奖金3万',
+          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">该玩法一个方案投注量少于：<span class="text-danger">' + this.P.minCount + '</span> 注，视为单挑模式，奖金最高' + this.dtMaxPrize + '元',
           btn: ['继续购买', '再来几注', '不再提醒'],
           target: this.$el.parentNode,
           O: this,

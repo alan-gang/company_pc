@@ -7,72 +7,54 @@
     slot(name="toolbar")
     div.info
       el-row
-        el-col(:span="6")
-          追号编号：
+        el-col(:span="6") 追号编号：
           span.text-black {{ detail.taskId }}
-        el-col(:span="6")
-          游戏用户：
+        el-col(:span="6") 游戏用户：
           span.text-black {{ detail.userName }}
-        el-col(:span="6")
-          追号时间：
+        el-col(:span="6") 追号时间：
           span.text-black {{ detail.begintime }}
 
-        el-col(:span="6")
-          游戏：
+        el-col(:span="6") 游戏：
           span.text-black {{ detail.lotteryName }}
 
       el-row
-        el-col(:span="6")
-          玩法：
+        el-col(:span="6") 玩法：
           span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
-        el-col(:span="6")
-          模式：
+        el-col(:span="6") 模式：
           span.text-black {{ MODES[detail.modes - 1] }}
-        el-col(:span="6")
-          开始期号：
+        el-col(:span="6") 开始期号：
           span.text-black {{ detail.beginissue }}
 
-        el-col(:span="6")
-          追号期数:
+        el-col(:span="6") 追号期数:
           span.text-black {{ detail.issuecount }}
       
       el-row
-        el-col(:span="6")
-          完成期数：
+        el-col(:span="6") 完成期数：
           span.text-black {{ detail.finishedcount }}
-        el-col(:span="6")
-          取消期数：
+        el-col(:span="6") 取消期数：
           span.text-black {{ detail.cancelcount }}
-        el-col(:span="6")
-          追号总金额：
+        el-col(:span="6") 追号总金额：
           span.text-black {{ detail.taskprice }}
 
-        el-col(:span="6")
-          完成金额：
+        el-col(:span="6") 完成金额：
           span.text-black {{ detail.finishprice }}
 
       el-row
-        el-col(:span="6")
-          中奖期数：
+        el-col(:span="6") 中奖期数：
           span.text-black {{ detail.wincount }}
-        el-col(:span="6")
-          派奖总金额：
+        el-col(:span="6") 派奖总金额：
           span.text-green(v-if=" detail.winprize && detail.winprize._o0() ") {{ detail.winprize && detail.winprize._nwc() }}
 
-        el-col(:span="6")
-          取消金额：
+        el-col(:span="6") 取消金额：
           span.text-black {{ detail.cancelPrice }}
 
-        el-col(:span="6")
-          中奖后终止任务：
+        el-col(:span="6") 中奖后终止任务：
           span.text-black {{ detail.stoponwin === 1 ? '是' : '否' }}
 
       el-row
-        el-col(:span="6")
-          追号内容：
+        el-col(:span="6") 追号内容：
           span.text-black {{ detail.codes }}
-        el-col(:span="6")
-          追号状态：
+        el-col(:span="6") 追号状态：
           span(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
 
         el-col(:span="6")
@@ -113,11 +95,9 @@
               el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="9")
-                游戏用户：
+              el-col(:span="9") 游戏用户：
                 span.text-black {{ row.userName }}
-              el-col(:span="5")
-                游戏：
+              el-col(:span="5")  游戏：
                 span.text-black {{ row.lotteryName }}
 
               el-col(:span="5")
@@ -129,40 +109,31 @@
                     span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
             
 
-              el-col(:span="5")
-                总金额：
+              el-col(:span="5") 总金额：
                 span.text-black {{ row.TotalPrice }}
 
             el-row
-              el-col(:span="9")
-                注单编号：
+              el-col(:span="9") 注单编号：
                 span.text-black {{ row.projectId }}
-              el-col(:span="5")
-                玩法：
+              el-col(:span="5") 玩法：
                 span.text-black {{ row.methodName }}（{{ row.codeType === 1 ? '复式' : '单式'}}）
-              el-col(:span="5")
-                注单状态：
+              el-col(:span="5") 注单状态：
                 span(:class=" ORDERSTATUSCLASS[row.stat] ") {{ ORDERSTATUS[row.stat] }}
 
-              el-col(:span="5")
-                倍数模式：
+              el-col(:span="5") 倍数模式：
                 span.text-black {{ row.multiple }}
 
             
             el-row
-              el-col(:span="9")
-                投单时间：
+              el-col(:span="9") 投单时间：
                 span.text-black {{ row.writeTime }}
-              el-col(:span="5")
-                奖期：
+              el-col(:span="5") 奖期：
                 span.text-black {{ row.issue }}
-              el-col(:span="5")
-                注单奖金：
+              el-col(:span="5") 注单奖金：
                 span.text-green(v-if=" row.bonus && row.bonus._o0() ") {{ row.bonus && row.bonus._nwc() }}
                 
 
-              el-col(:span="5")
-                动态奖金返点：
+              el-col(:span="5") 动态奖金返点：
                 span.text-black {{ row.userPoint }}
 
             p.textarea-label

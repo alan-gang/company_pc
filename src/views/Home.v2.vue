@@ -5,7 +5,7 @@
     
     MyMenu(:menus="menus.slice(0, 13).concat(menus[17]).concat(menus[18])" v-on:open-page="openTab")
 
-    router-view.scroll-content.page(:pages="pages" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
+    router-view.scroll-content.page(:pages="pages" v-bind:menus="menus" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
 
 
     el-carousel.ad(:interval="4000" arrow="always")
@@ -97,10 +97,9 @@
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
 
-                el-col(:span="4")
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " ) 
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " ) 
-                el-col(:span="4") 
+                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " ) 
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -161,6 +160,7 @@
 
     CopyRight
 
+    Chess(v-if="$root.showMiniIframeGame" v-bind:show="$root.showMiniIframeGame" v-bind:isRetract="$root.miniIframeGameRetract" v-bind:gameId="thirdGame.gameId" v-bind:platId="thirdGame.platId" @retract="$root.miniIframeGameRetract = $event")
 
     // a submit form
     form(id="TheForm" method="post" action="" target="TheWindow")
@@ -183,6 +183,7 @@ import CopyRight from 'components/CopyRight'
 import Me from 'components/Me'
 import Unloginbar from 'components/Unloginbar'
 import MyMenu from 'components/Menu'
+import Chess from './outer/chess'
 export default {
   name: 'Home',
   mixins: [base],
@@ -252,7 +253,11 @@ export default {
       showbigpic: false,
       ri: 0,
       t1: 0,
-      t2: 0
+      t2: 0,
+      thirdGame: {
+        gameId: '202',
+        platId: '7'
+      }
     }
   },
   computed: {
@@ -422,7 +427,8 @@ export default {
     CopyRight,
     Me,
     MyMenu,
-    Unloginbar
+    Unloginbar,
+    Chess
   }
 }
 </script>
@@ -461,12 +467,18 @@ export default {
   .new-home .dialog-container
     top 0
     z-index 3
+  .ad
   .box
     background url(../assets/newhome/index_bg.jpg) no-repeat
     background-repeat no-repeat
     background-size 100% 100%
     padding-top .3rem
-    
+    &.ad
+      padding-top 0
+      background-repeat repeat
+      background-size 100% 100rem
+      
+      
   W = 1.4rem
   H = 1.4rem
   .top-games
@@ -669,7 +681,9 @@ export default {
         
         &.ly
           background-image url(../assets/newhome/logo_ly_big.png)
-        
+        &.xy
+          background-image url(../assets/newhome/logo_xy_big.png)  
+
         &.spb
           background-image url(../assets/newhome/logo_sb_big.png)
         &.uwin

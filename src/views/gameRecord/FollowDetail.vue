@@ -1,108 +1,168 @@
 <template lang="jade">
-  .group-page
+  .group-page.follow-detail-modal
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    div.info
-      el-row
-        el-col(:span="6")
-          追号编号：
-          span.text-black {{ detail.taskId }}
-        el-col(:span="6")
-          游戏用户：
-          span.text-black {{ detail.userName }}
-        el-col(:span="6")
-          追号时间：
-          span.text-black {{ detail.begintime }}
+    div.info.follow-info
+      .follow-tb
+        el-row  
+          el-col(:span="12")
+            span.l-label 追号编号：
+            span.text-black {{ detail.taskId }}  
+            span.follow-status.c_f(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
+          el-col(:span="12")
+            span.l-label 追号时间：
+            span.text-black {{ detail.begintime }}
+        el-row
+          el-col(:span="12")
+            span.l-label 中奖停追：
+            span.text-black {{ detail.stoponwin === 1 ? '是' : '否' }}
+          el-col(:span="12")
+            span.l-label 是否单挑：{{ detail.islimitbonus === 1 ? '是' : '否' }}
+            span.text-black 
+        el-row
+          el-col(:span="12")
+            span.l-label 游戏：
+            span.text-black {{ detail.lotteryName }}
+          el-col(:span="12")
+            span.l-label 玩法：
+            span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
+        el-row
+          el-col(:span="12" className="codes-col")
+            span.l-label 内容：
+            span.text-black {{ detail.codes }}
+          el-col(:span="12")
+            span.l-label 单期金额：
+            span.text-black {{ numberWithCommas(detail.singleprice) }} 元
+        el-row
+          el-col(:span="12")
+            span.l-label 追号期数：
+            span.text-black {{detail.issuecount}}
+          el-col(:span="12")
+            span.l-label 追号总额：
+            span.text-black {{ numberWithCommas(detail.taskprice) }} 元
+        el-row
+          el-col(:span="12")
+            span.l-label 开始期号：
+            span.text-black {{ detail.beginissue }}
+          el-col(:span="12")
+           span.l-label 完成期数：
+            span.text-black {{ detail.finishedcount }} 期 （共{{ numberWithCommas(detail.finishprice) }}元）
+        el-row
+          el-col(:span="12")
+            span.l-label 取消期数：
+            span.text-black {{ detail.cancelcount }} 期（共{{ numberWithCommas(detail.cancelPrice) }}元）
+          el-col(:span="12")
+            span.l-label 中奖期数：
+            span.text-black {{ detail.wincount }} 期 
+              span(v-if=" detail.winprize && detail.winprize._o0() ") （共{{ numberWithCommas(detail.winprize && detail.winprize._nwc()) }}元）
 
-        el-col(:span="6")
-          游戏：
-          span.text-black {{ detail.lotteryName }}
 
-      el-row
-        el-col(:span="6")
-          玩法：
-          span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
-        el-col(:span="6")
-          模式：
-          span.text-black {{ MODES[detail.modes - 1] }}
-        el-col(:span="6")
-          开始期号：
-          span.text-black {{ detail.beginissue }}
 
-        el-col(:span="6")
-          追号期数:
-          span.text-black {{ detail.issuecount }}
-      
-      el-row
-        el-col(:span="6")
-          完成期数：
-          span.text-black {{ detail.finishedcount }}
-        el-col(:span="6")
-          取消期数：
-          span.text-black {{ detail.cancelcount }}
-        el-col(:span="6")
-          追号总金额：
-          span.text-black {{ detail.taskprice }}
+        //- el-row
+          el-col(:span="6")
+            追号编号：
+            span.text-black {{ detail.taskId }}
+          el-col(:span="6")
+            游戏用户：
+            span.text-black {{ detail.userName }}
+          el-col(:span="6")
+            追号时间：
+            span.text-black {{ detail.begintime }}
 
-        el-col(:span="6")
-          完成金额：
-          span.text-black {{ detail.finishprice }}
+          el-col(:span="6")
+            游戏：
+            span.text-black {{ detail.lotteryName }}
 
-      el-row
-        el-col(:span="6")
-          中奖期数：
-          span.text-black {{ detail.wincount }}
-        el-col(:span="6")
-          派奖总金额：
-          span.text-green(v-if=" detail.winprize && detail.winprize._o0() ") {{ detail.winprize && detail.winprize._nwc() }}
+        //- el-row
+          el-col(:span="6")
+            玩法：
+            span.text-black {{ detail.methodName }}（{{ detail.codeType === 1 ? '复式' : '单式'}}）
+          el-col(:span="6")
+            模式：
+            span.text-black {{ MODES[detail.modes - 1] }}
+          el-col(:span="6")
+            开始期号：
+            span.text-black {{ detail.beginissue }}
 
-        el-col(:span="6")
-          取消金额：
-          span.text-black {{ detail.cancelPrice }}
+          el-col(:span="6")
+            追号期数:
+            span.text-black {{ detail.issuecount }}
+        
+        //- el-row
+          el-col(:span="6")
+            完成期数：
+            span.text-black {{ detail.finishedcount }}
+          el-col(:span="6")
+            取消期数：
+            span.text-black {{ detail.cancelcount }}
+          el-col(:span="6")
+            追号总金额：
+            span.text-black {{ detail.taskprice }}
 
-        el-col(:span="6")
-          中奖后终止任务：
-          span.text-black {{ detail.stoponwin === 1 ? '是' : '否' }}
+          el-col(:span="6")
+            完成金额：
+            span.text-black {{ detail.finishprice }}
 
-      el-row
-        el-col(:span="6")
-          追号内容：
-          span.text-black {{ detail.codes }}
-        el-col(:span="6")
-          追号状态：
-          span(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
+        //- el-row
+          el-col(:span="6")
+            中奖期数：
+            span.text-black {{ detail.wincount }}
+          el-col(:span="6")
+            派奖总金额：
+            span.text-green(v-if=" detail.winprize && detail.winprize._o0() ") {{ detail.winprize && detail.winprize._nwc() }}
 
-        el-col(:span="6")
-        el-col(:span="6")
+          el-col(:span="6")
+            取消金额：
+            span.text-black {{ detail.cancelPrice }}
 
-    .followDetail-page-content.scroll-content.info(style="top: 2.1rem")
+          el-col(:span="6")
+            中奖后终止任务：
+            span.text-black {{ detail.stoponwin === 1 ? '是' : '否' }}
+
+        //- el-row
+          el-col(:span="12")
+            追号内容：
+            span.text-black {{ detail.codes }}
+          el-col(:span="12")
+            追号状态：
+            span(:class=" STATUSCLASS[detail.status] ") {{ STATUS[detail.status] }}
+
+
+    .followDetail-page-content.scroll-content.info(style="top: 0rem")
       el-table.header-bold.nopadding(:data="detail.taskDetailsList" max-height="250" @selection-change="handleSelectionChange")
 
-        el-table-column(class-name="pl2" width="80" label="选择")
+        el-table-column(class-name="pl2" width="80" label="选择" align="center")
           template(scope="scope")
             .ds-checkbox-label.disabled(style="opacity: .4")
               .ds-checkbox.disabled(:class="{ active: scope.row.status === 0}")
 
-        el-table-column(prop="issue" label="奖期")
+        el-table-column(prop="issue" label="奖期" align="center")
 
-        el-table-column(label="追号倍数")
+        el-table-column(label="倍数" align="center")
           template(scope="scope")
             span {{ scope.row.multiple + '倍' }}
-        el-table-column( label="追号状态" )
-          template(scope="scope")
-            span(:class=" STATUSSCLASS[scope.row.status] ") {{ STATUSS[scope.row.status] }}
 
-        el-table-column(prop="userpoint" label="注单详情")
+        el-table-column( label="注单状态" align="center")
           template(scope="scope")
-            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 详情
+            span(:class=" STATUSSCLASS[scope.row.substatus] ") {{ STATUSS[scope.row.substatus] }}
+        
+        el-table-column(label="中奖金额" align="center")
+          template(scope="scope")
+            span {{numberWithCommas(scope.row.bonus)}}
+
+        el-table-column(prop="userpoint" label="注单详情" align="center")
+          template(scope="scope")
+            .ds-button.text-button.blue(v-if="scope.row.status === 1 " style="padding: 0 .05rem" @click="OrderDetail(scope.row.projectid)") 查看
 
     .buttons()
-      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 终止追号 
+      .ds-button.primary.large.bold(@click="followCancel" v-if="canCancel && detail.userName === ACCOUNT") 取消追号 
     
-    .modal(v-show="show" )
+    BetDetail(v-show="show" v-bind:row="row" v-bind:showCancelOrder="false" v-on:show-follow="show = false" v-on:close="show = $event" v-on:cancel-order="cancelOrder")
+
+    //- .modal(v-show="show" )
       .mask
       .box-wrapper
         .box(ref="box")
@@ -200,17 +260,21 @@
   import store from '../../store'
   import api from '../../http/api'
   // import util from '../../util'
+  import BetDetail from './BetDetail'
+  import { numberWithCommas } from '../../util/Number'
   export default {
     props: ['id'],
     data () {
       return {
-        STATUS: ['进行中', '已取消', '已完成'],
-        STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
+        STATUS_FINISH: 2,
+        // STATUS: ['进行中', '已取消', '已完成'],
+        STATUS: ['进行中', '已取消', '已中奖', '未中奖'],
+        STATUSCLASS: ['bgc-yellow', 'bgc-green', 'bgc-red', 'bgc-blue'],
         ACCOUNT: store.state.user.account,
         MODES: ['元', '角', '分', '厘'],
         // STATUS: ['进行中', '已完成', '已取消'],
-        STATUSS: ['未生成', '已生成', '已取消'],
-        STATUSSCLASS: ['text-black', 'text-green', 'text-grey'],
+        STATUSS: ['未生成', '进行中', '已取消', '已中奖', '未中奖'],
+        STATUSSCLASS: ['text-black', 'text-black', 'text-black', 'text-red', 'text-grey'],
         // ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUS: ['未开奖', '已中奖', '未中奖', '已撤单'],
         ORDERSTATUSCLASS: ['text-green', 'text-danger', 'text-grey', 'text-orange'],
@@ -220,6 +284,9 @@
         row: {prizeCode: ''}
         // multipleSelection: null
       }
+    },
+    components: {
+      BetDetail
     },
     computed: {
       canCancel () {
@@ -287,6 +354,20 @@
             setTimeout(() => {
               loading.text = '加载成功!'
             }, 100)
+            if (data.status === this.STATUS_FINISH) {
+              // 中奖，未中奖
+              data.status = data.wincount > 0 ? 2 : 3
+            }
+            data.taskDetailsList = data.taskDetailsList.map((t) => {
+              t.substatus = t.status
+              if (t.status === 1) {
+                t.substatus = t.isGetPrize === 1 ? 3 : t.isGetPrize === 2 ? 4 : t.status
+              }
+              if (t.status === 0 || t.status === 2 || t.isGetPrize === 0) {
+                t.bonus = ''
+              }
+              return t
+            })
             this.detail = data
           } else loading.text = '加载失败!'
         }, (rep) => {
@@ -318,7 +399,11 @@
             loading.close()
           }, 100)
         })
-      }
+      },
+      cancelOrder () {
+        this.show = false
+      },
+      numberWithCommas
       // 追号列表
       // http://192.168.169.44:9901/cagamesclient/report/taskBuy.do?method=list&beginDate=20170201000000&endDate=20170303000000&isFree=0&userName=test&scope=0&lotteryId=1&methodId=14&issue=170216085&modes=1&projectId=120
       // followList: api + 'report/taskBuy.do?method=list',
@@ -372,6 +457,21 @@
   bg = #d8d8d8
   bg-hover = #ececec
   bg-active = #e2e2e2
+  .bgc-red
+    background #fc3220
+  .bgc-yellow 
+    background #ffaa01
+  .bgc-green
+    background #0faf0f
+  .bgc-gray
+    background #444444
+  .bgc-blue
+    background #0000ee
+  .text-red
+    color red  
+  .l-label
+    display inline-block
+    min-width .65rem
   .tool-bar
     height TH
     line-height TH 
@@ -381,12 +481,24 @@
     border-top-left-radius .05rem
     overflow hidden
     background-position .2rem center
-
+  .follow-detail-modal
+    .box
+      width 6.7rem
+    .el-col
+      word-break break-all
+      word-wrap break-word
+    .el-col[classname="codes-col"]
+      padding-right 0.1rem
   .title
     color #333
     font-weight bold
     padding-left .2rem
-
+  .follow-status
+    width 0.6rem
+    line-height 0.24rem
+    display inline-block
+    text-align center
+    margin-left 0.12rem
   .el-button-group
     float right
     height 100%
@@ -411,7 +523,14 @@
         &:active
           color #fff
           background-color #d40c1d
-
+  .follow-info
+    &.info
+      position static
+      padding 0 0.2rem 0 0.2rem
+  .followDetail-page-content
+    &.info
+      position relative
+      padding 0 0.2rem 0 0.2rem
   .modal 
     position absolute
     top 0

@@ -1,76 +1,53 @@
+// 团队盈亏-彩票
 <template lang="jade">
-.total-account
-  slot(name="cover")
-  slot(name="movebar")
-  slot(name="resize-x")
-  slot(name="resize-y")
-  slot(name="toolbar")
-  TotalReport.scroll-content(v-if=" I === 0 ")
-  ProfitLoss.scroll-content(v-if=" I === 1 ")
-  Keno.scroll-content(v-if=" I === 2 ")
-  SportsReport.scroll-content(v-if=" I === 3 ")
-  VideoReport.scroll-content(v-if=" I === 4 ")
-  GameReport.scroll-content(v-if=" I === 5 ")
-  FishReport.scroll-content(v-if=" I === 6 ")
-  CardReport.scroll-content(v-if=" I === 7 ")
-  Esports.scroll-content(v-if=" I === 8 ")
-  ActivityReport.scroll-content(v-if=" I === 9 ")
-  LUL.scroll-content(v-if=" I === 10 ")
-  DataAnalysis.scroll-content(v-if=" I === 11 ")
-  ChartAnalysis.scroll-content(v-if=" I === 12 ")
+  .total-account
+    slot(name='cover')
+    slot(name='movebar')
+    slot(name='resize-x')
+    slot(name='resize-y')
+    slot(name='toolbar')
+    lottery.scroll-content(v-if=' I === 0 ')
+    tripartite.scroll-content(v-if=' I === 1 ')
+      // 微游和棋牌  全部都一样  就 gameType ID不一样
+      // 棋牌
+    outreportcard.scroll-content(v-if=' I === 2 ', :gameType='4')
+        // 微游
+    outreportcard.scroll-content(v-if=' I === 3 ', :gameType='8')
+
+    LWR.scroll-content(v-if=' I === 4 ')
+
+    ActivityStatistics.scroll-content(v-if=' I === 5 ')
 
 </template>
 
 <script>
-import TotalReport from '../TotalReport'
-import ProfitLoss from '../ProfitLoss'
-import SportsReport from '../OutProfitLoss'
-import VideoReport from '../outReport/outReportVideo'
-import GameReport from '../outReport/outReportGame'
-import FishReport from '../outReport/outReportFish'
-import CardReport from '../outReport/outReportCard'
-import Keno from '../outReport/outReportKeno'
-import Esports from '../outReport/outReportEsports'
-import ActivityReport from '../ActivityReport'
-import LUL from '../LUL'
-import DataAnalysis from '../../group/DataAnalysis'
-import ChartAnalysis from '../../group/ChartAnalysis'
-
-// import Today from '../Today'
-// import DaySalary from '../DaySalary'
+import lottery from "../lottery"; //彩票
+import tripartite from "../tripartite"; //三方
+import outreportcard from "../outReport/outReportCard"; //棋牌   //微游
+import LWR from "../LWR"; // 充提报表
+import ActivityStatistics from '../ActivityStatistics' // 活动统计
 export default {
   components: {
-    Keno,
-    Esports,
-    TotalReport,
-    ProfitLoss,
-    SportsReport,
-    VideoReport,
-    GameReport,
-    FishReport,
-    CardReport,
-    ActivityReport,
-    LUL,
-    DataAnalysis,
-    ChartAnalysis
-    // Today,
-    // DaySalary,
+    lottery,
+    tripartite,
+    outreportcard,
+    LWR,
+    ActivityStatistics
+    // lottery: resolve => require(["../lottery"], resolve), //彩票
+    // tripartite: resolve => require(["../tripartite"], resolve), //三方
+    // outReportCard: resolve => require(["../outReport/outReportCard"], resolve) //棋牌   //微游
   },
-  name: 'total-account',
+  name: "total-account",
   props: [],
-  data () {
+  data() {
     return {
       I: 0
-    }
+    };
   },
   methods: {
-    __setTotalAccountI (i) {
-      this.I = i
+    __setTotalAccountI(i) {
+      this.I = i;
     }
   }
-}
+};
 </script>
-
-<style lang="stylus">
-// 建议不添加scoped， 所有样式最多嵌套2层
-</style>

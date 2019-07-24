@@ -58,11 +58,9 @@
           //     el-button.close(icon="close" @click="show = false")
           .content
             el-row
-              el-col(:span="6")
-                游戏用户：
+              el-col(:span="6") 游戏用户：
                 span.text-black {{ row.userName }}
-              el-col(:span="6")
-                游戏：
+              el-col(:span="6") 游戏：
                 span.text-black {{ row.lotteryName }}
               el-col(:span="6")
                 span(v-if="!row.prizeCode || row.prizeCode.length <= 10") 开奖号码：
@@ -72,60 +70,47 @@
                   span 开奖号码：
                     span.text-black {{ row.prizeCode.slice(0, 8) + '...'  }}
 
-              el-col(:span="6")
-                总金额：
+              el-col(:span="6") 总金额：
                 span.text-black {{ row.totalPrice }}
 
             el-row
-              el-col(:span="6")
-                注单编号：
+              el-col(:span="6") 注单编号：
                 span.text-black {{ row.projectId }}
-              el-col(:span="6")
-                玩法：
+              el-col(:span="6") 玩法：
                 span.text-black {{ row.methodName }}（{{ row.codeType === '1' ? '复式' : '单式'}}）
-              el-col(:span="6")
-                注单状态：
+              el-col(:span="6") 注单状态：
                 //- span.text-black {{ STATUS[row.stat] }}
                 span(:class=" [STATUSCLASS[row.stat]] ") {{ STATUS[row.stat] }}
                 
 
-              el-col(:span="6")
-                倍数模式：
+              el-col(:span="6") 倍数模式：
                 span.text-black {{ row.multiple }} 
                   span ({{ MODES[row.modes - 1] }})
 
             
             el-row
-              el-col(:span="6")
-                投单时间：
+              el-col(:span="6") 投单时间：
                 span.text-black {{ row.writeTime }}
-              el-col(:span="6")
-                奖期：
+              el-col(:span="6") 奖期：
                 span.text-black {{ row.issue }}
-              el-col(:span="6")
-                注单奖金：
+              el-col(:span="6") 注单奖金：
                 span.text-black {{ row.bonus }}
 
-              el-col(:span="6" v-if="row.userPoint")
-                动态奖金返点：
+              el-col(:span="6" v-if="row.userPoint") 动态奖金返点：
                 span.text-black {{ row.userPoint }}
 
             el-row(v-if="row.isJoinPool")
 
-              el-col(:span="6")
-                奖池期号：
+              el-col(:span="6") 奖池期号：
                 span.text-black {{ row.poolIssue}}
 
-              el-col(:span="6")
-                奖池状态：
+              el-col(:span="6") 奖池状态：
                 span.text-black {{ row.poolIsGetPrize ? '已开奖' :  '未开奖' }}
 
-              el-col(:span="6")
-                奖池号码：
+              el-col(:span="6") 奖池号码：
                 span.text-black {{ row.poolCode }}
               
-              el-col(:span="6")
-                奖池奖金：
+              el-col(:span="6") 奖池奖金：
                 span.text-black {{ row.poolBonus  }}
               
 
@@ -276,16 +261,16 @@ export default {
       })
     },
     cancel (row, force) {
-      if (!force && parseInt(row.totalPrice) >= 5000) {
-        return this.$modal.question({
-          content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">投注注单金额超过 <span class="text-danger">5000</span> 会收取 <span class="text-danger">0.5%</span> 的手续费注，将扣除您<span class="text-danger"> ' + parseFloat(row.totalPrice) * 0.005 + ' </span>元手续费， 您确定要撤单吗？</div>',
-          target: this.$el.parentNode,
-          O: this,
-          ok () {
-            this.cancel(row, true)
-          }
-        })
-      }
+      // if (!force && parseInt(row.totalPrice) >= 5000) {
+      //   return this.$modal.question({
+      //     content: '<div class="text-666" style="text-align: left; line-height: .3rem;text-indent: .15rem">投注注单金额超过 <span class="text-danger">5000</span> 会收取 <span class="text-danger">0.5%</span> 的手续费注，将扣除您<span class="text-danger"> ' + parseFloat(row.totalPrice) * 0.005 + ' </span>元手续费， 您确定要撤单吗？</div>',
+      //     target: this.$el.parentNode,
+      //     O: this,
+      //     ok () {
+      //       this.cancel(row, true)
+      //     }
+      //   })
+      // }
       let loading = this.$loading({
         text: '撤单中...',
         target: this.$el

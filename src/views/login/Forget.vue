@@ -36,7 +36,8 @@
 
       dd.table(v-if="stepIndex === 1 && radioIndex === 3")
         label(for="cb") 信游安全码：
-        input(v-model="cb_" id="cb" @keyup.enter="next")
+        span.table-cell.h100p
+          input(v-model="cb_" id="cb" @keyup.enter="next")
 
       dd.table.bind-phone(v-if="stepIndex === 1 && radioIndex === 1")
         label 已绑定手机为: 
@@ -141,7 +142,7 @@ export default {
       this.time = 5
       let t = setInterval(() => {
         this.time--
-        if (this.time === 0) this.$router.push('/login') && clearInterval(t)
+        if (this.time === 0) this.$router.push('/') && clearInterval(t)
       }, 1000)
     },
     next () {
@@ -242,7 +243,7 @@ export default {
           break
         case 2:
           noEmpty = this.newpwd
-          if (!Validate.pwd(this.newpwd)) (notice = '您输入的密码不符合要求！1:由字母和数字组成6-16个字符;2:必须包含数字和字母，不允许连续三位相同！') && (noEmpty = false)
+          if (!Validate.pwd(this.newpwd)) (notice = '您输入的密码不符合要求！1:由字母和数字组成6-20个字符;2:必须包含数字和字母，不允许连续三位相同！') && (noEmpty = false)
           else if (this.newpwdrepeat !== this.newpwd) (notice = '两次输入的密码不一致！') && (noEmpty = false)
       }
       if (!noEmpty) {
@@ -327,6 +328,8 @@ export default {
             vertical-align middle
           label
             color LIGHT
+        .table-cell
+          display table-cell
         input
           height 100%
           border 0
