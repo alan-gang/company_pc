@@ -335,7 +335,7 @@
         }
       },
       small (signal) {
-        this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? setTimeout(_ => this.select(n, signal), i) : this.unSelect(n, signal)))
+        this.numbers.forEach((n, i) => ((2 * i + 1) < this.numbers.length ? setTimeout(_ => this.select(n, signal), 10) : this.unSelect(n, signal)))
       },
       big (signal) {
         this.numbers.forEach((n, i) => ((2 * i + 1) >= this.numbers.length ? this.select(n, signal) : this.unSelect(n, signal)))
