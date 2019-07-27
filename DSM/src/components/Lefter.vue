@@ -38,7 +38,8 @@ export default {
     right auto
     width LW
     z-index 1
-    background-color rgba(104,104,200, .15)
+    // background-color rgba(104,104,200, .15)
+    background #302b2a
     .scroll-content
       top TH
       bottom BH
