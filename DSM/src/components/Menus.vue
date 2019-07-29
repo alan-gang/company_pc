@@ -1,5 +1,5 @@
 <template lang="jade">
-  el-menu(router=true @open="handleopen" @close="handleclose"  default-active=" '/me/2-1-1' " v-bind:defaultOpeneds="defaultSubMenus"  unique-opened ref="M" v-if="menus[0]")
+  el-menu(router=true @open="handleopen" @close="handleclose"  v-bind:default-active="defaultUrl" v-bind:defaultOpeneds="defaultSubMenus"  unique-opened ref="M" v-if="menus[0]")
     template(v-if="menus.length > 1")
       el-submenu(v-for="(m, i) in menus" v-if="(m.title && m.url && menus.length > 1 || m.url === 'help') && !m.removed" v-bind:index="m.url")
         template(slot="title")
@@ -26,7 +26,7 @@ export default {
   props: ['menus'],
   data () {
     return {
-      defaultUrl: '',
+      defaultUrl: '/me/2-1-1',
       defaultMenuItem: '',
       defaultSubMenus: ['SSC']
     }
@@ -38,6 +38,7 @@ export default {
     },
     openTab (item) {
       // let fn = (this.pages.find(p => p.id === id && p.fn) || {}).fn
+      this.defaultUrl = ''
       if (item.fn) return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
       this.$emit('open-tab', item)
     },
@@ -74,8 +75,9 @@ export default {
       setTimeout(() => {
         let url = this.getUrlNameByMenuId(this.$route.params.url)
         this.defaultSubMenus = url ? [url] : this.defaultSubMenus
-        this.$refs.M && this.$refs.M.closeMenu && this.$refs.M.closeMenu(b.split('/')[1])
+        // this.$refs.M && this.$refs.M.closeMenu && this.$refs.M.closeMenu(b.split('/')[1])
         // this.$refs.M && this.$refs.M.openMenu && this.$refs.M.openMenu(path.split('/')[1])
+        // this.$forceUpdate()
       }, 300)
     }
   },
