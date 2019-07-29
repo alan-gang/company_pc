@@ -74,7 +74,7 @@ export default {
       setTimeout(() => {
         let url = this.getUrlNameByMenuId(this.$route.params.url)
         this.defaultSubMenus = url ? [url] : this.defaultSubMenus
-        // this.$refs.M && this.$refs.M.closeMenu && this.$refs.M.closeMenu(b.split('/')[1])
+        this.$refs.M && this.$refs.M.closeMenu && this.$refs.M.closeMenu(b.split('/')[1])
         // this.$refs.M && this.$refs.M.openMenu && this.$refs.M.openMenu(path.split('/')[1])
       }, 300)
     }
