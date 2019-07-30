@@ -903,15 +903,19 @@ export default {
     }
   },
   watch: {
-    currentab (n, o) {
-      if (n.href.indexOf('game') !== -1) {
-        const app = document.getElementById('app')
-        if (app.className.indexOf('game') === -1) {
-          this.$forceUpdate()
-          this.$set(n, 'bug', Math.random())
-          console.log('....bug....')
-        }
-      }
+    currentab (nn, o) {
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 100)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 300)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 500)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 800)
     },
     tabs (n, o) {
       setTimeout(() => {
@@ -1000,6 +1004,15 @@ export default {
     // this.$forceUpdate()
   },
   methods: {
+    checkAppClassState (nn) {
+      let n = nn[0]
+      if (n && n.href && n.href.indexOf('game') !== -1) {
+        const app = document.getElementById('app')
+        if (app.className.indexOf('game') === -1) {
+          this.openTab(n.id)
+        }
+      }
+    },
     showBonus () {
       return this.menuids.indexOf(',45,') !== -1
     },
