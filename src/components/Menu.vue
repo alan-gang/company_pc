@@ -287,6 +287,8 @@ body.cb.v2
         background-image url(../assets/v2/logo_ag_big.png)
       &.ds-icon-logo-bg
         background-image url(../assets/v2/logo_bg_big.png)
+      &.ds-icon-logo-gd
+        background-image url(../assets/v2/logo_gd_big.png)
       &.ds-icon-logo-pt
         background-image url(../assets/v2/logo_pt_big.png) 
       &.ds-icon-logo-saba
@@ -300,6 +302,8 @@ body.cb.v2
         background-image url(../assets/v2/logo_ly_big.png)
       &.ds-icon-logo-xy
         background-image url(../assets/newhome/logo_xy_big.png)  
+      &.ds-icon-logo-vg
+        background-image url(../assets/newhome/logo_vg_big.png)  
       
       &.ds-icon-logo-uwin
         background-image url(../assets/v2/logo_uw_big.png)
