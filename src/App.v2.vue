@@ -917,12 +917,12 @@ export default {
         if (n && n.href && n.href.indexOf('game') !== -1) {
           const app = document.getElementById('app')
           if (app.className.indexOf('game') === -1) {
+            console.log('....bug....', JSON.stringify(n))
             this.$forceUpdate()
             this.$set(n, 'bug', Math.random())
-            console.log('....bug....')
           }
         }
-      }, 50)
+      }, 100)
     },
     tabs (n, o) {
       setTimeout(() => {
