@@ -909,6 +909,31 @@ export default {
     }
   },
   watch: {
+    currentab (nn, o) {
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 100)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 300)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 500)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 800)
+    },
+    tabs (n, o) {
+      setTimeout(() => {
+        if (n.length > 1) {
+          n.forEach((x, i) => {
+            if (n[i + 1]) {
+              x.opened = false
+            }
+          })
+        }
+      }, 50)
+    },
     mi () {
       setTimeout(() => {
         if (this.mi < 0) {
@@ -982,8 +1007,18 @@ export default {
     //   this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}]})
     // }
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
+    // this.$forceUpdate()
   },
   methods: {
+    checkAppClassState (nn) {
+      let n = nn[0]
+      if (n && n.href && n.href.indexOf('game') !== -1) {
+        const app = document.getElementById('app')
+        if (app.className.indexOf('game') === -1) {
+          this.openTab(n.id)
+        }
+      }
+    },
     showBonus () {
       return this.menuids.indexOf(',45,') !== -1
     },
