@@ -903,6 +903,16 @@ export default {
     }
   },
   watch: {
+    currentab (n, o) {
+      if (n.href.indexOf('game') !== -1) {
+        const app = document.getElementById('app')
+        if (app.className.indexOf('game') === -1) {
+          this.$forceUpdate()
+          this.$set(n, 'bug', Math.random())
+          console.log('....bug....')
+        }
+      }
+    },
     tabs (n, o) {
       setTimeout(() => {
         if (n.length > 1) {
