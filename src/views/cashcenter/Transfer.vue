@@ -274,12 +274,12 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '开元帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22'],
+      froms: ['主帐户', '特殊帐户', 'BG帐户:2', 'IBC帐户:3', '开元帐户:7', 'PT帐户:5', 'AG帐户:4', '沙巴帐户:9', '乐游帐户:15', 'U赢帐户:17', 'KG帐户:18', '微游帐户:25', '平博帐户:19', 'LG帐户:21', '幸运帐户:22', 'VG账户:26', 'GD账户:27'],
       t: '',
       m: '',
       cpwd: '',
       btn: false,
-      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyqpAmount'],
+      a: ['BG帐户:2:bgmoney', 'IBC帐户:3:tcgmoney', '开元帐户:7:kymoney', 'PT帐户:5:ptmoney', 'AG帐户:4:agmoney', '沙巴帐户:9:sbmoney', '乐游帐户:15:lymoney', 'U赢帐户:17:uwinmoney', 'KG帐户:18:kgmoney', '微游帐户:25:litAmount', '平博帐户:19:pbAmount', 'LG帐户:21:lgAmount', '幸运帐户:22:xyqpAmount', 'VG账户:26:vgAmount', 'GD账户:27:gdAmount'],
       quickAmounts: ['50', '100', '500', '全部'],
       tabIdx: 0,
       accounts: [
@@ -297,6 +297,8 @@ export default {
         { id: '19', transInId: 10, transOutId: 12, title: '平博账户', shotTitle: '平博', name: 'pbAmount', balance: 0, className: 'acc-bg-red', showIn: true, showOut: true, show: true },
         { id: '21', transInId: 11, transOutId: 13, title: 'LG账户', shotTitle: 'LG', name: 'lgAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
         { id: '22', transInId: 12, transOutId: 14, title: '幸运账户', shotTitle: '幸运', name: 'xyqpAmount', balance: 0, className: 'acc-bg-blue', showIn: true, showOut: true, show: true },
+        { id: '26', transInId: 13, transOutId: 15, title: 'VG账户', shotTitle: 'VG', name: 'vgAmount', balance: 0, className: 'acc-bg-green', showIn: true, showOut: true, show: true },
+        { id: '27', transInId: 14, transOutId: 16, title: 'GD账户', shotTitle: 'GD', name: 'gdAmount', balance: 0, className: 'acc-bg-green', showIn: true, showOut: true, show: true },
         { id: '', transInId: '', transOutId: '', title: '优惠券', shotTitle: '优惠券', name: 'free', balance: 0, className: 'acc-bg-oriange', showIn: false, showOut: false, show: true }
       ]
     }
@@ -334,12 +336,16 @@ export default {
           return this.ME.lgAmount
         case 14:
           return this.ME.xyqpAmount
+        case 15:
+          return this.ME.vgAmount
+        case 16:
+          return this.ME.gdAmount
       }
     },
     tm () {
       switch (this.f) {
         case 0:
-          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount, this.ME.xyqpAmount][this.t]
+          return [this.ME.bgmoney, this.ME.tcgmoney, this.ME.kymoney, this.ME.ptmoney, this.ME.agmoney, this.ME.sbmoney, this.ME.lymoney, this.ME.uwinmoney, this.ME.kgmoney, this.ME.litAmount, this.ME.pbAmount, this.ME.lgAmount, this.ME.xyqpAmount, this.ME.vgAmount, this.ME.gdAmount][this.t]
         default:
           return this.ME.amoney
         // case 2:
@@ -404,7 +410,7 @@ export default {
       return this.m === '' ? '' : digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0)
+      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0) || (this.f === 15 && this.t === 0) || (this.f === 16 && this.t === 0)
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -483,6 +489,8 @@ export default {
       else if (this.f === 0 && this.t === 10) (this.f = 12) && (this.t = 0)
       else if (this.f === 0 && this.t === 11) (this.f = 13) && (this.t = 0)
       else if (this.f === 0 && this.t === 12) (this.f = 14) && (this.t = 0)
+      else if (this.f === 0 && this.t === 13) (this.f = 15) && (this.t = 0)
+      else if (this.f === 0 && this.t === 14) (this.f = 16) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -540,10 +548,14 @@ export default {
           this.t = 11
         })
       } else if (this.f === 14) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 12
-        })
+        this.f = 0;
+        setTimeout(() => { this.t = 12 })
+      } else if (this.f === 15) {
+        this.f = 0;
+        setTimeout(() => { this.t = 13 })
+      } else if (this.f === 16) {
+        this.f = 0;
+        setTimeout(() => { this.t = 14 })
       }
     },
     ok () {
@@ -590,7 +602,9 @@ export default {
             pbAmount: data.pbAmount || 0,
             lgAmount: data.lgAmount || 0,
             xyAmount: data.xyAmount || 0,
-            xyqpAmount: data.xyqpAmount || 0
+            xyqpAmount: data.xyqpAmount || 0,
+            vgAmount: data.vgAmount || 0,
+            gdAmount: data.gdAmount || 0
           })
           this.accounts = this.accounts.map((item) => {
             if (this.ME.hasOwnProperty(item.name)) {
@@ -651,7 +665,7 @@ export default {
       let t = setTimeout(() => {
         if (this.btn) this.btn = false
       }, 10000)
-      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博', 'LG', '幸运'][Math.max(this.f, this.t + 2)] + '余额转账已提交！')})
+      this.$message.success({target: this.$el, message: (['', '', 'BG', 'IBC', '棋牌', 'PT', 'AG', '沙巴', '乐游', 'U赢', 'KG', '微游', '平博', 'LG', '幸运', 'VG', 'GD'][Math.max(this.f, this.t + 2)] + '余额转账已提交！')})
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
