@@ -903,6 +903,17 @@ export default {
     }
   },
   watch: {
+    tabs (n, o) {
+      setTimeout(() => {
+        if (n.length > 1) {
+          n.forEach((x, i) => {
+            if (n[i + 1]) {
+              x.opened = false
+            }
+          })
+        }
+      }, 50)
+    },
     mi () {
       setTimeout(() => {
         if (this.mi < 0) {
@@ -976,6 +987,7 @@ export default {
     //   this.message({type: 'saveSucc', content: [{bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}, {bankName: '工商银行', amt: '100.00'}]})
     // }
     if (!window.localStorage.getItem('showDF')) window.localStorage.setItem('showDF', true)
+    // this.$forceUpdate()
   },
   methods: {
     showBonus () {

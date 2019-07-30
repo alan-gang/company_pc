@@ -388,6 +388,13 @@ export default {
     //   this.CNPER = parseInt(this.CNPER) + 1 + ''
     // }, 3000)
     if (this.isTry) this.checked = true
+
+    const app = document.getElementById('app')
+    if (app) {
+      if (app.className.indexOf('game') === -1) {
+        this.$emit('openapage')
+      }
+    }
   },
   beforeDestroy () {
     clearTimeout(this.lucknumbersTimeout)
