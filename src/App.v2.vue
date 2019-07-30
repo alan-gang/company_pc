@@ -1017,8 +1017,10 @@ export default {
       if (n && n.href && n.href.indexOf('game') !== -1) {
         const app = document.getElementById('app')
         if (app.className.indexOf('game') === -1) {
-          console.log('....bug....', JSON.stringify(n))
-          this.$forceUpdate()
+          console.log('...n...', n.id, n.href)
+          console.log('...mode..', this.state.user.mode, JSON.stringify(this.activeMenu[0]), this.state.user.mode.indexOf('classic') !== -1 && this.activeMenu[0])
+          this.openTab(n.id)
+          // this.$forceUpdate()
           this.$set(n, 'bug', Math.random())
         }
       }
