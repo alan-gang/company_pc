@@ -911,8 +911,9 @@ export default {
     }
   },
   watch: {
-    currentab (n, o) {
-      if (n.href.indexOf('game') !== -1) {
+    currentab (nn, o) {
+      let n = nn[0]
+      if (n && n.href && n.href.indexOf('game') !== -1) {
         const app = document.getElementById('app')
         if (app.className.indexOf('game') === -1) {
           this.$forceUpdate()
