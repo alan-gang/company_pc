@@ -8,10 +8,10 @@
     slot(name='toolbar')
     lottery.scroll-content(v-if=' I === 0 ')
     tripartite.scroll-content(v-if=' I === 1 ')
-      // 微游和棋牌  全部都一样  就 gameType ID不一样
-      // 棋牌
-    outreportcard.scroll-content(v-if=' I === 2 ', :gameType='4')
-        // 微游
+    //- 微游和棋牌  全部都一样  就 gameType ID不一样
+    //- 棋牌
+    //- outreportcard.scroll-content(v-if=' I === 2 ', :gameType='4')
+    //- 微游
     outreportcard.scroll-content(v-if=' I === 3 ', :gameType='8')
 
     LWR.scroll-content(v-if=' I === 4 ')
