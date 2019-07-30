@@ -12,11 +12,11 @@
     //- 棋牌
     //- outreportcard.scroll-content(v-if=' I === 2 ', :gameType='4')
     //- 微游
-    outreportcard.scroll-content(v-if=' I === 3 ', :gameType='8')
+    outreportcard.scroll-content(v-if=' I === 2 ', :gameType='8')
 
-    LWR.scroll-content(v-if=' I === 4 ')
+    LWR.scroll-content(v-if=' I === 3 ')
 
-    ActivityStatistics.scroll-content(v-if=' I === 5 ')
+    ActivityStatistics.scroll-content(v-if=' I === 4 ')
 
 </template>
 
