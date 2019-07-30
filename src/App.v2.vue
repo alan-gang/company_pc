@@ -913,16 +913,17 @@ export default {
   watch: {
     currentab (nn, o) {
       setTimeout(() => {
-        let n = nn[0]
-        if (n && n.href && n.href.indexOf('game') !== -1) {
-          const app = document.getElementById('app')
-          if (app.className.indexOf('game') === -1) {
-            console.log('....bug....', JSON.stringify(n))
-            this.$forceUpdate()
-            this.$set(n, 'bug', Math.random())
-          }
-        }
+        this.checkAppClassState(nn)
       }, 100)
+      setTimeout(() => {
+        this.checkAppClassState(nn)
+      }, 200)
+      setTimeout(() => {
+        this.checkAppClassState(nn)
+      }, 300)
+      setTimeout(() => {
+        this.checkAppClassState(nn)
+      }, 500)
     },
     tabs (n, o) {
       setTimeout(() => {
@@ -1011,6 +1012,17 @@ export default {
     // this.$forceUpdate()
   },
   methods: {
+    checkAppClassState (nn) {
+      let n = nn[0]
+      if (n && n.href && n.href.indexOf('game') !== -1) {
+        const app = document.getElementById('app')
+        if (app.className.indexOf('game') === -1) {
+          console.log('....bug....', JSON.stringify(n))
+          this.$forceUpdate()
+          this.$set(n, 'bug', Math.random())
+        }
+      }
+    },
     showBonus () {
       return this.menuids.indexOf(',45,') !== -1
     },
