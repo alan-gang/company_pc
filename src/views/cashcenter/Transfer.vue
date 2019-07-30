@@ -548,14 +548,20 @@ export default {
           this.t = 11
         })
       } else if (this.f === 14) {
-        this.f = 0;
-        setTimeout(() => { this.t = 12 })
+        this.f = 0
+        setTimeout(() => {
+          this.t = 12
+        })
       } else if (this.f === 15) {
-        this.f = 0;
-        setTimeout(() => { this.t = 13 })
+        this.f = 0
+        setTimeout(() => {
+          this.t = 13
+        })
       } else if (this.f === 16) {
-        this.f = 0;
-        setTimeout(() => { this.t = 14 })
+        this.f = 0
+        setTimeout(() => {
+          this.t = 14
+        })
       }
     },
     ok () {
