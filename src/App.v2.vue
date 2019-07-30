@@ -911,16 +911,16 @@ export default {
   watch: {
     currentab (nn, o) {
       setTimeout(() => {
-        this.checkAppClassState(this.currentab)
+        this.checkAppClassState(nn)
       }, 100)
       setTimeout(() => {
-        this.checkAppClassState(this.currentab)
+        this.checkAppClassState(nn)
       }, 300)
       setTimeout(() => {
-        this.checkAppClassState(this.currentab)
+        this.checkAppClassState(nn)
       }, 500)
       setTimeout(() => {
-        this.checkAppClassState(this.currentab)
+        this.checkAppClassState(nn)
       }, 800)
     },
     tabs (n, o) {
@@ -1015,6 +1015,7 @@ export default {
       if (n && n.href && n.href.indexOf('game') !== -1) {
         const app = document.getElementById('app')
         if (app.className.indexOf('game') === -1) {
+          this.$set(n, 'bug', Math.random())
           this.openTab(n.id)
         }
       }
