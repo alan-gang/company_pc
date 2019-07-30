@@ -1,6 +1,6 @@
  <template lang="jade">
 
-  #app(:class=" [state.user.css, 'app', {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }] ")
+  #app(:class=" [state.user.css, 'app', appcls, state.user.login ? 'applogin' : 'appunlogin'] ")
 
 
     // pages
@@ -881,10 +881,13 @@ export default {
       PboxStyle: {
         backgroundColor: '#e9e9e9'
       },
-      redirect: ''
+      redirect: '',
+      // {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }
+      appcls: ''
     }
   },
   computed: {
+
     starTabs () {
       return this.state.pages.filter(t => t.star)
     },
@@ -911,23 +914,20 @@ export default {
     }
   },
   watch: {
-    currentab (nn, o) {
-      // setTimeout(() => {
-      //   this.checkAppClassState(nn)
-      // }, 100)
-      // setTimeout(() => {
-      //   this.checkAppClassState(nn)
-      // }, 200)
-      setTimeout(() => {
-        this.checkAppClassState(this.currentab)
-      }, 300)
-      setTimeout(() => {
-        this.checkAppClassState(this.currentab)
-      }, 500)
-      setTimeout(() => {
-        this.checkAppClassState(this.currentab)
-      }, 800)
-    },
+    // currentab (nn, o) {
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 100)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 300)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 500)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 800)
+    // },
     tabs (n, o) {
       setTimeout(() => {
         if (n.length > 1) {
@@ -1135,6 +1135,8 @@ export default {
       })
     },
     openRoute ({path, params: {url}}) {
+      // console.log(this.$route, '!')
+      this.appcls = this.$route.path.indexOf('game') === -1 ? '' : 'game'
       if (!url) store.actions.updateAllPages({active: false})
       else {
         // [0, 50, 100, 150, 200, 250].forEach(t => {
@@ -1791,8 +1793,11 @@ export default {
     &[class*=-enter]
       transform none
 
-// .dialog-container .dialog-page>.scroll-content
-//   width 100%
-//   left 50%
-//   transform translateX(-50%)
+#app.appunlogin.classic.v2 
+  .new-home .dialog-container .help-page.dialog-page
+  .new-home .dialog-container .activity-page.dialog-page
+    left -.2rem !important
+  .lefter.help
+    display none !important
+  
 </style>
