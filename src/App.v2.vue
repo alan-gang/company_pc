@@ -915,15 +915,15 @@ export default {
       setTimeout(() => {
         this.checkAppClassState(nn)
       }, 100)
-      setTimeout(() => {
-        this.checkAppClassState(nn)
-      }, 200)
-      setTimeout(() => {
-        this.checkAppClassState(nn)
-      }, 300)
-      setTimeout(() => {
-        this.checkAppClassState(nn)
-      }, 500)
+      // setTimeout(() => {
+      //   this.checkAppClassState(nn)
+      // }, 200)
+      // setTimeout(() => {
+      //   this.checkAppClassState(nn)
+      // }, 300)
+      // setTimeout(() => {
+      //   this.checkAppClassState(nn)
+      // }, 500)
     },
     tabs (n, o) {
       setTimeout(() => {
@@ -1017,7 +1017,7 @@ export default {
       if (n && n.href && n.href.indexOf('game') !== -1) {
         const app = document.getElementById('app')
         if (app.className.indexOf('game') === -1) {
-          console.log('...n...', n.id, n.href)
+          console.log('...n...', n.id, n.href, n.mi)
           console.log('...mode..', this.state.user.mode, JSON.stringify(this.activeMenu[0]), this.state.user.mode.indexOf('classic') !== -1 && this.activeMenu[0])
           this.openTab(n.id)
           // this.$forceUpdate()
