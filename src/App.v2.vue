@@ -344,7 +344,7 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
             {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
             {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
-            {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '23:202'}
+            {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}
           ]
         },
         {
@@ -356,7 +356,7 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'},
-            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '22:201'}
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'}
           ]
         },
         {
