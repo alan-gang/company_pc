@@ -919,11 +919,14 @@ export default {
       //   this.checkAppClassState(nn)
       // }, 200)
       setTimeout(() => {
-        this.checkAppClassState(nn)
+        this.checkAppClassState(this.currentab)
       }, 300)
-      // setTimeout(() => {
-      //   this.checkAppClassState(nn)
-      // }, 500)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 500)
+      setTimeout(() => {
+        this.checkAppClassState(this.currentab)
+      }, 800)
     },
     tabs (n, o) {
       setTimeout(() => {
