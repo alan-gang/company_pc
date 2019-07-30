@@ -482,7 +482,8 @@ export default {
       if (page.opened && page.active) this.prehref && this.$router.push(this.prehref)
     },
     close (url, nurl) {
-      this.$emit('close-tab', url, nurl)
+      this.$router.push('/')
+      // this.$emit('close-tab', url, nurl)
     },
     star (page) {
       if (!page.star) this.addPrefence(page)

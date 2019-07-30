@@ -1040,7 +1040,18 @@ export default {
               }
             })
           })
-          this.setPages(this._getPages())
+          let pages = this._getPages()
+          let x = []
+          this.tabs.forEach((t, i) => {
+            if (!pages.find(x => x.id === t.id)) {
+            } else {
+              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
+            }
+          })
+          this.tabs = x
+          this.setPages(pages)
+          this.openTab(this.$route.params.url)
+          // this.setPages(this._getPages())
         }
       }, (rep) => {
         // error
