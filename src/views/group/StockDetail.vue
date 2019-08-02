@@ -29,7 +29,7 @@
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
           button.ds-button.large.bold.primary(@click="subCheckBonus(2)") 平台外已接收
-          button.ds-button.large.bold.primary(@click="subCheckBonus(0)") 拒绝
+          button.ds-button.large.bold.cancel(@click="subCheckBonus(0)") 拒绝
 
 
 
@@ -220,6 +220,16 @@
         })
       },
       subCheckBonus (isdone) {
+        let msgs = {
+          0: {
+            'ok': '恭喜您，分红收到确认成功！',
+            'no': '收到分红确认失败！'
+          },
+          2: {
+            'ok': '恭喜您，分红拒绝成功！',
+            'no': '收到分红拒绝失败！'
+          }
+        };
         this.$http.get(api.subCheckBonus, {
           'bonusId': this.stock.id,
           'isdone': isdone
@@ -228,7 +238,7 @@
           if (data.success === 1) {
             this.$modal.success({
               target: this.$el,
-              content: '恭喜您，分红操作成功！',
+              content: msgs[isdone].ok,
               btn: ['确定']
             })
             this.qryBonusById(this.stock.id)
@@ -236,7 +246,7 @@
           } else {
             this.$modal.warn({
               target: this.$el,
-              content: data.msg || '分红操作失败！',
+              content: data.msg || msgs[isdone].no,
               btn: ['确定']
             })
           }
