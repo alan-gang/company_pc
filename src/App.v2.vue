@@ -344,7 +344,8 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
             {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
             {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
-            {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}
+            {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'}
           ]
         },
         {
@@ -394,7 +395,8 @@ export default {
           info: [
             {class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率'},
             // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
-            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'}
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'},
+            {menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:203'}
           ]
         },
         {
