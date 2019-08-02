@@ -32,7 +32,7 @@
           //button.ds-button.large.bold.primary(@click="paid") 发放分红
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && commissionDetail.isDone === 2  ")
-          button.ds-button.large.bold.primary(@click="subCheckComm(2)") 已收到分红
+          button.ds-button.large.bold.primary(@click="subCheckComm(1)") 已收到分红
           button.ds-button.large.bold.cancel(@click="subCheckComm(0)") 拒绝
 
 
@@ -171,7 +171,7 @@
             'ok': '恭喜您，分红收到确认成功！',
             'no': '收到分红确认失败！'
           },
-          2: {
+          1: {
             'ok': '恭喜您，分红拒绝成功！',
             'no': '收到分红拒绝失败！'
           }
@@ -179,7 +179,7 @@
         this.$http.get(api.subCheckComm, {
           issue: this.commissionDetail.issue,
           'isdone': isdone
-          // isdone = 0 (拒绝)  isdone = 2(确认)
+          // isdone = 0 (拒绝)  isdone = 1(确认)
         }).then(({data}) => {
           if (data.success === 1) {
             this.$modal.success({
