@@ -28,7 +28,8 @@
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")
-          button.ds-button.large.bold.primary(@click="subCheckBonus") 平台外已接收
+          button.ds-button.large.bold.primary(@click="subCheckBonus(2)") 平台外已接收
+          button.ds-button.large.bold.primary(@click="subCheckBonus(0)") 拒绝
 
 
 
@@ -218,14 +219,16 @@
           this.$message.error('加载失败！')
         })
       },
-      subCheckBonus () {
+      subCheckBonus (isdone) {
         this.$http.get(api.subCheckBonus, {
-          bonusId: this.stock.id
+          'bonusId': this.stock.id,
+          'isdone': isdone
+          // isdone = 0 (拒绝)  isdone = 2(确认)
         }).then(({data}) => {
           if (data.success === 1) {
             this.$modal.success({
               target: this.$el,
-              content: '恭喜您，分红收到确认成功！',
+              content: '恭喜您，分红操作成功！',
               btn: ['确定']
             })
             this.qryBonusById(this.stock.id)
@@ -233,7 +236,7 @@
           } else {
             this.$modal.warn({
               target: this.$el,
-              content: data.msg || '收到分红确认失败！',
+              content: data.msg || '分红操作失败！',
               btn: ['确定']
             })
           }
