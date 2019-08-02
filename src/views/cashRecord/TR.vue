@@ -120,7 +120,7 @@
     mixins: [setTableMaxHeight],
     data () {
       return {
-        stEt: [(new Date().getTime() - 1000 * 3600 * 24 * 7), new Date()],
+        stEt: [new Date().getTime() - 1000 * 3600 * 24 * 7, new Date()],
         // defaultStEt: [new Date(new Date().getTime() - 3600 * 1000 * 24), new Date(new Date().getTime())],
         // stEt: [new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 00:00:00'), new Date((new Date()).getFullYear() + '-' + ((new Date()).getMonth() + 1) + '-' + (new Date()).getDate() + ' 23:59:59')],
         // defaultStEt: ['', ''],
@@ -130,20 +130,38 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        // froms: ['主账户', '特殊账户', 'BG账户:2', 'IBC账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22'],
-        froms: ['主账户', '特殊账户', 'BG账户:2', '开元账户:7', 'PT账户:5', 'AG账户:4', '沙巴账户:9', '乐游账户:15', 'U赢账户:17', 'KG账户:18', '微游账户:25', '平博账户:19', 'LG账户:21', '幸运账户:22', 'VG账户:27', 'GD账户:26'],
-        f: '',
-        t: '',
-        S: ['失败', '成功', '处理中'],
-        SC: ['text-danger', 'text-green', 'text-blue'],
-        s: '',
-        searchConditions: ['今天', '昨天', '前天', '最近一周'],
+        froms: [
+          "主账户",
+          "特殊账户",
+          "BG账户:2",
+          "开元账户:7",
+          "PT账户:5",
+          "AG账户:4",
+          "沙巴账户:9",
+          "乐游账户:15",
+          "U赢账户:17",
+          "KG账户:18",
+          "微游账户:25",
+          "平博账户:19",
+          "LG账户:21",
+          "幸运账户:22",
+          "VG账户:27",
+          "GD账户:26",
+          "德胜账户:28",
+          "小艾账户:29"
+        ],
+        f: "",
+        t: "",
+        S: ["失败", "成功", "处理中"],
+        SC: ["text-danger", "text-green", "text-blue"],
+        s: "",
+        searchConditions: ["今天", "昨天", "前天", "最近一周"],
         quickDateIdx: -1,
         inAccHistory: [],
         outAccHistory: [],
         outPopover: false,
         inPopover: false
-      }
+      };
     },
     watch: {
       // stEt: {

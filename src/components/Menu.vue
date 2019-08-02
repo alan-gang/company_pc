@@ -301,12 +301,16 @@ body.cb.v2
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)
       &.ds-icon-logo-xy
-        background-image url(../assets/newhome/logo_xy_big.png)  
+        background-image url(../assets/newhome/logo_xy_big.png)
       &.ds-icon-logo-vg
-        background-image url(../assets/newhome/logo_vg_big.png)  
+        background-image url(../assets/newhome/logo_vg_big.png)
+      &.ds-icon-logo-ds
+        background-image url(../assets/newhome/logo_ds_big.png)
       
       &.ds-icon-logo-uwin
         background-image url(../assets/v2/logo_uw_big.png)
+      &.ds-icon-logo-xa
+        background-image url(../assets/v2/logo_xa_big.png)
       
       &.ds-icon-logo-pb
         background-image url(../assets/newhome/logo_pb_big.png)
