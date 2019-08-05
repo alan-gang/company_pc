@@ -113,8 +113,9 @@ window.Date.prototype._toDayStringCN = function () {
 
 window.Date.prototype._toDayGapString = function (t1 = '前') {
   let t = (new Date(window.lstt).getTime() - this.getTime()) / 1000
-  if (t > 3600 * 24) {
-    return Math.floor((t / (3600 * 24) )) + '天' + t1
+  if (t) {
+    if (t > 3600 * 24) return Math.floor((t / (3600 * 24))) + '天' + t1
+    else return '今天'
   } else {
     return ''
   }
