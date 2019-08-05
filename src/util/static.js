@@ -3,6 +3,7 @@ const BANKS = [
   {apiName: 'bdwallet', class: 'bdwallet', text: '百度钱包'},
   {apiName: 'zfb', class: 'alipay', text: '支付宝'},
   {apiName: 'zfb2bank', class: 'alipay', text: '支付宝转帐'},
+  {apiName: 'zfb_base', class: 'zfb_base', text: '支付宝原生'},
   {apiName: 'zfbwap', class: 'alipay', text: '支付宝'},
   {apiName: 'weixin', class: 'wepay', text: '微信'},
   {apiName: 'weixinquota', class: 'weixinquota', text: '微信定额'},
