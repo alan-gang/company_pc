@@ -12,6 +12,7 @@ bank         网银转账
 qqwallet     QQ钱包
 bdwallet     百度钱包
 jd           京东支付
+zfb_base     支付宝原生
 
 */
 
@@ -41,3 +42,6 @@ payTypeImage($type) {
 
 .type-bank
   payTypeImage(bank)
+
+.type-zfb_base
+  payTypeImage(zfb_base)

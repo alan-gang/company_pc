@@ -1249,6 +1249,9 @@ pre
 
     &.online
       background url($ASSETS/bankcard/icon_zf_zxzf.jpg) #fff .1rem center no-repeat
+    
+    &.zfb_base
+      background url($ASSETS/bankcard/zfb_base.jpg) #fff .1rem center no-repeat
 
 
   // me/Bank.vue
