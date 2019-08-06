@@ -294,6 +294,7 @@ export default {
         "GD账户:26",
         "德胜账户:28",
         "小艾账户:29"
+        // 添加新游需要调整
       ],
       t: "",
       m: "",
@@ -317,257 +318,32 @@ export default {
         "GD账户:26:gdAmount",
         "德胜账户:28:dsAmount",
         "小艾账户:29:jjbAmount"
+        // 添加新游需要调整
       ],
       quickAmounts: ["50", "100", "500", "全部"],
       tabIdx: 0,
       accounts: [
-        {
-          id: "",
-          transInId: "",
-          transOutId: 1,
-          title: "特殊账户",
-          shotTitle: "特殊",
-          name: "smoney",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: false,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "2",
-          transInId: 0,
-          transOutId: 2,
-          title: "BG账户",
-          shotTitle: "BG",
-          name: "bgmoney",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "3",
-          transInId: "",
-          transOutId: "",
-          title: "IBC账户",
-          shotTitle: "IBC",
-          name: "tcgmoney",
-          balance: 0,
-          className: "acc-bg-red",
-          showIn: true,
-          showOut: true,
-          show: false
-        },
-        {
-          id: "7",
-          transInId: 2,
-          transOutId: 4,
-          title: "开元账户",
-          shotTitle: "开元",
-          name: "kymoney",
-          balance: 0,
-          className: "acc-bg-red",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "5",
-          transInId: 3,
-          transOutId: 5,
-          title: "PT账户",
-          shotTitle: "PT",
-          name: "ptmoney",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "4",
-          transInId: 4,
-          transOutId: 6,
-          title: "AG账户",
-          shotTitle: "AG",
-          name: "agmoney",
-          balance: 0,
-          className: "acc-bg-blue",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "9",
-          transInId: 5,
-          transOutId: 7,
-          title: "沙巴账户",
-          shotTitle: "沙巴",
-          name: "sbmoney",
-          balance: 0,
-          className: "acc-bg-red",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "15",
-          transInId: 6,
-          transOutId: 8,
-          title: "乐游账户",
-          shotTitle: "乐游",
-          name: "lymoney",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "17",
-          transInId: 7,
-          transOutId: 9,
-          title: "U赢账户",
-          shotTitle: "U赢",
-          name: "uwinmoney",
-          balance: 0,
-          className: "acc-bg-green",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "18",
-          transInId: 8,
-          transOutId: 10,
-          title: "KG账户",
-          shotTitle: "KG",
-          name: "kgmoney",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "25",
-          transInId: 9,
-          transOutId: 11,
-          title: "微游账户",
-          shotTitle: "微游",
-          name: "litAmount",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "19",
-          transInId: 10,
-          transOutId: 12,
-          title: "平博账户",
-          shotTitle: "平博",
-          name: "pbAmount",
-          balance: 0,
-          className: "acc-bg-red",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "21",
-          transInId: 11,
-          transOutId: 13,
-          title: "LG账户",
-          shotTitle: "LG",
-          name: "lgAmount",
-          balance: 0,
-          className: "acc-bg-blue",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "22",
-          transInId: 12,
-          transOutId: 14,
-          title: "幸运账户",
-          shotTitle: "幸运",
-          name: "xyqpAmount",
-          balance: 0,
-          className: "acc-bg-blue",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "27",
-          transInId: 13,
-          transOutId: 15,
-          title: "VG账户",
-          shotTitle: "VG",
-          name: "vgAmount",
-          balance: 0,
-          className: "acc-bg-green",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "26",
-          transInId: 14,
-          transOutId: 16,
-          title: "GD账户",
-          shotTitle: "GD",
-          name: "gdAmount",
-          balance: 0,
-          className: "acc-bg-green",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "28",
-          transInId: 15,
-          transOutId: 17,
-          title: "德胜账户",
-          shotTitle: "DS",
-          name: "dsAmount",
-          balance: 0,
-          className: "acc-bg-green",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
-        {
-          id: "29",
-          transInId: 16,
-          transOutId: 18,
-          title: "小艾账户",
-          shotTitle: "XA",
-          name: "jjbAmount",
-          balance: 0,
-          className: "acc-bg-green",
-          showIn: true,
-          showOut: true,
-          show: true
-        },
+        {id: "", transInId: "", transOutId: 1, title: "特殊账户", shotTitle: "特殊", name: "smoney", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: true, show: true},
+        {id: "2", transInId: 0, transOutId: 2, title: "BG账户", shotTitle: "BG", name: "bgmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
+        {id: "3", transInId: "", transOutId: "", title: "IBC账户", shotTitle: "IBC", name: "tcgmoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: false},
+        {id: "7", transInId: 2, transOutId: 4, title: "开元账户", shotTitle: "开元", name: "kymoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "5", transInId: 3, transOutId: 5, title: "PT账户", shotTitle: "PT", name: "ptmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
+        {id: "4", transInId: 4, transOutId: 6, title: "AG账户", shotTitle: "AG", name: "agmoney", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
+        {id: "9", transInId: 5, transOutId: 7, title: "沙巴账户", shotTitle: "沙巴", name: "sbmoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "15", transInId: 6, transOutId: 8, title: "乐游账户", shotTitle: "乐游", name: "lymoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
+        {id: "17", transInId: 7, transOutId: 9, title: "U赢账户", shotTitle: "U赢", name: "uwinmoney", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "18", transInId: 8, transOutId: 10, title: "KG账户", shotTitle: "KG", name: "kgmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
+        {id: "25", transInId: 9, transOutId: 11, title: "微游账户", shotTitle: "微游", name: "litAmount", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
+        {id: "19", transInId: 10, transOutId: 12, title: "平博账户", shotTitle: "平博", name: "pbAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "21", transInId: 11, transOutId: 13, title: "LG账户", shotTitle: "LG", name: "lgAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
+        {id: "22", transInId: 12, transOutId: 14, title: "幸运账户", shotTitle: "幸运", name: "xyqpAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
+        {id: "27", transInId: 13, transOutId: 15, title: "VG账户", shotTitle: "VG", name: "vgAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "DS", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "XA", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        // 添加新游需要调整
         // id 平台ID
-        {
-          id: "",
-          transInId: "",
-          transOutId: "",
-          title: "优惠券",
-          shotTitle: "优惠券",
-          name: "free",
-          balance: 0,
-          className: "acc-bg-oriange",
-          showIn: false,
-          showOut: false,
-          show: true
+        {id: "", transInId: "", transOutId: "", title: "优惠券", shotTitle: "优惠券", name: "free", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: false, show: true
         }
       ]
     };
@@ -613,6 +389,7 @@ export default {
           return this.ME.dsAmount
         case 18:
           return this.ME.jjbAmount
+        // 添加新游需要调整
       }
     },
     tm () {
@@ -636,6 +413,7 @@ export default {
             this.ME.gdAmount,
             this.ME.dsAmount,
             this.ME.jjbAmount
+            // 添加新游需要调整
           ][this.t]
         default:
           return this.ME.amoney
@@ -701,7 +479,50 @@ export default {
       return this.m === '' ? '' : digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
     },
     showSwitch () {
-      return (this.f === 0 && this.t === 0) || (this.f === 2 && this.t === 0) || (this.f === 0 && this.t === 1) || (this.f === 3 && this.t === 0) || (this.f === 4 && this.t === 0) || (this.f === 0 && this.t === 2) || (this.f === 0 && this.t === 3) || (this.f === 0 && this.t === 4) || (this.f === 5 && this.t === 0) || (this.f === 6 && this.t === 0) || (this.f === 0 && this.t === 5) || (this.f === 7 && this.t === 0) || (this.f === 0 && this.t === 6) || (this.f === 8 && this.t === 0) || (this.f === 0 && this.t === 7) || (this.f === 9 && this.t === 0) || (this.f === 0 && this.t === 8) || (this.f === 10 && this.t === 0) || (this.f === 0 && this.t === 9) || (this.f === 11 && this.t === 0) || (this.f === 0 && this.t === 10) || (this.f === 12 && this.t === 0) || (this.f === 0 && this.t === 11) || (this.f === 13 && this.t === 0) || (this.f === 0 && this.t === 12) || (this.f === 14 && this.t === 0) || (this.f === 15 && this.t === 0) || (this.f === 16 && this.t === 0)
+      return (
+        this.f === 0 && this.t === 0) ||
+        (this.f === 2 && this.t === 0) ||
+        (this.f === 0 && this.t === 1) ||
+        (this.f === 3 && this.t === 0) ||
+        (this.f === 4 && this.t === 0) ||
+        (this.f === 0 && this.t === 2) ||
+        (this.f === 0 && this.t === 3) ||
+        (this.f === 0 && this.t === 4) ||
+        (this.f === 5 && this.t === 0) ||
+        (this.f === 6 && this.t === 0) ||
+        (this.f === 0 && this.t === 5) ||
+        (this.f === 7 && this.t === 0) ||
+        (this.f === 0 && this.t === 6) ||
+        (this.f === 8 && this.t === 0) ||
+        (this.f === 0 && this.t === 7) ||
+        (this.f === 9 && this.t === 0) ||
+        (this.f === 0 && this.t === 8) ||
+        (this.f === 10 && this.t === 0) ||
+        (this.f === 0 && this.t === 9) ||
+        (this.f === 11 && this.t === 0) ||
+        (this.f === 0 && this.t === 10) ||
+        (this.f === 12 && this.t === 0) ||
+        (this.f === 0 && this.t === 11) ||
+        (this.f === 13 && this.t === 0) ||
+        (this.f === 0 && this.t === 12) ||
+        //
+        (this.f === 14 && this.t === 0) ||
+        (this.f === 0 && this.t === 12) ||
+        //
+        (this.f === 15 && this.t === 0) ||
+        (this.f === 0 && this.t === 13) ||
+        //
+        (this.f === 16 && this.t === 0) ||
+        (this.f === 0 && this.t === 14) ||
+        //
+        (this.f === 17 && this.t === 0) ||
+        (this.f === 0 && this.t === 15) ||
+        //
+        (this.f === 18 && this.t === 0) ||
+        (this.f === 0 && this.t === 16)
+        // 添加新游需要调整
+        // f 对应 transOutId
+        // t 对应 transInId
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
@@ -838,21 +659,40 @@ export default {
         setTimeout(() => {
           this.t = 11
         })
+      //
       } else if (this.f === 14) {
         this.f = 0
         setTimeout(() => {
           this.t = 12
         })
+      //
       } else if (this.f === 15) {
         this.f = 0
         setTimeout(() => {
           this.t = 13
         })
+      //
       } else if (this.f === 16) {
         this.f = 0
         setTimeout(() => {
           this.t = 14
         })
+      //
+      } else if (this.f === 17) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 15
+        })
+      //
+      } else if (this.f === 18) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 16
+        })
+      //
+      // 添加新游需要调整
+      // f 对应 transOutId
+      // t 对应 transInId
       }
     },
     ok () {
@@ -904,6 +744,7 @@ export default {
             gdAmount: data.gdAmount || 0,
             dsAmount: data.dsAmount || 0,
             jjbAmount: data.jjbAmount || 0
+            // 添加新游需要调整
           })
           this.accounts = this.accounts.map((item) => {
             if (this.ME.hasOwnProperty(item.name)) {
@@ -987,6 +828,7 @@ export default {
             "GD",
             "DS",
             "XA"
+            // 添加新游需要调整
           ][Math.max(this.f, this.t + 2)] + "余额转账已提交！"
       });
       this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
