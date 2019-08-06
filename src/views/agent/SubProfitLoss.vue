@@ -56,9 +56,31 @@
 
     template(v-if=" [1, 2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 ")
       el-table.header-bold.nopadding(:data="otherCommonReportData" style="margin: .2rem 0" stripe ref="table" v-on:sort-change="sortChange")  
-        el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
-          template(slot-scope="scope")
-            span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
+        el-table-column(prop="userName" label="用户名" class-name="pl2")
+
+        el-table-column(prop="buy" label="投注" sortable="custom")
+
+        el-table-column(prop="prize" label="中奖" )
+
+        el-table-column(prop="point" label="彩票返点" v-if="I === 1 && showpoint && showThirdPointColumn")
+        el-table-column(prop="point" v-bind:label="otherGamesName[I] + '返水'" v-if="[2, 3, 4, 5, 6, 7, 8].indexOf(I) !== -1 && showback && showThirdPointColumn")
+
+        el-table-column(prop="gameProfit" label="游戏盈亏" sortable="custom")
+          template(scope="scope")
+            span(v-bind:class="getCellClass(scope.row.gameProfit, true)") {{scope.row.gameProfit}}
+
+        el-table-column(prop="reward" label="活动" )
+
+        el-table-column(prop="totalProfit" label="总盈亏" sortable="custom")
+          template(scope="scope")
+            span(v-bind:class="getCellClass(scope.row.totalProfit, true)") {{scope.row.totalProfit}}
+
+        el-table-column(prop="subType" label="下级类型" )
+
+        //- el-table-column(v-bind:prop="o.prop" v-bind:label="o.name" v-for="(o, i) in otherCommonTableColumn" v-bind:class-name="i === 0 ? 'pl2' : ''" v-bind:sortable="o.sortable")
+        //-   template(slot-scope="scope")
+        //-     span(v-bind:class="getCellClass(scope.row[o.prop], o.mcolor)") {{scope.row[o.prop]}}
+
         el-table-column(label="操作" )
           template(slot-scope="scope")
             el-button(type="text" size="small" class="fc-o" @click="viewHighterLevel(scope.row)"  v-show="scope.row.userName != '合计'") 查看上级
@@ -198,6 +220,7 @@ export default {
       isShowHigherLevelDialog: false,
       isShowDailyProfitDialog: false,
       showUserPointColumn: false,
+      showThirdPointColumn: false,
       amountColumnProp: ['buy', 'prize', 'point', 'gameProfit', 'salary', 'reward', 'totalProfit'],
 
       subUserId: '',
@@ -214,6 +237,9 @@ export default {
     },
     showpoint () {
       return this.me.displayPermission.showpoint === 1
+    },
+    backWaters () {
+      return this.me.backWaters
     }
   },
   mounted () {
@@ -226,6 +252,7 @@ export default {
       orderBy: 'totalProfit'
     })
     this.names = JSON.parse(window.sessionStorage.getItem('SUB_PROFIT_LOSS_NAMES_HISTORY') || '[]')
+    console.log('this.me.backWaters=', this.me.backWaters)
   },
   methods: {
     __setReportI (i) {
@@ -268,6 +295,7 @@ export default {
         p.username = this.subUserName
         delete p.userId
       }
+      this.showThirdPointColumn = this.backWaters['groupId_' + this.curGameType]
       Object.assign(p, params)
       this.$http.get(api.subPersonalProfit, p).then(({data: {success, items, totalSize}}) => {
         if (success === 1) {
@@ -332,7 +360,8 @@ export default {
           if (this.showThirdGameDetal && this.curGameType === -1) {
             this.thirdGamesDetailData = items
           } else {
-            this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && parseFloat(pointLevel) > 0
+            // this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && parseFloat(pointLevel) > 0
+            this.showUserPointColumn = (this.curGameType === 0 ? this.showpoint : this.showback) && this.backWaters['groupId_' + this.curGameType]
             this.dailyReportData = items
           }
           // this.showUserPointColumn = parseFloat(pointLevel) > 0

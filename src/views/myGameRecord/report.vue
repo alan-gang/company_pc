@@ -227,7 +227,7 @@ export default {
         // endDay: dateFormat((window.newDate(this.stEt[1])).getTime()).replace(/[-]/g, '')
       }
       Object.assign(p, params)
-      this.$http.get(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
+      this.$http.myget(api.personalProfit, p).then(({data: {items, success, pointLevel}}) => {
         this.otherCommonReportData = []
         if (success === 1 && items.length > 0) {
           this.showUserPointColumn = pointLevel > 0
