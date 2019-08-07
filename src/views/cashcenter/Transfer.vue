@@ -339,8 +339,8 @@ export default {
         {id: "22", transInId: 12, transOutId: 14, title: "幸运账户", shotTitle: "幸运", name: "xyqpAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
         {id: "27", transInId: 13, transOutId: 15, title: "VG账户", shotTitle: "VG", name: "vgAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "DS", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "XA", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "德胜", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         // 添加新游需要调整
         // id 平台ID
         {id: "", transInId: "", transOutId: "", title: "优惠券", shotTitle: "优惠券", name: "free", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: false, show: true
