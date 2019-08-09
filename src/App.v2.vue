@@ -343,7 +343,9 @@ export default {
             {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
             {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
             {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
-            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'}
+            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
+            {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'}
           ]
         },
         {
@@ -354,7 +356,8 @@ export default {
             {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'}
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'},
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'}
           ]
         },
         {
@@ -392,7 +395,8 @@ export default {
           info: [
             {class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率'},
             // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
-            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'}
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'},
+            {menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:203'}
           ]
         },
         {
@@ -500,7 +504,7 @@ export default {
                   menuid: '57',
                   title: '团队盈亏',
                   // tabs: ['总账', '彩票', '其它彩票', '体育', '真人', '电游', '捕鱼', '棋牌', '电竞', '活动', '充提', '团队统计', '团队分析'],
-                  tabs: ['彩票', '三方', '棋牌', '微游', '充提统计', '活动统计'],
+                  tabs: ['彩票', '三方', '微游', '充提统计', '活动统计'],
                   tabfn: '__setTotalAccountI',
                   url: 'TotalAccount',
                   position: {
