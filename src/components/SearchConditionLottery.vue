@@ -84,6 +84,9 @@ export default {
       &.K3
         background url(../assets/v2/nav_icon_ks.png) 0 center no-repeat
 
+      &.PK10
+        background url(../assets/v2/nav_icon_pk10.png) 0 center no-repeat
+
       &.VR
         background url(../assets/v2/nav_icon_vr.png) 0 center no-repeat
 
@@ -92,6 +95,7 @@ export default {
         background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
 
       &.other
+      &.OTHER
         background url(../assets/v2/nav_icon_qt.png) 0 center no-repeat
 
       &.history

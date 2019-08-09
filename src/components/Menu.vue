@@ -259,6 +259,10 @@ body.cb.v2
       &.K3
         background url(../assets/v2/nav_icon_ks.png) 0 center no-repeat
 
+      &.PK10
+        background url(../assets/v2/nav_icon_pk10.png) 0 center no-repeat
+
+
       &.VR
         background url(../assets/v2/nav_icon_vr.png) 0 center no-repeat
 

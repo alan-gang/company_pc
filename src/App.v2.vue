@@ -289,17 +289,24 @@ export default {
               ]
             },
             {
+              title: 'PK10',
+              class: 'icon-menu-pk10',
+              url: 'PK10',
+              items: [
+                {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
+                {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
+                {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
+                {url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
+                {url: 'PK10', class: 'ds-icon-game-alysc sign new', id: '1-5-123', menuid: '123', title: '阿里云赛车', volume: true, gameid: 162}
+              ]
+            },
+            {
               title: '其它游戏',
               // withIcon: true,
               // class: 'ds-icon-item',
               class: 'icon-menu-other',
               url: 'OTHER',
               items: [
-                {url: 'PK10', class: 'ds-icon-game-pk10ft sign hot', id: '1-5-7', menuid: '105', title: '幸运飞艇', volume: true, gameid: 39},
-                {url: 'PK10', class: 'ds-icon-game-bjpk10 sign hot', id: '1-5-1', menuid: '18', title: '北京PK10', volume: true, gameid: 13},
-                {url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43},
-                {url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151},
-                {url: 'PK10', class: 'ds-icon-game-alysc sign new', id: '1-5-123', menuid: '123', title: '阿里云赛车', volume: true, gameid: 162},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 sign', id: '1-5-8', menuid: '106', title: '澳洲快乐8', volume: true, gameid: 40},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-6', menuid: '107', title: '加拿大卑斯快乐8', volume: true, gameid: 41},
                 // {url: 'KL8', class: 'ds-icon-game-kl8 ', id: '1-5-5', menuid: '108', title: '加拿大西部快乐8', volume: true, gameid: 42},
@@ -307,21 +314,22 @@ export default {
                 {url: 'SSL3D', class: 'ds-icon-game-hl3d', id: '1-5-8', menuid: '17', title: '欢乐3D', volume: true, gameid: 32},
                 {url: 'SSL3D', class: 'ds-icon-game-shssl', id: '1-5-4', menuid: '100', title: '上海时时乐', volume: true, gameid: 5},
                 {url: 'SSL', class: 'ds-icon-game-pl35', id: '1-5-3', menuid: '61', title: '排列三、五', volume: true, gameid: 10},
-                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-5-6', menuid: '95', title: '六合彩', volume: true, gameid: 28}
+                {url: 'HC6', class: 'ds-icon-game-lhc', id: '1-5-6', menuid: '95', title: '六合彩', volume: true, gameid: 28},
                 // {menuid: '98', class: 'ds-icon-game-jn sign', id: '1-7-1', title: 'KG', fn: '18:203'},
                 // {url: 'IFRAME', hide: true, class: 'ds-icon-game-lhc', id: '1-8-1', menuid: '98', title: '六合彩', volume: true, gameid: 28}
-              ]
-            },
-            {
-              title: '基诺彩票',
-              class: 'icon-menu-kl',
-              url: 'KG',
-              items: [
-                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: '基诺彩', fn: '18:203'},
-                {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-7-2', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
-                {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-7-3', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45}
+                {url: 'KL8', class: 'ds-icon-game-kl8 sign hot', id: '1-5-20', menuid: '92', title: '北京快乐8', volume: true, gameid: 27},
+                {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-5-21', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
+                {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-5-22', title: '基诺彩', fn: '18:203'}
               ]
             }
+            // {
+            //   title: '基诺彩票',
+            //   class: 'icon-menu-kl',
+            //   url: 'KG',
+            //   items: [
+            //     {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-7-1', title: '基诺彩', fn: '18:203'}
+            //   ]
+            // }
             // {
             //   title: 'VR游戏',
             //   url: 'VR',

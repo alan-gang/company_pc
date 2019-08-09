@@ -5,7 +5,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .scroll-content.download-center
+    .scroll-content.download-center(style="padding-bottom: 1.5rem")
       .notice(style="margin: 0 0 .2rem 0")
         span.title 温馨提示：
         p.content
@@ -76,6 +76,8 @@ export default {
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-onhook',
             buttons: [
+              {title: 'IOS下载', class: 'ds-icon-download-ios ', id: 'plat_ios_gj', download: 'http://g.xybets.com'},
+              {title: 'Android下载', class: 'ds-icon-download-android ', id: 'plat_andr_gj', download: 'http://g.xybets.com'},
               {title: 'PC下载', class: 'ds-icon-download-windows primary', download: 'http://52.175.9.139:2019/xybet_product.rar'}
             ]
           }
@@ -89,6 +91,7 @@ export default {
         this.downloads[2].title = '最安全的客服聊天系统'
       }
       this.getWinClient()
+      this.generateQR({plat_ios_gj: 'http://g.xybets.com', plat_andr_gj: 'http://g.xybets.com'})
     },
     methods: {
       generateQR (data) {
