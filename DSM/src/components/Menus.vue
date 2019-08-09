@@ -103,7 +103,7 @@ export default {
         line-height 46px
         background linear-gradient(to bottom, #5d5d5d, #525252, #484848)
         color #fff
-        for n, i in ssc g115 k3 other kl
+        for n, i in ssc g115 k3 pk10 other kl
           .icon-menu-{n}
             width 28px
             height 24px
