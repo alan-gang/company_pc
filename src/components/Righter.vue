@@ -23,7 +23,8 @@
       .expand-left 刮刮乐
     .ds-icon-guanji(@click="$router.push('/help/7-1-1')")
     RightQuickThirdGame(v-on:click="clickHandler")
-    .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
+      
+    //- .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
       span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
 
