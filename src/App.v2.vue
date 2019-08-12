@@ -1274,7 +1274,7 @@ export default {
         Socket.sockets.user && this.connected(Socket.sockets.user)
         this.showMenuGuide = !window.localStorage.getItem('menu_guide')
       })
-      this.canGetIngots()
+      // this.canGetIngots()
       if (this.$route.path.indexOf('game') !== -1) this.__setCall({fn: '__upDatePoints', callId: undefined})
     },
     connected (socket) {
