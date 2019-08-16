@@ -90,10 +90,10 @@
               
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整佣金
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整佣金
  
-              .ds-button.text-button.blue(v-if=" scope.row.isSub " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
+              .ds-button.text-button.blue(v-if=" scope.row.isSub && me.role !== 1 " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
               
 
               //- .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" me.showBackWater && scope.row.isSub" @click.stop=" ABW(scope.row) ") 调整返水
