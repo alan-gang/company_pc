@@ -1,7 +1,27 @@
 .DS_Store
 node_modules/
-npm-debug.log
-test/*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+**/*.log
+
+tests/**/coverage/
+tests/e2e/reports
 selenium-debug.log
+<<<<<<< HEAD
 .vscode
 src/mock/*
+=======
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.local
+
+package-lock.json
+yarn.lock
+>>>>>>> 577ea73ce162fed642e9bdb1556e9aaa313e4c8c

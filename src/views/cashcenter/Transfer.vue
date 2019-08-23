@@ -290,7 +290,7 @@ export default {
         "平博帐户:19",
         "LG帐户:21",
         "幸运帐户:22",
-        "VG账户:27",
+        "财神帐户:27",
         "GD账户:26",
         "德胜账户:28",
         "小艾账户:29"
@@ -314,7 +314,7 @@ export default {
         "平博帐户:19:pbAmount",
         "LG帐户:21:lgAmount",
         "幸运帐户:22:xyqpAmount",
-        "VG账户:27:vgAmount",
+        "财神帐户:27:vgAmount",
         "GD账户:26:gdAmount",
         "德胜账户:28:dsAmount",
         "小艾账户:29:jjbAmount"
@@ -337,7 +337,7 @@ export default {
         {id: "19", transInId: 10, transOutId: 12, title: "平博账户", shotTitle: "平博", name: "pbAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         {id: "21", transInId: 11, transOutId: 13, title: "LG账户", shotTitle: "LG", name: "lgAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
         {id: "22", transInId: 12, transOutId: 14, title: "幸运账户", shotTitle: "幸运", name: "xyqpAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
-        {id: "27", transInId: 13, transOutId: 15, title: "VG账户", shotTitle: "VG", name: "vgAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "27", transInId: 13, transOutId: 15, title: "财神帐户", shotTitle: "财神", name: "vgAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "德胜", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
@@ -824,7 +824,7 @@ export default {
             "平博",
             "LG",
             "幸运",
-            "VG",
+            "财神",
             "GD",
             "DS",
             "XA"
