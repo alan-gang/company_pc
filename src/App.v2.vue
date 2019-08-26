@@ -1496,6 +1496,7 @@ export default {
             btn: []
           }))
           // this.$message.success({message: '恭喜您在' + msg.content[0].lottName + msg.content[0].issue + '期的投注' + msg.content[0].code + '中奖了' + msg.content[0].amt + '元'})
+          this.__getUserFund();
           this.__setCall({fn: '__orderlist'})
           break
         case 'saveSucc':

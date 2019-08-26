@@ -19,6 +19,7 @@
 import api from '../http/api'
 import store from '../store'
 import { Checkbox } from 'element-ui'
+import _ from 'lodash'
 export default {
   name: 'SearchConditionOrderTypes',
   data () {
@@ -43,7 +44,7 @@ export default {
   },
   watch: {
     typeData () {
-      this.types = this.typeData
+      this.types = _.cloneDeep(this.typeData)
     }
   },
   mounted () {
