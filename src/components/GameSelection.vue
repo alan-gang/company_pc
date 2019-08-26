@@ -560,30 +560,34 @@
       // ****************************************************************************************************************************this.V
       // ****************************************************************************************************************************this.V
       // ****************************************************************************************************************************this.V
-      value () {
-        if (this.V.length > 10000) {
-          this.$worker.run((V, type) => {
-            if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|\n]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
-              return V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
-            } else {
-              return V.replace(/[,;|\s]+/g, ' ')
-            }
-          }, [this.V, this.type])
-          .then(result => {
-            this.value = result
-          })
-          .catch(e => {
-            // console.error(e)
-          })
-          return this.V
-        }
-        // C2
-        // 如果是115
-        // if there is no 010203 6 numbers together, take it as special
-        if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|\n]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
-          return this.V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
-        } else {
-          return this.V.replace(/[,;|\s]+/g, ' ')
+      value: {
+        get: function () {
+          if (this.V.length > 10000) {
+            this.$worker.run((V, type) => {
+              if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && (V.match(/[,;|\n]+/g) || (!V.match(/[\d]{3}/g) && type.id !== '-1-2-1-115'))) {
+                return V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
+              } else {
+                return V.replace(/[,;|\s]+/g, ' ')
+              }
+            }, [this.V, this.type])
+            .then(result => {
+              this.value = result
+            })
+            .catch(e => {
+              // console.error(e)
+            })
+            return this.V
+          }
+          // C2
+          // 如果是115
+          // if there is no 010203 6 numbers together, take it as special
+          if ((this.type.id.indexOf('-115') !== -1 || this.type.id.indexOf('-PK10') !== -1) && (this.V.match(/[,;|\n]+/g) || (!this.V.match(/[\d]{3}/g) && this.type.id !== '-1-2-1-115'))) {
+            return this.V.replace(/ +/g, '').replace(/[,;|\s\n]+/g, ' ')
+          } else {
+            return this.V.replace(/[,;|\s]+/g, ' ')
+          }
+        },
+        set: function () {
         }
       },
       // test () {
@@ -853,13 +857,13 @@
       // ****************************************************************************************************************************this.V
       removeRepeat () {
         if (this.V.length > 10000) {
-          this.$worker.run((V, type, o) => {
+          this.$worker.run((V, type, o, removeDuplicate) => {
             if ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) && V.match(/[,;|\n]+/g)) {
               R = removeDuplicate(V.replace(/ +/g, ''), /[,;|\s\n]+/, ',', o, 2)
             } else {
               R = removeDuplicate(V.trim(), /[,;|\s]+/, null, o, ((type.id.indexOf('-115') !== -1 || type.id.indexOf('-PK10') !== -1) ? 2 : 1))
             }
-          }, [this.V, this.type, this.o])
+          }, [this.V, this.type, this.o, removeDuplicate])
           .then(result => {
             if (result.has) this.V = result.s
           })
