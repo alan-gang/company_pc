@@ -47,6 +47,7 @@ export default {
             buttons: [
               {title: 'IOS下载1', class: 'ds-icon-download-ios', id: 'plat_ios'},
               {title: 'IOS下载2', class: 'ds-icon-download-ios', id: 'plat_ios2'},
+              {title: 'IOS免签版', class: 'ds-icon-download-ios', id: 'plat_ios3', download: 'http://h.xybets.com/'},
 
               {title: 'Android下载1', class: 'ds-icon-download-android', id: 'plat_andr'},
               {title: 'Android下载2', class: 'ds-icon-download-android', id: 'plat_andr2'},
@@ -91,7 +92,7 @@ export default {
         this.downloads[2].title = '最安全的客服聊天系统'
       }
       this.getWinClient()
-      this.generateQR({plat_ios_gj: 'http://g.xybets.com', plat_andr_gj: 'http://g.xybets.com'})
+      this.generateQR({plat_ios_gj: 'http://g.xybets.com', plat_andr_gj: 'http://g.xybets.com', plat_ios3: 'http://h.xybets.com/'})
     },
     methods: {
       generateQR (data) {
