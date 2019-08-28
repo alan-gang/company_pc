@@ -45,9 +45,9 @@ export default {
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-logo',
             buttons: [
+              {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_ios3'},
               {title: 'IOS下载1', class: 'ds-icon-download-ios', id: 'plat_ios'},
               {title: 'IOS下载2', class: 'ds-icon-download-ios', id: 'plat_ios2'},
-              {title: 'IOS免签版', class: 'ds-icon-download-ios', id: 'plat_ios3', download: 'http://h.xybets.com/'},
 
               {title: 'Android下载1', class: 'ds-icon-download-android', id: 'plat_andr'},
               {title: 'Android下载2', class: 'ds-icon-download-android', id: 'plat_andr2'},
