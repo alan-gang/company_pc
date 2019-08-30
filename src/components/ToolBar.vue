@@ -2,7 +2,7 @@
   .tool-bar.page-tool-bar
     //- span.title(v-if="!tabs") {{ title }}
     .tabs.text-black
-        span.tab(v-for=" (b, i) in tabs || [title] " @click="tabHandler(i)" v-bind:class=" {selected: ti === i} " v-if=" !b.split(':')[1] || (b.split(':')[1] && ME.menuids.indexOf(',' + (b.split(':')[1] + ',')) !== -1)  ") {{ b.split(':')[0] }}
+        span.tab(v-for=" (b, i) in tabs || [title] " @click="tabHandler(i)" v-bind:class=" {selected: ti === i} " v-if=" !b.split(':')[1] || (b.split(':')[1] && ME.menuids.indexOf(',' + (b.split(':')[1] + ',')) !== -1)  " v-show=" !(ME.role === 1 && i === 3 && (menuid === '44' || menuid === '45') ) ") {{ b.split(':')[0] }}
 
     el-button-group
       .el-button.ds-icon-volume(:class=" { off: !volume } " @click="v")
