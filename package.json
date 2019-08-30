@@ -6,9 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "set NODE_ENV_BUILD=production&&node build/build.js",
-    "devbuild": "set NODE_ENV_BUILD=devbuild&&node build/build.js",
-    "release": "set NODE_ENV_BUILD=release&&node build/build.js",
+    "build": "cross-env NODE_ENV_BUILD=production node build/build.js",
+    "devbuild": "cross-env NODE_ENV_BUILD=devbuild node build/build.js",
+    "release": "cross-env NODE_ENV_BUILD=release node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",

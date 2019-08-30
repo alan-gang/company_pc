@@ -108,7 +108,7 @@ export default {
           'release': 'https://graph.dongsens.net:8000/xy/index.html#',
           'production': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
-        let url = map[process.env.NODE_ENV_BUILD]
+        let url = map[process.env.NODE_ENV_BUILD] || 'http://192.168.169.75:8000/xy/index.html#'
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
