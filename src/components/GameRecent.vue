@@ -97,7 +97,6 @@ export default {
   },
   methods: {
     goTrend() {
-      console.log(this.gameType)
       if (this.gameType === 'OTHER') {
         this.$router.push('/form/4-5-3?gameid=' + this.gameid)
       } else {
@@ -109,6 +108,7 @@ export default {
           'build': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
         let url = map[process.env.NODE_ENV_BUILD]
+        console.log(url)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
