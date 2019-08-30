@@ -103,13 +103,11 @@ export default {
         let typeName = document.querySelector('dd.title.selected').firstChild.textContent
         let navName = document.querySelector('.ds-button.selected').parentElement.firstElementChild.textContent
         let map = {
-          'devbuild': 'http://192.168.169.75:8000/xy/index.html#',
-          'release': 'http://192.168.169.75:8000/xy/index.html#',
-          'build': 'https://www.ds-graph.com:8000/xy/index.html#'
+          'devbuld': 'http://192.168.169.75:8000/xy/index.html#',
+          'release': 'https://graph.dongsens.net:8000/xy/index.html#',
+          'production': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
-        let url = map[process.env.NODE_ENV_BUILD]
-        console.log(url)
-        console.log(process.env.NODE_ENV_BUILD)
+        let url = map[process.env.NODE_ENV_BUILD] || 'http://192.168.169.75:8000/xy/index.html#'
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },

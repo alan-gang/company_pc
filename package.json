@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "cross-env NODE_ENV_BUILD=build node build/build.js",
+    "build": "cross-env NODE_ENV_BUILD=production node build/build.js",
     "devbuild": "cross-env NODE_ENV_BUILD=devbuild node build/build.js",
     "release": "cross-env NODE_ENV_BUILD=release node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
