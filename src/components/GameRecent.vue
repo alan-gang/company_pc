@@ -109,6 +109,7 @@ export default {
         }
         let url = map[process.env.NODE_ENV_BUILD]
         console.log(url)
+        console.log(process.env.NODE_ENV_BUILD)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
