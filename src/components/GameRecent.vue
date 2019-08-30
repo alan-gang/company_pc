@@ -103,7 +103,13 @@ export default {
       } else {
         let typeName = document.querySelector('dd.title.selected').firstChild.textContent
         let navName = document.querySelector('.ds-button.selected').parentElement.firstElementChild.textContent
-        window.open('http://192.168.169.75:8000/index.html#/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
+        let map = {
+          'devbuild': 'http://192.168.169.75:8000/xy/index.html#',
+          'release': 'http://192.168.169.75:8000/xy/index.html#',
+          'build': 'https://www.ds-graph.com:8000/xy/index.html#'
+        }
+        let url = map[process.env.NODE_ENV_BUILD]
+        window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
     getWinners () {
