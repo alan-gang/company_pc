@@ -108,7 +108,7 @@ export default {
           'production': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
         let attr = 'devbuild'
-        if (!process.env.NODE_ENV_BUILD) {
+        if (!process.env.NODE_ENV_PATH) {
           let now = window.location.href
           if (now.indexOf('192.') !== -1) {
             attr = 'devbuild'
@@ -118,10 +118,10 @@ export default {
             attr = 'production'
           }
         } else {
-          attr = process.env.NODE_ENV_BUILD
+          attr = process.env.NODE_ENV_PATH
         }
         let url = map[attr]
-        console.log(process.env.NODE_ENV_BUILD)
+        console.log(process.env.NODE_ENV_PATH)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
