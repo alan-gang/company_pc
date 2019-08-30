@@ -108,6 +108,7 @@ export default {
           'production': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
         let url = map[process.env.NODE_ENV_BUILD] || 'http://192.168.169.75:8000/xy/index.html#'
+        console.log(process.env.NODE_ENV_BUILD)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
