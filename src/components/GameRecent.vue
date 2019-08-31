@@ -97,18 +97,31 @@ export default {
   },
   methods: {
     goTrend() {
-      console.log(this.gameType)
       if (this.gameType === 'OTHER') {
         this.$router.push('/form/4-5-3?gameid=' + this.gameid)
       } else {
         let typeName = document.querySelector('dd.title.selected').firstChild.textContent
         let navName = document.querySelector('.ds-button.selected').parentElement.firstElementChild.textContent
         let map = {
-          'devbuld': 'http://192.168.169.75:8000/xy/index.html#',
+          'devbuild': 'http://192.168.169.75:8000/xy/index.html#',
           'release': 'https://graph.dongsens.net:8000/xy/index.html#',
           'production': 'https://www.ds-graph.com:8000/xy/index.html#'
         }
-        let url = map[process.env.NODE_ENV_BUILD] || 'http://192.168.169.75:8000/xy/index.html#'
+        let attr = 'devbuild'
+        if (!process.env.NODE_ENV_PATH) {
+          let now = window.location.href
+          if (now.indexOf('192.') !== -1) {
+            attr = 'devbuild'
+          } else if (now.indexOf('xy-text') !== -1) {
+            attr = 'release'
+          } else {
+            attr = 'production'
+          }
+        } else {
+          attr = process.env.NODE_ENV_PATH
+        }
+        let url = map[attr]
+        console.log(process.env.NODE_ENV_PATH)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },
