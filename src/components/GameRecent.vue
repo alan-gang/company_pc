@@ -3,31 +3,31 @@
     .a.hlh36.notice(style="margin: 0; padding: 0 .1rem; line-height: .3rem; border: none; border-top: 1px solid #eee")
         //- marquee
         .aa_box(v-bind:style=" aa_box_style ")
-          .aa.inlb.hlh36(v-for=" (w, i) in winners ") 
+          .aa.inlb.hlh36(v-for=" (w, i) in winners ")
             span.aaa {{ w.name }}
-            span  喜中 
-            span.aab.text-oblue {{ w.game }} 
-            span.aac.text-blue {{ w.prize._nwc() }} 
+            span  喜中
+            span.aab.text-oblue {{ w.game }}
+            span.aac.text-blue {{ w.prize._nwc() }}
             span 元
 
 
     .b.hlh36.plr15.ft12
       span.ba.bold 近期开奖号码
-      span.bb.f_r.pointer(@click=" ME.login ? $router.push('/form/4-5-3?gameid=' + gameid) : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
+      span.bb.f_r.pointer(@click=" ME.login ? goTrend() : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
 
     .c.t_c.ft12(:class=" gameType ")
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
-        pre.cac.inlb(v-if=" ccs " ) 
-          span(v-for=" t in  ccs.title ") {{ t }} 
+        pre.cac.inlb(v-if=" ccs " )
+          span(v-for=" t in  ccs.title ") {{ t }}
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
       .ca.hlh3(v-for=" (r, i) in allLuckyNumbers ")
         span.caa.inlb {{ r.issue.substr(-4) }}
 
-        span.cab.inlb 
+        span.cab.inlb
           span.caba(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
               br(v-if=" i === 9 ")
 
@@ -42,8 +42,8 @@
           | &nbsp;
           span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
 
-          span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }} 
-  
+          span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
+
 
 
 
@@ -96,6 +96,35 @@ export default {
     this.getWinners()
   },
   methods: {
+    goTrend() {
+      if (this.gameType === 'OTHER') {
+        this.$router.push('/form/4-5-3?gameid=' + this.gameid)
+      } else {
+        let typeName = document.querySelector('dd.title.selected').firstChild.textContent
+        let navName = document.querySelector('.ds-button.selected').parentElement.firstElementChild.textContent
+        let map = {
+          'devbuild': 'http://192.168.169.75:8000/xy/index.html#',
+          'release': 'https://graph.dongsens.net:8000/xy/index.html#',
+          'production': 'https://www.ds-graph.com:8000/xy/index.html#'
+        }
+        let attr = 'devbuild'
+        if (!process.env.NODE_ENV_PATH) {
+          let now = window.location.href
+          if (now.indexOf('192.') !== -1) {
+            attr = 'devbuild'
+          } else if (now.indexOf('xy-text') !== -1) {
+            attr = 'release'
+          } else {
+            attr = 'production'
+          }
+        } else {
+          attr = process.env.NODE_ENV_PATH
+        }
+        let url = map[attr]
+        console.log(process.env.NODE_ENV_PATH)
+        window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
+      }
+    },
     getWinners () {
       this.$http.get(api.rewardInfo).then(({data: {success, winners}}) => {
         if (success === 1) {
@@ -220,13 +249,13 @@ export default {
 
 .game-recent
   border-left 5px solid #d9d9d9
-  
+
   .a
     overflow hidden
-    
+
   .aa_box
     transition transform 3s linear
-    
+
   .b
     background-color #eee
   .ba
@@ -236,7 +265,7 @@ export default {
     color #333
     &:hover
       color #000
-  
+
   .c
     background-color #fff
     &.PK10
@@ -245,8 +274,8 @@ export default {
         width 25%
       .cab
         width 75%
-         
-    &.PK10.absolute 
+
+    &.PK10.absolute
       .ca
         height .24rem
         line-height .24rem
@@ -256,21 +285,21 @@ export default {
         width 25%
       .cab
         width 75%
-    
+
     &.KL8.absolute
        .ca
          height .48rem
          line-height .24rem
-    
+
     &.PCDD
       .caa
         width 25%
       .cab
         width 75%
-        
+
       .cab
         position relative
-        
+
       .number-gap
         position absolute
         top 0
@@ -289,16 +318,16 @@ export default {
         &:nth-child(4)
           width .24rem
           left 1.55rem
-        
+
       .caba
         display inline-block
         width .24rem
         margin-right .12rem
-        
-        
-    
 
-        
+
+
+
+
 
   .c.absolute
     top 1.11rem
@@ -324,7 +353,7 @@ export default {
   .cab
     width 40%
     vertical-align top
-  
+
   .type-color-1
     color #1f8eec
   .type-color-2
@@ -337,7 +366,7 @@ export default {
     color #f17d0b
   .type-color-6
     color #000
-    
+
 </style>
 <!-- // 五星
 case '组120':

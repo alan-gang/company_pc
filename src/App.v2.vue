@@ -892,10 +892,12 @@ export default {
         backgroundColor: '#e9e9e9'
       },
       redirect: '',
+      // {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }
       appcls: ''
     }
   },
   computed: {
+
     starTabs () {
       return this.state.pages.filter(t => t.star)
     },
@@ -922,6 +924,20 @@ export default {
     }
   },
   watch: {
+    // currentab (nn, o) {
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 100)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 300)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 500)
+    //   setTimeout(() => {
+    //     this.checkAppClassState(nn)
+    //   }, 800)
+    // },
     tabs (n, o) {
       setTimeout(() => {
         if (n.length > 1) {
@@ -1009,6 +1025,15 @@ export default {
     // this.$forceUpdate()
   },
   methods: {
+    checkAppClassState (nn) {
+      let n = nn[0]
+      if (n && n.href && n.href.indexOf('game') !== -1) {
+        const app = document.getElementById('app')
+        if (app.className.indexOf('game') === -1) {
+          this.openTab(n.id)
+        }
+      }
+    },
     showBonus () {
       return this.menuids.indexOf(',45,') !== -1
     },
@@ -1131,6 +1156,7 @@ export default {
       })
     },
     openRoute ({path, params: {url}}) {
+      // console.log(this.$route, '!')
       this.appcls = this.$route.path.indexOf('game') === -1 ? '' : 'game'
       if (!url) store.actions.updateAllPages({active: false})
       else {
@@ -1795,4 +1821,5 @@ export default {
     left -.2rem !important
   .lefter.help
     display none !important
+  
 </style>
