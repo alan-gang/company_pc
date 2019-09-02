@@ -23,6 +23,7 @@
     "dsm-build": "node build/dsm-build.js"
   },
   "dependencies": {
+    "cross-env": "^5.2.1",
     "echarts": "^4.1.0",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
