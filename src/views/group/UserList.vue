@@ -229,7 +229,7 @@
             div(key="4" v-if="stepIndex === 1 && stepType === 'contract' ")
               p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户
                 span.text-blue {{ user.userName }}
-                |  调整分红
+                |  调整彩票分红
 
 
               div(style="margin: 0 10% 0 15%; margin-top: .3rem; margin-bottom: .3rem; min-width: 6rem" v-bind:class="[ user.state ]")
@@ -561,7 +561,7 @@
           topUp: '下级充值',
           salary: '调整工资',
           point: '调整返点/返水',
-          contract: '调整分红',
+          contract: '调整彩票分红',
           bonus: '调整其它游戏分红',
           copy: '复制下级设置'
         },
