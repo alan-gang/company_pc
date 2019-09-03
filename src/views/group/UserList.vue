@@ -6,24 +6,24 @@
     slot(name="resize-y")
     slot(name="toolbar")
     .user-list.scroll-content
-      
+
       // 用户列表
       .form.form-filters
-        label.item 用户名 
+        label.item 用户名
           input.ds-input.small(v-model="name" @keyup.enter="searNow")
 
-        label.item 返点级别 
+        label.item 返点级别
           el-input(v-model="minPoint" style="width: .5rem")
-          |  至 
+          |  至
           el-input(v-model="maxPoint" style="width: .5rem")
-        
 
-        label.item 注册方式&nbsp;&nbsp; 
+
+        label.item 注册方式&nbsp;&nbsp;
           .ds-button.primary.mr_5(v-for=" (v, i) in RG " @click=" rg = rg !== v.id ? v.id : ''  " v-bind:class=" {cancel: rg !== v.id} ") {{ v.title }}
 
 
         span.ds-button.primary.large.bold(@click="searNow") 搜索
-      
+
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0" )
           .ds-button.primary.large.bold.inlb.mr_15.vm(@click.stop="addUserNow") 增加用户
@@ -31,7 +31,7 @@
             el-breadcrumb-item(v-for="(B, i) in BL" @click.native=" link(B, i) " ) {{ i === 0 ? '我的用户' : B.userName }}
 
         el-table.header-bold.nopadding(ref="table" v-bind:data="data" v-bind:max-height=" MH "  @cell-click="cellClick" v-bind:row-class-name="tableRowClassName" stripe)
-          
+
           // 用户名
           el-table-column(class-name="pl2" prop="userName"  label="用户名" min-width=" 100 ")
             template(scope="scope")
@@ -41,10 +41,10 @@
 
           // 返点级别
           el-table-column(prop="userPoint"  label="返点级别")
-          
+
           // 团队总数
           el-table-column(prop="teamCount"  label="团队总数" )
-          
+
           // 日工资 ? if showSalary
           el-table-column(prop="daySalary"  label="日工资" v-if=" showSalary  ")
 
@@ -87,22 +87,22 @@
               .ds-button.text-button.blue(v-if=" canTopUp && (scope.row.userId !== id) "  style="padding: 0 .05rem" @click=" (stepType = 'topUp') && ++stepIndex && (user = scope.row) ") 给下级转账
 
               .ds-button.text-button.blue(v-if=" scope.row.isSub && (showback || showpoint)"  style="padding: 0 .05rem" @click=" (stepType = 'point') && ++stepIndex && (user = scope.row) && showAdjustInfo()  ") 调整返点/返水
-              
+
               .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" showSalary && scope.row.isSub" @click.stop=" AS(scope.row) ") 调整工资
 
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整分红
-              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整佣金
- 
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showcpfh && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'contract') && ++stepIndex && (user = scope.row), '0')   ") 调整彩票分红
+              .ds-button.text-button.blue(v-if=" scope.row.isSub  && showsfyj && me.role !== 1 " style="padding: 0 .05rem" @click=" contract(x => (stepType = 'bonus') && ++stepIndex && (user = scope.row), '1')   ") 调整其他分红
+
               .ds-button.text-button.blue(v-if=" scope.row.isSub && me.role !== 1 " style="padding: 0 .05rem" @click=" (stepType = 'copy') && ++stepIndex && (user = scope.row)  && getSubInfo()  ") 复制下级设置
-              
+
 
               //- .ds-button.text-button.blue(style="padding: 0 .05rem" v-if=" me.showBackWater && scope.row.isSub" @click.stop=" ABW(scope.row) ") 调整返水
 
-              
-        
+
+
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > pageSize " v-on:current-change="pageChanged")
 
-      
+
       .modal(v-show=" stepType " v-bind:class=" 'stepType_' + stepType ")
         .mask
         .box-wrapper
@@ -115,8 +115,8 @@
             // 充值
             div(key="1" v-if="stepIndex === 1 && stepType === 'topUp' ")
 
-              p(style="padding-left: 30%; margin-top: 1.8rem" v-if="topUpIndex === 0") 
-                
+              p(style="padding-left: 30%; margin-top: 1.8rem" v-if="topUpIndex === 0")
+
 
                 | 资金密码：&nbsp;&nbsp;&nbsp;
                 input.ds-input.large(v-model="cpwd" type="password" @keyup.enter="checkSecurityPwd")
@@ -125,9 +125,9 @@
                   br
                   label(v-if=" me.safeCheck && me.safeCheck !== 3" ) 安全验证码：
                       input.ds-input.large(v-model="safeCheckCode" @keyup.enter="checkNow")
-                      button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0") 
+                      button.ds-button.secondary.outline(style="margin-left: .1rem;" @click="me.safeCheck === 1 ? sendSms() :  sendMail()"  v-bind:class="{ disabled: me.safeCheck === 1 ? pt_: et_ }" v-bind:disabled="(me.safeCheck === 1 ? pt_ : et_) > 0")
                         span(v-if="!(me.safeCheck === 1 ? pt_ : et_ )") 发送验证码
-                        span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }} 
+                        span.text-black(v-if="(me.safeCheck === 1 ? pt_ : et_  )") {{ (me.safeCheck === 1 ? pt_ : et_ ) }}
                           span.text-999 秒后可重新发送
 
                   label(v-if="me.safeCheck === 3 " style="margin: .2rem 0") 信游安全码：
@@ -136,9 +136,9 @@
                 span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .2rem; width: 2.2rem" @click="checkNow") 下一步
 
 
-              div(v-if="topUpIndex === 1") 
+              div(v-if="topUpIndex === 1")
 
-                p.title.text-black.hlh_120.t_c.ft16(style="background-color: #ededed;") 您正在给下级用户 
+                p.title.text-black.hlh_120.t_c.ft16(style="background-color: #ededed;") 您正在给下级用户
                   span.text-blue {{ user.userName }}
                   |  进行充值
 
@@ -156,7 +156,7 @@
                   br
                   br
                   |充值金额：&nbsp;&nbsp;&nbsp;
-                  el-input-number.large(style="width: 2.2rem" v-model="money" @keyup.enter.native=" checkTopup ") 
+                  el-input-number.large(style="width: 2.2rem" v-model="money" @keyup.enter.native=" checkTopup ")
                   span.text-money  {{ textMoney }}
                   span.text-999(v-if=" topUpMax || topUpMin ")  ({{ topUpMin }} - {{ topUpMax }}元)
 
@@ -165,13 +165,13 @@
 
               p(style="padding-left: 30%; margin-top: 1.5rem" v-if="topUpIndex === 2") 充值金额：
                 span.amount {{ money }}
-                | 元   
+                | 元
                 span.text-money  {{ textMoney }}
                 br
                 span.ds-button.primary.large.bold(style="margin-left: .7rem; margin-top: .15rem; width: 2.2rem" @click="recharge") 确认
 
             div(key="2" v-if="stepIndex === 1 && stepType === 'salary' ")
-              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户 
+              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户
                 span.text-blue {{ user.userName }}
                 |  调整工资级别
 
@@ -181,12 +181,12 @@
                 el-select(v-model="o" style="width: 2.2rem; position: relative; top: -.01rem")
                   el-option(v-for="O in OL.filter(x => x.value >= user.daySalary) " v-bind:label="O.name" v-bind:value="O.value")
 
-              p(style="padding-left: 30%; margin-top: .15rem") 
+              p(style="padding-left: 30%; margin-top: .15rem")
                 | 团队销量：
                 el-input-number(v-model="teamSales" style="width: 1.7rem")
                 |  万
- 
-              p(style="padding-left: 30%; margin-top: .15rem") 
+
+              p(style="padding-left: 30%; margin-top: .15rem")
                 | 有效用户：
                 el-input-number(v-model="activityCount")
                 |  人
@@ -198,26 +198,26 @@
             // 升点、降点
             div(key="3" v-if="stepIndex === 1 && stepType === 'point' ")
 
-              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户 
+              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户
                 span.text-blue {{ user.userName }}
                 |  调整返点/返水
 
               .mh_500.w_500.mg_0a.pd_50
                 .mb_20(v-for=" (v, i) in  user.back" v-bind:key="i" v-if=" v.$s ")
                   span.text-danger.pd_5 *
-                  span(v-if=" !v.groupName ") 彩票返点 
-                  span(v-else) {{ v.groupName  }}返水 
+                  span(v-if=" !v.groupName ") 彩票返点
+                  span(v-else) {{ v.groupName  }}返水
                   el-select(v-model="v.$" clearable style="width: 1.7rem")
                     el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) " v-show=" (x*0.1 >= Number(v.$$)) ")
 
                   span(v-if=" !v.groupName ")
-                    span.text-blue  % 
+                    span.text-blue  %
                     span.c_03（百分符）
-                  span(v-else) 
+                  span(v-else)
                     span.text-blue  ‰
                     span.text-999（千分符）
-                  
-                   
+
+
 
                   span.text-black(v-if=" Number(v.$$) ")
                     span(v-if=" !v.groupName ") 当前返点：{{ v.$$ }}%
@@ -227,7 +227,7 @@
                   .ds-button.cancel.large(style="width: 2rem" @click=" (stepType = '') || (stepIndex = 0) ") 取消
             //- 调整分红
             div(key="4" v-if="stepIndex === 1 && stepType === 'contract' ")
-              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户 
+              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户
                 span.text-blue {{ user.userName }}
                 |  调整分红
 
@@ -260,21 +260,21 @@
                 p.item.block(v-for=" (CR, i) in CRULES ")
                   span.text-danger {{ i===0? '*': '&nbsp;'}}
                   | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-                  span.text-black 累计 
+                  span.text-black 累计
                   el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
                     el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
                   | &nbsp;&nbsp;
                   el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
                   span.text-black &nbsp;万，有效人数&nbsp;
                   el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser")
-                  span.text-black  人，分红比例 
+                  span.text-black  人，分红比例
                   //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
                   el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
                     el-option(v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) " v-bind:label="R.bounsRate + '%' " v-bind:value="R.bounsRate")
                   span(v-if="CR.bounsRate") &nbsp;最低
-                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }} 
+                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}
                     | 万，
-                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }} 
+                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}
                     | 人
 
 
@@ -290,7 +290,7 @@
                   .ds-button.cancel.bold(style="width: 2rem" @click=" (stepType = '') || (stepIndex = 0) ") 取消
             //- 调整其它游戏分红
             div(key="5" v-if="stepIndex === 1 && stepType === 'bonus' ")
-              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户 
+              p.title.text-black.hlh_120.t_c.ft16(style="padding: .2rem 0 .2rem .2rem; background-color: #ededed;") 您正在给下级用户
                 span.text-blue {{ user.userName }}
                 |  调整其它游戏分红
 
@@ -322,21 +322,21 @@
                 p.item.block(v-for=" (CR, i) in CRULES ")
                   span.text-danger {{ i===0? '*': '&nbsp;'}}
                   | {{ CR.title }} ：&nbsp;&nbsp;&nbsp;
-                  span.text-black 累计 
+                  span.text-black 累计
                   el-select(v-model="CR.ruletype" style="width: .7rem" placeholder="全")
                     el-option(v-for="R in TYPE" v-bind:label="R.title" v-bind:value="R.id")
                   | &nbsp;&nbsp;
                   el-input-number.text-danger.text-right(style="width: .8rem;" v-model="CR.sales")
                   span.text-black &nbsp;万，有效人数&nbsp;
                   el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.actUser")
-                  span.text-black  人，分红比例 
+                  span.text-black  人，分红比例
                   //- el-input-number.text-danger.text-right(style="width: .6rem;" v-model="CR.bounsRate" v-bind:max="40")
                   el-select(v-model=" CR.bounsRate " style="width: .7rem" placeholder="全")
                     el-option(v-for="R in ruleCfg.filter(x => x.ruletype === CR.ruletype) " v-bind:label="R.bounsRate + '%' " v-bind:value="R.bounsRate")
                   span(v-if="CR.bounsRate") &nbsp;最低
-                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }} 
+                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).sales }}
                     | 万，
-                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }} 
+                    span.text-blue  {{ ruleCfg.find(x => x.ruletype === CR.ruletype && CR.bounsRate === x.bounsRate).actUser }}
                     | 人
 
 
@@ -350,7 +350,7 @@
                 .buttons.item.block(style="padding-left: .6rem")
                   .ds-button.primary.bold(style="width: 2rem" @click="createContract") 确定
                   .ds-button.cancel.bold(style="width: 2rem" @click=" (stepType = '') || (stepIndex = 0) ") 取消
-            
+
             div(key="6" v-if="stepIndex === 1 && stepType === 'copy' " ref="copy")
               .bgc-w.pd_15
                 p 下级用户名：
@@ -430,14 +430,14 @@
 
 
                 .t_c.pd_10.bgc-w
-                  .ds-button.success.large.w_180(@click="keepSame") 同步数据 
+                  .ds-button.success.large.w_180(@click="keepSame") 同步数据
 
                 .t_c.pt_10.pl_10.pb_5(style="text-align: right")
-                  .ds-button.primary.large.w_180(@click=" (stepType = '') || (stepIndex = 0) ") 完成 
+                  .ds-button.primary.large.w_180(@click=" (stepType = '') || (stepIndex = 0) ") 完成
                   span.pd_5
-                  .ds-button.cancel.large.w_180(@click=" $refs.copy.scrollTop = 0 ") 上一步 
+                  .ds-button.cancel.large.w_180(@click=" $refs.copy.scrollTop = 0 ") 上一步
 
-                
+
 </template>
 
 <script>
@@ -1504,7 +1504,7 @@
     display inline-block
     margin 0 PW .1rem 0
 
-    
+
   .el-select
   .el-input-number
     width 1.2rem
@@ -1517,7 +1517,7 @@
     color #333
   .text-money
     color #999
-  
+
   .notice
     font-size .12rem
     line-height .22rem
@@ -1547,7 +1547,7 @@
         &+div
           height 100%
           overflow-y auto
-        
+
     .h_450
       overflow hidden
       margin-right 0 !important
@@ -1556,7 +1556,7 @@
         width 100%
         overflow auto
         box-sizing border-box
-        
+
       vertical-align top
       box-sizing border-box
       background-color #fff6ef
@@ -1607,8 +1607,8 @@
         &:hover
           background-color BLUE
           color #fff
-      
-    
+
+
   .users
   .as
     padding-top .3rem
@@ -1628,12 +1628,12 @@
       color #000
       font-weight bold
       // background-color #999
-      
+
   ul
     overflow auto
   .as
     padding-top .4rem
-         
+
 </style>
 
 <style lang="stylus" scoped>
@@ -1645,7 +1645,7 @@
   bg-active = #e2e2e2
   .tool-bar
     height TH
-    line-height TH 
+    line-height TH
     background-color bg
     font-size .12rem
     border-top-right-radius .05rem
@@ -1683,7 +1683,7 @@
           color #fff
           background-color #d40c1d
 
-  .modal 
+  .modal
     position absolute
     top TH
     bottom 0
@@ -1693,8 +1693,8 @@
     z-index 9999
     &:not(.stepType_copy) .box
       background-color #fff
-      
-    
+
+
     .mask
       position absolute
       left 0
@@ -1742,7 +1742,7 @@
         .el-textarea
           display inline-bock
           vertical-align top
-          padding-left .6rem 
+          padding-left .6rem
           .textarea
             font-size .12rem
 

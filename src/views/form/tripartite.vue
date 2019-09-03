@@ -73,9 +73,9 @@
               el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
                 template(scope='scope')
                   span {{ scope.row.rewards && scope.row.rewards._nwc()}}
-              el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
-                template(scope='scope')
-                  span {{ scope.row.platfee && scope.row.platfee._nwc()}}
+              //- el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
+              //-   template(scope='scope')
+              //-     span {{ scope.row.platfee && scope.row.platfee._nwc()}}
               el-table-column(align='right', prop='settle', label='总盈亏', sortable='custom', class-name='pr2')
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ scope.row.settle && scope.row.settle._nwc()}}
@@ -106,9 +106,9 @@
               el-table-column(align='right', prop='rewards', label='活动', sortable='custom')
                 template(scope='scope')
                   span {{ numberWithCommas(scope.row.rewards) }}
-              el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
-                template(scope='scope')
-                  span {{ numberWithCommas(scope.row.platfee) }}
+              //- el-table-column(align='right', prop='platfee', label='平台费', sortable='custom')
+              //-   template(scope='scope')
+              //-     span {{ numberWithCommas(scope.row.platfee) }}
               el-table-column(align='right', prop='settle', :label="Daily ? '结算' :  '盈亏'", sortable='custom', class-name='pr2')
                 template(scope='scope')
                   span(v-show='!Daily', :class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ numberWithCommas(scope.row.settle) }}
@@ -163,9 +163,9 @@
               el-table-column(align='right', prop='rewards', label='活动')
                 template(scope='scope')
                   span {{ numberWithCommas(scope.row.rewards) }}
-              el-table-column(align='right', prop='platfee', label='平台费', v-if='profitDetailROW && profitDetailROW.hasSub==1')
-                template(scope='scope')
-                  span {{ numberWithCommas(scope.row.platfee) }}
+              //- el-table-column(align='right', prop='platfee', label='平台费', v-if='profitDetailROW && profitDetailROW.hasSub==1')
+              //-   template(scope='scope')
+              //-     span {{ numberWithCommas(scope.row.platfee) }}
               el-table-column(align='right', prop='settle', label='总盈亏', class-name='pr2')
                 template(scope='scope')
                   span(:class=" {'text-green': scope.row.settle && scope.row.settle._o0(), 'text-danger': scope.row.settle && scope.row.settle._l0() } ") {{ numberWithCommas(scope.row.settle) }}

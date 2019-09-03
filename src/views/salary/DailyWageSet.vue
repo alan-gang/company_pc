@@ -7,21 +7,21 @@
     slot(name="toolbar")
     .scroll-content
       .form.form-filters
-          label.item 用户 
+          label.item 用户
             input.ds-input.small(v-model="un" style="width: 1.2rem" placeholder="请输入用户名" maxLength="20")
 
-          label.item 注册时间 
+          label.item 注册时间
             el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime" v-on:change="dateChange")
-          
-          span.date-wp 
+
+          span.date-wp
             SearchConditions(v-bind:showTimeTxt="false" v-bind:defaultDateIdx="defaultDateIdx" v-bind:searchConditions="searchConditions" v-bind:dateMappingConfig="dateMappingConfig" @choiced="choicedSearchCondition" v-show=" [0].indexOf(I) == -1 ")
 
-          span.ml10 日工资 
+          span.ml10 日工资
           span
             .ds-button.btn-item.mr10(v-for="(c, i) in statusButtons" v-bind:class="{selected: quickStatusIdx === i}" @click="choiceStatus(i)") {{c}}
 
           .ds-button.primary.large.bold(@click="mySubSalaryList") 搜索
-      
+
       .table-list(style="padding: .15rem .2rem ")
         p(style="margin: 0 0 .15rem 0" )
           //- .ds-button.primary.large(@click="patchSetWage" v-bind:class="{'disabled': disableSetWage}") 设置日工资
@@ -33,7 +33,7 @@
           el-table-column(prop="userName" label="用户名" class-name="pl2")
           el-table-column(prop="registertime" label="注册日期" align="center" sortable="custom")
           el-table-column(prop="teamCount" label="团队人数"  align="center" sortable="custom")
-          el-table-column(label="工资级别"  align="center") 
+          el-table-column(label="工资级别"  align="center")
             template(scope="scope")
               span 1w{{scope.row.salary}}
           el-table-column(prop="teamSales" label="团队销量"  align="center")
@@ -49,7 +49,7 @@
 
 
       DialogSetDailyWage(v-if="showDialogSetWage" v-bind:showDialogSetWage="showDialogSetWage" v-bind:id="id" v-on:close="showDialogSetWage = false" v-on:set-wage="mySubSalaryList")
-    
+
 
 
 </template>
@@ -63,6 +63,7 @@
   import SalaryDetail from './SalaryDetail'
   import SearchConditions from 'components/SearchConditions'
   import DialogSetDailyWage from './DialogSetDailyWage'
+  import dayjs from 'dayjs'
   export default {
     mixins: [setTableMaxHeight, page],
     components: {
@@ -75,7 +76,7 @@
         TH: 280,
         ME: store.state.user,
         type: 0,
-        stEt: [new Date()._setD(1)._setHMS('0:0:0'), new Date()._setD(1)._setHMS('0:0:0')._bfM(1)._setS(-1)],
+        stEt: [dayjs('1999-01-01').toDate(), dayjs().toDate()],
         un: '',
         BL: [
           {title: '自己'},
