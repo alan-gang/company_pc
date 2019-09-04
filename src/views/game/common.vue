@@ -772,13 +772,14 @@ export default {
     quickbook () {
       this.__storeHistoryItem()
       if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
-      if (this.pay > (this.checked ? this.free : this.money)) {
+      let checked = false
+      if (this.pay > (checked ? this.free : this.money)) {
         return this.$modal.question({
           target: this.$el,
-          content: (this.checked ? '优惠券' : '余额') + '不足, 请充值。',
-          btn: [(this.checked ? '确定' : '去充值')],
+          content: (checked ? '信游币' : '余额') + '不足, 请充值。',
+          btn: [(checked ? '确定' : '去充值')],
           ok () {
-            if (!this.checked) {
+            if (!checked) {
               this.$router.push('/me/2-1-1')
             }
           },
