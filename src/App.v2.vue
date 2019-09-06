@@ -365,7 +365,8 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'},
-            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'}
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '31:35'}
           ]
         },
         {
