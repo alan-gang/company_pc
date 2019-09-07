@@ -294,7 +294,7 @@ export default {
         "GD账户:26",
         "德胜账户:28",
         "小艾账户:29",
-        "SA账户:31",
+        "SA真人账户:31",
         "SA电游账户:32"
         // 添加新游需要调整
       ],
@@ -320,7 +320,7 @@ export default {
         "GD账户:26:gdAmount",
         "德胜账户:28:dsAmount",
         "小艾账户:29:jjbAmount",
-        "SA账户:31:saAmount",
+        "SA真人账户:31:saAmount",
         "SA电游账户:32:saEgameAmount"
         // 添加新游需要调整
       ],
@@ -345,7 +345,7 @@ export default {
         {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "德胜", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "31", transInId: 17, transOutId: 19, title: "SA账户", shotTitle: "SA", name: "saAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "31", transInId: 17, transOutId: 19, title: "SA真人账户", shotTitle: "SA", name: "saAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         {id: "32", transInId: 18, transOutId: 20, title: "SA电游账户", shotTitle: "SA电游", name: "saEgameAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         // 添加新游需要调整
         // id 平台ID
