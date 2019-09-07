@@ -243,8 +243,8 @@ export default {
                 {class: 'ds-icon-game-ffc_qq sign hot', id: '1-1-127', menuid: '127', title: '奇趣分分彩', volume: false, gameid: 164},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
-                {class: 'ds-icon-game-tx2fcos sign new', id: '1-1-12', menuid: '132', title: '奇趣5分彩', volume: true, gameid: 165},
-                {class: 'ds-icon-game-tx2fcos sign new', id: '1-1-13', menuid: '133', title: '奇趣10分彩', volume: true, gameid: 166}
+                {class: 'ds-icon-game-tx2fcos sign new', id: '1-1-16', menuid: '132', title: '奇趣5分彩', volume: true, gameid: 165},
+                {class: 'ds-icon-game-tx2fcos sign new', id: '1-1-15', menuid: '133', title: '奇趣10分彩', volume: true, gameid: 166}
               ]
             },
             {
