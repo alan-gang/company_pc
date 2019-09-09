@@ -195,14 +195,14 @@ export default {
       sources: [
       ],
       topgames: [
-        {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
+        {class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
         {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
         {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
         {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
         {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
-        {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
+        {class: 'index_icon_10', id: '1-5-6', title: '六合彩'}
       ],
       formData: {
       },
