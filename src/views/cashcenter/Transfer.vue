@@ -746,7 +746,7 @@ export default {
           for (let i = 0; i < this.accounts.length; i++) {
             account = this.accounts[i]
             if (parseInt(platId) === parseInt(account.id)) {
-              account.balance = this.numberWithCommas(Number(bal).toFixed(4))
+              account.balance = this.numberWithCommas(Number(bal || '0').toFixed(4))
               this.$set(this.accounts, i, account)
               break
             }
