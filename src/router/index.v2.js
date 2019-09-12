@@ -28,13 +28,14 @@ let router = new VueRouter({
       },
       component: require('../views/Home.v2'),
       children: [
-        {
-          path: '/sports',
-          meta: {
-            rl: true
-          },
-          component: Sports
-        },
+        //三方 巴萨体育
+        {path: '/sports', meta: {rl: true}, component: Sports},
+        //三方 捕鱼
+        {path: '/fishing', meta: {rl: true}, component: resolve => require(['../views/outer/fishing'], resolve)},
+        //三方 体育赛事
+        {path: '/sportsevent', meta: {rl: true}, component: resolve => require(['../views/outer/sportsevent'], resolve)},
+        //三方 电子电竞
+        {path: '/electronicsports', meta: {rl: true}, component: resolve => require(['../views/outer/electronicsports'], resolve)},
         {
           path: '/egame/:tabIndex',
           meta: {
