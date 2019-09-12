@@ -23,7 +23,7 @@
               span.account.text-danger {{ dplimitbonus }} 
               | 元
 
-          label(style="margin: 0 .1rem") 返点：
+          label(v-if="userPoint" style="margin: 0 .1rem") 返点：
             span.account {{ userPoint }}
 
           label(style="margin: 0 .1rem" v-if="salary") 工资：
