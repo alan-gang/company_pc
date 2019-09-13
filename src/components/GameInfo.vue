@@ -38,7 +38,7 @@
                   p 00:05分第6名关键词的搜索次数为 56789 次（尾数为9）， 
                   p 00:05分第11名关键词的搜索次数为 36748次（尾数为8），
                   p 00:05分第16名关键词的搜索次数为 17890 次（尾数为0），
-                  p 则：0+9+8+0=27，27的尾数为7 ，所以01期开奖号码的【万位】就是7。
+                  p 则：0+9+8+0=17，17的尾数为7 ，所以01期开奖号码的【万位】就是7。
                   br
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
               
