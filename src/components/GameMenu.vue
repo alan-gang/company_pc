@@ -32,7 +32,7 @@
       .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
 
 
-    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
+    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0; padding-left: .05rem;  ")
       .subtitle(style="padding-left: .1rem; color: #333") {{ upTitle !== type.title ? upTitle + '_' + type.title : upTitle }}
 
       label(@click=" showIns = !showIns ")
