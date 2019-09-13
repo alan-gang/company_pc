@@ -58,11 +58,12 @@
           el-col.picture.lhg(:span="12" )
             .co
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
-              el-row.absolute
+              el-row.absolute.e-game
                 el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/2', fn: '5:203:iframe:/egame/2'}}) ") 
                 el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
                 el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ") 
                 el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ") 
+                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '32:37:iframe:/egame/3'}}) ") 
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
@@ -70,9 +71,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_02.jpg")
               el-row.absolute
-                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
-                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ") 
-                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ") 
+                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ") 
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ") 
+                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ") 
             p
               span.t1 真人娱乐 &nbsp;&nbsp;
               span.t2 CASINO
@@ -112,6 +114,7 @@
                 el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
                 el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ") 
                 el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ") 
+                el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ") 
             p
               span.t1 捕鱼达人 &nbsp;&nbsp;
               span.t2 FISHING
@@ -195,14 +198,14 @@ export default {
       sources: [
       ],
       topgames: [
-        {class: 'index_icon_01', id: '1-1-1', title: '重庆时时彩'},
+        {class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖'},
         {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
         {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
         {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
         {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
         {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
         {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
-        {class: 'index_icon_10', id: '1-1-6', title: '六合彩'}
+        {class: 'index_icon_10', id: '1-5-6', title: '六合彩'}
       ],
       formData: {
       },
@@ -655,7 +658,7 @@ export default {
       left 0
       right 0
       bottom -.82rem
-      height .82rem
+      // height .82rem
       background-color rgba(233, 233, 233, .9)
       opacity 0
       transition all .3s ease-in-out
@@ -674,6 +677,8 @@ export default {
           background-image url(../assets/newhome/logo_ag_big.png)
         &.dy
           background-image url(../assets/newhome/logo_bg_big.png)
+        &.sa
+          background-image url(../assets/newhome/logo_sa_big.png)
         &.sb
           background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky

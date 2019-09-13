@@ -36,6 +36,8 @@ let defaultUser = {
   lgAmount: 0,
   xyAmount: 0,
   xyqpAmount: 0,
+  saAmount: 0,
+  saEgameAmount: 0,
   // safeCenter
   email: '',
   phone: '',
