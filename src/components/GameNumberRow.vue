@@ -897,6 +897,7 @@
     // 按钮区
     .action-buttons
       &:not(.block)
+        top 0
         right 0
         position absolute
         max-width 2.2rem
