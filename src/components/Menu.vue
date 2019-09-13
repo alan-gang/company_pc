@@ -321,6 +321,9 @@ body.cb.v2
       
       &.ds-icon-logo-lg
         background-image url(../assets/newhome/logo_lg_big.png)
+
+      &.ds-icon-logo-sa
+        background-image url(../assets/newhome/logo_sa_big.png)
       
 
         

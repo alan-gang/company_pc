@@ -293,7 +293,9 @@ export default {
         "财神帐户:27",
         "GD账户:26",
         "德胜账户:28",
-        "小艾账户:29"
+        "小艾账户:29",
+        "SA真人账户:31",
+        "SA电游账户:32"
         // 添加新游需要调整
       ],
       t: "",
@@ -317,7 +319,9 @@ export default {
         "财神帐户:27:vgAmount",
         "GD账户:26:gdAmount",
         "德胜账户:28:dsAmount",
-        "小艾账户:29:jjbAmount"
+        "小艾账户:29:jjbAmount",
+        "SA真人账户:31:saAmount",
+        "SA电游账户:32:saEgameAmount"
         // 添加新游需要调整
       ],
       quickAmounts: ["50", "100", "500", "全部"],
@@ -341,6 +345,8 @@ export default {
         {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "德胜", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
+        {id: "31", transInId: 17, transOutId: 19, title: "SA真人账户", shotTitle: "SA", name: "saAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "32", transInId: 18, transOutId: 20, title: "SA电游账户", shotTitle: "SA电游", name: "saEgameAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         // 添加新游需要调整
         // id 平台ID
         {id: "", transInId: "", transOutId: "", title: "优惠券", shotTitle: "优惠券", name: "free", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: false, show: true
@@ -389,6 +395,10 @@ export default {
           return this.ME.dsAmount
         case 18:
           return this.ME.jjbAmount
+        case 19:
+          return this.ME.saAmount
+        case 20:
+          return this.ME.saEgameAmount
         // 添加新游需要调整
       }
     },
@@ -412,7 +422,9 @@ export default {
             this.ME.vgAmount,
             this.ME.gdAmount,
             this.ME.dsAmount,
-            this.ME.jjbAmount
+            this.ME.jjbAmount,
+            this.ME.saAmount,
+            this.ME.saEgameAmount
             // 添加新游需要调整
           ][this.t]
         default:
@@ -519,7 +531,14 @@ export default {
         (this.f === 0 && this.t === 15) ||
         //
         (this.f === 18 && this.t === 0) ||
-        (this.f === 0 && this.t === 16)
+        (this.f === 0 && this.t === 16) ||
+
+        (this.f === 19 && this.t === 0) ||
+        (this.f === 0 && this.t === 17) ||
+
+        (this.f === 20 && this.t === 0) ||
+        (this.f === 0 && this.t === 18)
+
         // 添加新游需要调整
         // f 对应 transOutId
         // t 对应 transInId
@@ -603,6 +622,8 @@ export default {
       else if (this.f === 0 && this.t === 12) (this.f = 14) && (this.t = 0)
       else if (this.f === 0 && this.t === 13) (this.f = 15) && (this.t = 0)
       else if (this.f === 0 && this.t === 14) (this.f = 16) && (this.t = 0)
+      else if (this.f === 0 && this.t === 17) (this.f = 19) && (this.t = 0)
+      else if (this.f === 0 && this.t === 18) (this.f = 20) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -689,6 +710,16 @@ export default {
         setTimeout(() => {
           this.t = 16
         })
+      } else if (this.f === 19) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 17
+        })
+      } else if (this.f === 20) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 18
+        })
       //
       // 添加新游需要调整
       // f 对应 transOutId
@@ -715,7 +746,7 @@ export default {
           for (let i = 0; i < this.accounts.length; i++) {
             account = this.accounts[i]
             if (parseInt(platId) === parseInt(account.id)) {
-              account.balance = this.numberWithCommas(Number(bal).toFixed(4))
+              account.balance = this.numberWithCommas(Number(bal || '0').toFixed(4))
               this.$set(this.accounts, i, account)
               break
             }
@@ -743,7 +774,9 @@ export default {
             vgAmount: data.vgAmount || 0,
             gdAmount: data.gdAmount || 0,
             dsAmount: data.dsAmount || 0,
-            jjbAmount: data.jjbAmount || 0
+            jjbAmount: data.jjbAmount || 0,
+            saAmount: data.saAmount || 0,
+            saEgameAmount: data.saEgameAmount || 0
             // 添加新游需要调整
           })
           this.accounts = this.accounts.map((item) => {
@@ -827,7 +860,9 @@ export default {
             "财神",
             "GD",
             "DS",
-            "XA"
+            "XA",
+            "SA",
+            "SA电游"
             // 添加新游需要调整
           ][Math.max(this.f, this.t + 2)] + "余额转账已提交！"
       });
