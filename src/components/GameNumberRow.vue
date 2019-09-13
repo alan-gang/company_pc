@@ -903,7 +903,7 @@
         text-align right
         
       .ds-button
-        width .3rem
+        width .27rem
         line-height .3rem
         padding 0 
         margin 0 .01rem
