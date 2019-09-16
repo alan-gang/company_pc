@@ -429,7 +429,8 @@ export default {
             this.ME.dsAmount,
             this.ME.jjbAmount,
             this.ME.saAmount,
-            this.ME.saEgameAmount
+            this.ME.saEgameAmount,
+            this.ME.dfAmount
             // 添加新游需要调整
           ][this.t]
         default:
