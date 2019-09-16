@@ -296,7 +296,7 @@ export default {
         "小艾账户:29",
         "SA真人账户:31",
         "SA电游账户:32",
-        "OG账户"
+        "OG账户:34"
         // 添加新游需要调整
       ],
       t: "",
@@ -542,7 +542,10 @@ export default {
         (this.f === 0 && this.t === 17) ||
 
         (this.f === 20 && this.t === 0) ||
-        (this.f === 0 && this.t === 18)
+        (this.f === 0 && this.t === 18) ||
+
+        (this.f === 21 && this.t === 0) ||
+        (this.f === 0 && this.t === 19)
 
         // 添加新游需要调整
         // f 对应 transOutId
@@ -629,6 +632,7 @@ export default {
       else if (this.f === 0 && this.t === 14) (this.f = 16) && (this.t = 0)
       else if (this.f === 0 && this.t === 17) (this.f = 19) && (this.t = 0)
       else if (this.f === 0 && this.t === 18) (this.f = 20) && (this.t = 0)
+      else if (this.f === 0 && this.t === 19) (this.f = 21) && (this.t = 0)
       else if (this.f === 2) (this.t = 0) || (this.f = 0)
       else if (this.f === 3) {
         this.f = 0
@@ -725,11 +729,16 @@ export default {
         setTimeout(() => {
           this.t = 18
         })
+      } else if (this.f === 21) {
+        this.f = 0
+        setTimeout(() => {
+          this.t = 19
+        })
+      }
       //
       // 添加新游需要调整
       // f 对应 transOutId
       // t 对应 transInId
-      }
     },
     ok () {
       if (this.f === 1) this.transferNow()
