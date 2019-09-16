@@ -36,6 +36,8 @@ let router = new VueRouter({
         {path: '/sportsevent', meta: {rl: true}, component: resolve => require(['../views/outer/sportsevent'], resolve)},
         //三方 电子电竞
         {path: '/electronicsports', meta: {rl: true}, component: resolve => require(['../views/outer/electronicsports'], resolve)},
+        //三方 老虎机
+        {path: '/slotmachine', meta: {rl: true}, component: resolve => require(['../views/outer/slotmachine'], resolve)},
         {
           path: '/egame/:tabIndex',
           meta: {

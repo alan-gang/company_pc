@@ -1,59 +1,127 @@
 // 三方 电子电竞
 <template>
   <div class="outer-Common electronicsports">
-    <div class="bg">
+    <div class="cw">
       <img class="titleimg" src="../../assets/outer/electronicsports/2.png" />
       <div class="accounts-list">
-        <div class="item uwin">
+        <div class="item uwin" v-bind:class="{active: activeIndex === 0}" v-on:click="activeIndex = 0">
           <div class="top">
-            <span class="go-lobby">进入大厅</span>
+            <span class="go-lobby" v-on:click="open(gameInfo[1])">进入大厅</span>
           </div>
           <div class="bottom">
-            账户余额：<span class="balance">¥500.00</span>
+            账户余额：<span class="balance">¥{{numberWithCommas(user.uwinmoney)}}</span>
             <i class="refresh"></i>
-            <span class="transfer-accounts">转账 ></span>
+            <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
           </div>
         </div>
-        <div class="item">
+        <div class="item" v-bind:class="{active: activeIndex === 1}" v-on:click="activeIndex = 1">
           <div class="top">
-            <span class="go-lobby">进入大厅</span>
+            <span class="go-lobby" v-on:click="open(gameInfo[2])">进入大厅</span>
           </div>
           <div class="bottom">
-            账户余额：<span class="balance">¥500.00</span>
+            账户余额：<span class="balance">¥{{numberWithCommas(user.jjbAmount)}}</span>
             <i class="refresh"></i>
-            <span class="transfer-accounts">转账 ></span>
+            <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="cw">
+
+      <div class="game-logo-list">
+        <div class="item">DOTA2</div>
+        <div class="item">王者荣耀</div>
+        <div class="item">CSGO</div>
+        <div class="item">魔兽争霸3</div>
+        <div class="item">守望先锋</div>
+        <div class="item">星际争霸2</div>
+        <div class="item">彩虹六号</div>
+        <div class="item">全部</div>
+      </div>
+
+      <div class="game-list">
+        <div class="t-l">
+          <img src="../../assets/outer/electronicsports/17.jpg"/>
+        </div>
+        <div class="t-r">
+          <img src="../../assets/outer/electronicsports/18.jpg" />
+          <img class="f-l" src="../../assets/outer/electronicsports/19.jpg" />
+          <img src="../../assets/outer/electronicsports/20.jpg" class="f-r">
+        </div>
+        <div class="b-l">
+          <img src="../../assets/outer/electronicsports/21.jpg" alt="">
+        </div>
+        <div class="b-r">
+          <img src="../../assets/outer/electronicsports/22.jpg" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import store from '../../store'
+import { numberWithCommas, digitUppercase } from '../../util/Number'
 export default {
-  props: [],
+  props: ['menus'],
   data() {
-    return {};
+    return {
+      activeIndex: 0,
+      user: store.state.user,
+      numberWithCommas: numberWithCommas
+    };
   },
   watch: {},
+  computed: {
+    gameInfo() {
+      return this.menus.find(item => {
+        return item.title === '电竞'
+      }).info
+    }
+  },
   created() {
     // this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}})
   },
   mounted() {},
   beforeDestroy() {},
-  methods: {}
+  methods: {
+    open (item, index) {
+      this.__setCall({
+        fn: '__closeGuide'
+      })
+      // this.$nextTick(() => {
+      //   this.shows[index] = false
+      //   this.openPage(item.id)
+      // })
+      if (item.id) {
+        if (item.ff) {
+          return this.$router.push(item.ff)
+        }
+        if (item.fn) {
+          return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
+          // return this.openWindowWithPost(this.formData[item.fn] || {})
+        } else {
+          setTimeout(() => {
+            this.shows[index] = false
+            this.openPage(item.id)
+          }, 0)
+        }
+      }
+    },
+    openPage (url) {
+      this.$emit('open-page', url)
+    },
+    goTransferAccounts() {
+      this.$router.push({path: '/me/2-1-3'})
+    }
+  }
 };
 </script>
 <style lang="less">
 .electronicsports {
   height: ceil(900px + 1240px);
   position: relative;
-  background: #18171b;
   .titleimg {
     position: absolute;
-    top: 26%;
+    top: 210px;
     left: 50%;
     margin-left: calc(-484px / 2);
   }
@@ -76,74 +144,160 @@ export default {
   // padding-top: 0.2rem;
   // padding-bottom: 0.2rem;
   width: 100%;
-
+  background url("~@/assets/outer/electronicsports/1.jpg") no-repeat center 0 #18171b
+  background-size auto 810px
   .cw {
     z-index: 1;
     position: relative;
-    width: 1260px;
+    width: 1300px;
     margin: 0 auto;
     height: 100%;
+    padding-top: 810px;
+    box-sizing: border-box;
   }
 }
 </style>
 
 <style lang="stylus">
-  .bg
-    padding-top 46.88%
-    background url("~@/assets/outer/electronicsports/1.jpg") no-repeat
-    background-size contain
-    position relative
-    min-width 1200px
-    .accounts-list
-      position absolute
-      top 660px
-      left 50%
-      transform translateX(-50%)
-      white-space nowrap
-      .item
-        display inline-block
-        width 390px
-        height 120px
-        box-sizing border-box
-        padding 16px 26px
-        background url('~@/assets/outer/electronicsports/3.jpg') no-repeat
-        background-size cover
-        font-size 12px
-        &:first-child
-          margin-right 15px
-        &.uwin .top
-          background url('~@/assets/outer/electronicsports/5.png') no-repeat
-        .top
-          height 42px
-          line-height 42px
-          background url('~@/assets/outer/electronicsports/7.png') no-repeat
-          background-position left center
-          .go-lobby
-            float right
-            width 80px
-            height 30px
-            line-height 30px
-            text-align center
-            background url('~@/assets/outer/electronicsports/6.png') no-repeat
-            background-size cover
-            color #333
-            margin-top 6px
-            cursor pointer
-        .bottom
-          margin-top 22px
-          color #adaeb2
-          line-height 32px
-          .balance
-            color #ff3854
-            font-size 20px
-            font-weight bold
-            display inline-block
-            vertical-align middle
-          .transfer-accounts
-            float right
-            padding 0 12px
-            color #fff
-            cursor pointer
+.electronicsports
+  .accounts-list
+    position absolute
+    top 660px
+    left 50%
+    transform translateX(-50%)
+    white-space nowrap
+    .item
+      display inline-block
+      width 390px
+      height 120px
+      box-sizing border-box
+      padding 16px 26px
+      background url('~@/assets/outer/electronicsports/3.jpg') no-repeat
+      background-size cover
+      font-size 12px
+      position relative
+      &:first-child
+        margin-right 15px
+      &.uwin .top
+        background url('~@/assets/outer/electronicsports/5.png') no-repeat
+      &.active:after
+        content ''
+        position absolute
+        left 0
+        top 0
+        width 100%
+        height 100%
+        background url('~@/assets/outer/electronicsports/4.png') no-repeat
+        background-size contain
+        pointer-events none
+      .top
+        height 42px
+        line-height 42px
+        background url('~@/assets/outer/electronicsports/7.png') no-repeat
+        background-position left center
+        .go-lobby
+          float right
+          width 80px
+          height 30px
+          line-height 30px
+          text-align center
+          background url('~@/assets/outer/electronicsports/6.png') no-repeat
+          background-size cover
+          color #333
+          margin-top 6px
+          cursor pointer
+      .bottom
+        margin-top 22px
+        color #adaeb2
+        line-height 32px
+        .balance
+          color #ff3854
+          font-size 20px
+          font-weight bold
+          display inline-block
+          vertical-align middle
+        .transfer-accounts
+          float right
+          padding 0 12px
+          color #fff
+          cursor pointer
+  .game-logo-list
+    height 150px
+    background url('~@/assets/outer/electronicsports/16.jpg')
+    box-shadow 0 20px 30px #222123
+    margin-bottom 55px
+    .item
+      text-align center
+      padding-top 100px
+      box-sizing border-box
+      width (100/8)%
+      float left
+      height 150px
+      background-repeat no-repeat
+      background-position center 40px
+      color #6d6d6d
+      transition .2s
+      &:hover
+        color #ffb92c
+      &:nth-child(1)
+        background-image url('~@/assets/outer/electronicsports/8.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/8-1.png')
+      &:nth-child(2)
+        background-image url('~@/assets/outer/electronicsports/9.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/9-1.png')
+      &:nth-child(3)
+        background-image url('~@/assets/outer/electronicsports/10.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/10-1.png')
+      &:nth-child(4)
+        background-image url('~@/assets/outer/electronicsports/11.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/11-1.png')
+      &:nth-child(5)
+        background-image url('~@/assets/outer/electronicsports/12.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/12-1.png')
+      &:nth-child(6)
+        background-image url('~@/assets/outer/electronicsports/13.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/13-1.png')
+      &:nth-child(7)
+        background-image url('~@/assets/outer/electronicsports/14.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/14-1.png')
+      &:nth-child(8)
+        background-image url('~@/assets/outer/electronicsports/15.png')
+        &:hover
+          background-image url('~@/assets/outer/electronicsports/15-1.png')
+  .game-list
+    > div
+      img
+        cursor pointer
+        display block
+        transition .2s
+        &:hover
+          transform translate(-3px, -3px)
+          box-shadow 5px 5px 10px #18171b
+    .t-l
+    .b-l
+      margin-right 16px
+      float left
+      width 640px
+    .t-l
+    .t-r
+      margin-bottom 18px
+    .t-r
+    .b-r
+      float right
+    .t-r
+      img:nth-child(1)
+        margin-bottom 14px
+    .f-l
+      float left
+    .f-r
+     float right
 
 
 </style>
