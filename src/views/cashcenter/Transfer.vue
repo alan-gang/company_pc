@@ -9,22 +9,22 @@
       .info
         i.ds-icon-me-avatar
         p.txt-c.mt15 主账户
-        p.txt-c.fc-oriange.ft24.mt15.amount {{ numberWithCommas(ME.amoney) }} 
+        p.txt-c.fc-oriange.ft24.mt15.amount {{ numberWithCommas(ME.amoney) }}
           i.ft12.yuan 元
         .cc
-          p.title.text-black 账户互转 
-          label.item 转出账户 
+          p.title.text-black 账户互转
+          label.item 转出账户
             el-select(v-model="f" style="width: 2.5rem" placeholder="无" )
               //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
           p 可用余额：
-            span.text-blue {{ numberWithCommas(fm) }} 
+            span.text-blue {{ numberWithCommas(fm) }}
             | 元
             span.switch-box
               span.switch(v-if="showSwitch" @click=" switchs ")
               //- span.refresh(@click=" refresh ")
-        
-          label.item 转入账户 
+
+          label.item 转入账户
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
               //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
               el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
@@ -33,16 +33,16 @@
             span.text-blue {{ numberWithCommas(tm) }}
             | 元
 
-          label.item 交易金额 
+          label.item 交易金额
             input.ds-input(v-model="m" style="width: 2.5rem" maxlength="12")
 
           p &nbsp;&nbsp;
-            span {{ cm }} 
+            span {{ cm }}
 
           .quick-amounts
             button.ml10.c_b.ds-button.btn-amout(@click="quickAmountHandler(amount)" v-for="(amount, i) in quickAmounts") {{amount}}
 
-          //- label.item 资金密码  
+          //- label.item 资金密码
             input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
@@ -63,7 +63,7 @@
             .mt10.quick-btns
               button.ds-button.btn-transfer(v-if="acc.showOut" @click="quickTransfer(acc.transOutId, 'o')") 转出
               button.ml10.ds-button.btn-transfer(v-if="acc.showIn" @click="quickTransfer(acc.transInId, 'i')") 转入
-        
+
           //- .c
           //-   p.acc-bg-oriange.acc-shot-name
           //-     span.txt-c 特殊
@@ -98,7 +98,7 @@
           //-     span.icon-refresh
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入 
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入
 
           //- .c
           //-   p.acc-bg-red.acc-shot-name
@@ -109,7 +109,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(4, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(2, 'i')") 转入 
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(2, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-oriange.acc-shot-name
@@ -120,7 +120,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(5, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入 
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-blue.acc-shot-name
@@ -131,7 +131,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(6, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入 
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-red.acc-shot-name
@@ -142,7 +142,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(7, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(5, 'i')") 转入 
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(5, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-oriange.acc-shot-name
@@ -153,8 +153,8 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(8, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(6, 'i')") 转入 
-          
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(6, 'i')") 转入
+
           //- //- .c(style="display: none")
           //- .c
           //-   p.acc-bg-green.acc-shot-name
@@ -165,7 +165,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(9, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(7, 'i')") 转入   
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(7, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-oriange.acc-shot-name
@@ -176,7 +176,7 @@
           //-     i.ft12.yuan 元
           //-   .mt10.quick-btns
           //-     button.ds-button.btn-transfer(@click="quickTransfer(10, 'o')") 转出
-          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(8, 'i')") 转入   
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(8, 'i')") 转入
 
           //- .c
           //-   p.acc-bg-oriange.acc-shot-name
@@ -217,11 +217,11 @@
           //-   p 优惠券
           //-   p.ft24.text-black {{ numberWithCommas(ME.free) }}
           //-     i.ft12.yuan 元
-      
+
       //- .s
         .cc
-          p.title.text-black 账户互转 
-          label.item 转出账户 
+          p.title.text-black 账户互转
+          label.item 转出账户
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
               //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
@@ -231,7 +231,7 @@
             span.switch-box
               span.switch(v-if="showSwitch" @click=" switchs ")
               span.refresh(@click=" refresh ")
-        
+
           label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
             el-select(v-model="t" style="width: 2.5rem" placeholder="无")
               //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
@@ -241,13 +241,13 @@
             span.text-blue {{ numberWithCommas(tm) }}
             | 元
 
-          label.item 交易金额 
+          label.item 交易金额
             input.ds-input(v-model="m" style="width: 2.5rem")
 
           p &nbsp;&nbsp;
             span {{ cm }}
 
-          //- label.item 资金密码  
+          //- label.item 资金密码
             input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
@@ -256,7 +256,7 @@
 
 
         .notice(style="margin: 0")
-          p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录     
+          p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录
 
     TR.scroll-content(v-if=" tabIdx === 1 ")
 
@@ -295,7 +295,8 @@ export default {
         "德胜账户:28",
         "小艾账户:29",
         "SA真人账户:31",
-        "SA电游账户:32"
+        "SA电游账户:32",
+        "OG账户"
         // 添加新游需要调整
       ],
       t: "",
@@ -321,7 +322,8 @@ export default {
         "德胜账户:28:dsAmount",
         "小艾账户:29:jjbAmount",
         "SA真人账户:31:saAmount",
-        "SA电游账户:32:saEgameAmount"
+        "SA电游账户:32:saEgameAmount",
+        "OG账户:34:dfAmount"
         // 添加新游需要调整
       ],
       quickAmounts: ["50", "100", "500", "全部"],
@@ -347,6 +349,7 @@ export default {
         {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
         {id: "31", transInId: 17, transOutId: 19, title: "SA真人账户", shotTitle: "SA", name: "saAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         {id: "32", transInId: 18, transOutId: 20, title: "SA电游账户", shotTitle: "SA电游", name: "saEgameAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
+        {id: "34", transInId: 19, transOutId: 21, title: "OG账户", shotTitle: "OG", name: "dfAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
         // 添加新游需要调整
         // id 平台ID
         {id: "", transInId: "", transOutId: "", title: "优惠券", shotTitle: "优惠券", name: "free", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: false, show: true
@@ -399,6 +402,8 @@ export default {
           return this.ME.saAmount
         case 20:
           return this.ME.saEgameAmount
+        case 21:
+          return this.ME.dfAmount
         // 添加新游需要调整
       }
     },
@@ -862,7 +867,8 @@ export default {
             "DS",
             "XA",
             "SA",
-            "SA电游"
+            "SA电游",
+            "OG"
             // 添加新游需要调整
           ][Math.max(this.f, this.t + 2)] + "余额转账已提交！"
       });
@@ -927,7 +933,7 @@ export default {
     .fz22
       font-size 0.22rem
     .fz20
-      font-size 0.20rem  
+      font-size 0.20rem
     i
       font-style normal
     .yuan
@@ -1023,7 +1029,7 @@ export default {
     .acc-bg-green
       accountBg('icon_account_bg_green.png', #29ab91)
     .acc-bg-blue
-      accountBg('icon_account_bg_blue.png', #1691ee)  
+      accountBg('icon_account_bg_blue.png', #1691ee)
     .c
       display inline-block
       width 1.6rem
@@ -1048,8 +1054,8 @@ export default {
         font-size .14rem
         .amount
           font-size .14rem
-          
-      
+
+
       // &:nth-child(1)
       //   background url(../../assets/v2/td_icon_01.png) center .25rem no-repeat
 
@@ -1071,13 +1077,13 @@ export default {
       //   background url(../../assets/v2/qb_icon_08.png) center .25rem no-repeat
       // &:nth-child(8)
       //   background url(../../assets/v2/qb_icon_09.png) center .25rem no-repeat
-      
+
       // &:nth-child(15)
       //   background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
-      
+
       // &:nth-child(9)
       //   background url(../../assets/v2/qb_icon_12.png) center .25rem no-repeat
-      
+
       // &:nth-child(10)
       //   background url(../../assets/v2/qb_icon_13.png) center .25rem no-repeat
 
@@ -1092,8 +1098,8 @@ export default {
       // &:nth-child(15)
       //   background url(../../assets/v2/qb_icon_18.png) center .25rem no-repeat
       // &:nth-child(16)
-      //   background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat  
-    
+      //   background url(../../assets/v2/qb_icon_03.png) center .25rem no-repeat
+
     .cc
       max-width 3.1rem
       margin 0 auto

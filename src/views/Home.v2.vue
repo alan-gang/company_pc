@@ -2,7 +2,7 @@
   section.new-home(@scroll="scrollHander" @resize="onResize")
     Me(v-if=" me.login " v-bind:menus="menus" v-on:open-page="openTab" )
     Unloginbar(v-show=" !me.login ")
-    
+
     MyMenu(:menus="menus.slice(0, 13).concat(menus[17]).concat(menus[18])" v-on:open-page="openTab")
 
     router-view.scroll-content.page(:pages="pages" v-bind:menus="menus" v-bind:prehref="prehref" v-bind:loop="loop" v-bind:maxPages="maxPages" v-bind:transition="transition" v-bind:free="free" v-bind:money="money" v-on:close-tab="closeTab" v-on:open-tab="openTab" style="z-index: 99")
@@ -11,7 +11,7 @@
     el-carousel.ad(:interval="4000" arrow="always")
       el-carousel-item(v-for="(item, i) in sources" v-bind:key=" i " v-bind:style="{ ba }")
         img(:src=" item.webBanner " style="width: 100%; min-width: 8rem; cursor: pointer;" @click=" openBanner() ")
-    
+
     .box.our-game
       .content-width
         el-row.collects.top-games.relative
@@ -32,7 +32,7 @@
             p {{ c.title }}
 
           .absolute.rank.t_l(@mouseover="leaderBoard")
-            p.ft18 中奖排行榜 
+            p.ft18 中奖排行榜
             transition(name="slide-left" appear=true)
               dl.absolute(v-show=" ri === 0 " key="0")
                 dd(v-for=" (r, i) in rank.slice(0, 10) ")
@@ -49,21 +49,21 @@
                   span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
 
 
-        .title 
+        .title
           p.t1.c_f 我们的游戏
           p.t2 OUR GAMES
 
         el-row(:gutter=15 style="padding-bottom: .2rem")
-          
+
           el-col.picture.lhg(:span="12" )
             .co
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
               el-row.absolute.e-game
-                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/2', fn: '5:203:iframe:/egame/2'}}) ") 
-                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ") 
-                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ") 
-                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ") 
-                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '32:37:iframe:/egame/3'}}) ") 
+                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/2', fn: '5:203:iframe:/egame/2'}}) ")
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ")
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ")
+                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ")
+                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '32:37:iframe:/egame/3'}}) ")
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
@@ -71,10 +71,11 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_02.jpg")
               el-row.absolute
-                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
-                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ") 
-                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ") 
-                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ") 
+                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ")
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
+                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ")
+                el-col.og(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '34:41'}}) ")
             p
               span.t1 真人娱乐 &nbsp;&nbsp;
               span.t2 CASINO
@@ -84,10 +85,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
-                //- el-col.t_c.ft18.sb(:span="24") 
+                //- el-col.t_c.ft18.sb(:span="24")
                 el-col(:span="4")
-                el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ") 
-                el-col.pb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '19:403:iframe:/sports'}}) ") 
+                el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ")
+                el-col.pb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '19:403:iframe:/sports'}}) ")
                 el-col(:span="4")
 
             p
@@ -99,9 +100,9 @@
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
 
-                el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " ) 
-                el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " ) 
-                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " ) 
+                el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " )
+                el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " )
+                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " )
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -111,10 +112,10 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
-                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ") 
-                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ") 
-                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ") 
-                el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ") 
+                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
+                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
+                el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ")
             p
               span.t1 捕鱼达人 &nbsp;&nbsp;
               span.t2 FISHING
@@ -123,23 +124,23 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_06.jpg")
               el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
-                el-col(:span="8" ) 
-                el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ") 
-                el-col(:span="8" ) 
+                el-col(:span="8" )
+                el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ")
+                el-col(:span="8" )
                 //- el-col.t_c.ft18(:span="24") 敬请期待
 
             p
               span.t1 电子竞技 &nbsp;&nbsp;
               span.t2 EGAMING
 
-        .title(style="margin-top: .2rem") 
+        .title(style="margin-top: .2rem")
           p.t1 关于我们
           p.t2 ABOUT US
         el-row(:gutter=15 style="padding-bottom: .3rem")
           el-col.picture.b.lhg(:span="6" @click.native=" (showbigpic = true) &&  (bigpici = i) " v-for=" (img, i) in smpics " )
             .co
               img(:src=" img ")
-        
+
         .showup(v-show=" showbigpic ")
           .showup-modal.fixed(style="top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.7); z-index: 9999")
           .showup-wrap
@@ -158,7 +159,7 @@
 
 
 
-    
+
 
 
     CopyRight
@@ -170,7 +171,7 @@
       input(type="hidden" name="data" value="")
       input(type="hidden" name="version" value="")
       input(type="hidden" name="id" value="")
-    
+
 
 
 </template>
@@ -453,13 +454,13 @@ export default {
         height 372px
     @media screen and (min-width: 1920px)
         height 400px
-    
+
     @media screen and (min-width: 2560px)
         height 533px
-  
 
 
- 
+
+
 
 </style>
 
@@ -480,8 +481,8 @@ export default {
       padding-top 0
       background-repeat repeat
       background-size 100% 100rem
-      
-      
+
+
   W = 1.4rem
   H = 1.4rem
   .top-games
@@ -497,7 +498,7 @@ export default {
     // background url(../assets/v2/index_bg02.png) no-repeat
     background url(../assets/newhome/index_cp_bg-min.png) no-repeat
     background-size 12rem
-    
+
     &:before
       content ''
       position absolute
@@ -508,7 +509,7 @@ export default {
       right 60%
       background url(../assets/newhome/girl-min.png) no-repeat
       background-size 3.71rem
-      
+
     .intro
       font-shadow(none)
       text-align left
@@ -612,21 +613,21 @@ export default {
       line-height .2rem
       padding .35rem 0 .1rem 0
       overflow hidden
-      
-      
+
+
 
       dl
-        padding-top .25rem 
+        padding-top .25rem
         &[class*=-enter]
         &[class*=-leave]
           transition all linear 1s
         dd
           margin-bottom .2rem
-          
+
       .rank-un
         width .5rem
         margin-right .2rem
-        
+
       .rank-index
         margin-right .1rem
         radius(50%)
@@ -634,8 +635,8 @@ export default {
         width .2rem
         background-color BLUE
         text-align center
-      
-        
+
+
 
   .picture
     position relative
@@ -653,7 +654,7 @@ export default {
       width 100%
       // opacity .8
       transition all ease-in-out .3s
-      
+
     .absolute
       left 0
       right 0
@@ -670,24 +671,26 @@ export default {
         transition inherit
         &:hover
           background-position center -.1rem
-        
+
         &.pt
-          background-image url(../assets/newhome/logo_pt_big.png) 
+          background-image url(../assets/newhome/logo_pt_big.png)
         &.ag
           background-image url(../assets/newhome/logo_ag_big.png)
         &.dy
           background-image url(../assets/newhome/logo_bg_big.png)
         &.sa
           background-image url(../assets/newhome/logo_sa_big.png)
+        &.og
+          background-image url('../assets/newhome/logo_og_big.png')
         &.sb
           background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky
           background-image url(../assets/newhome/logo_ky_big.png)
-        
+
         &.ly
           background-image url(../assets/newhome/logo_ly_big.png)
         &.xy
-          background-image url(../assets/newhome/logo_xy_big.png)  
+          background-image url(../assets/newhome/logo_xy_big.png)
 
         &.spb
           background-image url(../assets/newhome/logo_sb_big.png)
@@ -697,17 +700,17 @@ export default {
           background-image url(../assets/newhome/logo_pb_big.png)
         &.lg
           background-image url(../assets/newhome/logo_lg_big.png)
-        
+
         &.el-col-6
           background-size 1.4rem
-      
-      
+
+
 
     &:hover
       .absolute
         opacity 1
         bottom 0
-  
+
   .picture.wait:after
     content '敬请期待'
     display inline-block
@@ -730,7 +733,7 @@ export default {
         width 110%
         left -5%
         top -5%
-      
+
 
   .title
     border-left 3px solid BLUE
@@ -742,7 +745,7 @@ export default {
       font-weight bold
     .t2
       color #ccc
-  
+
   .picture
     margin-bottom .1rem
     .t1
@@ -762,7 +765,7 @@ export default {
     p
       padding .05rem 0
       line-height .3rem
-  
+
   .showup-wrap
     position fixed
     top 0
@@ -784,7 +787,7 @@ export default {
         border 5px solid #4b4b4b
         @media screen and (max-height: 800px)
           width 1000px !important
-        
+
       .close
         cursor pointer
         background-color #4b4b4b
@@ -798,7 +801,7 @@ export default {
         background-size .3rem
         &:hover
           background-image url(../assets/newhome/index_pic_nav_colse_ahover.png)
-          
+
       .left, .right
         cursor not-allowed
         background-color #4b4b4b
@@ -818,15 +821,15 @@ export default {
           background-color BLUE
         &:hover
           opacity .8
-        
+
         &.right
           left auto
           right -.65rem
           transform translateY(-50%) rotateY(180deg)
-          
-      
-            
-          
+
+
+
+
 
 </style>
 
