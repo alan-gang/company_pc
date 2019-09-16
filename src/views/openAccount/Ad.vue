@@ -9,52 +9,52 @@
 
       .bgc-w.mg_20.t_c
         .pd_25
-          p.ft18(style="padding: 0rem 1rem") 您的推广码： 
+          p.ft18(style="padding: 0rem 1rem") 您的推广码：
             span.text-blue {{ promotionCode }}
-        
-        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
-
-        .pd_25
-          p.ft18.pb_25 推广链接设置
-          .mh_500.w_700.mg_0a.t_l
-            .mb_20.wp_50.inlb.v_t(v-for=" (v, i) in  data" v-bind:key="i")
-              span.text-danger.pd_5 *
-              span(v-if=" !v.groupname ") 彩票返点 
-              span(v-else) {{ v.groupname  }}返水 
-              el-select(v-model="v.$" clearable style="width: 1.7rem")
-                el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
-                el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
-
-              span(v-if=" !v.groupname ")
-                span.text-blue  % 
-                span.c_03（百分符）
-              span(v-else) 
-                span.text-blue  ‰
-                span.text-999（千分符）
-
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
-        
+        template(v-if="!(data.length === 1 && !Number(data[0].$))")
+          .pd_25
+            p.ft18.pb_25 推广链接设置
+            .mh_500.w_700.mg_0a.t_l
+              template(v-for=" (v, i) in  data")
+                .mb_20.wp_50.inlb.v_t(v-if="Number(v.$) > 0" v-bind:key="i")
+                  span.text-danger.pd_5 *
+                  span(v-if=" !v.groupname ") 彩票返点
+                  span(v-else) {{ v.groupname  }}返水
+                  el-select(v-model="v.$" clearable style="width: 1.7rem")
+                    el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
+                    el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+
+                  span(v-if=" !v.groupname ")
+                    span.text-blue  %
+                    span.c_03（百分符）
+                  span(v-else)
+                    span.text-blue  ‰
+                    span.text-999（千分符）
+
+          hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
+
         .pd_25
           p.ft18.pb_25 自动注册地址
-          
-          div(style="user-select: text;") 
+
+          div(style="user-select: text;")
             .box
               div.text-blue.inlb.ml_40.mr_40.v_t(v-for=" (url, i) in urls ")
-                input.ds-input(v-bind:value="url") 
+                input.ds-input(v-bind:value="url")
                 span.ds-button.text-button.blue(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError" style="position: absolute;padding: 0 10px") 复制
                 br
                 .QR.ds-icon-QR(:style="QRS[i]")
                   p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
-              
+
 
           .buttons(style="padding: .1rem 2.03rem")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="setKeepPoint") 提交
 
 
-        
 
-      
+
+
 </template>
 
 <script>
@@ -171,7 +171,7 @@
     .form
       padding PWX
 
-    
+
   .el-select
   .el-input-number
     width 1rem
@@ -183,7 +183,7 @@
     font-size 0.72rem
     color #333
 
-  
+
   .notice
     font-size .12rem
     line-height .22rem
@@ -197,7 +197,7 @@
       margin 0
       line-height .25rem
       vertical-align top
-  
+
   .hlh_40
     line-height .4rem
   ul

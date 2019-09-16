@@ -22,7 +22,7 @@
 
     // ggl
     GGL(v-if="ggl")
-    
+
     // Login
     Modal.common-login(v-bind:Ptitle=" Ptitle " v-bind:Ptype="Ptype" v-if="popuLogin" v-bind:Pbtn="Pbtn " v-bind:Phref="Phref" v-bind:Pclose = "Pclose" v-bind:Pok = "Pok" v-bind:PboxStyle="PboxStyle")
       .my-content.text-666(slot="my-content" style="text-align: left; font-size: .16rem; line-height: .3rem; user-select: text;")
@@ -51,7 +51,7 @@
 
           AnnualCeremoney(v-bind:showAnnual.sync="showAnnual" v-on:hideAnnual="__hideAnnual" v-bind:data=" oldUserInfo ")
 
-    
+
 
 </template>
 
@@ -242,7 +242,9 @@ export default {
                 {class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163},
                 {class: 'ds-icon-game-ffc_qq sign hot', id: '1-1-127', menuid: '127', title: '奇趣分分彩', volume: false, gameid: 164},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
-                {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153}
+                {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
+                {class: 'ds-icon-game-qqwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣5分彩', volume: true, gameid: 165},
+                {class: 'ds-icon-game-qqsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣10分彩', volume: true, gameid: 166}
               ]
             },
             {
@@ -365,7 +367,9 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'},
-            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'}
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '31:35'},
+            {menuid: '98', class: 'ds-icon-logo-og', id: '9-9-9', fn: '34:41'}
           ]
         },
         {
@@ -377,7 +381,8 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', ff: '/egame/1', fn: '2:203:iframe:/egame/1'},
-            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', ff: '/egame/3', fn: '21:203:iframe:/egame/3'}
+            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', ff: '/egame/3', fn: '21:203:iframe:/egame/3'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:37'}
           ]
         },
         {
@@ -415,7 +420,8 @@ export default {
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'}
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'}
           ]
         },
         {
@@ -1625,7 +1631,7 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, 'Microsoft YaHei'
-  
+
   pre
     font-family Arial, Helvetica, sans-serif, 'Microsoft YaHei'
 
@@ -1791,7 +1797,7 @@ export default {
   transform translateY(100%)
 
 
-  
+
 
 
 
@@ -1815,11 +1821,11 @@ export default {
     &[class*=-enter]
       transform none
 
-#app.appunlogin.classic.v2 
+#app.appunlogin.classic.v2
   .new-home .dialog-container .help-page.dialog-page
   .new-home .dialog-container .activity-page.dialog-page
     left -.2rem !important
   .lefter.help
     display none !important
-  
+
 </style>
