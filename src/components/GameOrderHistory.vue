@@ -13,7 +13,7 @@
 
 
       el-table-column(label="模式" width="80")
-        template(scope="scope") {{ scope.row.modes === 1 ? '元': scope.row.modes === 2 ? '角': scope.row.modes === 3 ? '分': '厘' }}
+        template(scope="scope") {{ scope.row.modes === 1 ? '2元': scope.row.modes === 2 ? '2角': scope.row.modes === 3 ? '2分': scope.row.modes === 4 ? '2厘' : '1元' }}
 
       el-table-column(prop="multiple" label="倍投" width="80" align="right")
 

@@ -170,7 +170,7 @@ export default {
       show: false,
       row: {prizeCode: ''},
       expandList: [],
-      MODES: ['元', '角', '分', '厘'],
+      MODES: ['2元', '2角', '2分', '2厘', '1元'],
       fullCode: '获取失败...',
       pageSize: Number(window.localStorage.getItem('gron')) || 5,
       p: 1,
