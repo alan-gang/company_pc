@@ -8,10 +8,6 @@ yarn-error.log*
 tests/**/coverage/
 tests/e2e/reports
 selenium-debug.log
-<<<<<<< HEAD
-.vscode
-src/mock/*
-=======
 
 # Editor directories and files
 .idea
@@ -24,4 +20,3 @@ src/mock/*
 
 package-lock.json
 yarn.lock
->>>>>>> 577ea73ce162fed642e9bdb1556e9aaa313e4c8c

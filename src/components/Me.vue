@@ -244,7 +244,8 @@ export default {
             lgAmount: data.lgAmount || 0,
             xyAmount: data.xyAmount || 0,
             xyqpAmount: data.xyqpAmount || 0,
-            saAmount: data.saAmount || 0
+            saAmount: data.saAmount || 0,
+            saEgameAmount: data.saEgameAmount || 0
           })
           // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
