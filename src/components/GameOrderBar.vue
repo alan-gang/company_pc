@@ -155,10 +155,11 @@ export default {
       // MAXTIMES: 1000000000,
       cIndex: 0,
       currencies: [
-        {title: '元', value: 1, model: 1},
-        {title: '角', value: 0.1, model: 2},
-        {title: '分', value: 0.01, model: 3},
-        {title: '厘', value: 0.001, model: 4}
+        {title: '2元', value: 1, model: 1},
+        {title: '1元', value: 0.5, model: 5},
+        {title: '2角', value: 0.1, model: 2},
+        {title: '2分', value: 0.01, model: 3},
+        {title: '2厘', value: 0.001, model: 4}
       ],
       p: 0,
       ts: [1, 3, 5, 10, 20, 50],

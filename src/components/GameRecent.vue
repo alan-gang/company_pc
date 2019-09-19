@@ -324,7 +324,13 @@ export default {
         width .24rem
         margin-right .12rem
 
-
+    &.K3
+      .caa
+      .cab
+        width 25%
+      .cac
+        width 50%
+      
 
 
 
