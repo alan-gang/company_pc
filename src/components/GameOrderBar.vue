@@ -121,7 +121,7 @@
       span(v-show="HC6") 快速金额
       el-input-number.input.times.my-center(ref="ft" style="width: .5rem;  " v-model="ft" v-bind:min="0"  v-show="HC6" @click.native="focusInputInside($refs['ft'])")
       .ds-button-group(style="vertical-align: middle")
-        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 3 && index !== 1)") {{ c.title.slice(1) }}
 
     el-col.right(:span=" 12 " v-if=" HC6 " style="line-height: .5rem")
       
