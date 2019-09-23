@@ -2,6 +2,9 @@
     el-row.row(:class="{pd25: isDice}" style="clear: both" v-bind:nrt=" row.title ")
       el-col.title(:span="2" v-if="titleSpan > 0" v-bind:class="'span-' + titleSpan" )
         span {{ row.title }}
+        .inlb.yiloutitle(v-if=" CMCH ")
+          div(v-show=" user.showYL ") 当前遗漏
+          div(v-show=" user.showLR ") {{ user.lengre.slice(0, -1) }}期冷热
 
       el-col(:span=" (row.innertitle || row.innertitleCopy) && (row.rowClass || '').indexOf('half-row') === -1 ? 24 : 24")
         el-row(v-if="row.innertitle || row.innertitleCopy")
@@ -11,7 +14,8 @@
           el-col.numbers(:span="24" v-bind:class="{'has-btn': row.buttons && !row.btnClass}" )
             el-row(:class=" 'len_' + numbers.length ")
               // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
-              el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
+              
+              el-col.circle(:span="2"  v-for=" (n, index) in numbers "  v-bind:class="[{lengre: CMCH && user.showLR, re: Lengre[index] * 1 === Math.max.apply(null, Lengre), leng: Lengre[index] * 1 === Math.min.apply(null, Lengre), withyilou: CMCH && (user.showYL || user.showLR), yilouorlengre: !user.showYL || !user.showLR, hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
                 // 正常的显示
                 span.after(v-if=" n.after ") {{ n.after }}
                 span.the-number(v-if="showTitle" v-bind:class="[{ selected: n.selected, circle: row.class === 'ds-icon-PK10'}, 'len-' + n.title.length]" ) {{ n.title }}
@@ -33,6 +37,11 @@
                   // input
                   el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times "  v-if=" n.input " v-bind:max="10000" style="width: .7rem; margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @mouseleave.native="ntimeChange(n) ")
 
+                .inlb.yiloucontent(v-if="CMCH")
+                  div(v-show=" user.showYL " v-bind:class=" { c_e: Yilou[index] * 1 === Math.min.apply(null, Yilou), c_p: Yilou[index] * 1 === Math.max.apply(null, Yilou) } ") {{ Yilou[index] }}
+                  div(v-show=" user.showLR " v-bind:class=" { c_e: Lengre[index] * 1 === Math.max.apply(null, Lengre), c_p: Lengre[index] * 1=== Math.min.apply(null, Lengre)  } ") {{ Lengre[index] }}
+
+
 
 
 
@@ -44,10 +53,19 @@
   import { padStart, isPrime } from '../util/base'
   import Dices from './Dices'
   import { getNumberOfAnimal } from '../util/Number'
+  import store from '@/store'
   export default {
-    props: ['row', 'rowIndex', 'titleSpan', 'gameid'],
+    props: ['row', 'rowIndex', 'titleSpan', 'gameid', 'CMCH'],
     data () {
       return {
+        user: store.state.user,
+        yilouconfig: {
+          '万位': 'w',
+          '千位': 'q',
+          '百位': 'b',
+          '十位': 's',
+          '个位': 'g'
+        },
         // 显示遗漏号码
         after: false,
         numbers: [],
@@ -134,6 +152,27 @@
       },
       EVEN () {
         return this.numbers.length % 2 === 0 ? 0 : 1
+      },
+      Yilou () {
+        if (!this.CMCH) return []
+        else return this.CMCH.miss[this.rowIndex]
+        // let z = this.yilouconfig[this.row.title] ? this.CMCH.miss[this.yilouconfig[this.row.title]] : this.CMCH.miss
+        // return Object.keys(z).sort((a, b) => {
+        //   return Number(a.slice(1)) - Number(b.slice(1))
+        // }).map(x => {
+        //   return z[x]
+        // })
+      },
+      Lengre () {
+        if (!this.CMCH) return []
+        else return this.CMCH[this.user.lengre][this.rowIndex]
+
+        // let z = this.yilouconfig[this.row.title] ? this.CMCH[this.user.lengre][this.yilouconfig[this.row.title]] : this.CMCH[this.user.lengre]
+        // return Object.keys(z).sort((a, b) => {
+        //   return Number(a.slice(1)) - Number(b.slice(1))
+        // }).map(x => {
+        //   return z[x]
+        // })
       }
     },
     watch: {
@@ -375,6 +414,53 @@
   }
 </script>
 
+
+<style lang="stylus" scoped>
+.yiloutitle
+  font-weight normal
+  color #999
+  font-size .12rem
+  line-height .2rem
+  text-align left
+  width 150%
+  padding .0rem .1rem
+  vertical-align top
+  margin-top .03rem 
+
+// isDice
+.row.pd25 .yiloutitle
+  margin-top .15rem
+  
+  
+.yiloucontent
+  color #999
+  font-size .12rem
+  position absolute
+  top 100%
+  left 0
+  right 0
+  text-align center
+  line-height 1.5
+  padding .05rem 0
+.withyilou
+  margin-bottom .4rem !important
+  &.yilouorlengre
+    margin-bottom .2rem !important
+
+.numbers
+  .el-col.default:nit(.square)
+    &.lengre.re
+      background-image url(../assets/yllr/ballbg_hot.gif)
+      background-size cover
+      color #fff
+    &.lengre.leng
+      background-image url(../assets/yllr/ballbg_cold.gif)
+      background-size cover
+    color #fff
+    
+  
+</style>
+
 <style lang="stylus" scoped>
   .innertitle
     color #666 !important
@@ -504,6 +590,7 @@
       font-weight bold
       color #333
       position absolute
+      padding-top .03rem
       & + .el-col
           padding-left .75rem
       &.span-1
@@ -525,6 +612,7 @@
         padding-right .15rem
         font-size .16rem
         color #999
+        margin-top  .1rem
         // background-color #d9d9d9
         // radius()
         // border-top-right-radius .20rem 50%
