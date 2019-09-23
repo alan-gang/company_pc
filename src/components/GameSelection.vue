@@ -1,7 +1,7 @@
 <template lang="jade">
   .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } " style="padding-left: .05rem; padding-right: .1rem")
     
-    GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
+    GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] " v-bind:CMCH="CMCH")
     
     //- column - selected - bar
     .column-action-bar(v-if=" showColumnActionBar ")
@@ -51,7 +51,7 @@
   import WN from '../util/WN'
   import { C, removeDuplicate } from '../util/base'
   export default {
-    props: ['type', 'gameid'],
+    props: ['type', 'gameid', 'CMCH'],
     data () {
       return {
         defaultRowToRowJoin: '|',
