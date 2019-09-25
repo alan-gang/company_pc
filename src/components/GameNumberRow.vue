@@ -430,7 +430,8 @@
 // isDice
 .row.pd25 .yiloutitle
   margin-top .15rem
-  
+.row[nrt="三连号"] .yiloutitle
+  margin-top .65rem
   
 .yiloucontent
   color #999
