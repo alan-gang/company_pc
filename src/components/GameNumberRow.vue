@@ -449,7 +449,7 @@
     margin-bottom .2rem !important
 
 .numbers
-  .el-col.default:not(.square)
+  .el-col.default:not(.square):not(.selected)
     &.lengre.re
       background-image url(../assets/yllr/ballbg_hot.gif)
       background-size cover
