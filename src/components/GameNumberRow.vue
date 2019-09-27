@@ -449,7 +449,7 @@
     margin-bottom .2rem !important
 
 .numbers
-  .el-col.default:nit(.square)
+  .el-col.default:not(.square)
     &.lengre.re
       background-image url(../assets/yllr/ballbg_hot.gif)
       background-size cover
@@ -457,7 +457,7 @@
     &.lengre.leng
       background-image url(../assets/yllr/ballbg_cold.gif)
       background-size cover
-    color #fff
+      color #fff
     
   
 </style>
