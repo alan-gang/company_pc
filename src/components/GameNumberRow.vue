@@ -458,6 +458,16 @@
       background-image url(../assets/yllr/ballbg_cold.gif)
       background-size cover
       color #fff
+      
+  .el-col.ds-icon-PK10:not(.selected) 
+    &.lengre.re .the-number
+      background-image url(../assets/yllr/ballbg_hot.gif)
+      background-size cover
+      color #fff
+    &.lengre.leng .the-number
+      background-image url(../assets/yllr/ballbg_cold.gif)
+      background-size cover
+      color #fff
     
   
 </style>
