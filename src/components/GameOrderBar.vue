@@ -361,6 +361,9 @@ export default {
         this.time--
       }
     }, 1000)
+    if (this.ft >= 0) {
+      this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+    }
   },
   beforeDestroy () {
     clearInterval(this.interval)

@@ -897,13 +897,14 @@
     // 按钮区
     .action-buttons
       &:not(.block)
+        top 0
         right 0
         position absolute
         max-width 2.2rem
         text-align right
         
       .ds-button
-        width .3rem
+        width .27rem
         line-height .3rem
         padding 0 
         margin 0 .01rem
