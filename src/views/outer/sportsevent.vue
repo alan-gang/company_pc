@@ -11,8 +11,8 @@
             </div>
             <div class="gametext">
               <div class="gametitle">沙巴体育</div>
-              <div>余额: 9999.999</div>
-              <div class="sub">转账</div>
+              <div>余额: {{numberWithCommas(user.sbmoney)}}</div>
+              <div class="sub" v-on:click="goTransferAccounts()">转账</div>
             </div>
           </div>
         </el-col>
@@ -23,8 +23,8 @@
             </div>
             <div class="gametext">
               <div class="gametitle">平博体育</div>
-              <div>余额: 9999.999</div>
-              <div class="sub">转账</div>
+              <div>余额: {{numberWithCommas(user.pbAmount)}}</div>
+              <div class="sub" v-on:click="goTransferAccounts()">转账</div>
             </div>
           </div>
         </el-col>
@@ -51,10 +51,15 @@
 </template>
 
 <script>
+import store from '../../store'
+import { numberWithCommas, digitUppercase } from '../../util/Number'
 export default {
   props: [],
   data() {
-    return {};
+    return {
+      user: store.state.user,
+      numberWithCommas: numberWithCommas
+    }
   },
   watch: {},
   created() {
@@ -62,7 +67,11 @@ export default {
   },
   mounted() {},
   beforeDestroy() {},
-  methods: {}
+  methods: {
+    goTransferAccounts() {
+      this.$router.push({path: '/me/2-1-3'})
+    }
+  }
 };
 </script>
 <style lang="less">

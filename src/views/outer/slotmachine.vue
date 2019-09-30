@@ -10,28 +10,32 @@
         <swiper class="my-swiper" v-bind:options="swiperOption" ref="mySwiper">
           <swiper-slide class="item" v-bind:class="{active: index === swiperIndex}" v-for="(nav, index) in gameList" v-bind:key="nav" v-on:click.native="swiperIndex = index">
             <div class="top">
-            <span class="name">{{nav}}</span>
-            <span class="go-lobby" v-on:click="open(gameInfo[1])">进入大厅</span>
-          </div>
-          <div class="bottom">
-            账户余额：<span class="balance">¥{{numberWithCommas(user.uwinmoney)}}</span>
-            <el-icon name="refresh"></el-icon>
-            <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
-          </div>
+              <span class="name">{{nav}}</span>
+              <span class="go-lobby" v-on:click="open(gameInfo[index + 1])">进入大厅</span>
+            </div>
+            <div class="bottom">
+              账户余额：<span class="balance">¥{{numberWithCommas(user[mList[index]])}}</span>
+              <el-icon name="refresh"></el-icon>
+              <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
+            </div>
           </swiper-slide>
         </swiper>
       </div>
-      <div class="hot-game">
+      <div class="game-group">
         <div class="group hot">
           <h3 class="title">热门游戏</h3>
           <div class="game-list">
-
+            <div class="game" v-for="(temp, index) in new Array(5)" v-bind:key="index">
+              <p class="name">急速百家乐</p>
+            </div>
           </div>
         </div>
         <div class="group more">
           <h3 class="title">更多游戏</h3>
           <div class="game-list">
-
+            <div class="game" v-for="(temp, idx) in new Array(10)" v-bind:key="idx">
+              <p class="name">急速百家乐</p>
+            </div>
           </div>
         </div>
       </div>
@@ -58,11 +62,17 @@ export default {
       user: store.state.user,
       numberWithCommas: numberWithCommas,
       gameList: ['PT老虎机', 'AG老虎机', 'BG老虎机', 'LG老虎机', 'SA老虎机'],
+      mList: ['ptmoney', 'agmoney', 'bgmoney', 'lgAmount', 'saEgameAmount'],
       swiperOption: {
         slidesPerView: 4,
         spaceBetween: 12,
-        pagination: '.pagination',
-        paginationClickable: true
+        onSlideChangeStart: swiper => {
+          if (swiper.realIndex) {
+            this.flag = true
+          } else {
+            this.flag = false
+          }
+        }
       },
       swiperIndex: 0
     };
@@ -71,7 +81,7 @@ export default {
   computed: {
     gameInfo() {
       return this.menus.find(item => {
-        return item.title === '电竞'
+        return item.title === '老虎机'
       }).info
     }
   },
@@ -154,7 +164,7 @@ export default {
   // padding-top: 0.2rem;
   // padding-bottom: 0.2rem;
   width: 100%;
-  background url("~@/assets/outer/slotmachine/1.jpg") no-repeat center 0 #18171b
+  background url("~@/assets/outer/slotmachine/1.jpg") no-repeat center 0 #191c25
   background-size auto 810px
   .cw {
     z-index: 1;
@@ -238,7 +248,70 @@ export default {
           float right
           cursor pointer
           padding 0 12px
-
-
+  .game-group
+    .group
+      margin-top 20px
+      .title
+        padding-left 46px
+        color #fff
+        font-size 18px
+        background-repeat no-repeat
+        background-position 8px 3px
+        line-height 40px
+        margin-bottom 20px
+      &.hot .title
+        background-image url('~@/assets/outer/slotmachine/7.png')
+      &.more .title
+        background-image url('~@/assets/outer/slotmachine/8.png')
+    .game-list
+      .game
+        display inline-block
+        width 230px
+        height 200px
+        box-sizing border-box
+        padding-top 150px
+        margin-right 10px
+        background-repeat no-repeat
+        background-position left top
+        margin-bottom 10px
+        &:last-child
+          margin-right 0
+        .name
+          line-height 50px
+          background #fff
+          text-align center
+          color #333
+    .hot .game
+      &:nth-child(1)
+        background-image url('~@/assets/outer/slotmachine/g1.jpg')
+      &:nth-child(2)
+        background-image url('~@/assets/outer/slotmachine/g2.jpg')
+      &:nth-child(3)
+        background-image url('~@/assets/outer/slotmachine/g3.jpg')
+      &:nth-child(4)
+        background-image url('~@/assets/outer/slotmachine/g4.jpg')
+      &:nth-child(5)
+        background-image url('~@/assets/outer/slotmachine/g5.jpg')
+    .more .game
+      &:nth-child(1)
+        background-image url('~@/assets/outer/slotmachine/g6.jpg')
+      &:nth-child(2)
+        background-image url('~@/assets/outer/slotmachine/g7.jpg')
+      &:nth-child(3)
+        background-image url('~@/assets/outer/slotmachine/g8.jpg')
+      &:nth-child(4)
+        background-image url('~@/assets/outer/slotmachine/g9.jpg')
+      &:nth-child(5)
+        background-image url('~@/assets/outer/slotmachine/g10.jpg')
+      &:nth-child(6)
+        background-image url('~@/assets/outer/slotmachine/g11.jpg')
+      &:nth-child(7)
+        background-image url('~@/assets/outer/slotmachine/g12.jpg')
+      &:nth-child(8)
+        background-image url('~@/assets/outer/slotmachine/g13.jpg')
+      &:nth-child(9)
+        background-image url('~@/assets/outer/slotmachine/g14.jpg')
+      &:nth-child(10)
+        background-image url('~@/assets/outer/slotmachine/g15.jpg')
 
 </style>

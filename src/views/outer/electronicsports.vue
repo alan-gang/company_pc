@@ -39,18 +39,18 @@
 
       <div class="game-list">
         <div class="t-l">
-          <img src="../../assets/outer/electronicsports/17.jpg"/>
+          <img alt="DOTA2" src="../../assets/outer/electronicsports/17.jpg"/>
         </div>
         <div class="t-r">
-          <img src="../../assets/outer/electronicsports/18.jpg" />
-          <img class="f-l" src="../../assets/outer/electronicsports/19.jpg" />
-          <img src="../../assets/outer/electronicsports/20.jpg" class="f-r">
+          <img alt="王者荣耀" src="../../assets/outer/electronicsports/18.jpg" />
+          <img alt="守望先锋" class="f-l" src="../../assets/outer/electronicsports/19.jpg" />
+          <img alt="星际争霸2" src="../../assets/outer/electronicsports/20.jpg" class="f-r">
         </div>
         <div class="b-l">
-          <img src="../../assets/outer/electronicsports/21.jpg" alt="">
+          <img alt="彩虹六号" src="../../assets/outer/electronicsports/21.jpg">
         </div>
         <div class="b-r">
-          <img src="../../assets/outer/electronicsports/22.jpg" alt="">
+          <img alt="CSGO" src="../../assets/outer/electronicsports/22.jpg">
         </div>
       </div>
     </div>

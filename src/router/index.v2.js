@@ -38,6 +38,10 @@ let router = new VueRouter({
         {path: '/electronicsports', meta: {rl: true}, component: resolve => require(['../views/outer/electronicsports'], resolve)},
         //三方 老虎机
         {path: '/slotmachine', meta: {rl: true}, component: resolve => require(['../views/outer/slotmachine'], resolve)},
+        //三方  棋牌
+        {path: '/chesspage', meta: {rl: true}, component: resolve => require(['../views/outer/chesspage'], resolve)},
+         //三方  真人
+        {path: '/recreation', meta: {rl: true}, component: resolve => require(['../views/outer/recreation'], resolve)},
         {
           path: '/egame/:tabIndex',
           meta: {
