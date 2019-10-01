@@ -209,7 +209,7 @@ export default {
   computed: {
     // current MCH
     CMCH () {
-      return this.MCH[this.methodid]
+      return this.methodidtype === '1' ? this.MCH[this.methodid] : null
     },
     gameid () {
       return this.page.gameid
