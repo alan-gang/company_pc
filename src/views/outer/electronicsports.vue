@@ -119,6 +119,9 @@ export default {
 .electronicsports {
   height: ceil(900px + 1240px);
   position: relative;
+  .cw {
+    padding-top: 810px;
+  }
   .titleimg {
     position: absolute;
     top: 210px;
@@ -152,7 +155,6 @@ export default {
     width: 1300px;
     margin: 0 auto;
     height: 100%;
-    padding-top: 810px;
     box-sizing: border-box;
   }
 }

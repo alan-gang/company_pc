@@ -1,12 +1,12 @@
 <template lang="jade">
   section.menu-root
     section.menu.content-width
-      el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide") 
+      el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide")
 
 
-            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub && !menu.temp" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub && !menu.temp" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url, menu)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
               .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
-              
+
 
             router-link.icon-button.after-title(:to="menu.href"   slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle") {{ menu.title }}
 
@@ -29,14 +29,14 @@
                 dt
                   span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
 
-                dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
+                dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide")
 
-                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }} 
-                  
-                  // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
+                  .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }}
+
+                  // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ")
                     span.text-gold {{ item.pretitle }}
                     | {{ item.title }}
-      
+
       .icon-button.after-title(slot="reference"  v-for=" (menu, index) in menus" v-show="!menu.href && !menu.removed && menu.hideSub"  @click="open(menu.groups[0].items[0])" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
 
 </template>
@@ -49,7 +49,9 @@ export default {
   data () {
     return {
       // Me: store.state.user,
-      shows: {}
+      shows: {},
+      // 三方页
+      sfMap: ['', '', '/chesspage', '/recreation', '/slotmachine', '/sports', '/electronicsports', '/fishing']
     }
   },
   watch: {
@@ -72,9 +74,21 @@ export default {
         })
       }
     },
-    openChat (url) {
+    openChat (url, menu) {
       if (url === 'chat') {
         window.accessAngular.open()
+      } else {
+        let map = {
+          '棋牌': '/chesspage',
+          '真人': '/recreation',
+          '老虎机': '/slotmachine',
+          '体育': '/sportsevent',
+          '电竞': '/electronicsports',
+          '捕鱼': '/fishing'
+        }
+        if (map[menu.title]) {
+          this.$router.push({path: map[menu.title]})
+        }
       }
     },
     __openThirdPart (item) {
@@ -112,7 +126,7 @@ export default {
 
 <style lang="stylus">
   @import '../var.stylus'
- 
+
 body.cb.v2
   .footer-popover
     border-top 4px solid BLUE
@@ -130,7 +144,7 @@ body.cb.v2
       &:after
         border-bottom-color BLUE
 
-      
+
     .submenu.me
     .submenu.help
       max-width 4.2rem
@@ -219,8 +233,8 @@ body.cb.v2
           height .2rem
           top 0
           right 0
-        
-          
+
+
         &.sign.odd:after
           content '奇数'
           background DANGER
@@ -230,10 +244,10 @@ body.cb.v2
           height .2rem
           content '偶数'
           background OBLUE
-          
+
         &.sign.old:after
           content '怀旧'
-          
+
      .submenu
         padding-left 1rem
         &.me:first-child
@@ -243,12 +257,12 @@ body.cb.v2
         width 1.45rem
       dd:not(.inner-submenu) .ds-button.card
         width 1.4rem
-        
+
       dt
         display none
 
       background url(../assets/v2/nav_icon_qt.png) 0 center no-repeat
-    
+
       &.SSC
         background url(../assets/v2/nav_icon_ssc.png) 0 center no-repeat
         & + .SSC
@@ -270,12 +284,12 @@ body.cb.v2
         min-height .36rem
         background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
 
-  
+
   .footer-popover
     .infos .info
       display inline-block
-      padding-top .54rem 
-      padding-bottom .5rem 
+      padding-top .54rem
+      padding-bottom .5rem
       vertical-align middle
       &:not(:first-child)
         border-left 3px solid transparent
@@ -294,14 +308,14 @@ body.cb.v2
       &.ds-icon-logo-gd
         background-image url(../assets/v2/logo_gd_big.png)
       &.ds-icon-logo-pt
-        background-image url(../assets/v2/logo_pt_big.png) 
+        background-image url(../assets/v2/logo_pt_big.png)
       &.ds-icon-logo-saba
         background-image url(../assets/v2/logo_ibc_big.png)
       &.ds-icon-logo-spb
         background-image url(../assets/v2/logo_sb_big.png)
       &.ds-icon-logo-ky
         background-image url(../assets/v2/logo_ky_big.png)
-      
+
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)
       &.ds-icon-logo-xy
@@ -310,26 +324,26 @@ body.cb.v2
         background-image url(../assets/newhome/logo_vg_big.png)
       &.ds-icon-logo-ds
         background-image url(../assets/newhome/logo_ds_big.png)
-      
+
       &.ds-icon-logo-uwin
         background-image url(../assets/v2/logo_uw_big.png)
       &.ds-icon-logo-xa
         background-image url(../assets/v2/logo_xa_big.png)
-      
+
       &.ds-icon-logo-pb
         background-image url(../assets/newhome/logo_pb_big.png)
-      
+
       &.ds-icon-logo-lg
         background-image url(../assets/newhome/logo_lg_big.png)
 
       &.ds-icon-logo-sa
         background-image url(../assets/newhome/logo_sa_big.png)
-      
 
-        
-        
-        
-              
+
+
+
+
+
     .info
       padding 2*PW
       padding-left 2rem
@@ -337,7 +351,7 @@ body.cb.v2
       line-height .45rem
       h4
         color #999
-    
+
     .ds-icon-game-bg1
       background url(../assets/v2/001.png) .2rem center no-repeat
     .ds-icon-game-bg2
@@ -348,16 +362,16 @@ body.cb.v2
       background url(../assets/v2/004.png) .2rem center no-repeat
     .ds-icon-game-bg5
       background url(../assets/v2/005.png) .2rem center no-repeat
-    
+
     .ds-icon-game-egaming
       background url(../assets/v2/006.png) left center no-repeat
-    
+
     .ds-icon-game-sports
       background url(../assets/v2/sports.png) .2rem center no-repeat
     .ds-icon-vipclub
       padding-left 3rem
       background url(../assets/v2/vipclub.png) left center no-repeat
-      
+
 
 </style>
 
@@ -403,7 +417,7 @@ body.cb.v2
         background DANGER
         font-size .12rem
         radius(50%)
-        
+
       &:hover
         background-color rgba(255, 255, 255, .15)
 
@@ -417,7 +431,7 @@ body.cb.v2
       &:hover .el-icon--right.el-icon-arrow-down
         transform rotateZ(180deg) translateX(1px) translateY(3px)
 
-      
+
   #app.cb.v2 .new-header section
     display inline
     background none
@@ -431,9 +445,9 @@ body.cb.v2
         background-color rgba(255,255,255,.5)
       .el-icon--right.el-icon-arrow-down
         color #666 !important
-      
-      
-          
 
-    
+
+
+
+
 </style>
