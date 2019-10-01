@@ -1303,7 +1303,7 @@ export default {
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
         Socket.sockets.user && this.connected(Socket.sockets.user)
-        this.showMenuGuide = !window.localStorage.getItem('menu_guide')
+        // this.showMenuGuide = !window.localStorage.getItem('menu_guide') // 关闭新功能引导
       })
       // this.canGetIngots()
       if (this.$route.path.indexOf('game') !== -1) this.__setCall({fn: '__upDatePoints', callId: undefined})
