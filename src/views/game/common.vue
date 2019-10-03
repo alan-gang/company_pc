@@ -1185,6 +1185,7 @@ export default {
         this.allLuckyNumbers.splice(0, 0, x)
         this.__setCall({fn: '__orderlist'})
         this.updateFromSocket = true
+        this.codeMissColdHeat()
       }
     }
   },
