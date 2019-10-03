@@ -26,14 +26,14 @@
       .relative
         .inlb(style="width: 75%")
           <!-- 游戏菜单 -->
-          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:getUpTitle="getUpTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
+          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:getUpTitle="getUpTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid " v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
           GameKQOrderBar.onbefore(v-bind:currency="currency" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
 
 
           <!-- 选号区 -->
-          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs" v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
           GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
@@ -201,10 +201,16 @@ export default {
       allLuckyNumbers: [],
       notify: null,
       notifyshow: true,
-      hasUnable: false
+      hasUnable: false,
+      // missCodeHot
+      MCH: {}
     }
   },
   computed: {
+    // current MCH
+    CMCH () {
+      return this.methodidtype === '1' ? this.MCH[this.methodid] : null
+    },
     gameid () {
       return this.page.gameid
     },
@@ -467,6 +473,7 @@ export default {
           this.PNPER = data.openedCount
           this.FNPER = data.dailyCount
           this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
+          this.codeMissColdHeat()
         } else {
           // this.$message.error({message: '当前奖期获取失败！'})
           this.$modal.warn({
@@ -480,6 +487,26 @@ export default {
         // error
         this.$message.error({message: '当前奖期获取失败！'})
         this.timeout += 0.05
+      })
+    },
+    // lotteryId=17
+    codeMissColdHeat () {
+      this.$http.mypost(api.codeMissColdHeat, {lotteryId: this.page.gameid}).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          delete data.success
+          for (const k in data) {
+            if (k.indexOf('|') !== -1) {
+              k.split('|').forEach(x => {
+                data[x] = data[k]
+              })
+            }
+          }
+          this.MCH = data
+        }
+      }, (rep) => {
+        // error
+        this.$message.error({message: '当前遗漏和冷热信息获取失败！'})
       })
     },
     __upDatePoints () {
@@ -1158,6 +1185,7 @@ export default {
         this.allLuckyNumbers.splice(0, 0, x)
         this.__setCall({fn: '__orderlist'})
         this.updateFromSocket = true
+        this.codeMissColdHeat()
       }
     }
   },

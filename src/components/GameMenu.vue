@@ -38,6 +38,21 @@
       label(@click=" showIns = !showIns ")
         .ds-checkbox(:class=" {active: showIns} " ) 
         | 玩法说明
+      
+      template(v-if=" CMCH ")
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        label(@click=" store.actions.setUser({showYL: !user.showYL}) ")
+          .ds-checkbox(:class=" {active: user.showYL} " ) 
+          | 当前遗漏
+
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        label(@click=" store.actions.setUser({showLR: !user.showLR}) " style="display: inline-block; width: 100px")
+          .ds-checkbox(:class=" {active: user.showLR} " ) 
+          | {{ user.lengre.slice(0, -1) }}期冷热
+        
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        .ds-button-group.inlb(style="margin: 0; border: 0")
+          .ds-button.x-small(style="margin: 0" v-for=" (x, i) in lrbtns "  v-bind:class=" {active: user.lengre === (x + 'q') } " @click=" store.actions.setUser({lengre: (x + 'q') }) ") {{ x }}期
 
       .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random', args: {}}) " style="height: .26rem; line-height: .26rem") 机选
 
@@ -50,10 +65,14 @@
 </template>
 
 <script>
+  import store from '@/store'
   export default {
-    props: ['type', 'menus', 'getTitle', 'getUpTitle', 'mt', 'gameid', 'gameType'],
+    props: ['type', 'menus', 'getTitle', 'getUpTitle', 'mt', 'gameid', 'gameType', 'CMCH'],
     data () {
       return {
+        store: store,
+        user: store.state.user,
+        lrbtns: [100, 50, 20],
         mmt: 0,
         t: -1,
         historyItems: JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]'),
@@ -121,6 +140,20 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+.ds-button-group
+  .ds-button:not(:last-child)
+    border-right 0 !important
+  .ds-button.active
+    background-color #444
+    color #fff
+  .ds-button
+    // height .25rem
+    // line-height .25rem
+  
+    
+</style>
 
 <style lang="stylus" scoped>
 
