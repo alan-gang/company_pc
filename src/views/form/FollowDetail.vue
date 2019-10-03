@@ -178,7 +178,7 @@
         STATUS: ['进行中', '已取消', '已完成'],
         STATUSCLASS: ['text-danger', 'text-grey', 'text-green'],
         ACCOUNT: store.state.user.account,
-        MODES: ['元', '角', '分', '厘'],
+        MODES: ['2元', '2角', '2分', '2厘', '1元'],
         // STATUS: ['进行中', '已完成', '已取消'],
         STATUSS: ['未生成', '已生成', '已取消'],
         STATUSSCLASS: ['text-black', 'text-green', 'text-grey'],
