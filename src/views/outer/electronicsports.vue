@@ -139,7 +139,7 @@ export default {
   }
 }
 
-.outer-Common {
+.outer-Common.electronicsports {
   position: relative !important;
   background-repeat: no-repeat;
   // background-size: cover;

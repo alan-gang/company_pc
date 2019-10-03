@@ -11,8 +11,8 @@
             <img class="gametextimg" src="../../assets/outer/fishing/8.png" />
           </div>
           <div class="gametext">
-            余额: 9999.999
-            <div class="sub">转账</div>
+            余额: {{numberWithCommas(user.agmoney)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -21,8 +21,8 @@
             <img class="gametextimg" src="../../assets/outer/fishing/11.png" />
           </div>
           <div class="gametext">
-            余额: 9999.999
-            <div class="sub">转账</div>
+            余额: {{numberWithCommas(user.bgmoney)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -31,8 +31,8 @@
             <img class="gametextimg" src="../../assets/outer/fishing/13.png" />
           </div>
           <div class="gametext">
-            余额: 9999.999
-            <div class="sub">转账</div>
+            余额: {{numberWithCommas(user.ptmoney)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
           </div>
         </el-col>
       </el-row>
@@ -41,10 +41,15 @@
 </template>
 
 <script>
+import store from '../../store'
+import { numberWithCommas, digitUppercase } from '../../util/Number'
 export default {
   props: [],
   data() {
-    return {};
+    return {
+      user: store.state.user,
+      numberWithCommas: numberWithCommas
+    };
   },
   watch: {},
   created() {
@@ -52,7 +57,11 @@ export default {
   },
   mounted() {},
   beforeDestroy() {},
-  methods: {}
+  methods: {
+    goTransferAccounts() {
+      this.$router.push({path: '/me/2-1-3'})
+    }
+  }
 };
 </script>
 <style lang="less">
