@@ -13,7 +13,7 @@
             span.text-blue {{ promotionCode }}
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
-        template(v-if="!(data.length === 1 && !Number(data[0].$))")
+        template(v-if="!(data.length === 1 && !Number(data[0].$$))")
           .pd_25
             p.ft18.pb_25 推广链接设置
             .mh_500.w_700.mg_0a.t_l
