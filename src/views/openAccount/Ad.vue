@@ -18,7 +18,7 @@
             p.ft18.pb_25 推广链接设置
             .mh_500.w_700.mg_0a.t_l
               template(v-for=" (v, i) in  data")
-                .mb_20.wp_50.inlb.v_t(v-if="Number(v.$) > 0" v-bind:key="i")
+                .mb_20.wp_50.inlb.v_t(v-if="Number(v.$$) > 0" v-bind:key="i")
                   span.text-danger.pd_5 *
                   span(v-if=" !v.groupname ") 彩票返点
                   span(v-else) {{ v.groupname  }}返水
@@ -126,11 +126,14 @@
             data.back.unshift({
               backwater: data.userPoint
             })
+            // $$ 保存初始值, 根据初始值是否大于零来控制是否展示
             data.back.forEach((x, i) => {
               x.$ = (x.backwater - x.value).toFixed(4) * 1000
+              x.$$ = x.$
               x.$s = Math.ceil(x.backwater * (i ? 10000 : 10))
             })
             data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1)
+            data.back[0].$$ = data.back[0].$
             this.data = data.back
           } else this.$message.error(data.msg || '自动注册链接获取失败！')
         }, (rep) => {
