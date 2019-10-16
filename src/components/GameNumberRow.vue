@@ -15,7 +15,7 @@
             el-row(:class=" 'len_' + numbers.length ")
               // el-col.circle(:span="2" v-for=" (n, index) in numbers " v-bind:class="[{ hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.noClick && leaveSelect(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.noClick && leaveSelect(index === 0 ? 0 : index - 1) && hover(index) ") 
               
-              el-col.circle(:span="2"  v-for=" (n, index) in numbers "  v-bind:class="[{lengre: CMCH && user.showLR, re: Lengre[index] * 1 === Math.max.apply(null, Lengre), leng: Lengre[index] * 1 === Math.min.apply(null, Lengre), withyilou: CMCH && (user.showYL || user.showLR), yilouorlengre: !user.showYL || !user.showLR, hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)") 
+              el-col.circle(:span="2"  v-for=" (n, index) in numbers "  v-bind:class="[{lengre: CMCH && user.showLR, re: Lengre[index] * 1 === Math.max.apply(null, Lengre), leng: Lengre[index] * 1 === Math.min.apply(null, Lengre), withyilou: CMCH && (user.showYL || user.showLR), yilouorlengre: !user.showYL || !user.showLR, hover: n.hover, selected: n.selected, signal: n.signal, 'has-after': n.after }, row.class || 'default', n.class, gameidClass]" @mouseover.native=" row.hover && hover(index) " @mouseleave.native=" row.hover && leave(index) " @click.native=" !row.noClick && toggle(n) "  @keyup.tab.native.stop=" row.hover && leave(index === 0 ? 0 : index - 1) && hover(index) " @keyup.enter.native.stop=" row.hover && leaveSelect(index)" v-bind:nrt_title="n.title") 
                 // 正常的显示
                 span.after(v-if=" n.after ") {{ n.after }}
                 span.the-number(v-if="showTitle" v-bind:class="[{ selected: n.selected, circle: row.class === 'ds-icon-PK10'}, 'len-' + n.title.length]" ) {{ n.title }}
@@ -1227,4 +1227,31 @@
     //       width 0.25s ease-out 0.5s, // And then exanding width
     //       height 0.25s ease-out 0.75s; // And finally height
     //   }
+</style>
+<style lang="stylus">
+.numbers .el-col.default
+  &[nrt_title="龙"]
+    background url(../assets/yllr/long.png) center
+    width 80px
+    height 80px
+    &.selected,&:hover
+      background url(../assets/yllr/long_on.png) center
+    .the-number
+      display none
+  &[nrt_title="虎"]
+    background url(../assets/yllr/hu.png) center
+    width 80px
+    height 80px
+    &.selected,&:hover
+      background url(../assets/yllr/hu_on.png) center
+    .the-number
+      display none
+  &[nrt_title="和"]
+    background url(../assets/yllr/he.png) center
+    width 80px
+    height 80px
+    &.selected,&:hover
+      background url(../assets/yllr/he_on.png) center
+    .the-number
+      display none
 </style>
