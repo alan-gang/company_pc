@@ -46,7 +46,7 @@ export default {
             class: 'ds-icon-download-logo',
             buttons: [
               // {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_ios3'},
-              {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_super_ios'},
+              // {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_super_ios'}, //  19/09/30
               // {title: 'IOS超级签名1', class: 'ds-icon-download-ios', id: 'plat_super_ios'},
               // {title: 'IOS超级签名2', class: 'ds-icon-download-ios', id: 'plat_super_ios2'},
               {title: 'IOS下载1', class: 'ds-icon-download-ios', id: 'plat_ios'},

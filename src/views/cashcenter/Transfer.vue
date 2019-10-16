@@ -772,7 +772,8 @@ export default {
     getBalances () {
       this.$http.myget(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0,
+          store.actions.setUser({
+            bgmoney: data.bgAmount || 0,
             tcgmoney: data.sportsAmount || 0,
             kymoney: data.kyAmount || 0,
             ptmoney: data.ptAmount || 0,
@@ -791,7 +792,8 @@ export default {
             dsAmount: data.dsAmount || 0,
             jjbAmount: data.jjbAmount || 0,
             saAmount: data.saAmount || 0,
-            saEgameAmount: data.saEgameAmount || 0
+            saEgameAmount: data.saEgameAmount || 0,
+            dfAmount: data.dfAmount || 0
             // 添加新游需要调整
           })
           this.accounts = this.accounts.map((item) => {
