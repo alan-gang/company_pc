@@ -56,12 +56,12 @@
           
           <!-- 总计栏 -->
           GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
-      
+
         .inlb.absolute(style="width: 25%; top: 0; right: 0; bottom: 0; background: #999; vertical-align: top")
           GameRecent(v-bind:gameid="gameid" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid")
-
+          
       GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
-
+      Ludan(v-bind:gameType="gameType" v-bind:gameid="page.gameid" v-bind:methodName="ludanMethodName" )
     <!-- 下单 -->
     //- GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
@@ -84,6 +84,7 @@ import GameAmountBar from 'components/GameAmountBar'
 import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 import GameRecentOrder from 'components/GameRecentOrder'
+import Ludan from 'components/Ludan'
 import api from '../../http/api'
 import M from '../../util/M'
 import util from '../../util'
@@ -203,7 +204,8 @@ export default {
       notifyshow: true,
       hasUnable: false,
       // missCodeHot
-      MCH: {}
+      MCH: {},
+      ludanMethodName: '1v2'
     }
   },
   computed: {
@@ -1205,7 +1207,8 @@ export default {
     GameFollowList,
     GameLuckyNumberHistory,
     GameRecentOrder,
-    GameKQOrderBar
+    GameKQOrderBar,
+    Ludan
     // GameOrderHistory,
     // GameFollowHistory
   }
