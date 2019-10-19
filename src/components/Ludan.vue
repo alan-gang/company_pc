@@ -62,16 +62,16 @@ export default {
         {id: '63', title: '第四位单双', methodId: '2051', method: 'sw_ds', type: LOTTERY_TYPES.G11X5, pos: 3},
         {id: '64', title: '第五位大小', methodId: '2051', method: 'gw_dx', type: LOTTERY_TYPES.G11X5, pos: 4},
         {id: '65', title: '第五位单双', methodId: '2051', method: 'gw_ds', type: LOTTERY_TYPES.G11X5, pos: 4},
-        {id: '67', title: '万千龙虎和', methodId: '2053', method: '1v2', type: LOTTERY_TYPES.G11X5},
-        {id: '68', title: '万百龙虎和', methodId: '2053', method: '1v3', type: LOTTERY_TYPES.G11X5},
-        {id: '69', title: '万十龙虎和', methodId: '2053', method: '1v4', type: LOTTERY_TYPES.G11X5},
-        {id: '70', title: '万个龙虎和', methodId: '2053', method: '1v5', type: LOTTERY_TYPES.G11X5},
-        {id: '71', title: '千百龙虎和', methodId: '2053', method: '2v3', type: LOTTERY_TYPES.G11X5},
-        {id: '72', title: '千十龙虎和', methodId: '2053', method: '2v4', type: LOTTERY_TYPES.G11X5},
-        {id: '73', title: '千个龙虎和', methodId: '2053', method: '2v5', type: LOTTERY_TYPES.G11X5},
-        {id: '74', title: '百十龙虎和', methodId: '2053', method: '3v4', type: LOTTERY_TYPES.G11X5},
-        {id: '75', title: '百个龙虎和', methodId: '2053', method: '3v5', type: LOTTERY_TYPES.G11X5},
-        {id: '76', title: '十个龙虎和', methodId: '2053', method: '4v5', type: LOTTERY_TYPES.G11X5},
+        {id: '67', title: '万千龙虎和', methodId: '2035', method: '1v2', type: LOTTERY_TYPES.G11X5},
+        {id: '68', title: '万百龙虎和', methodId: '2035', method: '1v3', type: LOTTERY_TYPES.G11X5},
+        {id: '69', title: '万十龙虎和', methodId: '2035', method: '1v4', type: LOTTERY_TYPES.G11X5},
+        {id: '70', title: '万个龙虎和', methodId: '2035', method: '1v5', type: LOTTERY_TYPES.G11X5},
+        {id: '71', title: '千百龙虎和', methodId: '2035', method: '2v3', type: LOTTERY_TYPES.G11X5},
+        {id: '72', title: '千十龙虎和', methodId: '2035', method: '2v4', type: LOTTERY_TYPES.G11X5},
+        {id: '73', title: '千个龙虎和', methodId: '2035', method: '2v5', type: LOTTERY_TYPES.G11X5},
+        {id: '74', title: '百十龙虎和', methodId: '2035', method: '3v4', type: LOTTERY_TYPES.G11X5},
+        {id: '75', title: '百个龙虎和', methodId: '2035', method: '3v5', type: LOTTERY_TYPES.G11X5},
+        {id: '76', title: '十个龙虎和', methodId: '2035', method: '4v5', type: LOTTERY_TYPES.G11X5},
 
         {id: '100', title: '冠亚和大小', methodId: '4050', method: 'zh_dx', type: LOTTERY_TYPES.PK10},
         {id: '101', title: '冠亚和单双', methodId: '4050', method: 'zh_ds', type: LOTTERY_TYPES.PK10},
@@ -85,11 +85,11 @@ export default {
         {id: '109', title: '第四位单双', methodId: '4053', method: 'sw_ds', type: LOTTERY_TYPES.PK10, pos: 3},
         {id: '110', title: '第五位大小', methodId: '4053', method: 'gw_dx', type: LOTTERY_TYPES.PK10, pos: 4},
         {id: '111', title: '第五位单双', methodId: '4053', method: 'gw_ds', type: LOTTERY_TYPES.PK10, pos: 4},
-        {id: '112', title: '冠军vs第十名龙虎', methodId: '4054', method: '1v10', type: LOTTERY_TYPES.PK10},
-        {id: '113', title: '亚军vs第九名龙虎', methodId: '4054', method: '2v9', type: LOTTERY_TYPES.PK10},
-        {id: '114', title: '季军vs第八名龙虎', methodId: '4054', method: '3v8', type: LOTTERY_TYPES.PK10},
-        {id: '115', title: '第四名vs第七名龙虎', methodId: '4054', method: '4v7', type: LOTTERY_TYPES.PK10},
-        {id: '116', title: '第五名vs第六名龙虎', methodId: '4054', method: '5v6', type: LOTTERY_TYPES.PK10},
+        {id: '112', title: '冠军vs第十名龙虎', methodId: '4011', method: '1v10', type: LOTTERY_TYPES.PK10},
+        {id: '113', title: '亚军vs第九名龙虎', methodId: '4011', method: '2v9', type: LOTTERY_TYPES.PK10},
+        {id: '114', title: '季军vs第八名龙虎', methodId: '4011', method: '3v8', type: LOTTERY_TYPES.PK10},
+        {id: '115', title: '第四名vs第七名龙虎', methodId: '4011', method: '4v7', type: LOTTERY_TYPES.PK10},
+        {id: '116', title: '第五名vs第六名龙虎', methodId: '4011', method: '5v6', type: LOTTERY_TYPES.PK10},
 
         {id: '200', title: '大小', methodId: '5018', method: 'zh_dx', type: LOTTERY_TYPES.K3},
         {id: '201', title: '单双', methodId: '5018', method: 'zh_ds', type: LOTTERY_TYPES.K3}
@@ -109,7 +109,7 @@ export default {
     },
     gameType: String,
     gameid: Number,
-    // issueList: Array,
+    issueList: Array,
     methodName: String,
     show: {
       type: Boolean,
@@ -122,21 +122,29 @@ export default {
     }
   },
   mounted() {
-    this.getIssueList(this.gameid)
+    this.getLudanList()
   },
   watch: {
     methodName() {
-      this.ludanList = this.getLuDanListByMethod(this.issueList, this.gameType, this.methodName, this.maxRows, this.maxColumns)
+      this.getLudanList()
+    },
+    issueList () {
+      this.getLudanList()
     }
   },
   methods: {
-    getIssueList(gameid) {
-      this.$http.get(api.ludan, {gameid: gameid, size: 40}).then(({data}) => {
-        if (data.success === 1) {
-          this.ludanList = this.getLuDanListByMethod(data.items, this.gameType, this.methodName, this.maxRows, this.maxColumns)
-        }
-      })
+    getLudanList () {
+      this.ludanList = this.getLuDanListByMethod(this.issueList, this.gameType, this.methodName, this.maxRows, this.maxColumns)
     },
+    // getIssueList(gameid) {
+    //   this.$http.myget(api.ludan, {gameid: gameid, size: 100}).then(({data}) => {
+    //     if (data.success === 1) {
+    //       data.items = data.items.reverse()
+    //       this.issueList = data.items
+    //       this.ludanList = this.getLuDanListByMethod(data.items, this.gameType, this.methodName, this.maxRows, this.maxColumns)
+    //     }
+    //   })
+    // },
     getMethodDataByName(type, name) {
       return this.ludanMethods.find((m) => {
         return type === m.type && name === m.method

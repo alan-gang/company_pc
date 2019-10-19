@@ -1,14 +1,14 @@
 <template lang="jade">
   el-row.game-recent-order(style="background: #fff")
-    br
-    p
+    //- br
+    //- p
       span.p-a 投注记录&nbsp;&nbsp;
       span.p-b(:class="{active: pageSize === 5}" @click="  pageSize === 5  ? Orderlist() : (pageSize = 5) ") 5条
       span.p-b(:class="{active: pageSize === 10}" @click=" pageSize === 10 ? Orderlist() : (pageSize = 10) ") 10条
       span.p-b(:class="{active: pageSize === 15}" @click=" pageSize === 15 ? Orderlist() : (pageSize = 15) ") 15条
       span.p-b(:class="{active: pageSize === 20}" @click=" pageSize === 20 ? Orderlist() : (pageSize = 20) ") 20条
 
-    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: .1rem 0;border: 1px solid #d8d8d8" empty-text="投注记录当前为空！")
+    el-table.header-bold.nopadding(:data="Cdata" stripe v-bind:row-class-name="tableRowClassName" v-on:row-click="setSelected" style="margin: 0;border: 1px solid #d8d8d8" empty-text="投注记录当前为空！")
 
       el-table-column(class-name="pl2" prop="projectId" label="注单编号" )
          template(scope="scope")
@@ -46,7 +46,7 @@
             .ds-button.text-button.blue(style="padding: 0 .05rem" @click.stop=" callPrint(scope.row) ") 打印
 
     
-    .a.t_c.pb15(v-if=" maxp > p || p > 1 ")
+    .a.t_c.pt_10(v-if=" maxp > p || p > 1 ")
       .p-b.aa(:class="{ disabled: p ===  1 }" @click=" p > 1 && p-- ") 上一页
       .p-b.aa(:class="{ disabled: p >= maxp }" @click=" p < maxp && p++ ") 下一页
     
@@ -172,7 +172,7 @@ export default {
       expandList: [],
       MODES: ['2元', '2角', '2分', '2厘', '1元'],
       fullCode: '获取失败...',
-      pageSize: Number(window.localStorage.getItem('gron')) || 5,
+      pageSize: 5 || Number(window.localStorage.getItem('gron')) || 5,
       p: 1,
       totalSize: 0
     }
@@ -378,7 +378,7 @@ export default {
   @import '../var.stylus'
   .game-recent-order
     overflow-y auto
-    padding 0 PW
+    // padding 0 PW
     radius()
     background #f4f4f4
     display none

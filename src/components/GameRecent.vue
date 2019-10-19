@@ -20,7 +20,10 @@
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
         pre.cac.inlb(v-if=" ccs " )
-          span(v-for=" t in  ccs.title ") {{ t }}
+          template(v-if=" type.ludan ")
+            span {{ type.ludantitle }}
+          template(v-else)
+            span(v-for=" t in  ccs.title ") {{ t }}
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
@@ -40,9 +43,14 @@
 
         pre.cac.inlb(v-if=" codeStyle && row_ccs(r) ")
           | &nbsp;
-          span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
+          template(v-if=" type.ludan ")
+            template(v-if=" row_ccs(r) && row_ccs(r).data ")
+              span(:class=" colorOfV(row_ccs(r).data.find(x => x.pos === type.ludan).val) ") {{ row_ccs(r).data.find(x => x.pos === type.ludan).val }}
 
-          span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
+          template(v-else)
+            span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
+
+            span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
 
 
 
@@ -57,7 +65,7 @@ export default {
   components: {
   },
   name: 'game-recent',
-  props: ['gameid', 'gameType', 'allLuckyNumbers', 'methodid'],
+  props: ['gameid', 'gameType', 'allLuckyNumbers', 'methodid', 'type'],
   data () {
     return {
       ME: store.state.user,
@@ -199,14 +207,14 @@ export default {
         case '组六':
         case '顺子':
         case '大单':
-        case '龙':
+        case '虎':
           return 'type-color-1'
         case '组选60':
         case '组选12':
         case '组三':
         case '对子':
         case '大双':
-        case '虎':
+        case '和':
         case '牛1':
         case '牛2':
         case '牛3':
@@ -217,12 +225,12 @@ export default {
         case '组选6':
         case '豹子':
         case '小单':
-        case '和':
         case '牛6':
         case '牛7':
         case '牛8':
         case '牛9':
         case '牛牛':
+        case '龙':
           return 'type-color-3'
         case '组选20':
         case '组选4':
@@ -274,7 +282,11 @@ export default {
         width 25%
       .cab
         width 75%
-
+        
+    &.PK10
+      .cac
+        display none
+        
     &.PK10.absolute
       .ca
         height .24rem
