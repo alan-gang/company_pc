@@ -195,6 +195,53 @@ export default {
             if (i > 0) return 'text-blue'
             break
         }
+        switch (this.type.ludan) {
+          case '1v2':
+            if (i < 2) return 'text-blue'
+            break
+          case '1v3':
+            if (i === 0 || i === 2) return 'text-blue'
+            break
+          case '1v4':
+            if (i === 0 || i === 3) return 'text-blue'
+            break
+          case '1v5':
+            if (i === 0 || i === 4) return 'text-blue'
+            break
+          case '2v3':
+            if (i === 1 || i === 2) return 'text-blue'
+            break
+          case '2v4':
+            if (i === 1 || i === 3) return 'text-blue'
+            break
+          case '2v5':
+            if (i === 1 || i === 4) return 'text-blue'
+            break
+          case '3v4':
+            if (i === 2 || i === 3) return 'text-blue'
+            break
+          case '3v5':
+            if (i === 2 || i === 4) return 'text-blue'
+            break
+          case '4v5':
+            if (i === 3 || i === 4) return 'text-blue'
+            break
+          case '1v10':
+            if (i === 0 || i === 9) return 'text-blue'
+            break
+          case '2v9':
+            if (i === 1 || i === 8) return 'text-blue'
+            break
+          case '3v8':
+            if (i === 2 || i === 7) return 'text-blue'
+            break
+          case '4v7':
+            if (i === 3 || i === 6) return 'text-blue'
+            break
+          case '5v6':
+            if (i === 4 || i === 5) return 'text-blue'
+            break
+        }
       } else {
         return ''
       }
