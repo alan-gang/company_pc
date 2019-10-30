@@ -59,13 +59,13 @@
               <template scope="scope">
                 <el-button
                   v-if="scope.row.lineStatus==1"
-                  @click="click_stop(scope.row)"
+                  @click="click_status(scope.row)"
                   type="text"
                   size="small"
                 >停用</el-button>
                 <el-button
                   v-if="scope.row.lineStatus==2"
-                  @click="click_del(scope.row)"
+                  @click="click_status(scope.row)"
                   type="text"
                   size="small"
                 >删除</el-button>
@@ -137,17 +137,20 @@ export default {
         message: "复制失败!"
       });
     },
-    click_stop(row) {
-      MessageBox.confirm("此操作将停用该记录, 是否继续?", "提示", {
+    click_status(row) {
+      let text = "";
+      if (row.lineStatus === 1) text = "停用";
+      if (row.lineStatus === 2) text = "删除";
+      MessageBox.confirm(`此操作将${text}该记录, 是否继续?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.get_updateStatus(row, 1, () => {
+          this.get_updateStatus(row, () => {
             this.$message({
               type: "success",
-              message: "停用成功!"
+              message: `${text}成功!`
             });
             this.get_list();
           });
@@ -156,26 +159,7 @@ export default {
           //已取消
         });
     },
-    click_del(row) {
-      MessageBox.confirm("此操作将删除该记录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.get_updateStatus(row, 2, () => {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.get_list();
-          });
-        })
-        .catch(() => {
-          //已取消
-        });
-    },
-    get_updateStatus(row, val, fn) {
+    get_updateStatus(row, fn) {
       let loading = this.$loading(
         {
           text: "加载中...",
@@ -188,13 +172,12 @@ export default {
         .post(api.updateRegistLinesStatus, {
           entry: row.entry,
           // 更新类别，1:使用中更新为已停用;2:已停用更新为已删除
-          lineStatus: val
+          lineStatus: row.lineStatus
         })
         .then(
           ({ data }) => {
             if (data.success === 1) {
               typeof fn === "function" && fn();
-              !fn && (this.currentPage = 1);
             } else loading.text = "加载失败!";
           },
           rep => {
