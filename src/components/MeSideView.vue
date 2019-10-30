@@ -15,7 +15,7 @@
         i.ds-icon-safe(:class="{on: me.safe}")
       p(style="margin: .1rem 0") 上次登录时间：{{ me.lastLoginTime }}
       p.safe-score
-        | 您的帐户安全评分为：
+        | 您的账户安全评分为：
         span.score {{ me.safeScore }}
         |  分
       p.location(style="margin: .1rem 0")

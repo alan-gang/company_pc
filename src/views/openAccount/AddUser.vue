@@ -49,8 +49,8 @@
             ul.inlb.mh_500.pd_0.mg_0.v_t.as
               li.mb_20(v-for=" (v, i) in  data" v-bind:key="i" v-if=" v.$s ")
                 span.text-danger.pd_5 *
-                span(v-if=" !v.groupname ") 彩票返点 
-                span(v-else) {{ v.groupname  }}返水 
+                span.label(v-if=" !v.groupname ") 彩票返点 
+                span.label(v-else) {{ v.groupname  }}返水 
                 el-select(v-model="v.$" clearable style="width: 1.7rem")
                   el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
                   el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
@@ -61,6 +61,13 @@
                 span(v-else) 
                   span.text-blue  ‰
                   span.text-999（千分符）
+                //- 彩票奖金
+                //- 奖金计算公式 20 * 返点 + 1800
+                div(v-if=" !v.groupname ")
+                  span.label(style="width:0.92rem;")
+                  el-slider(v-model="v.$" v-bind:max="v.backwater" v-bind:step="0.1" v-bind:show-tooltip="false" style="width: 1.7rem")
+                  span.tips 奖金：{{20 * v.$ + 1800}}
+                  span.tips 返点：{{v.$}}%
           
           .buttons.mb_20.pl_70(:class=" i &&  users.length > 1 && 'mt_20' ")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="openAccount") 开户
@@ -260,8 +267,8 @@
     background-color #fff
     overflow auto
   .users + .as
-    padding-left .5rem
-    padding-right .5rem
+    padding-left .2rem
+    padding-right .2rem
     padding-top .2rem
     background-color #f8f8f8
 
@@ -292,4 +299,14 @@
     
     
     
+</style>
+<style lang="stylus">
+.add-user
+  .label
+    width 0.75rem
+    display inline-block
+  .tips
+    margin-left 0.2rem
+  .el-slider__button-wrapper
+    top -8px
 </style>

@@ -15,7 +15,7 @@
         .ds-button.primary.large.bold(@click="searNow") 搜索
 
 
-        // label.item 帐户余额 
+        // label.item 账户余额 
         //   el-input-number(v-model="minMoney")
         //   |  至 
         //   el-input-number(v-model="maxMoney")
@@ -136,7 +136,7 @@
         // 默认排序
         // OL: [
         //   {id: 1, title: '用户名'},
-        //   {id: 2, title: '帐户余额'},
+        //   {id: 2, title: '账户余额'},
         //   {id: 3, title: '返点级别'}
         // ],
         // o: {},

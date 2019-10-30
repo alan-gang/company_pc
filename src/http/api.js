@@ -483,6 +483,8 @@ let Group = {
   // 进入推广链接页面，生成推广链接地址
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=showSpreadLinks
   showSpreadLinks: '/team/createAccount.do?method=showSpreadLinks',
+  // 查询推广链接
+  queryRegistLines: '/team/createAccount.do?method=queryRegistLines',
   // 设置保留返点
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=setKeepPoint&keepPoint=0.1
   setKeepPoint: '/team/createAccount.do?method=setKeepPoint',

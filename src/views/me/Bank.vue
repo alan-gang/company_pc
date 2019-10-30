@@ -29,7 +29,7 @@
         .notice(style="margin-top: .2rem")
           span.title 温馨提示：
           p.content
-            | 每个游戏帐户最多绑定 
+            | 每个游戏账户最多绑定 
             span.text-danger 5
             |  张银行卡，您已成功绑定 
             span.text-danger {{ myBanks.length }}
@@ -79,13 +79,13 @@
             span.text-danger  解除绑定 
             | 操作，请仔细填写下表。
             br
-            | 3. 每个游戏帐户最多绑定
+            | 3. 每个游戏账户最多绑定
             span.text-danger  5 
             | 张银行卡，您已成功绑定
             span.text-danger {{ myBanks.length }} 
             | 张。
             br
-            | 4. 一个游戏帐户只能绑定同一个开户人姓名的银行卡。
+            | 4. 一个游戏账户只能绑定同一个开户人姓名的银行卡。
 
 
         p.title.text-black(style="padding: 0 .18rem 0 .4rem; margin: .2rem 0;") 您正在增加 
@@ -195,11 +195,11 @@
             | 1. 
             span.text-danger 银行卡锁定后，不能增加新的银行卡，同时也不能解绑已绑定的银行卡；
             br
-            | 2. 银行卡锁定，可以一定程度增强您的帐户安全。
+            | 2. 银行卡锁定，可以一定程度增强您的账户安全。
             br
-            | 例：帐户被他人盗用后，由于此功能的限制，您帐户的资金不会被他人提现。
+            | 例：账户被他人盗用后，由于此功能的限制，您账户的资金不会被他人提现。
             br
-            | 与此同时，客服不提供帐户银行卡解除锁定功能，所以：
+            | 与此同时，客服不提供账户银行卡解除锁定功能，所以：
             span.text-danger 锁定前请自行斟酌。
 
 
