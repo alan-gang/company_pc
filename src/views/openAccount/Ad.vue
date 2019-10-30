@@ -173,7 +173,7 @@
         })
       },
       setKeepPoint () {
-        this.$http.get(api.setKeepPoint, {
+        this.$http.post(api.setKeepPoint, {
           lineRemards: this.form.remarks,
           phone: this.form.tel,
           qq: this.form.qq,
