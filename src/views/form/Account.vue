@@ -81,7 +81,7 @@
                 span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
 
-            el-table-column(prop="balance" label="主帐户余额"  align="right")
+            el-table-column(prop="balance" label="主账户余额"  align="right")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.balance) }}
             

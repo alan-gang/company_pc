@@ -8,17 +8,19 @@
   slot(name="toolbar")
   AddUser.scroll-content(v-if=" I === 0 ")
   AD.scroll-content(v-if=" I === 1 ")
+  link_admin.scroll-content(v-if=" I === 2 ")
 
 </template>
 
 <script>
 import AddUser from './AddUser'
 import AD from './AD'
-
+import link_admin from './link_admin.vue'
 export default {
   components: {
     AddUser,
-    AD
+    AD,
+    link_admin
   },
   name: 'open-account',
   props: [],

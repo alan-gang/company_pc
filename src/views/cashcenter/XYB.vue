@@ -140,7 +140,7 @@ export default {
   },
   computed: {
     source () {
-      return [[], ['主帐户', '特殊帐户'], ['主帐户']][this.t]
+      return [[], ['主账户', '特殊账户'], ['主账户']][this.t]
     }
   },
   watch: {
@@ -225,7 +225,7 @@ export default {
     },
     ok () {
       this.$modal.success({
-        content: '<p class="text-333 ">操作成功！</p><p class="text-999 ft14">资金已转' + [[], ['入信游宝'], ['出至主帐户', '出至特殊帐户']][this.t][this.isTransferIn() ? 0 : this.s] + '</p>',
+        content: '<p class="text-333 ">操作成功！</p><p class="text-999 ft14">资金已转' + [[], ['入信游宝'], ['出至主账户', '出至特殊账户']][this.t][this.isTransferIn() ? 0 : this.s] + '</p>',
         PPboxStyle: {width: '3.6rem'},
         btn: ['确定']
       })

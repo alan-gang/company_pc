@@ -59,7 +59,7 @@ export default {
           },
           {
             title: '博盾验证器',
-            intro: '保障用户帐户安全的神器',
+            intro: '保障用户账户安全的神器',
             class: 'ds-icon-download-cbsafe',
             buttons: [
               {title: 'IOS下载', class: 'ds-icon-download-ios', id: 'code_ios'},

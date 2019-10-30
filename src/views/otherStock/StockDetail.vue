@@ -27,7 +27,7 @@
           // p.text-green(style=" margin: .05rem 0") 分红已全额发完
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && commissionDetail.isDone === 0  ")
-           button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
+           button.ds-button.large.bold.primary(@click="paid") 内部账户发放
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
           //button.ds-button.large.bold.primary(@click="paid") 发放分红
 

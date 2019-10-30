@@ -7,7 +7,7 @@
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;可用余额
 
-      p 特殊帐户余额：
+      p 特殊账户余额：
         | {{ Me.smoney || '0.000' }}
 
       p
@@ -262,7 +262,7 @@ export default {
     transferNow () {
       if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.m > this.Me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
+      if (this.m > this.Me.smoney) return this.$message.warning({target: this.$el, message: '特殊账户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
