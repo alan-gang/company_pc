@@ -9,21 +9,20 @@
     <div class="link_admin scroll-content">
       <div class="bgc-w mg_20 pd_20">
         <p class="opencout">开户总计：总点击 {{totalOpenNumber}} 次 总注册 {{totalRegistNumber}} 人</p>
-
         <div class="mytable">
           <el-table
             :data="data"
             :summary-method="getSummaries"
             stripe
+            ref="table"
             show-summary
             class="header-bold nopadding"
-            ref="table"
           >
             <el-table-column label="生成时间" prop="createTime"></el-table-column>
             <el-table-column label="返点/返水" min-width=" 100 ">
               <template scope="scope">
                 <template v-for="v in JSON.parse(scope.row.pointArr)">
-                  <div>{{v}}</div>
+                  <div :key="v">{{v}}</div>
                 </template>
               </template>
             </el-table-column>
@@ -59,14 +58,14 @@
             <el-table-column label="操作" width="100">
               <template scope="scope">
                 <el-button
-                  @click="click_stop(scope.row)"
                   v-if="scope.row.lineStatus==1"
+                  @click="click_stop(scope.row)"
                   type="text"
                   size="small"
                 >停用</el-button>
                 <el-button
-                  @click="click_del(scope.row)"
                   v-if="scope.row.lineStatus==2"
+                  @click="click_del(scope.row)"
                   type="text"
                   size="small"
                 >删除</el-button>
@@ -74,13 +73,13 @@
             </el-table-column>
           </el-table>
           <el-pagination
+            v-if=" total > pageSize "
+            v-on:current-change="pageChanged"
             :total="total"
             :page-size="pageSize"
             :page-sizes="[5, 10, 15, 20]"
             :current-page="currentPage"
             small
-            v-if=" total > pageSize "
-            v-on:current-change="pageChanged"
             layout="prev, pager, next, total"
           />
         </div>
@@ -164,7 +163,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.get_updateStatus(row, 1, () => {
+          this.get_updateStatus(row, 2, () => {
             this.$message({
               type: "success",
               message: "删除成功!"
