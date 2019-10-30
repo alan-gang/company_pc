@@ -158,6 +158,8 @@ export default {
           //已取消
         });
     },
+    // 更新推广链接状态
+    // api文档 https://192.168.169.50/docs/xygame/api-51572415500
     get_updateStatus(row, fn) {
       let loading = this.$loading(
         {
@@ -167,7 +169,6 @@ export default {
         10000,
         "加载超时..."
       );
-      // 接口文档 https://192.168.169.50/docs/xygame/api-51572415500
       this.$http
         .post(api.updateRegistLinesStatus, {
           entry: row.entry,
@@ -190,6 +191,8 @@ export default {
           }, 100);
         });
     },
+    // 查询推广链接
+    // api文档 https://192.168.169.50/docs/xygame/autobet-51572347122
     get_list(id, page, fn) {
       let loading = this.$loading(
         {
@@ -208,7 +211,6 @@ export default {
       } else {
         this.preOptions.page = page;
       }
-      // 接口文档 https://192.168.169.50/docs/xygame/autobet-51572347122
       this.$http
         .post(api.queryRegistLines, this.preOptions)
         .then(
