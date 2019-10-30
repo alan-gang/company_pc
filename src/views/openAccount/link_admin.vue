@@ -59,13 +59,13 @@
             <el-table-column label="操作" width="100">
               <template scope="scope">
                 <el-button
-                  @click="click_stop"
+                  @click="click_stop(scope.row)"
                   v-if="scope.row.lineStatus==1"
                   type="text"
                   size="small"
                 >停用</el-button>
                 <el-button
-                  @click="click_del"
+                  @click="click_del(scope.row)"
                   v-if="scope.row.lineStatus==2"
                   type="text"
                   size="small"
@@ -138,38 +138,74 @@ export default {
         message: "复制失败!"
       });
     },
-    click_stop() {
+    click_stop(row) {
       MessageBox.confirm("此操作将停用该记录, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "停用成功!"
+          this.get_updateStatus(row, 1, () => {
+            this.$message({
+              type: "success",
+              message: "停用成功!"
+            });
+            this.get_list();
           });
-          this.get_list();
         })
         .catch(() => {
           //已取消
         });
     },
-    click_del() {
+    click_del(row) {
       MessageBox.confirm("此操作将删除该记录, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
+          this.get_updateStatus(row, 1, () => {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+            this.get_list();
           });
-          this.get_list();
         })
         .catch(() => {
           //已取消
+        });
+    },
+    get_updateStatus(row, val, fn) {
+      let loading = this.$loading(
+        {
+          text: "加载中...",
+          target: this.$refs["table"].$el
+        },
+        10000,
+        "加载超时..."
+      );
+      this.$http
+        .post(api.updateRegistLinesStatus, {
+          entry: row.entry,
+          // 更新类别，1:使用中更新为已停用;2:已停用更新为已删除
+          lineStatus: val
+        })
+        .then(
+          ({ data }) => {
+            if (data.success === 1) {
+              typeof fn === "function" && fn();
+              !fn && (this.currentPage = 1);
+            } else loading.text = "加载失败!";
+          },
+          rep => {
+            // error
+          }
+        )
+        .finally(() => {
+          setTimeout(() => {
+            loading.close();
+          }, 100);
         });
     },
     get_list(id, page, fn) {
