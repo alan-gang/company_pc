@@ -485,6 +485,8 @@ let Group = {
   showSpreadLinks: '/team/createAccount.do?method=showSpreadLinks',
   // 查询推广链接
   queryRegistLines: '/team/createAccount.do?method=queryRegistLines',
+  // 更新推广链接状态
+  updateRegistLinesStatus: '/team/createAccount.do?method=updateRegistLinesStatus',
   // 设置保留返点
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=setKeepPoint&keepPoint=0.1
   setKeepPoint: '/team/createAccount.do?method=setKeepPoint',
