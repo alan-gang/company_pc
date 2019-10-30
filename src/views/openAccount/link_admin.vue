@@ -91,7 +91,6 @@
 <script>
 import api from "@/http/api";
 import { MessageBox } from "element-ui";
-
 export default {
   data() {
     return {
@@ -168,6 +167,7 @@ export default {
         10000,
         "加载超时..."
       );
+      // 接口文档 https://192.168.169.50/docs/xygame/api-51572415500
       this.$http
         .post(api.updateRegistLinesStatus, {
           entry: row.entry,
@@ -208,6 +208,7 @@ export default {
       } else {
         this.preOptions.page = page;
       }
+      // 接口文档 https://192.168.169.50/docs/xygame/autobet-51572347122
       this.$http
         .post(api.queryRegistLines, this.preOptions)
         .then(
@@ -249,13 +250,5 @@ export default {
   .opencout {
     margin: 0.2rem 0;
   }
-
-  //   .link {
-  //     max-width: 100%;
-  //     white-space: nowrap;
-  //     overflow: hidden;
-  //     text-overflow: ellipsis;
-  //     display: inline-block;
-  //   }
 }
 </style>
