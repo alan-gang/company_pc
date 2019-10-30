@@ -15,12 +15,11 @@
 <script>
 import AddUser from './AddUser'
 import AD from './AD'
-import link_admin from './link_admin.vue'
 export default {
   components: {
+    link_admin: resolve => require(['./link_admin'], resolve),
     AddUser,
-    AD,
-    link_admin
+    AD
   },
   name: 'open-account',
   props: [],
