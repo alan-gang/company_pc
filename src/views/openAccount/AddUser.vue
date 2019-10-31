@@ -65,7 +65,13 @@
                 //- 奖金计算公式 20 * 返点 + 1800
                 div(v-if=" !v.groupname ")
                   span.label(style="width:0.92rem;")
-                  el-slider(v-model="v.$" v-bind:max="v.backwater" v-bind:step="0.1" v-bind:show-tooltip="false" style="width: 1.7rem")
+                  el-slider.slidername(
+                    v-model="v.$"
+                    v-bind:max="v.backwater"
+                    v-bind:step="0.1"
+                    v-bind:show-tooltip="false"
+                    show-input
+                  )
                   span.tips 奖金：{{20 * v.$ + 1800}}
                   span.tips 返点：{{v.$}}%
           
@@ -300,13 +306,35 @@
     
     
 </style>
-<style lang="stylus">
-.add-user
-  .label
-    width 0.75rem
-    display inline-block
-  .tips
-    margin-left 0.2rem
-  .el-slider__button-wrapper
-    top -8px
+<style lang="less">
+.add-user {
+  .label {
+    width: 0.75rem;
+    display: inline-block;
+  }
+  .tips {
+    margin-left: 0.2rem;
+    user-select: none;
+  }
+  .el-slider__button-wrapper {
+    top: -8px;
+  }
+  .slidername {
+    width: 2rem;
+    .el-slider__runway.show-input {
+      margin-right: 80px;
+    }
+    .el-input-number .el-icon-minus,
+    .el-input-number .el-icon-plus {
+      display: inline-block;
+    }
+    .el-input-number .el-input {
+      display: none;
+    }
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      border: 0 none;
+    }
+  }
+}
 </style>
