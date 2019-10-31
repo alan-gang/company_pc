@@ -18,8 +18,8 @@
             show-summary
             class="header-bold nopadding"
           >
-            <el-table-column label="生成时间" prop="createTime"></el-table-column>
-            <el-table-column label="返点/返水" min-width=" 100 ">
+            <el-table-column label="生成时间" prop="createTime" width="130"></el-table-column>
+            <el-table-column label="返点/返水" min-width="220">
               <template scope="scope">
                 <template v-for="v in JSON.parse(scope.row.pointArr)">
                   <div :key="v">{{v}}</div>
@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column label="注册人数" prop="registNumber"></el-table-column>
             <el-table-column label="点击次数" prop="openNumber"></el-table-column>
-            <el-table-column label="链接地址" prop="time" min-width=" 100 ">
+            <el-table-column label="链接地址" prop="time" width="200">
               <template scope="scope">
                 <input :value="scope.row.line" class="ds-input" style="width:130px;" readonly />
                 <span
@@ -55,7 +55,7 @@
                 <div v-if="scope.row.lineStatus==3">已删除</div>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="100">
+            <el-table-column label="操作" width="40">
               <template scope="scope">
                 <el-button
                   v-if="scope.row.lineStatus==1"
