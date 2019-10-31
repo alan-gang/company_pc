@@ -355,7 +355,8 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
             {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
             {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID
-            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'}
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'},
+            {menuid: '98', class: 'ds-icon-logo-happygaming ', id: '9-9-9', fn: '44:69'}//欢乐棋牌  平台id：44,gameId:  69
           ]
         },
         {

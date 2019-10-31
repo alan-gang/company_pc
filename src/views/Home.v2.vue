@@ -103,6 +103,7 @@
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " )
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " )
                 el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " )
+                el-col.happygaming(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '44:69'}}) ")
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -680,6 +681,8 @@ export default {
           background-image url(../assets/newhome/logo_bg_big.png)
         &.sa
           background-image url(../assets/newhome/logo_sa_big.png)
+        &.happygaming
+          background-image url(../assets/newhome/logo_happygaming_big.png)
         &.og
           background-image url('../assets/newhome/logo_og_big.png')
         &.sb
