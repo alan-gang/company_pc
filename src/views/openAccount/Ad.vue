@@ -272,8 +272,10 @@
   }
   .slidername {
     width: 2rem;
+    position: relative;
     .el-slider__runway.show-input {
-      margin-right: 80px;
+      margin-right: 40px;
+      margin-left: 40px;
     }
     .el-input-number .el-icon-minus,
     .el-input-number .el-icon-plus {
@@ -285,6 +287,14 @@
     .el-input-number__increase,
     .el-input-number__decrease {
       border: 0 none;
+      position:absolute;top: 5px;
+    }
+    .el-slider__input{position: unset;}
+    .el-input-number__decrease {
+      left: 0;
+    }
+    .el-input-number__increase{
+      right: 0;
     }
   }
 }
