@@ -22,14 +22,14 @@
           span {{ g.title }}
       .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
     
-    div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !historyItems[0] ")
+    div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !history_list[0] ")
 
-    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" historyItems[0] ")
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" history_list[0] ")
       div(style="border-top: 1px dashed #d8d8d8; padding-bottom: .05rem ")
       .subtitle
         span(style="color: #f17d0b") 历史玩法
       
-      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in history_list || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
 
 
     el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0; padding-left: .05rem;  ")
@@ -101,6 +101,14 @@
       }
     },
     computed: {
+      history_list () {
+        //过滤无效数据
+        return this.historyItems.filter(item => {
+          return this.$props.menus.filter(v => {
+            return v.groups[0].items.find(x => { return !x.hide && x.id === item.id })
+          }).length
+        });
+      },
       // callId () {
       //   return this.gameid + '|' + this.type.id
       // },
