@@ -36,7 +36,14 @@
                   //- 奖金计算公式 20 * 返点 + 1800
                   div(v-if=" !v.groupname ")
                     span.label(style="width:0.92rem;")
-                    el-slider(v-model="v.$" v-bind:max="v.backwater" v-bind:step="0.1" v-bind:show-tooltip="false" style="width: 1.7rem")
+                    el-slider(
+                      v-model="v.$"
+                      v-bind:max="v.backwater" 
+                      v-bind:step="0.1" 
+                      v-bind:show-tooltip="false" 
+                      v-bind:disabled="!v.backwater"
+                      style="width: 1.7rem"
+                    )
                     span.tips 奖金：{{20 * v.$ + 1800}}
                     span.tips 返点：{{v.$}}%
 
