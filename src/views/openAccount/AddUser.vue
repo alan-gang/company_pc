@@ -53,7 +53,7 @@
                 span.label(v-else) {{ v.groupname  }}返水 
                 el-select(v-model="v.$" clearable style="width: 1.7rem")
                   el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
-                  el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+                  el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1)*1 ")
 
                 span(v-if=" !v.groupname ")
                   span.text-blue  % 
@@ -70,6 +70,7 @@
                     v-bind:max="v.backwater"
                     v-bind:step="0.1"
                     v-bind:show-tooltip="false"
+                    v-bind:disabled="!v.backwater"
                     show-input
                   )
                   span.tips 奖金：{{20 * v.$ + 1800}}
