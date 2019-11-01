@@ -551,11 +551,9 @@ export default {
         (this.f === 20 && this.t === 0) ||
         (this.f === 0 && this.t === 18) ||
 
-        (this.f === 21 && this.t === 0) ||
-        (this.f === 0 && this.t === 19)
+        (this.f === 21 && this.t === 0) || (this.f === 0 && this.t === 19) ||
 
-        (this.f === 22 && this.t === 0) ||
-        (this.f === 0 && this.t === 20)
+        (this.f === 22 && this.t === 0) || (this.f === 0 && this.t === 20)
 
         // 添加三方游需要调整
         // f 对应 transOutId
