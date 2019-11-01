@@ -516,8 +516,12 @@ export default {
     __switchMT () {
       if (this.mt === 'normal') {
         this.mt = 'kq'
-        // console.log(JSON.stringify(this.kqmenus[0].groups[0].items))
-        let r = this.kqmenus[0].groups[0].items.find(x => { return !x.hide });
+        // console.log(JSON.stringify(this.kqmenus))
+        let arr = this.kqmenus.filter(v => {
+          // 过滤被隐藏的数据
+          return v.groups[0].items.find(x => { return !x.hide });
+        })
+        let r = arr[0].groups[0].items.find(x => { return !x.hide });
         // console.log(JSON.stringify(r));
         this.type = {
           id: r.id,
