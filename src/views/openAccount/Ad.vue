@@ -24,7 +24,7 @@
                   span.label(v-else) {{ v.groupname  }}返水
                   el-select(v-model="v.$" clearable style="width: 1.7rem")
                     el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
-                    el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+                    el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1)*1 ")
 
                   span(v-if=" !v.groupname ")
                     span.text-blue  %
@@ -36,12 +36,13 @@
                   //- 奖金计算公式 20 * 返点 + 1800
                   div(v-if=" !v.groupname ")
                     span.label(style="width:0.92rem;")
-                    el-slider(
+                    el-slider.slidername(
                       v-model="v.$"
                       v-bind:max="v.backwater" 
                       v-bind:step="0.1" 
                       v-bind:show-tooltip="false" 
                       v-bind:disabled="!v.backwater"
+                      show-input
                       style="width: 1.7rem"
                     )
                     span.tips 奖金：{{20 * v.$ + 1800}}
@@ -255,14 +256,36 @@
   .c_03
     color #033333
 </style>
+<style lang="less">
+.ad {
+  .label {
+    width: 0.75rem;
+    display: inline-block;
+  }
 
-<style lang="stylus">
-.ad
-  .label
-    width 0.75rem
-    display inline-block
-  .tips
-    margin-left 0.2rem
-  .el-slider__button-wrapper
-    top -8px
+  .tips {
+    margin-left: 0.2rem;
+  }
+
+  .el-slider__button-wrapper {
+    top: -8px;
+  }
+  .slidername {
+    width: 2rem;
+    .el-slider__runway.show-input {
+      margin-right: 80px;
+    }
+    .el-input-number .el-icon-minus,
+    .el-input-number .el-icon-plus {
+      display: inline-block;
+    }
+    .el-input-number .el-input {
+      display: none;
+    }
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      border: 0 none;
+    }
+  }
+}
 </style>
