@@ -3,12 +3,15 @@
     el-row(class="tb-wp flex")
       el-col(v-for="(c, i) in maxColumns" v-bind:key="i")
         template(v-for="(r, j) in maxRows")
-          div(class="tb-cell flex ai-c jc-c" v-bind::key="j" v-if="j === maxRows.length - 1")
+
+          div(class="tb-cell flex ai-c jc-c" v-bind:key="j" v-if="j === maxRows.length - 1")
             span(class="open-item txt-c" v-bind:class="getCellStyle(ludanList, i, j)" )
               {{getCellData(ludanList, i, j) | cellData}}
+
           div(class="tb-cell flex ai-c jc-c" v-bind:key="j" v-else)
-            span(class="open-item txt-c" v-bind:class="getCellStyle(ludanList, i, j)")
+            span(class="open-item txt-c" v-bind:class="getCellStyle(ludanList, i, j)" )
               {{getCellData(ludanList, i, j) | cellData}}
+
 </template>
 
 <script>
@@ -239,13 +242,13 @@ export default {
       });
       return ludanList.slice(ludanList.length >= maxColumns ? Math.abs(ludanList.length - maxColumns + 1) : 0)
     },
-    getCellData(ludanList, c, r, maxRows) {
+    getCellData(ludanList, c, r, maxRows = this.maxRows) {
       if (!ludanList) return ''
       if (ludanList[c] && ludanList[c][r]) {
         if (['icon-cur', 'icon-qs'].indexOf(ludanList[c][r]) !== -1) {
           return ludanList[c][r]
         }
-        if (r === maxRows - 1 && ludanList[c].length > maxRows) {
+        if (r === (maxRows - 1) && ludanList[c].length > maxRows) {
           return String(ludanList[c].length)
         } else {
           return ludanList[c][r]
@@ -254,7 +257,7 @@ export default {
         return ''
       }
     },
-    getCellStyle(ludanList, col, row, maxRows) {
+    getCellStyle(ludanList, col, row, maxRows = this.maxRows) {
       if (this.getCellData(ludanList, col, row, maxRows) === 'icon-cur') return 'icon-cur'
       if (this.getCellData(ludanList, col, row, maxRows) === 'icon-qs') return 'icon-qs'
       return this.getStyle(this.getCellData(ludanList, col, row, maxRows))
@@ -349,11 +352,13 @@ bg(uri, size=100%) {
       background $ludan-open-item-bg-color-blue
     }
     &.bgc-y {
-      background $ludan-open-item-bg-color-yellow
-      color #000
+      // background $ludan-open-item-bg-color-yellow
+      color red
+      font-size .17rem
     }
     &.icon-cur {
       bg($ludan-open-item-icon-cur)
+      background-color #aaa
     }
     &.icon-qs {
       bg($ludan-open-item-icon-qs)
