@@ -32,7 +32,7 @@
               <template scope="scope">
                 <input :value="scope.row.line" class="ds-input" style="width:130px;" readonly />
                 <span
-                  v-clipboard:copy=" scope.row.line "
+                  v-clipboard:copy="scope.row.line"
                   v-clipboard:success="copySuccess"
                   v-clipboard:error="copyError"
                   class="ds-button text-button blue"
