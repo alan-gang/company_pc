@@ -326,6 +326,8 @@ body.cb.v2
         background-image url(../assets/newhome/logo_sa_big.png)
       &.ds-icon-logo-og
         background-image url(../assets/newhome/logo_og.png)
+      &.ds-icon-logo-happygaming
+        background-image url(../assets/newhome/logo_happygaming_big.png)
 
 
 
