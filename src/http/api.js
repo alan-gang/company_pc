@@ -35,6 +35,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getLottSets: '/userpoint.do?method=getLottSets&lotteryIds=1',
   codeMissColdHeat: '/codeMissColdHeat.do?method=queryColdHot',
   rconfig: '/team/contractBonus.do?method=myRule',
   useCoupon: '/ext/bg.do?method=transferToBG',

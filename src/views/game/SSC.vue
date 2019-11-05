@@ -442,11 +442,6 @@ export default {
               ]
             }
           ]
-        },
-        {
-          title: '龙虎斗',
-          groups: [
-          ]
         }
       ],
       getTitle () {

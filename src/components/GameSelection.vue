@@ -267,7 +267,7 @@
           {ids: '-1-1-3-PK10, -1-1-4-PK10, -1-1-5-PK10, -1-2-1-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '季军', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-4-PK10, -1-1-5-PK10, -1-2-1-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-5-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-1-1-6-PK10:1', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
+          {ids: '-1-3-1-PK10:1, -1-3-2-PK10:1, -1-3-3-PK10:1, -1-3-4-PK10:1, -1-3-5-PK10:1', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
           // {ids: '-1-1-7-PK10:1', class: 'ds-icon-PK10', title: '定位胆', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-PK10', class: '', title: '第一名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-PK10', class: '', title: '第二名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},

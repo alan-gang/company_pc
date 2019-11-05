@@ -410,6 +410,7 @@ export default {
     this.getUserpoint()
     // 获得历史开奖号码
     this.__recentlyCode()
+    // this.getLottSets()
     this.follow.CNPER = this.CNPER
     // setInterval(() => {
     //   this.CNPER = parseInt(this.CNPER) + 1 + ''
@@ -437,6 +438,11 @@ export default {
     scrollHander (evt) {
       if (this.$refs.GC.scrollTop > 96) this.scrollAtBottom = true
       else this.scrollAtBottom = false
+    },
+    getLottSets () {
+      this.$http.myget(api.getLottSets).then(({data}) => {
+        // console.log(data)
+      })
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
