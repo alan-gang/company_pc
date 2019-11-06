@@ -9,7 +9,7 @@
 
       .bgc-w.mg_20.pd_20
         
-        .w_700.mg_0a.pd_20
+        .w_800.mg_0a.pd_20
 
 
           //- p.mb_20 剩余开户额：
@@ -26,7 +26,7 @@
    
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
-        .w_700.mg_0a.pd_20
+        .w_800.mg_0a.pd_20
           .mb_20
             .ds-radio-label(:class="{active: i === 0 }" @click=" i = 0 " style="padding-left: 0")
               .ds-radio.white

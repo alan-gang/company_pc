@@ -109,7 +109,7 @@ export default {
   props: ["show", "type", "row"],
   data() {
     return {
-      // 调点
+      userPoint: 0, //最大彩票返点
       url: "",
       urlSpeed: {},
       urls: [],
@@ -159,6 +159,27 @@ export default {
         this.form.wechat = this.$props.row.weChant;
         this.urls = [this.$props.row.line];
         this.url = this.$props.row.line;
+        //
+        this.data.forEach(v => {
+          //彩票
+          if (!v.groupid) v.$ = (this.userPoint - this.$props.row.lotteryPoint).toFixed(1);
+          //电竞
+          if (v.groupid === 1) v.$ = (this.userPoint - this.$props.row.eSportPoint).toFixed(1);
+          //"老虎机"
+          if (v.groupid === 2) v.$ = (this.userPoint - this.$props.row.gamePoint).toFixed(1);
+          //"真人"
+          if (v.groupid === 3) v.$ = (this.userPoint - this.$props.row.videoPoint).toFixed(1);
+          //"棋牌"
+          if (v.groupid === 4) v.$ = (this.userPoint - this.$props.row.chessPoint).toFixed(1);
+          //"捕鱼"
+          if (v.groupid === 5) v.$ = (this.userPoint - this.$props.row.fishPoint).toFixed(1);
+          //体育返点
+          if (v.groupid === 6) v.$ = (this.userPoint - this.$props.row.sportPoint).toFixed(1);
+          //基诺彩返点
+          if (v.groupid === 7) v.$ = (this.userPoint - this.$props.row.otherLotteryPoint).toFixed(1);
+          //"微游"
+          if (v.groupid === 8) v.$ = (this.userPoint - this.$props.row.litGamePoint).toFixed(1);
+        });
       }
     },
     //计算线路速度
@@ -214,6 +235,7 @@ export default {
         ({ data }) => {
           // success
           if (data.success === 1) {
+            this.userPoint = data.userPoint;
             this.promotionCode = data.promotionCode;
             this.urls = data.url;
             data.url.length && (this.url = data.url[0]); //默认勾选第一个
