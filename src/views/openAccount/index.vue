@@ -7,19 +7,19 @@
   slot(name="resize-y")
   slot(name="toolbar")
   AddUser.scroll-content(v-if=" I === 0 ")
-  AD.scroll-content(v-if=" I === 1 ")
-  link_admin.scroll-content(v-if=" I === 2 ")
+  //- AD.scroll-content(v-if=" I === 1 ")
+  linkAdmin.scroll-content(v-if=" I === 1 ")
 
 </template>
 
 <script>
 import AddUser from './AddUser'
-import AD from './AD'
+// import AD from './AD'
 export default {
   components: {
-    link_admin: resolve => require(['./link_admin'], resolve),
-    AddUser,
-    AD
+    // AD,
+    linkAdmin: resolve => require(['./linkAdmin'], resolve),
+    AddUser
   },
   name: 'open-account',
   props: [],

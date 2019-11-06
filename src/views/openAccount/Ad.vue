@@ -1,18 +1,19 @@
 <template lang="jade">
-  .group-page
-    slot(name="cover")
-    slot(name="movebar")
-    slot(name="resize-x")
-    slot(name="resize-y")
-    slot(name="toolbar")
-    .ad.scroll-content
-
-      .bgc-w.mg_20.t_c
-        .pd_25
-          p.ft18(style="padding: 0rem 1rem") 您的推广码：
-            span.text-blue {{ promotionCode }}
-
-        hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
+  el-dialog(
+    v-bind:visible.sync="$props.show" 
+    v-bind:modal="false" 
+    v-bind:append-to-body="!0" 
+    v-bind:close-on-click-modal="!1"  
+    @close="$emit('callback')"
+    center 
+    custom-class="addEditLink")
+    span(slot="title") 新增推广链接
+    .ad
+      .t_c
+        //- .pd_25
+        //-   p.ft18(style="padding: 0rem 1rem") 您的推广码：
+        //-     span.text-blue {{ promotionCode }}
+        //- hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
         template(v-if="data.length")
           .pd_25
             p.ft18.pb_25 推广链接设置
@@ -49,6 +50,30 @@
                     span.tips 返点：{{v.$}}%
 
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
+
+        .pd_25
+          p.ft18.pb_25 选择线路
+
+          div(style="user-select: text;")
+            .text-blue.t_l.mg_0a(style="width:4.6rem")
+              //- 添加
+              template(v-if="$props.type=='add'")
+                el-radio-group(v-model="url")
+                  el-radio(v-for=" (v, i) in urls " v-bind:label="v")
+                    .inlb.linkname {{v}}
+                    .inlb.linktip(@click="CalculateLine(v, i)") 测速
+                    .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
+              //- 修改
+              template(v-if="$props.type=='edit'")
+                div(v-for=" (v, i) in urls " v-bind:label="v")
+                  .inlb.linkname {{v}}
+                  .inlb.linktip(@click="CalculateLine(v, i)") 测速
+                  .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
+                  //- input.ds-input(v-bind:value="v" readonly)
+                //- span.ds-button.text-button.blue(v-clipboard:copy=" v " v-clipboard:success="copySuccess"  v-clipboard:error="copyError" style="position: absolute;padding: 0 10px") 复制
+                //- br
+                //- .QR.ds-icon-QR(:style="QRS[i]")
+                //-   p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
         .pd_25
           .mh_500.mg_0a.t_l(style="width:4.6rem")
             .mb_20.v_t
@@ -67,21 +92,6 @@
             .mb_20.v_t
               span 注：您所填写的联系方式将会展示在本链接对应的注册页面，以方便下级用户在新注册时遇到问题联系您。
 
-          hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: 0 .2rem 0 .2rem ")
-
-        .pd_25
-          p.ft18.pb_25 自动注册地址
-
-          div(style="user-select: text;")
-            .box
-              div.text-blue.inlb.ml_40.mr_40.v_t(v-for=" (url, i) in urls ")
-                input.ds-input(v-bind:value="url" readonly)
-                span.ds-button.text-button.blue(v-clipboard:copy=" url " v-clipboard:success="copySuccess"  v-clipboard:error="copyError" style="position: absolute;padding: 0 10px") 复制
-                br
-                .QR.ds-icon-QR(:style="QRS[i]")
-                  p.text-black(style="font-weight: bold; padding-top: 1.5rem;") 扫码注册
-
-
           .buttons(style="padding: .1rem 2.03rem")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="setKeepPoint") 提交
 
@@ -92,105 +102,148 @@
 </template>
 
 <script>
-  import api from '../../http/api'
-  export default {
-    data () {
-      return {
-        // 调点
-        urls: [],
-        qrs: [],
-        promotionCode: '',
-        data: [],
-        form: {
-          remarks: '',
-          tel: '',
-          qq: '',
-          wechat: ''
-        }
+import api from "../../http/api";
+import $ from "jquery";
+export default {
+  // type 取值 add  edit
+  props: ["show", "type", "row"],
+  data() {
+    return {
+      // 调点
+      url: "",
+      urlSpeed: {},
+      urls: [],
+      qrs: [],
+      promotionCode: "",
+      data: [],
+      form: {
+        remarks: "",
+        tel: "",
+        qq: "",
+        wechat: ""
+      }
+    };
+  },
+  computed: {
+    // myQR () {
+    //   return {
+    //     background: 'url(' + api.createQr + ') left top no-repeat',
+    //     height: '1.96rem',
+    //     width: '1.4rem',
+    //     textAlign: 'center'
+    //   }
+    // },
+    // QRS () {
+    //   return this.qrs.map(q => {
+    //     return (q = {
+    //       background: 'url(' + 'data:image/png;base64,' + q + ') left top no-repeat',
+    //       height: '1.96rem',
+    //       width: '1.4rem',
+    //       marginTop: '.15rem',
+    //       textAlign: 'center',
+    //       display: 'inline-block'
+    //     })
+    //   })
+    // }
+  },
+  mounted() {
+    this.showSpreadLinks();
+    // this.getQR()
+  },
+  methods: {
+    Init() {
+      if (this.$props.type === "edit") {
+        this.form.remarks = this.$props.row.lineRemards;
+        this.form.tel = this.$props.row.phone;
+        this.form.qq = this.$props.row.qq;
+        this.form.wechat = this.$props.row.weChant;
+        this.urls = [this.$props.row.line];
+        this.url = this.$props.row.line;
       }
     },
-    computed: {
-      myQR () {
-        return {
-          background: 'url(' + api.createQr + ') left top no-repeat',
-          height: '1.96rem',
-          width: '1.4rem',
-          textAlign: 'center'
+    //计算线路速度
+    CalculateLine(host, urlSpeedInx) {
+      let curTime = new Date().getTime();
+      this.urlSpeed[urlSpeedInx] = "计算中...";
+      this.urls.splice(0, 0);
+      $.ajax({
+        url: host,
+        dataType: "jsonp",
+        timeout: 9999,
+        complete: (XMLHttpRequest, textStatus) => {
+          let time = new Date().getTime() - curTime;
+          if (textStatus === "parsererror") {
+            //OK
+            // console.log(v.host, time);
+            this.urlSpeed[urlSpeedInx] = time;
+          } else if (textStatus === "timeout") {
+            //超时
+            this.urlSpeed[urlSpeedInx] = "timeout";
+          } else {
+            //域名异常
+            this.urlSpeed[urlSpeedInx] = "DNS error";
+          }
+          this.urls.splice(0, 0);
         }
-      },
-      QRS () {
-        return this.qrs.map(q => {
-          return (q = {
-            background: 'url(' + 'data:image/png;base64,' + q + ') left top no-repeat',
-            height: '1.96rem',
-            width: '1.4rem',
-            marginTop: '.15rem',
-            textAlign: 'center',
-            display: 'inline-block'
-          })
-        })
-      }
+      });
     },
-    mounted () {
-      this.showSpreadLinks()
-      this.getQR()
+    copySuccess() {
+      this.$message({
+        type: "success",
+        message: "复制成功"
+      });
     },
-    methods: {
-      copySuccess () {
-        this.$message({
-          type: "success",
-          message: '复制成功'
-        })
-      },
-      copyError () {
-        this.$message({
-          message: '复制失败!'
-        })
-      },
-      getQR () {
-        this.$http.get(api.createQr).then(({data}) => {
+    copyError() {
+      this.$message({
+        message: "复制失败!"
+      });
+    },
+    // getQR () {
+    //   this.$http.get(api.createQr).then(({data}) => {
+    //     // success
+    //     if (data.success === 1) {
+    //       this.qrs = data.qrStr
+    //     } else this.$message.error(data.msg || '二维码获取失败！')
+    //   }, (rep) => {
+    //     // error
+    //     this.$message.error('二维码获取失败！')
+    //   })
+    // },
+    showSpreadLinks() {
+      this.$http.get(api.showSpreadLinks).then(
+        ({ data }) => {
           // success
           if (data.success === 1) {
-            this.qrs = data.qrStr
-          } else this.$message.error(data.msg || '二维码获取失败！')
-        }, (rep) => {
-          // error
-          this.$message.error('二维码获取失败！')
-        })
-      },
-      showSpreadLinks () {
-        this.$http.get(api.showSpreadLinks).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.promotionCode = data.promotionCode
-            this.urls = data.url
+            this.promotionCode = data.promotionCode;
+            this.urls = data.url;
+            data.url.length && (this.url = data.url[0]); //默认勾选第一个
             data.back.unshift({
               backwater: data.userPoint
-            })
+            });
             // $$ 保存初始值, 根据初始值是否大于零来控制是否展示
             data.back.forEach((x, i) => {
-              x.$ = ((x.backwater - x.value).toFixed(4) * 1000).toFixed(1)
-              x.$s = Math.ceil(x.backwater * (i ? 10000 : 10))
-            })
-            data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1)
-            this.data = data.back
-          } else this.$message.error(data.msg || '自动注册链接获取失败！')
-        }, (rep) => {
+              x.$ = ((x.backwater - x.value).toFixed(4) * 1000).toFixed(1);
+              x.$s = Math.ceil(x.backwater * (i ? 10000 : 10));
+            });
+            data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1);
+            this.data = data.back;
+            this.Init();
+          } else this.$message.error(data.msg || "自动注册链接获取失败！");
+        },
+        rep => {
           // error
-          this.$message.error('自动注册链接获取失败！')
-        })
-      },
-      setKeepPoint () {
-        this.$http.post(api.setKeepPoint, {
+          this.$message.error("自动注册链接获取失败！");
+        }
+      );
+    },
+    setKeepPoint() {
+      this.$http
+        .post(api.setKeepPoint, {
           lineRemards: this.form.remarks,
           phone: this.form.tel,
           qq: this.form.qq,
           weChant: this.form.wechat,
-          linesArr: JSON.stringify({
-            linesArr: this.urls.map(x => {
-              return {'line': x};
-            })
-          }),
+          linesArr: this.url,
           keepPoint: (this.data[0].backwater - this.data[0].$).toFixed(1),
           pointArr: JSON.stringify({
             myBack: this.data.slice(1).map(x => {
@@ -198,63 +251,80 @@
                 groupid: x.groupid,
                 groupname: x.groupname,
                 backwater: (x.backwater - x.$ / 1000).toFixed(4)
-              }
+              };
             })
           })
-        }).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.$message.success(data.msg || '保留返点设置成功！')
-            this.showSpreadLinks()
-          } else this.$message.error(data.msg || '保留返点设置失败！')
-        }, (rep) => {
-          // error
-          this.$message.error('保留返点设置失败！')
         })
-      }
+        .then(
+          ({ data }) => {
+            // success
+            if (data.success === 1) {
+              this.$message.success(data.msg || "保留返点设置成功！");
+              // this.showSpreadLinks()
+            } else this.$message.error(data.msg || "保留返点设置失败！");
+          },
+          rep => {
+            // error
+            this.$message.error("保留返点设置失败！");
+          }
+        );
     }
   }
+};
 </script>
 
 <style lang="stylus" scoped>
-  @import '../../var.stylus'
-  .ad
-    .form
-      padding PWX
+@import '../../var.stylus';
 
+.ad {
+  .form {
+    padding: PWX;
+  }
+}
 
-  .el-select
-  .el-input-number
-    width 1rem
-  .el-select
-    position relative
-    top .01rem
-  .amount
-    font-family Roboto
-    font-size 0.72rem
-    color #333
+.el-select, .el-input-number {
+  width: 1rem;
+}
 
+.el-select {
+  position: relative;
+  top: 0.01rem;
+}
 
-  .notice
-    font-size .12rem
-    line-height .22rem
-    margin 0 .2rem
-    padding PWX
-    background-color #fffde8
-    border 1px solid #d5d09b
-    radius()
-    .content
-      display inline-block
-      margin 0
-      line-height .25rem
-      vertical-align top
+.amount {
+  font-family: Roboto;
+  font-size: 0.72rem;
+  color: #333;
+}
 
-  .hlh_40
-    line-height .4rem
-  ul
-    list-style none
-  .c_03
-    color #033333
+.notice {
+  font-size: 0.12rem;
+  line-height: 0.22rem;
+  margin: 0 0.2rem;
+  padding: PWX;
+  background-color: #fffde8;
+  border: 1px solid #d5d09b;
+  radius();
+
+  .content {
+    display: inline-block;
+    margin: 0;
+    line-height: 0.25rem;
+    vertical-align: top;
+  }
+}
+
+.hlh_40 {
+  line-height: 0.4rem;
+}
+
+ul {
+  list-style: none;
+}
+
+.c_03 {
+  color: #033333;
+}
 </style>
 <style lang="less">
 .ad {
@@ -287,14 +357,55 @@
     .el-input-number__increase,
     .el-input-number__decrease {
       border: 0 none;
-      position:absolute;top: 5px;
+      position: absolute;
+      top: 5px;
     }
-    .el-slider__input{position: unset;}
+    .el-slider__input {
+      position: unset;
+    }
     .el-input-number__decrease {
       left: 0;
     }
-    .el-input-number__increase{
+    .el-input-number__increase {
       right: 0;
+    }
+  }
+}
+</style>
+<style lang="less">
+.addEditLink {
+  background: #fff;
+  .el-radio {
+    display: block;
+    margin-left: 0;
+    margin-top: 1em;
+  }
+  .el-radio__input.is-checked .el-radio__inner {
+    border-color: #f17d0b;
+    background: #f17d0b;
+  }
+  .linkname {
+    margin-left: 0.4em;
+    width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .linktip {
+    margin-left: 1.6em;
+    cursor: pointer;
+    color: #13ce66;
+    &:hover {
+      color: #f17d0b;
+    }
+  }
+  .linkms {
+    margin-left: 1.6em;
+    &.fast {
+      color: #13ce66;
+    }
+    &.slow {
+      color: #ff4949;
     }
   }
 }
