@@ -252,7 +252,7 @@ export default {
       orderBy: 'totalProfit'
     })
     this.names = JSON.parse(window.sessionStorage.getItem('SUB_PROFIT_LOSS_NAMES_HISTORY') || '[]')
-    console.log('this.me.backWaters=', this.me.backWaters)
+    // console.log('this.me.backWaters=', this.me.backWaters)
   },
   methods: {
     __setReportI (i) {
