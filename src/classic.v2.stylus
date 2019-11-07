@@ -242,7 +242,7 @@ H = 1.04rem
         .inner-bar
           margin-top 0 !important
         .game-recent-order
-          margin-top .1rem
+          // margin-top .1rem
         &>*:not(.new-game-info):not(.modal)
           radius(0)
           background #e9e9e9
