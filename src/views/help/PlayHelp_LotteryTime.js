@@ -263,7 +263,7 @@ export default [
         FirstDeadline: '0:01:57', //第一期截止时间
         FinalDeadline: '23:59:57', //最后一期截止时间
         IntervalInterval: '2分钟', //期数间隔
-        TotalNumberPeriods: '720' //总期数
+        TotalNumberPeriods: '720期' //总期数
     },
     {
         lottery: '幸福快三', //彩种
