@@ -56,12 +56,18 @@
           
           <!-- 总计栏 -->
           GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
-      
+
         .inlb.absolute(style="width: 25%; top: 0; right: 0; bottom: 0; background: #999; vertical-align: top")
-          GameRecent(v-bind:gameid="gameid" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid")
-
-      GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
-
+          GameRecent(v-bind:gameid="gameid" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers.slice(0, 30)" v-bind:methodid="methodid" v-bind:type="type")
+          
+      .bgc-w.mt_10.pt_15.pb_15(style="background-color: #fff")
+        .pl_15
+          span.mr_10.pointer(v-for=" (x, i) in gameMoreInfo " @click=" gameMoreInfoI = i " v-bind:style=" gameMoreInfoI === i ? {color: '#333', fontWeight: 'bold'} : {} " v-show=" i !== 2 || type.ludan ") {{ x.n }}
+            span(v-if=" i === 2 && type.ludan ") ({{ type.ludantitle }})
+        .pl_15.pr_15.pt_10
+          component(:is=" gameMoreInfo[gameMoreInfoI].component " v-bind:gameType="gameType" v-bind:type="type"  v-bind:gameid="page.gameid" v-bind:methodName="type.ludan" v-bind:issueList="allLuckyNumbers.map(x => x).reverse()")
+        //- GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
+        //- Ludan(v-bind:gameType="gameType" v-bind:gameid="page.gameid" v-bind:methodName="ludanMethodName" )
     <!-- 下单 -->
     //- GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
@@ -84,6 +90,8 @@ import GameAmountBar from 'components/GameAmountBar'
 import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 import GameRecentOrder from 'components/GameRecentOrder'
+import GameRecentChaseOrder from 'components/GameRecentChaseOrder'
+import Ludan from 'components/Ludan'
 import api from '../../http/api'
 import M from '../../util/M'
 import util from '../../util'
@@ -95,6 +103,12 @@ export default {
   props: ['page', 'money', 'free'],
   data () {
     return {
+      gameMoreInfoI: 0,
+      gameMoreInfo: [
+        {n: '投注记录', component: 'GameRecentOrder'},
+        {n: '追号记录', component: 'GameRecentChaseOrder'},
+        {n: '路单', component: 'Ludan'}
+      ],
       showDF: window.localStorage.getItem('showDF') === 'true',
       ME: store.state.user,
       isTry: store.state.user.isTry,
@@ -292,6 +306,13 @@ export default {
     }
   },
   watch: {
+    'type.ludan' (n, o) {
+      if (n) {
+        this.gameMoreInfoI = 2
+      } else {
+        this.gameMoreInfoI = 0
+      }
+    },
     overtime () {
       setTimeout(() => {
         this.__setCall({fn: '__orderlist'})
@@ -389,6 +410,7 @@ export default {
     this.getUserpoint()
     // 获得历史开奖号码
     this.__recentlyCode()
+    // this.getLottSets()
     this.follow.CNPER = this.CNPER
     // setInterval(() => {
     //   this.CNPER = parseInt(this.CNPER) + 1 + ''
@@ -417,10 +439,15 @@ export default {
       if (this.$refs.GC.scrollTop > 96) this.scrollAtBottom = true
       else this.scrollAtBottom = false
     },
+    getLottSets () {
+      this.$http.myget(api.getLottSets).then(({data}) => {
+        // console.log(data)
+      })
+    },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 100}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
@@ -1205,7 +1232,9 @@ export default {
     GameFollowList,
     GameLuckyNumberHistory,
     GameRecentOrder,
-    GameKQOrderBar
+    GameRecentChaseOrder,
+    GameKQOrderBar,
+    Ludan
     // GameOrderHistory,
     // GameFollowHistory
   }

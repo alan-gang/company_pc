@@ -401,32 +401,32 @@ export default {
               title: '龙虎和',
               items: [
                 // {id: '-4-1-1', title: '混选', description: '根据选择的位置比较第一位号码与第二位号码的大小， 大则为：龙， 小则为：虎， 相等则为：和，其中和为一等奖，龙虎为二等奖', example: '投注方案：龙[万位，千位]，开奖号码10***，即中龙虎'},
-                {id: '-4-1-2', title: '万千', description: '比较万位与千位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,q'},
-                {id: '-4-1-3', title: '万百', description: '比较万位与百位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,b'},
-                {id: '-4-1-4', title: '万十', description: '比较万位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,s'},
-                {id: '-4-1-5', title: '万个', description: '比较万位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,g'},
-                {id: '-4-1-6', title: '千百', description: '比较千位与百位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,b'},
-                {id: '-4-1-7', title: '千十', description: '比较千位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,s'},
-                {id: '-4-1-8', title: '千个', description: '比较千位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,g'},
-                {id: '-4-1-9', title: '百十', description: '比较百位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'b,s'},
-                {id: '-4-1-10', title: '百个', description: '比较百位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'b,g'},
-                {id: '-4-1-11', title: '十个', description: '比较十位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 's,g'}
+                {id: '-4-1-2', title: '万千', description: '比较万位与千位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,q', ludan: '1v2', ludantitle: '万VS千'},
+                {id: '-4-1-3', title: '万百', description: '比较万位与百位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,b', ludan: '1v3', ludantitle: '万VS百'},
+                {id: '-4-1-4', title: '万十', description: '比较万位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,s', ludan: '1v4', ludantitle: '万VS十'},
+                {id: '-4-1-5', title: '万个', description: '比较万位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'w,g', ludan: '1v5', ludantitle: '万VS个'},
+                {id: '-4-1-6', title: '千百', description: '比较千位与百位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,b', ludan: '2v3', ludantitle: '千VS百'},
+                {id: '-4-1-7', title: '千十', description: '比较千位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,s', ludan: '2v4', ludantitle: '千VS十'},
+                {id: '-4-1-8', title: '千个', description: '比较千位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'q,g', ludan: '2v5', ludantitle: '千VS个'},
+                {id: '-4-1-9', title: '百十', description: '比较百位与十位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'b,s', ludan: '3v4', ludantitle: '百VS十'},
+                {id: '-4-1-10', title: '百个', description: '比较百位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 'b,g', ludan: '3v5', ludantitle: '百VS个'},
+                {id: '-4-1-11', title: '十个', description: '比较十位与个位号码的大小，大则为：龙，小则为：虎，相等则为：和，其中和为一等奖，龙虎为二等奖', ps: 's,g', ludan: '4v5', ludantitle: '十VS个'}
               ]
             },
             {
               title: '龙虎斗',
               items: [
                 // {id: '-6-1-1', title: '混选', description: '根据选择的位置比较第一位号码与第二位号码的大小， 大则为：龙， 小则为：虎', example: '投注方案：龙[万位，千位]，开奖号码10***，即中龙虎斗'},
-                {id: '-6-1-2', title: '万千', description: '比较万位与千位号码的大小，大则为：龙，小则为：虎', ps: 'w,q'},
-                {id: '-6-1-3', title: '万百', description: '比较万位与百位号码的大小，大则为：龙，小则为：虎', ps: 'w,b'},
-                {id: '-6-1-4', title: '万十', description: '比较万位与十位号码的大小，大则为：龙，小则为：虎', ps: 'w,s'},
-                {id: '-6-1-5', title: '万个', description: '比较万位与个位号码的大小，大则为：龙，小则为：虎', ps: 'w,g'},
-                {id: '-6-1-6', title: '千百', description: '比较千位与百位号码的大小，大则为：龙，小则为：虎', ps: 'q,b'},
-                {id: '-6-1-7', title: '千十', description: '比较千位与十位号码的大小，大则为：龙，小则为：虎', ps: 'q,s'},
-                {id: '-6-1-8', title: '千个', description: '比较千位与个位号码的大小，大则为：龙，小则为：虎', ps: 'q,g'},
-                {id: '-6-1-9', title: '百十', description: '比较百位与十位号码的大小，大则为：龙，小则为：虎', ps: 'b,s'},
-                {id: '-6-1-10', title: '百个', description: '比较百位与个位号码的大小，大则为：龙，小则为：虎', ps: 'b,g'},
-                {id: '-6-1-11', title: '十个', description: '比较十位与个位号码的大小，大则为：龙，小则为：虎', ps: 's,g'}
+                {id: '-6-1-2', title: '万千', description: '比较万位与千位号码的大小，大则为：龙，小则为：虎', ps: 'w,q', ludan: '1v2', ludantitle: '万VS千'},
+                {id: '-6-1-3', title: '万百', description: '比较万位与百位号码的大小，大则为：龙，小则为：虎', ps: 'w,b', ludan: '1v3', ludantitle: '万VS百'},
+                {id: '-6-1-4', title: '万十', description: '比较万位与十位号码的大小，大则为：龙，小则为：虎', ps: 'w,s', ludan: '1v4', ludantitle: '万VS十'},
+                {id: '-6-1-5', title: '万个', description: '比较万位与个位号码的大小，大则为：龙，小则为：虎', ps: 'w,g', ludan: '1v5', ludantitle: '万VS个'},
+                {id: '-6-1-6', title: '千百', description: '比较千位与百位号码的大小，大则为：龙，小则为：虎', ps: 'q,b', ludan: '2v3', ludantitle: '千VS百'},
+                {id: '-6-1-7', title: '千十', description: '比较千位与十位号码的大小，大则为：龙，小则为：虎', ps: 'q,s', ludan: '2v4', ludantitle: '千VS十'},
+                {id: '-6-1-8', title: '千个', description: '比较千位与个位号码的大小，大则为：龙，小则为：虎', ps: 'q,g', ludan: '2v5', ludantitle: '千VS个'},
+                {id: '-6-1-9', title: '百十', description: '比较百位与十位号码的大小，大则为：龙，小则为：虎', ps: 'b,s', ludan: '3v4', ludantitle: '百VS十'},
+                {id: '-6-1-10', title: '百个', description: '比较百位与个位号码的大小，大则为：龙，小则为：虎', ps: 'b,g', ludan: '3v5', ludantitle: '百VS个'},
+                {id: '-6-1-11', title: '十个', description: '比较十位与个位号码的大小，大则为：龙，小则为：虎', ps: 's,g', ludan: '4v5', ludantitle: '十VS个'}
               ]
             }
           ]

@@ -1586,7 +1586,19 @@ let PK10 = {
     return [N(value, 10, 1, 2, 10, 1).length, N(value, 10, 1, 2, 10, 1)]
   },
   // title: '龙虎
-  '-1-1-6-PK10' ({nsl}) {
+  '-1-3-1-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  '-1-3-2-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  '-1-3-3-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  '-1-3-4-PK10' ({nsl}) {
+    return C(nsl[0], 1)
+  },
+  '-1-3-5-PK10' ({nsl}) {
     return C(nsl[0], 1)
   },
   // title: '定位胆

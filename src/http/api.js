@@ -35,6 +35,7 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getLottSets: '/userpoint.do?method=getLottSets&lotteryIds=1',
   codeMissColdHeat: '/codeMissColdHeat.do?method=queryColdHot',
   rconfig: '/team/contractBonus.do?method=myRule',
   useCoupon: '/ext/bg.do?method=transferToBG',
@@ -229,6 +230,7 @@ let Game = {
   // Steven, [21.04.17 19:25]
   // method=recentlyCode pageNum size gameid
   recentlyCode: '/issue.do?method=recentlyCode',
+  ludan: '/issue.do?method=recentlyCode&v=1',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
   // 4.返点信息
