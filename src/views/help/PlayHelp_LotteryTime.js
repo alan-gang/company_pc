@@ -208,5 +208,77 @@ export default [
         FinalDeadline: '21:35:00', //最后一期截止时间
         IntervalInterval: '20分钟', //期数间隔
         TotalNumberPeriods: '40期' //总期数
+    },
+    {
+        lottery: '河内5分彩', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:04:55', //第一期截止时间
+        FinalDeadline: '23:59:55', //最后一期截止时间
+        IntervalInterval: '5分钟', //期数间隔
+        TotalNumberPeriods: '288期' //总期数
+    },
+    {
+        lottery: '河内1分彩', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:00:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '1分钟', //期数间隔
+        TotalNumberPeriods: '1440期' //总期数
+    },
+    {
+        lottery: '奇趣腾讯分分彩', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:00:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '1分钟', //期数间隔
+        TotalNumberPeriods: '1440期' //总期数
+    },
+    {
+        lottery: '奇趣腾讯5分彩', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:04:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '5分钟', //期数间隔
+        TotalNumberPeriods: '288期' //总期数
+    },
+    {
+        lottery: '奇趣腾讯10分彩', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:09:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '10分钟', //期数间隔
+        TotalNumberPeriods: '144期' //总期数
+    },
+    {
+        lottery: '福建11选5', //彩种
+        SalesTime: '8:27-23:07', //销售时间
+        FirstDeadline: '8:27:00', //第一期截止时间
+        FinalDeadline: '23:07:00', //最后一期截止时间
+        IntervalInterval: '20分钟', //期数间隔
+        TotalNumberPeriods: '45期' //总期数
+    },
+    {
+        lottery: '幸运赛车', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:01:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '2分钟', //期数间隔
+        TotalNumberPeriods: '720' //总期数
+    },
+    {
+        lottery: '幸福快三', //彩种
+        SalesTime: '24小时', //销售时间
+        FirstDeadline: '0:02:57', //第一期截止时间
+        FinalDeadline: '23:59:57', //最后一期截止时间
+        IntervalInterval: '3分钟', //期数间隔
+        TotalNumberPeriods: '480期' //总期数
+    },
+    {
+        lottery: '福建快三', //彩种
+        SalesTime: '8:48-22:28:00', //销售时间
+        FirstDeadline: '8:48:00', //第一期截止时间
+        FinalDeadline: '22:28:00', //最后一期截止时间
+        IntervalInterval: '20分钟', //期数间隔
+        TotalNumberPeriods: '42期' //总期数
     }
 ];
