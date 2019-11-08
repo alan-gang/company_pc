@@ -26,8 +26,8 @@
               <el-table-column label="生成时间" prop="createTime" width="130"></el-table-column>
               <el-table-column label="返点/返水" min-width="220">
                 <template scope="scope">
-                  <template v-for="v in JSON.parse(scope.row.pointArr)">
-                    <div :key="v">{{v}}</div>
+                  <template v-for="v in scope.row.pointArr">
+                    <div :key="v.groupId">{{v.point}}</div>
                   </template>
                 </template>
               </el-table-column>
@@ -307,6 +307,8 @@ export default {
   .el-button + .el-button {
     margin-left: 0;
   }
-  .base64Str{width: 100%;}
+  .base64Str {
+    width: 100%;
+  }
 }
 </style>
