@@ -148,6 +148,8 @@ export default {
       addEditLinkType: "",
       totalRegistNumber: "-",
       totalOpenNumber: "-",
+      pageRegistNumber: "-",
+      pageOopenNumber: "-",
       data: [],
       pageSize: 20,
       total: 99,
@@ -166,11 +168,11 @@ export default {
           return;
         }
         if (index === 2) {
-          sums[index] = this.totalRegistNumber;
+          sums[index] = this.pageRegistNumber;
           return;
         }
         if (index === 3) {
-          sums[index] = this.totalOpenNumber;
+          sums[index] = this.pageOopenNumber;
           return;
         }
       });
@@ -270,8 +272,8 @@ export default {
             if (data.success === 1) {
               this.totalRegistNumber = data.totalRegistNumber;
               this.totalOpenNumber = data.totalOpenNumber;
-              this.totalRegistNumber = data.totalRegistNumber;
-              this.totalOpenNumber = data.totalOpenNumber;
+              this.pageRegistNumber = data.pageRegistNumber;
+              this.pageOopenNumber = data.pageOopenNumber;
               this.data = data.list;
               this.total = data.totalSize;
               typeof fn === "function" && fn();
