@@ -7,7 +7,7 @@
     @close="$emit('callback')"
     center 
     custom-class="addEditLink")
-    span(slot="title") 新增推广链接
+    span(slot="title") {{$props.type=='add' ? '新增' : '修改'}}推广链接
     .ad
       .t_c
         //- .pd_25
@@ -21,13 +21,13 @@
               template(v-for=" (v, i) in  data")
                 .mb_20.v_t(v-bind:key="i")
                   span.text-danger.pd_5 *
-                  span.label(v-if=" !v.groupname ") 彩票返点
-                  span.label(v-else) {{ v.groupname  }}返水
+                  span.label(v-if=" !v.groupId") 彩票返点
+                  span.label(v-else) {{ v.groupName  }}返水
                   el-select(v-model="v.$" clearable style="width: 1.7rem")
-                    el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
-                    el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1)*1 ")
+                    el-option(v-bind:label=" '0.0' " v-bind:value=" 0 ")
+                    el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
 
-                  span(v-if=" !v.groupname ")
+                  span(v-if=" !v.groupId ")
                     span.text-blue  %
                     span.c_03（百分符）
                   span(v-else)
@@ -35,14 +35,14 @@
                     span.text-999（千分符）
                   //- 彩票奖金
                   //- 奖金计算公式 20 * 返点 + 1800
-                  div(v-if=" !v.groupname ")
+                  div(v-if=" !v.groupId ")
                     span.label(style="width:0.92rem;")
                     el-slider.slidername(
                       v-model="v.$"
-                      v-bind:max="v.backwater" 
+                      v-bind:max="userPoint" 
                       v-bind:step="0.1" 
                       v-bind:show-tooltip="false" 
-                      v-bind:disabled="!v.backwater"
+                      v-bind:disabled="!userPoint"
                       show-input
                       style="width: 1.7rem"
                     )
@@ -60,13 +60,13 @@
               template(v-if="$props.type=='add'")
                 el-radio-group(v-model="url")
                   el-radio(v-for=" (v, i) in urls " v-bind:label="v")
-                    .inlb.linkname {{v}}
+                    .inlb.linkname(:title="v") {{v}}
                     .inlb.linktip(@click="CalculateLine(v, i)") 测速
                     .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
               //- 修改
               template(v-if="$props.type=='edit'")
                 div(v-for=" (v, i) in urls " v-bind:label="v")
-                  .inlb.linkname {{v}}
+                  .inlb.linkname(:title="v") {{v}}
                   .inlb.linktip(@click="CalculateLine(v, i)") 测速
                   .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
                   //- input.ds-input(v-bind:value="v" readonly)
@@ -147,39 +147,17 @@ export default {
     // }
   },
   mounted() {
-    this.showSpreadLinks();
+    // this.showSpreadLinks();
     // this.getQR()
+    this.Init();
   },
   methods: {
     Init() {
       if (this.$props.type === "edit") {
-        this.form.remarks = this.$props.row.lineRemards;
-        this.form.tel = this.$props.row.phone;
-        this.form.qq = this.$props.row.qq;
-        this.form.wechat = this.$props.row.weChant;
-        this.urls = [this.$props.row.line];
-        this.url = this.$props.row.line;
-        //
-        this.data.forEach(v => {
-          //彩票
-          if (!v.groupid) v.$ = (this.userPoint - this.$props.row.lotteryPoint).toFixed(1);
-          //电竞
-          if (v.groupid === 1) v.$ = (this.userPoint - this.$props.row.eSportPoint).toFixed(1);
-          //"老虎机"
-          if (v.groupid === 2) v.$ = (this.userPoint - this.$props.row.gamePoint).toFixed(1);
-          //"真人"
-          if (v.groupid === 3) v.$ = (this.userPoint - this.$props.row.videoPoint).toFixed(1);
-          //"棋牌"
-          if (v.groupid === 4) v.$ = (this.userPoint - this.$props.row.chessPoint).toFixed(1);
-          //"捕鱼"
-          if (v.groupid === 5) v.$ = (this.userPoint - this.$props.row.fishPoint).toFixed(1);
-          //体育返点
-          if (v.groupid === 6) v.$ = (this.userPoint - this.$props.row.sportPoint).toFixed(1);
-          //基诺彩返点
-          if (v.groupid === 7) v.$ = (this.userPoint - this.$props.row.otherLotteryPoint).toFixed(1);
-          //"微游"
-          if (v.groupid === 8) v.$ = (this.userPoint - this.$props.row.litGamePoint).toFixed(1);
-        });
+        this.getRegistLines();
+      }
+      if (this.$props.type === "add") {
+        this.showSpreadLinks();
       }
     },
     //计算线路速度
@@ -230,8 +208,47 @@ export default {
     //     this.$message.error('二维码获取失败！')
     //   })
     // },
+    //edit
+    getRegistLines() {
+      this.$http
+        .get(api.getRegistLines, {
+          entry: this.$props.row.entry
+        })
+        .then(
+          ({ data }) => {
+            // success
+            if (data.success === 1) {
+              this.userPoint = data.userPoint;
+              this.form.remarks = data.lineRemards;
+              this.form.tel = data.phone;
+              this.form.qq = data.qq;
+              this.form.wechat = data.weChant;
+              this.urls = [data.line];
+              this.url = data.line;
+              data.back.unshift({
+                groupId: 0
+              });
+              data.back.forEach((x, i) => {
+                if (i) {
+                  x.$ = (x.value * 1000).toFixed(1) * 1;
+                  x.$s = Math.ceil(x.backWater * 10000);
+                } else {
+                  x.$ = (data.userPointValue * 100).toFixed(1) * 1;
+                  x.$s = Math.ceil(data.userPoint * 10);
+                }
+              });
+              console.log(JSON.stringify(data.back));
+              this.data = data.back;
+            } else this.$message.error(data.msg);
+          },
+          rep => {
+            // error
+          }
+        );
+    },
+    //add
     showSpreadLinks() {
-      this.$http.get(api.showSpreadLinks).then(
+      this.$http.get(api.showSpreadLinksNew).then(
         ({ data }) => {
           // success
           if (data.success === 1) {
@@ -240,16 +257,20 @@ export default {
             this.urls = data.url;
             data.url.length && (this.url = data.url[0]); //默认勾选第一个
             data.back.unshift({
-              backwater: data.userPoint
+              groupId: 0
             });
-            // $$ 保存初始值, 根据初始值是否大于零来控制是否展示
             data.back.forEach((x, i) => {
-              x.$ = ((x.backwater - x.value).toFixed(4) * 1000).toFixed(1);
-              x.$s = Math.ceil(x.backwater * (i ? 10000 : 10));
+              if (i) {
+                x.$ =
+                  ((x.backWater - x.value).toFixed(4) * 1000).toFixed(1) * 1;
+                x.$s = Math.ceil(x.backWater * 10000);
+              } else {
+                x.$ = (data.userPoint - data.autoPoint).toFixed(1) * 1;
+                x.$s = Math.ceil(data.userPoint * 10);
+              }
             });
-            data.back[0].$ = (data.userPoint - data.autoPoint).toFixed(1);
+            console.log(JSON.stringify(data.back));
             this.data = data.back;
-            this.Init();
           } else this.$message.error(data.msg || "自动注册链接获取失败！");
         },
         rep => {
@@ -266,13 +287,13 @@ export default {
           qq: this.form.qq,
           weChant: this.form.wechat,
           linesArr: this.url,
-          keepPoint: (this.data[0].backwater - this.data[0].$).toFixed(1),
+          keepPoint: this.data[0].$,
           pointArr: JSON.stringify({
             myBack: this.data.slice(1).map(x => {
               return {
-                groupid: x.groupid,
-                groupname: x.groupname,
-                backwater: (x.backwater - x.$ / 1000).toFixed(4)
+                groupid: x.groupId,
+                groupname: x.groupName,
+                backwater: (x.$ / 1000).toFixed(4)
               };
             })
           })
