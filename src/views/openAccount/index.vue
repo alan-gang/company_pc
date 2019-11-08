@@ -18,7 +18,7 @@ import AddUser from './AddUser'
 export default {
   components: {
     // AD,
-    linkAdmin: resolve => require(['./linkAdmin'], resolve),
+    linkAdmin: resolve => require(['./linkAdmin.vue'], resolve),
     AddUser
   },
   name: 'open-account',

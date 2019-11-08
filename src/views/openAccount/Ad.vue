@@ -17,7 +17,7 @@
         template(v-if="data.length")
           .pd_25
             p.ft18.pb_25 推广链接设置
-            .mh_500.mg_0a.t_l(style="width:4.6rem")
+            .mh_500.mg_0a.t_l(style="width:5rem")
               template(v-for=" (v, i) in  data")
                 .mb_20.v_t(v-bind:key="i")
                   span.text-danger.pd_5 *

@@ -757,7 +757,7 @@ export default {
                   id: '2-3-5',
                   menuid: '42',
                   title: '开户管理',
-                  tabs: ['新增下级', '推广连接管理'],
+                  tabs: ['新增下级', '推广链接管理'],
                   tabfn: '__setOpenAccountI',
                   url: 'openAccount'
                 },
