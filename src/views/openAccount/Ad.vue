@@ -108,9 +108,8 @@ export default {
   // type 取值 add  edit
   props: ["show", "type", "row"],
   data() {
-    var _this = this;
     return {
-      visible: _this.$props.show,
+      visible: this.$props.show,
       userPoint: 0, //最大彩票返点
       url: "",
       urlSpeed: {},
@@ -154,13 +153,9 @@ export default {
     this.Init();
   },
   methods: {
-    Init() {
-      if (this.$props.type === "edit") {
-        this.getRegistLines();
-      }
-      if (this.$props.type === "add") {
-        this.showSpreadLinks();
-      }
+    Init () {
+      this.$props.type === "edit" && (this.getRegistLines())
+      this.$props.type === "add" && (this.showSpreadLinks())
     },
     //计算线路速度
     CalculateLine(host, urlSpeedInx) {
@@ -239,7 +234,7 @@ export default {
                   x.$s = Math.ceil(data.userPoint * 10);
                 }
               });
-              console.log(JSON.stringify(data.back));
+              // console.log(JSON.stringify(data.back));
               this.data = data.back;
             } else this.$message.error(data.msg);
           },
@@ -271,7 +266,7 @@ export default {
                 x.$s = Math.ceil(data.userPoint * 10);
               }
             });
-            console.log(JSON.stringify(data.back));
+            // console.log(JSON.stringify(data.back));
             this.data = data.back;
           } else this.$message.error(data.msg || "自动注册链接获取失败！");
         },
@@ -282,24 +277,26 @@ export default {
       );
     },
     setKeepPoint() {
-      this.$http
-        .post(api.setKeepPoint, {
-          lineRemards: this.form.remarks,
-          phone: this.form.tel,
-          qq: this.form.qq,
-          weChant: this.form.wechat,
-          linesArr: this.url,
-          keepPoint: this.data[0].$,
-          pointArr: JSON.stringify({
-            myBack: this.data.slice(1).map(x => {
-              return {
-                groupid: x.groupId,
-                groupname: x.groupName,
-                backwater: (x.$ / 1000).toFixed(4)
-              };
-            })
+      let param = {
+        lineRemards: this.form.remarks,
+        phone: this.form.tel,
+        qq: this.form.qq,
+        weChant: this.form.wechat,
+        linesArr: this.url,
+        keepPoint: this.data[0].$,
+        pointArr: JSON.stringify({
+          myBack: this.data.slice(1).map(x => {
+            return {
+              groupid: x.groupId,
+              groupname: x.groupName,
+              backwater: (x.$ / 1000).toFixed(4)
+            };
           })
         })
+      };
+      this.$props.type === "edit" && (param['entry'] = this.$props.row.entry)
+      this.$http
+        .post(api.setKeepPoint, param)
         .then(
           ({ data }) => {
             // success
