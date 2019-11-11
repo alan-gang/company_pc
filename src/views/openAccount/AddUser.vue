@@ -76,7 +76,7 @@
                   span.tips 奖金：{{20 * v.$ + 1800}}
                   span.tips 返点：{{v.$}}%
           
-          .buttons.mb_20.pl_70(:class=" i &&  users.length > 1 && 'mt_20' ")
+          .buttons.mb_20(:class=" i &&  users.length > 1 && 'mt_20' ")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="openAccount") 开户
         
 
