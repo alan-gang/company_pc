@@ -1,6 +1,6 @@
 <template lang="jade">
   el-dialog(
-    v-bind:visible.sync="$props.show" 
+    v-bind:visible.sync="visible" 
     v-bind:modal="false" 
     v-bind:append-to-body="!0" 
     v-bind:close-on-click-modal="!1"  
@@ -108,7 +108,9 @@ export default {
   // type 取值 add  edit
   props: ["show", "type", "row"],
   data() {
+    var _this = this;
     return {
+      visible: _this.$props.show,
       userPoint: 0, //最大彩票返点
       url: "",
       urlSpeed: {},
@@ -303,6 +305,8 @@ export default {
             // success
             if (data.success === 1) {
               this.$message.success(data.msg || "保留返点设置成功！");
+              this.visible = !1;
+              this.$emit('callback');
               // this.showSpreadLinks()
             } else this.$message.error(data.msg || "保留返点设置失败！");
           },
