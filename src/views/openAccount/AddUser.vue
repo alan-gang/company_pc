@@ -178,6 +178,7 @@
             data.back.forEach((x, i) => {
               x.$ = ''
               x.$s = Math.ceil(x.backwater * (i ? 10000 : 10))
+              if (!i) x.$ = 0
             })
             this.data = data.back
           } else this.$message.error(data.msg || '开户信息获取失败！')

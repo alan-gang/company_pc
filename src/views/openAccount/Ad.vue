@@ -61,14 +61,14 @@
                 el-radio-group(v-model="url")
                   el-radio(v-for=" (v, i) in urls " v-bind:label="v")
                     .inlb.linkname(:title="v") {{v}}
-                    .inlb.linktip(@click="CalculateLine(v, i)") 测速
-                    .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
+                    //- .inlb.linktip(@click="CalculateLine(v, i)") 测速
+                    //- .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
               //- 修改
               template(v-if="$props.type=='edit'")
                 div(v-for=" (v, i) in urls " v-bind:label="v")
                   .inlb.linkname(:title="v") {{v}}
-                  .inlb.linktip(@click="CalculateLine(v, i)") 测速
-                  .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
+                  //- .inlb.linktip(@click="CalculateLine(v, i)") 测速
+                  //- .inlb.linkms(v-bind:class="{'fast':urlSpeed[i]<=30,'slow':urlSpeed[i]>30}") {{urlSpeed[i]}}{{typeof(urlSpeed[i])=='number' ? 'ms' : '' }}
                   //- input.ds-input(v-bind:value="v" readonly)
                 //- span.ds-button.text-button.blue(v-clipboard:copy=" v " v-clipboard:success="copySuccess"  v-clipboard:error="copyError" style="position: absolute;padding: 0 10px") 复制
                 //- br
@@ -103,7 +103,7 @@
 
 <script>
 import api from "../../http/api";
-import $ from "jquery";
+// import $ from "jquery";
 export default {
   // type 取值 add  edit
   props: ["show", "type", "row"],
@@ -159,29 +159,39 @@ export default {
     },
     //计算线路速度
     CalculateLine(host, urlSpeedInx) {
-      let curTime = new Date().getTime();
-      this.urlSpeed[urlSpeedInx] = "计算中...";
-      this.urls.splice(0, 0);
-      $.ajax({
-        url: host,
-        dataType: "jsonp",
-        timeout: 9999,
-        complete: (XMLHttpRequest, textStatus) => {
-          let time = new Date().getTime() - curTime;
-          if (textStatus === "parsererror") {
-            //OK
-            // console.log(v.host, time);
-            this.urlSpeed[urlSpeedInx] = time;
-          } else if (textStatus === "timeout") {
-            //超时
-            this.urlSpeed[urlSpeedInx] = "timeout";
-          } else {
-            //域名异常
-            this.urlSpeed[urlSpeedInx] = "DNS error";
-          }
-          this.urls.splice(0, 0);
-        }
-      });
+      let n = document.createElement('img')
+      let t = Date.now()
+      n.setAttribute('src', host)
+      n.onload = () => {
+        this.urlSpeed[urlSpeedInx] = Date.now() - t
+      }
+      n.onerror = () => {
+        this.urlSpeed[urlSpeedInx] = 10000
+      }
+      this.$el.appendChild(n)
+      // let curTime = new Date().getTime();
+      // this.urlSpeed[urlSpeedInx] = "计算中...";
+      // this.urls.splice(0, 0);
+      // $.ajax({
+      //   url: host,
+      //   dataType: "jsonp",
+      //   timeout: 9999,
+      //   complete: (XMLHttpRequest, textStatus) => {
+      //     let time = new Date().getTime() - curTime;
+      //     if (textStatus === "parsererror") {
+      //       //OK
+      //       // console.log(v.host, time);
+      //       this.urlSpeed[urlSpeedInx] = time;
+      //     } else if (textStatus === "timeout") {
+      //       //超时
+      //       this.urlSpeed[urlSpeedInx] = "timeout";
+      //     } else {
+      //       //域名异常
+      //       this.urlSpeed[urlSpeedInx] = "DNS error";
+      //     }
+      //     this.urls.splice(0, 0);
+      //   }
+      // });
     },
     copySuccess() {
       this.$message({
