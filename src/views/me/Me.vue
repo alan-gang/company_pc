@@ -10,46 +10,46 @@
       .s(style="padding: PWX 0")
         .c
           br
-          p 主帐户
+          p 主账户
           p.amount.text-black {{ numberWithCommas(ME.amoney) }}
             // span.text-666 元
         .c
           br
-          p 特殊帐户
+          p 特殊账户
           p.amount.text-black {{ numberWithCommas(ME.smoney) }}
             // span.text-666 元
         .c
           br
-          p BG帐户
+          p BG账户
           p.amount.text-black {{ numberWithCommas(ME.bgmoney) }}
             // span.text-666 元
         .c
           br
-          p 体育帐户
+          p 体育账户
           p.amount.text-black {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
             // span.text-666 元
 
         .c
           br
-          p 棋牌帐户
+          p 棋牌账户
           p.amount.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
             // span.text-666 元
 
         .c
           br
-          p PT帐户
+          p PT账户
           p.amount.text-black {{ numberWithCommas(ME.ptmoney.toFixed(4)) }}
             // span.text-666 元
 
         .c
           br
-          p AG帐户
+          p AG账户
           p.amount.text-black {{ numberWithCommas(ME.agmoney.toFixed(4)) }}
             // span.text-666 元
 
         .c
           br
-          p 一本帐户
+          p 一本账户
           p.amount.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
             // span.text-666 元
 
@@ -61,8 +61,8 @@
       
       .s
         .cc
-          p.title.text-black 帐户互转 
-          label.item 转出帐户 
+          p.title.text-black 账户互转 
+          label.item 转出账户 
             el-select(v-model="f" style="width: 2.5rem" placeholder="无")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i")
           p 可用余额：
@@ -113,7 +113,7 @@ export default {
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
       f: '',
-      froms: ['主帐户', '特殊帐户', 'BG帐户:2', '体育帐户:3', '棋牌帐户:7', 'PT帐户:5', 'AG帐户:4', '一本帐户:9'],
+      froms: ['主账户', '特殊账户', 'BG账户:2', '体育账户:3', '棋牌账户:7', 'PT账户:5', 'AG账户:4', '一本账户:9'],
       t: '',
       m: '',
       cpwd: '',
@@ -269,10 +269,10 @@ export default {
       })
     },
     transferNow () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
+      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
       if (!this.ccm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
+      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -287,10 +287,10 @@ export default {
       })
     },
     transferNowBG () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出帐户！'})
+      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
       if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出帐户余额不足！'})
+      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
       this.btn = true
       let t = setTimeout(() => {
         if (this.btn) this.btn = false

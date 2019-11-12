@@ -792,7 +792,7 @@ export default {
       if (!this.state.user.cashPwd && url !== '2-2-1') {
         url = '2-2-1'
         this.$modal.warn({
-          content: '为了您的帐户安全，请您务必先设置好您的资金密码！',
+          content: '为了您的账户安全，请您务必先设置好您的资金密码！',
           target: this.$el,
           btn: ['好的']
         })

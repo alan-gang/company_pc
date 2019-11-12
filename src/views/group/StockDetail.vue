@@ -24,7 +24,7 @@
           |  元
 
         .item.buttons(style="margin: .3rem 0" v-if=" !self && stock.isDone === 0  ")
-           button.ds-button.large.bold.primary(@click="paid") 内部帐户发放
+           button.ds-button.large.bold.primary(@click="paid") 内部账户发放
            button.ds-button.large.bold.cancel(@click="paidOut") 平台外发放
 
         .item.buttons(style="margin: .3rem 0" v-if=" self && stock.isDone === 2  ")

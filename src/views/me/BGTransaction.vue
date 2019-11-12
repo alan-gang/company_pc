@@ -13,13 +13,13 @@
           el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         | &nbsp;&nbsp;
         
-        label.item 转出帐户 
+        label.item 转出账户 
           el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
             el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
         | &nbsp;&nbsp;
         
-        label.item 转入帐户  
+        label.item 转入账户  
           el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
             el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
         
@@ -77,7 +77,7 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        froms: ['主帐户', '特殊帐户', 'BG帐户', '体育帐户', '棋牌帐户:7', 'PT帐户:5'],
+        froms: ['主账户', '特殊账户', 'BG账户', '体育账户', '棋牌账户:7', 'PT账户:5'],
         f: '',
         t: '',
         S: ['失败', '成功', '处理中'],

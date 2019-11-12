@@ -20,7 +20,7 @@
         
         div.bbbb(style="border-bottom: 1px solid #eee; padding-bottom: .15rem")
           .slot.me.text-black
-              | 我的帐户：
+              | 我的账户：
               span {{ me.account }}
               span
 
