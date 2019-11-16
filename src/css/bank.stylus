@@ -13,6 +13,7 @@ qqwallet     QQ钱包
 bdwallet     百度钱包
 jd           京东支付
 zfb_base     支付宝原生
+zfbquota     支付宝定额
 
 */
 
@@ -21,6 +22,9 @@ payTypeImage($type) {
   background-repeat no-repeat
   background-position center
 }
+
+.type-zfbquota
+  payTypeImage(zfbquota)
 
 .type-unionpay
   payTypeImage(unionpay)

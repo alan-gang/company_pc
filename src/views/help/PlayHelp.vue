@@ -29,7 +29,7 @@
 
         el-row.row-title.text-black
           el-col(:span="4" style="padding-left: .2rem;" ) 彩种
-          el-col(:span="4") 销售时间
+          el-col(:span="4") 销售周期
           el-col(:span="4") 第一期截止时间
           el-col(:span="4") 最后一期截止时间
           el-col(:span="4") 期数间隔
