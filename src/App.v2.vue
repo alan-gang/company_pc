@@ -1516,7 +1516,8 @@ export default {
           this.__setCall({fn: '__openWinCode', args: msg.content[0]})
           break
         case 'prizeNotice':
-          !this.NotifyModal && (this.NotifyModal = this.$modal.success({
+          // 中将提醒默认提醒
+          (window.localStorage.getItem('WinningReminder') ? window.localStorage.getItem('WinningReminder') * 1 : 1) && !this.NotifyModal && (this.NotifyModal = this.$modal.success({
             close () {
               this.NotifyModal = null
             },

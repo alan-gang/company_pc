@@ -230,6 +230,7 @@ let Game = {
   // Steven, [21.04.17 19:25]
   // method=recentlyCode pageNum size gameid
   recentlyCode: '/issue.do?method=recentlyCode',
+  recentlyCodeNew: '/issue.do?method=recentlyCodeNew',
   ludan: '/issue.do?method=recentlyCode&v=1',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
