@@ -31,7 +31,9 @@
         span.caa.inlb {{ r.issue.substr(-4) }}
 
         span.cab.inlb
-          span.caba(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
+          span.Sale.text-blue(v-if="!r.code.length && $props.CNPER==r.issue") 销售中
+          span.WaitingDraw.text-oblue(v-if="!r.code.length && $props.CNPER!=r.issue") 等待开奖
+          span.caba(v-if="r.code.length" v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
               br(v-if=" i === 9 ")
 
           .number-gaps(v-if=" gameType === 'PCDD' ")
@@ -65,7 +67,15 @@ export default {
   components: {
   },
   name: 'game-recent',
-  props: ['gameid', 'gameType', 'allLuckyNumbers', 'methodid', 'type'],
+  props: [
+    'NPER', //下一期
+    'CNPER', //当前期号
+    'gameid',
+    'gameType',
+    'allLuckyNumbers',
+    'methodid',
+    'type'
+  ],
   data () {
     return {
       ME: store.state.user,

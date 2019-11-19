@@ -318,10 +318,10 @@ export default {
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
-      this.$http.mypost(api.recentlyCode, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
-          let lst = data.items[0] || {code: '0,0,0,0,0'}
+          let lst = data.items.find(x => { return x.code }) || {code: '0,0,0,0,0'}
           this.ns = lst.code.split(',')
         }
       }, (rep) => {

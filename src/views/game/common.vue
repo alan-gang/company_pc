@@ -58,7 +58,7 @@
           GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
 
         .inlb.absolute(style="width: 25%; top: 0; right: 0; bottom: 0; background: #999; vertical-align: top")
-          GameRecent(v-bind:gameid="gameid" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers.slice(0, 30)" v-bind:methodid="methodid" v-bind:type="type")
+          GameRecent(v-bind:gameid="gameid" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers.slice(0, 30)" v-bind:methodid="methodid" v-bind:type="type")
           
       .bgc-w.mt_10.pt_15.pb_15(style="background-color: #fff")
         .pl_15
@@ -117,8 +117,8 @@ export default {
       // url: 'one',
       updateFromSocket: false,
       // 最近的已开奖期数
-      NPER: '100000000',
-      CNPER: '100000000',
+      NPER: '100000000', // 下一期
+      CNPER: '100000000', // 当前
       // 用户选择投注的起始期数
       // usernper: '100000000',
       // 最近的已开奖期号码
@@ -447,13 +447,13 @@ export default {
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 100}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, {gameid: this.page.gameid, pageNum: 1, size: 100}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
           })
-          let lst = data.items[0] || {}
+          let lst = data.items[1] || data.items[0]
           // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
           if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
             if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
