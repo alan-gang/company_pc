@@ -36,7 +36,7 @@
           span.caba(v-if="r.code.length" v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
               br(v-if=" i === 9 ")
 
-          .number-gaps(v-if=" gameType === 'PCDD' ")
+          .number-gaps(v-if="r.code.length && gameType === 'PCDD' ")
             .number-gap +
             .number-gap +
             .number-gap =
