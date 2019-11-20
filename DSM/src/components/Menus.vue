@@ -23,7 +23,7 @@
                 el-menu-item.ds-button.full( v-for="(item, iii) in g.items" v-bind:index=" !item.fn ? '/' + m.url + '/' + item.id : '' "  v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-if="!item.removed && item.id && !item.hide" style="font-size: .12rem;")
                   span(@click=" item.fn && openTab(item) ") {{ item.title }}
                   //- span.SealTime {{item.gameid}}
-                  span.SealTime {{ timefind(item) }}
+                  span.SealTime(v-bind:class="{'timeRed': timefind(item).timeLast<11000}") {{ timefind(item).timeStr }}
                   span.fav(v-if="!favGameIds.includes(item.gameid)" @click="favAdd(item)") ☆
                   span.fav(v-if="favGameIds.includes(item.gameid)" @click="favDel(item)") ★
 </template>
@@ -97,7 +97,7 @@ export default {
       let r = this.curList.find(a => {
         return a.timeStr && row.gameid === a.lotteryid;
       });
-      return r && r.timeStr ? r.timeStr : "";
+      return r && r.timeStr ? r : { timeStr: "", timeLast: "99999" };
     },
     // 多个彩种同时获取正在销售的奖期
     currentList() {
@@ -119,6 +119,7 @@ export default {
                 this.curTime = data.current;
                 data.items.forEach(a => {
                   let time = a.saleend - this.curTime;
+                  a["timeLast"] = time;
                   a["timeStr"] = util.timeFormat(parseInt(time / 1000));
                 });
                 this.curList = data.items;
@@ -129,6 +130,7 @@ export default {
                     let time = a.saleend - this.curTime;
                     time <= 1000 && this.currentList(); // 多并发bug由 拦截器拦截
                     time < 0 && (time = 0);
+                    a["timeLast"] = time;
                     a["timeStr"] = util.timeFormat(parseInt(time / 1000));
                   });
                   this.curTime += 1000;
@@ -244,6 +246,8 @@ export default {
     // right 0.5em
     right 1.5em
     // transition all .3s
+    &.timeRed
+      color red
   .fav
     position absolute
     display inline-block
