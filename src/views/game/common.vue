@@ -350,7 +350,7 @@ export default {
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
-        this.__recentlyCode()
+        setTimeout(this.__recentlyCode, 1000)
         this.__getTraceIssueList()
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
@@ -459,6 +459,7 @@ export default {
             }
           })
           let lst = data.items[1] || data.items[0]
+          if (data.items[0] && data.items[0].code) lst = data.items[0]
           this.overtime = false
           this.NPER = lst.issue + ''
           this.lucknumbers = lst.lucknumbers
@@ -1222,6 +1223,7 @@ export default {
         let the = this.allLuckyNumbers.find(y => String(x.issue) === String(y.issue))
         if (the) {
           the = Object.assign(the, x)
+          this.NPER = x.issue + ''
         } else {
           this.allLuckyNumbers.splice(0, 0, x)
           this.NPER = x.issue + ''
