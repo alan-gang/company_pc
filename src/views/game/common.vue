@@ -350,8 +350,10 @@ export default {
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
-        setTimeout(this.__recentlyCode, 1000)
         this.__getTraceIssueList()
+        setTimeout(this.__recentlyCode, 1000)
+        setTimeout(this.__recentlyCode, 3000)
+        setTimeout(this.__recentlyCode, 10000)
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
       }
