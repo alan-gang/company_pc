@@ -352,8 +352,7 @@ export default {
         this.__getIssue()
         this.__getTraceIssueList()
         setTimeout(this.__recentlyCode, 1000)
-        setTimeout(this.__recentlyCode, 3000)
-        setTimeout(this.__recentlyCode, 10000)
+        setTimeout(this.__recentlyCode, 5000)
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
       }
