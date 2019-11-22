@@ -4,26 +4,26 @@
       .expand-left.skins.text-black  &nbsp;&nbsp;可选皮肤
         br
         .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' center no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
-    
+
     .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     //- .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
       .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
-    
+
     .ds-icon-helpcenter(@click="$router.push('/help/6-1-1')")
       .expand-left  帮助中心
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
-    .ds-icon-(v-show="Me.login")
+    .ds-icon-(v-show="Me.login" @click="goChat")
       .expand-left 联系上级
     .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
     .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
-      span.badge {{ amount }} 
+      span.badge {{ amount }}
       .expand-left 刮刮乐
     .ds-icon-guanji(@click="$router.push('/help/7-1-1')")
     RightQuickThirdGame(v-on:click="clickHandler")
-      
+
     //- .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
       span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
@@ -80,6 +80,10 @@
       this.__getUserScratch()
     },
     methods: {
+      goChat() {
+        let url = 'http://192.168.169.84/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+        window.open(url, '_blank', 'width=800,height=520,resizable=no')
+      },
       countDown () {
         if (this.time > 0) {
           setTimeout(() => {
@@ -184,7 +188,14 @@
           transition all ease .3s
           font-size .14rem
           overflow hidden
-
+  .ds-icon-
+    width RW
+    height RW
+    margin 0
+    background-image url(../assets/righter/05.png) !important
+    background-position center
+    cursor pointer !important
+    background-repeat no-repeat
 
 
 
@@ -210,7 +221,7 @@
         &:hover
           background-color rgba(255, 255, 255, .5)
           color DANGER
-        
+
 
 </style>
 <style lang="stylus" scoped>
@@ -246,7 +257,7 @@
       background url(../assets/righter/04.png) center no-repeat
     .isvip
       background url(../assets/righter/vipChat.png) center no-repeat
-        
+
     .ds-icon-ggl
       background url(../assets/righter/06.png) center no-repeat
       position relative

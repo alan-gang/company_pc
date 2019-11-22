@@ -1269,7 +1269,9 @@ export default {
           vip: data.isVip,
           isVip: data.isVip,
           vipChatUrl: data.vipChatUrl,
-          backWaters
+          backWaters,
+          platId: data.platId,
+          token: data.token
           // isOldUser: data.isOldUser
         })
         this.showAnnual = !!data.isOldUser
@@ -1301,7 +1303,7 @@ export default {
         })
         window.accessAngular.isStranger(false)
         // window.accessAngular.connect()
-        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
         Socket.sockets.user && this.connected(Socket.sockets.user)
