@@ -103,6 +103,7 @@
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " )
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " )
                 el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " )
+                el-col.happygaming(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '44:69'}}) ")
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -113,7 +114,7 @@
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
                 el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
-                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
+                //- el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
                 el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
                 el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ")
             p
@@ -317,10 +318,10 @@ export default {
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
-      this.$http.mypost(api.recentlyCode, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
-          let lst = data.items[0] || {code: '0,0,0,0,0'}
+          let lst = data.items.find(x => { return x.code }) || {code: '0,0,0,0,0'}
           this.ns = lst.code.split(',')
         }
       }, (rep) => {
@@ -680,6 +681,8 @@ export default {
           background-image url(../assets/newhome/logo_bg_big.png)
         &.sa
           background-image url(../assets/newhome/logo_sa_big.png)
+        &.happygaming
+          background-image url(../assets/newhome/logo_happygaming_big.png)
         &.og
           background-image url('../assets/newhome/logo_og_big.png')
         &.sb

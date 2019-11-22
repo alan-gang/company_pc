@@ -20,7 +20,10 @@
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
         pre.cac.inlb(v-if=" ccs " )
-          span(v-for=" t in  ccs.title ") {{ t }}
+          template(v-if=" type.ludan ")
+            span {{ type.ludantitle }}
+          template(v-else)
+            span(v-for=" t in  ccs.title ") {{ t }}
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
@@ -28,10 +31,12 @@
         span.caa.inlb {{ r.issue.substr(-4) }}
 
         span.cab.inlb
-          span.caba(v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
+          span.Sale.text-blue(v-if="!r.code.length && $props.CNPER==r.issue") 销售中
+          span.WaitingDraw.text-oblue(v-if="!r.code.length && $props.CNPER!=r.issue") 等待开奖
+          span.caba(v-if="r.code.length" v-for=" (n, i) in r.code.split(',') " v-bind:class=" setPosColor(i) ")  {{ n }}
               br(v-if=" i === 9 ")
 
-          .number-gaps(v-if=" gameType === 'PCDD' ")
+          .number-gaps(v-if="r.code.length && gameType === 'PCDD' ")
             .number-gap +
             .number-gap +
             .number-gap =
@@ -40,11 +45,17 @@
 
         pre.cac.inlb(v-if=" codeStyle && row_ccs(r) ")
           | &nbsp;
-          span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
+          template(v-if=" type.ludan ")
+            template(v-if=" row_ccs(r) && row_ccs(r).data ")
+              span(:class=" colorOfV(row_ccs(r).data.find(x => x.pos === type.ludan).val) ") {{ row_ccs(r).data.find(x => x.pos === type.ludan).val }}
 
-          span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
+          template(v-else)
+            span(v-if=" row_ccs(r) && !row_ccs(r).value.join ") row_ccs(r).value
 
+            span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
 
+        pre.cac.inlb(v-if="!r.code.length && ccs")
+          | &nbsp;
 
 
 </template>
@@ -57,7 +68,15 @@ export default {
   components: {
   },
   name: 'game-recent',
-  props: ['gameid', 'gameType', 'allLuckyNumbers', 'methodid'],
+  props: [
+    'NPER', //下一期
+    'CNPER', //当前期号
+    'gameid',
+    'gameType',
+    'allLuckyNumbers',
+    'methodid',
+    'type'
+  ],
   data () {
     return {
       ME: store.state.user,
@@ -76,7 +95,7 @@ export default {
       }
     },
     codeStyle () {
-      return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : ''
+      return this.allLuckyNumbers[this.allLuckyNumbers.length - 1] && this.allLuckyNumbers[this.allLuckyNumbers.length - 1].codeStyle ? this.allLuckyNumbers[this.allLuckyNumbers.length - 1].codeStyle : ''
       // return ''
     },
     cs () {
@@ -187,6 +206,53 @@ export default {
             if (i > 0) return 'text-blue'
             break
         }
+        switch (this.type.ludan) {
+          case '1v2':
+            if (i < 2) return 'text-blue'
+            break
+          case '1v3':
+            if (i === 0 || i === 2) return 'text-blue'
+            break
+          case '1v4':
+            if (i === 0 || i === 3) return 'text-blue'
+            break
+          case '1v5':
+            if (i === 0 || i === 4) return 'text-blue'
+            break
+          case '2v3':
+            if (i === 1 || i === 2) return 'text-blue'
+            break
+          case '2v4':
+            if (i === 1 || i === 3) return 'text-blue'
+            break
+          case '2v5':
+            if (i === 1 || i === 4) return 'text-blue'
+            break
+          case '3v4':
+            if (i === 2 || i === 3) return 'text-blue'
+            break
+          case '3v5':
+            if (i === 2 || i === 4) return 'text-blue'
+            break
+          case '4v5':
+            if (i === 3 || i === 4) return 'text-blue'
+            break
+          case '1v10':
+            if (i === 0 || i === 9) return 'text-blue'
+            break
+          case '2v9':
+            if (i === 1 || i === 8) return 'text-blue'
+            break
+          case '3v8':
+            if (i === 2 || i === 7) return 'text-blue'
+            break
+          case '4v7':
+            if (i === 3 || i === 6) return 'text-blue'
+            break
+          case '5v6':
+            if (i === 4 || i === 5) return 'text-blue'
+            break
+        }
       } else {
         return ''
       }
@@ -199,14 +265,12 @@ export default {
         case '组六':
         case '顺子':
         case '大单':
-        case '龙':
           return 'type-color-1'
         case '组选60':
         case '组选12':
         case '组三':
         case '对子':
         case '大双':
-        case '虎':
         case '牛1':
         case '牛2':
         case '牛3':
@@ -217,7 +281,6 @@ export default {
         case '组选6':
         case '豹子':
         case '小单':
-        case '和':
         case '牛6':
         case '牛7':
         case '牛8':
@@ -232,8 +295,13 @@ export default {
           return 'type-color-5'
         case '组选5':
         case '没牛':
-
           return 'type-color-6'
+        case '龙':
+          return 'type-color-red'
+        case '虎':
+          return 'type-color-blue'
+        case '和':
+          return 'type-color-green'
         default:
           return 'type-color-6'
       }
@@ -268,17 +336,19 @@ export default {
 
   .c
     background-color #fff
-    &.PK10
     &.HC6
       .caa
         width 25%
       .cab
         width 75%
 
-    &.PK10.absolute
-      .ca
-        height .24rem
-        line-height .24rem
+    &.PK10
+      .caa
+        width 18%
+      .cab
+        width 65%
+      .cac
+        width 17%
 
     &.KL8
       .caa
@@ -324,7 +394,13 @@ export default {
         width .24rem
         margin-right .12rem
 
-
+    &.K3
+      .caa
+      .cab
+        width 25%
+      .cac
+        width 50%
+      
 
 
 
@@ -366,44 +442,12 @@ export default {
     color #f17d0b
   .type-color-6
     color #000
+  
+  .type-color-blue
+    color blue
+  .type-color-red
+    color red
+  .type-color-green
+    color green
 
 </style>
-<!-- // 五星
-case '组120':
-case '组60':
-case '组30':
-case '组20':
-case '组10':
-case '组5':
-// 四星
-case '组24':
-case '组12':
-case '组6':
-case '组4':
-// 三星
-case '组六':
-case '组三':
-case '顺子':
-case '对子':
-case '豹子':
-// 趣味
-case '大':
-case '小':
-case '单':
-case '双':
-// 龙虎和
-case '龙':
-case '虎':
-case '和':
-// 牛牛
-case '没牛':
-case '牛一':
-case '牛二':
-case '牛三':
-case '牛四':
-case '牛五':
-case '牛六':
-case '牛七':
-case '牛八':
-case '牛九':
-case '牛牛': -->

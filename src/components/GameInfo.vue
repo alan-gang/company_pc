@@ -72,8 +72,8 @@
                     <a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/2">https://www.qiju.info/#/qijuData/2</a>
 
         .vm.inlb
-
-          RollingNumbers(v-bind:numbers=" numbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
+          span.WaitingDraw.text-oblue(v-if="!lucknumbers.join('').length") 等待开奖
+          RollingNumbers(v-if="lucknumbers.join('').length" v-bind:numbers=" $props.lucknumbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if=" fromold && preissue ")
             | 取自 
             span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆欢乐生肖' : '' }} 
@@ -96,7 +96,10 @@
                   .th.inlb {{ r.rank }}
                   .th.inlb {{ r.title }}
                   .th.inlb.t_r {{ r.num }}
-    
+        
+        .WinningReminder.absolute(@click="ClickWinningReminder")
+          .ds-checkbox(:class=" {'active': WinningReminder} ") 
+          | 中奖提醒
       
         
 </template>
@@ -107,12 +110,12 @@ import RollingNumbers from './RollingNumbers'
 import api from 'src/http/api'
 export default {
   props: {
-    NPER: String,
-    CNPER: String,
+    NPER: String, //下一期
+    CNPER: String, //当前期号
     timeout: Number,
     gameType: String,
     allLuckyNumbers: Array,
-    lucknumbers: Array,
+    lucknumbers: Array, // 开奖号码
     methodid: String,
     overtime: Boolean,
     gameid: Number
@@ -122,6 +125,7 @@ export default {
   },
   data () {
     return {
+      WinningReminder: window.localStorage.getItem('WinningReminder') ? window.localStorage.getItem('WinningReminder') * 1 : 1, // 中将提醒默认提醒
       va: false,
       time: 0,
       interval: 0,
@@ -160,9 +164,9 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
     }
   },
   computed: {
-    numbers () {
-      return (this.allLuckyNumbers[0] || {lucknumbers: this.lucknumbers}).lucknumbers
-    },
+    // numbers () {
+    //   return (this.allLuckyNumbers[0] || {lucknumbers: this.lucknumbers}).lucknumbers
+    // },
     showTime () {
       return util.timeFormat(this.time)
     },
@@ -218,6 +222,11 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
     clearInterval(this.interval)
   },
   methods: {
+    // 点击中奖提醒
+    ClickWinningReminder () {
+      this.WinningReminder = !this.WinningReminder;
+      window.localStorage.setItem('WinningReminder', this.WinningReminder ? 1 : 0);
+    },
     getHisIssue () {
       this.preissue = ''
       if (!this.fromold) return
@@ -265,7 +274,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 ffc_qq ln115 qqwfc qqsfc
+    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 qqtxffc ln115 qqtxwfc qqtxsfc 
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
@@ -351,5 +360,17 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
         padding-right .5rem
 
 </style>
-
-
+<style lang="stylus">
+.game-header.relative
+  // 等待开奖
+  .WaitingDraw
+    font-size 0.3rem
+    margin-left 1em
+    letter-spacing 0.5em
+  // 开奖提醒
+  .WinningReminder
+    top 0
+    right 0
+    margin-top 0.3em
+    margin-right 0.3em
+</style>

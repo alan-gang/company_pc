@@ -121,6 +121,10 @@ body.cb.v2
     radius(0)
     &.menu
       max-width auto
+      @media screen and (max-width: 1500px)
+        max-width 14rem
+      @media screen and (max-width: 1200px)
+        max-width 11rem
       transform: translateY(-0.12rem) translateX(-1.25rem)
       .popper__arrow
         transform: translateX(1.25rem) translateY(-.05rem)
@@ -326,6 +330,8 @@ body.cb.v2
         background-image url(../assets/newhome/logo_sa_big.png)
       &.ds-icon-logo-og
         background-image url(../assets/newhome/logo_og.png)
+      &.ds-icon-logo-happygaming
+        background-image url(../assets/newhome/logo_happygaming_big.png)
 
 
 
@@ -339,7 +345,8 @@ body.cb.v2
       line-height .45rem
       h4
         color #999
-
+    [class*=ds-icon-game-bg]
+      float left
     .ds-icon-game-bg1
       background url(../assets/v2/001.png) .2rem center no-repeat
     .ds-icon-game-bg2

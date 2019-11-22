@@ -240,11 +240,11 @@ export default {
                 {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
                 {class: 'ds-icon-game-hnwfc sign new', id: '1-1-119', menuid: '119', title: '河内5分彩', volume: true, gameid: 158},
                 {class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163},
-                {class: 'ds-icon-game-ffc_qq sign hot', id: '1-1-127', menuid: '127', title: '奇趣分分彩', volume: false, gameid: 164},
+                {class: 'ds-icon-game-qqtxffc sign hot', id: '1-1-127', menuid: '127', title: '奇趣腾讯分分彩', volume: false, gameid: 164},
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
-                {class: 'ds-icon-game-qqwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣5分彩', volume: true, gameid: 165},
-                {class: 'ds-icon-game-qqsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣10分彩', volume: true, gameid: 166}
+                {class: 'ds-icon-game-qqtxwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣腾讯5分彩', volume: true, gameid: 165},
+                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166}
               ]
             },
             {
@@ -355,7 +355,8 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
             {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
             {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID
-            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'}
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'},
+            {menuid: '98', class: 'ds-icon-logo-happygaming ', id: '9-9-9', fn: '44:69'}//欢乐棋牌  平台id：44,gameId:  69
           ]
         },
         {
@@ -419,7 +420,7 @@ export default {
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
+            // {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'},
             {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'}
           ]
@@ -561,7 +562,7 @@ export default {
                   id: '2-3-5',
                   menuid: '42',
                   title: '开户管理',
-                  tabs: ['新增下级', '推广设置'],
+                  tabs: ['新增下级', '推广链接管理'],
                   tabfn: '__setOpenAccountI',
                   url: 'openAccount'
                 },
@@ -757,7 +758,7 @@ export default {
                   id: '2-3-5',
                   menuid: '42',
                   title: '开户管理',
-                  tabs: ['新增下级', '推广设置'],
+                  tabs: ['新增下级', '推广链接管理'],
                   tabfn: '__setOpenAccountI',
                   url: 'openAccount'
                 },
@@ -1268,7 +1269,9 @@ export default {
           vip: data.isVip,
           isVip: data.isVip,
           vipChatUrl: data.vipChatUrl,
-          backWaters
+          backWaters,
+          platId: data.platId,
+          token: data.token
           // isOldUser: data.isOldUser
         })
         this.showAnnual = !!data.isOldUser
@@ -1300,11 +1303,11 @@ export default {
         })
         window.accessAngular.isStranger(false)
         // window.accessAngular.connect()
-        setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
+        // setTimeout(window.accessAngular.connect, api.preApi && api.preApi !== api.api ? 1000 : 0)
         window.localStorage.setItem('api', api.api)
         this.sysNotices()
         Socket.sockets.user && this.connected(Socket.sockets.user)
-        this.showMenuGuide = !window.localStorage.getItem('menu_guide')
+        // this.showMenuGuide = !window.localStorage.getItem('menu_guide') // 关闭新功能引导
       })
       // this.canGetIngots()
       if (this.$route.path.indexOf('game') !== -1) this.__setCall({fn: '__upDatePoints', callId: undefined})
@@ -1515,7 +1518,8 @@ export default {
           this.__setCall({fn: '__openWinCode', args: msg.content[0]})
           break
         case 'prizeNotice':
-          !this.NotifyModal && (this.NotifyModal = this.$modal.success({
+          // 中将提醒默认提醒
+          (window.localStorage.getItem('WinningReminder') ? window.localStorage.getItem('WinningReminder') * 1 : 1) && !this.NotifyModal && (this.NotifyModal = this.$modal.success({
             close () {
               this.NotifyModal = null
             },

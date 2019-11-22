@@ -1,13 +1,13 @@
 <template lang="jade">
   .new-header
-    
+
     el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
       p
         span.text-black.text-bold 特殊金额&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;可用余额
 
-      p 特殊帐户余额： 
+      p 特殊账户余额：
         | {{ Me.smoney || '0.000' }}
 
       p
@@ -22,7 +22,7 @@
 
 
     el-dialog(title="BG金额转换" v-model="transferBG" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
-      
+
       .ds-button-group(style="margin-left: 0")
         .ds-button.text-button(:class=" { selected: bg === 0 } " @click=" bg = 0 ") BG转至余额
         .ds-button.text-button(:class=" { selected: bg === 1 } " @click=" bg = 1 ") 余额转至BG
@@ -31,19 +31,19 @@
         span.text-black.text-bold {{ bg !== 0 ? '可用余额' : 'BG余额' }}&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;{{ bg === 0 ? '可用余额' : 'BG余额' }}
-      
-      p 可用余额： 
+
+      p 可用余额：
         | {{ Me.amoney || '0.000' }}
-      p BG余额： 
+      p BG余额：
         | {{ Me.bgmoney || '0.000' }}
-      
+
       p
         el-input-number(placeholder="输入金额" v-model="m" style="width: 2rem" label="描述文字")
         span.text-999  &nbsp;&nbsp;输入金额
-      
+
       p
         el-input(placeholder="输入资金密码" type="password" v-model="cpwd" style="width: 2rem" @keyup.enter.native="transferNowBG")
-      
+
       p(style="padding-top: .1rem")
         span.ds-button.primary(@click="transferNowBG") 确认转入
 
@@ -65,17 +65,17 @@
                 dl.text-999.level-box(:class=" 'level-' + (Me.level + 1) ")
 
                   dd
-                    span  贵族等级： 
+                    span  贵族等级：
                       span.text-666 {{ Me.levelName || '' }} {{ Me.subLevel ? '(Lv' + Me.subLevel +')' : '' }}
 
                   dd
                     span  当前经验：
                       span.text-666 {{ Me.exp || 0 }}
-                  
+
                    dd
                     span  升级还需：
                       span.text-666 {{ Me.diffExp || 0 }}
-                  
+
 
                 dl(style="padding-top: .11rem")
                   dd
@@ -90,7 +90,7 @@
               dl.text-999.half-width
 
                 dd
-                  span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}} 
+                  span.name.ds-icon-m  欢迎光临{{ Me.name ? '，' : ''}}
                     span.text-666 {{ Me.name }}
 
 
@@ -115,20 +115,20 @@
                   p.text-black 最后登录
                   p {{ Me.lastLoginTime }} {{ Me.location }}
 
-   
 
-        span.collapse.el-icon-caret-left.text-666(@click="hide = !hide" style="padding: 0 .05rem; text-decoration: none;cursor: pointer") 
+
+        span.collapse.el-icon-caret-left.text-666(@click="hide = !hide" style="padding: 0 .05rem; text-decoration: none;cursor: pointer")
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
 
         router-link.topup(:to=" '/me/2-1-1' " v-if="!Me.isTry && Me.canTopUp") 充值
         router-link.withdraw(:to=" '/me/2-1-2' " v-if="!Me.isTry && Me.canWithDraw") 提现
         router-link.transfer(:to=" '/me/2-1-3' " v-if="!Me.isTry && Me.canWithDraw") 转帐
-        Menus(:menus=" meRightMenu " v-on:open-page="openTab" style="left: 0")        
+        Menus(:menus=" meRightMenu " v-on:open-page="openTab" style="left: 0")
         span.logout(@click="logout" ) 安全退出
 
 
-           
+
 
 </template>
 
@@ -230,7 +230,8 @@ export default {
     getBalance () {
       this.$http.get(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          store.actions.setUser({bgmoney: data.bgAmount || 0,
+          store.actions.setUser({
+            bgmoney: data.bgAmount || 0,
             tcgmoney: data.sportsAmount || 0,
             kymoney: data.kyAmount || 0,
             ptmoney: data.ptAmount || 0,
@@ -245,7 +246,12 @@ export default {
             xyAmount: data.xyAmount || 0,
             xyqpAmount: data.xyqpAmount || 0,
             saAmount: data.saAmount || 0,
-            saEgameAmount: data.saEgameAmount || 0
+            saEgameAmount: data.saEgameAmount || 0,
+            vgAmount: data.vgAmount || 0,
+            gdAmount: data.gdAmount || 0,
+            dsAmount: data.dsAmount || 0,
+            jjbAmount: data.jjbAmount || 0,
+            dfAmount: data.dfAmount || 0
           })
           // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
@@ -256,7 +262,7 @@ export default {
     transferNow () {
       if (!this.m) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.m > this.Me.smoney) return this.$message.warning({target: this.$el, message: '特殊帐户余额不足！'})
+      if (this.m > this.Me.smoney) return this.$message.warning({target: this.$el, message: '特殊账户余额不足！'})
       this.$http.post(api.transAmount, {amount: this.m, securityPwd: this.cpwd}).then(({data}) => {
         if (data.success === 1) {
           this.cpwd = ''
@@ -361,8 +367,8 @@ body.cb.v2
         padding-top PW
         dd
           padding .05rem PWX
-          
-            
+
+
       .account-type
         padding: 0.1rem 0;
         padding-left: 0.29rem;
@@ -378,16 +384,16 @@ body.cb.v2
     .el-dialog__header
       background-color #30313f
       .el-dialog__title
-        color #fff    
+        color #fff
     .el-dialog__body
       padding .5rem
     .login-test .routers
       padding 0
-  
+
   footer > .el-dialog__wrapper:first-child
   .new-home .el-dialog__wrapper
     background rgba(0,0,0,.5)
-    
+
   .dialog-transfer
     width auto
     text-align left
@@ -400,7 +406,7 @@ body.cb.v2
     .to
       padding PWX PW
       background url(../assets/game/new/to.png) center bottom .1rem no-repeat
-      
+
 </style>
 
 <style lang="stylus">
@@ -409,7 +415,7 @@ body.cb.v2
   cursor pointer
   .mq-content-wp
     height 0.4rem
-    .items 
+    .items
       li
         padding 0 0.25rem
 </style>
@@ -428,7 +434,7 @@ body.cb.v2
       padding 0 .1rem !important
       &:hover
         background-color rgba(255, 255, 255, .5)
-      
+
 
 
     .r
@@ -457,12 +463,12 @@ body.cb.v2
         background url(../assets/v2/icon09.png) .1rem center no-repeat
       &.logout
         background url(../assets/v2/icon05.png) .1rem center no-repeat
-        
+
       &:hover
         &.name
           background url(../assets/v2/icon02.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.money
-          background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5) 
+          background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.topup
           background url(../assets/v2/icon04.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.transfer
@@ -471,13 +477,13 @@ body.cb.v2
           background url(../assets/v2/icon09.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
         &.logout
           background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        
+
   .me-box
     width 5.5rem
   .half-width
     box-sizing border-box
     width 50%
-    display inline-block  
+    display inline-block
     vertical-align top
     position relative
     &.a
@@ -488,7 +494,7 @@ body.cb.v2
         right 0
         height 80%
         border-right 2px solid #efefef
-      
+
   .lst-login
     background #e9e9e9
     padding PWX
@@ -500,5 +506,5 @@ body.cb.v2
   for n in (1..10)
     &.level-{n}
       background-image url('../assets/level/' + n + '.png')
-      
+
 </style>

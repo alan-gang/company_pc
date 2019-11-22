@@ -1,8 +1,8 @@
 <template lang="jade">
-  .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } " style="padding-left: .1rem; padding-right: .1rem")
-    
-    GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] ")
-    
+  .game-selection(:class= " { 'iskq' : rows[0] && rows[0].class && rows[0].class.indexOf('code square') !== -1 } " style="padding-left: .05rem; padding-right: .1rem")
+
+    GameNumberRow(v-for="(row, i) in rows" v-bind:key="i" v-bind:row="row" v-bind:rowIndex = "i" v-bind:gameid="gameid" v-on:numbers-change="numbersChange" v-bind:titleSpan="titleSpan" v-on:select = "select" v-bind:class=" [ row.rowClass ] " v-bind:CMCH="CMCH")
+
     //- column - selected - bar
     .column-action-bar(v-if=" showColumnActionBar ")
       span.column-btn(v-for=" (x, i) in columnBtns " @click=" columnSelect(i) ") {{ !x ? '全' : '清' }}
@@ -24,14 +24,14 @@
 
     el-row.pos(v-if="show[0]" style="padding-left: .1rem")
       el-col(v-bind:span="24")
-        label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}") 
-          span.ds-checkbox 
+        label.ds-checkbox-label(v-for="p in positions" @click="p.selected = !p.selected" v-bind:class="{active: p.selected}")
+          span.ds-checkbox
           | {{ p.title[show[1]] }}
       el-col(:span="24" )
         .notice(style="line-height: 1; margin: 0 0 0 0; padding: .1rem;")
-          | 温馨提示：你选择了 
+          | 温馨提示：你选择了
           span.count {{ psl }}
-          |  个位置， 系统自动根据位置组合成 
+          |  个位置， 系统自动根据位置组合成
           span.comb {{ comb }}
           |  个方案
 
@@ -51,7 +51,7 @@
   import WN from '../util/WN'
   import { C, removeDuplicate } from '../util/base'
   export default {
-    props: ['type', 'gameid'],
+    props: ['type', 'gameid', 'CMCH'],
     data () {
       return {
         defaultRowToRowJoin: '|',
@@ -67,7 +67,7 @@
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '百位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '十位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
           {ids: '9-1-1', class: 'code square width1-8 blue default-color', innertitle: '个位', titleClass: '', values: [{selected: false, title: '大', value: '1', times: null, after: 18.8}, {selected: false, title: '小', value: '2', times: 0, after: 18.8}, {selected: false, title: '单', value: '3', times: 0, after: 18.8}, {selected: false, title: '双', value: '4', times: 0, after: 18.8}, {selected: false, title: '质', value: '5', times: 0, after: 18.8}, {selected: false, title: '合', value: '6', times: 0, after: 18.8}]},
-          {ids: '9-1-2', class: 'code square width1-8 blue default-color', innertitleCopy: '总和、龙虎', titleClass: '', values: [{selected: false, title: '总大', value: '1', times: null, after: 18.8, afterIndex: 2}, {selected: false, title: '总小', value: '2', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '总单', value: '3', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '总双', value: '4', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '龙', value: '5', times: 0, after: 18.8, afterIndex: 1}, {selected: false, title: '虎', value: '6', times: 0, after: 18.8, afterIndex: 1}, {selected: false, title: '和', value: '7', times: 0, after: 18.8, afterIndex: 0}]},
+          {ids: '9-1-2', class: 'code square width1-8 blue default-color', innertitleCopy: '总和、龙虎', titleClass: '', values: [{selected: false, title: '总大', value: '1', times: null, after: 18.8, afterIndex: 2}, {selected: false, title: '总小', value: '2', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '总单', value: '3', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '总双', value: '4', times: 0, after: 18.8, afterIndex: 2}, {selected: false, title: '龙', value: '5', times: 0, after: 18.8, afterIndex: 1}, {selected: false, title: '和', value: '7', times: 0, after: 18.8, afterIndex: 0}, {selected: false, title: '虎', value: '6', times: 0, after: 18.8, afterIndex: 1}]},
 
           {ids: '9-2-1', class: 'code square width1-8 blue default-color', innertitle: '万位', min: 0, max: 9, times: 0, afters: Array(10).fill(0).map(n => (n = 47))},
           {ids: '9-2-1', class: 'code square width1-8 blue default-color', innertitle: '千位', min: 0, max: 9, times: 0, afters: Array(10).fill(0).map(n => (n = 47))},
@@ -222,7 +222,7 @@
           ** 趣味[后二大小单双]
           ***/
           {ids: '-2-1-2', title: '个位', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
-          {ids: '-4-1-1:1, -4-1-2:1, -4-1-3:1, -4-1-4:1, -4-1-5:1, -4-1-6:1, -4-1-7:1, -4-1-8:1, -4-1-9:1, -4-1-10:1, -4-1-11:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}, {selected: false, title: '和', value: '3'}]},
+          {ids: '-4-1-1:1, -4-1-2:1, -4-1-3:1, -4-1-4:1, -4-1-5:1, -4-1-6:1, -4-1-7:1, -4-1-8:1, -4-1-9:1, -4-1-10:1, -4-1-11:1', title: '龙虎和', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '和', value: '3'}, {selected: false, title: '虎', value: '2'}]},
           {ids: '-6-1-1:1, -6-1-2:1, -6-1-3:1, -6-1-4:1, -6-1-5:1, -6-1-6:1, -6-1-7:1, -6-1-8:1, -6-1-9:1, -6-1-10:1, -6-1-11:1', title: '龙虎斗', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
           {ids: '-5-1-1', title: '斗牛', class: 'default square', values: [{selected: false, title: '牛一', value: '1'}, {selected: false, title: '牛二', value: '2'}, {selected: false, title: '牛三', value: '3'}, {selected: false, title: '牛四', value: '4'}, {selected: false, title: '牛五', value: '5'}, {selected: false, title: '牛六', value: '6'}, {selected: false, title: '牛七', value: '7'}, {selected: false, title: '牛八', value: '8'}, {selected: false, title: '牛九', value: '9'}, {selected: false, title: '牛牛', value: '10'}, {selected: false, title: '没牛', value: '11'}], buttons: ['全', '大', '小', '奇', '偶', '清']},
 
@@ -267,7 +267,7 @@
           {ids: '-1-1-3-PK10, -1-1-4-PK10, -1-1-5-PK10, -1-2-1-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '季军', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-4-PK10, -1-1-5-PK10, -1-2-1-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '第四名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-5-PK10', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '第五名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-1-1-6-PK10:1', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
+          {ids: '-1-3-1-PK10:1, -1-3-2-PK10:1, -1-3-3-PK10:1, -1-3-4-PK10:1, -1-3-5-PK10:1', class: window.platform === 'ds' ? '' : 'ds-icon-PK10', title: '龙虎', values: [{selected: false, title: '龙', value: '1'}, {selected: false, title: '虎', value: '2'}]},
           // {ids: '-1-1-7-PK10:1', class: 'ds-icon-PK10', title: '定位胆', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-PK10', class: '', title: '第一名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-1-7-PK10', class: '', title: '第二名', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
@@ -344,13 +344,13 @@
           // {ids: '4-1-6-HC6:1', title: '正六码', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           // {ids: '4-1-7-HC6:1', title: '特码', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
           // {ids: '4-1-8-HC6:1', title: '正特和值', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}], buttons: ['清']},
-          {ids: '4-1-1-HC6', class: 'code width1-8 danger default-color', title: '正一码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-2-HC6', class: 'code width1-8 danger default-color', title: '正二码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-3-HC6', class: 'code width1-8 danger default-color', title: '正三码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-4-HC6', class: 'code width1-8 danger default-color', title: '正四码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-5-HC6', class: 'code width1-8 danger default-color', title: '正五码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-6-HC6', class: 'code width1-8 danger default-color', title: '正六码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
-          {ids: '4-1-7-HC6', class: 'code width1-8 danger default-color', title: '特码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
+          {ids: '4-1-1-HC6', class: 'code width1-8 danger default-color', title: '正一码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-2-HC6', class: 'code width1-8 danger default-color', title: '正二码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-3-HC6', class: 'code width1-8 danger default-color', title: '正三码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-4-HC6', class: 'code width1-8 danger default-color', title: '正四码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-5-HC6', class: 'code width1-8 danger default-color', title: '正五码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-6-HC6', class: 'code width1-8 danger default-color', title: '正六码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
+          {ids: '4-1-7-HC6', class: 'code width1-8 danger default-color', title: '特码', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '小', times: 0, value: '2', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '单', times: 0, value: '3', hover: false, after: 4.7, afterIndex: 0}, {selected: false, title: '双', times: 0, value: '4', hover: false, after: 4.7, afterIndex: 0}], buttons: ['全', '清']},
           {ids: '4-1-8-HC6', class: 'code width1-8 danger default-color', title: '正特和值', hover: true, times: 0, values: [{selected: false, title: '大', times: 0, value: '1', hover: false}, {selected: false, title: '小', times: 0, value: '2', hover: false}, {selected: false, title: '单', times: 0, value: '3', hover: false}, {selected: false, title: '双', times: 0, value: '4', hover: false}], buttons: ['全', '清']},
           {ids: '5-1-1-HC6', class: 'code width1-8', title: '特码', min: 0, max: 9, l: 1, hover: true, times: 0, values: [{selected: false, title: '0', value: 0, times: 0, after: 18.8, hover: false, afterIndex: 0, class: 'danger'}, {selected: false, title: '1', value: 1, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'danger'}, {selected: false, title: '2', value: 2, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'danger'}, {selected: false, title: '3', value: 3, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'oblue'}, {selected: false, title: '4', value: 4, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'oblue'}, {selected: false, title: '5', value: 5, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'green'}, {selected: false, title: '6', value: 6, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'green'}, {selected: false, title: '7', value: 7, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'danger'}, {selected: false, title: '8', value: 8, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'danger'}, {selected: false, title: '9', value: 9, times: 0, after: 18.8, hover: false, afterIndex: 1, class: 'oblue'}]}
         ],
@@ -900,14 +900,14 @@
     margin .05rem .02rem
     &:hover
       color BLUE
-    
-    
+
+
 </style>
 
 
 
 <style lang="stylus">
-  .el-textarea 
+  .el-textarea
     box-sizing border-box
     textarea
       resize none
@@ -918,14 +918,14 @@
   .game-selection
     &:not(.iskq)
       background-color #fff !important
-      
+
     padding .05rem 0
 
     .pos
       padding-left .3rem
   .el-textarea
     padding 0 .1rem 0 PWX
-    
+
   .el-col
     min-height GCH
     line-height GCH
@@ -938,13 +938,13 @@
           margin-bottom 0
         input
           position absolute
-          top 0 
-          left 0 
-          right 0 
+          top 0
+          left 0
+          right 0
           bottom 0
           opacity 0
           width 100%
-          
+
     &.notice
       font-size .12rem
       color #999
@@ -953,5 +953,5 @@
   .count
   .comb
     color DANGER
-  
+
 </style>

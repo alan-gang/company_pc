@@ -81,7 +81,7 @@
                 span(:class=" {'text-green': parseFloat(scope.row.inout) > 0, 'text-danger': parseFloat(scope.row.inout) < 0} ") {{  parseFloat(scope.row.inout) > 0 ? '+' : '' }}{{ numberWithCommas(scope.row.inout) }}
 
 
-            el-table-column(prop="balance" label="主帐户余额"  align="right")
+            el-table-column(prop="balance" label="主账户余额"  align="right")
               template(scope="scope")
                 span {{ numberWithCommas(scope.row.balance) }}
             
@@ -141,7 +141,7 @@
         method: '',
         issueList: [],
         issue: '',
-        MODES: ['元', '角', '分', '厘'],
+        MODES: ['2元', '2角', '2分', '2厘', '1元'],
         mode: '',
         TYPES: '',
         multipleSelectStyle: {minWidth: '1rem'},

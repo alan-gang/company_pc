@@ -26,14 +26,14 @@
       .relative
         .inlb(style="width: 75%")
           <!-- 游戏菜单 -->
-          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:getUpTitle="getUpTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid ")
+          GameMenu(v-bind:type="type" v-bind:game-type="gameType" v-on:type="setType" v-bind:menus="menus" v-bind:getTitle="getTitle" v-bind:getUpTitle="getUpTitle" v-bind:mt = "mt" v-bind:gameid=" page.gameid " v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
           GameKQOrderBar.onbefore(v-bind:currency="currency" v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"    v-bind:times="times" v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' && type.toporderbar ")
 
 
           <!-- 选号区 -->
-          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs")
+          GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs" v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
           GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
@@ -56,12 +56,18 @@
           
           <!-- 总计栏 -->
           GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
-      
+
         .inlb.absolute(style="width: 25%; top: 0; right: 0; bottom: 0; background: #999; vertical-align: top")
-          GameRecent(v-bind:gameid="gameid" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid")
-
-      GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
-
+          GameRecent(v-bind:gameid="gameid" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers.slice(0, 30)" v-bind:methodid="methodid" v-bind:type="type")
+          
+      .bgc-w.mt_10.pt_15.pb_15(style="background-color: #fff")
+        .pl_15
+          span.mr_10.pointer(v-for=" (x, i) in gameMoreInfo " @click=" gameMoreInfoI = i " v-bind:style=" gameMoreInfoI === i ? {color: '#333', fontWeight: 'bold'} : {} " v-show=" i !== 2 || type.ludan ") {{ x.n }}
+            span(v-if=" i === 2 && type.ludan ") ({{ type.ludantitle }})
+        .pl_15.pr_15.pt_10
+          component(:is=" gameMoreInfo[gameMoreInfoI].component " v-bind:gameType="gameType" v-bind:type="type"  v-bind:gameid="page.gameid" v-bind:methodName="type.ludan" v-bind:issueList="allLuckyNumbers.map(x => x).reverse()")
+        //- GameRecentOrder( v-bind:type="type"  v-bind:gameid="page.gameid")
+        //- Ludan(v-bind:gameType="gameType" v-bind:gameid="page.gameid" v-bind:methodName="ludanMethodName" )
     <!-- 下单 -->
     //- GameOrderBar.fixed.inner-bar(v-bind:ns="ns" v-bind:game-type="gameType"  v-bind:type="type" v-if="ns.length === 0"  v-bind:n="n" v-bind:times="times" v-bind:currency="currency" v-bind:point="point"  v-bind:P="P" v-bind:canOrder="canOrder" v-bind:pay="pay" v-on:set-times="setTimes" v-on:set-currency = "setCurrency" v-on:set-point="setPoint" v-on:order="order" v-on:quickbook="quickbook")
 
@@ -84,6 +90,8 @@ import GameAmountBar from 'components/GameAmountBar'
 import GameFollowbar from 'components/GameFollowbar'
 import GameFollowList from 'components/GameFollowList'
 import GameRecentOrder from 'components/GameRecentOrder'
+import GameRecentChaseOrder from 'components/GameRecentChaseOrder'
+import Ludan from 'components/Ludan'
 import api from '../../http/api'
 import M from '../../util/M'
 import util from '../../util'
@@ -95,6 +103,12 @@ export default {
   props: ['page', 'money', 'free'],
   data () {
     return {
+      gameMoreInfoI: 0,
+      gameMoreInfo: [
+        {n: '投注记录', component: 'GameRecentOrder'},
+        {n: '追号记录', component: 'GameRecentChaseOrder'},
+        {n: '路单', component: 'Ludan'}
+      ],
       showDF: window.localStorage.getItem('showDF') === 'true',
       ME: store.state.user,
       isTry: store.state.user.isTry,
@@ -103,8 +117,8 @@ export default {
       // url: 'one',
       updateFromSocket: false,
       // 最近的已开奖期数
-      NPER: '100000000',
-      CNPER: '100000000',
+      NPER: '100000000', // 下一期
+      CNPER: '100000000', // 当前
       // 用户选择投注的起始期数
       // usernper: '100000000',
       // 最近的已开奖期号码
@@ -201,10 +215,16 @@ export default {
       allLuckyNumbers: [],
       notify: null,
       notifyshow: true,
-      hasUnable: false
+      hasUnable: false,
+      // missCodeHot
+      MCH: {}
     }
   },
   computed: {
+    // current MCH
+    CMCH () {
+      return this.methodidtype === '1' ? this.MCH[this.methodid] : null
+    },
     gameid () {
       return this.page.gameid
     },
@@ -286,6 +306,13 @@ export default {
     }
   },
   watch: {
+    'type.ludan' (n, o) {
+      if (n) {
+        this.gameMoreInfoI = 2
+      } else {
+        this.gameMoreInfoI = 0
+      }
+    },
     overtime () {
       setTimeout(() => {
         this.__setCall({fn: '__orderlist'})
@@ -323,8 +350,9 @@ export default {
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
-        this.__recentlyCode()
         this.__getTraceIssueList()
+        setTimeout(this.__recentlyCode, 1000)
+        setTimeout(this.__recentlyCode, 5000)
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
       }
@@ -383,6 +411,7 @@ export default {
     this.getUserpoint()
     // 获得历史开奖号码
     this.__recentlyCode()
+    // this.getLottSets()
     this.follow.CNPER = this.CNPER
     // setInterval(() => {
     //   this.CNPER = parseInt(this.CNPER) + 1 + ''
@@ -411,39 +440,54 @@ export default {
       if (this.$refs.GC.scrollTop > 96) this.scrollAtBottom = true
       else this.scrollAtBottom = false
     },
+    getLottSets () {
+      this.$http.myget(api.getLottSets).then(({data}) => {
+        // console.log(data)
+      })
+    },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCode, {gameid: this.page.gameid, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, {gameid: this.page.gameid, pageNum: 1, size: 100}).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
-          })
-          let lst = data.items[0] || {}
-          // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
-          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
-            if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
-            if (this.updateFromSocket) {
-              this.updateFromSocket = false
-              return
+            // 如果没有code, 但已经有了code
+            if (!d.code) {
+              let the = this.allLuckyNumbers.find(x => String(x.issue) === String(d.issue))
+              the && (d = Object.assign(the))
             }
-          }
-          if (this.NPER === lst.issue + '' && !noloop) {
-            this.overtime = true
-            this.lucknumbersTimeout = setTimeout(() => {
-              this.__recentlyCode()
-              clearTimeout(this.lucknumbersTimeout)
-              this.lucknumbersTimeout = 0
-            }, 3000)
-          } else {
-            this.overtime = false
-            this.NPER = lst.issue + ''
-            this.lucknumbers = lst.lucknumbers
-            // this.page.volume && this.__setCall({fn: '__music', callId: undefined})
-            parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
-          }
+          })
+          let lst = data.items[1] || data.items[0]
+          if (data.items[0] && data.items[0].code) lst = data.items[0]
+          this.overtime = false
+          this.NPER = lst.issue + ''
+          this.lucknumbers = lst.lucknumbers
           this.allLuckyNumbers = data.items || []
+          // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
+          // if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
+          //   if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
+          //   if (this.updateFromSocket) {
+          //     this.updateFromSocket = false
+          //     return
+          //   }
+          // }
+          // if (this.NPER === lst.issue + '' && !noloop) {
+          //   this.overtime = true
+          //   this.lucknumbersTimeout = setTimeout(() => {
+          //     this.__recentlyCode()
+          //     clearTimeout(this.lucknumbersTimeout)
+          //     this.lucknumbersTimeout = 0
+          //   }, 3000000)
+          // } else {
+          //   this.overtime = false
+          //   this.NPER = lst.issue + ''
+          //   this.lucknumbers = lst.lucknumbers
+          //   // this.page.volume && this.__setCall({fn: '__music', callId: undefined})
+          //   parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
+          // }
+          // this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
@@ -467,6 +511,7 @@ export default {
           this.PNPER = data.openedCount
           this.FNPER = data.dailyCount
           this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
+          this.codeMissColdHeat()
         } else {
           // this.$message.error({message: '当前奖期获取失败！'})
           this.$modal.warn({
@@ -480,6 +525,26 @@ export default {
         // error
         this.$message.error({message: '当前奖期获取失败！'})
         this.timeout += 0.05
+      })
+    },
+    // lotteryId=17
+    codeMissColdHeat () {
+      this.$http.mypost(api.codeMissColdHeat, {lotteryId: this.page.gameid}).then(({data}) => {
+        // success
+        if (data.success > 0) {
+          delete data.success
+          for (const k in data) {
+            if (k.indexOf('|') !== -1) {
+              k.split('|').forEach(x => {
+                data[x] = data[k]
+              })
+            }
+          }
+          this.MCH = data
+        }
+      }, (rep) => {
+        // error
+        this.$message.error({message: '当前遗漏和冷热信息获取失败！'})
       })
     },
     __upDatePoints () {
@@ -1149,15 +1214,24 @@ export default {
       this.timeout = 0
     },
     __openWinCode (x) {
-      if (String(this.page.gameid) === String(x.lottId) && this.NPER !== x.issue) {
+      if (String(this.page.gameid) === String(x.lottId)) {
         x.lucknumbers = x.code.split(',')
         this.overtime = false
-        this.NPER = x.issue + ''
+        // this.NPER = x.issue + ''
         this.lucknumbers = x.lucknumbers
         parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
-        this.allLuckyNumbers.splice(0, 0, x)
+        // this.allLuckyNumbers.splice(0, 0, x)
+        let the = this.allLuckyNumbers.find(y => String(x.issue) === String(y.issue))
+        if (the) {
+          the = Object.assign(the, x)
+          this.NPER = x.issue + ''
+        } else {
+          this.allLuckyNumbers.splice(0, 0, x)
+          this.NPER = x.issue + ''
+        }
         this.__setCall({fn: '__orderlist'})
         this.updateFromSocket = true
+        this.codeMissColdHeat()
       }
     }
   },
@@ -1177,7 +1251,9 @@ export default {
     GameFollowList,
     GameLuckyNumberHistory,
     GameRecentOrder,
-    GameKQOrderBar
+    GameRecentChaseOrder,
+    GameKQOrderBar,
+    Ludan
     // GameOrderHistory,
     // GameFollowHistory
   }

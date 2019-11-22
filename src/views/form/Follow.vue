@@ -161,7 +161,7 @@
         method: '',
         issueList: [],
         issue: '',
-        MODES: ['元', '角', '分', '厘'],
+        MODES: ['2元', '2角', '2分', '2厘', '1元'],
         mode: '',
         id: '',
         name: '',

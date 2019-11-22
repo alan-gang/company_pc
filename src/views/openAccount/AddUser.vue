@@ -9,7 +9,7 @@
 
       .bgc-w.mg_20.pd_20
         
-        .w_700.mg_0a.pd_20
+        .w_800.mg_0a.pd_20
 
 
           //- p.mb_20 剩余开户额：
@@ -26,7 +26,7 @@
    
         hr(style="height: 0; border: 0; border-top: 1px solid #d4d4d4; margin: .15rem .2rem .1rem .2rem ")
       
-        .w_700.mg_0a.pd_20
+        .w_800.mg_0a.pd_20
           .mb_20
             .ds-radio-label(:class="{active: i === 0 }" @click=" i = 0 " style="padding-left: 0")
               .ds-radio.white
@@ -49,11 +49,11 @@
             ul.inlb.mh_500.pd_0.mg_0.v_t.as
               li.mb_20(v-for=" (v, i) in  data" v-bind:key="i" v-if=" v.$s ")
                 span.text-danger.pd_5 *
-                span(v-if=" !v.groupname ") 彩票返点 
-                span(v-else) {{ v.groupname  }}返水 
+                span.label(v-if=" !v.groupname ") 彩票返点 
+                span.label(v-else) {{ v.groupname  }}返水 
                 el-select(v-model="v.$" clearable style="width: 1.7rem")
                   el-option(v-bind:label=" '0.0' " v-bind:value=" '0.0' ")
-                  el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1) ")
+                  el-option(v-for=" (x, j) in v.$s " v-bind:label=" (x * 0.1).toFixed(1) " v-bind:value=" (x * 0.1).toFixed(1)*1 ")
 
                 span(v-if=" !v.groupname ")
                   span.text-blue  % 
@@ -61,8 +61,22 @@
                 span(v-else) 
                   span.text-blue  ‰
                   span.text-999（千分符）
+                //- 彩票奖金
+                //- 奖金计算公式 20 * 返点 + 1800
+                div(v-if=" !v.groupname ")
+                  span.label(style="width:0.92rem;")
+                  el-slider.slidername(
+                    v-model="v.$"
+                    v-bind:max="v.backwater"
+                    v-bind:step="0.1"
+                    v-bind:show-tooltip="false"
+                    v-bind:disabled="!v.backwater"
+                    show-input
+                  )
+                  span.tips 奖金：{{20 * v.$ + 1800}}
+                  span.tips 返点：{{v.$}}%
           
-          .buttons.mb_20.pl_70(:class=" i &&  users.length > 1 && 'mt_20' ")
+          .buttons.mb_20(:class=" i &&  users.length > 1 && 'mt_20' ")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="openAccount") 开户
         
 
@@ -164,6 +178,7 @@
             data.back.forEach((x, i) => {
               x.$ = ''
               x.$s = Math.ceil(x.backwater * (i ? 10000 : 10))
+              if (!i) x.$ = 0
             })
             this.data = data.back
           } else this.$message.error(data.msg || '开户信息获取失败！')
@@ -260,8 +275,8 @@
     background-color #fff
     overflow auto
   .users + .as
-    padding-left .5rem
-    padding-right .5rem
+    padding-left .2rem
+    padding-right .2rem
     padding-top .2rem
     background-color #f8f8f8
 
@@ -292,4 +307,46 @@
     
     
     
+</style>
+<style lang="less">
+.add-user {
+  .label {
+    width: 0.75rem;
+    display: inline-block;
+  }
+  .tips {
+    margin-left: 0.2rem;
+    user-select: none;
+  }
+  .el-slider__button-wrapper {
+    top: -8px;
+  }
+  .slidername {
+    width: 2rem;
+    position: relative;
+    .el-slider__runway.show-input {
+      margin-right: 40px;
+      margin-left: 40px;
+    }
+    .el-input-number .el-icon-minus,
+    .el-input-number .el-icon-plus {
+      display: inline-block;
+    }
+    .el-input-number .el-input {
+      display: none;
+    }
+    .el-input-number__increase,
+    .el-input-number__decrease {
+      border: 0 none;
+      position:absolute;top: 5px;
+    }
+    .el-slider__input{position: unset;}
+    .el-input-number__decrease {
+      left: 0;
+    }
+    .el-input-number__increase{
+      right: 0;
+    }
+  }
+}
 </style>

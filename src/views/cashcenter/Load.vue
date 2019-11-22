@@ -7,6 +7,25 @@
     slot(name="toolbar")
     .bgc-w.me-topup.scroll-content
       .tab-recharge(v-show="tabIdx === TAB_RECHARGE")
+        .notice(style="margin: 0 0 .2rem 0")
+          span.title 温馨提示：
+          p.content
+            | 1.请
+            span.text-danger 切勿重复
+            | 扫描收款二维码进行付款！
+            br
+            | 2.请确保发起充值
+            span.text-danger 申请金额和付款金额一致！
+            | 不要修改付款金额！
+            br
+            | 3.请实时发起充值申请
+            span.text-danger 获取最新
+            | 收款方信息！
+            br
+            | 4.网银转账渠道需要
+            span.text-danger 正确填写附言信息！
+            | 请你仔细阅读注意事项按照流程进行充值！如您重复扫码/修改充值金额/付款到过期收款方造成资金损失！平台不予处理！感谢您的配合和支持！
+
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 用户名：
           span.u-name {{me.account}}
@@ -318,7 +337,7 @@ export default {
       TAB_RECHARGE_RECORDS: 1,
 
       Ptype: 'success',
-      Pbtn: ['进入网上银行'],
+      Pbtn: ['我知道了,继续充值'],
       Phref: [],
       dataXamount: '',
       dataXbankName: '',
@@ -621,7 +640,7 @@ export default {
       return false
     },
     Pok () {
-      if (this.Pbtn[0] === '进入网上银行' || this.Pbtn[0] === '进入支付宝') {
+      if (this.Pbtn[0] === '我知道了,继续充值' || this.Pbtn[0] === '进入支付宝') {
         this.Ptype = 'question'
         // this.Pbtn = ['充值成功', '充值失败']
         this.Pbtn = []
@@ -725,7 +744,7 @@ export default {
             if (this.curBank.bankCode === 'zfb2bank') {
               this.Pbtn = ['进入支付宝']
             } else {
-              this.Pbtn = ['进入网上银行']
+              this.Pbtn = ['我知道了,继续充值']
             }
           } else if (data.payUrl || data.href) {
             // 第三方充值
@@ -738,7 +757,7 @@ export default {
             } else {
               this.$modal.warn({
                 content: '立即跳转到第三方去充值？',
-                btn: ['进入网上银行'],
+                btn: ['我知道了,继续充值'],
                 href: [data.href],
                 target: this.$el,
                 ok () {
@@ -906,7 +925,7 @@ export default {
   .fc-o
     color #f37e0c
   .tab-recharge
-    padding 0.4rem 0.36rem
+    padding 0.2rem 0.36rem
     .text-button:hover
       text-decoration none !important
   .u-name

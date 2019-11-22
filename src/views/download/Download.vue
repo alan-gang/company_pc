@@ -45,10 +45,7 @@ export default {
             intro: '专注彩票游戏平台',
             class: 'ds-icon-download-logo',
             buttons: [
-              // {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_ios3'},
               {title: 'IOS稳定版本', class: 'ds-icon-download-ios', id: 'plat_super_ios'},
-              // {title: 'IOS超级签名1', class: 'ds-icon-download-ios', id: 'plat_super_ios'},
-              // {title: 'IOS超级签名2', class: 'ds-icon-download-ios', id: 'plat_super_ios2'},
               {title: 'IOS下载1', class: 'ds-icon-download-ios', id: 'plat_ios'},
               {title: 'IOS下载2', class: 'ds-icon-download-ios', id: 'plat_ios2'},
 
@@ -59,7 +56,7 @@ export default {
           },
           {
             title: '博盾验证器',
-            intro: '保障用户帐户安全的神器',
+            intro: '保障用户账户安全的神器',
             class: 'ds-icon-download-cbsafe',
             buttons: [
               {title: 'IOS下载', class: 'ds-icon-download-ios', id: 'code_ios'},

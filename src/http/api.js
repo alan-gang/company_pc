@@ -35,6 +35,8 @@ api = window.localStorage.getItem('tapi') || api
 // api = window.localStorage.getItem('xy_api') || 'dev'
 
 let Login = {
+  getLottSets: '/userpoint.do?method=getLottSets&lotteryIds=1',
+  codeMissColdHeat: '/codeMissColdHeat.do?method=queryColdHot',
   rconfig: '/team/contractBonus.do?method=myRule',
   useCoupon: '/ext/bg.do?method=transferToBG',
   getHisIssue: '/issuehistory.do?method=getHisIssue',
@@ -228,6 +230,8 @@ let Game = {
   // Steven, [21.04.17 19:25]
   // method=recentlyCode pageNum size gameid
   recentlyCode: '/issue.do?method=recentlyCode',
+  recentlyCodeNew: '/issue.do?method=recentlyCodeNew',
+  ludan: '/issue.do?method=recentlyCode&v=1',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
   // 4.返点信息
@@ -482,6 +486,14 @@ let Group = {
   // 进入推广链接页面，生成推广链接地址
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=showSpreadLinks
   showSpreadLinks: '/team/createAccount.do?method=showSpreadLinks',
+  // 打开推广链接2.0
+  showSpreadLinksNew: '/team/createAccount.do?method=showSpreadLinksNew',
+  // 修改查询推广链接
+  getRegistLines: '/team/createAccount.do?method=getRegistLines',
+  // 查询推广链接
+  queryRegistLines: '/team/createAccount.do?method=queryRegistLines',
+  // 更新推广链接状态
+  updateRegistLinesStatus: '/team/createAccount.do?method=updateRegistLinesStatus',
   // 设置保留返点
   // http://192.168.169.44:9901/cagamesclient/team/createAccount.do?method=setKeepPoint&keepPoint=0.1
   setKeepPoint: '/team/createAccount.do?method=setKeepPoint',
