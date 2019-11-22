@@ -55,6 +55,13 @@
       el-col.r(:span="15")
         // Menus(:menus="menus")
 
+        el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lt-popover' " v-bind:visible-arrow="false")
+          span(slot="reference")
+            span.speed 测速
+          slot
+            .content-width
+              LT
+              
         el-popover.footer-more(placement="top-end" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
             span.name(v-if="hide") {{ Me.name }}
@@ -138,9 +145,11 @@ import store from '../store'
 import api from '../http/api'
 import Menus from './Menu'
 import Marquee from './Marquee'
+import LT from '../views/login/LoginTest'
 export default {
   props: ['menus'],
   components: {
+    LT,
     Menus,
     Marquee
   },
@@ -442,6 +451,7 @@ body.cb.v2
     .l .text-button
     .r .name
     .r .money
+    .r .speed
     .r .topup
     .r .withdraw
     .r .transfer
@@ -455,6 +465,8 @@ body.cb.v2
         background url(../assets/v2/icon02.png) .1rem center no-repeat
       &.money
         background url(../assets/v2/icon03.png) .1rem center no-repeat
+      &.speed
+        background url(../assets/v2/sy_icon_cs.png) .1rem center no-repeat
       &.topup
         background url(../assets/v2/icon04.png) .1rem center no-repeat
       &.transfer
