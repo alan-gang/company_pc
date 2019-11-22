@@ -350,8 +350,9 @@ export default {
     timeout () {
       if (this.timeout === 0) {
         this.__getIssue()
-        this.__recentlyCode()
         this.__getTraceIssueList()
+        setTimeout(this.__recentlyCode, 1000)
+        setTimeout(this.__recentlyCode, 5000)
       } else if (this.timeout < 1) {
         setTimeout(this.__getIssue, 1000)
       }
@@ -452,31 +453,41 @@ export default {
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
             d.lucknumbers = d.code.split(',')
+            // 如果没有code, 但已经有了code
+            if (!d.code) {
+              let the = this.allLuckyNumbers.find(x => String(x.issue) === String(d.issue))
+              the && (d = Object.assign(the))
+            }
           })
           let lst = data.items[1] || data.items[0]
-          // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
-          if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
-            if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
-            if (this.updateFromSocket) {
-              this.updateFromSocket = false
-              return
-            }
-          }
-          if (this.NPER === lst.issue + '' && !noloop) {
-            this.overtime = true
-            this.lucknumbersTimeout = setTimeout(() => {
-              this.__recentlyCode()
-              clearTimeout(this.lucknumbersTimeout)
-              this.lucknumbersTimeout = 0
-            }, 3000)
-          } else {
-            this.overtime = false
-            this.NPER = lst.issue + ''
-            this.lucknumbers = lst.lucknumbers
-            // this.page.volume && this.__setCall({fn: '__music', callId: undefined})
-            parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
-          }
+          if (data.items[0] && data.items[0].code) lst = data.items[0]
+          this.overtime = false
+          this.NPER = lst.issue + ''
+          this.lucknumbers = lst.lucknumbers
           this.allLuckyNumbers = data.items || []
+          // 如果最后一期已经在allLuckyNumbers中了， 就不再做后续操作
+          // if (this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue))) {
+          //   if (lst.codeStyle) this.allLuckyNumbers.find(x => String(x.issue) === String(lst.issue)).codeStyle = lst.codeStyle
+          //   if (this.updateFromSocket) {
+          //     this.updateFromSocket = false
+          //     return
+          //   }
+          // }
+          // if (this.NPER === lst.issue + '' && !noloop) {
+          //   this.overtime = true
+          //   this.lucknumbersTimeout = setTimeout(() => {
+          //     this.__recentlyCode()
+          //     clearTimeout(this.lucknumbersTimeout)
+          //     this.lucknumbersTimeout = 0
+          //   }, 3000000)
+          // } else {
+          //   this.overtime = false
+          //   this.NPER = lst.issue + ''
+          //   this.lucknumbers = lst.lucknumbers
+          //   // this.page.volume && this.__setCall({fn: '__music', callId: undefined})
+          //   parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
+          // }
+          // this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
@@ -1203,13 +1214,21 @@ export default {
       this.timeout = 0
     },
     __openWinCode (x) {
-      if (String(this.page.gameid) === String(x.lottId) && this.NPER !== x.issue) {
+      if (String(this.page.gameid) === String(x.lottId)) {
         x.lucknumbers = x.code.split(',')
         this.overtime = false
-        this.NPER = x.issue + ''
+        // this.NPER = x.issue + ''
         this.lucknumbers = x.lucknumbers
         parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
-        this.allLuckyNumbers.splice(0, 0, x)
+        // this.allLuckyNumbers.splice(0, 0, x)
+        let the = this.allLuckyNumbers.find(y => String(x.issue) === String(y.issue))
+        if (the) {
+          the = Object.assign(the, x)
+          this.NPER = x.issue + ''
+        } else {
+          this.allLuckyNumbers.splice(0, 0, x)
+          this.NPER = x.issue + ''
+        }
         this.__setCall({fn: '__orderlist'})
         this.updateFromSocket = true
         this.codeMissColdHeat()

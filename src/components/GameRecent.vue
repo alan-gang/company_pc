@@ -54,7 +54,8 @@
 
             span(v-if=" row_ccs(r) && row_ccs(r).value.join " v-for=" (v, i) in  row_ccs(r).value" v-bind:class=" colorOfV(v) ") {{ ccs.title && v.length < ccs.title[i].length ? padStart(v, ccs.title[i].length, ' ') : v }}
 
-
+        pre.cac.inlb(v-if="!r.code.length && ccs")
+          | &nbsp;
 
 
 </template>
@@ -94,7 +95,7 @@ export default {
       }
     },
     codeStyle () {
-      return this.allLuckyNumbers[0] && this.allLuckyNumbers[0].codeStyle ? this.allLuckyNumbers[0].codeStyle : ''
+      return this.allLuckyNumbers[this.allLuckyNumbers.length - 1] && this.allLuckyNumbers[this.allLuckyNumbers.length - 1].codeStyle ? this.allLuckyNumbers[this.allLuckyNumbers.length - 1].codeStyle : ''
       // return ''
     },
     cs () {

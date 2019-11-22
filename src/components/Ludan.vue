@@ -225,20 +225,33 @@ export default {
               ludanItems.push(item);
             }
             // 最个一个
-            if (issueList.length - 1 === i) {
-              if (ludanItems.length < maxRows) {
-                ludanItems.push('icon-cur')
-                ludanList.push(ludanItems)
-                ludanItems = []
-              } else {
-                ludanList.push(ludanItems)
-                ludanItems = []
-                ludanItems.push('icon-cur')
-                ludanList.push(ludanItems)
-              }
-            }
+            // if (issueList.length - 1 === i) {
+            //   if (ludanItems.length < maxRows) {
+            //     ludanItems.push('icon-cur')
+            //     ludanList.push(ludanItems)
+            //     ludanItems = []
+            //   } else {
+            //     ludanList.push(ludanItems)
+            //     ludanItems = []
+            //     ludanItems.push('icon-cur')
+            //     ludanList.push(ludanItems)
+            //   }
+            // }
           }
         });
+        // 最个一个
+        if (issueList.length - 1 === i) {
+          if (ludanItems.length < maxRows) {
+            ludanItems.push('icon-cur')
+            ludanList.push(ludanItems)
+            ludanItems = []
+          } else {
+            ludanList.push(ludanItems)
+            ludanItems = []
+            ludanItems.push('icon-cur')
+            ludanList.push(ludanItems)
+          }
+        }
       });
       return ludanList.slice(ludanList.length >= maxColumns ? Math.abs(ludanList.length - maxColumns + 1) : 0)
     },
