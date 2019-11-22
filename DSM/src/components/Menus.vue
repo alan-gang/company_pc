@@ -2,7 +2,7 @@
   el-menu(router=true @open="handleopen" @close="handleclose"  v-bind:default-active="defaultUrl" v-bind:defaultOpeneds="defaultSubMenus"  unique-opened ref="M" v-if="menus[0]")
     template(v-if="menus.length > 1")
       //- 报表菜单
-      el-submenu(v-for="(m, i) in MYmenus" v-if="(m.title && m.url && menus.length > 1 || m.url === 'help') && !m.removed" v-bind:index="m.url")
+      el-submenu(v-for="(m, i) in menus" v-if="(m.title && m.url && menus.length > 1 || m.url === 'help') && !m.removed" v-bind:index="m.url")
         template(slot="title")
           i(:class="[m.class + '-menu']")
           | {{ m.stitle || m.title }}
@@ -10,8 +10,24 @@
           template(slot="title") {{ g.title }}
           el-menu-item(style="margin: .05rem 0" v-for="(item, iii) in g.items" v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-bind:index=" '/' + m.url + '/' + item.id" v-if="!item.removed && item.id && !item.hide" ) {{ item.title }}
     template(v-else)
-      //- 游戏菜单
+      //- 游戏菜单 收藏
       div(v-for="(m, i) in MYmenus"  v-if="menus.length < 2 && m.url !== 'help' " v-bind:class=" [ menus[0].url ] ")
+        template(v-for="(g, ii) in m.groups")
+          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
+            .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]" v-bind:index="g.url") {{ m.title }}
+            template(slot="title")
+              i(:class="g.class")
+              span{{ g.title }}
+            el-menu-item-group(v-if="g.items.filter(function(x){return !x.removed})[0]")
+                //- template(slot="title") {{ g.title }}
+                el-menu-item.ds-button.full( v-for="(item, iii) in g.items" v-bind:index=" !item.fn ? '/' + m.url + '/' + item.id : '' "  v-bind:class="[ item.class, {'is-active': defaultUrl === ('/' + m.url + '/' + item.id), 'notis-active': defaultUrl !== ('/' + m.url + '/' + item.id)} ]" v-if="!item.removed && item.id && !item.hide" style="font-size: .12rem;")
+                  span(@click=" item.fn && openTab(item) ") {{ item.title }}
+                  //- span.SealTime {{item.gameid}}
+                  span.SealTime(v-bind:class="{'timeRed': timefind(item).timeLast<11000}") {{ timefind(item).timeStr }}
+                  span.fav(v-if="!favGameIds.includes(item.gameid)" @click="favAdd(item)") ☆
+                  span.fav(v-if="favGameIds.includes(item.gameid)" @click="favDel(item)") ★
+      //- 游戏菜单
+      div(v-for="(m, i) in menus"  v-if="menus.length < 2 && m.url !== 'help' " v-bind:class=" [ menus[0].url ] ")
         template(v-for="(g, ii) in m.groups")
           el-submenu(v-bind:index="g.url" v-if="g.items.length > 0" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
             .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]" v-bind:index="g.url") {{ m.title }}
@@ -80,17 +96,31 @@ export default {
     },
     // 本地收藏数据初始化
     fav() {
-      let arr = $store.get('favGames') || [];
-      this.favGameIds = arr.map(a => { return a.gameid });//当前收藏夹游戏ID合集
-      let r = {
-        title: "收藏夹",
-        class: "icon-menu-fav",
-        url: "fav",
-        items: arr,
-        removed: false
-      };
-      let rf = this.MYmenus[0].groups.filter(a => { return a.url === 'fav' });
-      !rf.length && this.MYmenus[0].groups.unshift(r);
+      if (this.$props.menus.length < 2 && this.$props.menus[0].url === "game") {
+        let arr = $store.get("favGames") || [];
+        this.favGameIds = arr.map(a => {
+          return a.gameid;
+        }); //当前收藏夹游戏ID合集
+        let r = {
+          class: "ds-icon-game",
+          hideIcon: false,
+          id: 1,
+          menuid: "2",
+          removed: false,
+          title: "彩票",
+          url: "game",
+          groups: [
+            {
+              title: "收藏夹",
+              class: "icon-menu-fav",
+              url: "fav",
+              items: arr,
+              removed: false
+            }
+          ]
+        };
+        this.MYmenus = [r];
+      }
     },
     // 倒计时时间返回
     timefind(row) {
@@ -180,11 +210,12 @@ export default {
   },
   watch: {
     menus () {
-      this.MYmenus = this.$props.menus;
+      // this.MYmenus = JSON.parse(JSON.stringify(this.$props.menus));
+      // this.MYmenus = this.$props.menus;
       this.fav();
     },
     '$route' ({path}) {
-      this.MYmenus = this.$props.menus;
+      // this.MYmenus = this.$props.menus;
       let b = this.defaultUrl
       this.defaultUrl = path
       if (!this.$route.params.url) {
@@ -203,7 +234,7 @@ export default {
   },
   mounted () {
     // console.log(this.$refs.M)
-    this.MYmenus = this.$props.menus;
+    // this.MYmenus = this.$props.menus;
   },
   beforeDestroy () {
   }
@@ -224,13 +255,17 @@ export default {
         line-height 46px
         background linear-gradient(to bottom, #5d5d5d, #525252, #484848)
         color #fff
-        for n, i in ssc g115 k3 pk10 other kl
+        for n, i in ssc g115 k3 pk10 other kl fav
           .icon-menu-{n}
             width 28px
             height 24px
             display inline-block
             background url('../assets/icon-'+n+'.png') no-repeat
             background-size 100%
+        .icon-menu-fav
+            width 32px
+            height 32px
+            margin-left -5px
       .el-icon-arrow-down:before
         width 10px
         height 6px
@@ -240,25 +275,22 @@ export default {
         background-size 100%
 </style>
 <style lang="stylus">
+// .chrome
+//   .lefter.game .el-menu-item.ds-button
+//     .SealTime
+//       right 2.6em
+//     .fav
+//       right 1.4em
 .lefter.game .el-menu-item.ds-button
   .SealTime
     position absolute
-    // right 0.5em
-    right 1.5em
+    right 2.6em
     // transition all .3s
     &.timeRed
       color red
   .fav
     position absolute
     display inline-block
-    // transition all .3s
-    // opacity 0
-    // right -1em
-    right 0.04rem
-  // &:hover
-  //   .SealTime
-  //     right 1.5em
-  //   .fav
-  //     opacity 1
-  //     right 0.04rem
+    right 1.4em
+    // font-size 0.14rem
 </style>

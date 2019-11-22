@@ -200,6 +200,8 @@ body.classic:not(.v2)
         display none
       
       .el-menu
+        &::-webkit-scrollbar
+          display none
         .el-menu-item.ds-button
           // margin .02rem 0
           // background-color #3b3635
