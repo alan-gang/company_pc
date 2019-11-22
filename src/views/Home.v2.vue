@@ -312,7 +312,7 @@ export default {
       this.lefter = (this.lefter || document.getElementsByClassName('lefter')[0])
       if (this.lefter && document.querySelector('#app.game')) {
         this.lefter.style.transition = 'transform linear 0s'
-        this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
+        this.lefter.style.transform = 'translateX(-7.2rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
       }
       this.onScroll()
     },

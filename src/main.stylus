@@ -1246,6 +1246,9 @@ pre
       
     &.weixinquota
       background url($ASSETS/bankcard/weixinquota.jpg) #fff .1rem center no-repeat
+      
+    &.zfbquota
+      background url($ASSETS/bankcard/zfbquota.png) #fff .1rem center no-repeat
 
     &.online
       background url($ASSETS/bankcard/icon_zf_zxzf.jpg) #fff .1rem center no-repeat
