@@ -80,17 +80,23 @@ export default {
     },
     // 本地收藏数据初始化
     fav() {
-      let arr = $store.get('favGames') || [];
-      this.favGameIds = arr.map(a => { return a.gameid });//当前收藏夹游戏ID合集
-      let r = {
-        title: "收藏夹",
-        class: "icon-menu-fav",
-        url: "fav",
-        items: arr,
-        removed: false
-      };
-      let rf = this.MYmenus[0].groups.filter(a => { return a.url === 'fav' });
-      !rf.length && this.MYmenus[0].groups.unshift(r);
+      if (this.$props.menus.length < 2 && this.$props.menus[0].url === "game") {
+        let arr = $store.get("favGames") || [];
+        this.favGameIds = arr.map(a => {
+          return a.gameid;
+        }); //当前收藏夹游戏ID合集
+        let r = {
+          title: "收藏夹",
+          class: "icon-menu-fav",
+          url: "fav",
+          items: arr,
+          removed: false
+        };
+        let rf = this.MYmenus[0].groups.filter(a => {
+          return a.url === "fav";
+        });
+        !rf.length && this.MYmenus[0].groups.unshift(r);
+      }
     },
     // 倒计时时间返回
     timefind(row) {
