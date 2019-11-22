@@ -42,7 +42,8 @@
           .quick-amounts
             button.ml10.c_b.ds-button.btn-amout(@click="quickAmountHandler(amount)" v-for="(amount, i) in quickAmounts") {{amount}}
 
-
+          //- label.item 资金密码
+            input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
 
           .buttons(style="margin-left: .6rem; margin-top: .2rem")
             button.ds-button.danger(style="float: left" @click="refund") 一键转回
@@ -62,6 +63,201 @@
             .mt10.quick-btns
               button.ds-button.btn-transfer(v-if="acc.showOut" @click="quickTransfer(acc.transOutId, 'o')") 转出
               button.ml10.ds-button.btn-transfer(v-if="acc.showIn" @click="quickTransfer(acc.transInId, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 特殊
+          //-   br
+          //-   p 特殊账户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.smoney) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(1, 'o')") 转出
+          //-     //- button.ml10.ds-button.btn-transfer(@click="quickTransfer(1, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c BG
+          //-   br
+          //-   p BG账户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.bgmoney) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(2, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(0, 'i')") 转入
+
+          //- .c(v-show="false")
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c IBC
+          //-   br
+          //-   p IBC账户
+          //-   p.ft24.text-black.flex.flex-ai-c.flex-jt-c {{ numberWithCommas(ME.tcgmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-     span.icon-refresh
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer") 转入
+
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 开元
+          //-   br
+          //-   p 开元账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.kymoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(4, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(2, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c PT
+          //-   br
+          //-   p PT账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.ptmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(5, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(3, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-blue.acc-shot-name
+          //-     span.txt-c AG
+          //-   br
+          //-   p AG账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.agmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(6, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(4, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 沙巴
+          //-   br
+          //-   p 沙巴账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.sbmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(7, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(5, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 乐游
+          //-   br
+          //-   p 乐游账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.lymoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(8, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(6, 'i')") 转入
+
+          //- //- .c(style="display: none")
+          //- .c
+          //-   p.acc-bg-green.acc-shot-name
+          //-     span.txt-c U赢
+          //-   br
+          //-   p U赢账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.uwinmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(9, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(7, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c KG
+          //-   br
+          //-   p KG账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.kgmoney.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(10, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(8, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 微游
+          //-   br
+          //-   p 微游账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.litAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(11, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(9, 'i')") 转入
+          //- .c
+          //-   p.acc-bg-red.acc-shot-name
+          //-     span.txt-c 平博
+          //-   br
+          //-   p 平博账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.pbAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(12, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(10, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-blue.acc-shot-name
+          //-     span.txt-c LG
+          //-   br
+          //-   p LG账户
+          //-   p.ft24.text-black {{ numberWithCommas(ME.lgAmount.toFixed(4)) }}
+          //-     i.ft12.yuan 元
+          //-   .mt10.quick-btns
+          //-     button.ds-button.btn-transfer(@click="quickTransfer(13, 'o')") 转出
+          //-     button.ml10.ds-button.btn-transfer(@click="quickTransfer(11, 'i')") 转入
+
+          //- .c
+          //-   p.acc-bg-oriange.acc-shot-name
+          //-     span.txt-c 优惠券
+          //-   br
+          //-   p 优惠券
+          //-   p.ft24.text-black {{ numberWithCommas(ME.free) }}
+          //-     i.ft12.yuan 元
+
+      //- .s
+        .cc
+          p.title.text-black 账户互转
+          label.item 转出账户
+            el-select(v-model="f" style="width: 2.5rem" placeholder="无")
+              //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
+              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
+          p 可用余额：
+            span.text-blue {{ numberWithCommas(fm) }}
+            | 元
+            span.switch-box
+              span.switch(v-if="showSwitch" @click=" switchs ")
+              span.refresh(@click=" refresh ")
+
+          label.item 转入到&nbsp;&nbsp;&nbsp;&nbsp;
+            el-select(v-model="t" style="width: 2.5rem" placeholder="无")
+              //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
+              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
+
+          p 现有余额：
+            span.text-blue {{ numberWithCommas(tm) }}
+            | 元
+
+          label.item 交易金额
+            input.ds-input(v-model="m" style="width: 2.5rem")
+
+          p &nbsp;&nbsp;
+            span {{ cm }}
+
+          //- label.item 资金密码
+            input.ds-input(v-model="cpwd" type="password" style="width: 2.5rem" @keydown.enter="ok")
+
+          .buttons(style="margin-left: .6rem; margin-top: .2rem")
+            button.ds-button.danger(style="float: left" @click="refund") 一键转回
+            button.ds-button.primary(style="" @click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
+
+
+        .notice(style="margin: 0")
+          p 温馨提示：您可以在 个人中心 > 资金记录 > 转账记录 查看您的转账记录
+
     TR.scroll-content(v-if=" tabIdx === 1 ")
 
 </template>
@@ -71,12 +267,9 @@ import TR from '../myCashRecord/TR'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
 import store from '../../store'
 import api from '../../http/api'
-import Transferdata from './Transfer.data.js'
 export default {
   data () {
     return {
-      list: Transferdata, // 列表数据
-      //-
       ME: store.state.user,
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
@@ -596,34 +789,31 @@ export default {
     getBalances () {
       this.$http.myget(api.getBalance).then(({data}) => {
         if (data.success === 1) {
-          let r = data;
-          delete r.success;
-          store.actions.setUser(r);
-          // store.actions.setUser({
-          //   bgmoney: data.bgAmount || 0,
-          //   tcgmoney: data.sportsAmount || 0,
-          //   kymoney: data.kyAmount || 0,
-          //   ptmoney: data.ptAmount || 0,
-          //   agmoney: data.agAmount || 0,
-          //   sbmoney: data.sbAmount || 0,
-          //   lymoney: data.lyAmount || 0,
-          //   uwinmoney: data.uwinAmount || 0,
-          //   kgmoney: data.kgAmount || 0,
-          //   litAmount: data.litAmount || 0,
-          //   pbAmount: data.pbAmount || 0,
-          //   lgAmount: data.lgAmount || 0,
-          //   xyAmount: data.xyAmount || 0,
-          //   xyqpAmount: data.xyqpAmount || 0,
-          //   vgAmount: data.vgAmount || 0,
-          //   gdAmount: data.gdAmount || 0,
-          //   dsAmount: data.dsAmount || 0,
-          //   jjbAmount: data.jjbAmount || 0,
-          //   saAmount: data.saAmount || 0,
-          //   saEgameAmount: data.saEgameAmount || 0,
-          //   dfAmount: data.dfAmount || 0,
-          //   hlAmount: data.hlAmount || 0 //欢乐棋牌
-          //   // 添加三方游需要调整
-          // })
+          store.actions.setUser({
+            bgmoney: data.bgAmount || 0,
+            tcgmoney: data.sportsAmount || 0,
+            kymoney: data.kyAmount || 0,
+            ptmoney: data.ptAmount || 0,
+            agmoney: data.agAmount || 0,
+            sbmoney: data.sbAmount || 0,
+            lymoney: data.lyAmount || 0,
+            uwinmoney: data.uwinAmount || 0,
+            kgmoney: data.kgAmount || 0,
+            litAmount: data.litAmount || 0,
+            pbAmount: data.pbAmount || 0,
+            lgAmount: data.lgAmount || 0,
+            xyAmount: data.xyAmount || 0,
+            xyqpAmount: data.xyqpAmount || 0,
+            vgAmount: data.vgAmount || 0,
+            gdAmount: data.gdAmount || 0,
+            dsAmount: data.dsAmount || 0,
+            jjbAmount: data.jjbAmount || 0,
+            saAmount: data.saAmount || 0,
+            saEgameAmount: data.saEgameAmount || 0,
+            dfAmount: data.dfAmount || 0,
+            hlAmount: data.hlAmount || 0 //欢乐棋牌
+            // 添加三方游需要调整
+          })
           this.accounts = this.accounts.map((item) => {
             if (this.ME.hasOwnProperty(item.name)) {
               item.balance = this.numberWithCommas(Number(this.ME[item.name]).toFixed(4))
