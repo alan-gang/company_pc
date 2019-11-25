@@ -5,7 +5,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .scroll-content.bg-w(v-show="tabIdx === 0")
+    .scroll-content.bg-w.transfer(v-show="tabIdx === 0")
       .info
         i.ds-icon-me-avatar
         p.txt-c.mt15 主账户
@@ -51,17 +51,20 @@
       .wallet-ls
 
         .s(style="padding: PWX 0")
-          .c(v-for="(acc, i) in accounts" v-show="acc.show")
-            p.acc-shot-name(v-bind:class="acc.className")
-              span.txt-c {{ acc.shotTitle }}
-            br
-            p {{ acc.title }}
-            p.fz20.text-black.flex.flex-ai-c.flex-jt-c {{ acc.balance }}
-              i.ft12.yuan 元
-              span.icon-refresh(v-on:click="refreshBalance(acc.id, acc.name)")
-            .mt10.quick-btns
-              button.ds-button.btn-transfer(v-if="acc.showOut" @click="quickTransfer(acc.transOutId, 'o')") 转出
-              button.ml10.ds-button.btn-transfer(v-if="acc.showIn" @click="quickTransfer(acc.transInId, 'i')") 转入
+          .classifys(v-for="v in Tdata.classifyMap")
+            .classifyTit.c {{v.n}}
+            .c(v-for="r in Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
+              p.acc-shot-name(v-bind:class="r.classname")
+                span.txt-c {{ r.n }}
+              br
+              p(v-if="!r.alias") {{ r.n }}账户
+              p(v-if="r.alias") {{ r.alias }}
+              p.fz20.text-black.flex.flex-ai-c.flex-jt-c 9999
+                i.ft12.yuan 元
+                span.icon-refresh
+              .mt10.quick-btns
+                button.ds-button.btn-transfer 转出
+                button.ml10.ds-button.btn-transfer 转入
     TR.scroll-content(v-if=" tabIdx === 1 ")
 
 </template>
@@ -71,11 +74,11 @@ import TR from '../myCashRecord/TR'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
 import store from '../../store'
 import api from '../../http/api'
-import Transferdata from './Transfer.data.js'
+import Tdata from './Transfer.data.js'
 export default {
   data () {
     return {
-      list: Transferdata, // 列表数据
+      Tdata: Tdata, // 列表数据
       //-
       ME: store.state.user,
       numberWithCommas: numberWithCommas,
@@ -833,7 +836,7 @@ export default {
       .s
         padding 0 0 0 0.5rem
         .c
-          float left
+          // float left
           text-align center
     .btn-transfer
       width 0.7rem
@@ -876,7 +879,7 @@ export default {
       width 1.6rem
       max-width 4rem
       // padding 1.2rem  .2rem .3rem .2rem
-      padding 0.37rem 0rem .3rem 0rem
+      padding 0.1rem 0rem
       font-size .16rem
       vertical-align top
       .amount
@@ -990,4 +993,22 @@ export default {
     .scroll-content
       min-width 16rem
 </style>
-
+<style lang="stylus">
+.transfer
+  .classifys
+    border-bottom dashed 1px #ccc
+    .classifyTit
+      line-height 1.7rem
+      position relative
+      text-align left !important
+      text-indent 0.6rem
+      &:before
+        content ''
+        position absolute
+        left 0.4rem
+        top 0.866rem
+        width 12px
+        height 12px
+        border solid 2px #ff8713
+        border-radius 50%
+</style>
