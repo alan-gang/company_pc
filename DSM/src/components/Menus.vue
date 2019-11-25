@@ -285,12 +285,13 @@ export default {
   .SealTime
     position absolute
     right 2.6em
-    // transition all .3s
     &.timeRed
       color red
   .fav
     position absolute
-    display inline-block
+    display none
     right 1.4em
-    // font-size 0.14rem
+  &:hover
+    .fav
+      display inline-block
 </style>
