@@ -225,6 +225,8 @@ let Login = {
 let Game = {
   // 获得奖期的开奖时间
   getTraceIssueList: '/issue.do?method=traceIssueList',
+  // 多个彩种同时获取正在销售的奖期
+  currentList: '/issue.do?method=currentList',
   // 3.当前奖期信息
   getIssue: '/issue.do?method=current',
   // Steven, [21.04.17 19:25]
