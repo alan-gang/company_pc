@@ -144,9 +144,23 @@ export default {
     }
   },
   mounted () {
-    this.getBalances()
+    this.getBalances();
+    this.getRecentlyPlat();
   },
   methods: {
+    // 常用账户
+    getRecentlyPlat () {
+      this.$http.get(api.getRecentlyPlat).then(({data: {success, msg, platList}}) => {
+        if (success === 1) {
+          this.Tdata.list.forEach(v => {
+            if (platList.includes(v.id)) {
+              // { n: '常用账户', classifyID: 99 },
+              v.classifys.push(99); //追加分类
+            }
+          });
+        }
+      })
+    },
     // 一件取回
     refund () {
       this.$http.get(api.withdrawAll).then(({data: {success, msg}}) => {
