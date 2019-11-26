@@ -50,10 +50,11 @@
     el-row.content-width
       el-col.l.flex(:span="9")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
-        // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
+        //- router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         Marquee(v-bind:show="true" v-bind:content="marqueeData" @click="$router.push('/help/6-2-1')")
       el-col.r(:span="15")
-        // Menus(:menus="menus")
+        a(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
+        //- Menus(:menus="menus")
 
         el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lt-popover' " v-bind:visible-arrow="false")
           span(slot="reference")
