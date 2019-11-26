@@ -1,7 +1,7 @@
 <template lang="jade">
   .unloginbar
     .content-width
-      a(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
+      a.b(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
       el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lar-popover' " v-bind:visible-arrow="false" v-model="show" @show=" __setCall({fn: '__LARCODE'}) ")
         span(slot="reference")
           span.a(@click=" __setCall({fn: '__popLogin', args: true}) ") 登录 | 注册

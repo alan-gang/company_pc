@@ -53,7 +53,7 @@
         //- router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         Marquee(v-bind:show="true" v-bind:content="marqueeData" @click="$router.push('/help/6-2-1')")
       el-col.r(:span="15")
-        a(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
+        a.link(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
         //- Menus(:menus="menus")
 
         el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lt-popover' " v-bind:visible-arrow="false")
@@ -520,4 +520,13 @@ body.cb.v2
     &.level-{n}
       background-image url('../assets/level/' + n + '.png')
 
+</style>
+<style lang="stylus">
+.new-header
+  .link
+    line-height 0.36rem
+    display inline-block
+    padding 0 0.1rem 0 0.1rem
+    &:hover
+      background-color #e9e9e9
 </style>
