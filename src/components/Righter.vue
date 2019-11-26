@@ -82,7 +82,7 @@
     methods: {
       goChat() {
         let url = 'http://192.168.169.84/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
-        window.open(url, '_blank', 'width=800,height=520,resizable=no')
+        window.open(url, 'chatwindow', 'width=800,height=520,resizable=no')
       },
       countDown () {
         if (this.time > 0) {
