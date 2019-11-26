@@ -4,6 +4,7 @@
 // authority 权限 2 转出
 export default {
     classifyMap: [
+        { n: '常用账户', classifyID: 99 },
         { n: '真人账户', classifyID: 1 },
         { n: '棋牌账户', classifyID: 2 },
         { n: '老虎机账户', classifyID: 3 }, // 老虎电游
