@@ -349,7 +349,7 @@ export default {
     // },
     timeout () {
       if (this.timeout === 0) {
-        this.__getIssue()
+        setTimeout(this.__getIssue, 1000)
         this.__getTraceIssueList()
         setTimeout(this.__recentlyCode, 1000)
         setTimeout(this.__recentlyCode, 5000)
@@ -510,7 +510,7 @@ export default {
           this.CNPER = data.issue
           this.PNPER = data.openedCount
           this.FNPER = data.dailyCount
-          this.timeout = Math.floor((data.saleend - data.current) / 1000) || (this.timeout + 0.05)
+          this.timeout = Math.floor((data.saleend - data.current) / 1000)
           this.codeMissColdHeat()
         } else {
           // this.$message.error({message: '当前奖期获取失败！'})

@@ -13,7 +13,7 @@
       //- 游戏菜单 收藏
       div(v-for="(m, i) in MYmenus"  v-if="menus.length < 2 && m.url !== 'help' " v-bind:class=" [ menus[0].url ] ")
         template(v-for="(g, ii) in m.groups")
-          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
+          el-submenu(v-bind:index="g.url" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
             .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]" v-bind:index="g.url") {{ m.title }}
             template(slot="title")
               i(:class="g.class")
@@ -285,12 +285,13 @@ export default {
   .SealTime
     position absolute
     right 2.6em
-    // transition all .3s
     &.timeRed
       color red
   .fav
     position absolute
-    display inline-block
+    display none
     right 1.4em
-    // font-size 0.14rem
+  &:hover
+    .fav
+      display inline-block
 </style>
