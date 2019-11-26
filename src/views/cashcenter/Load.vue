@@ -816,7 +816,7 @@ export default {
       this.curPayType = ptype
       this.bankList = this.curPayType.range
       this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
-      if (this.curPayType.saveWay === 'weixinquota') {
+      if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
         let item = this.bankList[0]
         this.quotaList = item.range
         this.amount = this.quotaList[0]
@@ -834,7 +834,7 @@ export default {
     },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
-      if (payType === 'weixinquota') return true
+      if (payType === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') return true
       if (bankList.length > 1) {
         return toString.call(bankList[0]) === '[object Object]'
       }
