@@ -14,23 +14,21 @@
         .cc
           p.title.text-black 账户互转
           label.item 转出账户
-            el-select(v-model="f" style="width: 2.5rem" placeholder="无" )
-              //- el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 && i !== 9 ")
-              el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 3 ")
+            el-select(v-model="ToutKey" style="width: 2.5rem" placeholder="无" )
+              //- el-option(label="主账户" value="amoney")
+              el-option(v-for="v in ToutList" v-bind:label="v.n+'账户' " v-bind:value="v.key")
           p 可用余额：
-            span.text-blue {{ numberWithCommas(fm) }}
+            span.text-blue {{ numberWithCommas(ME[ToutKey]) }}
             | 元
             span.switch-box
-              span.switch(v-if="showSwitch" @click=" switchs ")
-              //- span.refresh(@click=" refresh ")
+              span.switch(v-if="showSwap" @click=" ClickSwap ")
 
           label.item 转入账户
-            el-select(v-model="t" style="width: 2.5rem" placeholder="无")
-              //- el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 && i !== 7 ")
-              el-option(v-for="(n, i) in ctos" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-show=" i !== 1 ")
+            el-select(v-model="TinKey" style="width: 2.5rem" placeholder="无")
+              el-option(v-for="v in TinList" v-bind:label="v.n+'账户' " v-bind:value="v.key")
 
           p 可用余额：
-            span.text-blue {{ numberWithCommas(tm) }}
+            span.text-blue {{ numberWithCommas(ME[TinKey]) }}
             | 元
 
           label.item 交易金额
@@ -59,12 +57,12 @@
               br
               p(v-if="!r.alias") {{ r.n }}账户
               p(v-if="r.alias") {{ r.alias }}
-              p.fz20.text-black.flex.flex-ai-c.flex-jt-c 9999
+              p.fz20.text-black.flex.flex-ai-c.flex-jt-c {{numberWithCommas(ME[r.key])}}
                 i.ft12.yuan 元
-                span.icon-refresh
+                span.icon-refresh(v-on:click="refreshBalance(r)")
               .mt10.quick-btns
-                button.ds-button.btn-transfer 转出
-                button.ml10.ds-button.btn-transfer 转入
+                button.ds-button.btn-transfer(v-if="r.authority.includes(2)" @click="quickTransfer(r, 'o')") 转出
+                button.ml10.ds-button.btn-transfer(v-if="r.authority.includes(1)" @click="quickTransfer(r, 'i')") 转入
     TR.scroll-content(v-if=" tabIdx === 1 ")
 
 </template>
@@ -79,588 +77,127 @@ export default {
   data () {
     return {
       Tdata: Tdata, // 列表数据
-      //-
+      ToutKey: 'amoney', //当前转出账户  amoney 默认 主账户
+      TinKey: Tdata.list.find(x => { return x.authority.includes(1) && x.key !== 'amoney' }).key, //当前转入账户 默认 第一个 非 主账户的可以转入的账户
+      m: '', // 交易金额
       ME: store.state.user,
       numberWithCommas: numberWithCommas,
       digitUppercase: digitUppercase,
-      f: "",
-      froms: [
-        "主账户",
-        "特殊账户",
-        "BG账户:2",
-        "IBC账户:3",
-        "开元账户:7",
-        "PT账户:5",
-        "AG账户:4",
-        "沙巴账户:9",
-        "乐游账户:15",
-        "U赢账户:17",
-        "KG账户:18",
-        "微游账户:25",
-        "平博账户:19",
-        "LG账户:21",
-        "幸运账户:22",
-        "财神账户:27",
-        "GD账户:26",
-        "德胜账户:28",
-        "小艾账户:29",
-        "SA真人账户:31",
-        "SA电游账户:32",
-        "OG账户:34",
-        "欢乐账户:44"
-        // 添加三方游需要调整
-      ],
-      t: "",
-      m: "",
       cpwd: "",
       btn: false,
-      a: [
-        "BG账户:2:bgmoney",
-        "IBC账户:3:tcgmoney",
-        "开元账户:7:kymoney",
-        "PT账户:5:ptmoney",
-        "AG账户:4:agmoney",
-        "沙巴账户:9:sbmoney",
-        "乐游账户:15:lymoney",
-        "U赢账户:17:uwinmoney",
-        "KG账户:18:kgmoney",
-        "微游账户:25:litAmount",
-        "平博账户:19:pbAmount",
-        "LG账户:21:lgAmount",
-        "幸运账户:22:xyqpAmount",
-        "财神账户:27:vgAmount",
-        "GD账户:26:gdAmount",
-        "德胜账户:28:dsAmount",
-        "小艾账户:29:jjbAmount",
-        "SA真人账户:31:saAmount",
-        "SA电游账户:32:saEgameAmount",
-        "OG账户:34:dfAmount",
-        "欢乐账户:44:hlAmount"
-        // 添加三方游需要调整
-      ],
       quickAmounts: ["50", "100", "500", "全部"],
-      tabIdx: 0,
-      accounts: [
-        {id: "", transInId: "", transOutId: 1, title: "特殊账户", shotTitle: "特殊", name: "smoney", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: true, show: true},
-        {id: "2", transInId: 0, transOutId: 2, title: "BG账户", shotTitle: "BG", name: "bgmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
-        {id: "3", transInId: "", transOutId: "", title: "IBC账户", shotTitle: "IBC", name: "tcgmoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: false},
-        {id: "7", transInId: 2, transOutId: 4, title: "开元账户", shotTitle: "开元", name: "kymoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "5", transInId: 3, transOutId: 5, title: "PT账户", shotTitle: "PT", name: "ptmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
-        {id: "4", transInId: 4, transOutId: 6, title: "AG账户", shotTitle: "AG", name: "agmoney", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
-        {id: "9", transInId: 5, transOutId: 7, title: "沙巴账户", shotTitle: "沙巴", name: "sbmoney", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "15", transInId: 6, transOutId: 8, title: "乐游账户", shotTitle: "乐游", name: "lymoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
-        {id: "17", transInId: 7, transOutId: 9, title: "U赢账户", shotTitle: "U赢", name: "uwinmoney", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "18", transInId: 8, transOutId: 10, title: "KG账户", shotTitle: "KG", name: "kgmoney", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
-        {id: "25", transInId: 9, transOutId: 11, title: "微游账户", shotTitle: "微游", name: "litAmount", balance: 0, className: "acc-bg-oriange", showIn: true, showOut: true, show: true},
-        {id: "19", transInId: 10, transOutId: 12, title: "平博账户", shotTitle: "平博", name: "pbAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "21", transInId: 11, transOutId: 13, title: "LG账户", shotTitle: "LG", name: "lgAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
-        {id: "22", transInId: 12, transOutId: 14, title: "幸运账户", shotTitle: "幸运", name: "xyqpAmount", balance: 0, className: "acc-bg-blue", showIn: true, showOut: true, show: true},
-        {id: "27", transInId: 13, transOutId: 15, title: "财神账户", shotTitle: "财神", name: "vgAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "26", transInId: 14, transOutId: 16, title: "GD账户", shotTitle: "GD", name: "gdAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "28", transInId: 15, transOutId: 17, title: "德胜账户", shotTitle: "德胜", name: "dsAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "29", transInId: 16, transOutId: 18, title: "小艾账户", shotTitle: "小艾", name: "jjbAmount", balance: 0, className: "acc-bg-green", showIn: true, showOut: true, show: true},
-        {id: "31", transInId: 17, transOutId: 19, title: "SA真人账户", shotTitle: "SA", name: "saAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "32", transInId: 18, transOutId: 20, title: "SA电游账户", shotTitle: "SA电游", name: "saEgameAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "34", transInId: 19, transOutId: 21, title: "OG账户", shotTitle: "OG", name: "dfAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        {id: "44", transInId: 20, transOutId: 22, title: "欢乐账户", shotTitle: "欢乐", name: "hlAmount", balance: 0, className: "acc-bg-red", showIn: true, showOut: true, show: true},
-        // 添加三方游需要调整
-        // id 平台ID
-        {id: "", transInId: "", transOutId: "", title: "优惠券", shotTitle: "优惠券", name: "free", balance: 0, className: "acc-bg-oriange", showIn: false, showOut: false, show: true
-        }
-      ]
+      tabIdx: 0
     };
   },
   computed: {
+    //转出账户列表
+    ToutList () {
+      return this.Tdata.list.filter(x => { return x.authority.includes(2) })
+    },
+    //转入账户列表
+    TinList () {
+      if (this.ToutKey === 'amoney') {
+        //-当转出账户 是 主账户时
+        return this.Tdata.list.filter(x => { return x.authority.includes(1) && x.key !== 'amoney' })
+      } else {
+        //-当转出账户 非 主账户时
+        return this.Tdata.list.filter(x => { return x.key === 'amoney' })
+      }
+    },
+    // 显示隐藏 转入和转出账户互换
+    // 同时拥有转入 转出 权限的 转出账户 即 显示
+    showSwap () {
+      return this.Tdata.list.filter(x => { return x.key === this.ToutKey && x.authority.includes(1) && x.authority.includes(2) }).length
+    },
+    // 转出账户余额
     fm () {
-      switch (this.f) {
-        case 0:
-          return this.ME.amoney
-        case 1:
-          return this.ME.smoney
-        case 2:
-          return this.ME.bgmoney
-        case 3:
-          return this.ME.tcgmoney
-        case 4:
-          return this.ME.kymoney
-        case 5:
-          return this.ME.ptmoney
-        case 6:
-          return this.ME.agmoney
-        case 7:
-          return this.ME.sbmoney
-        case 8:
-          return this.ME.lymoney
-        case 9:
-          return this.ME.uwinmoney
-        case 10:
-          return this.ME.kgmoney
-        case 11:
-          return this.ME.litAmount
-        case 12:
-          return this.ME.pbAmount
-        case 13:
-          return this.ME.lgAmount
-        case 14:
-          return this.ME.xyqpAmount
-        case 15:
-          return this.ME.vgAmount
-        case 16:
-          return this.ME.gdAmount
-        case 17:
-          return this.ME.dsAmount
-        case 18:
-          return this.ME.jjbAmount
-        case 19:
-          return this.ME.saAmount
-        case 20:
-          return this.ME.saEgameAmount
-        case 21:
-          return this.ME.dfAmount
-        case 22:
-          return this.ME.hlAmount
-        // 添加三方游需要调整
-      }
-    },
-    tm () {
-      switch (this.f) {
-        case 0:
-          return [
-            this.ME.bgmoney,
-            this.ME.tcgmoney,
-            this.ME.kymoney,
-            this.ME.ptmoney,
-            this.ME.agmoney,
-            this.ME.sbmoney,
-            this.ME.lymoney,
-            this.ME.uwinmoney,
-            this.ME.kgmoney,
-            this.ME.litAmount,
-            this.ME.pbAmount,
-            this.ME.lgAmount,
-            this.ME.xyqpAmount,
-            this.ME.vgAmount,
-            this.ME.gdAmount,
-            this.ME.dsAmount,
-            this.ME.jjbAmount,
-            this.ME.saAmount,
-            this.ME.saEgameAmount,
-            this.ME.dfAmount,
-            this.ME.hlAmount
-            // 添加三方游需要调整
-          ][this.t]
-        default:
-          return this.ME.amoney
-        // case 2:
-        //   return this.ME.amoney
-        // case 3:
-        //   return this.ME.amoney
-        // case 4:
-        //   return this.ME.amoney
-        // case 5:
-        //   return this.ME.amoney
-        // case 6:
-        //   return this.ME.amoney
-        // case 7:
-        //   return this.ME.amoney
-        // case 8:
-        //   return this.ME.amoney
-        // case 9:
-        //   return this.ME.amoney
-        // case 10:
-        //   return this.ME.amoney
-        // case 11:
-        //   return this.ME.amoney
-        // case 12:
-        //   return this.ME.amoney
-        // case 13:
-        //   return this.ME.amoney
-      }
-    },
-    ctos () {
-      switch (this.f) {
-        case 0:
-          return this.froms.slice(2)
-        default:
-          return this.froms.slice(0, 1)
-        // case 1:
-        //   return this.froms.slice(0, 1)
-        // case 2:
-        //   return this.froms.slice(0, 1)
-        // case 3:
-        //   return this.froms.slice(0, 1)
-        // case 4:
-        //   return this.froms.slice(0, 1)
-        // case 5:
-        //   return this.froms.slice(0, 1)
-        // case 6:
-        //   return this.froms.slice(0, 1)
-        // case 7:
-        //   return this.froms.slice(0, 1)
-        // case 8:
-        //   return this.froms.slice(0, 1)
-        // case 9:
-        //   return this.froms.slice(0, 1)
-        // case 10:
-        //   return this.froms.slice(0, 1)
-        // case 11:
-        //   return this.froms.slice(0, 1)
-        // case 12:
-        //   return this.froms.slice(0, 1)
-      }
-    },
-    cm () {
-      return this.m === '' ? '' : digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
-    },
-    showSwitch () {
-      return (
-        this.f === 0 && this.t === 0) ||
-        (this.f === 2 && this.t === 0) ||
-        (this.f === 0 && this.t === 1) ||
-        (this.f === 3 && this.t === 0) ||
-        (this.f === 4 && this.t === 0) ||
-        (this.f === 0 && this.t === 2) ||
-        (this.f === 0 && this.t === 3) ||
-        (this.f === 0 && this.t === 4) ||
-        (this.f === 5 && this.t === 0) ||
-        (this.f === 6 && this.t === 0) ||
-        (this.f === 0 && this.t === 5) ||
-        (this.f === 7 && this.t === 0) ||
-        (this.f === 0 && this.t === 6) ||
-        (this.f === 8 && this.t === 0) ||
-        (this.f === 0 && this.t === 7) ||
-        (this.f === 9 && this.t === 0) ||
-        (this.f === 0 && this.t === 8) ||
-        (this.f === 10 && this.t === 0) ||
-        (this.f === 0 && this.t === 9) ||
-        (this.f === 11 && this.t === 0) ||
-        (this.f === 0 && this.t === 10) ||
-        (this.f === 12 && this.t === 0) ||
-        (this.f === 0 && this.t === 11) ||
-        (this.f === 13 && this.t === 0) ||
-        (this.f === 0 && this.t === 12) ||
-        //
-        (this.f === 14 && this.t === 0) ||
-        (this.f === 0 && this.t === 12) ||
-        //
-        (this.f === 15 && this.t === 0) ||
-        (this.f === 0 && this.t === 13) ||
-        //
-        (this.f === 16 && this.t === 0) ||
-        (this.f === 0 && this.t === 14) ||
-        //
-        (this.f === 17 && this.t === 0) ||
-        (this.f === 0 && this.t === 15) ||
-        //
-        (this.f === 18 && this.t === 0) ||
-        (this.f === 0 && this.t === 16) ||
-
-        (this.f === 19 && this.t === 0) ||
-        (this.f === 0 && this.t === 17) ||
-
-        (this.f === 20 && this.t === 0) ||
-        (this.f === 0 && this.t === 18) ||
-
-        (this.f === 21 && this.t === 0) || (this.f === 0 && this.t === 19) ||
-
-        (this.f === 22 && this.t === 0) || (this.f === 0 && this.t === 20)
-
-        // 添加三方游需要调整
-        // f 对应 transOutId
-        // t 对应 transInId
+      return this.ME[this.ToutKey]
     },
     ccm () {
       return parseFloat(this.m.replace(/[^0-9.]/g, '') || 0)
     },
+    cm () {
+      return this.m === '' ? '' : digitUppercase(this.m.replace(/[^0-9.]/g, '') || 0)
+    },
+    // 转出 转入接口
     bgAPI () {
-      return [api.withdrawFromBG, api.transferToBG][this.f === 0 ? 1 : 0]
+      return [api.withdrawFromBG, api.transferToBG][this.ToutKey === 'amoney' ? 1 : 0]
     },
-    fi () {
-      return parseInt((this.froms[this.f] || '').split(':')[1] || this.f)
-    },
-    ti () {
-      return parseInt((this.ctos[this.t] || '').split(':')[1] || this.t)
+    // 当前转账的 平台id
+    platRow () {
+      let name = this.ToutKey === 'amoney' ? this.TinKey : this.ToutKey
+      return this.Tdata.list.find(x => { return x.key === name })
     }
   },
   watch: {
-    f () {
-      if (this.f !== '' && this.f !== 0) this.t = 0
+    //转出 账户 改变时 转入账户初始化
+    ToutKey () {
+      this.TinList.length && (this.TinKey = this.TinList[0].key);
     },
+    // 监听交易金额
     m () {
       this.m = this.m.trim()
       this.m = this.m.replace(/[^0-9,.]/g, '').replace(/[,.]{2,}/g, ',')
       let [l, r, t] = this.m.split('.')
       if (r) this.m = l + '.' + r.slice(0, 3)
       if ((r && r.split(/[,]/)[1]) || t) this.m = l + '.' + r.split(/[.,]/)[0].slice(0, 3)
-    },
-    'ME.free' () {
-      this.updateUserBanlance()
-    },
-    'ME.smoney' () {
-      this.updateUserBanlance()
     }
   },
   mounted () {
-    // this.getBalance()
-    // this.__setCall({fn: '__getUserFund', args: undefined})
-    this.f = this.t = 0
     this.getBalances()
-    this.updateUserBanlance()
   },
   methods: {
-    __setTransferI (i) {
-      this.tabIdx = i
-    },
-    refresh () {
-      this.__setCall({fn: '__getUserFund', args: undefined})
-      this.getBalance()
-    },
-    refreshBalance (id, name) {
-      if (!id) {
-        this.__setCall({fn: '__getUserFund', args: undefined})
-      } else {
-        this.getBalanceById(id, name)
-      }
-    },
-    updateUserBanlance () {
-      let specialAccountIndex = this.findAccountIndexByName('smoney')
-      let specialAccount = this.accounts[specialAccountIndex]
-      let freeAccountIndex = this.findAccountIndexByName('free')
-      let freeAccount = this.accounts[freeAccountIndex]
-      specialAccount.balance = this.numberWithCommas(Number(this.ME.smoney).toFixed(4))
-      freeAccount.balance = this.numberWithCommas(Number(this.ME.free).toFixed(4))
-      this.$set(this.accounts, specialAccountIndex, specialAccount)
-      this.$set(this.accounts, freeAccountIndex, freeAccount)
-    },
-    switchs () {
-      if (this.f === 0 && this.t === 0) this.f = 2
-      else if (this.f === 0 && this.t === 1) (this.f = 3) && (this.t = 0)
-      else if (this.f === 0 && this.t === 2) (this.f = 4) && (this.t = 0)
-      else if (this.f === 0 && this.t === 3) (this.f = 5) && (this.t = 0)
-      else if (this.f === 0 && this.t === 4) (this.f = 6) && (this.t = 0)
-      else if (this.f === 0 && this.t === 5) (this.f = 7) && (this.t = 0)
-      else if (this.f === 0 && this.t === 6) (this.f = 8) && (this.t = 0)
-      else if (this.f === 0 && this.t === 7) (this.f = 9) && (this.t = 0)
-      else if (this.f === 0 && this.t === 8) (this.f = 10) && (this.t = 0)
-      else if (this.f === 0 && this.t === 9) (this.f = 11) && (this.t = 0)
-      else if (this.f === 0 && this.t === 10) (this.f = 12) && (this.t = 0)
-      else if (this.f === 0 && this.t === 11) (this.f = 13) && (this.t = 0)
-      else if (this.f === 0 && this.t === 12) (this.f = 14) && (this.t = 0)
-      else if (this.f === 0 && this.t === 13) (this.f = 15) && (this.t = 0)
-      else if (this.f === 0 && this.t === 14) (this.f = 16) && (this.t = 0)
-      else if (this.f === 0 && this.t === 17) (this.f = 19) && (this.t = 0)
-      else if (this.f === 0 && this.t === 18) (this.f = 20) && (this.t = 0)
-      else if (this.f === 0 && this.t === 19) (this.f = 21) && (this.t = 0)
-      else if (this.f === 0 && this.t === 20) (this.f = 22) && (this.t = 0)
-      //
-      // 添加三方游需要调整
-      // f 对应 transOutId
-      // t 对应 transInId
-      else if (this.f === 2) (this.t = 0) || (this.f = 0)
-      else if (this.f === 3) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 1
-        })
-      } else if (this.f === 4) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 2
-        })
-      } else if (this.f === 5) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 3
-        })
-      } else if (this.f === 6) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 4
-        })
-      } else if (this.f === 7) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 5
-        })
-      } else if (this.f === 8) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 6
-        })
-      } else if (this.f === 9) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 7
-        })
-      } else if (this.f === 10) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 8
-        })
-      } else if (this.f === 11) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 9
-        })
-      } else if (this.f === 12) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 10
-        })
-      } else if (this.f === 13) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 11
-        })
-      //
-      } else if (this.f === 14) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 12
-        })
-      //
-      } else if (this.f === 15) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 13
-        })
-      //
-      } else if (this.f === 16) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 14
-        })
-      //
-      } else if (this.f === 17) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 15
-        })
-      //
-      } else if (this.f === 18) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 16
-        })
-      } else if (this.f === 19) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 17
-        })
-      } else if (this.f === 20) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 18
-        })
-      } else if (this.f === 21) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 19
-        })
-      } else if (this.f === 22) {
-        this.f = 0
-        setTimeout(() => {
-          this.t = 20
-        })
-      }
-      //
-      // 添加三方游需要调整
-      // f 对应 transOutId
-      // t 对应 transInId
-    },
-    ok () {
-      if (this.f === 1) this.transferNow()
-      else this.transferNowBG()
-    },
-    getBalance (a) {
-      (a || this.a).forEach(x => {
-        let [, platId, prop] = x.split(':')
-        this.getBalanceById(platId, prop)
-      })
-    },
-    getBalanceById (platId, name) {
-      this.$http.get(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
-        if (success) {
-          let b = {}
-          b[name] = Number(bal)
-          store.actions.setUser(b)
-          let account = null
-          for (let i = 0; i < this.accounts.length; i++) {
-            account = this.accounts[i]
-            if (parseInt(platId) === parseInt(account.id)) {
-              account.balance = this.numberWithCommas(Number(bal || '0').toFixed(4))
-              this.$set(this.accounts, i, account)
-              break
-            }
-          }
+    // 一件取回
+    refund () {
+      this.$http.get(api.withdrawAll).then(({data: {success, msg}}) => {
+        if (success === 1) {
+          this.$message.success({target: this.$el, message: msg || '一键转回成功'})
+          setTimeout(() => {
+            this.getBalanceById(this.platRow.id, this.platRow.key)
+            // this.getBalance([this.a[Math.max(this.f, this.t + 2) - 2]])
+          }, 1000)
+          this.__setCall({fn: '__getUserFund', args: undefined})
+        } else {
+          this.$message.error({target: this.$el, message: msg || '一键转回失败'})
         }
       })
     },
-    getBalances () {
-      this.$http.myget(api.getBalance).then(({data}) => {
+    transferNowBG () {
+      if (this.ToutKey === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
+      if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
+      // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
+      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
+      this.btn = true
+      let t = setTimeout(() => {
+        if (this.btn) this.btn = false
+      }, 10000)
+      this.$message.success({
+        target: this.$el,
+        message: "转账已提交！"
+      });
+      this.$http.get(this.bgAPI, {'amount': this.m, 'platid': this.platRow.id}).then(({data}) => {
         if (data.success === 1) {
-          let r = data;
-          delete r.success;
-          store.actions.setUser(r);
-          // store.actions.setUser({
-          //   bgmoney: data.bgAmount || 0,
-          //   tcgmoney: data.sportsAmount || 0,
-          //   kymoney: data.kyAmount || 0,
-          //   ptmoney: data.ptAmount || 0,
-          //   agmoney: data.agAmount || 0,
-          //   sbmoney: data.sbAmount || 0,
-          //   lymoney: data.lyAmount || 0,
-          //   uwinmoney: data.uwinAmount || 0,
-          //   kgmoney: data.kgAmount || 0,
-          //   litAmount: data.litAmount || 0,
-          //   pbAmount: data.pbAmount || 0,
-          //   lgAmount: data.lgAmount || 0,
-          //   xyAmount: data.xyAmount || 0,
-          //   xyqpAmount: data.xyqpAmount || 0,
-          //   vgAmount: data.vgAmount || 0,
-          //   gdAmount: data.gdAmount || 0,
-          //   dsAmount: data.dsAmount || 0,
-          //   jjbAmount: data.jjbAmount || 0,
-          //   saAmount: data.saAmount || 0,
-          //   saEgameAmount: data.saEgameAmount || 0,
-          //   dfAmount: data.dfAmount || 0,
-          //   hlAmount: data.hlAmount || 0 //欢乐棋牌
-          //   // 添加三方游需要调整
-          // })
-          this.accounts = this.accounts.map((item) => {
-            if (this.ME.hasOwnProperty(item.name)) {
-              item.balance = this.numberWithCommas(Number(this.ME[item.name]).toFixed(4))
-            }
-            return item
-          })
+          this.cpwd = ''
+          this.m = ''
+          setTimeout(() => {
+            this.getBalanceById(this.platRow.id, this.platRow.key)
+            // this.getBalance([this.a[Math.max(this.f, this.t + 2) - 2]])
+          }, 1000)
+          this.__setCall({fn: '__getUserFund', args: undefined})
+          // this.getBalance()
+        } else {
+          // this.$message.error({target: this.$el, message: data.msg || (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
         }
       }).catch(rep => {
-        // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
-      })
-    },
-    updateBalanceByName (name, balance) {
-      let account = null
-      for (let i = 0; i < this.accounts.length; i++) {
-        account = this.accounts[i]
-        if (name === account.name) {
-          account.balance = this.numberWithCommas(Number(balance).toFixed(4))
-          this.$set(this.accounts, i, account)
-          break
-        }
-      }
-    },
-    findAccountById (id) {
-      return this.accounts.find((acc) => {
-        return parseInt(id) === parseInt(acc.id)
-      })
-    },
-    findAccountIndexByName (name) {
-      return this.accounts.findIndex((acc) => {
-        return acc.name === name
+        // this.$message.error({target: this.$el, message: (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
+      }).finally(() => {
+        this.btn = false
+        clearTimeout(t)
+        t = 0
       })
     },
     transferNow () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
+      if (this.ToutKey === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
       if (!this.ccm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
       // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
       if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
@@ -677,90 +214,60 @@ export default {
         this.$message.error({target: this.$el, message: '金额转换失败！'})
       })
     },
-    transferNowBG () {
-      if (this.f === '') return this.$message.warning({target: this.$el, message: '请选择转出账户！'})
-      if (!this.cm) return this.$message.warning({target: this.$el, message: '请输入转换金额！'})
-      // if (!this.cpwd) return this.$message.warning({target: this.$el, message: '请输入资金密码！'})
-      if (this.ccm > this.fm) return this.$message.warning({target: this.$el, message: '转出账户余额不足！'})
-      this.btn = true
-      let t = setTimeout(() => {
-        if (this.btn) this.btn = false
-      }, 10000)
-      this.$message.success({
-        target: this.$el,
-        message:
-          [
-            "",
-            "",
-            "BG",
-            "IBC",
-            "棋牌",
-            "PT",
-            "AG",
-            "沙巴",
-            "乐游",
-            "U赢",
-            "KG",
-            "微游",
-            "平博",
-            "LG",
-            "幸运",
-            "财神",
-            "GD",
-            "DS",
-            "XA",
-            "SA",
-            "SA电游",
-            "OG",
-            "欢乐"
-            // 添加三方游需要调整
-          ][Math.max(this.f, this.t + 2)] + "余额转账已提交！"
-      });
-      this.$http.get(this.bgAPI, {amount: this.m, platid: Math.max(this.fi, this.ti)}).then(({data}) => {
-        if (data.success === 1) {
-          this.cpwd = ''
-          this.m = ''
-          setTimeout(() => {
-            this.getBalance([this.a[Math.max(this.f, this.t + 2) - 2]])
-          }, 1000)
-          this.__setCall({fn: '__getUserFund', args: undefined})
-          // this.getBalance()
-        } else {
-          // this.$message.error({target: this.$el, message: data.msg || (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
-        }
-      }).catch(rep => {
-        // this.$message.error({target: this.$el, message: (['', '', 'BG', '体育'][Math.max(this.f, this.t + 2)] + '余额转换失败！')})
-      }).finally(() => {
-        this.btn = false
-        clearTimeout(t)
-        t = 0
-      })
+    ok () {
+      //特殊账户转出
+      if (this.ToutKey === 'smoney') this.transferNow()
+      //三方账户 转入 转出
+      else this.transferNowBG()
     },
-    refund () {
-      this.$http.get(api.withdrawAll).then(({data: {success, msg}}) => {
-        if (success === 1) {
-          this.$message.success({target: this.$el, message: msg || '一键转回成功'})
-          setTimeout(this.getBalance, 1000)
-          this.__setCall({fn: '__getUserFund', args: undefined})
-        } else {
-          this.$message.error({target: this.$el, message: msg || '一键转回失败'})
+    //刷新余额
+    refreshBalance (row) {
+      if (!row.id) {
+        this.__setCall({fn: '__getUserFund', args: undefined})
+      } else {
+        this.getBalanceById(row.id, row.key)
+      }
+    },
+    getBalanceById (platId, name) {
+      this.$http.get(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
+        if (success) {
+          let b = {}
+          b[name] = Number(bal)
+          store.actions.setUser(b)
         }
       })
     },
-    quickAmountHandler (amount) {
-      if (!amount) return
-      this.m = amount === '全部' ? String(this.fm) : amount
-    },
-    quickTransfer (id, type) {
+    // 点击转入传出
+    quickTransfer (row, type) {
       if (type === 'i') {
-        this.f = 0
-        this.t = id
+        this.ToutKey = 'amoney';//设置为 主账户
+        this.TinKey = row.key;
         return
       }
       if (type === 'o') {
-        this.f = id
-        this.t = 0
+        this.ToutKey = row.key;
       }
+    },
+    // 点击 转入和转出账户互换
+    ClickSwap () {
+      this.ToutKey = this.TinKey;
+    },
+    getBalances () {
+      this.$http.myget(api.getBalance).then(({data}) => {
+        if (data.success === 1) {
+          store.actions.setUser(data);
+        }
+      }).catch(rep => {
+        // this.$message.error({target: this.$el, message: '特殊金额转换失败！'})
+      })
+    },
+    __setTransferI (i) {
+      this.tabIdx = i
+    },
+    // 快速输入金额
+    quickAmountHandler (amount) {
+      if (!amount) return
+      this.m = amount === '全部' ? String(this.fm) : amount
     }
   },
   components: {
