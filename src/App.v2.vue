@@ -420,7 +420,7 @@ export default {
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
-            // {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'},
             {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'}
           ]
