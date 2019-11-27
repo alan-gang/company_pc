@@ -526,7 +526,6 @@ body.cb.v2
   .link
     line-height 0.36rem
     display inline-block
-    padding 0 0.1rem 0 0.1rem
     &:hover
       background rgba(255,255,255,0.5)
 </style>
