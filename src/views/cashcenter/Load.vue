@@ -25,6 +25,8 @@
             | 4.网银转账渠道需要
             span.text-danger 正确填写附言信息！
             | 请你仔细阅读注意事项按照流程进行充值！如您重复扫码/修改充值金额/付款到过期收款方造成资金损失！平台不予处理！感谢您的配合和支持！
+            br
+            | 5.网银转账和银联扫码赠送的礼金将直接发放到优惠券中，点击使用优惠券，即可活动对应礼金，更多详情请查看优惠活动
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 用户名：
@@ -814,7 +816,7 @@ export default {
       this.curPayType = ptype
       this.bankList = this.curPayType.range
       this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
-      if (this.curPayType.saveWay === 'weixinquota') {
+      if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
         let item = this.bankList[0]
         this.quotaList = item.range
         this.amount = this.quotaList[0]
@@ -832,7 +834,7 @@ export default {
     },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
-      if (payType === 'weixinquota') return true
+      if (payType === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') return true
       if (bankList.length > 1) {
         return toString.call(bankList[0]) === '[object Object]'
       }

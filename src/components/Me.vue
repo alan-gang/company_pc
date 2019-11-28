@@ -50,10 +50,11 @@
     el-row.content-width
       el-col.l.flex(:span="9")
         router-link.text-button.text-black(:to=" '/help/6-2-1' " style="cursor: pointer" title="查看公告信息") 公告
-        // router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
+        //- router-link.text-button(:to=" m.defaultUrl || '/' " v-for=" m in meLeftMenu " v-if=" !m.removed ") {{ m.title }}
         Marquee(v-bind:show="true" v-bind:content="marqueeData" @click="$router.push('/help/6-2-1')")
       el-col.r(:span="15")
-        // Menus(:menus="menus")
+        a.link(href="https://www.xygames.net/pages/brand.html" target="_blank") 信游品牌
+        //- Menus(:menus="menus")
 
         el-popover(placement="bottom-end" trigger="hover" v-bind:popper-class=" 'lt-popover' " v-bind:visible-arrow="false")
           span(slot="reference")
@@ -429,94 +430,89 @@ body.cb.v2
         padding 0 0.25rem
 </style>
 <style lang="stylus" scoped>
-  @import '../var.stylus'
-  @import '../path.stylus'
-  .new-header
-    position relative
-    max-width 100%
-    line-height .36rem
-    background-color #ffa930
-    color #484342
+@import '../var.stylus'
+@import '../path.stylus'
+.new-header
+  position relative
+  max-width 100%
+  line-height .36rem
+  background-color #ffa930
+  color #484342
 
-    .l .text-button
-      color #fff
-      padding 0 .1rem !important
-      &:hover
-        background-color rgba(255, 255, 255, .5)
+  .l .text-button
+    color #fff
+    padding 0 .1rem !important
+    &:hover
+      background-color rgba(255, 255, 255, .5)
 
 
-
-    .r
-      text-align right
-    .l .text-button
-    .r .name
-    .r .money
-    .r .speed
-    .r .topup
-    .r .withdraw
-    .r .transfer
-    .r .logout
-      position relative
-      display inline-block
-      padding 0 .1rem 0 2*PW
-      color #2e2a29
-      cursor pointer
-      &.name
-        background url(../assets/v2/icon02.png) .1rem center no-repeat
-      &.money
-        background url(../assets/v2/icon03.png) .1rem center no-repeat
-      &.speed
-        background url(../assets/v2/sy_icon_cs.png) .1rem center no-repeat
-      &.topup
-        background url(../assets/v2/icon04.png) .1rem center no-repeat
-      &.transfer
-        background url(../assets/v2/icon08.png) .1rem center no-repeat
-      &.withdraw
-        background url(../assets/v2/icon09.png) .1rem center no-repeat
-      &.logout
-        background url(../assets/v2/icon05.png) .1rem center no-repeat
-
-      &:hover
-        &.name
-          background url(../assets/v2/icon02.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.money
-          background url(../assets/v2/icon03.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.topup
-          background url(../assets/v2/icon04.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.transfer
-          background url(../assets/v2/icon08.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.withdraw
-          background url(../assets/v2/icon09.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-        &.logout
-          background url(../assets/v2/icon05.png) .1rem center no-repeat  rgba(255, 255, 255, .5)
-
-  .me-box
-    width 5.5rem
-  .half-width
-    box-sizing border-box
-    width 50%
+  .link
+    line-height 0.36rem
     display inline-block
-    vertical-align top
+    padding 0 .04rem
+    &:hover
+      background rgba(255,255,255,0.5)
+  .r
+    text-align right
+  .l .text-button
+  .r .name
+  .r .money
+  .r .speed
+  .r .topup
+  .r .withdraw
+  .r .transfer
+  .r .logout
     position relative
-    &.a
-      &:after
-        content ''
-        position absolute
-        top 10%
-        right 0
-        height 80%
-        border-right 2px solid #efefef
-
-  .lst-login
-    background #e9e9e9
-    padding PWX
-  .level-box
-    padding-left 30%
-    background-size .9rem
+    display inline-block
+    padding 0 .04rem 0 .2rem
+    color #2e2a29
+    cursor pointer
+    background-position .02rem center
     background-repeat no-repeat
-    background-position 5% .2rem
-  for n in (1..10)
-    &.level-{n}
-      background-image url('../assets/level/' + n + '.png')
+    &.name
+      background-image url(../assets/v2/icon02.png)
+    &.money
+      background-image url(../assets/v2/icon03.png)
+    &.speed
+      background-image url(../assets/v2/sy_icon_cs.png)
+    &.topup
+      background-image url(../assets/v2/icon04.png)
+    &.transfer
+      background-image url(../assets/v2/icon08.png)
+    &.withdraw
+      background-image url(../assets/v2/icon09.png)
+    &.logout
+      background-image url(../assets/v2/icon05.png)
 
+    &:hover
+      background-color rgba(255, 255, 255, .5)
+
+.me-box
+  width 5.5rem
+.half-width
+  box-sizing border-box
+  width 50%
+  display inline-block
+  vertical-align top
+  position relative
+  &.a
+    &:after
+      content ''
+      position absolute
+      top 10%
+      right 0
+      height 80%
+      border-right 2px solid #efefef
+
+.lst-login
+  background #e9e9e9
+  padding PWX
+.level-box
+  padding-left 30%
+  background-size .9rem
+  background-repeat no-repeat
+  background-position 5% .2rem
+for n in (1..10)
+  &.level-{n}
+    background-image url('../assets/level/' + n + '.png')
 </style>

@@ -114,7 +114,7 @@
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
                 el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
-                //- el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
                 el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
                 el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ")
             p
@@ -312,7 +312,7 @@ export default {
       this.lefter = (this.lefter || document.getElementsByClassName('lefter')[0])
       if (this.lefter && document.querySelector('#app.game')) {
         this.lefter.style.transition = 'transform linear 0s'
-        this.lefter.style.transform = 'translateX(-7rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
+        this.lefter.style.transform = 'translateX(-7.2rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
       }
       this.onScroll()
     },
