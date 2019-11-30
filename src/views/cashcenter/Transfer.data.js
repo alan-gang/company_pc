@@ -17,7 +17,7 @@ export default {
         { id: 0, n: '主', key: 'amoney', classname: '', classifys: [], authority: [1, 2] },
         { id: 1, key: 'smoney', n: '特殊', classname: 'acc-bg-oriange', classifys: [0], authority: [2] },
         { id: 2, key: 'bgmoney', n: 'BG', classname: 'acc-bg-red', classifys: [1, 3, 6], authority: [1, 2] },
-        { id: 3, key: 'tcgmoney', n: 'IBC', classname: 'acc-bg-blue', classifys: [], authority: [1, 2] },
+        // { id: 3, key: 'tcgmoney', n: 'IBC', classname: 'acc-bg-blue', classifys: [], authority: [1, 2] },
         { id: 7, key: 'kymoney', n: '开元', classname: 'acc-bg-green', classifys: [2], authority: [1, 2] },
         { id: 5, key: 'ptmoney', n: 'PT', classname: 'acc-bg-oriange', classifys: [1, 3, 6], authority: [1, 2] },
         { id: 4, key: 'agmoney', n: 'AG', classname: 'acc-bg-red', classifys: [1, 3, 6], authority: [1, 2] },
