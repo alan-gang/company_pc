@@ -14,7 +14,7 @@
         .cc
           p.title.text-black 账户互转
           label.item 转出账户
-            el-select(v-model="ToutKey" style="width: 2.5rem" placeholder="无" )
+            el-select(v-model="ToutKey" @change="changeTouKey" style="width: 2.5rem" placeholder="无" )
               //- el-option(label="主账户" value="amoney")
               el-option(v-for="v in ToutList" v-bind:label="v.n+'账户' " v-bind:value="v.key")
           p 可用余额：
@@ -50,8 +50,13 @@
 
         .s(style="padding: PWX 0")
           .classifys(v-for="v in Tdata.classifyMap")
-            .classifyTit.c {{v.n}}
-            div(style="padding-left:1.5rem")
+            .classifyTit.c(
+              v-if="Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)}).length"
+            ) {{v.n}}
+            div(
+              v-if="Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)}).length"
+              style="padding-left:1.5rem"
+            )
               .c(v-for="r in Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
                 p.acc-shot-name(v-bind:class="r.classname")
                   span.txt-c {{ r.n }}
@@ -131,10 +136,10 @@ export default {
     }
   },
   watch: {
-    //转出 账户 改变时 转入账户初始化
-    ToutKey () {
-      this.TinList.length && (this.TinKey = this.TinList[0].key);
-    },
+    // //转出 账户 改变时 转入账户初始化
+    // ToutKey () {
+    //   this.TinList.length && (this.TinKey = this.TinList[0].key);
+    // },
     // 监听交易金额
     m () {
       this.m = this.m.trim()
@@ -149,6 +154,10 @@ export default {
     this.getRecentlyPlat();
   },
   methods: {
+    //选择转出账户事件
+    changeTouKey () {
+      this.TinList.length && (this.TinKey = this.TinList[0].key);
+    },
     // 常用账户
     getRecentlyPlat () {
       this.$http.get(api.getRecentlyPlat).then(({data: {success, msg, platList}}) => {
@@ -256,7 +265,9 @@ export default {
     quickTransfer (row, type) {
       if (type === 'i') {
         this.ToutKey = 'amoney';//设置为 主账户
-        this.TinKey = row.key;
+        setTimeout(() => {
+          this.TinKey = row.key;
+        }, 50)
         return
       }
       if (type === 'o') {
