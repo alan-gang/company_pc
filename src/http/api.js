@@ -55,6 +55,7 @@ let Login = {
   getSMSCode: '/person/accountSecur.do?method=getSMSCode',
   setBirthday: '/person/accountSecur.do?method=setBirthday&date=',
   withdrawAll: '/ext/bg.do?method=withdrawAll',
+  getRecentlyPlat: '/ext/bg.do?method=getRecentlyPlat',
   getIngotsPrize: '/activity.do?method=getIngotsPrize',
   getIngotsTaskProgress: '/activity.do?method=getIngotsTaskProgress',
   canGetIngots: '/activity.do?method=canGetIngots',
