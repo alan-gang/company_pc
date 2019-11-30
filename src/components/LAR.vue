@@ -54,7 +54,7 @@
           dd.ds-button._36rem.full.bold.black-button(@click="login") 登录
 
           p(style="margin-top: 0")
-            span.de(@click=" __setCall({fn: '__popLogin', args: false})|| $router.push('/login/forget') ") 忘记密码？
+            //- span.de(@click=" __setCall({fn: '__popLogin', args: false})|| $router.push('/login/forget') ") 忘记密码？
             //- span.f_r.df 无法登录
 
 </template>

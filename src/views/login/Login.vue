@@ -35,7 +35,7 @@
             img(src="../../assets/1.png")
           p(style="color: #349dbd; margin: .15rem") 第二步： 点击"隐私“选项卡，将隐私策略调整到”低“
           img(src="../../assets/2.png")
-      router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'" @click.native.stop="") 忘记密码
+      //- router-link.forget.ds-button.text-button.light.small(:to="'/login/forget'" @click.native.stop="") 忘记密码
 
 
 
