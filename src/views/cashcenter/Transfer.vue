@@ -246,7 +246,7 @@ export default {
     },
     //刷新余额
     refreshBalance (row) {
-      if (!row.id) {
+      if (row.key === 'smoney') { // 特殊账户
         this.__setCall({fn: '__getUserFund', args: undefined})
       } else {
         this.getBalanceById(row.id, row.key)
