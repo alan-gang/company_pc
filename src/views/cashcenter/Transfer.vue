@@ -51,18 +51,19 @@
         .s(style="padding: PWX 0")
           .classifys(v-for="v in Tdata.classifyMap")
             .classifyTit.c {{v.n}}
-            .c(v-for="r in Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
-              p.acc-shot-name(v-bind:class="r.classname")
-                span.txt-c {{ r.n }}
-              br
-              p(v-if="!r.alias") {{ r.n }}账户
-              p(v-if="r.alias") {{ r.alias }}
-              p.fz20.text-black.flex.flex-ai-c.flex-jt-c {{numberWithCommas(ME[r.key])}}
-                i.ft12.yuan 元
-                span.icon-refresh(v-on:click="refreshBalance(r)")
-              .mt10.quick-btns
-                button.ds-button.btn-transfer(v-if="r.authority.includes(2)" @click="quickTransfer(r, 'o')") 转出
-                button.ml10.ds-button.btn-transfer(v-if="r.authority.includes(1)" @click="quickTransfer(r, 'i')") 转入
+            div(style="padding-left:1.5rem")
+              .c(v-for="r in Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
+                p.acc-shot-name(v-bind:class="r.classname")
+                  span.txt-c {{ r.n }}
+                br
+                p(v-if="!r.alias") {{ r.n }}账户
+                p(v-if="r.alias") {{ r.alias }}
+                p.fz20.text-black.flex.flex-ai-c.flex-jt-c {{numberWithCommas(ME[r.key])}}
+                  i.ft12.yuan 元
+                  span.icon-refresh(v-on:click="refreshBalance(r)")
+                .mt10.quick-btns
+                  button.ds-button.btn-transfer(v-if="r.authority.includes(2)" @click="quickTransfer(r, 'o')") 转出
+                  button.ml10.ds-button.btn-transfer(v-if="r.authority.includes(1)" @click="quickTransfer(r, 'i')") 转入
     TR.scroll-content(v-if=" tabIdx === 1 ")
 
 </template>
@@ -264,7 +265,16 @@ export default {
     },
     // 点击 转入和转出账户互换
     ClickSwap () {
-      this.ToutKey = this.TinKey;
+      // this.ToutKey = this.TinKey;
+      if (this.ToutKey === 'amoney') { // amoney 主账户
+        this.ToutKey = this.TinKey;
+      } else {
+        let r = this.ToutKey;
+        this.ToutKey = 'amoney';
+        setTimeout(() => {
+          this.TinKey = r;
+        }, 50)
+      }
     },
     getBalances () {
       this.$http.myget(api.getBalance).then(({data}) => {
@@ -352,8 +362,9 @@ export default {
     .primary
       width 1.2rem
     .wallet-ls
-      width 10.34rem
-      float left
+      padding-left 5rem
+      // width 10.34rem
+      // float left
       .s
         padding 0 0 0 0.5rem
         .c
@@ -510,9 +521,9 @@ export default {
           border 1px solid BLUE
 
 
-  .my-wallet-page
-    .scroll-content
-      min-width 16rem
+  // .my-wallet-page
+  //   .scroll-content
+  //     min-width 16rem
 </style>
 <style lang="stylus">
 .transfer
@@ -523,6 +534,9 @@ export default {
       position relative
       text-align left !important
       text-indent 0.6rem
+      box-sizing border-box
+      float left
+      width 1.5rem
       &:before
         content ''
         position absolute
