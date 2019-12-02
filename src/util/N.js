@@ -1612,7 +1612,7 @@ let PK10 = {
   },
   // 前二直选单式
   '-1-4-2-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   // 前二组选复式
   '-1-4-3-PK10' ({nsl}) {
@@ -1620,7 +1620,7 @@ let PK10 = {
   },
   // 前二组选单式
   '-1-4-4-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   // 后二直选复式
   '-1-4-5-PK10' ({nsl, r}) {
@@ -1628,7 +1628,7 @@ let PK10 = {
   },
   // 后二直选单式
   '-1-4-6-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   // 后二组选复式
   '-1-4-7-PK10' ({nsl}) {
@@ -1636,7 +1636,7 @@ let PK10 = {
   },
   // 后二组选单式
   '-1-4-8-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   // 三四名直选复式
   '-1-4-9-PK10' ({nsl, r}) {
@@ -1644,7 +1644,7 @@ let PK10 = {
   },
   // 三四名直选单式
   '-1-4-10-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   // 三四名组选复式
   '-1-4-11-PK10' ({nsl}) {
@@ -1652,7 +1652,7 @@ let PK10 = {
   },
   // 三四名组选单式
   '-1-4-12-PK10' ({value}) {
-    return [N(value, 4, 1, 2, 11, 1).length, N(value, 4, 1, 2, 11, 1)]
+    return [N(value, 4, 1, 2, 10, 1).length, N(value, 4, 1, 2, 10, 1)]
   },
   /* 三星 */
   // 前三直选复式
@@ -1669,7 +1669,7 @@ let PK10 = {
   },
   // 前三直选单式
   '-1-5-2-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 6, 1, 2, 10, 1).length, N(value, 6, 1, 2, 10, 1)]
   },
   // 前三组选复式
   '-1-5-3-PK10' ({nsl}) {
@@ -1677,24 +1677,15 @@ let PK10 = {
   },
   // 前三组选单式
   '-1-5-4-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 6, 1, 2, 10, 1).length, N(value, 6, 1, 2, 10, 1)]
   },
   // 后三直选复式
   '-1-5-5-PK10' ({ns}) {
-    // let n = 0
-    // ns[0] && ns[0][0] && ns[0].forEach((f) => {
-    //   ns[1] && ns[1][0] && ns[1].forEach((s) => {
-    //     ns[2] && ns[2][0] && ns[2].forEach((t) => {
-    //       if (f !== s && f !== t && s !== t) n++
-    //     })
-    //   })
-    // })
-    // return n
     return this['-1-5-1-PK10'](ns);
   },
   // 后三直选单式
   '-1-5-6-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 6, 1, 2, 10, 1).length, N(value, 6, 1, 2, 10, 1)]
   },
   // 后三组选复式
   '-1-5-7-PK10' ({nsl}) {
@@ -1702,7 +1693,7 @@ let PK10 = {
   },
   // 后三组选单式
   '-1-5-8-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 6, 1, 2, 10, 1).length, N(value, 6, 1, 2, 10, 1)]
   },
 
   // 四星
@@ -1722,7 +1713,7 @@ let PK10 = {
   },
   // 前四直选单式
   '-1-6-2-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 8, 1, 2, 10, 1).length, N(value, 8, 1, 2, 10, 1)]
   },
   // 前四组选复式
   '-1-6-3-PK10' ({nsl}) {
@@ -1730,7 +1721,7 @@ let PK10 = {
   },
   // 前四组选单式
   '-1-6-4-PK10' ({value}) {
-    return [N(value, 6, 1, 2, 11, 1).length, N(value, 6, 1, 2, 11, 1)]
+    return [N(value, 8, 1, 2, 10, 1).length, N(value, 8, 1, 2, 10, 1)]
   },
   // 后四直选复式
   '-1-6-5-PK10' ({ns}) {
