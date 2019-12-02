@@ -456,7 +456,7 @@ export default {
             // 如果没有code, 但已经有了code
             if (!d.code) {
               let the = this.allLuckyNumbers.find(x => String(x.issue) === String(d.issue))
-              the && (d = Object.assign(the))
+              the && (d = Object.assign(d, the))
             }
           })
           let lst = data.items[1] || data.items[0]
@@ -510,7 +510,7 @@ export default {
           this.CNPER = data.issue
           this.PNPER = data.openedCount
           this.FNPER = data.dailyCount
-          this.timeout = Math.floor((data.saleend - data.current) / 1000)
+          this.timeout = Math.floor((data.saleend - data.current) / 1000) || Math.random()
           this.codeMissColdHeat()
         } else {
           // this.$message.error({message: '当前奖期获取失败！'})
