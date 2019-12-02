@@ -37,7 +37,7 @@
       el-col.d(:span="7")
         p 
           span.da.ft18 登录
-          span.db.f_r(@click=" __setCall({fn: '__popLogin', args: false}) || $router.push('/login/try') ") 试玩登录
+          //- span.db.f_r(@click=" __setCall({fn: '__popLogin', args: false}) || $router.push('/login/try') ") 试玩登录
         p.dc.ds-icon-notice(:class=" { o_none: regard === false } ") 问候语： 
           span.text-blue {{ regard || '空' }}
         dl
