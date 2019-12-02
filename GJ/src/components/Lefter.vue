@@ -232,7 +232,7 @@
       // 获得当前已开奖信息
       __recentlyCode (noloop) {
         if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-        this.$http.mypost(api.recentlyCode, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
+        this.$http.mypost(api.recentlyCodeNew, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
           // success
           if (data.success > 0 && data.items.length > 0) {
             data.items.forEach(d => {

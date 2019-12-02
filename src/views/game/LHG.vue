@@ -96,9 +96,9 @@ export default {
         {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false},
         {title: '深渊大户家', desc: 'Cash Fish', score: '9.0', star: false}
       ],
-      sas: ['信游帐户'],
+      sas: ['信游账户'],
       sa: 0,
-      tas: ['PT帐户'],
+      tas: ['PT账户'],
       ta: 0,
       m: 100
     }

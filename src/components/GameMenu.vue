@@ -22,22 +22,37 @@
           span {{ g.title }}
       .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
     
-    div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !historyItems[0] ")
+    div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !history_list[0] ")
 
-    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" historyItems[0] ")
+    el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" history_list[0] ")
       div(style="border-top: 1px dashed #d8d8d8; padding-bottom: .05rem ")
       .subtitle
         span(style="color: #f17d0b") 历史玩法
       
-      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in historyItems || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
+      .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in history_list || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
 
 
-    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0")
+    el-row.row.ins(style="background: #fff; padding-top: .1rem; padding-bottom: 0; padding-left: .05rem;  ")
       .subtitle(style="padding-left: .1rem; color: #333") {{ upTitle !== type.title ? upTitle + '_' + type.title : upTitle }}
 
       label(@click=" showIns = !showIns ")
         .ds-checkbox(:class=" {active: showIns} " ) 
         | 玩法说明
+      
+      template(v-if=" CMCH ")
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        label(@click=" store.actions.setUser({showYL: !user.showYL}) ")
+          .ds-checkbox(:class=" {active: user.showYL} " ) 
+          | 当前遗漏
+
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        label(@click=" store.actions.setUser({showLR: !user.showLR}) " style="display: inline-block; width: 100px")
+          .ds-checkbox(:class=" {active: user.showLR} " ) 
+          | {{ user.lengre.slice(0, -1) }}期冷热
+        
+        | &nbsp;&nbsp;&nbsp;&nbsp;
+        .ds-button-group.inlb(style="margin: 0; border: 0")
+          .ds-button.x-small(style="margin: 0" v-for=" (x, i) in lrbtns "  v-bind:class=" {active: user.lengre === (x + 'q') } " @click=" store.actions.setUser({lengre: (x + 'q') }) ") {{ x }}期
 
       .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random', args: {}}) " style="height: .26rem; line-height: .26rem") 机选
 
@@ -50,10 +65,14 @@
 </template>
 
 <script>
+  import store from '@/store'
   export default {
-    props: ['type', 'menus', 'getTitle', 'getUpTitle', 'mt', 'gameid', 'gameType'],
+    props: ['type', 'menus', 'getTitle', 'getUpTitle', 'mt', 'gameid', 'gameType', 'CMCH'],
     data () {
       return {
+        store: store,
+        user: store.state.user,
+        lrbtns: [100, 50, 20],
         mmt: 0,
         t: -1,
         historyItems: JSON.parse(window.localStorage.getItem('historyItems' + this.gameType + this.gameid + this.mt) || '[]'),
@@ -82,6 +101,14 @@
       }
     },
     computed: {
+      history_list () {
+        //过滤无效数据
+        return this.historyItems.filter(item => {
+          return this.$props.menus.filter(v => {
+            return v.groups[0].items.find(x => { return !x.hide && x.id === item.id })
+          }).length
+        });
+      },
       // callId () {
       //   return this.gameid + '|' + this.type.id
       // },
@@ -121,6 +148,20 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+.ds-button-group
+  .ds-button:not(:last-child)
+    border-right 0 !important
+  .ds-button.active
+    background-color #444
+    color #fff
+  .ds-button
+    // height .25rem
+    // line-height .25rem
+  
+    
+</style>
 
 <style lang="stylus" scoped>
 

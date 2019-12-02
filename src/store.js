@@ -1,6 +1,9 @@
 import { dateTimeFormat } from './util/Date'
 let prevIndex = 0
 let defaultUser = {
+  showYL: true,
+  showLR: true,
+  lengre: '100q',
   t1: false,
   t2: false,
   t3: false,
@@ -38,6 +41,8 @@ let defaultUser = {
   xyqpAmount: 0,
   saAmount: 0,
   saEgameAmount: 0,
+  jjbAmount: 0,
+  dfAmount: 0,
   // safeCenter
   email: '',
   phone: '',

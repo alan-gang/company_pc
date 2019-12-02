@@ -189,13 +189,19 @@ body.classic:not(.v2)
     
   
   .lefter
+    // @media(max-width: 900px)
+    //   &.game
+    //     width 2.1rem
     &.game
       left 50%
-      transform translateX(-7rem)
+      width 2.1rem
+      transform translateX(-7.2rem)
       .el-menu-item-group__title
         display none
       
       .el-menu
+        &::-webkit-scrollbar
+          display none
         .el-menu-item.ds-button
           // margin .02rem 0
           // background-color #3b3635
@@ -219,15 +225,16 @@ body.classic:not(.v2)
             display inline-block
             content ''
             // position absolute
-            top .04rem
-            left 1.0rem
+            top .05rem
+            left 0.04rem
             width .4rem
             height .2rem
           &.hot:after
-            background url($ASSETS/inner_hot.png) center no-repeat
+            background url($ASSETS/inner_hot.png) 0 center no-repeat
           &.new:after
-            top .04rem
-            background url($ASSETS/inner_new.png) center no-repeat
+            top .08rem
+            left 0.02rem
+            background url($ASSETS/inner_new.png) 0 center no-repeat
           
       
         
@@ -258,7 +265,7 @@ body.classic:not(.v2)
         text-align left
         box-shadow none
         position relative
-        padding-left .2rem !important
+        padding-left .3rem !important
         &.notis-active:hover
           color BLUE
           background-image: linear-gradient(#000000, #000000), linear-gradient(0deg, #3f3f3f 0%, #353535 100%), linear-gradient(#302b2a, #302b2a); 

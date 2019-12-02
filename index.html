@@ -45,6 +45,9 @@
           window.location.href = '/static/update.html'
         }
       }
+      window.onload = function(){
+        document.body.classList.add(window.userPlatInfo.browser)
+      }
     </script>
     <!-- <script
     src="https://code.jquery.com/jquery-3.1.1.js"

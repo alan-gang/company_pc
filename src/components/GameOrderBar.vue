@@ -121,7 +121,7 @@
       span(v-show="HC6") 快速金额
       el-input-number.input.times.my-center(ref="ft" style="width: .5rem;  " v-model="ft" v-bind:min="0"  v-show="HC6" @click.native="focusInputInside($refs['ft'])")
       .ds-button-group(style="vertical-align: middle")
-        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 2)") {{c.title}}
+        .ds-button.x-small.text-button(v-for=" (c, index) in currencies " @click="cIndex = index" v-bind:class="{selected: index === cIndex}" v-if="!HC6 || (HC6 && index < 3 && index !== 1)") {{ c.title.slice(1) }}
 
     el-col.right(:span=" 12 " v-if=" HC6 " style="line-height: .5rem")
       
@@ -155,10 +155,11 @@ export default {
       // MAXTIMES: 1000000000,
       cIndex: 0,
       currencies: [
-        {title: '元', value: 1, model: 1},
-        {title: '角', value: 0.1, model: 2},
-        {title: '分', value: 0.01, model: 3},
-        {title: '厘', value: 0.001, model: 4}
+        {title: '2元', value: 1, model: 1},
+        {title: '1元', value: 0.5, model: 5},
+        {title: '2角', value: 0.1, model: 2},
+        {title: '2分', value: 0.01, model: 3},
+        {title: '2厘', value: 0.001, model: 4}
       ],
       p: 0,
       ts: [1, 3, 5, 10, 20, 50],
@@ -361,6 +362,9 @@ export default {
         this.time--
       }
     }, 1000)
+    if (this.ft >= 0) {
+      this.__setCall({fn: '__setDefaultTimes', args: this.ft})
+    }
   },
   beforeDestroy () {
     clearInterval(this.interval)
