@@ -285,7 +285,7 @@
           {ids: '-1-8-4-PK10', class: '', title: '后四', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-8-5-PK10', class: '', title: '前五', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
           {ids: '-1-8-6-PK10', class: '', title: '后五', min: 1, max: 10, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']},
-          {ids: '-1-9-1-PK10', title: '和值', min: 3, max: 19, l: 2, bts: [2, 2, 4, 4, 6, 6, 8, 8, 10, 8, 8, 6, 6, 4, 4, 2, 2], buttons: ['全', '大', '小', '奇', '偶', '清']},
+          {ids: '-1-9-1-PK10', title: '和值', min: 3, max: 19, l: 2, buttons: ['全', '大', '小', '奇', '偶', '清']}, // , bts: [2, 2, 4, 4, 6, 6, 8, 8, 10, 8, 8, 6, 6, 4, 4, 2, 2]
           {ids: '-1-9-2-PK10', class: '', title: '大小单双', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}]},
           {ids: '-1-10-1-PK10', class: '', title: '冠军', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}]},
           {ids: '-1-10-1-PK10', class: '', title: '亚军', values: [{selected: false, title: '大', value: '1'}, {selected: false, title: '小', value: '2'}, {selected: false, title: '单', value: '3'}, {selected: false, title: '双', value: '4'}]},
