@@ -34,6 +34,17 @@
           | 1.每天达到投注要求点击签到，当天日期及会显示已签到标志；
           | 2.累计签到达到对应天数的点击领取即可获得对应奖励；
           | 3体验金点击领取后会以现金券的形式发放至【优惠券】中，只需1倍流水即可提款
+    .dialog-result(v-show="showDialogResult")
+      .btn-close-result(@click="closeDialogResult")
+      .status-img
+      .status-txt.ft24.ftb.txt-c.mt20 签到成功
+      ul.prize-wp
+        li.prize-row.flex.flex-ai-c
+          div 2元礼金已发放
+          .color-orange.cursor-p(@click="viewPrize") 查看礼品箱
+        li.prize-row.flex.flex-ai-c
+          div 2元礼金已发放
+          .color-orange.cursor-p(@click="viewPrize") 刮刮卡10张已发放
 </template>
 
 <script>
@@ -46,7 +57,8 @@ export default {
   data () {
     return {
       curMonth: 0,
-      checkinCount: 0
+      checkinCount: 0,
+      showDialogResult: false
     }
   },
   mounted() {
@@ -54,7 +66,14 @@ export default {
   },
   methods: {
     checkInHandler() {
-
+      this.showDialogResult = true
+    },
+    closeDialogResult() {
+      this.showDialogResult = false
+    },
+    viewPrize() {
+      this.$emit('on-close')
+      this.$router.push('/activity/5-1-2')
     }
   }
 }
@@ -70,10 +89,14 @@ export default {
   $img-base-dir = "../assets/activity/checkin/"
   bgImage($name)
     background url($img-base-dir+$name+".png") center no-repeat
+  ul, li
+    list-style none 
+    margin 0
+    padding 0
   .btn-close
     width 0.42rem
     height 0.42rem
-    bgImage("icon-close");
+    bgImage("icon-close")
     cursor pointer
     position absolute
     right 1.80rem
@@ -81,7 +104,7 @@ export default {
   .checkin-content
     width 13.72rem
     height 7.40rem
-    bgImage("dialog-bg");
+    bgImage("dialog-bg")
     margin 2.00rem auto 0
     position relative
   .inner-content
@@ -110,7 +133,7 @@ export default {
   .line-more-prize
     width 100%
     height 0.18rem
-    bgImage("line-more-prize");
+    bgImage("line-more-prize")
   .checkin-days-explain
     width 100%
     padding 0 0.3rem
@@ -129,4 +152,34 @@ export default {
     color #64bc1e 
   .color-yellow
     color #fedb1b
+  .color-orange
+    color #ff7c12
+  .dialog-result
+    width 4.45rem
+    height 3.9rem
+    background-color #fff
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    position absolute
+    z-index 2
+    border-radius 0.1rem
+    .status-img
+      width 1.4rem
+      height 1.06rem
+      bgImage("checkin-succ")
+      margin 0.3rem auto 0
+    .prize-wp
+      padding 0.2rem 0.44rem 0
+    .prize-row
+      height 0.5rem
+      justify-content space-between
+  .btn-close-result
+    width 0.28rem
+    height 0.28rem
+    bgImage("icon-close-1")
+    cursor pointer
+    position absolute
+    right 0.10rem
+    top 0.10rem
 </style>

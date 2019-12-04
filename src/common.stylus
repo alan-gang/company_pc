@@ -271,7 +271,8 @@ for x in 0..1000
       
     
       
-    
+.cursor-p
+  cursor pointer    
 
 .mg_0a
   margin 0 auto
