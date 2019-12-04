@@ -76,9 +76,18 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
-
+          .item(v-show="curBank.bankCode=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+            //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
+            input(class="i-num-input" v-model="myname" type="text" placeholder="转账银行卡/支付宝/微信的真实姓名" style="width:2.6rem")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
+          //-线下充值
+          .item(v-show="curBank.bankCode=='offline'") 温馨提示：&nbsp;&nbsp;&nbsp;&nbsp;
+            .ml90 1.专员代充方式支持银行卡转账、支付宝转银行卡、微信转银行卡。
+            .ml90 2.充值填写的姓名和转账银行卡/支付宝/微信的姓名必须一致，否则不能到账。
+            .ml90 3.请每次充值时以专员新发银行卡进行充值，不允许私自保留账号进行转账，私自保留账号进行转账造成的损失平台不予负责。
+            .ml90 4.线下支付有一定延时，请耐心等待，如果超过 10 分钟还没有到帐，请与客服联系。
+
 
       
       .tab-recharge-records(v-if="tabIdx === TAB_RECHARGE_RECORDS")
@@ -331,6 +340,7 @@ import SearchConditions from 'components/SearchConditions'
 export default {
   data () {
     return {
+      myname: '', // 充值姓名
       MMath: MMath,
       me: store.state.user,
 
@@ -455,7 +465,12 @@ export default {
       return this.curPayType.saveWay === 'zfb2bank'
     },
     btnConfirmDisable () {
-      return !this.amount || this.amount === '0'
+      // 线下充值
+      if (this.curBank.bankCode === 'offline') {
+        return (!this.amount || this.amount === '0') || !this.myname
+      } else {
+        return !this.amount || this.amount === '0'
+      }
     }
   },
   watch: {
@@ -729,6 +744,10 @@ export default {
       if (this.canShowTruthName) {
         params.cardName = this.name
       }
+      //线下充值
+      if (this.curBank.bankCode === 'offline') {
+        params.cardName = this.myname
+      }
       this.$http.post(api.commit, params).then(({data}) => {
         if (data.success === 1) {
           this.billNo = data.billNo
@@ -784,6 +803,7 @@ export default {
     topUpNow () {
       if (this.btnConfirmDisable) return
       if (this.canShowTruthName && !this.name) return this.$message.warning({message: '请输入您的真实姓名!'})
+      if (this.curBank.bankCode === 'offline' && !this.myname) return this.$message.warning({message: '请输入您的充值姓名!'})
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
       if (!this.curPayType.saveWay) return this.$message.warning({message: '请选择支付方式!'})
