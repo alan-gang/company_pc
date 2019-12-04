@@ -76,13 +76,13 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
-          .item(v-show="curBank.bankCode=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(v-show="curPayType.saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             //- el-input-number(v-model="amount" type="number" @keyup.enter.native="topUpNow" v-bind:maxlength="6" v-bind:min="0" v-bind:clearable="true" size="small" @change="amountChange")
             input(class="i-num-input" v-model="myname" type="text" placeholder="转账银行卡/支付宝/微信的真实姓名" style="width:2.6rem")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
           //-线下充值
-          .item(v-show="curBank.bankCode=='offline'") 温馨提示：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(v-show="curPayType.saveWay=='offline'") 温馨提示：&nbsp;&nbsp;&nbsp;&nbsp;
             .ml90 1.专员代充方式支持银行卡转账、支付宝转银行卡、微信转银行卡。
             .ml90 2.充值填写的姓名和转账银行卡/支付宝/微信的姓名必须一致，否则不能到账。
             .ml90 3.请每次充值时以专员新发银行卡进行充值，不允许私自保留账号进行转账，私自保留账号进行转账造成的损失平台不予负责。
@@ -466,7 +466,7 @@ export default {
     },
     btnConfirmDisable () {
       // 线下充值
-      if (this.curBank.bankCode === 'offline') {
+      if (this.curPayType.saveWay === 'offline') {
         return (!this.amount || this.amount === '0') || !this.myname
       } else {
         return !this.amount || this.amount === '0'
@@ -745,7 +745,7 @@ export default {
         params.cardName = this.name
       }
       //线下充值
-      if (this.curBank.bankCode === 'offline') {
+      if (this.curPayType.saveWay === 'offline') {
         params.cardName = this.myname
       }
       this.$http.post(api.commit, params).then(({data}) => {
