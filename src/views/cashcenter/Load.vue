@@ -947,6 +947,7 @@ export default {
   .icon-pointer
     position absolute
     top 0.04rem
+    display none
   textButton() {
     border solid 1px #cccccc
     border-radius 0.05rem
