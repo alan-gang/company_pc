@@ -65,7 +65,7 @@
           i.fc-o {{perRate}}%
 
         .form
-          .item(style="line-height: .5rem" v-if=" canShowTruthName") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -76,6 +76,8 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+            input.ds-input(v-model="name" style="width: 2.5rem" placeholder="转账银行卡/支付宝/微信的真实姓名")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
           //-线下充值
