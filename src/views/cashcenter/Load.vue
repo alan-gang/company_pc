@@ -1234,4 +1234,24 @@ export default {
       box-shadow 0 0 0.05rem #f17d0b
     &:hover
       border-color #f17d0b
+  .tb-cell
+    .ds-icon-bank-card.mr15
+      position relative
+      &.bank
+      &.unionpay
+        &:after
+          content '送0.7%-1%'
+          position absolute
+          top -.15rem
+          left 20%
+          border 1px solid #ccc
+          background-color rgba(255,255,255, .8)
+          font-size .12rem
+          padding 0 .1rem
+          color #f37e0c
+          
+      &.unionpay
+        &:after
+          content '送0.2%-0.5%'
+
 </style>

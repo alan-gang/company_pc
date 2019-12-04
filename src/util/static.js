@@ -13,6 +13,8 @@ const BANKS = [
   {apiName: 'fast', class: 'fast', text: '快捷支付'},
   {apiName: 'unionpay', class: 'unionpay', text: '银联扫码'},
   {apiName: 'jd', class: 'jd', text: '京东支付'},
+  {apiName: 'offline', class: 'offline', text: '专员代充'},
+  // 添加充值方式需要调整
   {apiName: 'online', class: 'online', text: '在线支付'},
 
   {apiName: 'bob', class: 'bjyh', text: '北京银行'},

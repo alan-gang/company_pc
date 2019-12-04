@@ -1255,7 +1255,10 @@ pre
     
     &.zfb_base
       background url($ASSETS/bankcard/zfb_base.jpg) #fff .1rem center no-repeat
-
+      
+    &.offline
+      background url($ASSETS/bankcard/offline.png) #fff .1rem center no-repeat
+  // 添加充值方式需要调整
 
   // me/Bank.vue
   .ds-icon-right-arrow
