@@ -15,6 +15,7 @@
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
     .ds-icon-(v-show="Me.login" @click="goChat")
+      span.badge(v-show="unread") {{ unread }}
       .expand-left 联系上级
     .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
@@ -60,10 +61,21 @@
     watch: {
       Me: {
         deep: true,
-        handler () {
+        handler (user) {
           // document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
           document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
           document.body.className = this.Me.css
+          if (user && user.login) {
+            if (!this.timer) {
+              this.timer = setInterval(() => {
+                this.getMessageCount(user.token)
+              }, 5000)
+            }
+          } else {
+            clearInterval(this.timer)
+            this.timer = null
+            this.unread = ''
+          }
         }
       },
       'Me.taskTime' (n, o) {
@@ -77,10 +89,21 @@
         this.__getUserScratch()
       }
     },
+    destroyed() {
+      clearInterval(this.timer)
+    },
     mounted () {
       this.__getUserScratch()
     },
     methods: {
+      getMessageCount(token) {
+        this.$http.get(api.getChatUnread, {token: token})
+        .then(res => {
+          if (res.status === 200 && res.data.success === 1) {
+            this.unread = res.data.unReadNumber
+          }
+        })
+      },
       goChat() {
         let host = window.location.host
         let url = ''
