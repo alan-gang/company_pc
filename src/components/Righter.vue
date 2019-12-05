@@ -49,6 +49,7 @@
         Me: store.state.user,
         store: store,
         amount: 0,
+        unread: '',
         skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
         // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
       }
@@ -81,7 +82,17 @@
     },
     methods: {
       goChat() {
-        let url = 'http://192.168.169.84/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+        let host = window.location.host
+        let url = ''
+        if (host.indexOf('cb510') !== -1) {
+          url = 'http://192.168.169.84/#/?platCode='
+        } else if (host.indexOf('.net') !== -1) {
+          url = 'http://35.194.255.125/#/?platCode='
+        } else {
+          url = 'http://192.168.169.84/#/?platCode='
+        }
+        url += this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+        // let url = 'http://localhost:3000/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
         window.open(url, 'chatwindow', 'width=800,height=520,resizable=no')
       },
       countDown () {
@@ -259,7 +270,7 @@
       background url(../assets/righter/vipChat.png) center no-repeat
 
     .ds-icon-ggl
-      background url(../assets/righter/06.png) center no-repeat
+    .ds-icon-
       position relative
       .badge
         background-color red
@@ -274,6 +285,9 @@
         position absolute
         right .05rem
         top .1rem
+      &.ds-icon-ggl
+        background url(../assets/righter/06.png) center no-repeat
+
     .ds-icon-guanji
       background url(../assets/righter/gj.png) center no-repeat
     .right-quick-third-game
