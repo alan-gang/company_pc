@@ -92,6 +92,7 @@
           url = 'http://192.168.169.84/#/?platCode='
         }
         url += this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+        console.log(url)
         // let url = 'http://localhost:3000/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
         window.open(url, 'chatwindow', 'width=800,height=520,resizable=no')
       },
