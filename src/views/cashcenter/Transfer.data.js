@@ -2,6 +2,7 @@
 // key 对应 store.actions.setUser() 的值
 // authority 权限 1 转入
 // authority 权限 2 转出
+// alias 别名
 export default {
     classifyMap: [
         { n: '常用账户', classifyID: 99 },
