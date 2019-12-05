@@ -65,7 +65,7 @@
           i.fc-o {{perRate}}%
 
         .form
-          .item(style="line-height: .5rem" v-if=" canShowTruthName") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -76,9 +76,17 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
-
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+            input.ds-input(v-model="name" style="width: 2.5rem" placeholder="转账银行卡/支付宝/微信的真实姓名")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
+          //-线下充值
+          .item(v-show="curPayType.saveWay=='offline'") 温馨提示：&nbsp;&nbsp;&nbsp;&nbsp;
+            .ml90 1.专员代充方式支持银行卡转账、支付宝转银行卡、微信转银行卡。
+            .ml90 2.充值填写的姓名和转账银行卡/支付宝/微信的姓名必须一致，否则不能到账。
+            .ml90 3.请每次充值时以专员新发银行卡进行充值，不允许私自保留账号进行转账，私自保留账号进行转账造成的损失平台不予负责。
+            .ml90 4.线下支付有一定延时，请耐心等待，如果超过 10 分钟还没有到帐，请与客服联系。
+
 
       
       .tab-recharge-records(v-if="tabIdx === TAB_RECHARGE_RECORDS")
@@ -452,7 +460,7 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      return this.curPayType.saveWay === 'zfb2bank'
+      return ['zfb2bank', 'offline'].includes(this.curPayType.saveWay)
     },
     btnConfirmDisable () {
       return !this.amount || this.amount === '0'
@@ -941,6 +949,7 @@ export default {
   .icon-pointer
     position absolute
     top 0.04rem
+    display none
   textButton() {
     border solid 1px #cccccc
     border-radius 0.05rem
