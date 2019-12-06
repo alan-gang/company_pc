@@ -110,7 +110,7 @@
         if (host.indexOf('cb510') !== -1) {
           url = 'http://192.168.169.84/#/?platCode='
         } else if (host.indexOf('.net') !== -1) {
-          url = 'http://35.194.255.125/#/?platCode='
+          url = 'https://iweb.xy-test.net/#/?platCode='
         } else {
           url = 'http://192.168.169.84/#/?platCode='
         }
