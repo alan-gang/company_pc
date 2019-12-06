@@ -1677,7 +1677,8 @@ let PK10 = {
   },
   // 后三直选复式
   '-1-5-5-PK10' ({ns}) {
-    return this['-1-5-1-PK10']({ns: ns});
+    // return this['-1-5-1-PK10']({ns});
+    return this['-1-5-1-PK10']({ns})
   },
   // 后三直选单式
   '-1-5-6-PK10' ({value}) {
