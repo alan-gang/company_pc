@@ -275,10 +275,16 @@
           }
         })
       },
-      setBackWaters (back) {
+      setBackWaters(back) {
         back.forEach(x => {
-          (this.data.find(y => y.groupid === x.groupId || (!x.groupId && !y.groupid)) || {}).$ = x.backWater ? (x.backWater * (!x.groupId ? 1 : 1000)).toFixed(1) : ''
-        })
+          (
+            this.data.find(
+              y => y.groupid === x.groupId || (!x.groupId && !y.groupid)
+            ) || {}
+          ).$ = x.backWater
+            ? (x.backWater * (!x.groupId ? 1 : 1000)).toFixed(1) * 1
+            : "";
+        });
       }
     }
   }
