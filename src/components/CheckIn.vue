@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import api from '../http/api'
 import CheckInCalendar from './CheckInCalendar'
 export default {
   name: 'checkin-view',
@@ -63,6 +64,7 @@ export default {
   },
   mounted() {
     this.curMonth = new Date().getMonth() + 1
+    this.getCheckInfo();
   },
   methods: {
     checkInHandler() {
@@ -74,6 +76,13 @@ export default {
     viewPrize() {
       this.$emit('on-close')
       this.$router.push('/activity/5-1-2')
+    },
+    getCheckInfo() {
+      this.$http.get(api.getCheckInfo, {}).then(({data}) => {
+        if (data.success > 0 && data.length > 0) {
+          // TODO
+        }
+      })
     }
   }
 }
