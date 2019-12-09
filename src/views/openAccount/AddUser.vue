@@ -209,6 +209,7 @@
         }).then(({data}) => {
           if (data.success === 1) {
             this.$message.success(data.msg || '开户成功！')
+            this.getUserList();
             this.COPYdialogVisible = !0;//显示弹窗复制
           } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
