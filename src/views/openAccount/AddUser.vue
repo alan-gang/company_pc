@@ -91,12 +91,11 @@
       br
       .ml_20(v-html="dataCopyHtml") 
       span(slot="footer")
-        el-button(
+        .ds-button.outline.bold.mr10(
           v-clipboard:copy="dataCopy"
           v-clipboard:success="copySuccess"
-          type="primary"
         ) 一键复制
-        el-button(@click="COPYdialogVisible=!1 && openAccountOK()") 确 定
+        .ds-button.primary.large.bold(type="primary" @click="COPYdialogVisible=!1 && openAccountOK()") 确 定
 </template>
 
 <script>
@@ -130,7 +129,7 @@
               r += `彩票返点:${v.$}%
 `;
             } else {
-              r += `${v.groupname}返水:${v.$}%
+              r += `${v.groupname}返水:${v.$}‰
 `;
             }
           }
