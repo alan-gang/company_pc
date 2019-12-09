@@ -38,14 +38,14 @@
                 dd(v-for=" (r, i) in rank.slice(0, 10) ")
                   span.rank-index {{ i + 1 }}
                   span.rank-un.inlb {{ r.username }}
-                  span.rank-un.inlb {{ r.game }}
+                  span.rank-cnn.inlb {{ r.cnname }}
                   span.rank-money.inlb 喜中 ¥ {{ r.settlement.toFixed(0)._nwc() }}
             transition(name="slide" appear=true )
               dl.absolute.ls-wp(v-show=" ri === 1 " key="1")
                 dd(v-for=" (r, i) in rank.length > 10 ? rank.slice(10, 20) : rank ")
                   span.rank-index {{ (rank.length > 10 ? 11 : 1) + i }}
                   span.rank-un.inlb {{ r.username }}
-                  span.rank-un.inlb {{ r.game }}
+                  span.rank-cnn.inlb {{ r.cnname }}
                   span.rank-money.inlb 喜中 ¥ {{ r.settlement.toFixed(0)._nwc() }}
 
         .title
@@ -632,9 +632,10 @@ export default {
           margin-bottom .2rem
 
       .rank-un
-        width .5rem
+        min-width .5rem
         margin-right .2rem
-
+      .rank-cnn
+        min-width 1rem
       .rank-index
         margin-right .1rem
         radius(50%)
