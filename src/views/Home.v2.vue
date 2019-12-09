@@ -28,26 +28,25 @@
             p.t_l 时时彩是中国福利彩票时时彩的简称，重庆时时彩是一种经中国国家财政部批准，由中国福利彩票发行管理中心在重庆市所辖区域内发行，由重庆市福利彩票发行中心承销的彩票。
 
 
-          el-col(:span="4" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item']" @click.native=" openHomeTab(c) ")
+          el-col(:span="2" v-for=" (c, index) in topgames " v-if="c" v-bind:class="[c.title? c.class || c.menuClass :'empty ds-icon-add-item', 'top-game-type-icon']" @click.native=" openHomeTab(c) ")
             p {{ c.title }}
 
           .absolute.rank.t_l(@mouseover="leaderBoard")
             p.ft18 中奖排行榜
             transition(name="slide-left" appear=true)
-              dl.absolute(v-show=" ri === 0 " key="0")
+              dl.absolute.ls-wp(v-show=" ri === 0 " key="0")
                 dd(v-for=" (r, i) in rank.slice(0, 10) ")
                   span.rank-index {{ i + 1 }}
                   span.rank-un.inlb {{ r.username }}
-                  | 喜中 ¥
-                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
+                  span.rank-cnn.inlb {{ r.cnname }}
+                  span.rank-money.inlb 喜中 ¥ {{ r.settlement.toFixed(0)._nwc() }}
             transition(name="slide" appear=true )
-              dl.absolute(v-show=" ri === 1 " key="1")
+              dl.absolute.ls-wp(v-show=" ri === 1 " key="1")
                 dd(v-for=" (r, i) in rank.length > 10 ? rank.slice(10, 20) : rank ")
                   span.rank-index {{ (rank.length > 10 ? 11 : 1) + i }}
                   span.rank-un.inlb {{ r.username }}
-                  | 喜中 ¥
-                  span.rank-money.inlb {{ r.settlement.toFixed(0)._nwc() }}
-
+                  span.rank-cnn.inlb {{ r.cnname }}
+                  span.rank-money.inlb 喜中 ¥ {{ r.settlement.toFixed(0)._nwc() }}
 
         .title
           p.t1.c_f 我们的游戏
@@ -491,8 +490,8 @@ export default {
     position relative
     margin-bottom .3rem
     padding PW
-    padding-left 31%
-    padding-right 20%
+    padding-left 26%
+    padding-right 28%
     text-align center
     radius()
     color #302b2a
@@ -509,7 +508,8 @@ export default {
       left 0
       right 60%
       background url(../assets/newhome/girl-min.png) no-repeat
-      background-size 3.71rem
+      // background-size 3.71rem
+      background-size 3.18rem
 
     .intro
       font-shadow(none)
@@ -582,12 +582,17 @@ export default {
         background url(../assets/newhome/index_icon_b_10.png) 50% no-repeat
 
       &:hover
-        padding-top H - 2*PW
+        // padding-top H - 2*PW
+        padding-top 0.95rem
         background-position 50% 20%
         background-color rgba(255, 255, 255, .2)
         box-shadow 0 .3rem 1rem rgba(0, 0, 0, .2)
         opacity 1
-
+    .top-game-type-icon.el-col
+      width 1.2rem
+      min-width 1.2rem
+      height 1.2rem
+      padding-top 1.2rem
     .el-col.pool
       font-family Roboto
       color YELLOW
@@ -607,7 +612,8 @@ export default {
     .rank
       right 0
       top 0
-      width 2rem
+      // width 2rem
+      width 3.2rem
       height 5rem
       border 2px
       color #fff
@@ -626,19 +632,27 @@ export default {
           margin-bottom .2rem
 
       .rank-un
-        width .5rem
+        min-width .5rem
         margin-right .2rem
-
+      .rank-cnn
+        min-width 1rem
       .rank-index
         margin-right .1rem
         radius(50%)
         display inline-block
         width .2rem
-        background-color BLUE
+        // background-color BLUE
+        background-color #e1e1e1
         text-align center
-
-
-
+        color #666666
+      .ls-wp
+        &>dd
+          &:nth-child(1),
+          &:nth-child(2),
+          &:nth-child(3)
+            .rank-index
+              background-color BLUE
+              color #ffffff
   .picture
     position relative
     cursor pointer
