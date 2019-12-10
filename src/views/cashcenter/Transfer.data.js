@@ -2,6 +2,7 @@
 // key 对应 store.actions.setUser() 的值
 // authority 权限 1 转入
 // authority 权限 2 转出
+// alias 别名
 export default {
     classifyMap: [
         // { n: '常用账户', classifyID: 99 },
@@ -37,6 +38,7 @@ export default {
         { id: 32, key: 'saEgameAmount', n: 'SA电游', classname: 'acc-bg-green', classifys: [3], authority: [1, 2] },
         { id: 34, key: 'dfAmount', n: 'OG', classname: 'acc-bg-oriange', classifys: [1], authority: [1, 2] },
         { id: 44, key: 'hlAmount', n: '欢乐', classname: 'acc-bg-red', classifys: [2], authority: [1, 2] },
+        { id: 32, key: 'saEgameAmount', n: 'SA捕鱼', classname: 'acc-bg-green', classifys: [6], authority: [1, 2] },
         { id: '', key: 'free', n: '优惠券', alias: '优惠券', classname: 'acc-bg-blue', classifys: [0], authority: [] }
     ]
 }

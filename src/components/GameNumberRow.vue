@@ -36,8 +36,8 @@
                     .ds-checkbox( @click=" n.selected = !n.selected ")
                   // input
                   el-input-number.code-input.times.ds-icon-rmb-sign(v-bind:id=" index  "  v-model=" n.times "  v-if=" n.input " v-bind:max="10000" style="width: .7rem; margin: 0 0 0 .2rem; padding-left: .1rem" @click.native.stop=" !row.noClick && !n.selected && toggle(n) " @mouseleave.native="ntimeChange(n) ")
-                .inlb.bet-num-wp(v-if="row.bts && row.bts.length > 0")
-                  .bet-num {{row.bts[index]}}
+                //- .inlb.bet-num-wp(v-if="row.bts && row.bts.length > 0")
+                //-   .bet-num {{row.bts[index]}}
                 .inlb.yiloucontent(v-if="CMCH")
                   div(v-show=" user.showYL " v-bind:class=" { c_e: Yilou[index] * 1 === Math.min.apply(null, Yilou), c_p: Yilou[index] * 1 === Math.max.apply(null, Yilou) } ") {{ Yilou[index] }}
                   div(v-show=" user.showLR " v-bind:class=" { c_e: Lengre[index] * 1 === Math.max.apply(null, Lengre), c_p: Lengre[index] * 1=== Math.min.apply(null, Lengre)  } ") {{ Lengre[index] }}
@@ -473,23 +473,23 @@
       background-size cover
       color #fff
 
-.has-bet-num
-  .withyilou
-    margin-bottom .6rem !important
-  .yiloucontent
-    top 120%
-.numbers .el-col.default.col-bet-num
-  margin-bottom .2rem
-.bet-num-wp
-  color #999
-  font-size .12rem
-  position absolute
-  top 100%
-  left 0
-  right 0
-  text-align center
-  line-height 1.5
-  padding .05rem 0
+// .has-bet-num
+//   .withyilou
+//     margin-bottom .6rem !important
+//   .yiloucontent
+//     top 120%
+// .numbers .el-col.default.col-bet-num
+//   margin-bottom .2rem
+// .bet-num-wp
+//   color #999
+//   font-size .12rem
+//   position absolute
+//   top 100%
+//   left 0
+//   right 0
+//   text-align center
+//   line-height 1.5
+//   padding .05rem 0
 </style>
 
 <style lang="stylus" scoped>

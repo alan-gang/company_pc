@@ -79,8 +79,23 @@
           .buttons.mb_20(:class=" i &&  users.length > 1 && 'mt_20' ")
             .ds-button.primary.large.bold.w_140.hlh_40(@click="openAccount") 开户
         
-
-      
+    el-dialog(
+      title="确认信息"
+      v-bind:visible.sync="COPYdialogVisible"
+      v-bind:modal="!1"
+      v-bind:close-on-click-modal="!1"
+      v-bind:close-on-press-escape="!1"
+      v-bind:show-close="!1"
+      custom-class="dialogCopy"
+      )
+      br
+      .ml_20(v-html="dataCopyHtml") 
+      span(slot="footer")
+        .ds-button.outline.bold.mr10(
+          v-clipboard:copy="dataCopy"
+          v-clipboard:success="copySuccess"
+        ) 一键复制
+        .ds-button.primary.large.bold(type="primary" @click="COPYdialogVisible=!1 && openAccountOK()") 确 定
 </template>
 
 <script>
@@ -89,6 +104,7 @@
   export default {
     data () {
       return {
+        COPYdialogVisible: !1, // 一键复制弹窗
         n: '',
         pwd: '',
         i: 0,
@@ -99,6 +115,28 @@
       }
     },
     computed: {
+      dataCopyHtml () {
+        return this.dataCopy.replace(/\n/g, '<br>');
+      },
+      //-
+      dataCopy () {
+        let r = `用户名:${this.n}
+登录密码:${this.pwd}
+`;
+        this.data.forEach(v => {
+          if (v.$ * 1) {
+            if (!v.groupid) {
+              r += `彩票返点:${v.$}%
+`;
+            } else {
+              r += `${v.groupname}返水:${v.$}‰
+`;
+            }
+          }
+        });
+        return r;
+      },
+      //-
       users_ () {
         return this.users.filter(x => x.userName.indexOf(this.un) !== -1)
       },
@@ -136,6 +174,18 @@
       this.getUserList()
     },
     methods: {
+      copySuccess() {
+        this.$message({
+          type: "success",
+          message: "已复制至剪贴板"
+        });
+      },
+      openAccountOK () {
+        this.n = ''
+        this.pwd = '123456a'
+        this.showRegistUser()
+        this.$router.push('/group/2-3-4')
+      },
       openAccount () {
         if (!this.n) return this.$message.warning({target: this.$el, message: '请输入用户名！'})
         if (!Validate.account(this.n)) return this.$message.warning({target: this.$el, message: '用户名格式不正确，请输入0-9，a-z，A-Z组成的6-16个字符!'})
@@ -159,10 +209,8 @@
         }).then(({data}) => {
           if (data.success === 1) {
             this.$message.success(data.msg || '开户成功！')
-            this.n = ''
-            this.pwd = '123456a'
-            this.showRegistUser()
-            this.$router.push('/group/2-3-4')
+            this.getUserList();
+            this.COPYdialogVisible = !0;//显示弹窗复制
           } else this.$message.error(data.msg || '开户失败！')
         }, (rep) => {
           this.$message.error('开户失败！')
@@ -228,10 +276,16 @@
           }
         })
       },
-      setBackWaters (back) {
+      setBackWaters(back) {
         back.forEach(x => {
-          (this.data.find(y => y.groupid === x.groupId || (!x.groupId && !y.groupid)) || {}).$ = x.backWater ? (x.backWater * (!x.groupId ? 1 : 1000)).toFixed(1) : ''
-        })
+          (
+            this.data.find(
+              y => y.groupid === x.groupId || (!x.groupId && !y.groupid)
+            ) || {}
+          ).$ = x.backWater
+            ? (x.backWater * (!x.groupId ? 1 : 1000)).toFixed(1) * 1
+            : "";
+        });
       }
     }
   }
@@ -348,5 +402,14 @@
       right: 0;
     }
   }
+}
+</style>
+<style lang="less">
+ .el-dialog.dialogCopy{
+   background: #fff;
+   width: 3rem;
+   .el-dialog__footer{
+     text-align: center;
+   }
 }
 </style>
