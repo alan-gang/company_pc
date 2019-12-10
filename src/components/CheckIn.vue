@@ -19,10 +19,10 @@
               p.ft12.mt05 每天登入平台，投注达到1000元，即可参与消费签到，签到成功可以领取各种好礼，连续签到还有额外好礼相赠
             section.mt20
               div.color-yellow.ft14 领取时间：
-              p.ft12 3月您已经累计签到：2 天
+              p.ft12 每日09:00-24:00
               p.ft12.mt05 每日签到立刻领取：2 元礼金
         .checkin-calendar
-          CheckInCalendar(@on-choice="checkInHandler")
+          CheckInCalendar(@on-choice="checkInHandler" v-bind:checkinDateList="checkinDateList")
         .line-more-prize
         .checkin-days-explain.flex.flex-ai-c
           .day-3
@@ -39,10 +39,10 @@
       .status-img
       .status-txt.ft24.ftb.txt-c.mt20 签到成功
       ul.prize-wp
-        li.prize-row.flex.flex-ai-c
-          div 2元礼金已发放
+        li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key-"i")
+          div {{p}}
           .color-orange.cursor-p(@click="viewPrize") 查看礼品箱
-        li.prize-row.flex.flex-ai-c
+        //- li.prize-row.flex.flex-ai-c
           div 2元礼金已发放
           .color-orange.cursor-p(@click="viewPrize") 刮刮卡10张已发放
 </template>
@@ -59,7 +59,9 @@ export default {
     return {
       curMonth: 0,
       checkinCount: 0,
-      showDialogResult: false
+      showDialogResult: false,
+      prizes: [],
+      checkinDateList: []
     }
   },
   mounted() {
@@ -68,7 +70,7 @@ export default {
   },
   methods: {
     checkInHandler() {
-      this.showDialogResult = true
+      this.checkIn()
     },
     closeDialogResult() {
       this.showDialogResult = false
@@ -78,9 +80,24 @@ export default {
       this.$router.push('/activity/5-1-2')
     },
     getCheckInfo() {
-      this.$http.get(api.getCheckInfo, {}).then(({data}) => {
+      this.$http.get(api.getCheckInfo).then(({data}) => {
+        if (data.success > 0 && data.length > 0) {
+          this.checkinCount = data.length
+          this.checkinDateList = data.map((d) => new Date(parseInt(d, 10)).getDate())
+          // TODO
+        }
+      })
+    },
+    checkIn() {
+       this.$http.post(api.checkIn, {}).then(({data}) => {
         if (data.success > 0 && data.length > 0) {
           // TODO
+          this.showDialogResult = true
+        } else {
+          this.$modal.warn({
+            content: data.msg,
+            btn: ['确定']
+          })
         }
       })
     }

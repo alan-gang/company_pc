@@ -5,8 +5,8 @@
     .calendar-days.flex.ft18
       .day-item.flex.flex-ai-c.flex-jt-c(v-for="d in firstDay")
         .day
-      .day-item.flex.flex-ai-c.flex-jt-c(v-for="d in daysOfMonth" @click="checkInHandler(d)" v-bind:class="[]")
-        .day {{d}}
+      .day-item.flex.flex-ai-c.flex-jt-c(v-for="d in daysOfMonth" @click="checkInHandler(d)" v-bind:class="[getCls(d)]")
+        .day {{getCls(d) === 'checkin' ? '签' : d}}
 </template>
 
 <script>
@@ -17,23 +17,25 @@ export default {
       weeks: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
       daysOfMonth: 0,
       firstDay: 0,
+      curDay: 0,
       date: null
     }
+  },
+  props: {
+    checkinDateList: Array
   },
   mounted() {
     this.init()
   },
   methods: {
     init() {
-      this.date = new Date();
-      this.firstDay = this.getFirstDayOfMonth(this.date);
-      this.daysOfMonth = this.getDaysOfMonth(this.date.getFullYear, this.date.getMonth);
+      this.date = new Date()
+      this.curDay = this.date.getDate()
+      this.firstDay = this.getFirstDayOfMonth(this.date)
+      this.daysOfMonth = this.getDaysOfMonth(this.date.getFullYear, this.date.getMonth)
     },
     checkInHandler(date) {
-      console.log('date=', date)
-      if (date !== this.date.getDate()) return;
-      // TODO checkin
-      console.log('do checkin')
+      if (date !== this.date.getDate()) return
       this.$emit('on-choice', date)
     },
     getFirstDayOfMonth(date) {
@@ -49,6 +51,15 @@ export default {
         return (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) ? 29 : 28
       }
       return 31
+    },
+    getCls(d) {
+      if (d < this.curDay) {
+        return this.checkinDateList.includes() ? 'checkined' : 'uncheckin'
+      } else if (d === this.curDay) {
+        return this.checkinDateList.includes() ? 'checkined' : 'checkin'
+      } else {
+        return ''
+      }
     }
   }
 }
