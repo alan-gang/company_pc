@@ -105,7 +105,7 @@
         })
       },
       goChat() {
-        let host = window.location.host
+        let host = window.location.href
         let url = ''
         if (host.indexOf('cb510') !== -1) {
           url = 'http://192.168.169.84/#/?platCode='
@@ -113,6 +113,9 @@
           url = 'https://iweb.xy-test.net/#/?platCode='
         } else {
           url = 'http://192.168.169.84/#/?platCode='
+        }
+        if (host.indexOf('www.game.com') !== -1) {
+          url = 'http://localhost:3000/#/?platCode='
         }
         url += this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
         // let url = 'http://localhost:3000/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
