@@ -81,18 +81,17 @@ export default {
     },
     getCheckInfo() {
       this.$http.get(api.getCheckInfo).then(({data}) => {
-        if (data.success > 0 && data.length > 0) {
-          this.checkinCount = data.length
-          this.checkinDateList = data.map((d) => new Date(parseInt(d, 10)).getDate())
-          // TODO
+        if (data.success > 0 && data.data.length > 0) {
+          this.checkinCount = data.data.length
+          this.checkinDateList = data.data.map((d) => new Date(parseInt(d, 10)).getDate())
         }
       })
     },
     checkIn() {
        this.$http.post(api.checkIn, {}).then(({data}) => {
-        if (data.success > 0 && data.length > 0) {
-          // TODO
+        if (data.success > 0) {
           this.showDialogResult = true
+          this.prizes = data.data
         } else {
           this.$modal.warn({
             content: data.msg,

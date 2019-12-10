@@ -54,9 +54,9 @@ export default {
     },
     getCls(d) {
       if (d < this.curDay) {
-        return this.checkinDateList.includes() ? 'checkined' : 'uncheckin'
+        return this.checkinDateList.includes(d) ? 'checkined' : 'uncheckin'
       } else if (d === this.curDay) {
-        return this.checkinDateList.includes() ? 'checkined' : 'checkin'
+        return this.checkinDateList.includes(d) ? 'checkined' : 'checkin'
       } else {
         return ''
       }
