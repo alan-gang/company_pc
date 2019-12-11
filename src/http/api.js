@@ -734,7 +734,11 @@ let Activity = {
   // 判断刮刮乐是否中奖
   getScratchPrize: '/activity.do?method=getScratchPrize',
   // 刮刮乐奖金入库
-  finishScratchPrize: '/activity.do?method=finishScratchPrize'
+  finishScratchPrize: '/activity.do?method=finishScratchPrize',
+  // 签到信息
+  getCheckInfo: '/activity.do?method=getCheckInfo',
+  // 签到
+  checkIn: '/activity.do?method=checkin'
 }
 
 let Download = {
