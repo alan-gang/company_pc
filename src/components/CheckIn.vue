@@ -39,12 +39,9 @@
       .status-img
       .status-txt.ft24.ftb.txt-c.mt20 签到成功
       ul.prize-wp
-        li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key-"i")
+        li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key="i")
           div {{p}}
           .color-orange.cursor-p(@click="viewPrize") 查看礼品箱
-        //- li.prize-row.flex.flex-ai-c
-          div 2元礼金已发放
-          .color-orange.cursor-p(@click="viewPrize") 刮刮卡10张已发放
 </template>
 
 <script>
@@ -92,11 +89,7 @@ export default {
         if (data.success > 0) {
           this.showDialogResult = true
           this.prizes = data.data
-        } else {
-          this.$modal.warn({
-            content: data.msg,
-            btn: ['确定']
-          })
+          this.getCheckInfo()
         }
       })
     }

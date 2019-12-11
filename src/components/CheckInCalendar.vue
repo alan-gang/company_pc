@@ -6,7 +6,8 @@
       .day-item.flex.flex-ai-c.flex-jt-c(v-for="d in firstDay")
         .day
       .day-item.flex.flex-ai-c.flex-jt-c(v-for="d in daysOfMonth" @click="checkInHandler(d)" v-bind:class="[getCls(d)]")
-        .day {{getCls(d) === 'checkin' ? '签' : d}}
+        .day
+          span {{getCls(d) === 'checkin' ? '签' : d}}
 </template>
 
 <script>
@@ -32,7 +33,7 @@ export default {
       this.date = new Date()
       this.curDay = this.date.getDate()
       this.firstDay = this.getFirstDayOfMonth(this.date)
-      this.daysOfMonth = this.getDaysOfMonth(this.date.getFullYear, this.date.getMonth)
+      this.daysOfMonth = this.getDaysOfMonth(this.date.getFullYear(), this.date.getMonth())
     },
     checkInHandler(date) {
       if (date !== this.date.getDate()) return
@@ -86,12 +87,24 @@ export default {
       width .62rem
       margin 0.06rem 0 0.06rem 0
       cursor pointer
+      iconDay() {
+        width 0.3rem
+        display inline-block
+        box-sizing border-box
+        margin-right 0.08rem
+      }
       &.checkin .day
         bgImage("icon-circle-yellow")
+        &>span 
+          iconDay()
       &.checkined .day
         bgImage("icon-circle-red")
+        &>span 
+          iconDay()
       &.uncheckin .day
         bgImage("icon-circle-black")
+        &>span 
+          iconDay()
     .day 
       width 0.4rem
       height 0.4rem
