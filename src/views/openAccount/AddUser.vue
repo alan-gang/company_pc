@@ -134,6 +134,8 @@
             }
           }
         });
+        r += `登录网址:${window.location.origin}${window.location.pathname}
+`;
         return r;
       },
       //-
