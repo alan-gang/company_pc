@@ -67,9 +67,10 @@
           document.body.className = this.Me.css
           if (user && user.login) {
             if (!this.timer) {
+              this.getMessageCount(user.token)
               this.timer = setInterval(() => {
                 this.getMessageCount(user.token)
-              }, 5000)
+              }, 10000)
             }
           } else {
             clearInterval(this.timer)
