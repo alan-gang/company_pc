@@ -95,8 +95,6 @@ export default {
       }
       &.checkin .day
         bgImage("icon-circle-yellow")
-        &>span 
-          iconDay()
       &.checkined .day
         bgImage("icon-circle-red")
         &>span 
