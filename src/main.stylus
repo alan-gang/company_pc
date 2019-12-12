@@ -42,7 +42,7 @@
   .form-filters
   .form-contents
     background-color #fff
-    margin .1rem PWX
+    margin 0 PW
     margin-bottom 0
 
 .el-tooltip__popper
