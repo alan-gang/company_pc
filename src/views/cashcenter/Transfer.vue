@@ -624,6 +624,9 @@ export default {
     .toolselect {
       margin-top: 10px;
       width: 4rem;
+      .quick-amounts{
+        margin-bottom: 10px;
+      }
       .zhval {
         margin: 0;
       }
