@@ -33,7 +33,7 @@
               input.ds-input(v-model="m" style="width: 2.5rem" maxlength="12")
               .quick-amounts.inlb.ml30
                 button.mr10.c_b.ds-button.btn-amout(@click="quickAmountHandler(amount)" v-for="(amount, i) in quickAmounts") {{amount}}
-            el-form-item(style="margin:-18px 0 0 0")
+            el-form-item.zhval
               span {{ cm }}
         .buttons._col-
           button.ds-button.primary(@click="ok" v-bind:disabled="btn" v-bind:class="{ cancel: btn }") 确认
@@ -449,15 +449,15 @@ export default {
         margin-top .2rem
         span
           font-size .14rem
-      @media screen and (max-width: 2000px)
-        width 1.9rem
-      @media screen and (max-width: 1600px)
-        width 1.3rem
-      @media screen and (max-width: 1200px)
-        width .8rem
-        font-size .14rem
-        .amount
-          font-size .14rem
+      // @media screen and (max-width: 2000px)
+      //   width 1.9rem
+      // @media screen and (max-width: 1600px)
+      //   width 1.3rem
+      // @media screen and (max-width: 1200px)
+      //   width .8rem
+      //   font-size .14rem
+      //   .amount
+      //     font-size .14rem
 
 
       // &:nth-child(1)
@@ -578,8 +578,11 @@ export default {
 </style>
 <style lang="less">
 .transfer {
-  .refresh{
-    width: 20px;height: 17px;background: url(~@/assets/transfer/2.png) no-repeat 0 0;
+  min-width: 1100px;
+  .refresh {
+    width: 20px;
+    height: 17px;
+    background: url(~@/assets/transfer/2.png) no-repeat 0 0;
     margin: 0 auto;
     cursor: pointer;
   }
@@ -603,6 +606,7 @@ export default {
   .toolselect {
     margin-left: 0.6rem;
     margin-top: 25px;
+    width: 6.06rem;
     .toutSwap {
       position: relative;
     }
@@ -614,6 +618,9 @@ export default {
       height: 20px;
       background: url(~@/assets/transfer/3.png) no-repeat 0 0;
       cursor: pointer;
+    }
+    .zhval {
+      margin: -18px 0 0 0;
     }
   }
   .buttons {
@@ -632,6 +639,40 @@ export default {
   }
   .ml30 {
     margin-left: 0.3rem;
+  }
+}
+@media screen and (max-width: 1600px) {
+  .transfer {
+    .el-form-item {
+      margin-bottom: 0;
+    }
+    .toolselect {
+      margin-top: 10px;
+      width: 4rem;
+      .zhval {
+        margin: 0;
+      }
+      .ml30 {
+        margin-left: 0;
+      }
+      .switch {
+        left: 2.6rem;
+        top: -28px;
+      }
+    }
+    .buttons {
+      margin-left: 0;
+      .ds-button {
+        display: block;
+      }
+      .ds-button:not(:first-child) {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+    }
+  }
+  #app .scroll-content .wallet-ls .s {
+    padding: 0;
   }
 }
 </style>
