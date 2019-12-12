@@ -6,7 +6,7 @@
     slot(name="resize-x")
     slot(name="resize-y")
     slot(name="toolbar")
-    .scroll-content.transfer(v-show="tabIdx === 0")
+    .scroll-content.transfers(v-show="tabIdx === 0")
       ._row.bg-w
         .infos._col-
           i.ds-icon-me-avatar
@@ -554,7 +554,7 @@ export default {
   //     min-width 16rem
 </style>
 <style lang="stylus">
-.transfer
+.transfers
   .classifys
     border-bottom dashed 1px #ccc
     .classifyTit
@@ -577,7 +577,7 @@ export default {
         
 </style>
 <style lang="less">
-.transfer {
+.transfers {
   min-width: 1100px;
   .refresh {
     width: 20px;
@@ -642,13 +642,16 @@ export default {
   }
 }
 @media screen and (max-width: 1600px) {
-  .transfer {
+  .transfers {
     .el-form-item {
       margin-bottom: 0;
     }
     .toolselect {
       margin-top: 10px;
       width: 4rem;
+      .quick-amounts{
+        margin-bottom: 10px;
+      }
       .zhval {
         margin: 0;
       }
