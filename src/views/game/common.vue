@@ -169,7 +169,7 @@ export default {
       ***/
       currency: {
         value: 1,
-        title: '元',
+        title: '2元',
         model: 1
       },
       // 奖金
