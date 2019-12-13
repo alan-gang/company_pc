@@ -1,39 +1,4 @@
-// let api = window.localStorage.getItem('tapi') || window.localStorage.getItem('api') || (window.location.host.indexOf('.net') === -1 ? 'http://192.168.169.46:19901/cagamesclient' : 'https://api.cb868.net:1888/cagamesclient')
-// let api = 'http://cb510.net/dscagamesclient'
-// let api = 'http://192.168.169.49:9901/dscagamesclient'
-// let prefix = localStorage.getItem('xy_api') || '/xy49'
-// localStorage.setItem('xy_api', prefix)
-// let api = '/api'
-let api = '/dscagamesclient'
-// let api = 'dev'
-// api = 'http://192.168.169.70:8080/cagamesclient'
-// jork
-// let api = 'http://192.168.169.46:9901/dscagamesclient'
-// steven
-// let api = 'http://192.168.169.46:9901/dscagamesclient'
-let env = 'dev'
-// 外网生产地址
-if (window.location.host.indexOf('cb510') !== -1) {
-  api = 'http://cb510.net/dscagamesclient'
-} else if (window.location.host.indexOf('.net') !== -1) {
-  env = 'pro'
-  api = 'https://www.' + window.location.host.replace('www.', '') + '/dscagamesclient'
-  if (window.location.host.split('.')[0].startsWith('v')) {
-    api = 'https://' + window.location.host + '/dscagamesclient'
-  }
-  // 外网测试环境
-} else if (window.location.host.indexOf('.go') !== -1) {
-  env = 'odev'
-  api = 'http://112.199.101.98:9901/cagamesclient'
-} else if (window.location.host.match(/^\d{1,3}/) && window.location.host.split('.')[0] !== '192' && window.location.host.split('.')[0] !== '58') {
-  env = 'pro'
-  api = 'https://www.dsn96.net/dscagamesclient'
-}
-window.env = env
-api = window.localStorage.getItem('tapi') || api
-
-// api = window.localStorage.getItem('xy_api') || 'dev'
-
+let api = window.localStorage.getItem('tapi') || '/dscagamesclient'
 let Login = {
   getLottSets: '/userpoint.do?method=getLottSets&lotteryIds=1',
   codeMissColdHeat: '/codeMissColdHeat.do?method=queryColdHot',
