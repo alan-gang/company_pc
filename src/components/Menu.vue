@@ -21,8 +21,8 @@
                   h4(v-if="m.descrb") {{ m.descrb }}
                   .ds-button.primary(@click="open(m)" title="第一次点击可能会被拦截，再点一次即可" v-if=" m.fn ") 点击进入
 
-              div.lottery-wp(v-if = "!menu.big")
-                div.dl-wrapper
+              div.lottery-wp
+                div(:class="{'dl-wrapper':menu.url =='game'}")
                   dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {notitile: !group.title, 'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
                     dt
                       span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
@@ -34,7 +34,7 @@
                       // .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ")
                         span.text-gold {{ item.pretitle }}
                         | {{ item.title }}
-                div.recomment-game-wp
+                div.recomment-game-wp(v-if="menu.url =='game'")
                   div.game-img-list(v-for="(item,index) in recommendList" @click="open(item,item.index)")
 
 
