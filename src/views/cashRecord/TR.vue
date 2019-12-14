@@ -76,6 +76,7 @@
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   import SearchConditions from 'components/SearchConditions'
+  import Tdata from '@/data/transfer_xy.js'
   export default {
     name: 'BGTransaction',
     components: {
@@ -130,31 +131,35 @@
         total: 0,
         currentPage: 1,
         preOptions: {},
-        froms: [
-          "主账户",
-          "特殊账户",
-          "BG账户:2",
-          "开元账户:7",
-          "PT账户:5",
-          "AG账户:4",
-          "沙巴账户:9",
-          "乐游账户:15",
-          "U赢账户:17",
-          "KG账户:18",
-          "微游账户:25",
-          "平博账户:19",
-          "LG账户:21",
-          "幸运账户:22",
-          // "财神账号:27",
-          "GD账户:26",
-          "德胜账户:28",
-          "小艾账户:29",
-          "SA账户:31",
-          "SA电游账户:32",
-          "OG账户:34",
-          "欢乐账户:44"
-          // 添加三方游需要调整
-        ],
+        // froms: [
+        //   "主账户",
+        //   "特殊账户",
+        //   "BG账户:2",
+        //   "开元账户:7",
+        //   "PT账户:5",
+        //   "AG账户:4",
+        //   "沙巴账户:9",
+        //   "乐游账户:15",
+        //   "U赢账户:17",
+        //   "KG账户:18",
+        //   "微游账户:25",
+        //   "平博账户:19",
+        //   "LG账户:21",
+        //   "幸运账户:22",
+        //   // "财神账号:27",
+        //   "GD账户:26",
+        //   "德胜账户:28",
+        //   "小艾账户:29",
+        //   "SA账户:31",
+        //   "SA电游账户:32",
+        //   "OG账户:34",
+        //   "欢乐账户:44"
+        // ],
+        froms: Tdata.list.map(v => {
+          let r = v.n + "账户";
+          if (v.id) r += ":" + v.id;
+          return r;
+        }),
         f: "",
         t: "",
         S: ["失败", "成功", "处理中"],
