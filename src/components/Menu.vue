@@ -50,9 +50,6 @@
 // import api from '../http/api'
 export default {
   props: ["menus"],
-  created() {
-    console.log(this.menus);
-  },
   data() {
     return {
       recommendList: [
