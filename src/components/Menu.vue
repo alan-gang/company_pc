@@ -53,19 +53,16 @@ export default {
   data() {
     return {
       recommendList: [
-        { src: "/static/pic/home/recomend_game/qq.png", id: "1-1-7", index: 6 },
+        { id: "1-1-7", index: 6 },
         {
-          src: "/static/pic/home/recomend_game/chongqing.png",
           id: "1-1-12",
           index: 6
         },
         {
-          src: "/static/pic/home/recomend_game/happy.png",
           id: "1-1-4",
           index: 6
         },
         {
-          src: "/static/pic/home/recomend_game/blog.png",
           id: "1-1-9",
           index: 6
         }
@@ -108,8 +105,6 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-      console.log(item.id);
-      console.log(index);
 
       if (item.id) {
         if (item.ff) {
