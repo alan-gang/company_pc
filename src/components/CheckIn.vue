@@ -41,7 +41,7 @@
       ul.prize-wp
         li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key="i")
           div {{p}}
-          .color-orange.cursor-p(@click="viewPrize") 查看礼品箱
+          .color-orange.cursor-p(@click="viewPrize(i)") 查看礼品箱
 </template>
 
 <script>
@@ -72,9 +72,9 @@ export default {
     closeDialogResult() {
       this.showDialogResult = false
     },
-    viewPrize() {
+    viewPrize(type) {
       this.$emit('on-close')
-      this.$router.push('/activity/5-1-2')
+      this.$router.push(type === 0 ? '/activity/5-1-2' : '/activity/5-1-3')
     },
     getCheckInfo() {
       this.$http.get(api.getCheckInfo).then(({data}) => {
