@@ -198,11 +198,7 @@ export default {
       if (typeof this.wn === 'number') return this.prize * this.wn
       else if (typeof this.wn === 'object') {
         return this.wn.reduce((p, x, i) => {
-          if (typeof x === 'object') {
-            p += x.n * this['prize' + x.o]
-          } else {
-            p += x * this['prize' + i]
-          }
+          p += x * this['prize' + i]
           return p
         }, 0)
       }
