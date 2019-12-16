@@ -70,7 +70,7 @@ import TR from '../myCashRecord/TR'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
 import store from '../../store'
 import api from '../../http/api'
-import Tdata from '@/data/transfer_xy.js'
+import Tdata from './Transfer.data.js'
 export default {
   data () {
     return {
