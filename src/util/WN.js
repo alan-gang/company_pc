@@ -639,6 +639,18 @@ let G115 = {
 let KL8 = {
 }
 let PK10 = {
+  '-1-9-2-PK10' ({ns}) {
+    // odd: 0 big, 1 small
+    // num: 1,4 big  2,3 small
+    let wn = [{n: 0, o: 0}, {n: 0, o: 1}, {n: 0, o: 1}, {n: 0, o: 0}, ];
+    if (ns[0].includes('1')) wn[0].n = 1
+    if (ns[0].includes('2')) wn[1].n = 1
+    if (ns[0].includes('3')) wn[2].n = 1
+    if (ns[0].includes('4')) wn[3].n = 1
+    if (ns[0].includes('1') && ns[0].includes('2')) wn[1].n = 0
+    if (ns[0].includes('3') && ns[0].includes('4')) wn[2].n = 0
+    return wn
+  }
 }
 let K3 = {
 }
