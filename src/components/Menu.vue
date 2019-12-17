@@ -95,6 +95,7 @@ export default {
       this.open(item)
     },
     open (item, index) {
+      console.log(item)
       this.__setCall({
         fn: '__closeGuide'
       })

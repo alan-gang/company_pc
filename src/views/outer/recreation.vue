@@ -9,9 +9,9 @@
       <img src="~@/assets/outer/recreation/8.png" alt="" class="titleimg1">
       <img src="~@/assets/outer/recreation/9.png" alt="" class="titleimg6">
       <div class="nav-list">
-        <el-icon name="arrow-left" v-show="flag" v-on:click.native="pagination(0)"></el-icon>
-        <el-icon name="arrow-right" v-show="!flag" v-on:click.native="pagination(1)"></el-icon>
-        <swiper class="my-swiper" v-bind:options="swiperOption" ref="mySwiper">
+        <el-icon name="arrow-left" v-show="flagLeft" v-on:click.native="pagination(0, swiperIndex - 1)"></el-icon>
+        <el-icon name="arrow-right" v-show="flagRight" v-on:click.native="pagination(1, swiperIndex + 1)"></el-icon>
+        <swiper class="my-swiper swiper-no-swiping" v-bind:options="swiperOption" ref="mySwiper">
           <swiper-slide
             class="item"
             v-on:click="activeIndex = 0"
@@ -34,9 +34,11 @@
       </div>
 
       <div class="game-list" v-bind:class="'group' + (navIndex + 1)">
-        <div class="game" v-for="game in navList[navIndex].children" v-bind:key="game">
-          <p class="name">{{game}}</p>
-        </div>
+        <template v-if="navList[navIndex].children">
+          <div class="game" v-for="game in navList[navIndex].children" v-bind:key="game" @click="goGame(game)">
+            <p class="name">{{game.gameName}}</p>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -48,8 +50,11 @@ import {Icon} from 'element-ui'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
+import api from '../../http/api'
+import gameouterMixins from '../../mixins/gameouter'
 export default {
   props: ['menus'],
+  mixins: [gameouterMixins],
   components: {
     swiper,
     swiperSlide,
@@ -63,26 +68,39 @@ export default {
         {
           title: 'PT真人娱乐',
           attr: 'ptmoney',
-          children: ['传统百家乐', '特色百家乐', '骰宝', '轮盘', '龙虎', '牛牛', '炸金花']
+          platId: 5,
+          children: ''
         },
         {
           title: 'AG真人娱乐',
           attr: 'agmoney',
-          children: ['百家乐', '极速百家乐', '炸金花', '21点', '龙虎', '轮盘', '骰宝']
+          platId: 4,
+          children: ''
         },
         {
           title: 'BG真人娱乐',
           attr: 'bgmoney',
-          children: ['轮盘', '21点', '百家乐', '扑克', '骰子', '实况高低牌', '盈利轮盘', '龙虎']
+          platId: 2,
+          children: ''
         },
         {
           title: 'GD真人娱乐',
           attr: 'gdAmount',
-          children: ['传统百家乐', '竞咪百家乐', '骰宝', '轮盘', '龙虎', '牛牛', '炸金花']
+          platId: 26,
+          children: ''
+        },
+        {
+          title: 'SA真人娱乐',
+          attr: 'saAmount',
+          platId: 31,
+          children: ''
         }
       ],
-      navIndex: 0,
-      flag: false,
+      flagLeft: false,
+      flagRight: true,
+      swiperIndex: 0,
+      pageSize: 9,
+      gameGroupId: 3,
       swiperOption: {
         slidesPerView: 3,
         spaceBetween: 15,
@@ -109,17 +127,19 @@ export default {
   },
   created() {
     // this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}})
+    this.getThirdGames()
   },
   mounted() {},
   beforeDestroy() {},
   methods: {
-    pagination(type) {
+    pagination(type, idx) {
+      this.swiperIndex = idx
+      this.flagLeft = idx !== 0
+      this.flagRight = idx !== 2
       if (type) {
         this.$refs.mySwiper.swiper.slideNext()
-        this.flag = true
       } else {
         this.$refs.mySwiper.swiper.slidePrev()
-        this.flag = false
       }
     },
     open (item, index) {
@@ -305,13 +325,15 @@ export default {
       padding-top 180px
       float left
       background-repeat no-repeat
+      margin-right 10px
+      margin-bottom 26px
+      cursor pointer
       .name
         line-height 50px
         text-align center
         color #333
         font-size 18px
         background #fff
-        margin-right 10px
         margin-bottom 25px
         &:nth-child(3n)
           margin-right 0
@@ -364,6 +386,21 @@ export default {
     .game:nth-child(8)
       background-image url('~@/assets/outer/recreation/bg08.jpg')
   .group4
+    .game:nth-child(1)
+      background-image url('~@/assets/outer/recreation/gd01.jpg')
+    .game:nth-child(2)
+      background-image url('~@/assets/outer/recreation/gd02.jpg')
+    .game:nth-child(3)
+      background-image url('~@/assets/outer/recreation/gd03.jpg')
+    .game:nth-child(4)
+      background-image url('~@/assets/outer/recreation/bg01.jpg')
+    .game:nth-child(5)
+      background-image url('~@/assets/outer/recreation/gd05.jpg')
+    .game:nth-child(6)
+      background-image url('~@/assets/outer/recreation/gd06.jpg')
+    .game:nth-child(7)
+      background-image url('~@/assets/outer/recreation/gd07.jpg')
+  .group5
     .game:nth-child(1)
       background-image url('~@/assets/outer/recreation/gd01.jpg')
     .game:nth-child(2)

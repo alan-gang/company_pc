@@ -6,7 +6,7 @@
       <el-row class="list">
         <el-col :span="8">
           <div class="gamelist">
-            <div class="gameimg">
+            <div class="gameimg pointer" @click="gosf('9:203:iframe:/sports')">
               <img src="../../assets/outer/sportsevent/4.jpg" />
             </div>
             <div class="gametext">
@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="8">
           <div class="gamelist">
-            <div class="gameimg">
+            <div class="gameimg pointer" @click="gosf('19:203:iframe:/sports')">
               <img src="../../assets/outer/sportsevent/5.jpg" />
             </div>
             <div class="gametext">
@@ -70,6 +70,9 @@ export default {
   methods: {
     goTransferAccounts() {
       this.$router.push({path: '/me/2-1-3'})
+    },
+    gosf(fn) {
+      this.__setCall({fn: '__openWindowWithPost', args: fn})
     }
   }
 };
@@ -88,6 +91,7 @@ export default {
     top: 0;
     background: url("~@/assets/outer/sportsevent/1.jpg") no-repeat center bottom;
   }
+
   &::after {
     content: "";
     display: block;
@@ -97,6 +101,9 @@ export default {
     left: 0;
     bottom: 0;
     background: url("~@/assets/outer/sportsevent/2.jpg") no-repeat center 0;
+  }
+  .pointer {
+    cursor: pointer;
   }
   .titleimg {
     position: absolute;

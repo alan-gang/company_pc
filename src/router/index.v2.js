@@ -18,7 +18,7 @@ const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages
 const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
 const Egamimg = r => require.ensure([], () => r(require('../views/outer/Egamimg')), 'pages-part')
 const Sports = r => require.ensure([], () => r(require('../views/outer/Sports')), 'pages-part')
-
+const SlotMachine = r => require.ensure([], () => r(require('../views/outer/slotmachine')), 'pages-part')
 let router = new VueRouter({
   // mode: 'history',
   routes: [
@@ -37,7 +37,7 @@ let router = new VueRouter({
         //三方 电子电竞
         {path: '/electronicsports', meta: {rl: true}, component: resolve => require(['../views/outer/electronicsports'], resolve)},
         //三方 老虎机
-        {path: '/slotmachine', meta: {rl: true}, component: resolve => require(['../views/outer/slotmachine'], resolve)},
+        {path: '/slotmachine', meta: {rl: true}, component: SlotMachine},
         //三方  棋牌
         {path: '/chesspage', meta: {rl: true}, component: resolve => require(['../views/outer/chesspage'], resolve)},
          //三方  真人
@@ -47,7 +47,7 @@ let router = new VueRouter({
           meta: {
             rl: true
           },
-          component: Egame
+          component: SlotMachine
         },
         {
           path: '/egaming',

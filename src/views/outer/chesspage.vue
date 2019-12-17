@@ -29,9 +29,11 @@
           </div>
         </div>
         <div class="right" :class="'nav-list' + (navIndex + 1)">
-          <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx">
-            <p class="name">{{game}}</p>
-          </div>
+          <template v-if="activeNav.children">
+            <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx" @click="goGame(game)">
+              <p class="name">{{game.gameName}}</p>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -40,9 +42,12 @@
 
 <script>
 import store from '../../store'
+import api from '../../http/api'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
+import gameouterMixins from '../../mixins/gameouter'
 export default {
   props: ['menus'],
+  mixins: [gameouterMixins],
   components: {
   },
   data() {
@@ -53,41 +58,45 @@ export default {
         {
           title: '开元棋牌',
           attr: 'kymoney',
-          children: ['德州扑克', '二八杠', '抢庄牛牛', '炸金花', '押庄龙虎', '21点', '通比牛牛', '极速炸金花', '十三水', '二人麻将', '斗地主', '押庄牌九']
+          platId: 7,
+          children: '',
+          page: 1,
+          pageSize: 12
         },
         {
           title: '乐游棋牌',
           attr: 'lymoney',
-          children: ['捕鱼大作战', '极速炸金花', '跑得快', '斗地主', '看三张抢庄牛牛', '抢庄牛牛', '二十一点', '喜钱炸金花', '二八杠', '二人麻将']
+          platId: 15,
+          children: ''
         },
         {
           title: '幸运棋牌',
           attr: 'xyqpAmount',
-          children: ['通比牛牛', '抢庄牛牛', '二八杠', '极速炸金花', '打地鼠', '极速狂飙', '飞禽走兽', '百人牛牛', '二十一点', '抢红包']
+          platId: 22,
+          children: ''
         },
         {
           title: '财神棋牌',
           attr: 'vgAmount',
-          children: ['抢庄牛牛', '百人牛牛', '通比牛牛', '炸金花', '十三水', '竞咪楚汉德州', '保险楚汉德州', '百人三公', '必下德州', '推筒子', '红黑大战', '百家乐 ']
+          platId: 27,
+          children: ''
         },
         {
           title: '德胜棋牌',
           attr: 'dsAmount',
-          children: ['百人牛牛', '百人炸金花', '百人龙虎', '斗地主', '百人德州', '百家乐', '二十一点', '二人斗地主', '二八杠', '二人牛牛', '二人麻将', '德州扑克']
+          platId: 28,
+          children: ''
         }
       ],
-      navIndex: 0
+      gameGroupId: 4,
+      pageSize: 12
     };
   },
-  watch: {},
   computed: {
     gameInfo() {
       return this.menus.find(item => {
         return item.title === '棋牌'
       }).info
-    },
-    activeNav() {
-      return this.navList[this.navIndex]
     }
   },
   created() {
@@ -202,8 +211,13 @@ export default {
       .item.active
         &:nth-child(1)
           background url('~@/assets/outer/chesspage/14.png') no-repeat
+          .top
+            background url('~@/assets/outer/chesspage/8-2.png') no-repeat
         &:nth-child(2)
           background url('~@/assets/outer/chesspage/15.png') no-repeat
+          .top
+            background url('~@/assets/outer/chesspage/9-2.png') no-repeat
+            background-position left 10px
         &:nth-child(3)
           background url('~@/assets/outer/chesspage/16.png') no-repeat
           .top
@@ -239,9 +253,10 @@ export default {
         position relative
         margin-bottom 10px
         &:nth-child(1) .top
-          background url('~@/assets/outer/chesspage/8-2.png') no-repeat
+          background url('~@/assets/outer/chesspage/8-1.png') no-repeat
         &:nth-child(2) .top
-          background url('~@/assets/outer/chesspage/9-2.png') no-repeat
+          background url('~@/assets/outer/chesspage/9-1.png') no-repeat
+          background-position left 10px
         &:nth-child(3) .top
           background url('~@/assets/outer/chesspage/10-1.png') no-repeat
         &:nth-child(4) .top
@@ -295,11 +310,16 @@ export default {
         height 256px
         box-sizing border-box
         padding-top 200px
-        background-repeat no-repeat
         float left
         margin-right 10px
         margin-bottom 10px
+        cursor pointer
+        position relative
         border-radius 8px 8px 0 0
+        background-position left top
+        border-radius 8px 8px 0 0
+        background-repeat no-repeat
+        background-size: 210px 200px
         .name
           background #fff
           color #333
@@ -307,6 +327,7 @@ export default {
           text-align center
           line-height 56px
           border-radius 0 0 8px 8px
+
 
 .nav-list1
   .game-item:nth-child(1)

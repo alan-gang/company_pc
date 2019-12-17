@@ -1,13 +1,13 @@
 <template lang="jade">
   footer(ref="myFooter")
-    
+
     el-dialog(title="特殊金额转换" v-model="transfer" size="small" custom-class="dialog-transfer" v-bind:modal="modal" v-bind:modal-append-to-body="modal")
       p
         span.text-black.text-bold 特殊金额&nbsp;&nbsp;
         span.text-blue.to 转至
         span.text-black.text-bold &nbsp;&nbsp;可用余额
       br
-      p 特殊帐户余额： 
+      p 特殊帐户余额：
         | {{ me.smoney || '0.000' }}
       br
       p
@@ -25,18 +25,18 @@
       el-col.menu(:span="10" v-bind:offset="0")
 
         // v-bind:placement=" mode ? 'top' : 'bottom' "
-        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " v-model="shows[index]" v-show="!menu.hide") 
+        el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover font-white left-menus ' + menu.url + ' ' + (menu.groups && menu.groups[0] ? true : false) + (menu.hideIcon ? ' hide-icon' : false) + (menu.hideIconOnHover ? ' hio ' : '') " v-model="shows[index]" v-show="!menu.hide")
 
 
-          .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ") 
+          .icon-button.after-title(v-bind:class="[menu.class + '-middle']" slot="reference" v-show="!menu.href && !menu.removed" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title ")
           router-link.icon-button.after-title(:to="menu.href"  v-bind:class="[menu.class + '-middle']" slot="reference" v-if="menu.href && !menu.removed" @click.native.stop="" v-bind:mytitle=" menu.title || menu.mytitle")
           slot
             dl.submenu(v-if=" !menu.hideIcon && group.footer !== false && group.items.filter(function(x){return !x.removed})[0]" v-for="group in menu.groups" v-bind:class="[menu.url, group.url, {'with-icon': group.withIcon}]" v-bind:style="{ width: group.width }")
               dt
                 span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
-              dd(v-for="item in group.items" v-bind:class="[item.class]" @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed && !item.hide") 
+              dd(v-for="item in group.items" v-bind:class="[item.class]" @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed && !item.hide")
                 .ds-button(style="position: relative; ") {{ menu.url === 'game' ? '' : item.title }}
-                .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ") 
+                .game-title(style="position: absolute;  width: 100%; font-size: .14rem; color: #9897b2" v-if=" menu.url === 'game' ")
                   span.text-gold {{ item.pretitle }}
                   | {{ item.title }}
 
@@ -51,25 +51,25 @@
                   span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
                   .ssubmenu.el-popover.footer-popover.font-white(v-bind:class="{toolong: (group.items.length > 2) && ((group.items.length + (iii || menu.groups[1].items.filter(function(x){return !x.removed}).length)) > 9) }")
                      dl.submenu
-                       dd(v-for="item in group.items"   @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed") 
+                       dd(v-for="item in group.items"   @mouseover="over(item)" @click="open(item, index)" v-if="item.title && !item.removed")
                          .ds-button(style="position: relative; ") {{ item.title }}
                        dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @mouseover="over(item)"  @click="open(iitem, index)")
                          .ds-button(style="position: relative; ") {{ iitem.title }}
 
-              // el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ") 
+              // el-popover(v-for="(group, iii) in menu.groups"  placement="right-start" trigger="hover" options="{ removeOnDestroy: true }"  offset="0" v-bind:popper-class="'sst footer-popover font-white' ")
               //   dd(style="max-width: 1rem" slot="reference")
               //     span.ds-button(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
               //   slot
               //     dl.submenu(style="min-width: 1.2rem")
-              //       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed") 
+              //       dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed")
               //         .ds-button(style="position: relative; ") {{ item.title }}
               //       dd(v-for=" iitem in menu.groups[1].items " v-if="iii === 0 && iitem.title && !iitem.removed" @click="open(iitem, index)")
               //         .ds-button(style="position: relative; ") {{ iitem.title }}
 
-             
+
               span.ds-button.text-button.light(style="margin-top: .15rem" v-if=" menu.url === 'game' && menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
-              
-              
+
+
             .ds-button.text-button.light.pattern(style="float: right; margin-top: -.35rem" v-if=" menu.url === 'game' && !menu.hideIcon " @click=" dododo(menu)") {{ !menu.hideIcon ? '简化菜单' : '图例菜单' }}
 
 
@@ -84,7 +84,7 @@
               dd(style="padding-bottom: .1rem")
                 el-popover(placement="top-start" v-model="checkin"  trigger="manual" v-bind:popper-class="'footer-popover font-white message'" )
                   button.ds-button.primary.full(slot="reference" @click="checkinNow") 签到
-                  slot 
+                  slot
                     p 已连续签到
                       span.font-blue {{ checkDays }}天
                       |，今日
@@ -92,10 +92,10 @@
                 // .ds-button.primary(style="margin-left: .1rem" @click="router = true") 线路切换
               dd
                 span.name.ds-icon-m.font-light(v-show="!hide") {{ name }}
-              dd 
+              dd
                 span.money.ds-icon-money.font-gold
-                  span.text-light 主: 
-                  span {{ money || '0.000' }} 
+                  span.text-light 主:
+                  span {{ money || '0.000' }}
                 span.font-light 特: {{ smoney || '0.000' }}
               dd
                 span.free.ds-icon-free.font-light(v-show="!hide") {{ free || '0.000' }}
@@ -104,7 +104,7 @@
                 .ds-button.cancel(@click="logout" style="margin-left: .1rem" ) 安全退出
 
 
-        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-if="!isTry") 
+        span.collapse.el-icon-caret-left.ds-button.text-button.light(@click="hide = !hide" v-if="!isTry")
           span(v-show="!hide") 隐藏
           span(v-show="hide") 展开
         span.ds-button.danger(@click="doRecharge" v-if="!isTry && me.canTopUp") 充值
@@ -131,8 +131,8 @@
       // div(style="padding: 0 .3rem; display: inline-block")
       //   p.font-white(style="font-size: .12rem") 参与人次
       //   p.amount.font-gold(style="font-size: .24rem; font-family: Roboto; color: #ffea00; margin-top: .1rem; vertical-align: sub") {{  pricePotCount }}
-      
-    
+
+
     el-dialog(title="线路切换" v-model="router"  custom-class="dialog-router" v-bind:modal="modal" v-bind:modal-append-to-body="modal" )
       LoginTest.no-title(v-bind:server="true" v-on:close=" router = false ")
 
@@ -144,7 +144,7 @@
       input(type="hidden" name="id" value="")
 
 
-      
+
 </template>
 
 <script>
@@ -290,6 +290,7 @@ export default {
       })
     },
     openWindowWithPost ({data, version, id, vrurl, msg}) {
+      console.log(data)
       if (!data) return this.$message.error({target: this.$el, message: msg || '第三方游戏获取失败！'})
       let f = document.getElementById('TheForm')
       f.data.value = data
@@ -468,7 +469,7 @@ export default {
 </script>
 <style lang="stylus">
 
-    
+
   @import '../var.stylus'
   H = .44rem
   W = .32rem
@@ -499,17 +500,17 @@ export default {
             margin 0
             background none
             height auto
-      
+
     .submenu
       &.hover-show-ssubmenu
         .ssubmenu
           max-width 3rem
-          
+
           .submenu
             margin .15rem 0
             float none
             min-width 1.5rem
-            width auto 
+            width auto
             background none
             box-shadow none !important
           &.toolong
@@ -566,7 +567,7 @@ export default {
           text-shadow none
           &:hover
             background-color BLUE
-          
+
       &.with-icon
         dt
           padding PW 0
@@ -593,25 +594,25 @@ export default {
           transition all linear .2s // @static 2
           transform perspective(100px) translateZ(0)
           background-size .7rem .7rem
-          
+
           &:hover
             // transform perspective(100px) translateZ(30px)
             // transform perspective(100px) translateZ(0)
             background-size .96rem .96rem
             .game-title
               bottom -.3rem
-            
+
           .game-title
             transition all linear .2s // @static 2
             bottom -.2rem
-            
+
             // transform perspective(100px) translateZ(15px)
-          
+
       .inner-submenu
         float left
         &:not(:last-child)
           margin-right .2rem
-  
+
   NW = .26rem
   MW = .26rem
   FW = .26rem
@@ -636,7 +637,7 @@ export default {
         margin-right 2*PW
   .footer-popover.message
     transform translateY(-.2rem) translateX(-.2rem)
-    
+
   .dialog-router
     width auto
     text-align left
@@ -645,16 +646,16 @@ export default {
     .el-dialog__header
       background-color #30313f
       .el-dialog__title
-        color #fff    
+        color #fff
     .el-dialog__body
       padding .5rem
     .login-test .routers
       padding 0
-  
+
   footer > .el-dialog__wrapper:first-child
   .new-home .el-dialog__wrapper
     background rgba(0,0,0,.5)
-    
+
   .dialog-transfer
     width auto
     text-align left
@@ -667,7 +668,7 @@ export default {
     .to
       padding PWX PW
       background url(../assets/game/new/to.png) center bottom .1rem no-repeat
-  
+
 
 
 #app:not(.classic)
@@ -683,7 +684,7 @@ export default {
         content '客服'
 
         font-size .14rem
-        
+
 </style>
 <style lang="stylus" scoped>
   .after-title
@@ -692,7 +693,7 @@ export default {
       content attr(mytitle)
       position absolute
       top -.25rem
-      left 0 
+      left 0
       right 0
       color rgba(255, 255, 255, .7)
       text-align center
@@ -710,8 +711,8 @@ export default {
         display none
       .logo .show
         display block
-        
-      
+
+
     // height FH
     text-align center
     bg-gradient(180deg, rgba(255, 255, 255, .1) 20%, rgba(0, 0, 0, .1))
@@ -726,11 +727,11 @@ export default {
       width LGW
       height LGH
       z-index 1
-    
+
     .amount
       font-gradient(180deg, #fff 10%, #ffd800)
       text-shadow none
-      
+
   .el-row
     text-align left
     z-index 1
@@ -742,8 +743,8 @@ export default {
       &:last-child
         // margin-left .5rem
       // height FH
-      
-      
+
+
   .menu
     min-height 1px
     .icon-button
@@ -753,7 +754,7 @@ export default {
       height FH
       vertical-align middle
       radius()
-      
+
       &:hover:after
         content ''
         display block
@@ -764,7 +765,7 @@ export default {
         right 0
         background linear-gradient(top left, rgba(255, 255, 255, .4), rgba(255, 255, 255, .1), rgba(255, 255, 255, .4))
         radius()
-        
+
       &:before
         content ''
         display block
@@ -774,11 +775,11 @@ export default {
         width FH - .2rem
         height FH - .2rem
         box-sizing border-box
-        background-color 
+        background-color
         z-index -1
         // box-shadow .02rem .02rem .02rem rgba(0, 0, 0, .2)
         radius(50%)
-  
+
   NW = .26rem
   MW = .26rem
   FW = .26rem
@@ -810,7 +811,7 @@ export default {
       padding 0
     .logout
       margin-left .1rem
-  
 
-  
+
+
 </style>
