@@ -1598,7 +1598,7 @@ export default {
       }
     },
     openCheckInHandler () {
-      this.showCheckInDialog = !this.showCheckInDialog
+      this.showCheckInDialog = true
     },
     closeCheckInHandler () {
       this.showCheckInDialog = false

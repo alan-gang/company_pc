@@ -41,7 +41,7 @@
       ul.prize-wp
         li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key="i")
           div {{p}}
-          .color-orange.cursor-p(@click="viewPrize(i)") 查看礼品箱
+          .color-orange.cursor-p(@click="viewPrize(i)") 查看{{i === 0  ? '礼品箱' : '优惠券'}}
 </template>
 
 <script>
@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     this.curMonth = new Date().getMonth() + 1
-    this.getCheckInfo();
+    this.getCheckInfo()
   },
   methods: {
     checkInHandler() {
@@ -79,8 +79,15 @@ export default {
     getCheckInfo() {
       this.$http.get(api.getCheckInfo).then(({data}) => {
         if (data.success > 0 && data.data.length > 0) {
-          this.checkinCount = data.data.length
-          this.checkinDateList = data.data.map((d) => new Date(parseInt(d, 10)).getDate())
+          const d = null
+          this.checkinDateList = []
+          data.data.forEach((d) => {
+            d = new Date(parseInt(d, 10))
+            if (d.getMonth() + 1 === this.curMonth) {
+               this.checkinDateList.push(d.getDate())
+            }
+          })
+          this.checkinCount = this.checkinDateList.length
         }
       })
     },
