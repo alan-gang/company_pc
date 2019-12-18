@@ -19,7 +19,7 @@
               p.ft12.mt05 每天登入平台，投注达到1000元，即可参与消费签到，签到成功可以领取各种好礼，连续签到还有额外好礼相赠
             section.mt20
               div.color-yellow.ft14 领取时间：
-              p.ft12 每日09:00-24:00
+              p.ft12 全天24小时
               p.ft12.mt05 每日签到立刻领取：2 元礼金
         .checkin-calendar
           CheckInCalendar(@on-choice="checkInHandler" v-bind:checkinDateList="checkinDateList")
