@@ -32,7 +32,7 @@
           .day-28
         .contidion-tip
           | 1.每天达到投注要求点击签到，当天日期及会显示已签到标志；
-          | 2.累计签到达到对应天数的点击领取即可获得对应奖励；
+          | 2.连续签到达到对应天数的点击领取即可获得对应奖励；
           | 3.体验金点击领取后会以现金券的形式发放至【优惠券】中，只需1倍流水即可提款；
     .dialog-result(v-show="showDialogResult")
       .btn-close-result(@click="closeDialogResult")
