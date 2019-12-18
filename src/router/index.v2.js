@@ -18,7 +18,8 @@ const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages
 const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
 const Egamimg = r => require.ensure([], () => r(require('../views/outer/Egamimg')), 'pages-part')
 const Sports = r => require.ensure([], () => r(require('../views/outer/Sports')), 'pages-part')
-
+const LotteryCenter = r => require.ensure([], () => r(require('../views/lotterycenter/LotteryCenter')), 'pages-part')
+const LotteryHistory = r => require.ensure([], () => r(require('../views/lotterycenter/LotteryHistory')), 'pages-part')
 let router = new VueRouter({
   // mode: 'history',
   routes: [
@@ -55,6 +56,20 @@ let router = new VueRouter({
             // rl: true
           },
           component: Pages
+        },
+        {
+          path: '/lotterycenter', //开奖中心
+          meta: {
+
+          },
+          component: LotteryCenter
+        },
+        {
+          path: '/lotteryhistory', //开奖中心 - 更多开奖
+          meta: {
+
+          },
+          component: LotteryHistory
         },
         {
           path: '/group/:url',
