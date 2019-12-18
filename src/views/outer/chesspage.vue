@@ -30,7 +30,7 @@
         </div>
         <div class="right" :class="'nav-list' + (navIndex + 1)">
           <template v-if="activeNav.children">
-            <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx" @click="goGame(game)">
+            <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx" @click="goGame(game)" v-bind:style="{backgroundImage: `url(${game.imageUrl})`}">
               <p class="name">{{game.gameName}}</p>
             </div>
           </template>
