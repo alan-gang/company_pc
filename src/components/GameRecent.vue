@@ -16,7 +16,7 @@
       span.bb.f_r.pointer(@click=" ME.login ? goTrend() : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
 
     .c.t_c.ft12(:class=" gameType ")
-      .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd")
+      .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd" v-bind:class=" { nostyle: !ccs } ")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
         pre.cac.inlb(v-if=" ccs " )
@@ -27,7 +27,7 @@
 
     .c.t_c.absolute.ft12(:class=" gameType ")
 
-      .ca.hlh3(v-for=" (r, i) in allLuckyNumbers ")
+      .ca.hlh3(v-for=" (r, i) in allLuckyNumbers " v-bind:class=" { nostyle: !(codeStyle && row_ccs(r)) && !(!r.code.length && ccs) } ")
         span.caa.inlb {{ r.issue.substr(-4) }}
 
         span.cab.inlb
@@ -344,11 +344,16 @@ export default {
 
     &.PK10
       .caa
-        width 18%
+        width 15%
       .cab
-        width 65%
+        width 68%
       .cac
         width 17%
+      .nostyle
+        .caa
+          width 20%
+        .cab
+          width 80%
 
     &.KL8
       .caa
