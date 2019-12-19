@@ -23,7 +23,7 @@
               div.td
                 el-checkbox(v-model="list" v-bind:label="lottery.lotteryName")
               div.td {{`第${lottery.issue}期开奖`}}
-              div.td {{dayjs(lottery.openDate).format('YYYY.MM.DD HH:mm:ss')}}
+              div.td {{dayjs(lottery.openTime).format('YYYY.MM.DD HH:mm:ss')}}
               div.td.open-code
                 span.num(v-for="num in lottery.code.split(',')") {{num}}
               div.td
@@ -50,7 +50,13 @@ export default {
       dayjs: dayjs,
       thead: ['彩种', '期号', '开奖时间', '开奖号码', '走势图表', '操作'],
       list: [],
-      lotteryHistory: [],
+      lotteryHistory: [{
+        issue: '20190326033',
+        code: '2,3,5,7,9',
+        openTime: new Date().getTime().toString(),
+        lotteryId: 1,
+        lotteryName: '重庆欢乐生肖'
+      }],
       navList: [
         {
           title: '全部',

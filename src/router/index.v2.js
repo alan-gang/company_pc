@@ -65,7 +65,7 @@ let router = new VueRouter({
           component: LotteryCenter
         },
         {
-          path: '/lotteryhistory', //开奖中心 - 更多开奖
+          path: '/lotteryhistory/:id', //开奖中心 - 更多开奖
           meta: {
 
           },
