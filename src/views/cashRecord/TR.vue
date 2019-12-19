@@ -76,7 +76,7 @@
   import api from '../../http/api'
   import {dateTimeFormat} from '../../util/Date'
   import SearchConditions from 'components/SearchConditions'
-  import Tdata from '@/data/transfer_xy.js'
+  import Tdata from '@/data/transfer-xy.js'
   export default {
     name: 'BGTransaction',
     components: {
