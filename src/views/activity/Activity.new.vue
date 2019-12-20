@@ -39,6 +39,9 @@
           case 'goToBag':
             this.$router.push('/activity/5-1-2')
             break
+          case 'goSignIn':
+            this.__setCall({fn: 'openCheckInHandler'})
+            break
           case 'goToList':
             this.href = ''
         }

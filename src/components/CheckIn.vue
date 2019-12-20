@@ -19,7 +19,7 @@
               p.ft12.mt05 每天登入平台，投注达到1000元，即可参与消费签到，签到成功可以领取各种好礼，连续签到还有额外好礼相赠
             section.mt20
               div.color-yellow.ft14 领取时间：
-              p.ft12 每日09:00-24:00
+              p.ft12 全天24小时
               p.ft12.mt05 每日签到立刻领取：2 元礼金
         .checkin-calendar
           CheckInCalendar(@on-choice="checkInHandler" v-bind:checkinDateList="checkinDateList")
@@ -32,7 +32,7 @@
           .day-28
         .contidion-tip
           | 1.每天达到投注要求点击签到，当天日期及会显示已签到标志；
-          | 2.累计签到达到对应天数的点击领取即可获得对应奖励；
+          | 2.连续签到达到对应天数的点击领取即可获得对应奖励；
           | 3.体验金点击领取后会以现金券的形式发放至【优惠券】中，只需1倍流水即可提款；
     .dialog-result(v-show="showDialogResult")
       .btn-close-result(@click="closeDialogResult")
@@ -41,7 +41,9 @@
       ul.prize-wp
         li.prize-row.flex.flex-ai-c(v-for="(p, i) in prizes" v-bind:key="i")
           div {{p}}
-          .color-orange.cursor-p(@click="viewPrize(i)") 查看礼品箱
+          .color-orange.cursor-p(v-if=" p.indexOf('优惠券') !== -1 " @click=" viewPrize('/activity/5-1-3') ") 查看优惠券
+          .color-orange.cursor-p(v-else @click=" viewPrize('/activity/5-1-2') ") 查看礼品箱
+          
 </template>
 
 <script>
@@ -63,7 +65,7 @@ export default {
   },
   mounted() {
     this.curMonth = new Date().getMonth() + 1
-    this.getCheckInfo();
+    this.getCheckInfo()
   },
   methods: {
     checkInHandler() {
@@ -72,15 +74,22 @@ export default {
     closeDialogResult() {
       this.showDialogResult = false
     },
-    viewPrize(type) {
+    viewPrize(url) {
       this.$emit('on-close')
-      this.$router.push(type === 0 ? '/activity/5-1-2' : '/activity/5-1-3')
+      this.$router.push(url)
     },
     getCheckInfo() {
       this.$http.get(api.getCheckInfo).then(({data}) => {
         if (data.success > 0 && data.data.length > 0) {
-          this.checkinCount = data.data.length
-          this.checkinDateList = data.data.map((d) => new Date(parseInt(d, 10)).getDate())
+          const d = null
+          this.checkinDateList = []
+          data.data.forEach((d) => {
+            d = new Date(parseInt(d, 10))
+            if (d.getMonth() + 1 === this.curMonth) {
+               this.checkinDateList.push(d.getDate())
+            }
+          })
+          this.checkinCount = this.checkinDateList.length
         }
       })
     },

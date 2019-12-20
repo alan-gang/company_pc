@@ -97,7 +97,7 @@
           el-col.picture.card(:span="12" )
             .co
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
-              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; ")
 
                 el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " )
                 el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " )

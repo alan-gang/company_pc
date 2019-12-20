@@ -218,7 +218,9 @@
 .flex-jt-c
   justify-content center
 
-
+.flex-wp-wp
+  flex-wrap wrap
+  
 for x in 0..1000
   if x % 5 is 0
     // padding margin
@@ -269,6 +271,8 @@ for x in 0..1000
       width x + '%'
       
     
+.cursor-p
+  cursor pointer    
       
     
 

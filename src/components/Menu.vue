@@ -109,8 +109,6 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-      console.log(item.id);
-      console.log(index);
 
       if (item.id) {
         if (item.ff) {

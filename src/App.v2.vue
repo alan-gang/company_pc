@@ -52,6 +52,10 @@
           AnnualCeremoney(v-bind:showAnnual.sync="showAnnual" v-on:hideAnnual="__hideAnnual" v-bind:data=" oldUserInfo ")
 
 
+    StickyCheckIn(v-if="showStickyCheckIn" @on-open-checkin="openCheckInHandler")
+    .modal.check-in-modal(v-if="showCheckInDialog")
+      .mask
+      CheckIn(@on-close="closeCheckInHandler")
 
 </template>
 
@@ -66,6 +70,8 @@ import dsRighter from './components/Righter'
 import dsHeader from './components/Header'
 import GGL from './components/GGL'
 import RightQuickThirdGame from './components/RightQuickThirdGame'
+import StickyCheckIn from './components/StickyCheckIn'
+import CheckIn from './components/CheckIn'
 // import dsFooter from './components/Footer'
 import Print from './components/Print'
 // import Chat from './components/Chat'
@@ -900,7 +906,9 @@ export default {
       },
       redirect: '',
       // {'game': currentab[0] && currentab[0].href.indexOf('game') !== -1 }
-      appcls: ''
+      appcls: '',
+      showCheckInDialog: false,
+      showStickyCheckIn: true
     }
   },
   computed: {
@@ -1164,6 +1172,7 @@ export default {
     },
     openRoute ({path, params: {url}}) {
       // console.log(this.$route, '!')
+      this.showStickyCheckIn = this.$route.path === '/'
       this.appcls = this.$route.path.indexOf('game') === -1 ? '' : 'game'
       if (!url) store.actions.updateAllPages({active: false})
       else {
@@ -1589,6 +1598,12 @@ export default {
         }
         this.$root.miniIframeGameRetract = !this.$root.miniIframeGameRetract
       }
+    },
+    openCheckInHandler () {
+      this.showCheckInDialog = true
+    },
+    closeCheckInHandler () {
+      this.showCheckInDialog = false
     }
   },
   components: {
@@ -1604,7 +1619,9 @@ export default {
     MenuGuide,
     AnnualCeremoney,
     // Chat
-    RightQuickThirdGame
+    RightQuickThirdGame,
+    StickyCheckIn,
+    CheckIn
   }
 }
 </script>
