@@ -109,8 +109,6 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-      console.log(item.id);
-      console.log(index);
 
       if (item.id) {
         if (item.ff) {
@@ -125,6 +123,12 @@ export default {
             this.openPage(item.id);
           }, 0);
         }
+      }
+      if (item.pathname) {
+        setTimeout(() => {
+          this.shows[index] = false;
+          this.$router.push(item.pathname)
+        }, 0)
       }
     },
     openPage(url) {
@@ -300,7 +304,8 @@ body.cb.v2
       &.KG
         min-height .36rem
         background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
-
+      &.OTHER2
+        background url(../assets/v2/qt.png) .25rem .1rem no-repeat
 
   .footer-popover
     .infos .info

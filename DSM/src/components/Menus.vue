@@ -131,7 +131,7 @@ export default {
     },
     // 多个彩种同时获取正在销售的奖期
     currentList() {
-      if (this.$props.menus.length < 2 && this.$props.menus[0].url === "game") {
+      if (this.$props.menus.length < 2 && this.$props.menus[0] && this.$props.menus[0].url === "game") {
         let ids = [];
         this.$props.menus[0].groups.forEach(a => {
           a.items.forEach(b => {
@@ -248,7 +248,7 @@ export default {
 </style>
 
 <style lang="stylus">
-  .el-menu 
+  .el-menu
     .el-submenu[popper-class="game-menu"]
       .el-submenu__title
         height 46px

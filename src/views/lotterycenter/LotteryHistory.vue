@@ -41,9 +41,9 @@
           span(v-bind:class="{active: searchIndex === 6}" @click="changeSearchIndex(6)") 前天
           div.date-picker-comp
             span 时间
-            el-date-picker(v-model="datePickerVal" type="date" placeholder="选择日期" @change="datePickerChange")
-        span.search-btn 搜索
-      div.lottery-history-table
+            el-date-picker(v-model="datePickerVal" v-bind:picker-options="pickerOptions" type="date" placeholder="选择日期" @change="datePickerChange")
+        span.search-btn(@click="search") 搜索
+      div.lottery-history-table(v-loading="loading")
           div.thead
             span.th.title(v-for="headName in thead") {{headName}}
           div.tbody
@@ -54,7 +54,7 @@
                 div.td.open-code
                   span.num(v-for="num in lottery.code.split(',')") {{num}}
                 div.td
-                  span.icon-zst
+                  span.icon-zst(@click="goZst")
 
 </template>
 
@@ -90,8 +90,15 @@ export default {
       pageSize: 30,
       datePickerVal: '',
       searchIndex: 0,
+      realIndex: 0,
       thead: ['期号', '开奖时间', '开奖号码', '走势图表'],
-      dayjs
+      loading: false,
+      dayjs,
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        }
+      }
     }
   },
   created() {
@@ -151,7 +158,64 @@ export default {
     // 获得历史开奖号码
     this.__recentlyCode()
   },
+  beforeDestroy () {
+    clearTimeout(this.lucknumbersTimeout)
+  },
   methods: {
+    search() {
+      this.realIndex = this.searchIndex
+      let params = this.getParams()
+      this.loading = true
+      this.$http.mypost(api.recentlyCodeNew, params).then(
+        ({data}) => {
+          if (data.success > 0 && data.items.length > 0) {
+            this.allLuckyNumbers = data.items
+          }
+          this.loading = false
+        },
+        (rep) => {
+          this.loading = false
+      })
+    },
+    getParams() {
+      let params = {
+        gameid: Number(this.gameid),
+        pageNum: 1
+      }
+      switch (this.realIndex) {
+        case 0:
+          params.size = 30
+          break
+        case 1:
+          params.size = 50
+          break
+        case 2:
+          params.size = 100
+          break
+        case 3:
+          params.size = 200
+          break
+        case 4:
+          params.date = dayjs().format('YYYY-MM-DD')
+          break
+        case 5:
+          params.date = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+          break
+        case 6:
+          params.date = dayjs().subtract(2, 'day').format('YYYY-MM-DD')
+          break
+        default:
+          params.date = dayjs(this.datePickerVal).format('YYYY-MM-DD')
+      }
+      return params
+    },
+    goZst() {
+      let href = window.location.href
+      let url = 'https://www.ds-graph.com:8000/xy/'
+      if (href.indexOf('.net') !== -1) url = 'https://graph.dongsens.net:8000/xy/'
+      if (href.indexOf('192.168.') !== -1 || href.indexOf('www.game.com') !== -1) url = 'http://192.168.169.75:8000/xy/'
+      window.open(url + '#?gameid=' + this.gameid)
+    },
     datePickerChange(val) {
       if (val) this.searchIndex = ''
     },
@@ -168,7 +232,8 @@ export default {
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCodeNew, {gameid: this.gameid, pageNum: 1, size: 30}).then(({data}) => {
+      let params = this.getParams()
+      this.$http.mypost(api.recentlyCodeNew, params).then(({data}) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {

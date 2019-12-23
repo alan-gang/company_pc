@@ -19,18 +19,18 @@
           div.thead
             span.th.title(v-for="headName in thead") {{headName}}
           div.tbody
-            div.tr(v-for="lottery in lotteryHistory" v-bind:key="lottery.lotteryId + 'id' + lottery.issue")
+            div.tr(v-for="lottery in list" v-bind:key="lottery.lotteryId + 'id' + lottery.issue")
               div.td
-                el-checkbox(v-model="list" v-bind:label="lottery.lotteryName")
+                el-checkbox(v-model="checkedList" v-bind:label="lottery.lotteryName")
               div.td {{`第${lottery.issue}期开奖`}}
               div.td {{dayjs(lottery.openTime).format('YYYY.MM.DD HH:mm:ss')}}
               div.td.open-code
-                span.num(v-for="num in lottery.code.split(',')") {{num}}
+                span.num(v-for="num in lottery.code.split(',')" v-bind:class="{'m-r-5': lottery.code.split(',').length > 5}") {{num}}
               div.td
-                span.icon-zst
+                span.icon-zst(@click="goZst(lottery)")
               div.td
-                span.open-more 更多开奖
-                span.bet 购买彩票
+                span.open-more(@click="go(lottery, 'more')") 更多开奖
+                span.bet(@click="go(lottery)") 购买彩票
 </template>
 
 <script>
@@ -49,14 +49,8 @@ export default {
       radio: '0',
       dayjs: dayjs,
       thead: ['彩种', '期号', '开奖时间', '开奖号码', '走势图表', '操作'],
-      list: [],
-      lotteryHistory: [{
-        issue: '20190326033',
-        code: '2,3,5,7,9',
-        openTime: new Date().getTime().toString(),
-        lotteryId: 1,
-        lotteryName: '重庆欢乐生肖'
-      }],
+      checkedList: [],
+      lotteryHistory: [],
       navList: [
         {
           title: '全部',
@@ -86,12 +80,99 @@ export default {
       isLoading: false
     }
   },
+  computed: {
+    list() {
+      let arr = this.lotteryHistory
+      if (this.radio !== '0') {
+        arr = arr.filter(lottery => {
+          let flag = this.checkedList.includes(lottery.lotteryName)
+          return this.radio === '1' ? flag : !flag
+        })
+      }
+      if (this.navIndex !== 0) {
+        let map = {
+          1: 'SSC',
+          2: 'G115',
+          3: 'K3',
+          4: 'PK10',
+          5: 'OTHER'
+        }
+        arr = arr.filter(lottery => lottery.groupType === map[this.navIndex])
+      }
+      return arr
+    }
+  },
   created() {
-    console.log(this.$attrs)
+    this.getData()
   },
   methods: {
     __openWinCode (x) {
-      console.log(x)
+      let flag = this.lotteryHistory.some(lottery => {
+        if (String(lottery.gameid) === String(x.lottId)) {
+          lottery.issue = x.issue
+          lottery.code = x.code
+          return true
+        }
+      })
+      if (!flag) {
+        let obj = this.getLotteryById(x.lottId)
+        obj.code = x.code
+        obj.issue = x.issue
+        this.lotteryHistory.unshift(obj)
+      }
+    },
+    getData() {
+      let arr = [{
+        issue: '20190326033',
+        code: '2,3,5,7,9',
+        openTime: new Date().getTime().toString(),
+        lotteryId: 1,
+        lotteryName: '重庆欢乐生肖'
+      },
+      {
+        issue: '20190326034',
+        code: '1, 2, 3, 4, 5, 6, 7, 8, 9, 10',
+        openTime: new Date().getTime().toString(),
+        lotteryId: 43,
+        lotteryName: '幸运赛车'
+      }]
+      arr.forEach((lottery, idx) => {
+        let obj = this.getLotteryById(lottery.lotteryId)
+        arr[idx] = Object.assign(obj, lottery)
+      })
+      this.lotteryHistory = arr
+    },
+    go(lottery, type) {
+      if (type) {
+        this.$router.push('/lotteryhistory/' + (lottery.gameid || lottery.lotteryId))
+      } else {
+        if (!lottery.menuid) lottery = Object.assign(this.getLotteryById(lottery.lotteryId), lottery)
+        if (lottery.menuid) {
+          this.$router.push('/game/' + lottery.id)
+        }
+      }
+    },
+    getLotteryById(id) {
+      let game = {}
+      if (this.$attrs.menus && this.$attrs.menus[6]) {
+        this.$attrs.menus[6].groups.some(item => {
+          return item.items.some(lottery => {
+            if (Number(lottery.gameid) === Number(id)) {
+              lottery.groupType = item.url
+              game = lottery
+              return true
+            }
+          })
+        })
+      }
+      return game
+    },
+    goZst(lottery) {
+      let href = window.location.href
+      let url = 'https://www.ds-graph.com:8000/xy/'
+      if (href.indexOf('.net') !== -1) url = 'https://graph.dongsens.net:8000/xy/'
+      if (href.indexOf('192.168.') !== -1 || href.indexOf('www.game.com') !== -1) url = 'http://192.168.169.75:8000/xy/'
+      window.open(url + '#?gameid=' + lottery.lotteryId)
     }
   }
 }
@@ -169,6 +250,8 @@ export default {
         border-radius 50%
         color #fff
         margin-right .22rem
+        &.m-r-5
+          margin-right 5px
         &:last-child
           margin-right 0
     .open-more
