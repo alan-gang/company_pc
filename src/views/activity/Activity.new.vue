@@ -36,6 +36,9 @@
       this.getAllActivityList()
       window.closeIFrame = ({action}) => {
         switch (action) {
+          case 'goToCoupon':
+            this.$router.push('/activity/5-1-3') //优惠券列表
+            break
           case 'goToBag':
             this.$router.push('/activity/5-1-2')
             break
