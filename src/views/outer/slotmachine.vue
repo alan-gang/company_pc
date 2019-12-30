@@ -34,7 +34,6 @@
           <h3 class="title">游戏列表</h3>
           <div class="game-list">
             <div class="game" v-for="(temp, idx) in activeNav.children" v-bind:key="idx" :style="{backgroundImage: `url(${temp.imageUrl})`}" @click="goGame(temp)">
-              <img :src="temp.imageUrl" alt="">
               <p class="name">{{temp.gameName}}</p>
             </div>
           </div>
@@ -329,6 +328,7 @@ export default {
         background-repeat no-repeat
         background-position left top
         margin-bottom 10px
+        background-size contain
         &:last-child
           margin-right 0
         .name
