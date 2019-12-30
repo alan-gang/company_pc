@@ -33,7 +33,8 @@
         <div class="group more">
           <h3 class="title">游戏列表</h3>
           <div class="game-list">
-            <div class="game" v-for="(temp, idx) in activeNav.children" v-bind:key="idx" :style="{backgroundImage: `url(${temp.imageUrl})`}" @click="goGame(temp)">
+            <div class="game" v-for="(temp, idx) in activeNav.children" v-bind:key="idx" @click="goGame(temp)">
+              <div class="game-img" :style="{backgroundImage: `url(${temp.imageUrl})`}"></div>
               <p class="name">{{temp.gameName}}</p>
             </div>
           </div>
@@ -323,50 +324,18 @@ export default {
         width 230px
         height 200px
         box-sizing border-box
-        padding-top 150px
         margin-right 10px
-        background-repeat no-repeat
-        background-position left top
         margin-bottom 10px
-        background-size contain
         &:last-child
           margin-right 0
+        .game-img
+          height 150px
+          background-repeat no-repeat
+          background-position left top
+          background-size 100% 100%
         .name
           line-height 50px
           background #fff
           text-align center
           color #333
-    .hot .game
-      &:nth-child(1)
-        background-image url('~@/assets/outer/slotmachine/g1.jpg')
-      &:nth-child(2)
-        background-image url('~@/assets/outer/slotmachine/g2.jpg')
-      &:nth-child(3)
-        background-image url('~@/assets/outer/slotmachine/g3.jpg')
-      &:nth-child(4)
-        background-image url('~@/assets/outer/slotmachine/g4.jpg')
-      &:nth-child(5)
-        background-image url('~@/assets/outer/slotmachine/g5.jpg')
-    .more .game
-      &:nth-child(1)
-        background-image url('~@/assets/outer/slotmachine/g6.jpg')
-      &:nth-child(2)
-        background-image url('~@/assets/outer/slotmachine/g7.jpg')
-      &:nth-child(3)
-        background-image url('~@/assets/outer/slotmachine/g8.jpg')
-      &:nth-child(4)
-        background-image url('~@/assets/outer/slotmachine/g9.jpg')
-      &:nth-child(5)
-        background-image url('~@/assets/outer/slotmachine/g10.jpg')
-      &:nth-child(6)
-        background-image url('~@/assets/outer/slotmachine/g11.jpg')
-      &:nth-child(7)
-        background-image url('~@/assets/outer/slotmachine/g12.jpg')
-      &:nth-child(8)
-        background-image url('~@/assets/outer/slotmachine/g13.jpg')
-      &:nth-child(9)
-        background-image url('~@/assets/outer/slotmachine/g14.jpg')
-      &:nth-child(10)
-        background-image url('~@/assets/outer/slotmachine/g15.jpg')
-
 </style>
