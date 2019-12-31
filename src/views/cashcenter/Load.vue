@@ -10,23 +10,17 @@
         .notice(style="margin: 0 0 .2rem 0")
           span.title 温馨提示：
           p.content
-            | 1.请
-            span.text-danger 切勿重复
-            | 扫描收款二维码进行付款！
+            | 1.请实时发起充值申请，
+            span.text-danger 切勿重复扫描二维码或者保存账号进行付款，不要修改付款金额！
             br
-            | 2.请确保发起充值
-            span.text-danger 申请金额和付款金额一致！
-            | 不要修改付款金额！
+            | 2.如您
+            span.text-danger 重复扫码/修改充值金额/付款到过期收款方造成资金损失！平台不予处理！
+            | 感谢您的配合和支持！
             br
-            | 3.请实时发起充值申请
-            span.text-danger 获取最新
-            | 收款方信息！
-            br
-            | 4.网银转账渠道需要
-            span.text-danger 正确填写附言信息！
-            | 请你仔细阅读注意事项按照流程进行充值！如您重复扫码/修改充值金额/付款到过期收款方造成资金损失！平台不予处理！感谢您的配合和支持！
-            br
-            | 5.网银转账和银联扫码赠送的礼金将直接发放到优惠券中，点击使用优惠券，即可活动对应礼金，更多详情请查看优惠活动
+            | 3.
+            span.text-danger 网银转账和银联扫码
+            | 赠送的礼金将直接发放到优惠券中
+
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 用户名：
@@ -1019,8 +1013,8 @@ export default {
   .item
     margin .1rem 0
   .notice
-    font-size .12rem
-    line-height .22rem
+    font-size .18rem
+    line-height 1.8em
     margin 0 .2rem
     padding PWX
     background-color #fffde8
