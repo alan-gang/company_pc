@@ -4,19 +4,19 @@
     <div class="cw">
       <img class="titleimg" src="../../assets/outer/fishing/3.png" />
       <img class="girl" src="../../assets/outer/fishing/4.png" />
-      <el-row class="list">
+      <el-row class="list mt">
         <el-col :span="8">
-          <div class="gameimg">
+          <div class="gameimg" @click="goGame(agId)">
             <img src="../../assets/outer/fishing/7.png" />
             <img class="gametextimg" src="../../assets/outer/fishing/8.png" />
           </div>
           <div class="gametext">
-            余额: {{numberWithCommas(user.agmoney)}}
+            余额: {{numberWithCommas(agmoney)}}
             <div class="sub" v-on:click="goTransferAccounts()">转账</div>
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="gameimg">
+          <div class="gameimg" @click="goGame(bgId)">
             <img src="../../assets/outer/fishing/10.png" />
             <img class="gametextimg" src="../../assets/outer/fishing/11.png" />
           </div>
@@ -26,12 +26,44 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="gameimg">
+          <div class="gameimg"  @click="goGame(ptId)">
             <img src="../../assets/outer/fishing/12.png" />
             <img class="gametextimg" src="../../assets/outer/fishing/13.png" />
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.ptmoney)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="list">
+        <el-col :span="8">
+          <div class="gameimg" @click="goGame(saId)">
+            <img src="../../assets/outer/fishing/15.png" />
+            <img class="gametextimg game-sa" src="../../assets/outer/fishing/14.png" />
+          </div>
+          <div class="gametext">
+            余额: {{numberWithCommas(user.saEgameAmount)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="gameimg" @click="goGame(kyId)">
+            <img src="../../assets/outer/fishing/16.png" />
+            <img class="gametextimg game-ky" src="../../assets/outer/fishing/17.png" />
+          </div>
+          <div class="gametext">
+            余额: {{numberWithCommas(user.kymoney)}}
+            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="gameimg" @click="goGame(lyId)">
+            <img src="../../assets/outer/fishing/18.png" />
+            <img class="gametextimg game-ly" src="../../assets/outer/fishing/19.png" />
+          </div>
+          <div class="gametext">
+            余额: {{numberWithCommas(user.lymoney)}}
             <div class="sub" v-on:click="goTransferAccounts()">转账</div>
           </div>
         </el-col>
@@ -43,12 +75,20 @@
 <script>
 import store from '../../store'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
+import api from '@/http/api'
 export default {
   props: [],
   data() {
     return {
       user: store.state.user,
-      numberWithCommas: numberWithCommas
+      numberWithCommas: numberWithCommas,
+      gameGroupId: 5,
+      agId: 4,
+      ptId: 5,
+      lyId: 15,
+      kyId: 7,
+      bgId: 2,
+      saId: 32
     };
   },
   watch: {},
@@ -60,13 +100,23 @@ export default {
   methods: {
     goTransferAccounts() {
       this.$router.push({path: '/me/2-1-3'})
+    },
+    goGame(groupId) {
+      this.$http.get(api.gameUrl, {platid: groupId})
+      .then(({data}) => {
+        if (data.success === 1) {
+          let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + groupId + '&gameUrl='
+          gameUrl += encodeURIComponent(data.url)
+          window.open(gameUrl)
+        }
+      })
     }
   }
 };
 </script>
 <style lang="less">
 .fishing {
-  height: 1450px;
+  height: 1854px;
   position: relative;
   &::before {
     content: "";
@@ -101,10 +151,19 @@ export default {
   }
   .cw {
     .list {
-      padding-top: 580px;
       text-align: center;
+      margin-bottom: 60px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &.mt {
+        padding-top: 580px;
+      }
       .gameimg {
         position: relative;
+        height: 434px;
+        overflow-y: hidden;
+        cursor: pointer;
         &::before {
           content: "";
           display: block;
@@ -130,6 +189,15 @@ export default {
         }
         .gametextimg {
           margin: -30px auto 0 auto;
+          &.game-sa {
+            margin-top: 10px;
+          }
+          &.game-ky {
+            margin-top: -10px
+          }
+          &.game-ly {
+            margin-top: -50px;
+          }
         }
       }
       .gametext {
