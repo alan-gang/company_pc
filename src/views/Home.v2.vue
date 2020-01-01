@@ -358,7 +358,7 @@ export default {
       })
     },
     openBG (fn) {
-      if (fn.split(':')[2] === 'iframe') {
+      if (fn !== '5:203:iframe:/egame/2' && fn.split(':')[2] === 'iframe') {
         let path = fn.split(':')[3]
         path = path === '/sports' ? '/sportsevent' : path
         this.$router.push(path || '/game/1-8-1')
@@ -394,9 +394,11 @@ export default {
           this.formData[fn] = undefined
           this.__setCall({fn: '__setIframeSrc', args: this.ifsrc})
           this.__setCall({fn: '__setIframeSrcKey', args: fn})
-          let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
-          gameUrl += encodeURIComponent(this.ifsrc)
-          window.open(gameUrl)
+          if (fn !== '5:203:iframe:/egame/2') {
+            let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
+            gameUrl += encodeURIComponent(this.ifsrc)
+            window.open(gameUrl)
+          }
           return false
         }
         // window.open(this.formData[fn])
