@@ -26,7 +26,7 @@ export default {
     getThirdGames(index) {
       let activeNav = this.navList[index]
       if (!activeNav.children) {
-        this.$http.get(api.getThirdGames, {platId: activeNav.platId, gameGroupId: this.gameGroupId, pageSize: this.pageSize})
+        this.$http.myget(api.getThirdGames, {platId: activeNav.platId, gameGroupId: this.gameGroupId, pageSize: this.pageSize})
         .then(({data}) => {
           if (data.success === 1) {
             this.navList[index].children = data.list

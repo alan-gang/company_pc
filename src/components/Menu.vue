@@ -341,7 +341,10 @@ body.cb.v2
         background-image url(../assets/newhome/logo_sa_big.png)
       &.ds-icon-logo-og
         background-image url(../assets/newhome/logo_og.png)
-
+      &.ds-icon-logo-kyby
+        background-image url(../assets/newhome/kyby.png)
+      &.ds-icon-logo-lyby
+        background-image url(../assets/newhome/lyby.png)
 
 
 

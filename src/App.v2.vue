@@ -421,7 +421,9 @@ export default {
             {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
             {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
             {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'},
-            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'}
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'},
+            {menuid: '98', class: 'ds-icon-logo-kyby', id: '9-9-9', fn: '7:510'},
+            {menuid: '98', class: 'ds-icon-logo-lyby', id: '9-9-9', fn: '15:510'}
           ]
         },
         {

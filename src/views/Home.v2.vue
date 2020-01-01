@@ -59,7 +59,7 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
               el-row.absolute.e-game
-                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/2', fn: '5:203:iframe:/egame/2'}}) ")
+                el-col.pt(:span="6" @click.native=" goPt ")
                 el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ")
                 el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ")
                 el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ")
@@ -71,7 +71,7 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_02.jpg")
               el-row.absolute
-                el-col.pt(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+                el-col.pt(:span="6" @click.native=" goPt ")
                 el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ")
                 el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
                 el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ")
@@ -112,10 +112,12 @@
             .co
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
-                el-col.pt(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame'}}) ")
+                el-col.pt(:span="8" @click.native=" goPt ")
                 el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
                 el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
                 el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ")
+                el-col.kyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:510'}}) ")
+                el-col.lyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:510'}}) ")
             p
               span.t1 捕鱼达人 &nbsp;&nbsp;
               span.t2 FISHING
@@ -126,7 +128,8 @@
               el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
                 el-col(:span="8" )
                 el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ")
-                el-col(:span="8" )
+                el-col.dj-xa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '29:203'}}) ")
+                el-col(:span="4" )
                 //- el-col.t_c.ft18(:span="24") 敬请期待
 
             p
@@ -295,6 +298,10 @@ export default {
     this.t2 = 0
   },
   methods: {
+    goPt() {
+      this.$router.push('/ptgame')
+      this.__setCall({fn: '__openWindowWithPost', args: '5:203:iframe:/egame/2'})
+    },
     getActivityBanner () {
       this.$http.get(api.getActivityBanner).then(({data}) => {
         if (data.success === 1) {
@@ -401,7 +408,10 @@ export default {
           }
           return false
         }
-        // window.open(this.formData[fn])
+        // 东方真人 设置了 sameorigin  所以不能使用iframe嵌套
+        if (fn === '34:41') {
+          return window.open(this.formData[fn])
+        }
         let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
         gameUrl += encodeURIComponent(this.formData[fn])
         window.open(gameUrl)
@@ -716,8 +726,12 @@ export default {
 
         &.el-col-6
           background-size 1.4rem
-
-
+        &.dj-xa
+          background-image url(../assets/v2/logo_xa_big.png)
+        &.kyby
+          background-image url(../assets/newhome/kyby.png)
+        &.lyby
+          background-image url(../assets/newhome/lyby.png)
 
     &:hover
       .absolute
