@@ -13,6 +13,9 @@ body,
   display: flex;
   flex-direction: column;
 }
+#app[v-cloak] {
+  display: none;
+}
 #app > section {
   flex: 1;
 }

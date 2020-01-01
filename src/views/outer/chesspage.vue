@@ -19,12 +19,12 @@
           >
             <div class="top">
               <span class="name">{{ nav.title }}</span>
-              <span class="go-lobby" v-on:click="open(gameInfo[idx + 1])">进入大厅</span>
+              <span class="go-lobby" v-on:click.stop="open(gameInfo[idx + 1])">进入大厅</span>
             </div>
             <div class="bottom">
               账户余额：<span class="balance">¥{{numberWithCommas(user[nav.attr])}}</span>
-              <i class="refresh"></i>
-              <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
+              <i class="refresh" v-on:click.stop="getBalanceById(nav.platId, nav.attr)"></i>
+              <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
             </div>
           </div>
         </div>
@@ -75,12 +75,12 @@ export default {
           platId: 22,
           children: ''
         },
-        {
-          title: '财神棋牌',
-          attr: 'vgAmount',
-          platId: 27,
-          children: ''
-        },
+        // {
+        //   title: '财神棋牌',
+        //   attr: 'vgAmount',
+        //   platId: 27,
+        //   children: ''
+        // },
         {
           title: '德胜棋牌',
           attr: 'dsAmount',
@@ -301,6 +301,16 @@ export default {
             float right
             padding 0 12px
             color #fff
+            cursor pointer
+          .refresh
+            display inline-block
+            width 23px
+            height 23px
+            background-image url('~@/assets/outer/recreation/11.png')
+            background-repeat no-repeat
+            background-size contain
+            vertical-align middle
+            margin-left 8px
             cursor pointer
     .right
       width 880px

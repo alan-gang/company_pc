@@ -50,6 +50,13 @@ let router = new VueRouter({
           component: SlotMachine
         },
         {
+          path: '/ptgame',
+          meta: {
+            rl: true
+          },
+          component: Egame
+        },
+        {
           path: '/egaming',
           meta: {
             rl: true

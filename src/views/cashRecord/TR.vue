@@ -13,44 +13,44 @@
         //- el-button(v-for="(c, i) in searchConditions" v-bind:class="{selected: quickDateIdx === i}" @click="quickDateIdx = i") {{c}}
         SearchConditions(@choiced="choicedSearchCondition")
 
-        //- label.item 时间范围  
+        //- label.item 时间范围
         //-   el-date-picker( :picker-options="pickerOptions" v-model="stEt" type="daterange" placeholder="选择日期范围" v-bind:clearable="clearableOnTime")
         //- | &nbsp;&nbsp;
-        
+
         el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="outPopover = true" @hide="outPopover = false")
           acc-ls(v-bind:accHistory="outAccHistory" v-bind:froms="froms" trigerSource="out" @acc-choiced="accChoiced")
-          span.flex.flex-ai-c.ml10(slot="reference") 
-            span.mr5 转出 
+          span.flex.flex-ai-c.ml10(slot="reference")
+            span.mr5 转出
             span.flex.flex-ai-c.out-acc
               i {{fromAcc}}
               i(v-bind:class="{'el-icon-caret-bottom': !outPopover, 'el-icon-caret-top': outPopover}")
             //- el-select(clearable v-model="f" style="width: 1.2rem" placeholder="无")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
-        
+
         | &nbsp;&nbsp;
-        
+
         el-popover(placement="bottom" width="420" trigger="click" popper-class="account-popover" v-bind:visible-arrow="false" @show="inPopover = true" @hide="inPopover = false")
           acc-ls(v-bind:accHistory="inAccHistory" v-bind:froms="froms" trigerSource="in" @acc-choiced="accChoiced")
-          span.flex.flex-ai-c.ml10(slot="reference") 
-            span.mr5 转入 
+          span.flex.flex-ai-c.ml10(slot="reference")
+            span.mr5 转入
             span.flex.flex-ai-c.in-acc
               i {{toAcc}}
               i(v-bind:class="{'el-icon-caret-bottom': !inPopover, 'el-icon-caret-top': inPopover}")
             //- el-select(clearable v-model="t" style="width: 1.2rem" placeholder="无")
               el-option(v-for="(n, i) in froms" v-bind:label=" n.split(':')[0] " v-bind:value="i" v-if="n")
-        
+
         | &nbsp;&nbsp;
 
 
-        label.item 状态  
+        label.item 状态
           el-select(clearable v-model="s" style="width: .8rem" placeholder="无")
             el-option(v-for="(n, i) in S" v-bind:label="n" v-bind:value="i" v-if="n")
 
         .ds-button.primary.large.bold(@click="getData" style="margin-left: .15rem;") 搜索
         //- .buttons(style="margin-left: .6rem; margin-top: .1rem")
-        
+
       .table-list(style="padding: .15rem .2rem " stripe)
-      
+
         el-table.header-bold.nopadding(:data="data"  style=""   ref="table" stripe v-bind:max-height=" MH ")
 
           el-table-column(class-name="pl2" prop="from" label="从...转出" )
@@ -58,13 +58,13 @@
           el-table-column(prop="to" label="转入到" )
 
           el-table-column(prop="time" label="时间" )
-          
+
           el-table-column(prop="amount" label="金额" )
 
           el-table-column(prop="state" label="状态" )
             template(scope="scope")
               span(:class=" SC[scope.row.stateIndex] ") {{ S[scope.row.stateIndex] }}
-  
+
 
 
         el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
@@ -148,7 +148,10 @@
           "财神账号:27",
           "GD账户:26",
           "德胜账户:28",
-          "小艾账户:29"
+          "小艾账户:29",
+          "SA账户:31",
+          "SA电游账户:32",
+          "OG账户:34"
         ],
         f: "",
         t: "",
@@ -326,7 +329,7 @@
       border solid 1px #f37e0c
     .ds-button
       border-radius 0.03rem
-  
+
   .out-acc,
   .in-acc
     // display inline-block

@@ -8,16 +8,15 @@
       <img src="~@/assets/outer/recreation/7.png" alt="" class="titleimg4">
       <img src="~@/assets/outer/recreation/8.png" alt="" class="titleimg1">
       <img src="~@/assets/outer/recreation/9.png" alt="" class="titleimg6">
-      <div class="nav-list">
-        <el-icon name="arrow-left" v-show="flagLeft" v-on:click.native="pagination(0, swiperIndex - 1)"></el-icon>
-        <el-icon name="arrow-right" v-show="flagRight" v-on:click.native="pagination(1, swiperIndex + 1)"></el-icon>
-        <swiper class="my-swiper swiper-no-swiping" v-bind:options="swiperOption" ref="mySwiper">
-          <swiper-slide
+      <div class="nav-list left">
+        <!-- <el-icon name="arrow-left" v-show="flagLeft" v-on:click.native="pagination(0, swiperIndex - 1)"></el-icon> -->
+        <!-- <el-icon name="arrow-right" v-show="flagRight" v-on:click.native="pagination(1, swiperIndex + 1)"></el-icon> -->
+        <!-- <swiper class="my-swiper swiper-no-swiping" v-bind:options="swiperOption" ref="mySwiper"> -->
+          <div
             class="item"
-            v-on:click="activeIndex = 0"
             v-for="(nav, idx) in navList"
             v-bind:key="nav.title"
-            v-on:click.native="navIndex = idx"
+            v-on:click="navIndex = idx"
             v-bind:class="{active: navIndex === idx}"
           >
             <div class="top">
@@ -26,16 +25,17 @@
             </div>
             <div class="bottom">
               账户余额：<span class="balance">¥{{numberWithCommas(user[nav.attr])}}</span>
-              <i class="refresh"></i>
-              <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
+              <i class="refresh" v-on:click.stop="getBalanceById(nav.platId, nav.attr)"></i>
+              <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
             </div>
-          </swiper-slide>
-        </swiper>
+          </div>
+        <!-- </swiper> -->
       </div>
 
-      <div class="game-list" v-bind:class="'group' + (navIndex + 1)">
+      <div class="game-list right" v-bind:class="'group' + (navIndex + 1)">
         <template v-if="navList[navIndex].children">
-          <div class="game" v-for="game in navList[navIndex].children" v-bind:key="game" @click="goGame(game)">
+          <div class="game" v-for="(game, idx) in navList[navIndex].children" v-bind:key="game.gameName + idx" @click="goGame(game)">
+            <div class="game-img" :style="`${game.imageUrl ? 'background-image: url(' + game.imageUrl + ')' : ''}`"></div>
             <p class="name">{{game.gameName}}</p>
           </div>
         </template>
@@ -65,12 +65,48 @@ export default {
       user: store.state.user,
       numberWithCommas: numberWithCommas,
       navList: [
-        {
-          title: 'PT真人娱乐',
-          attr: 'ptmoney',
-          platId: 5,
-          children: ''
-        },
+        // {
+        //   title: 'PT真人娱乐',
+        //   attr: 'ptmoney',
+        //   platId: 5,
+        //   children: [
+        //     {
+        //       gameName: '传统百家乐',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '特色百家乐',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '骰宝',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '轮盘',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '龙虎',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '牛牛',
+        //       platId: 5,
+        //       gameId: 203
+        //     },
+        //     {
+        //       gameName: '炸金花',
+        //       platId: 5,
+        //       gameId: 203
+        //     }
+        //   ]
+        // },
         {
           title: 'AG真人娱乐',
           attr: 'agmoney',
@@ -94,24 +130,19 @@ export default {
           attr: 'saAmount',
           platId: 31,
           children: ''
+        },
+        {
+          title: 'OG真人娱乐',
+          attr: 'dfAmount',
+          platId: 34,
+          children: ''
         }
       ],
       flagLeft: false,
       flagRight: true,
       swiperIndex: 0,
       pageSize: 9,
-      gameGroupId: 3,
-      swiperOption: {
-        slidesPerView: 3,
-        spaceBetween: 15,
-        onSlideChangeStart: swiper => {
-          if (swiper.realIndex) {
-            this.flag = true
-          } else {
-            this.flag = false
-          }
-        }
-      }
+      gameGroupId: 3
     };
   },
   watch: {},
@@ -132,16 +163,6 @@ export default {
   mounted() {},
   beforeDestroy() {},
   methods: {
-    pagination(type, idx) {
-      this.swiperIndex = idx
-      this.flagLeft = idx !== 0
-      this.flagRight = idx !== 2
-      if (type) {
-        this.$refs.mySwiper.swiper.slideNext()
-      } else {
-        this.$refs.mySwiper.swiper.slidePrev()
-      }
-    },
     open (item, index) {
       this.__setCall({
         fn: '__closeGuide'
@@ -243,7 +264,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     height: 100%;
-    padding-top: 640px;
+    padding-top: 696px;
     box-sizing: border-box;
   }
 }
@@ -251,22 +272,16 @@ export default {
 
 <style lang="stylus">
 .recreation
+  overflow hidden
+  .left
+    width 310px
+    float left
+  .right
+    width 850px
+    float right
   .nav-list
     height 120px
     position relative
-    .el-icon-arrow-left
-    .el-icon-arrow-right
-      position absolute
-      top 50%
-      left -46px
-      transform translateY(-50%)
-      font-size 40px
-      color #999
-      z-index 9
-      cursor pointer
-      &.el-icon-arrow-right
-        right -46px
-        left auto
     .item.active
       background #d2be83
       .name
@@ -274,8 +289,10 @@ export default {
       .go-lobby
         background #6a604a
         color #fbe3a8
+      .transfer-accounts
+        color #333
     .item
-      width 390px
+      width 310px
       height 120px
       background #302b2a
       border-radius 8px
@@ -283,7 +300,7 @@ export default {
       padding 30px 26px 0px
       position relative
       float left
-      margin-right 15px
+      margin-bottom 15px
       &:last-child
         margin-right 0
       .name
@@ -316,103 +333,128 @@ export default {
           color #ff3854
           font-size 18px
           font-weight bold
+          vertical-align middle
+        .refresh
+          display inline-block
+          width 23px
+          height 23px
+          background-image url('~@/assets/outer/recreation/11.png')
+          background-repeat no-repeat
+          background-size contain
+          vertical-align middle
+          margin-left 8px
+          cursor pointer
   .game-list
-    margin-top 35px
     .game
-      width 390px
-      height 230px
+      width 270px
+      height 270px
       box-sizing border-box
-      padding-top 180px
       float left
       background-repeat no-repeat
-      margin-right 10px
-      margin-bottom 26px
+      margin-right 20px
       cursor pointer
+      margin-bottom 25px
+      &:nth-child(3n)
+        margin-right 0
+      .game-img
+        height 220px
+        background-size 100% 100%
+        border-radius 10px 10px 0 0
       .name
         line-height 50px
         text-align center
         color #333
         font-size 18px
         background #fff
-        margin-bottom 25px
+        border-radius 0 0 10px 10px
         &:nth-child(3n)
           margin-right 0
 
   .group1
+    .game .game-image
+      background-size cover
+      background-position center
     .game:nth-child(1)
-      background-image url('~@/assets/outer/recreation/pt01.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt01.jpg')
     .game:nth-child(2)
-      background-image url('~@/assets/outer/recreation/pt02.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt02.jpg')
     .game:nth-child(3)
-      background-image url('~@/assets/outer/recreation/pt03.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt03.jpg')
     .game:nth-child(4)
-      background-image url('~@/assets/outer/recreation/pt04.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt04.jpg')
     .game:nth-child(5)
-      background-image url('~@/assets/outer/recreation/pt05.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt05.jpg')
     .game:nth-child(6)
-      background-image url('~@/assets/outer/recreation/pt06.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt06.jpg')
     .game:nth-child(7)
-      background-image url('~@/assets/outer/recreation/pt07.jpg')
-  .group2
-    .game:nth-child(1)
-      background-image url('~@/assets/outer/recreation/ag01.jpg')
-    .game:nth-child(2)
-      background-image url('~@/assets/outer/recreation/ag02.jpg')
-    .game:nth-child(3)
-      background-image url('~@/assets/outer/recreation/ag03.jpg')
-    .game:nth-child(4)
-      background-image url('~@/assets/outer/recreation/ag04.jpg')
-    .game:nth-child(5)
-      background-image url('~@/assets/outer/recreation/ag05.jpg')
-    .game:nth-child(6)
-      background-image url('~@/assets/outer/recreation/ag06.jpg')
-    .game:nth-child(7)
-      background-image url('~@/assets/outer/recreation/ag07.jpg')
-  .group3
-    .game:nth-child(1)
-      background-image url('~@/assets/outer/recreation/bg01.jpg')
-    .game:nth-child(2)
-      background-image url('~@/assets/outer/recreation/bg02.jpg')
-    .game:nth-child(3)
-      background-image url('~@/assets/outer/recreation/bg03.jpg')
-    .game:nth-child(4)
-      background-image url('~@/assets/outer/recreation/bg04.jpg')
-    .game:nth-child(5)
-      background-image url('~@/assets/outer/recreation/bg05.jpg')
-    .game:nth-child(6)
-      background-image url('~@/assets/outer/recreation/bg06.jpg')
-    .game:nth-child(7)
-      background-image url('~@/assets/outer/recreation/bg07.jpg')
-    .game:nth-child(8)
-      background-image url('~@/assets/outer/recreation/bg08.jpg')
-  .group4
-    .game:nth-child(1)
-      background-image url('~@/assets/outer/recreation/gd01.jpg')
-    .game:nth-child(2)
-      background-image url('~@/assets/outer/recreation/gd02.jpg')
-    .game:nth-child(3)
-      background-image url('~@/assets/outer/recreation/gd03.jpg')
-    .game:nth-child(4)
-      background-image url('~@/assets/outer/recreation/bg01.jpg')
-    .game:nth-child(5)
-      background-image url('~@/assets/outer/recreation/gd05.jpg')
-    .game:nth-child(6)
-      background-image url('~@/assets/outer/recreation/gd06.jpg')
-    .game:nth-child(7)
-      background-image url('~@/assets/outer/recreation/gd07.jpg')
-  .group5
-    .game:nth-child(1)
-      background-image url('~@/assets/outer/recreation/gd01.jpg')
-    .game:nth-child(2)
-      background-image url('~@/assets/outer/recreation/gd02.jpg')
-    .game:nth-child(3)
-      background-image url('~@/assets/outer/recreation/gd03.jpg')
-    .game:nth-child(4)
-      background-image url('~@/assets/outer/recreation/bg01.jpg')
-    .game:nth-child(5)
-      background-image url('~@/assets/outer/recreation/gd05.jpg')
-    .game:nth-child(6)
-      background-image url('~@/assets/outer/recreation/gd06.jpg')
-    .game:nth-child(7)
-      background-image url('~@/assets/outer/recreation/gd07.jpg')
+      .game-img
+        background-image url('~@/assets/outer/recreation/pt07.jpg')
+  // .group2
+  //   .game:nth-child(1)
+  //     background-image url('~@/assets/outer/recreation/ag01.jpg')
+  //   .game:nth-child(2)
+  //     background-image url('~@/assets/outer/recreation/ag02.jpg')
+  //   .game:nth-child(3)
+  //     background-image url('~@/assets/outer/recreation/ag03.jpg')
+  //   .game:nth-child(4)
+  //     background-image url('~@/assets/outer/recreation/ag04.jpg')
+  //   .game:nth-child(5)
+  //     background-image url('~@/assets/outer/recreation/ag05.jpg')
+  //   .game:nth-child(6)
+  //     background-image url('~@/assets/outer/recreation/ag06.jpg')
+  //   .game:nth-child(7)
+  //     background-image url('~@/assets/outer/recreation/ag07.jpg')
+  // .group3
+  //   .game:nth-child(1)
+  //     background-image url('~@/assets/outer/recreation/bg01.jpg')
+  //   .game:nth-child(2)
+  //     background-image url('~@/assets/outer/recreation/bg02.jpg')
+  //   .game:nth-child(3)
+  //     background-image url('~@/assets/outer/recreation/bg03.jpg')
+  //   .game:nth-child(4)
+  //     background-image url('~@/assets/outer/recreation/bg04.jpg')
+  //   .game:nth-child(5)
+  //     background-image url('~@/assets/outer/recreation/bg05.jpg')
+  //   .game:nth-child(6)
+  //     background-image url('~@/assets/outer/recreation/bg06.jpg')
+  //   .game:nth-child(7)
+  //     background-image url('~@/assets/outer/recreation/bg07.jpg')
+  //   .game:nth-child(8)
+  //     background-image url('~@/assets/outer/recreation/bg08.jpg')
+  // .group4
+  //   .game:nth-child(1)
+  //     background-image url('~@/assets/outer/recreation/gd01.jpg')
+  //   .game:nth-child(2)
+  //     background-image url('~@/assets/outer/recreation/gd02.jpg')
+  //   .game:nth-child(3)
+  //     background-image url('~@/assets/outer/recreation/gd03.jpg')
+  //   .game:nth-child(4)
+  //     background-image url('~@/assets/outer/recreation/bg01.jpg')
+  //   .game:nth-child(5)
+  //     background-image url('~@/assets/outer/recreation/gd05.jpg')
+  //   .game:nth-child(6)
+  //     background-image url('~@/assets/outer/recreation/gd06.jpg')
+  //   .game:nth-child(7)
+  //     background-image url('~@/assets/outer/recreation/gd07.jpg')
+  // .group5
+  //   .game:nth-child(1)
+  //     background-image url('~@/assets/outer/recreation/gd01.jpg')
+  //   .game:nth-child(2)
+  //     background-image url('~@/assets/outer/recreation/gd02.jpg')
+  //   .game:nth-child(3)
+  //     background-image url('~@/assets/outer/recreation/gd03.jpg')
+  //   .game:nth-child(4)
+  //     background-image url('~@/assets/outer/recreation/bg01.jpg')
+  //   .game:nth-child(5)
+  //     background-image url('~@/assets/outer/recreation/gd05.jpg')
+  //   .game:nth-child(6)
+  //     background-image url('~@/assets/outer/recreation/gd06.jpg')
+  //   .game:nth-child(7)
+  //     background-image url('~@/assets/outer/recreation/gd07.jpg')
 </style>

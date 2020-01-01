@@ -75,6 +75,7 @@
                 el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ")
                 el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
                 el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ")
+                el-col.og(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '34:41'}}) ")
             p
               span.t1 真人娱乐 &nbsp;&nbsp;
               span.t2 CASINO
@@ -690,6 +691,8 @@ export default {
           background-image url(../assets/newhome/logo_bg_big.png)
         &.sa
           background-image url(../assets/newhome/logo_sa_big.png)
+        &.og
+          background-image url('../assets/newhome/logo_og_big.png')
         &.sb
           background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky

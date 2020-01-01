@@ -6,51 +6,69 @@
       <div class="accounts-list">
         <div class="item uwin" v-bind:class="{active: activeIndex === 0}" v-on:click="activeIndex = 0">
           <div class="top">
-            <span class="go-lobby" v-on:click="open(gameInfo[1])">进入大厅</span>
+            <span class="go-lobby" v-on:click.stop="open(gameInfo[1])">进入大厅</span>
           </div>
           <div class="bottom">
             账户余额：<span class="balance">¥{{numberWithCommas(user.uwinmoney)}}</span>
-            <i class="refresh"></i>
-            <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
+            <i class="refresh" v-on:click.stop="getBalanceById(17, 'uwinmoney')"></i>
+            <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
           </div>
         </div>
         <div class="item" v-bind:class="{active: activeIndex === 1}" v-on:click="activeIndex = 1">
           <div class="top">
-            <span class="go-lobby" v-on:click="open(gameInfo[2])">进入大厅</span>
+            <span class="go-lobby" v-on:click.stop="open(gameInfo[2])">进入大厅</span>
           </div>
           <div class="bottom">
             账户余额：<span class="balance">¥{{numberWithCommas(user.jjbAmount)}}</span>
-            <i class="refresh"></i>
-            <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
+            <i class="refresh" v-on:click.stop="getBalanceById(29, 'jjbAmount')"></i>
+            <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
           </div>
         </div>
       </div>
 
       <div class="game-logo-list">
-        <div class="item">DOTA2</div>
-        <div class="item">王者荣耀</div>
-        <div class="item">CSGO</div>
-        <div class="item">魔兽争霸3</div>
-        <div class="item">守望先锋</div>
-        <div class="item">星际争霸2</div>
-        <div class="item">彩虹六号</div>
-        <div class="item">全部</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3296)" class="item">DOTA2</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3319)" class="item">王者荣耀</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3286)" class="item">CSGO</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3315)" class="item">魔兽争霸3</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3269)" class="item">守望先锋</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3307)" class="item">星际争霸2</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, activeIndex ? 203 : 3327)" class="item">彩虹六号</div>
+        <div v-on:click="goGame(activeIndex ? 29 : 17, 203)" class="item">全部</div>
       </div>
 
       <div class="game-list">
-        <div class="t-l">
-          <img alt="DOTA2" src="../../assets/outer/electronicsports/17.jpg"/>
+        <div class="uwin-list" v-show="activeIndex === 0">
+          <div class="t-l" v-on:click="goGame(17, 3296)">
+            <img alt="DOTA2" src="../../assets/outer/electronicsports/17.jpg" />
+          </div>
+          <div class="t-r">
+            <img v-on:click="goGame(17, 3319)" alt="王者荣耀" src="../../assets/outer/electronicsports/18.jpg" />
+            <img v-on:click="goGame(17, 3269)" alt="守望先锋" class="f-l" src="../../assets/outer/electronicsports/19.jpg" />
+            <img v-on:click="goGame(17, 3307)" alt="星际争霸2" src="../../assets/outer/electronicsports/20.jpg" class="f-r">
+          </div>
+          <div class="b-l">
+            <img v-on:click="goGame(17, 3327)" alt="彩虹六号" src="../../assets/outer/electronicsports/21.jpg">
+          </div>
+          <div class="b-r">
+            <img v-on:click="goGame(17, 3286)" alt="CSGO" src="../../assets/outer/electronicsports/22.jpg">
+          </div>
         </div>
-        <div class="t-r">
-          <img alt="王者荣耀" src="../../assets/outer/electronicsports/18.jpg" />
-          <img alt="守望先锋" class="f-l" src="../../assets/outer/electronicsports/19.jpg" />
-          <img alt="星际争霸2" src="../../assets/outer/electronicsports/20.jpg" class="f-r">
-        </div>
-        <div class="b-l">
-          <img alt="彩虹六号" src="../../assets/outer/electronicsports/21.jpg">
-        </div>
-        <div class="b-r">
-          <img alt="CSGO" src="../../assets/outer/electronicsports/22.jpg">
+        <div class="xa-list" v-show="activeIndex === 1">
+          <div class="t-l">
+            <img v-on:click="goGame(29, 203)" alt="DOTA2" src="../../assets/outer/electronicsports/23.jpg"/>
+          </div>
+          <div class="t-r">
+            <img v-on:click="goGame(29, 203)" alt="王者荣耀" src="../../assets/outer/electronicsports/24.jpg" />
+            <img v-on:click="goGame(29, 203)" alt="守望先锋" class="f-l" src="../../assets/outer/electronicsports/25.jpg" />
+            <img v-on:click="goGame(29, 203)" alt="星际争霸2" src="../../assets/outer/electronicsports/26.jpg" class="f-r">
+          </div>
+          <div class="b-l">
+            <img v-on:click="goGame(29, 203)" alt="彩虹六号" src="../../assets/outer/electronicsports/27.jpg">
+          </div>
+          <div class="b-r">
+            <img v-on:click="goGame(29, 203)" alt="CSGO" src="../../assets/outer/electronicsports/28.jpg">
+          </div>
         </div>
       </div>
     </div>
@@ -59,6 +77,7 @@
 
 <script>
 import store from '../../store'
+import api from '../../http/api'
 import { numberWithCommas, digitUppercase } from '../../util/Number'
 export default {
   props: ['menus'],
@@ -111,6 +130,25 @@ export default {
     },
     goTransferAccounts() {
       this.$router.push({path: '/me/2-1-3'})
+    },
+    goGame (platId, gameId) {
+      this.$http.get(api.gameUrl, {platid: platId, gameid: gameId})
+      .then(({data}) => {
+        if (data.success === 1) {
+          let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + platId + '&gameUrl='
+          gameUrl += encodeURIComponent(data.url)
+          window.open(gameUrl)
+        }
+      })
+    },
+    getBalanceById (platId, name) {
+      this.$http.get(api.getBalanceByPID, {platId}).then(({data: {bal, success}}) => {
+        if (success) {
+          let b = {}
+          b[name] = Number(bal)
+          store.actions.setUser(b)
+        }
+      })
     }
   }
 };
@@ -223,6 +261,16 @@ export default {
           padding 0 12px
           color #fff
           cursor pointer
+        .refresh
+          display inline-block
+          width 23px
+          height 23px
+          background-image url('~@/assets/outer/recreation/11.png')
+          background-repeat no-repeat
+          background-size contain
+          vertical-align middle
+          margin-left 8px
+          cursor pointer
   .game-logo-list
     height 150px
     background url('~@/assets/outer/electronicsports/16.jpg')
@@ -239,6 +287,7 @@ export default {
       background-position center 40px
       color #6d6d6d
       transition .2s
+      cursor pointer
       &:hover
         color #ffb92c
       &:nth-child(1)

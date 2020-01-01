@@ -5,37 +5,26 @@
       <img class="titleimg" src="../../assets/outer/slotmachine/2.png" />
       <img class="titleimg2" src="../../assets/outer/slotmachine/3.png" alt="">
       <div class="accounts-list">
-        <el-icon name="arrow-left" v-show="flag" v-on:click.native="pagination(0)"></el-icon>
-        <el-icon name="arrow-right" v-show="!flag" v-on:click.native="pagination(1)"></el-icon>
-        <swiper class="my-swiper swiper-no-swiping" v-bind:options="swiperOption" ref="mySwiper">
-          <swiper-slide class="item" v-bind:class="{active: index === navIndex}" v-for="(nav, index) in navList" v-bind:key="nav.platId" v-on:click.native="navIndex = index">
+        <div class="left">
+          <div class="item" v-bind:class="{active: index === navIndex}" v-for="(nav, index) in navList" v-bind:key="nav.platId" v-on:click="navIndex = index">
             <div class="top">
               <span class="name">{{nav.title}}</span>
               <span class="go-lobby" v-on:click="open(gameInfo[index + 1])">进入大厅</span>
             </div>
             <div class="bottom">
               账户余额：<span class="balance">¥{{numberWithCommas(user[nav.attr])}}</span>
-              <el-icon name="refresh"></el-icon>
+              <i class="refresh" v-on:click.stop="getBalanceById(nav.platId, nav.attr)"></i>
               <span class="transfer-accounts" v-on:click="goTransferAccounts()">转账 ></span>
             </div>
-          </swiper-slide>
-        </swiper>
-      </div>
-      <div class="game-group">
-        <!-- <div class="group hot">
-          <h3 class="title">热门游戏</h3>
-          <div class="game-list">
-            <div class="game" v-for="(temp, index) in new Array(5)" v-bind:key="index">
-              <p class="name">急速百家乐</p>
-            </div>
           </div>
-        </div> -->
-        <div class="group more">
-          <h3 class="title">游戏列表</h3>
-          <div class="game-list">
-            <div class="game" v-for="(temp, idx) in activeNav.children" v-bind:key="idx" @click="goGame(temp)">
-              <div class="game-img" :style="{backgroundImage: `url(${temp.imageUrl})`}"></div>
-              <p class="name">{{temp.gameName}}</p>
+        </div>
+        <div class="right">
+          <div class="game-group more">
+            <div class="game-list">
+              <div class="game" v-for="(temp, idx) in activeNav.children" v-bind:key="idx" @click="goGame(temp)">
+                <div class="game-img" :style="{backgroundImage: `url(${temp.imageUrl})`}"></div>
+                <p class="name">{{temp.gameName}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -66,12 +55,12 @@ export default {
       user: store.state.user,
       numberWithCommas: numberWithCommas,
       navList: [
-        {
-          title: 'PT老虎机',
-          attr: 'ptmoney',
-          platId: 5,
-          children: ''
-        },
+        // {
+        //   title: 'PT老虎机',
+        //   attr: 'ptmoney',
+        //   platId: 5,
+        //   children: ''
+        // },
         {
           title: 'AG老虎机',
           attr: 'agmoney',
@@ -99,17 +88,6 @@ export default {
       ],
       gameGroupId: 2,
       pageSize: 12,
-      swiperOption: {
-        slidesPerView: 4,
-        spaceBetween: 12,
-        onSlideChangeStart: swiper => {
-          if (swiper.realIndex) {
-            this.flag = true
-          } else {
-            this.flag = false
-          }
-        }
-      },
       navIndex: 0
     };
   },
@@ -146,15 +124,7 @@ export default {
   mounted() {},
   beforeDestroy() {},
   methods: {
-    pagination(type) {
-      if (type) {
-        this.$refs.mySwiper.swiper.slideNext()
-        this.flag = true
-      } else {
-        this.$refs.mySwiper.swiper.slidePrev()
-        this.flag = false
-      }
-    },
+
     open (item, index) {
       this.__setCall({
         fn: '__closeGuide'
@@ -237,22 +207,13 @@ export default {
 .slotmachine
   .accounts-list
     position relative
-    .el-icon-arrow-left
-    .el-icon-arrow-right
-      position absolute
-      left -4%
-      top 50%
-      transform translate(0, -50%)
-      font-size 40px
-      cursor pointer
-      color #999
-      transition .2s
-      &:hover
-        color #fff
-      &.el-icon-arrow-right
-        left auto
-        right -4%
-        transform translate(0, -50%)
+    overflow hidden
+    .left
+      width 290px
+      float left
+    .right
+      width 882px
+      float right
     .item
       width 290px
       height 120px
@@ -263,6 +224,8 @@ export default {
       position relative
       transition .2s
       border-radius 8px
+      margin-bottom 16px
+      cursor pointer
       &.active
         background #d2be83
         .name
@@ -299,43 +262,48 @@ export default {
         font-size 12px
         .balance
           color #ff3854
+          font-size 16px
+          font-weight bold
+          display inline-block
+          vertical-align middle
         .transfer-accounts
           float right
           cursor pointer
           padding 0 12px
+        .refresh
+          display inline-block
+          width 23px
+          height 23px
+          background-image url('~@/assets/outer/recreation/11.png')
+          background-repeat no-repeat
+          background-size contain
+          vertical-align middle
+          margin-left 8px
+          cursor pointer
   .game-group
-    .group
-      margin-top 20px
-      .title
-        padding-left 46px
-        color #fff
-        font-size 18px
-        background-repeat no-repeat
-        background-position 8px 3px
-        line-height 40px
-        margin-bottom 20px
-      &.hot .title
-        background-image url('~@/assets/outer/slotmachine/7.png')
-      &.more .title
-        background-image url('~@/assets/outer/slotmachine/8.png')
     .game-list
+      overflow hidden
       .game
         display inline-block
-        width 230px
-        height 200px
+        width 210px
+        height 230px
         box-sizing border-box
-        margin-right 10px
-        margin-bottom 10px
-        &:last-child
+        margin-right 14px
+        margin-bottom 14px
+        cursor pointer
+        float left
+        &:nth-child(4n)
           margin-right 0
         .game-img
-          height 150px
+          height 180px
           background-repeat no-repeat
           background-position left top
           background-size 100% 100%
+          border-radius: 10px 10px 0 0
         .name
           line-height 50px
           background #fff
           text-align center
           color #333
+          border-radius 0 0 10px 10px
 </style>
