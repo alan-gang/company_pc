@@ -1,11 +1,11 @@
 <template lang="jade">
 .outer-egame(:style=" bgStyle ")
   .cw
-    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: $route.params.tabIndex == (i + 1) } " @click=" $router.push('/egame/' + (i + 1)) ") {{t}}
+    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: true } " @click=" $router.push('/egame/' + (i + 1)) ") {{t}}
   .cw(v-if=" href ")
     iframe( :src="href"  @load="load" ref="iframe" v-bind:class=" 'plat-' + key ")
 
-    
+
 </template>
 
 <script>
@@ -21,21 +21,22 @@ export default {
       title: '',
       href: '',
       key: '',
-      tabs: ['BG电子游戏', 'PT游戏', 'LG游戏'],
-      fns: ['2:203:iframe:/egame/1', '5:203:iframe:/egame/2', ''],
-      hrefs: ['', '', '/lg_egame/index.html']
+      // tabs: ['BG电子游戏', 'PT游戏', 'LG游戏'],
+      tabs: ['PT游戏']
+      // fns: ['2:203:iframe:/egame/1', '5:203:iframe:/egame/2', ''],
+      // hrefs: ['', '', '/lg_egame/index.html']
     }
   },
-  computed: {
-    tabIndex () {
-      return this.$route.params.tabIndex
-    }
-  },
-  watch: {
-    tabIndex () {
-      this.init()
-    }
-  },
+  // computed: {
+  //   tabIndex () {
+  //     return this.$route.params.tabIndex
+  //   }
+  // },
+  // watch: {
+  //   tabIndex () {
+  //     this.init()
+  //   }
+  // },
   created () {
     this.init()
   },
@@ -51,12 +52,13 @@ export default {
   },
   methods: {
     init () {
-      if (!this.tabIndex) return
-      this.key = this.tabIndex
-      let fn = this.fns[this.tabIndex - 1]
-      let href = this.hrefs[this.tabIndex - 1]
-      if (href) this.__setIframeSrc(href)
-      else if (fn) this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: fn}})
+      // if (!this.tabIndex) return
+      // this.key = this.tabIndex
+      // let fn = this.fns[this.tabIndex - 1]
+      // let href = this.hrefs[this.tabIndex - 1]
+      // if (href) this.__setIframeSrc(href)
+      // else if (fn)
+      this.__setCall({fn: '__openThirdPart', args: {id: 1, fn: '5:203:iframe:/egame/2'}})
     },
     __setIframeSrcKey (key) {
       // this.key = (key || '').split(':')[0]
@@ -95,11 +97,11 @@ export default {
 <style lang="stylus">
 @import '../../var.stylus'
 // 建议不添加scoped， 所有样式最多嵌套2层
-.outer-egame 
+.outer-egame
   & ~ .el-carousel.ad
   & ~ .our-game
     display none
-    
+
 .outer-egame
   position relative !important
   background-repeat no-repeat
@@ -124,7 +126,7 @@ export default {
     &.active
       color #fff
       background-color BLUE
-  
+
   iframe
     background-color #fff
     width 100%
@@ -140,6 +142,6 @@ export default {
     &.plat-3
       width 1280px
       min-height 400px
-    
-  
+
+
 </style>
