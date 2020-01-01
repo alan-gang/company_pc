@@ -38,6 +38,7 @@ export default {
       this.$http.get(api.gameUrl, {platid: game.platId, gameid: game.gameId})
       .then(({data}) => {
         if (data.success === 1) {
+          if (game.platId === 34) return window.open(data.url)
           let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + game.platId + '&gameUrl='
           gameUrl += encodeURIComponent(data.url)
           window.open(gameUrl)
