@@ -9,7 +9,7 @@
           <div class="item" v-bind:class="{active: index === navIndex}" v-for="(nav, index) in navList" v-bind:key="nav.platId" v-on:click="navIndex = index">
             <div class="top">
               <span class="name">{{nav.title}}</span>
-              <span class="go-lobby" v-on:click="open(gameInfo[index + 1])">进入大厅</span>
+              <span class="go-lobby" v-on:click.stop="goGame(nav)">进入大厅</span>
             </div>
             <div class="bottom">
               账户余额：<span class="balance">¥{{numberWithCommas(user[nav.attr])}}</span>
@@ -65,24 +65,28 @@ export default {
           title: 'AG老虎机',
           attr: 'agmoney',
           platId: 4,
+          gameId: 11,
           children: ''
         },
         {
           title: 'BG老虎机',
           attr: 'bgmoney',
           platId: 2,
+          gameId: 3,
           children: ''
         },
         {
           title: 'LG老虎机',
           attr: 'lgAmount',
           platId: 21,
+          gameId: 31,
           children: ''
         },
         {
           title: 'SA老虎机',
           attr: 'saEgameAmount',
           platId: 32,
+          gameId: 39,
           children: ''
         }
       ],
@@ -124,33 +128,6 @@ export default {
   mounted() {},
   beforeDestroy() {},
   methods: {
-
-    open (item, index) {
-      this.__setCall({
-        fn: '__closeGuide'
-      })
-      // this.$nextTick(() => {
-      //   this.shows[index] = false
-      //   this.openPage(item.id)
-      // })
-      if (item.id) {
-        if (item.ff) {
-          return this.$router.push(item.ff)
-        }
-        if (item.fn) {
-          return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
-          // return this.openWindowWithPost(this.formData[item.fn] || {})
-        } else {
-          setTimeout(() => {
-            this.shows[index] = false
-            this.openPage(item.id)
-          }, 0)
-        }
-      }
-    },
-    openPage (url) {
-      this.$emit('open-page', url)
-    },
     goTransferAccounts() {
       this.$router.push({path: '/me/2-1-3'})
     }

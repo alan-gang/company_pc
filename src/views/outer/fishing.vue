@@ -6,7 +6,7 @@
       <img class="girl" src="../../assets/outer/fishing/4.png" />
       <el-row class="list mt">
         <el-col :span="8">
-          <div class="gameimg" @click="goGame(agId, 'SB36')">
+          <div class="gameimg" @click="goGame(agId, '13')">
             <img src="../../assets/outer/fishing/7.png" />
             <img class="gametextimg" src="../../assets/outer/fishing/8.png" />
           </div>
@@ -16,7 +16,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="gameimg" @click="goGame(bgId, 105)">
+          <div class="gameimg" @click="goGame(bgId, 2)">
             <img src="../../assets/outer/fishing/10.png" />
             <img class="gametextimg" src="../../assets/outer/fishing/11.png" />
           </div>
@@ -38,7 +38,7 @@
       </el-row>
       <el-row class="list">
         <el-col :span="8">
-          <div class="gameimg" @click="goGame(saId, 'EG-FISHING-001')">
+          <div class="gameimg" @click="goGame(saId, '38')">
             <img src="../../assets/outer/fishing/15.png" />
             <img class="gametextimg game-sa" src="../../assets/outer/fishing/14.png" />
           </div>
@@ -48,7 +48,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="gameimg" @click="goGame(kyId, 510)">
+          <div class="gameimg" @click="goGame(kyId, 47)">
             <img src="../../assets/outer/fishing/16.png" />
             <img class="gametextimg game-ky" src="../../assets/outer/fishing/17.png" />
           </div>
@@ -58,7 +58,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="gameimg" @click="goGame(lyId, 510)">
+          <div class="gameimg" @click="goGame(lyId, 48)">
             <img src="../../assets/outer/fishing/18.png" />
             <img class="gametextimg game-ly" src="../../assets/outer/fishing/19.png" />
           </div>

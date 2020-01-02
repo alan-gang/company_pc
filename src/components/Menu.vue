@@ -95,7 +95,6 @@ export default {
       this.open(item)
     },
     open (item, index) {
-      console.log(item)
       this.__setCall({
         fn: '__closeGuide'
       })
@@ -316,6 +315,8 @@ body.cb.v2
         background-image url(../assets/v2/logo_sb_big.png)
       &.ds-icon-logo-ky
         background-image url(../assets/v2/logo_ky_big.png)
+      &.ds-icon-logo-hl
+        background-image url(/static/img/logo_happygaming_big.png)
 
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)

@@ -59,20 +59,21 @@ export default {
           title: '开元棋牌',
           attr: 'kymoney',
           platId: 7,
-          children: '',
-          page: 1,
-          pageSize: 12
+          gameId: 8,
+          children: ''
         },
         {
           title: '乐游棋牌',
           attr: 'lymoney',
           platId: 15,
+          gameId: 25,
           children: ''
         },
         {
           title: '幸运棋牌',
           attr: 'xyqpAmount',
           platId: 22,
+          gameId: 32,
           children: ''
         },
         // {
@@ -85,6 +86,7 @@ export default {
           title: '德胜棋牌',
           attr: 'dsAmount',
           platId: 28,
+          gameId: 33,
           children: ''
         }
       ],
@@ -105,32 +107,6 @@ export default {
   mounted() {},
   beforeDestroy() {},
   methods: {
-    open (item, index) {
-      this.__setCall({
-        fn: '__closeGuide'
-      })
-      // this.$nextTick(() => {
-      //   this.shows[index] = false
-      //   this.openPage(item.id)
-      // })
-      if (item.id) {
-        if (item.ff) {
-          return this.$router.push(item.ff)
-        }
-        if (item.fn) {
-          return this.__setCall({fn: '__openWindowWithPost', args: item.fn})
-          // return this.openWindowWithPost(this.formData[item.fn] || {})
-        } else {
-          setTimeout(() => {
-            this.shows[index] = false
-            this.openPage(item.id)
-          }, 0)
-        }
-      }
-    },
-    openPage (url) {
-      this.$emit('open-page', url)
-    },
     goTransferAccounts() {
       this.$router.push({path: '/me/2-1-3'})
     }
@@ -338,122 +314,4 @@ export default {
           line-height 56px
           border-radius 0 0 8px 8px
 
-
-.nav-list1
-  .game-item:nth-child(1)
-    background-image url('~@/assets/outer/chesspage/ky1.jpg')
-  .game-item:nth-child(2)
-    background-image url('~@/assets/outer/chesspage/ky2.jpg')
-  .game-item:nth-child(3)
-    background-image url('~@/assets/outer/chesspage/ky3.jpg')
-  .game-item:nth-child(4)
-    background-image url('~@/assets/outer/chesspage/ky4.jpg')
-  .game-item:nth-child(5)
-    background-image url('~@/assets/outer/chesspage/ky5.jpg')
-  .game-item:nth-child(6)
-    background-image url('~@/assets/outer/chesspage/ky6.jpg')
-  .game-item:nth-child(7)
-    background-image url('~@/assets/outer/chesspage/ky7.jpg')
-  .game-item:nth-child(8)
-    background-image url('~@/assets/outer/chesspage/ky8.jpg')
-  .game-item:nth-child(9)
-    background-image url('~@/assets/outer/chesspage/ky9.jpg')
-  .game-item:nth-child(10)
-    background-image url('~@/assets/outer/chesspage/ky10.jpg')
-  .game-item:nth-child(11)
-    background-image url('~@/assets/outer/chesspage/ky11.jpg')
-  .game-item:nth-child(12)
-    background-image url('~@/assets/outer/chesspage/ky12.jpg')
-.nav-list2
-  .game-item:nth-child(1)
-    background-image url('~@/assets/outer/chesspage/ly01.jpg')
-  .game-item:nth-child(2)
-    background-image url('~@/assets/outer/chesspage/ly02.jpg')
-  .game-item:nth-child(3)
-    background-image url('~@/assets/outer/chesspage/ly03.jpg')
-  .game-item:nth-child(4)
-    background-image url('~@/assets/outer/chesspage/ly04.jpg')
-  .game-item:nth-child(5)
-    background-image url('~@/assets/outer/chesspage/ly05.jpg')
-  .game-item:nth-child(6)
-    background-image url('~@/assets/outer/chesspage/ly06.jpg')
-  .game-item:nth-child(7)
-    background-image url('~@/assets/outer/chesspage/ly07.jpg')
-  .game-item:nth-child(8)
-    background-image url('~@/assets/outer/chesspage/ly08.jpg')
-  .game-item:nth-child(9)
-    background-image url('~@/assets/outer/chesspage/ly09.jpg')
-  .game-item:nth-child(10)
-    background-image url('~@/assets/outer/chesspage/ly10.jpg')
-.nav-list3
-  .game-item:nth-child(1)
-    background-image url('~@/assets/outer/chesspage/xy01.jpg')
-  .game-item:nth-child(2)
-    background-image url('~@/assets/outer/chesspage/xy02.jpg')
-  .game-item:nth-child(3)
-    background-image url('~@/assets/outer/chesspage/xy03.jpg')
-  .game-item:nth-child(4)
-    background-image url('~@/assets/outer/chesspage/xy04.jpg')
-  .game-item:nth-child(5)
-    background-image url('~@/assets/outer/chesspage/xy05.jpg')
-  .game-item:nth-child(6)
-    background-image url('~@/assets/outer/chesspage/xy06.jpg')
-  .game-item:nth-child(7)
-    background-image url('~@/assets/outer/chesspage/xy07.jpg')
-  .game-item:nth-child(8)
-    background-image url('~@/assets/outer/chesspage/xy08.jpg')
-  .game-item:nth-child(9)
-    background-image url('~@/assets/outer/chesspage/xy09.jpg')
-  .game-item:nth-child(10)
-    background-image url('~@/assets/outer/chesspage/xy10.jpg')
-.nav-list4
-  .game-item:nth-child(1)
-    background-image url('~@/assets/outer/chesspage/VG01.jpg')
-  .game-item:nth-child(2)
-    background-image url('~@/assets/outer/chesspage/VG02.jpg')
-  .game-item:nth-child(3)
-    background-image url('~@/assets/outer/chesspage/VG03.jpg')
-  .game-item:nth-child(4)
-    background-image url('~@/assets/outer/chesspage/VG04.jpg')
-  .game-item:nth-child(5)
-    background-image url('~@/assets/outer/chesspage/VG05.jpg')
-  .game-item:nth-child(6)
-    background-image url('~@/assets/outer/chesspage/VG06.jpg')
-  .game-item:nth-child(7)
-    background-image url('~@/assets/outer/chesspage/VG07.jpg')
-  .game-item:nth-child(8)
-    background-image url('~@/assets/outer/chesspage/VG08.jpg')
-  .game-item:nth-child(9)
-    background-image url('~@/assets/outer/chesspage/VG09.jpg')
-  .game-item:nth-child(10)
-    background-image url('~@/assets/outer/chesspage/VG10.jpg')
-  .game-item:nth-child(11)
-    background-image url('~@/assets/outer/chesspage/VG11.jpg')
-  .game-item:nth-child(12)
-    background-image url('~@/assets/outer/chesspage/VG12.jpg')
-.nav-list5
-  .game-item:nth-child(1)
-    background-image url('~@/assets/outer/chesspage/ds01.jpg')
-  .game-item:nth-child(2)
-    background-image url('~@/assets/outer/chesspage/ds02.jpg')
-  .game-item:nth-child(3)
-    background-image url('~@/assets/outer/chesspage/ds03.jpg')
-  .game-item:nth-child(4)
-    background-image url('~@/assets/outer/chesspage/ds04.jpg')
-  .game-item:nth-child(5)
-    background-image url('~@/assets/outer/chesspage/ds05.jpg')
-  .game-item:nth-child(6)
-    background-image url('~@/assets/outer/chesspage/ds06.jpg')
-  .game-item:nth-child(7)
-    background-image url('~@/assets/outer/chesspage/ds07.jpg')
-  .game-item:nth-child(8)
-    background-image url('~@/assets/outer/chesspage/ds08.jpg')
-  .game-item:nth-child(9)
-    background-image url('~@/assets/outer/chesspage/ds09.jpg')
-  .game-item:nth-child(10)
-    background-image url('~@/assets/outer/chesspage/ds10.jpg')
-  .game-item:nth-child(11)
-    background-image url('~@/assets/outer/chesspage/ds11.jpg')
-  .game-item:nth-child(12)
-    background-image url('~@/assets/outer/chesspage/ds12.jpg')
 </style>

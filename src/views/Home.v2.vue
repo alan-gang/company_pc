@@ -60,10 +60,10 @@
               img(src="/static/pic/newhome/index_newbanner_01.jpg")
               el-row.absolute.e-game
                 el-col.pt(:span="6" @click.native=" goPt ")
-                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:500'}}) ")
-                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/1', fn: '2:203:iframe:/egame/1'}}) ")
-                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '21:201:iframe:/egame/3'}}) ")
-                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, ff: '/egame/3', fn: '32:37:iframe:/egame/3'}}) ")
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:11'}}) ")
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:3'}}) ")
+                el-col.lg(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '21:31'}}) ")
+                el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:39'}}) ")
             p
               span.t1 电子游戏 &nbsp;&nbsp;
               span.t2 ELECTRIC
@@ -72,8 +72,9 @@
               img(src="/static/pic/newhome/index_newbanner_02.jpg")
               el-row.absolute
                 el-col.pt(:span="6" @click.native=" goPt ")
-                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:0'}}) ")
-                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:201'}}) ")
+                el-col.ag(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:10'}}) ")
+                el-col.dy(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:1'}}) ")
+                el-col.gd(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '26:22'}}) ")
                 el-col.sa(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '31:35'}}) ")
                 el-col.og(:span="6" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '34:41'}}) ")
             p
@@ -84,7 +85,7 @@
           el-col.picture.sport(:span="12")
             .co
               img(src="/static/pic/newhome/index_newbanner_03.jpg")
-              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; ")
                 //- el-col.t_c.ft18.sb(:span="24")
                 el-col(:span="4")
                 el-col.sb(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '3:301:iframe:/sports'}}) ")
@@ -98,11 +99,13 @@
           el-col.picture.card(:span="12" )
             .co
               img(src="/static/pic/newhome/index_newbanner_04.jpg")
-              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; opacity: 1 !important; ")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: #f17d0b; ")
 
-                el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:202'}}) " )
-                el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:202'}}) " )
-                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:0'}}) " )
+                el-col.ky(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:8'}}) " )
+                el-col.ly(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:25'}}) " )
+                el-col.xy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '22:32'}}) " )
+                el-col.ds(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '28:33'}}) " )
+                el-col.hl(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '44:69'}}) " )
             p
               span.t1 棋牌游戏 &nbsp;&nbsp;
               span.t2 CHESS
@@ -113,11 +116,11 @@
               img(src="/static/pic/newhome/index_newbanner_05.jpg")
               el-row.absolute
                 el-col.pt(:span="8" @click.native=" goPt ")
-                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:6'}}) ")
-                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:202'}}) ")
-                el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:36'}}) ")
-                el-col.kyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:510'}}) ")
-                el-col.lyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:510'}}) ")
+                el-col.ag(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '4:13'}}) ")
+                el-col.dy(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '2:2'}}) ")
+                el-col.sa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '32:38'}}) ")
+                el-col.kyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '7:47'}}) ")
+                el-col.lyby(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '15:48'}}) ")
             p
               span.t1 捕鱼达人 &nbsp;&nbsp;
               span.t2 FISHING
@@ -125,10 +128,10 @@
           el-col.picture.card(:span="12")
             .co
               img(src="/static/pic/newhome/index_newbanner_06.jpg")
-              el-row.absolute.text-bold(style="line-height: .82rem; color: red; opacity: 1 !important; ")
-                el-col(:span="8" )
-                el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:203'}}) ")
-                el-col.dj-xa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '29:203'}}) ")
+              el-row.absolute.text-bold(style="line-height: .82rem; color: red; ")
+                el-col(:span="4" )
+                el-col.uwin(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '17:27'}}) ")
+                el-col.dj-xa(:span="8" @click.native=" __setCall({fn: '__openThirdPart', args: {id: 1, fn: '29:34'}}) ")
                 el-col(:span="4" )
                 //- el-col.t_c.ft18(:span="24") 敬请期待
 
@@ -709,7 +712,10 @@ export default {
           background-image url(../assets/newhome/logo_ibc_big.png)
         &.ky
           background-image url(../assets/newhome/logo_ky_big.png)
-
+        &.ds
+          background-image url(../assets/newhome/logo_ds_big.png)
+        &.hl
+          background-image url(/static/img/logo_happygaming_big.png)
         &.ly
           background-image url(../assets/newhome/logo_ly_big.png)
         &.xy
@@ -732,7 +738,8 @@ export default {
           background-image url(../assets/newhome/kyby.png)
         &.lyby
           background-image url(../assets/newhome/lyby.png)
-
+        &.gd
+          background-image url(/static/img/logo_gd_big.png)
     &:hover
       .absolute
         opacity 1
