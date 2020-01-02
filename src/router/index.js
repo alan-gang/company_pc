@@ -12,7 +12,8 @@ const Try = r => require.ensure([], () => r(require('../views/login/Try')), 'log
 const Forget = r => require.ensure([], () => r(require('../views/login/Forget')), 'login-part')
 
 const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages-part')
-const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
+// const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
+const Egame = r => require.ensure([], () => r(require('../views/outer/slotmachine')), 'pages-part')
 
 export default function (VueRoter) {
   let router = new VueRoter({

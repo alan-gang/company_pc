@@ -357,12 +357,11 @@ export default {
           big: true,
           info: [
             {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
-            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202'},
-            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202'},
-            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202'},
-            // {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID  财神
-            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202'},
-            {menuid: '98', class: 'ds-icon-logo-happygaming ', id: '9-9-9', fn: '44:69'}//欢乐棋牌  平台id：44,gameId:  69
+            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:8'},
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:25'},
+            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:32'},
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:33'}, //27 平台ID
+            {menuid: '98', class: 'ds-icon-logo-hl ', id: '9-9-9', fn: '44:46'}
           ]
         },
         {
@@ -371,10 +370,10 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201'},
-            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:10'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:1'},
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:22'},
             {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '31:35'},
             {menuid: '98', class: 'ds-icon-logo-og', id: '9-9-9', fn: '34:41'}
           ]
@@ -385,11 +384,11 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', ff: '/egame/1', fn: '2:203:iframe:/egame/1'},
-            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', ff: '/egame/3', fn: '21:203:iframe:/egame/3'},
-            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:37'}
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:11'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:3'},
+            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', fn: '21:31'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:39'}
           ]
         },
         {
@@ -415,8 +414,8 @@ export default {
           info: [
             {class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率'},
             // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
-            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203'},
-            {menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:203'}
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:27'},
+            {menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:34'}
           ]
         },
         {
@@ -425,10 +424,12 @@ export default {
           big: true,
           info: [
             {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
-            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2'},
-            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6'},
-            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202'},
-            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001'}
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:13'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:2'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:38'},
+            {menuid: '98', class: 'ds-icon-logo-kyby', id: '9-9-9', fn: '7:47'},
+            {menuid: '98', class: 'ds-icon-logo-lyby', id: '9-9-9', fn: '15:48'}
           ]
         },
         {

@@ -62,7 +62,7 @@
           slot
             .content-width
               LT
-              
+
         el-popover.footer-more(placement="top-end" trigger="hover" v-model="more" v-bind:popper-class="'footer-popover more'" )
           span(slot="reference")
             span.name(v-if="hide") {{ Me.name }}
@@ -261,7 +261,8 @@ export default {
             gdAmount: data.gdAmount || 0,
             dsAmount: data.dsAmount || 0,
             jjbAmount: data.jjbAmount || 0,
-            dfAmount: data.dfAmount || 0
+            dfAmount: data.dfAmount || 0,
+            hlAmount: data.hlAmount || 0
           })
           // store.actions.setUser({bgmoney: data.amount || 0, kymoney: data.kyAmount})
         }
