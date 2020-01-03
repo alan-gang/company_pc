@@ -56,7 +56,7 @@
                 <span @click="money = '100'">100</span>
                 <span @click="money = '200'">200</span>
                 <span @click="money = '500'">500</span>
-                <span @click="money = balance.toString()">全部</span>
+                <span @click="money = inversion ? sanfangMoney : balance.toString()">全部</span>
               </div>
               <div class="bottom">
                 <span @click="ok">确认</span>
