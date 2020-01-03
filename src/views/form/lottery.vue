@@ -225,7 +225,7 @@ export default {
       if (val && val === 1) {
         r.push(
           {
-            label: `${new Date().getMonth() + 1}月`,
+            label: `${new Date()._setD(1).getMonth() + 1}月`,
             val: [
               new Date()._setD(1),
               new Date()
@@ -235,7 +235,7 @@ export default {
             ]
           },
           {
-            label: `${new Date().getMonth()}月`,
+            label: `${new Date()._setD(0)._bf(-1).getMonth() + 1}月`,
             val: [
               new Date()
                 ._setD(1)
@@ -268,7 +268,7 @@ export default {
         if (new Date().getDate() > 16) {
           r.push(
             {
-              label: `${new Date().getMonth() + 1}月下半月`,
+              label: `${new Date()._setD(1).getMonth() + 1}月下半月`,
               val: [
                 new Date()._setD(16),
                 new Date()
@@ -278,14 +278,14 @@ export default {
               ]
             },
             {
-              label: `${new Date().getMonth() + 1}月上半月`,
+              label: `${new Date()._setD(1).getMonth() + 1}月上半月`,
               val: [
                 new Date()._setD(1),
                 new Date()._setD(15)
               ]
             },
             {
-              label: `${new Date().getMonth()}月下半月`,
+              label: `${new Date()._setD(1)._bf(-1).getMonth() + 1}月下半月`,
               val: [
                 new Date()
                   ._setD(16)
@@ -299,14 +299,14 @@ export default {
         } else {
           r.push(
             {
-              label: `${new Date().getMonth() + 1}月上半月`,
+              label: `${new Date()._setD(1).getMonth() + 1}月上半月`,
               val: [
                 new Date()._setD(1),
                 new Date()._setD(15)
               ]
             },
             {
-              label: `${new Date().getMonth()}月下半月`,
+              label: `${new Date()._setD(1)._bf(-1).getMonth() + 1}月下半月`,
               val: [
                 new Date()
                   ._setD(16)
@@ -317,7 +317,7 @@ export default {
               ]
             },
             {
-              label: `${new Date().getMonth()}月上半月`,
+              label: `${new Date()._setD(1)._bf(-1).getMonth() + 1}月上半月`,
               val: [
                 new Date()
                   ._setD(1)
