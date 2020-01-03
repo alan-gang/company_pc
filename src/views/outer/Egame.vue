@@ -1,7 +1,7 @@
 <template lang="jade">
 .outer-egame(:style=" bgStyle ")
   .cw
-    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: true } " @click=" $router.push('/egame/' + (i + 1)) ") {{t}}
+    .bg-egame.tab(v-for=" (t, i) in tabs " v-bind:class=" {active: true } ") {{t}}
   .cw(v-if=" href ")
     iframe( :src="href"  @load="load" ref="iframe" v-bind:class=" 'plat-' + key ")
 
