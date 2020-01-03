@@ -396,7 +396,6 @@ export default {
       f.submit()
     },
     __openWindowWithPost (fn) {
-      console.log(fn)
       if (typeof this.formData[fn] === 'string') {
         if (fn.split(':')[2] === 'iframe') {
           this.ifsrc = this.formData[fn]
