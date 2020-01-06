@@ -12,7 +12,7 @@
             <div class="gametext">
               <div class="gametitle">沙巴体育</div>
               <div>余额: {{numberWithCommas(user.sbmoney)}}</div>
-              <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+              <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
             </div>
           </div>
         </el-col>
@@ -24,7 +24,7 @@
             <div class="gametext">
               <div class="gametitle">平博体育</div>
               <div>余额: {{numberWithCommas(user.pbAmount)}}</div>
-              <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+              <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
             </div>
           </div>
         </el-col>

@@ -24,7 +24,7 @@
             <div class="bottom">
               账户余额：<span class="balance">¥{{numberWithCommas(user[nav.attr])}}</span>
               <i class="refresh" v-on:click.stop="getBalanceById(nav.platId, nav.attr)"></i>
-              <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
+              <!-- <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span> -->
             </div>
           </div>
         </div>

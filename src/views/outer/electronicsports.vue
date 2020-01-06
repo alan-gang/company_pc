@@ -11,7 +11,7 @@
           <div class="bottom">
             账户余额：<span class="balance">¥{{numberWithCommas(user.uwinmoney)}}</span>
             <i class="refresh" v-on:click.stop="getBalanceById(17, 'uwinmoney')"></i>
-            <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
+            <!-- <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span> -->
           </div>
         </div>
         <div class="item" v-bind:class="{active: activeIndex === 1}" v-on:click="activeIndex = 1">
@@ -21,7 +21,7 @@
           <div class="bottom">
             账户余额：<span class="balance">¥{{numberWithCommas(user.jjbAmount)}}</span>
             <i class="refresh" v-on:click.stop="getBalanceById(29, 'jjbAmount')"></i>
-            <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span>
+            <!-- <span class="transfer-accounts" v-on:click.stop="goTransferAccounts()">转账 ></span> -->
           </div>
         </div>
       </div>

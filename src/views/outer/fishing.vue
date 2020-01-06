@@ -12,7 +12,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(agmoney)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
         <el-col :span="8">
@@ -22,7 +22,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.bgmoney)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
         <el-col :span="8">
@@ -32,7 +32,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.ptmoney)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
       </el-row>
@@ -44,7 +44,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.saEgameAmount)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
         <el-col :span="8">
@@ -54,7 +54,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.kymoney)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
         <el-col :span="8">
@@ -64,7 +64,7 @@
           </div>
           <div class="gametext">
             余额: {{numberWithCommas(user.lymoney)}}
-            <div class="sub" v-on:click="goTransferAccounts()">转账</div>
+            <!-- <div class="sub" v-on:click="goTransferAccounts()">转账</div> -->
           </div>
         </el-col>
       </el-row>
