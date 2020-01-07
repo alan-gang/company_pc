@@ -232,6 +232,7 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
+                // menuid 表示彩票的 权限id
                 {class: 'ds-icon-game-hlsx_cq sign hot', id: '1-1-1', menuid: '11', title: '重庆欢乐生肖', volume: true, gameid: 1},
                 {class: 'ds-icon-game-cqhjssc sign old new', id: '1-1-12', menuid: '116', title: '重庆怀旧时时彩', atitle: '重庆时时彩', subTitle: '怀旧', volume: true, gameid: 155},
                 {class: 'ds-icon-game-cqhjffc sign old new', id: '1-1-14', menuid: '118', title: '重庆怀旧分分彩', atitle: '重庆分分彩', subTitle: '怀旧', volume: true, gameid: 157},
@@ -250,7 +251,9 @@ export default {
                 {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
                 {class: 'ds-icon-game-qqtxwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣腾讯5分彩', volume: true, gameid: 165},
-                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166}
+                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166},
+                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-17', menuid: '141', title: '奥地利50s', volume: true, gameid: 201},
+                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-18', menuid: '142', title: '奥地利100s', volume: true, gameid: 202}
               ]
             },
             {
