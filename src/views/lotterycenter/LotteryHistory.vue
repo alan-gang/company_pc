@@ -161,6 +161,7 @@ export default {
     // this.__getTraceIssueList()
     // 获得历史开奖号码
     this.__recentlyCode()
+    this.search()
   },
   beforeDestroy () {
     clearTimeout(this.lucknumbersTimeout)

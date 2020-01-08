@@ -199,6 +199,8 @@ let Game = {
   // method=recentlyCode pageNum size gameid
   recentlyCode: '/issue.do?method=recentlyCode',
   recentlyCodeNew: '/issue.do?method=recentlyCodeNew',
+  // 开奖中心历史数据查询
+  recentlyIssueList: '/issue.do?method=recentlyIssueList',
   ludan: '/issue.do?method=recentlyCode&v=1',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
