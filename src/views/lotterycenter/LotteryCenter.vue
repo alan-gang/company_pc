@@ -19,9 +19,9 @@
           div.thead
             span.th.title(v-for="headName in thead") {{headName}}
           div.tbody
-            div.tr(v-for="lottery in list" v-bind:key="lottery.lotteryId + 'id' + lottery.issue")
+            div.tr(v-for="lottery in list" v-bind:key="lottery.gameid + 'id' + lottery.issue")
               div.td
-                el-checkbox(v-model="checkedList" v-bind:label="lottery.lotteryName")
+                el-checkbox(v-model="checkedList" v-bind:label="lottery.title")
               div.td {{`第${lottery.issue}期开奖`}}
               div.td {{dayjs(lottery.openTime).format('YYYY.MM.DD HH:mm:ss')}}
               div.td.open-code
@@ -85,7 +85,7 @@ export default {
       let arr = this.lotteryHistory
       if (this.radio !== '0') {
         arr = arr.filter(lottery => {
-          let flag = this.checkedList.includes(lottery.lotteryName)
+          let flag = this.checkedList.includes(lottery.title)
           return this.radio === '1' ? flag : !flag
         })
       }
@@ -116,26 +116,18 @@ export default {
       })
       if (!flag) {
         let obj = this.getLotteryById(x.lottId)
+        if (!obj) return false
         obj.code = x.code
         obj.issue = x.issue
         this.lotteryHistory.unshift(obj)
       }
     },
     getData() {
-      let arr = [{
-        issue: '20190326033',
-        code: '2,3,5,7,9',
-        openTime: new Date().getTime().toString(),
-        lotteryId: 1,
-        lotteryName: '重庆欢乐生肖'
-      },
-      {
-        issue: '20190326034',
-        code: '1, 2, 3, 4, 5, 6, 7, 8, 9, 10',
-        openTime: new Date().getTime().toString(),
-        lotteryId: 43,
-        lotteryName: '幸运赛车'
-      }]
+      this.$http.get(api.getAllLastLottery)
+      .then(({data}) => {
+        console.log(data)
+      })
+      let arr = []
       arr.forEach((lottery, idx) => {
         let obj = this.getLotteryById(lottery.lotteryId)
         arr[idx] = Object.assign(obj, lottery)
@@ -153,7 +145,7 @@ export default {
       }
     },
     getLotteryById(id) {
-      let game = {}
+      let game = null
       if (this.$attrs.menus && this.$attrs.menus[6]) {
         this.$attrs.menus[6].groups.some(item => {
           return item.items.some(lottery => {
@@ -222,14 +214,16 @@ export default {
       &:nth-child(3)
         width 1.6rem
       &:nth-child(4)
-        width 4rem
+        width 4.1rem
       &:nth-child(5)
         width 1rem
       &:nth-child(6)
-        width 2.2rem
+        width 2.1rem
     .tr
       padding-left .18rem
       background #fff
+      display flex
+      align-items center
       &:nth-child(even)
         background-image: linear-gradient(
           #fafafa,
@@ -240,7 +234,6 @@ export default {
         background-blend-mode: normal,
           normal;
     .open-code
-      white-space nowrap
       .num
         display inline-block
         width .36rem

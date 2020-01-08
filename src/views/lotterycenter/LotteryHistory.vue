@@ -104,6 +104,7 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.gameid = Number(this.$route.params.id)
+      console.log(this.gameid)
     }
   },
   computed: {
@@ -129,9 +130,14 @@ export default {
         let arr = this.$attrs.menus[6].groups
         arr.some(item => {
           let flag = item.items.some(temp => {
-            return Number(temp.gameid) === Number(this.gameid)
+            if (Number(temp.gameid) === Number(this.gameid)) {
+              if (item.url === 'OTHER') {
+                type = temp.url
+              }
+              return true
+            }
           })
-          if (flag) type = item.url
+          if (flag && item.url !== 'OTHER') type = item.url
           return flag
         })
       }
@@ -314,7 +320,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .lottery-history ~ .el-carousel.ad
 .lottery-history ~ .our-game
   display none
@@ -438,10 +444,13 @@ export default {
         width 2.2rem
       &:nth-child(3)
         width 6rem
+        overflow hidden
       &:nth-child(4)
         width 1.1rem
     .tr
       background #fff
+      display flex
+      align-items center
       &:nth-child(even)
         background-image: linear-gradient(
           #fafafa,
@@ -452,7 +461,7 @@ export default {
         background-blend-mode: normal,
           normal;
     .open-code
-      white-space nowrap
+      padding-top .05rem
       .num
         display inline-block
         width .36rem
@@ -462,6 +471,8 @@ export default {
         border-radius 50%
         color #fff
         margin-right .22rem
+        float left
+        margin-bottom: .05rem
         &:last-child
           margin-right 0
     .open-more

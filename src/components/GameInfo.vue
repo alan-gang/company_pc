@@ -391,6 +391,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
   .is-lottery-history
     .wrap
       border-radius 4px
+      padding-left 2.38rem
     .rolling-numbers
       .number
         background-image: linear-gradient(
