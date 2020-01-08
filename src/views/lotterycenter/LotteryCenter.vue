@@ -126,13 +126,15 @@ export default {
       this.$http.get(api.getAllLastLottery)
       .then(({data}) => {
         console.log(data)
+        if (data.success) {
+          let arr = data.items
+          arr.forEach((lottery, idx) => {
+            let obj = this.getLotteryById(lottery.lotteryId) || {}
+            arr[idx] = Object.assign(obj, lottery)
+          })
+          this.lotteryHistory = arr
+        }
       })
-      let arr = []
-      arr.forEach((lottery, idx) => {
-        let obj = this.getLotteryById(lottery.lotteryId) || {}
-        arr[idx] = Object.assign(obj, lottery)
-      })
-      this.lotteryHistory = arr
     },
     go(lottery, type) {
       if (type) {

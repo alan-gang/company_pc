@@ -105,7 +105,6 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.gameid = Number(this.$route.params.id)
-      console.log(this.gameid)
     }
   },
   computed: {
@@ -184,8 +183,7 @@ export default {
     },
     getParams() {
       let params = {
-        gameid: Number(this.gameid),
-        pageNum: 1
+        gameid: Number(this.gameid)
       }
       switch (this.realIndex) {
         case 0:
@@ -201,16 +199,16 @@ export default {
           params.size = 200
           break
         case 4:
-          params.date = dayjs().format('YYYY-MM-DD')
+          params.timeStamp = dayjs().valueOf()
           break
         case 5:
-          params.date = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+          params.timeStamp = dayjs().subtract(1, 'day').valueOf()
           break
         case 6:
-          params.date = dayjs().subtract(2, 'day').format('YYYY-MM-DD')
+          params.timeStamp = dayjs().subtract(2, 'day').valueOf()
           break
         default:
-          params.date = dayjs(this.datePickerVal).format('YYYY-MM-DD')
+          params.timeStamp = dayjs(this.datePickerVal).valueOf()
       }
       return params
     },
