@@ -15,7 +15,7 @@
           el-radio(v-model="radio" label="0") 显示全部
           el-radio(v-model="radio" label="1") 保留选中
           el-radio(v-model="radio" label="2") 隐藏选中
-        div.lottery-center-table
+        div.lottery-center-table(v-loading="loading")
           div.thead
             span.th.title(v-for="headName in thead") {{headName}}
           div.tbody
@@ -77,7 +77,7 @@ export default {
         }
       ],
       navIndex: 0,
-      isLoading: false
+      loading: false
     }
   },
   computed: {
@@ -123,17 +123,22 @@ export default {
       }
     },
     getData() {
+      this.loading = true
       this.$http.get(api.getAllLastLottery)
       .then(({data}) => {
-        console.log(data)
         if (data.success) {
           let arr = data.items
+          let temp = []
           arr.forEach((lottery, idx) => {
-            let obj = this.getLotteryById(lottery.lotteryId) || {}
-            arr[idx] = Object.assign(obj, lottery)
+            let obj = this.getLotteryById(lottery.lotteryid)
+            if (obj) temp.push(Object.assign(obj, lottery))
           })
-          this.lotteryHistory = arr
+          this.lotteryHistory = temp
         }
+        this.loading = false
+      })
+      .catch(() => {
+        this.loading = false
       })
     },
     go(lottery, type) {

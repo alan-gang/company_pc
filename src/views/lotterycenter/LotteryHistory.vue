@@ -170,7 +170,7 @@ export default {
       this.realIndex = this.searchIndex
       let params = this.getParams()
       this.loading = true
-      this.$http.mypost(api.recentlyCodeNew, params).then(
+      this.$http.mypost(api.recentlyIssueList, params).then(
         ({data}) => {
           if (data.success > 0 && data.items.length > 0) {
             this.allLuckyNumbers = data.items
@@ -317,7 +317,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .lottery-history ~ .el-carousel.ad
 .lottery-history ~ .our-game
   display none
