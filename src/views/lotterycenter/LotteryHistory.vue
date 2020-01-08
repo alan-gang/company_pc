@@ -52,7 +52,8 @@
                 div.td {{`第${lottery.issue}期开奖`}}
                 div.td {{dayjs(lottery.openTime).format('YYYY.MM.DD HH:mm:ss')}}
                 div.td.open-code
-                  span.num(v-for="num in lottery.code.split(',')") {{num}}
+                  div.code-box
+                    span.num(v-for="num in lottery.code.split(',')") {{num}}
                 div.td
                   span.icon-zst(@click="goZst")
 
@@ -112,14 +113,12 @@ export default {
       let game = {}
       if (this.$attrs.menus && this.$attrs.menus[6] && this.gameType) {
         this.$attrs.menus[6].groups.some(item => {
-          if (item.url === this.gameType) {
-            return item.items.some(lottery => {
-              if (Number(lottery.gameid) === Number(this.gameid)) {
-                game = lottery
-                return true
-              }
-            })
-          }
+          return item.items.some(lottery => {
+            if (Number(lottery.gameid) === Number(this.gameid)) {
+              game = lottery
+              return true
+            }
+          })
         })
       }
       return game
@@ -462,6 +461,11 @@ export default {
           normal;
     .open-code
       padding-top .05rem
+      display flex
+      justify-content center
+      .code-box
+        overflow hidden
+        display inline-block
       .num
         display inline-block
         width .36rem

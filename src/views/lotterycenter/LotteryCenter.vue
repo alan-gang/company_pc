@@ -129,7 +129,7 @@ export default {
       })
       let arr = []
       arr.forEach((lottery, idx) => {
-        let obj = this.getLotteryById(lottery.lotteryId)
+        let obj = this.getLotteryById(lottery.lotteryId) || {}
         arr[idx] = Object.assign(obj, lottery)
       })
       this.lotteryHistory = arr
@@ -138,7 +138,7 @@ export default {
       if (type) {
         this.$router.push('/lotteryhistory/' + (lottery.gameid || lottery.lotteryId))
       } else {
-        if (!lottery.menuid) lottery = Object.assign(this.getLotteryById(lottery.lotteryId), lottery)
+        if (!lottery.menuid) lottery = Object.assign(this.getLotteryById(lottery.lotteryId) || {}, lottery)
         if (lottery.menuid) {
           this.$router.push('/game/' + lottery.id)
         }
