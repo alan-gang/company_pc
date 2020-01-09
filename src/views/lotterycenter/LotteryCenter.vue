@@ -109,6 +109,7 @@ export default {
         if (String(lottery.gameid) === String(x.lottId)) {
           lottery.issue = x.issue
           lottery.code = x.code
+          lottery.openDate = x.openDate
           return true
         }
       })
