@@ -23,7 +23,7 @@
               div.td
                 el-checkbox(v-model="checkedList" v-bind:label="lottery.title")
               div.td {{`第${lottery.issue}期开奖`}}
-              div.td {{dayjs(lottery.openTime).format('YYYY.MM.DD HH:mm:ss')}}
+              div.td {{dayjs(lottery.openDate).format('YYYY.MM.DD HH:mm:ss')}}
               div.td.open-code
                 span.num(v-for="num in lottery.code.split(',')" v-bind:class="{'m-r-5': lottery.code.split(',').length > 5}") {{num}}
               div.td
