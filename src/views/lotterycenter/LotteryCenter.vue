@@ -119,6 +119,7 @@ export default {
         obj.issue = x.issue
         this.lotteryHistory.unshift(obj)
       }
+      this.lotteryHistory = [...this.lotteryHistory]
     },
     getData() {
       this.loading = true
