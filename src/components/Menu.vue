@@ -148,13 +148,7 @@ body.cb.v2
     transform: translateY(-0.12rem);
     radius(0)
     &.game
-      top 115px!important
-      .popper__arrow
-        top 2px
-        border none
-        &:after
-          border-bottom-width 6px
-          border-top-width 0
+
     &.menu
       max-width auto
       @media screen and (max-width: 1500px)
@@ -182,7 +176,7 @@ body.cb.v2
     .submenu.game
       // margin .1rem 0
       margin-top .1rem
-      margin-bottom .1rem
+      // margin-bottom .1rem
       &.SSC
         margin-top 0
         margin-bottom 0

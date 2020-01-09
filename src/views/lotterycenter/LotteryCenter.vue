@@ -5,8 +5,6 @@
         span.title 您的位置：
         router-link(class="home" to="/") 首页
         span.icon-slice >
-        span 彩票游戏
-        span.icon-slice >
         span 开奖中心
       div.nav-list
         span(class="item" @click="navIndex = index" v-for="(nav, index) in navList" v-bind:class="nav.cls + (index === navIndex ? `-active active` : '')") {{nav.title}}
@@ -131,7 +129,7 @@ export default {
           let temp = []
           arr.forEach((lottery, idx) => {
             let obj = this.getLotteryById(lottery.lotteryid)
-            if (obj) temp.push(Object.assign(obj, lottery))
+            if (obj && !obj.removed) temp.push(Object.assign(obj, lottery))
           })
           this.lotteryHistory = temp
         }

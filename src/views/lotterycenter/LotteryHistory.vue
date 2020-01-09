@@ -5,8 +5,6 @@
         span.title 您的位置：
         router-link(class="home" to="/") 首页
         span.icon-slice >
-        span 彩票游戏
-        span.icon-slice >
         router-link(to="/lotterycenter") 开奖中心
         span.icon-slice >
         span {{game.title}}
