@@ -442,7 +442,8 @@ export default {
         width 2.2rem
       &:nth-child(3)
         width 6rem
-        overflow hidden
+        &.td
+          overflow hidden
       &:nth-child(4)
         width 1.1rem
     .tr
