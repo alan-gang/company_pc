@@ -171,7 +171,7 @@ export default {
       let url = 'https://www.ds-graph.com:8000/xy/'
       if (href.indexOf('.net') !== -1) url = 'https://graph.dongsens.net:8000/xy/'
       if (href.indexOf('192.168.') !== -1 || href.indexOf('www.game.com') !== -1) url = 'http://192.168.169.75:8000/xy/'
-      window.open(url + '#?gameid=' + lottery.lotteryId)
+      window.open(url + '#?gameid=' + lottery.lotteryid)
     }
   }
 }
