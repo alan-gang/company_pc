@@ -186,7 +186,7 @@ export default {
   // padding-bottom: 0.2rem;
   width: 100%;
   background url("~@/assets/outer/electronicsports/1.jpg") no-repeat center 0 #18171b
-  background-size auto 810px
+  background-size 100% 810px
   .cw {
     z-index: 1;
     position: relative;

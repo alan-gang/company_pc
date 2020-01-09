@@ -8,6 +8,8 @@
       <img src="~@/assets/outer/recreation/7.png" alt="" class="titleimg4">
       <img src="~@/assets/outer/recreation/8.png" alt="" class="titleimg1">
       <img src="~@/assets/outer/recreation/9.png" alt="" class="titleimg6">
+      <img src="~@/assets/outer/recreation/2.png" alt="" class="titleimg7">
+      <img src="~@/assets/outer/recreation/3.png" alt="" class="titleimg8">
       <div class="nav-list left">
         <!-- <el-icon name="arrow-left" v-show="flagLeft" v-on:click.native="pagination(0, swiperIndex - 1)"></el-icon> -->
         <!-- <el-icon name="arrow-right" v-show="flagRight" v-on:click.native="pagination(1, swiperIndex + 1)"></el-icon> -->
@@ -183,7 +185,9 @@ export default {
   .titleimg3,
   .titleimg4,
   .titleimg5,
-  .titleimg6 {
+  .titleimg6,
+  .titleimg7,
+  .titleimg8 {
     position: absolute;
     top: 0;
     left: 50%;
@@ -191,32 +195,44 @@ export default {
   }
   .titleimg1 {
     z-index: -1;
+    left: 60%;
   }
   .titleimg2 {
-    left: 69%;
+    left: 79%;
     top: 94px;
     z-index: -3;
   }
   .titleimg3 {
-    left: 21%;
+    left: 31%;
     top: 48px;
     z-index: -2
   }
   .titleimg4 {
-    left: 70.5%;
+    left: 80.5%;
     top: 55px;
     z-index: -2;
   }
   .titleimg5 {
     top: 94px;
-    left: 20%;
+    left: 30%;
     z-index: -3;
   }
   .titleimg6 {
     top: 395px;
     z-index: 9;
-    left: 45%;
+    left: 55%;
   }
+  .titleimg7 {
+    top: 216px;
+    left: 13%;
+    z-index: -4;
+  }
+  .titleimg8 {
+    top: 216px;
+    left: 96%;
+    z-index: -4;
+  }
+
 }
 </style>
 <style lang="stylus">
@@ -335,10 +351,14 @@ export default {
       margin-bottom 25px
       &:nth-child(3n)
         margin-right 0
+      &:hover .game-img
+        background-size 110% 110%
       .game-img
         height 220px
         background-size 100% 100%
         border-radius 10px 10px 0 0
+        transition .2s ease
+        background-position: center center
       .name
         line-height 50px
         text-align center

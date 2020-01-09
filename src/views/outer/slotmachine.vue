@@ -271,12 +271,15 @@ export default {
         float left
         &:nth-child(4n)
           margin-right 0
+        &:hover .game-img
+          background-size 110% 110%
         .game-img
           height 180px
           background-repeat no-repeat
-          background-position left top
+          background-position center center
           background-size 100% 100%
           border-radius: 10px 10px 0 0
+          transition .2s ease
         .name
           line-height 50px
           background #fff

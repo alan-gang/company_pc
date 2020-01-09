@@ -30,7 +30,8 @@
         </div>
         <div class="right" :class="'nav-list' + (navIndex + 1)">
           <template v-if="activeNav.children">
-            <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx" @click="goGame(game)" v-bind:style="{backgroundImage: `url(${game.imageUrl})`}">
+            <div class="game-item" v-for="(game, idx) in activeNav.children" :key="idx" @click="goGame(game)">
+              <div class="img-box" v-bind:style="{backgroundImage: `url(${game.imageUrl})`}"></div>
               <p class="name">{{game.gameName}}</p>
             </div>
           </template>
@@ -136,6 +137,7 @@ export default {
   }
   .titleimg1 {
     z-index: -1;
+    left: 56%;
   }
   .titleimg2 {
     left: 85%;
@@ -150,7 +152,7 @@ export default {
   }
   .titleimg5 {
     top: 450px;
-    left: 46%;
+    left: 47%;
   }
 }
 </style>
@@ -302,17 +304,22 @@ export default {
         width 210px
         height 256px
         box-sizing border-box
-        padding-top 200px
         float left
         margin-right 10px
         margin-bottom 10px
         cursor pointer
         position relative
         border-radius 8px 8px 0 0
-        background-position left top
-        border-radius 8px 8px 0 0
-        background-repeat no-repeat
-        background-size: 210px 200px
+        &:hover
+          .img-box
+            background-size: 110% 110%
+        .img-box
+          height 200px
+          background-position center center
+          border-radius 8px 8px 0 0
+          background-size: 100% 100%
+          transition .2s ease
+          background-repeat no-repeat
         .name
           background #fff
           color #333
