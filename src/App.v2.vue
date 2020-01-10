@@ -252,8 +252,8 @@ export default {
                 {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
                 {class: 'ds-icon-game-qqtxwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣腾讯5分彩', volume: true, gameid: 165},
                 {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166},
-                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-17', menuid: '141', title: '奥地利50s', volume: true, gameid: 201},
-                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-18', menuid: '142', title: '奥地利100s', volume: true, gameid: 202}
+                {class: 'ds-icon-game-adl50 sign new', id: '1-1-17', menuid: '141', title: '奥地利50s', volume: true, gameid: 201},
+                {class: 'ds-icon-game-adl100 sign new', id: '1-1-18', menuid: '142', title: '奥地利100s', volume: true, gameid: 202}
               ]
             },
             {
