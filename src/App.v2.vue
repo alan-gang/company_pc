@@ -328,6 +328,7 @@ export default {
               title: '其他',
               class: 'icon-menu-other2',
               url: 'OTHER2',
+              hideLeft: true, // 隐藏左侧导航
               items: [
                 {url: 'OTHER2', title: '开奖中心', pathname: '/lotterycenter'},
                 {url: 'OTHER2', title: '挂机软件', pathname: '/help/7-1-1'}

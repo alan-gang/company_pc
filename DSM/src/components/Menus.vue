@@ -29,7 +29,7 @@
       //- 游戏菜单
       div(v-for="(m, i) in menus"  v-if="menus.length < 2 && m.url !== 'help' " v-bind:class=" [ menus[0].url ] ")
         template(v-for="(g, ii) in m.groups")
-          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
+          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0 && !g.hideLeft" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
             .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]" v-bind:index="g.url") {{ m.title }}
             template(slot="title")
               i(:class="g.class")
