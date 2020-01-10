@@ -95,7 +95,7 @@ export default {
       dayjs,
       pickerOptions: {
         disabledDate(time) {
-          return time.getTime() > Date.now()
+          return time.getTime() > Date.now() || time.getTime() < dayjs().subtract(7, 'day').valueOf()
         }
       }
     }
