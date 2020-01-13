@@ -178,7 +178,6 @@ export default {
 </script>
 <style lang="less">
 .recreation {
-  height: ceil(900px + 1240px);
   position: relative;
   .titleimg1,
   .titleimg2,
@@ -253,6 +252,7 @@ export default {
   width: 100%;
   background url("~@/assets/outer/recreation/1.png") no-repeat center 0 #000000
   background-size auto 810px
+  height: 1800px
   .cw {
     z-index: 1;
     position: relative;

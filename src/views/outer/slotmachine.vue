@@ -168,6 +168,7 @@ export default {
   width: 100%;
   background url("~@/assets/outer/slotmachine/1.jpg") no-repeat center 0 #191c25
   background-size auto 810px
+  height: 1620px;
   .cw {
     z-index: 1;
     position: relative;

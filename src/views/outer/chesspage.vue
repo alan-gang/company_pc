@@ -123,7 +123,7 @@ export default {
 </script>
 <style lang="less">
 .chesspage {
-  height: ceil(900px + 1240px);
+  height: 1700px;
   position: relative;
   .titleimg1,
   .titleimg2,
