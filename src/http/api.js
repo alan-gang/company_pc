@@ -3,6 +3,7 @@ let Login = {
   getLottSets: '/userpoint.do?method=getLottSets&lotteryIds=1',
   codeMissColdHeat: '/codeMissColdHeat.do?method=queryColdHot',
   rconfig: '/team/contractBonus.do?method=myRule',
+  qryContractStat: '/team/contractBonus.do?method=qryContractStat', //登录契约提醒
   useCoupon: '/ext/bg.do?method=transferToBG',
   getHisIssue: '/issuehistory.do?method=getHisIssue',
   getOldUserPrize: '/activity.do?method=getOldUserPrize',
