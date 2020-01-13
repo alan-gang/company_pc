@@ -329,6 +329,16 @@ export default {
                 {url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-5-21', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45},
                 {menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-5-22', title: '基诺彩', fn: '18:203'}
               ]
+            },
+            {
+              title: '其他',
+              class: 'icon-menu-other2',
+              url: 'OTHER2',
+              hideLeft: true, // 隐藏左侧导航
+              items: [
+                {url: 'OTHER2', title: '开奖中心', pathname: '/lotterycenter'},
+                {url: 'OTHER2', title: '挂机软件', pathname: '/help/7-1-1'}
+              ]
             }
             // {
             //   title: '基诺彩票',

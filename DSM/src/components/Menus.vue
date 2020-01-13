@@ -29,7 +29,7 @@
       //- 游戏菜单
       div(v-for="(m, i) in menus"  v-if="menus.length < 2 && m.url !== 'help' " v-bind:class=" [ menus[0].url ] ")
         template(v-for="(g, ii) in m.groups")
-          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
+          el-submenu(v-bind:index="g.url" v-if="g.items.length > 0 && !g.hideLeft" popper-class="game-menu" v-bind:ref="'subMenu'+(ii + 1)")
             .ds-button.full(style="display: none" v-bind:class="[ m.url + '-myicon' ]" v-bind:index="g.url") {{ m.title }}
             template(slot="title")
               i(:class="g.class")
@@ -131,7 +131,7 @@ export default {
     },
     // 多个彩种同时获取正在销售的奖期
     currentList() {
-      if (this.$props.menus.length < 2 && this.$props.menus[0].url === "game") {
+      if (this.$props.menus.length < 2 && this.$props.menus[0] && this.$props.menus[0].url === "game") {
         let ids = [];
         this.$props.menus[0].groups.forEach(a => {
           a.items.forEach(b => {
@@ -248,7 +248,7 @@ export default {
 </style>
 
 <style lang="stylus">
-  .el-menu 
+  .el-menu
     .el-submenu[popper-class="game-menu"]
       .el-submenu__title
         height 46px

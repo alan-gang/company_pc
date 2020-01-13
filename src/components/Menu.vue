@@ -124,6 +124,12 @@ export default {
           }, 0);
         }
       }
+      if (item.pathname) {
+        setTimeout(() => {
+          this.shows[index] = false;
+          this.$router.push(item.pathname)
+        }, 0)
+      }
     },
     openPage(url) {
       this.$emit("open-page", url);
@@ -170,7 +176,7 @@ body.cb.v2
     .submenu.game
       // margin .1rem 0
       margin-top .1rem
-      margin-bottom .1rem
+      // margin-bottom .1rem
       &.SSC
         margin-top 0
         margin-bottom 0
@@ -298,7 +304,8 @@ body.cb.v2
       &.KG
         min-height .36rem
         background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
-
+      &.OTHER2
+        background url(../assets/v2/qt.png) .25rem .1rem no-repeat
 
   .footer-popover
     .infos .info
