@@ -80,7 +80,7 @@ export default {
 <style lang="less">
 .sportsevent {
   position: relative;
-  height: ceil(1090px + 930px);
+  height: ceil(1090px + 530px);
   &::before {
     content: "";
     display: block;
@@ -96,7 +96,7 @@ export default {
     content: "";
     display: block;
     width: 100%;
-    height: 930px;
+    height: 530px;
     position: absolute;
     left: 0;
     bottom: 0;
