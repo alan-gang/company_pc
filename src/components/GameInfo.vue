@@ -393,6 +393,8 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
       border-radius 4px
       padding-left 2.38rem
     .rolling-numbers
+      &.PK10
+        padding 0 0 0 .1rem
       .number
         background-image: linear-gradient(
           #f17d0b,

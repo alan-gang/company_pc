@@ -102,6 +102,15 @@ export default {
   },
   created() {
     this.getData()
+    if (window.sessionStorage.getItem('kaijiangzhongxin')) {
+      let data = JSON.parse(window.sessionStorage.getItem('kaijiangzhongxin'))
+      this.radio = data.radio
+      this.checkedList = data.checkedList
+    }
+  },
+  destroyed() {
+    let data = JSON.stringify({checkedList: this.checkedList, radio: this.radio})
+    window.sessionStorage.setItem('kaijiangzhongxin', data)
   },
   methods: {
     __openWinCode (x) {
@@ -131,7 +140,7 @@ export default {
           let temp = []
           arr.forEach((lottery, idx) => {
             let obj = this.getLotteryById(lottery.lotteryid)
-            if (obj && !obj.removed) temp.push(Object.assign(obj, lottery))
+            if (obj && lottery.code && !obj.removed) temp.push(Object.assign(obj, lottery))
           })
           this.lotteryHistory = temp
         }
