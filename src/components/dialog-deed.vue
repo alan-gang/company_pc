@@ -11,31 +11,31 @@
     transition(name="el-zoom-in-top")
       .listinfo(v-show="show_listinfo")
         h3 分红详情
-          .but-close(@click="show_deed=!1" title="点击关闭弹窗提醒") 
-            //-
-            template(v-for="v in list")
-              .tit
-                el-row
-                  el-col(:span="8")
-                    span(v-if="v.ctype==0") 彩票分红
-                    span(v-if="v.ctype==1") 三方游戏分红
-                    b(v-if="v.stat==0" v-bind:class="'stat'+v.stat") 待确认
-                    b(v-if="v.stat==1" v-bind:class="'stat'+v.stat") 已签订
-                    b(v-if="v.stat==2" v-bind:class="'stat'+v.stat") 作废
-                    b(v-if="v.stat==3" v-bind:class="'stat'+v.stat") 拒绝
-                  el-col(:span="16" style="text-align: right;")
-                    .but-no(@click="push_checkContract(v ,0)" v-if="v.stat==0" title="点击拒延签订") 拒延签订
-                    .but-yes(@click="push_checkContract(v ,1)" v-if="v.stat==0" title="点击同意签订") 同意签订
-              .tablelist
-                el-row(v-for="(r,r_inx) in v.rule")
-                  el-col(:span="4")
-                    .circle {{r_inx+1}}
-                  el-col(:span="4")
-                    div 亏损{{r.sales}}万
-                  el-col(:span="8")
-                    div 有效人数{{r.actuser}}人
-                  el-col(:span="8")
-                    div 分红比例{{r.bounsrate}}%
+        .but-close(@click="show_deed=!1" title="点击关闭弹窗提醒") 
+        //-
+        template(v-for="v in list")
+          .tit
+            el-row
+              el-col(:span="8")
+                span(v-if="v.ctype==0") 彩票分红
+                span(v-if="v.ctype==1") 三方游戏分红
+                b(v-if="v.stat==0" v-bind:class="'stat'+v.stat") 待确认
+                b(v-if="v.stat==1" v-bind:class="'stat'+v.stat") 已签订
+                b(v-if="v.stat==2" v-bind:class="'stat'+v.stat") 作废
+                b(v-if="v.stat==3" v-bind:class="'stat'+v.stat") 拒绝
+              el-col(:span="16" style="text-align: right;")
+                .but-no(@click="push_checkContract(v ,0)" v-if="v.stat==0" title="点击拒延签订") 拒延签订
+                .but-yes(@click="push_checkContract(v ,1)" v-if="v.stat==0" title="点击同意签订") 同意签订
+          .tablelist
+            el-row(v-for="(r,r_inx) in v.rule")
+              el-col(:span="4")
+                .circle {{r_inx+1}}
+              el-col(:span="4")
+                div 亏损{{r.sales}}万
+              el-col(:span="8")
+                div 有效人数{{r.actuser}}人
+              el-col(:span="8")
+                div 分红比例{{r.bounsrate}}%
 </template>
 
 <script>
