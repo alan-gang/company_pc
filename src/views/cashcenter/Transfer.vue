@@ -13,7 +13,7 @@
           p.txt-c.mt10 主账户
           p.txt-c.ft24.mt10.amount {{ numberWithCommas(ME.amoney) }}
             i.ft12.yuan 元
-          p.txt-c.refresh(@click="refreshBalance({key:'amoney'})") 
+          p.txt-c.refresh(@click="refreshBalance({key:'amoney'})")
         .toolselect._col-
           el-form(label-width="5em")
             el-form-item(label="转出账户")
@@ -49,7 +49,7 @@
               v-if="Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)}).length"
               style="padding-left:1.5rem"
             )
-              .c(v-for="r in Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
+              .c(v-for="r in v.classifyID === 99 ? commonList : Tdata.list.filter(x=>{return x.classifys.includes(v.classifyID)})")
                 p.acc-shot-name(v-bind:class="r.classname")
                   span.txt-c {{ r.n }}
                 br
@@ -84,7 +84,9 @@ export default {
       cpwd: "",
       btn: false,
       quickAmounts: ["50", "100", "500", "全部"],
-      tabIdx: 0
+      tabIdx: 0,
+      // 常用账户
+      commonList: []
     };
   },
   computed: {
@@ -154,12 +156,16 @@ export default {
     getRecentlyPlat () {
       this.$http.get(api.getRecentlyPlat).then(({data: {success, msg, platList}}) => {
         if (success === 1) {
-          this.Tdata.list.forEach(v => {
-            if (platList.includes(v.id)) {
-              // { n: '常用账户', classifyID: 99 },
-              v.classifys.push(99); //追加分类
-            }
-          });
+          // 清空常用账户
+          this.commonList = []
+          platList.forEach(id => {
+            this.commonList = this.commonList.concat(this.Tdata.list.filter(item => {
+              if (item.id === id) {
+                if (!item.classifys.includes(99)) item.classifys.push(99)
+                return true
+              }
+            }))
+          })
         }
       })
     },
@@ -387,7 +393,7 @@ export default {
     .acc-shot-name
       width 1rem
       margin 0 auto
-      background-size 100% 100%
+      background-size contain!important
       height 0.65rem
       overflow hidden
       span
@@ -549,7 +555,7 @@ export default {
         height 12px
         border solid 2px #ff8713
         border-radius 50%
-        
+
 </style>
 <style lang="less">
 .transfers {

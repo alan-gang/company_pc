@@ -258,7 +258,8 @@ let Game = {
   // pricePot: '/ltrPool.do?method=current'
   // 19、修改密码页面，校验安全问答  ALL  仅在投注时候有效（追号无效），如用户选择参与奖池投注则该订单的每个方案需额外多花费一元金额，且不能撤销。
   //获取开奖信息
-  getAllLastLottery: '/issue.do?method=getAllLastLottery'
+  getAllLastLottery: '/issue.do?method=getAllLastLottery',
+  getThirdGames: '/ext/bg.do?method=getThirdGames'
 }
 
 let Me = {
