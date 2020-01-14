@@ -63,7 +63,7 @@ export default {
             // success
             if (data.success === 1) {
               this.$message.success(data.msg || `契约${txtmap[state]}成功!`);
-              this.get_list();
+              this.get_qryContractStat();
             } else this.$message.error(data.msg || `契约${txtmap[state]}失败!`);
           },
           rep => {
@@ -71,14 +71,6 @@ export default {
             this.$message.error(`契约${txtmap[state]}失败!`);
           }
         );
-    },
-    //-契约列表
-    get_list() {
-      this.$http.get(api.qryContractStat).then(({ data }) => {
-        if (data.success === 1) {
-          this.list = data.data;
-        }
-      });
     },
     //-登录契约提醒
     get_qryContractStat() {
