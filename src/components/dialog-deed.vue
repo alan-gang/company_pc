@@ -24,7 +24,7 @@
                 b(v-if="v.stat==2" v-bind:class="'stat'+v.stat") 作废
                 b(v-if="v.stat==3" v-bind:class="'stat'+v.stat") 拒绝
               el-col(:span="16" style="text-align: right;")
-                .but-no(@click="push_checkContract(v ,0)" v-if="v.stat==0" title="点击拒延签订") 拒延签订
+                .but-no(@click="push_checkContract(v ,0)" v-if="v.stat==0" title="点击拒绝签订") 拒绝签订
                 .but-yes(@click="push_checkContract(v ,1)" v-if="v.stat==0" title="点击同意签订") 同意签订
           .tablelist
             el-row(v-for="(r,r_inx) in v.rule")
@@ -131,7 +131,7 @@ export default {
     }
   }
   .tablelist {
-    width: 460px;
+    width: 100%;
     height: 154px;
     background-color: #e97c00;
     border: solid 1px #cccccc;
@@ -170,11 +170,13 @@ export default {
     box-sizing: border-box;
     z-index: 9999;
     margin: 26vh auto 0 auto;
-    width: 500px;
+    width: 510px;
     // height: 529px;
     background: #ffffff;
     border-radius: 2px;
     padding: 20px;
+    overflow-y: auto;
+    max-height: 500px;
     .tit {
       //   height: 18px;
       text-align: left;
