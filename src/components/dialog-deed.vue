@@ -132,7 +132,7 @@ export default {
   }
   .tablelist {
     width: 100%;
-    height: 154px;
+    max-height: 154px;
     background-color: #e97c00;
     border: solid 1px #cccccc;
     margin: 15px 0;
