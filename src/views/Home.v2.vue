@@ -199,14 +199,14 @@ export default {
       sources: [
       ],
       topgames: [
-        {class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖'},
-        {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
-        {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
-        {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
-        {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
-        {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
-        {class: 'index_icon_10', id: '1-5-6', title: '六合彩'}
+        { class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖' },
+        { class: 'index_icon_02', id: '1-3-1', title: '广东11选5' },
+        { class: 'index_icon_03', id: '1-4-1', title: '安徽快三' },
+        { class: 'index_icon_04', id: '1-5-2', title: '福彩3D' },
+        { class: 'index_icon_06', id: '1-5-1', title: '北京PK10' },
+        { class: 'index_icon_07', id: '1-3-4', title: '11运夺金' },
+        { class: 'index_icon_09', id: '1-5-3', title: '排列三、五' },
+        { class: 'index_icon_10', id: '1-5-6', title: '六合彩' }
       ],
       formData: {
       },
@@ -214,32 +214,32 @@ export default {
       ifsrc: '',
       sports: false,
       rank: [
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182}
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'ab***01', settlement: 18215 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 },
+        { username: 'xx***88', settlement: 52182 }
       ],
       smpics: [
         '/static/pic/newhome/index_aboutus_01.jpg',
@@ -267,7 +267,7 @@ export default {
   computed: {
   },
   watch: {
-    '$route' ({path, query: {sports}}) {
+    '$route' ({ path, query: { sports } }) {
       if (sports && path === '/') {
         this.sports = true
         this.ssports = true
@@ -296,7 +296,7 @@ export default {
   },
   methods: {
     getActivityBanner () {
-      this.$http.get(api.getActivityBanner).then(({data}) => {
+      this.$http.get(api.getActivityBanner).then(({ data }) => {
         if (data.success === 1) {
           this.sources = data.webBanner || 0
         } else {
@@ -317,10 +317,10 @@ export default {
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
-      this.$http.mypost(api.recentlyCodeNew, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, { gameid: 1, pageNum: 1, size: 30 }).then(({ data }) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
-          let lst = data.items.find(x => { return x.code }) || {code: '0,0,0,0,0'}
+          let lst = data.items.find(x => { return x.code }) || { code: '0,0,0,0,0' }
           this.ns = lst.code.split(',')
         }
       }, (rep) => {
@@ -339,7 +339,7 @@ export default {
     },
     // TODO 获取推荐游戏
     getUserPrefence () {
-      this.$http.get(api.getUserPrefence).then(({data}) => {
+      this.$http.get(api.getUserPrefence).then(({ data }) => {
         // success
         if (data.success === 1) {
         }
@@ -350,7 +350,7 @@ export default {
     openExternal (fn) {
       if (fn.split(':')[1]) return this.openBG(fn)
       // this.formData = {}
-      this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
+      this.$http.get(api.loginVr, { channelId: fn || 12 }).then(({ data }) => {
         //
         this.formData[fn] = data.vrurl
         this.__openWindowWithPost(fn)
@@ -359,7 +359,7 @@ export default {
     },
     openBG (fn) {
       if (fn.split(':')[2] === 'iframe') this.$router.push(fn.split(':')[3] || '/game/1-8-1')
-      this.$http.get(api.gameUrl, {gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0]}).then(({data}) => {
+      this.$http.get(api.gameUrl, { gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0] }).then(({ data }) => {
         //
         if (data.success) {
           // data.url && (data.url.iframe = true)
@@ -372,8 +372,8 @@ export default {
       }).catch(rep => {
       })
     },
-    openWindowWithPost ({data, version, id, vrurl, msg}) {
-      if (!data) return this.$message.error({target: this.$el, message: msg || '第三方游戏获取失败！'}) && false
+    openWindowWithPost ({ data, version, id, vrurl, msg }) {
+      if (!data) return this.$message.error({ target: this.$el, message: msg || '第三方游戏获取失败！' }) && false
       let f = document.getElementById('TheForm')
       f.data.value = data
       f.version.value = version
@@ -387,8 +387,8 @@ export default {
         if (fn.split(':')[2] === 'iframe') {
           this.ifsrc = this.formData[fn]
           this.formData[fn] = undefined
-          this.__setCall({fn: '__setIframeSrc', args: this.ifsrc})
-          this.__setCall({fn: '__setIframeSrcKey', args: fn})
+          this.__setCall({ fn: '__setIframeSrc', args: this.ifsrc })
+          this.__setCall({ fn: '__setIframeSrcKey', args: fn })
           return false
         }
         window.open(this.formData[fn])
@@ -398,7 +398,7 @@ export default {
       return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
     },
     leaderBoard () {
-      this.$http.get(api.leaderBoard).then(({data: {data, success}}) => {
+      this.$http.get(api.leaderBoard).then(({ data: { data, success } }) => {
         if (success === 1) {
           this.rank = data
         }
@@ -849,4 +849,3 @@ export default {
 
 
 </style>
-

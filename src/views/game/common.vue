@@ -1,6 +1,7 @@
 <template lang="jade">
   // transition(appear=true name="zoom")
   .game-page
+    stopMasker(v-if="isShowDialog")
     slot(name="cover")
     slot(name="movebar")
     slot(name="resize-x")
@@ -9,7 +10,7 @@
 
     <!-- 游戏信息 -->
     //- GameInfo.fixed(v-on:set-timeout="fetchTimeout" v-bind:v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="[page.class, page.class + '-middle', {show: scrollAtBottom}]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-show="scrollAtBottom")
-    
+
     //- GameSideButtons(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:type="type" style="display: none")
 
     .game-content.scroll-content(ref="GC" )
@@ -17,7 +18,7 @@
       //- GameLuckyNumberWithHistory(v-bind:gameid = "page.gameid" v-bind:game-type="gameType" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers" v-bind:NPER="NPER" v-bind:PNPER="PNPER" v-bind:FNPER="FNPER" @click.native="showLuckyNumberHistory = !showLuckyNumberHistory" v-bind:allLuckyNumbers="allLuckyNumbers" )
 
       iframe(ref="pk10df" src="/xy_activity/pk10/index.html " v-if=" gameType === 'PK10' && showDF && gameid !==  39 " style="border: 0; width: 100%; height: 6.1rem" id="pk10df" @load=" pk10dfload() ")
-      
+
       <!-- 游戏信息 -->
       GameInfo(v-on:set-timeout="fetchTimeout" ref="GI" v-bind:game-type="gameType" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:timeout="timeout" v-bind:type="type" v-bind:class="['game-header-' + page.class]" v-on:set-NPER = "setNPER" v-bind:gameid = "page.gameid" v-bind:allLuckyNumbers="allLuckyNumbers" v-bind:methodid="methodid" v-bind:overtime="overtime" v-bind:lucknumbers="lucknumbers")
 
@@ -36,7 +37,7 @@
           GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs" v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
-          GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
+          GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns  =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
 
 
           <!-- 下单 -->
@@ -53,13 +54,13 @@
           <!-- 追号单 -->
           transition(name="slide-left" appear=true key="follow")
             GameFollowList(v-if="follow.show" v-bind:FCNPER="follow.CNPER" v-bind:CNPER="CNPER" v-bind:pay="N1PAY" v-on:set-follow="setFollow" v-bind:issues="issues" v-bind:ns="ns" v-bind:nsl="ns.length")
-          
+
           <!-- 总计栏 -->
           GameAmountBar.inner-bar.inner-amount-bar(:show="follow.show" v-bind:CNPER="CNPER" v-bind:issues="issues" v-bind:n="N" v-bind:pay="NPAY"  v-bind:NPER="follow.NPER" v-bind:PAY="follow.pay" v-bind:checked="checked" v-bind:pot="pot" v-on:toggle-checked="toggleChecked" v-on:toggle-pot="togglePot" v-on:showFollow="showFollow" v-on:book="book" v-if="ns.length > 0 && follow.show" style="display: none")
 
         .inlb.absolute(style="width: 25%; top: 0; right: 0; bottom: 0; background: #999; vertical-align: top")
           GameRecent(v-bind:gameid="gameid" v-bind:NPER="NPER" v-bind:CNPER="CNPER" v-bind:gameType="gameType" v-bind:allLuckyNumbers="allLuckyNumbers.slice(0, 30)" v-bind:methodid="methodid" v-bind:type="type")
-          
+
       .bgc-w.mt_10.pt_15.pb_15(style="background-color: #fff")
         .pl_15
           span.mr_10.pointer(v-for=" (x, i) in gameMoreInfo " @click=" gameMoreInfoI = i " v-bind:style=" gameMoreInfoI === i ? {color: '#333', fontWeight: 'bold'} : {} " v-show=" i !== 2 || type.ludan ") {{ x.n }}
@@ -74,6 +75,7 @@
 
 </template>
 <script>
+import stopMasker from 'components/stopMasker'
 import GameLuckyNumber from 'components/GameLuckyNumber'
 import GameLuckyNumberWithHistory from 'components/GameLuckyNumberWithHistory'
 import GameLuckyNumberHistory from 'components/GameLuckyNumberHistory'
@@ -105,10 +107,11 @@ export default {
     return {
       gameMoreInfoI: 0,
       gameMoreInfo: [
-        {n: '投注记录', component: 'GameRecentOrder'},
-        {n: '追号记录', component: 'GameRecentChaseOrder'},
-        {n: '路单', component: 'Ludan'}
+        { n: '投注记录', component: 'GameRecentOrder' },
+        { n: '追号记录', component: 'GameRecentChaseOrder' },
+        { n: '路单', component: 'Ludan' }
       ],
+      isShowDialog: false,
       showDF: window.localStorage.getItem('showDF') === 'true',
       ME: store.state.user,
       isTry: store.state.user.isTry,
@@ -226,9 +229,9 @@ export default {
       return this.methodidtype === '1' ? this.MCH[this.methodid] : null
     },
     gameid () {
-      return this.page.gameid
+      return this.page.gmd
     },
-    allMenus () {
+    enus () {
       return this.mt !== 'kq' && this.kqmenus ? this.menus.concat(this.kqmenus) : this.menus
     },
     menuItemArray () {
@@ -256,7 +259,8 @@ export default {
     canOrder () {
       return this.n && this.pay > 0
     },
-    // 已投注注数
+    // 已投注
+
     N () {
       return this.ns.reduce((p, n) => {
         return (p += n.n)
@@ -281,10 +285,10 @@ export default {
     // },
     // newUserPoint
     P () {
-      return (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}])[0]
+      return (this.PS[this.methodid] || [{ maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0 }])[0]
     },
     PA () {
-      return (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}])
+      return (this.PS[this.methodid] || [{ maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0 }])
     },
     AFTERS () {
       return this.PA.reduce((p, x, i) => {
@@ -315,21 +319,21 @@ export default {
     },
     overtime () {
       setTimeout(() => {
-        this.__setCall({fn: '__orderlist'})
+        this.__setCall({ fn: '__orderlist' })
       }, 1000)
       setTimeout(() => {
-        this.__setCall({fn: '__orderlist'})
+        this.__setCall({ fn: '__orderlist' })
       }, 3000)
       setTimeout(() => {
-        this.__setCall({fn: '__orderlist'})
+        this.__setCall({ fn: '__orderlist' })
       }, 10000)
     },
     methodid () {
       this.__setCall({
         fn: '__setRowsSl',
-        args: (this.PS[this.methodid] || [{maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}])[0].singleRowMaxLen || 0
+        args: (this.PS[this.methodid] || [{ maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0 }])[0].singleRowMaxLen || 0
         // args: (this.PS.find(p => {
-          // return (p.methodid + '') === this.methodid
+        // return (p.methodid + '') === this.methodid
         // }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0, singleRowMaxLen: 0}).singleRowMaxLen})
       })
     },
@@ -397,35 +401,48 @@ export default {
     },
     P () {
       // this.__setCall({fn: '__setAfters', args: this.P.maxprize})
-      this.__setCall({fn: '__setAfters', args: this.AFTERS})
+      this.__setCall({ fn: '__setAfters', args: this.AFTERS })
     }
   },
   created () {
   },
   mounted () {
+    this.checkIsShowDialog()
     // 获得当前奖期
-    this.__getIssue()
-    // 获得游戏所有奖期的开奖时间
-    this.__getTraceIssueList()
-    // 获得游戏所有玩法对应的返点信息
-    this.getUserpoint()
-    // 获得历史开奖号码
-    this.__recentlyCode()
-    // this.getLottSets()
-    this.follow.CNPER = this.CNPER
-    // setInterval(() => {
-    //   this.CNPER = parseInt(this.CNPER) + 1 + ''
-    // }, 3000)
-    if (this.isTry) this.checked = true
+    // this.__getIssue()
+    // // 获得游戏所有奖期的开奖时间
+    // this.__getTraceIssueList()
+    // // 获得游戏所有玩法对应的返点信息
+    // this.getUserpoint()
+    // // 获得历史开奖号码
+    // this.__recentlyCode()
+    // // this.getLottSets()
+    // this.follow.CNPER = this.CNPER
+    // // setInterval(() => {
+    // //   this.CNPER = parseInt(this.CNPER) + 1 + ''
+    // // }, 3000)
+    // if (this.isTry) this.checked = true
   },
   beforeDestroy () {
     clearTimeout(this.lucknumbersTimeout)
   },
   methods: {
+    checkIsShowDialog () {
+      let matchArr = ['1-1-4', '1-1-7', '1-1-9', '1-3-5', '1-5-11', '1-4-5'];
+      let sDate = new Date('2020-01-22').getTime();
+      let eDate = new Date('2020-01-31').getTime();
+      let currentDate = new Date().getTime();
+      let gID = this.$route.params.url;
+      if (currentDate > sDate && currentDate < eDate) {
+        if (!matchArr.includes(gID)) {
+          this.isShowDialog = true
+        }
+      }
+    },
     pk10dfload () {
       let w = this.$refs['pk10df'].contentWindow
       w.onReady = () => {
-        this.__setCall({fn: '__startpk10Game', callId: undefined})
+        this.__setCall({ fn: '__startpk10Game', callId: undefined })
       }
     },
     __showDF (showDF) {
@@ -441,14 +458,14 @@ export default {
       else this.scrollAtBottom = false
     },
     getLottSets () {
-      this.$http.myget(api.getLottSets).then(({data}) => {
+      this.$http.myget(api.getLottSets).then(({ data }) => {
         // console.log(data)
       })
     },
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCodeNew, {gameid: this.page.gameid, pageNum: 1, size: 100}).then(({data}) => {
+      this.$http.mypost(api.recentlyCodeNew, { gameid: this.page.gameid, pageNum: 1, size: 100 }).then(({ data }) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
@@ -502,7 +519,7 @@ export default {
     },
     // 获得当前正在进行的奖期信息
     __getIssue () {
-      this.$http.mypost(api.getIssue, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getIssue, { gameid: this.page.gameid }).then(({ data }) => {
         // success
         if (data.success > 0) {
           // 当前期
@@ -523,13 +540,13 @@ export default {
         }
       }, (rep) => {
         // error
-        this.$message.error({message: '当前奖期获取失败！'})
+        this.$message.error({ message: '当前奖期获取失败！' })
         this.timeout += 0.05
       })
     },
     // lotteryId=17
     codeMissColdHeat () {
-      this.$http.mypost(api.codeMissColdHeat, {lotteryId: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.codeMissColdHeat, { lotteryId: this.page.gameid }).then(({ data }) => {
         // success
         if (data.success > 0) {
           delete data.success
@@ -544,7 +561,7 @@ export default {
         }
       }, (rep) => {
         // error
-        this.$message.error({message: '当前遗漏和冷热信息获取失败！'})
+        this.$message.error({ message: '当前遗漏和冷热信息获取失败！' })
       })
     },
     __upDatePoints () {
@@ -552,7 +569,7 @@ export default {
     },
     // 获得该游戏所有返点信息
     getUserpoint () {
-      this.$http.mypost(api.getUserpoint, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getUserpoint, { gameid: this.page.gameid }).then(({ data }) => {
         // success
         // Object.values(data.items).forEach(x => {
         //   x.forEach(y => {
@@ -583,7 +600,7 @@ export default {
     __getTraceIssueList () {
       // if (!this.ME.login) return (this.issues = [])
       if (this.issues && this.issues.length > 20) return this.issues.shift()
-      this.$http.mypost(api.getTraceIssueList, {gameid: this.page.gameid}).then(({data}) => {
+      this.$http.mypost(api.getTraceIssueList, { gameid: this.page.gameid }).then(({ data }) => {
         // success
         if (data.success > 0) {
           // data.items.forEach(d => (d.selected = false))
@@ -602,7 +619,7 @@ export default {
       pre.unshift(this.type)
       if (pre.length > 5) pre.length = 5
       window.localStorage.setItem('historyItems' + this.gameType + this.gameid + this.mt, JSON.stringify(pre))
-      this.__setCall({fn: '__getHistoryItems', callId: undefined})
+      this.__setCall({ fn: '__getHistoryItems', callId: undefined })
     },
     book (pot, nper) {
       this.booking(pot, nper)
@@ -617,7 +634,7 @@ export default {
           btn: ['确定']
         })
       }
-      if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
+      if (!this.ME.login) return this.__setCall({ fn: '__popLogin', callId: undefined, args: true })
       if ((this.follow.show && this.follow.pay > (this.checked ? this.free : this.money)) || (!this.follow.show && this.NPAY > (this.checked ? this.free : this.money))) {
         return this.$modal.question({
           target: this.$el,
@@ -646,7 +663,7 @@ export default {
         items: JSON.stringify(this._getOrderItems()),
         trace: this.follow.show ? JSON.stringify(this._getTrace()) : '',
         isJoinPool: !this.follow.show && pot ? 1 : 0
-      }).then(({data}) => {
+      }).then(({ data }) => {
         // success
         if (data.success > 0) {
           // this.$message.success('投注成功')
@@ -664,9 +681,9 @@ export default {
           // }, 1000)
           // this.__setCall({fn: '__getOrderList'})
           // this.__setCall({fn: '__getFollowList'})
-          this.__setCall({fn: '__getUserFund', callId: undefined})
+          this.__setCall({ fn: '__getUserFund', callId: undefined })
           setTimeout(() => {
-            this.__setCall({fn: '__orderlist'})
+            this.__setCall({ fn: '__orderlist' })
           }, 200)
           this.ns = []
           this.follow.items = []
@@ -765,7 +782,7 @@ export default {
           isusefree: 0, // 是否使用优惠券，0-否，1-是
           betList: items
         })
-      }).then(({data}) => {
+      }).then(({ data }) => {
         // success
         if (data.success > 0) {
           // this.$message.success('投注成功')
@@ -776,15 +793,15 @@ export default {
             btn: ['确定'],
             timeout: 3000
           })
-          this.__setCall({fn: '__clearSelectedNumbers'})
+          this.__setCall({ fn: '__clearSelectedNumbers' })
           setTimeout(() => {
-            this.__setCall({fn: '__clearValue'})
+            this.__setCall({ fn: '__clearValue' })
           }, 0)
           setTimeout(() => {
-            this.__setCall({fn: '__getUserFund', callId: undefined})
+            this.__setCall({ fn: '__getUserFund', callId: undefined })
           }, 200)
           setTimeout(() => {
-            this.__setCall({fn: '__orderlist'})
+            this.__setCall({ fn: '__orderlist' })
           }, 400)
 
           // this.__loading({
@@ -841,7 +858,7 @@ export default {
     },
     quickbook () {
       this.__storeHistoryItem()
-      if (!this.ME.login) return this.__setCall({fn: '__popLogin', callId: undefined, args: true})
+      if (!this.ME.login) return this.__setCall({ fn: '__popLogin', callId: undefined, args: true })
       let checked = false
       if (this.pay > (checked ? this.free : this.money)) {
         return this.$modal.question({
@@ -900,7 +917,7 @@ export default {
         items: JSON.stringify(items),
         trace: '',
         isJoinPool: 0
-      }).then(({data}) => {
+      }).then(({ data }) => {
         // success
         if (data.success > 0) {
           // this.$message.success('投注成功')
@@ -911,15 +928,15 @@ export default {
             btn: ['确定'],
             timeout: 3000
           })
-          this.__setCall({fn: '__clearSelectedNumbers'})
+          this.__setCall({ fn: '__clearSelectedNumbers' })
           setTimeout(() => {
-            this.__setCall({fn: '__clearValue'})
+            this.__setCall({ fn: '__clearValue' })
           }, 0)
           setTimeout(() => {
-            this.__setCall({fn: '__getUserFund', callId: undefined})
+            this.__setCall({ fn: '__getUserFund', callId: undefined })
           }, 200)
           setTimeout(() => {
-            this.__setCall({fn: '__orderlist'})
+            this.__setCall({ fn: '__orderlist' })
           }, 400)
           this.setHistoryLottery(parseInt(this.page.gameid))
           // this.__loading({
@@ -984,13 +1001,13 @@ export default {
     },
     setType (type) {
       this.type = type
-      this.__setCall({fn: '__clearSelectedNumbers'})
-      this.__setCall({fn: '__setDefaultTimes', args: this.times})
+      this.__setCall({ fn: '__clearSelectedNumbers' })
+      this.__setCall({ fn: '__setDefaultTimes', args: this.times })
       setTimeout(() => {
-        this.__setCall({fn: '__clearValue'})
+        this.__setCall({ fn: '__clearValue' })
       }, 0)
       setTimeout(() => {
-        this.__setCall({fn: '__setFt', callId: undefined})
+        this.__setCall({ fn: '__setFt', callId: undefined })
       }, 100)
     },
     toggleChecked () {
@@ -1011,7 +1028,7 @@ export default {
       this.follow.show = false
       this.clearFollow()
     },
-    setFollow ({NPER, pay, CNPER, stop, type, t, point, items}) {
+    setFollow ({ NPER, pay, CNPER, stop, type, t, point, items }) {
       NPER !== undefined && (this.follow.NPER = NPER)
       pay !== undefined && (this.follow.pay = pay)
       CNPER !== undefined && (this.follow.CNPER = CNPER)
@@ -1063,7 +1080,7 @@ export default {
     // __order () {
     //   this.order()
     // },
-    order ({maxWinAmount}) {
+    order ({ maxWinAmount }) {
       if (this.hasUnable) {
         return this.$modal.warn({
           content: '<div class="text-666" style="line-height: .3rem;text-indent: .15rem; text-align: left">您输入了<span class="text-danger">无效号码</span>，系统已自动删除无效号码</div>',
@@ -1077,7 +1094,7 @@ export default {
                 target: this.$el
               })
             }
-            this.ns.push(Object.assign({title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false}, {
+            this.ns.push(Object.assign({ title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false }, {
               methodid: parseInt(this.methodid), // 玩法编号
               type: parseInt(this.methodidtype),
               pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
@@ -1089,9 +1106,9 @@ export default {
               mode: this.currency.model, // 1-元，2-角，3-分，4-厘
               userpoint: this.point // 用户选择的返点
             }))
-            this.__setCall({fn: '__clearSelectedNumbers'})
+            this.__setCall({ fn: '__clearSelectedNumbers' })
             setTimeout(() => {
-              this.__setCall({fn: '__clearValue'})
+              this.__setCall({ fn: '__clearValue' })
             }, 0)
           },
           O: this
@@ -1102,9 +1119,9 @@ export default {
           btn: ['确定'],
           target: this.$el
         })
-        this.__setCall({fn: '__clearSelectedNumbers'})
+        this.__setCall({ fn: '__clearSelectedNumbers' })
         setTimeout(() => {
-          this.__setCall({fn: '__clearValue'})
+          this.__setCall({ fn: '__clearValue' })
         }, 0)
       } else {
         if (this.ns.length === 10) {
@@ -1114,7 +1131,7 @@ export default {
             target: this.$el
           })
         }
-        this.ns.push(Object.assign({ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true}, {
+        this.ns.push(Object.assign({ ttitle: this.getUpTitle ? this.getUpTitle() : this.getTitle(), title: this.type.title, $: this.currency.title, n: this.n, times: this.times, pay: this.pay, bonus: maxWinAmount || this.bonus, point: (this.point * 100).toFixed(1) + '%', selected: false, new: true }, {
           methodid: parseInt(this.methodid), // 玩法编号
           type: parseInt(this.methodidtype),
           pos: this._getPsstring(), // 任选位置信息 ,万千百十个,以逗号“,”连接; w,q,b,s,g
@@ -1126,9 +1143,9 @@ export default {
           mode: this.currency.model, // 1-元，2-角，3-分，4-厘
           userpoint: this.point // 用户选择的返点
         }))
-        this.__setCall({fn: '__clearSelectedNumbers'})
+        this.__setCall({ fn: '__clearSelectedNumbers' })
         setTimeout(() => {
-          this.__setCall({fn: '__clearValue'})
+          this.__setCall({ fn: '__clearValue' })
         }, 0)
       }
       // this.currency = {
@@ -1224,7 +1241,7 @@ export default {
         this.overtime = false
         // this.NPER = x.issue + ''
         this.lucknumbers = x.lucknumbers
-        parseInt(window.localStorage.getItem('volume')) && this.__setCall({fn: '__music', callId: undefined})
+        parseInt(window.localStorage.getItem('volume')) && this.__setCall({ fn: '__music', callId: undefined })
         // this.allLuckyNumbers.splice(0, 0, x)
         let the = this.allLuckyNumbers.find(y => String(x.issue) === String(y.issue))
         if (the) {
@@ -1234,13 +1251,14 @@ export default {
           this.allLuckyNumbers.splice(0, 0, x)
           this.NPER = x.issue + ''
         }
-        this.__setCall({fn: '__orderlist'})
+        this.__setCall({ fn: '__orderlist' })
         this.updateFromSocket = true
         this.codeMissColdHeat()
       }
     }
   },
   components: {
+    stopMasker,
     GameRecent,
     GameLuckyNumber,
     GameLuckyNumberWithHistory,
@@ -1270,7 +1288,7 @@ export default {
   @import '../../var.stylus'
   .game-page
     user-select none
-    
+
   .game-info.show + .game-content
     top TH + GH
   .game-content
@@ -1282,7 +1300,7 @@ export default {
     margin 0 auto
     overflow-x hidden
     overflow-y auto
-  
+
   .inner-bar
     padding 0 PWX
     line-height .5rem
@@ -1290,6 +1308,3 @@ export default {
     box-shadow 0 0 .05rem rgba(0,0,0,.1)
 
 </style>
-
-
-
