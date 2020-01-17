@@ -409,19 +409,19 @@ export default {
   mounted () {
     this.checkIsShowDialog()
     // 获得当前奖期
-    // this.__getIssue()
-    // // 获得游戏所有奖期的开奖时间
-    // this.__getTraceIssueList()
-    // // 获得游戏所有玩法对应的返点信息
-    // this.getUserpoint()
-    // // 获得历史开奖号码
-    // this.__recentlyCode()
-    // // this.getLottSets()
-    // this.follow.CNPER = this.CNPER
-    // // setInterval(() => {
-    // //   this.CNPER = parseInt(this.CNPER) + 1 + ''
-    // // }, 3000)
-    // if (this.isTry) this.checked = true
+    this.__getIssue()
+    // 获得游戏所有奖期的开奖时间
+    this.__getTraceIssueList()
+    // 获得游戏所有玩法对应的返点信息
+    this.getUserpoint()
+    // 获得历史开奖号码
+    this.__recentlyCode()
+    // this.getLottSets()
+    this.follow.CNPER = this.CNPER
+    // setInterval(() => {
+    //   this.CNPER = parseInt(this.CNPER) + 1 + ''
+    // }, 3000)
+    if (this.isTry) this.checked = true
   },
   beforeDestroy () {
     clearTimeout(this.lucknumbersTimeout)
