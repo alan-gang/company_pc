@@ -37,7 +37,7 @@
           GameSelection(v-bind:type="type" v-bind:gameid="page.gameid" v-on:n-change="Nchange" v-on:wn-change="WNchange"  v-on:set-nsns="setNsns" v-on:set-ps="setPs" v-bind:CMCH=" CMCH ")
 
           //- 快钱下单
-          GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns  =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
+          GameKQOrderBar.onafter(v-bind:currency="currency"  v-bind:ns =" ns " v-bind:game-type="gameType"  v-bind:type="type" style="box-shadow: none;" v-bind:class="{ 'opacity-1' : wn > 0, 'opacity-0' : wn === 0 }" v-bind:n="n" v-bind:pay="pay"  v-bind:times="times"  v-bind:canOrder="canOrder" v-on:set-times="setTimes"  v-on:order="order" v-on:quickbook="quickbook" v-if=" mt === 'kq' || gameType === 'PCDD' ")
 
 
           <!-- 下单 -->
@@ -105,13 +105,13 @@ export default {
   props: ['page', 'money', 'free'],
   data () {
     return {
+      isShowDialog: false,
       gameMoreInfoI: 0,
       gameMoreInfo: [
         { n: '投注记录', component: 'GameRecentOrder' },
         { n: '追号记录', component: 'GameRecentChaseOrder' },
         { n: '路单', component: 'Ludan' }
       ],
-      isShowDialog: false,
       showDF: window.localStorage.getItem('showDF') === 'true',
       ME: store.state.user,
       isTry: store.state.user.isTry,
@@ -229,9 +229,9 @@ export default {
       return this.methodidtype === '1' ? this.MCH[this.methodid] : null
     },
     gameid () {
-      return this.page.gmd
+      return this.page.gameid
     },
-    enus () {
+    allMenus () {
       return this.mt !== 'kq' && this.kqmenus ? this.menus.concat(this.kqmenus) : this.menus
     },
     menuItemArray () {
@@ -259,8 +259,7 @@ export default {
     canOrder () {
       return this.n && this.pay > 0
     },
-    // 已投注
-
+    // 已投注注数
     N () {
       return this.ns.reduce((p, n) => {
         return (p += n.n)
@@ -429,16 +428,16 @@ export default {
   },
   methods: {
     checkIsShowDialog () {
-      let matchArr = ['1-1-4', '1-1-7', '1-1-9', '1-3-5', '1-5-11', '1-4-5'];
+      let matchArr = ['1-1-1', '1-1-2', '1-1-3', '1-1-5', '1-3-4', '1-3-2', '1-3-1', '1-3-8', '1-3-7', '1-4-3', '1-3-9', '1-4-6', '1-5-2', '1-5-4', '1-5-3', '1-4-1', '1-4-2', '1-3-124', '1-5-1'];
       let sDate = new Date('2020-01-22').getTime();
       let eDate = new Date('2020-01-31').getTime();
       let currentDate = new Date().getTime();
       let gID = this.$route.params.url;
-      // if (currentDate > sDate && currentDate < eDate) {
-      if (!matchArr.includes(gID)) {
-        this.isShowDialog = true
+      if (currentDate > sDate && currentDate < eDate) {
+        if (matchArr.includes(gID)) {
+          this.isShowDialog = true
+        }
       }
-      // }
     },
     pk10dfload () {
       let w = this.$refs['pk10df'].contentWindow
