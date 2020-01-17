@@ -407,6 +407,7 @@ export default {
   created () {
   },
   mounted () {
+    // 显示休市提示
     this.checkIsShowDialog()
     // 获得当前奖期
     this.__getIssue()
@@ -433,11 +434,11 @@ export default {
       let eDate = new Date('2020-01-31').getTime();
       let currentDate = new Date().getTime();
       let gID = this.$route.params.url;
-      if (currentDate > sDate && currentDate < eDate) {
-        if (!matchArr.includes(gID)) {
-          this.isShowDialog = true
-        }
+      // if (currentDate > sDate && currentDate < eDate) {
+      if (!matchArr.includes(gID)) {
+        this.isShowDialog = true
       }
+      // }
     },
     pk10dfload () {
       let w = this.$refs['pk10df'].contentWindow

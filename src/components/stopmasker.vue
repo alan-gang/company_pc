@@ -23,6 +23,7 @@
       <div class="game-list-container">
         <div class="list"
              v-for="item in menuList"
+             @click="__setCall({fn:'openTab',args:item.id})"
              :key="item.id">{{item.title}}</div>
       </div>
     </div>
@@ -35,14 +36,17 @@ export default {
     return {
       menuList: [{ class: 'ds-icon-game-hlffc', id: '1-1-4', menuid: '73', title: '欢乐分分彩', volume: false, gameid: 17 },
       { class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29 },
-      { class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '奥地利50秒彩', volume: false, gameid: 29 },
-      { class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '奥地利100秒彩', volume: false, gameid: 29 },
+      { class: 'ds-icon-game-adl50 sign new', id: '1-1-17', menuid: '141', title: '奥地利50秒彩', volume: true, gameid: 201 },
+      { class: 'ds-icon-game-adl100 sign new', id: '1-1-18', menuid: '142', title: '奥地利100秒彩', volume: true, gameid: 202 },
       { class: 'ds-icon-game-wbwfc sign new', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150 },
       { url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11 },
-      { url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯', volume: true, gameid: 151 },
+      { url: 'PK10', class: 'ds-icon-game-txsc sign new', id: '1-5-11', menuid: '74', title: '腾讯赛车', volume: true, gameid: 151 },
       { class: 'ds-icon-game-xfK3', id: '1-4-5', menuid: '19', title: '幸福快三', volume: true, gameid: 33 }
       ]
     }
+  },
+  methods: {
+
   }
 
 }
@@ -56,15 +60,15 @@ export default {
     left 0
     top 0
     background-color rgba(0,0,0,0.52)
-    z-index 10
+    z-index 1010
     .masker-dialog-container
       width 720px
       height 800px
       background-image url('~@/assets/stop_masker/masker_bg.png')
       position absolute
       left 50%
-      top 50%
-      transform translate(-50%,-50%)
+      top 70px
+      transform translateX(-50%)
       display flex
       flex-direction column
       align-items center
