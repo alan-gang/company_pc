@@ -5,13 +5,13 @@
       dd.title(v-for="menu in menus" v-bind:class="{ selected:  menu.title === title, 'is-link': !menu.groups}" @click="menu.title !== title && setMenu(menu) " v-if=" menu && menu.groups && menu.groups.filter(function(g){ return g.items.filter(function(x){return !x.hide})[0] })[0] " style="line-height: .36rem") {{menu.title}}
         .submenu-group(v-if="menu.groups")
           dl.submenu(v-for="group in menu.groups")
-            dt(v-if="group.title") 
+            dt(v-if="group.title")
               span {{ group.title }}
             dd(v-for="item in group.items" @click="setType(item)" v-bind:class="{ selected:  item.id === type.id}" style="height: .26rem; line-height: .26rem") {{ item.title }}
-  
+
       //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 " @click=" __setCall({fn: '__switchMT'}) ") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
-      //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 && gameid !== 155 && gameid !== 156 && gameid !== 157 && gameid !== 158 ") 
-      dd.title.switch(v-if="mt") 
+      //- dd.title.switch(v-if="mt && gameid !== 17 && gameid !== 21 && gameid !== 155 && gameid !== 156 && gameid !== 157 && gameid !== 158 ")
+      dd.title.switch(v-if="mt")
         el-switch(v-model=" mmt " on-text="快钱玩法" off-text="官方玩法"  on-color="#f17d0b" off-color="#666" v-bind:width="90") {{ mt === 'normal' ? '快钱玩法' : '官方玩法' }}
 
       dd.df(v-if=" gameType === 'PK10' && gameid !==  39 " @click=" showDF =  !showDF ") {{ showDF? '收起动画' : '展开动画' }}
@@ -21,14 +21,14 @@
         pre(style="margin: 0")
           span {{ g.title }}
       .ds-button.text-button.text-666.small.btn1(v-show=" !item.hide " v-for=" item in g.items " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.title }}
-    
+
     div(style="padding-bottom: .08rem; background: #fafafa; border-bottom: 1px solid #d8d8d8" v-if=" !history_list[0] ")
 
     el-row.row.history(style="padding-top: .1rem; padding-bottom: .05rem; border-bottom: 1px solid #d8d8d8" v-if=" history_list[0] ")
       div(style="border-top: 1px dashed #d8d8d8; padding-bottom: .05rem ")
       .subtitle
         span(style="color: #f17d0b") 历史玩法
-      
+
       .ds-button.text-button.text-666.small(v-if=" !item.hide " v-for=" item in history_list || [] " v-bind:class=" { selected: item.id === type.id } " @click="setType(item)" style="height: .26rem; line-height: .26rem") {{ item.upTitle === item.title ? item.title : item.upTitle + '_' + item.title }}
 
 
@@ -36,27 +36,27 @@
       .subtitle(style="padding-left: .1rem; color: #333") {{ upTitle !== type.title ? upTitle + '_' + type.title : upTitle }}
 
       label(@click=" showIns = !showIns ")
-        .ds-checkbox(:class=" {active: showIns} " ) 
+        .ds-checkbox(:class=" {active: showIns} " )
         | 玩法说明
-      
+
       template(v-if=" CMCH ")
         | &nbsp;&nbsp;&nbsp;&nbsp;
         label(@click=" store.actions.setUser({showYL: !user.showYL}) ")
-          .ds-checkbox(:class=" {active: user.showYL} " ) 
+          .ds-checkbox(:class=" {active: user.showYL} " )
           | 当前遗漏
 
         | &nbsp;&nbsp;&nbsp;&nbsp;
         label(@click=" store.actions.setUser({showLR: !user.showLR}) " style="display: inline-block; width: 100px")
-          .ds-checkbox(:class=" {active: user.showLR} " ) 
+          .ds-checkbox(:class=" {active: user.showLR} " )
           | {{ user.lengre.slice(0, -1) }}期冷热
-        
+
         | &nbsp;&nbsp;&nbsp;&nbsp;
         .ds-button-group.inlb(style="margin: 0; border: 0")
           .ds-button.x-small(style="margin: 0" v-for=" (x, i) in lrbtns "  v-bind:class=" {active: user.lengre === (x + 'q') } " @click=" store.actions.setUser({lengre: (x + 'q') }) ") {{ x }}期
 
       .ds-button.text-button.text-666.small.f_r(@click=" __setCall({fn: '__random', args: {}}) " style="height: .26rem; line-height: .26rem") 机选
 
-      pre.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem; margin: 0" v-html="type.description") 
+      pre.text-999(v-if=" showIns " style="padding-left: .1rem; line-height: 1.5; padding-bottom: .05rem; margin: 0" v-html="type.description")
 
 
 
@@ -105,7 +105,11 @@
         //过滤无效数据
         return this.historyItems.filter(item => {
           return this.$props.menus.filter(v => {
-            return v.groups[0].items.find(x => { return !x.hide && x.id === item.id })
+            let arr = []
+            v.groups.forEach(temp => {
+              arr = arr.concat(temp.items)
+            })
+            return arr.find(x => { return !x.hide && x.id === item.id })
           }).length
         });
       },
@@ -159,8 +163,8 @@
   .ds-button
     // height .25rem
     // line-height .25rem
-  
-    
+
+
 </style>
 
 <style lang="stylus" scoped>
@@ -171,14 +175,14 @@
       padding-left .2rem
     & > .menu-con + .row
       padding-top .1rem
-      
+
     .menu-con
       border: solid 1px #e4e4e4;
       background-image: linear-gradient(
-    #eeeeee, 
-    #eeeeee), 
-  linear-gradient(0deg, 
-    #ffffff 0%, 
+    #eeeeee,
+    #eeeeee),
+  linear-gradient(0deg,
+    #ffffff 0%,
     #e3e3e3 100%);
 
     height GMH
@@ -196,13 +200,13 @@
       oveflow visible
       cursor pointer
       radius()
-      &.selected 
+      &.selected
         color WHITE
         background-color rgba(22, 113, 188, .9)
         font-shadow()
         box-shadow .02rem .02rem .02rem rgba(0,0,0,.2)
         background-color BLUE
-       
+
       &:hover
         background-color rgba(22, 113, 188, .95)
         color WHITE
@@ -218,7 +222,7 @@
           background-color BLUE-HOVER
         &:not(.disabled):active
           background-color BLUE-ACTIVE
-          
+
       .submenu-group
         transform translateX(-.1rem)
         display none
@@ -265,7 +269,7 @@
             &.selected
               color #fff
               background-color BLUE
-    
+
     .title.switch
       float right
       // background-color #302b2a
@@ -278,8 +282,8 @@
       &:hover
         background none !important
         box-shadow none !important
-        
-      
+
+
     .row
       &:last-child
         padding-bottom .1rem
@@ -304,24 +308,24 @@
           // radius()
           // border-top-right-radius .20rem 50%
           // border-bottom-right-radius .20rem 50%
-          
+
       .ds-button
         font-size .12rem
         border 1px solid #d8dee8
         margin 0 .02rem
         &.text-666
           color #666
-        
+
         &:hover
           color BLUE
           text-decoration none
           box-shadow 0px 3px 3px 0px #e3e3e3
-          
+
         &.selected
           background-color BLUE
           color #FFF
           border-color rgba(0,0,0,0)
-    
+
     .row.history
       .ds-button
         background-image: linear-gradient(0deg, #fff8d0 0%, #fffbe1 100%);
@@ -329,10 +333,10 @@
         color #666
         &:hover
           color BLUE
-  
+
   .btn1.ds-button
     background-color #fff
-  
+
   .df
     float right
     background #444
@@ -343,9 +347,9 @@
     &:hover
       background-color #333 !important
 
-    
-    
-    
+
+
+
 </style>
 
 
