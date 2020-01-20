@@ -18,7 +18,7 @@
     .c.t_c.ft12(:class=" gameType ")
       .advertising-wp(v-if="isShowAdvertising" @click="__setCall({fn:'openTab',args:linkData.id})")
           img(:src="require(`../assets/advertising/${imgSrc}.png`)")
-          .advertising-close(@click="isShowAdvertising=false")
+          .advertising-close(@click.prevent.stop="isShowAdvertising=false")
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd" v-bind:class=" { nostyle: !ccs } ")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
