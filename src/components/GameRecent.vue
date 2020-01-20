@@ -139,8 +139,15 @@ export default {
         this.officLottery[key].matchArr.forEach(item => {
           if (item === this.gameid) {
             let currentData = (new Date()).getDate()
+
             let saveDay = JSON.parse(window.localStorage.getItem(currentData)) || []
+            console.log(saveDay)
+            // [{1:true,3:true}]
+
+
             this.isShowAdvertising = !saveDay.includes(this.gameid)
+
+
             if (this.isShowAdvertising) {
               this.imgSrc = key
               this.linkData = this.officLottery[key].targetObj
