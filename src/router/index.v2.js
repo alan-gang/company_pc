@@ -18,7 +18,9 @@ const Pages = r => require.ensure([], () => r(require('../views/Pages')), 'pages
 const Egame = r => require.ensure([], () => r(require('../views/outer/Egame')), 'pages-part')
 const Egamimg = r => require.ensure([], () => r(require('../views/outer/Egamimg')), 'pages-part')
 const Sports = r => require.ensure([], () => r(require('../views/outer/Sports')), 'pages-part')
-
+const LotteryCenter = r => require.ensure([], () => r(require('../views/lotterycenter/LotteryCenter')), 'pages-part')
+const LotteryHistory = r => require.ensure([], () => r(require('../views/lotterycenter/LotteryHistory')), 'pages-part')
+const SlotMachine = r => require.ensure([], () => r(require('../views/outer/slotmachine')), 'pages-part')
 let router = new VueRouter({
   // mode: 'history',
   routes: [
@@ -28,15 +30,29 @@ let router = new VueRouter({
       },
       component: require('../views/Home.v2'),
       children: [
+        //三方 巴萨体育
+        {path: '/sports', meta: {rl: true}, component: Sports},
+        //三方 捕鱼
+        {path: '/fishing', meta: {rl: true}, component: resolve => require(['../views/outer/fishing'], resolve)},
+        //三方 体育赛事
+        {path: '/sportsevent', meta: {rl: true}, component: resolve => require(['../views/outer/sportsevent'], resolve)},
+        //三方 电子电竞
+        {path: '/electronicsports', meta: {rl: true}, component: resolve => require(['../views/outer/electronicsports'], resolve)},
+        //三方 老虎机
+        {path: '/slotmachine', meta: {rl: true}, component: SlotMachine},
+        //三方  棋牌
+        {path: '/chesspage', meta: {rl: true}, component: resolve => require(['../views/outer/chesspage'], resolve)},
+         //三方  真人
+        {path: '/recreation', meta: {rl: true}, component: resolve => require(['../views/outer/recreation'], resolve)},
         {
-          path: '/sports',
+          path: '/egame/:tabIndex',
           meta: {
             rl: true
           },
-          component: Sports
+          component: SlotMachine
         },
         {
-          path: '/egame/:tabIndex',
+          path: '/ptgame',
           meta: {
             rl: true
           },
@@ -55,6 +71,20 @@ let router = new VueRouter({
             // rl: true
           },
           component: Pages
+        },
+        {
+          path: '/lotterycenter', //开奖中心
+          meta: {
+
+          },
+          component: LotteryCenter
+        },
+        {
+          path: '/lotteryhistory/:id', //开奖中心 - 更多开奖
+          meta: {
+
+          },
+          component: LotteryHistory
         },
         {
           path: '/group/:url',

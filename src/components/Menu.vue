@@ -3,7 +3,8 @@
     section.menu.content-width
       el-popover(:ref="menu.url" v-for=" (menu, index) in menus" placement="top-start"  trigger="hover" v-bind:popper-class="'footer-popover menu ' + menu.url + ' ' + (menu.groups && menu.groups[0] || menu.info ? true : false) " v-model="shows[index]" v-show="!menu.hide")
 
-            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub && !menu.temp" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
+
+            .icon-button.after-title(slot="reference" v-show="!menu.href && !menu.removed && !menu.hideSub && !menu.temp" v-on:mouseover="mouseover(menu)" @click="openChat(menu.url, menu)" v-bind:mytitle=" menu.title " v-bind:class="{hot: menu.hot}") {{ menu.title }}
               .el-icon--right.el-icon-arrow-down(style="font-size: 10px; color: rgba(255,255,255,.5)")
 
 
@@ -71,8 +72,10 @@ export default {
           index: 6
         }
       ],
-      shows: {}
-    };
+      shows: {},
+      // 三方页
+      sfMap: ['', '', '/chesspage', '/recreation', '/slotmachine', '/sports', '/electronicsports', '/fishing']
+    }
   },
   watch: {},
   mounted () {
@@ -93,9 +96,21 @@ export default {
         });
       }
     },
-    openChat (url) {
-      if (url === "chat") {
-        window.accessAngular.open();
+    openChat (url, menu) {
+      if (url === 'chat') {
+        window.accessAngular.open()
+      } else {
+        let map = {
+          '棋牌': '/chesspage',
+          '真人': '/recreation',
+          '老虎机': '/slotmachine',
+          '体育': '/sportsevent',
+          '电竞': '/electronicsports',
+          '捕鱼': '/fishing'
+        }
+        if (map[menu.title]) {
+          this.$router.push({path: map[menu.title]})
+        }
       }
     },
     __openThirdPart (item) {
@@ -122,6 +137,12 @@ export default {
             this.openPage(item.id);
           }, 0);
         }
+      }
+      if (item.pathname) {
+        setTimeout(() => {
+          this.shows[index] = false;
+          this.$router.push(item.pathname)
+        }, 0)
       }
     },
     openPage (url) {
@@ -169,7 +190,7 @@ body.cb.v2
     .submenu.game
       // margin .1rem 0
       margin-top .1rem
-      margin-bottom .1rem
+      // margin-bottom .1rem
       &.SSC
         margin-top 0
         margin-bottom 0
@@ -297,7 +318,8 @@ body.cb.v2
       &.KG
         min-height .36rem
         background url(../assets/v2/nav_icon_jn.png) 0 -2px no-repeat
-
+      &.OTHER2
+        background url(../assets/v2/qt.png) .25rem .1rem no-repeat
 
   .footer-popover
     .infos .info
@@ -329,6 +351,8 @@ body.cb.v2
         background-image url(../assets/v2/logo_sb_big.png)
       &.ds-icon-logo-ky
         background-image url(../assets/v2/logo_ky_big.png)
+      &.ds-icon-logo-hl
+        background-image url(/static/img/logo_happygaming_big.png)
 
       &.ds-icon-logo-ly
         background-image url(../assets/v2/logo_ly_big.png)
@@ -357,6 +381,10 @@ body.cb.v2
       &.ds-icon-logo-happygaming
         background-image url(../assets/newhome/logo_happygaming_big.png)
 
+      &.ds-icon-logo-kyby
+        background-image url(../assets/newhome/kyby.png)
+      &.ds-icon-logo-lyby
+        background-image url(../assets/newhome/lyby.png)
 
 
 

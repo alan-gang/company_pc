@@ -199,6 +199,8 @@ let Game = {
   // method=recentlyCode pageNum size gameid
   recentlyCode: '/issue.do?method=recentlyCode',
   recentlyCodeNew: '/issue.do?method=recentlyCodeNew',
+  // 开奖中心历史数据查询
+  recentlyIssueList: '/issue.do?method=recentlyIssueList',
   ludan: '/issue.do?method=recentlyCode&v=1',
   // http://192.168.169.44:9901/cagamesclient/issue.do?method=current&gameid=1
 
@@ -251,10 +253,13 @@ let Game = {
   // 1.  最近投注记录
   getOrderList: '/project.do?method=list',
   // 2.  最近追号记录
-  getFollowList: '/task.do?method=list'
+  getFollowList: '/task.do?method=list',
   // /cagamesclient/ltrPool.do?method=current
   // pricePot: '/ltrPool.do?method=current'
   // 19、修改密码页面，校验安全问答  ALL  仅在投注时候有效（追号无效），如用户选择参与奖池投注则该订单的每个方案需额外多花费一元金额，且不能撤销。
+  //获取开奖信息
+  getAllLastLottery: '/issue.do?method=getAllLastLottery',
+  getThirdGames: '/ext/bg.do?method=getThirdGames'
 }
 
 let Me = {

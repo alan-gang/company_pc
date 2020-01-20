@@ -14,13 +14,13 @@
           span {{ showTime.split(':')[1] }}
           span.text-999.time-dot :
           span {{ showTime.split(':')[2] }}
-
+      div.bet-now(v-if="isLotteryHistory" @click="goBet") 立即购买
       .game-win.inlb.text-666
         .vm.inlb.t_r.ft12
           span.title {{ NPER }}
           span &nbsp;&nbsp;期
           //- p.text-danger.pointer(@click="__setCall({fn: '__recentlyCode'})" v-if="overtime") 开奖超时，请刷新
-          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' + ' g_' + gameid " v-bind:visible-arrow=" va ") 
+          el-popover(ref="popover4" placement="bottom"  trigger="hover" v-bind:popper-class=" 'wb-intro' + ' g_' + gameid " v-bind:visible-arrow=" va ")
             p.text-blue(slot="reference" v-if=" gameid === 150 || gameid === 151 ||gameid === 162 || gameid === 161 || gameid === 29 " style="cursor: pointer;") 开奖号码说明
             slot
               div(style="width: 8.5rem" v-if=" gameid === 150 ")
@@ -35,13 +35,13 @@
                   br
                   p 以开奖号码的【万位】为例：
                   p 00:05分第1名关键词的搜索次数为 80000 次（尾数为0），
-                  p 00:05分第6名关键词的搜索次数为 56789 次（尾数为9）， 
+                  p 00:05分第6名关键词的搜索次数为 56789 次（尾数为9），
                   p 00:05分第11名关键词的搜索次数为 36748次（尾数为8），
                   p 00:05分第16名关键词的搜索次数为 17890 次（尾数为0），
                   p 则：0+9+8+0=17，17的尾数为7 ，所以01期开奖号码的【万位】就是7。
                   br
                   p 微博热搜的排名数据可参见微博官网：<a class="default" target="_blank" href="https://s.weibo.com/top/summary?cate=realtimehot">https://s.weibo.com/top/summary?cate=realtimehot</a>  或 齐聚数据网：<a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/1">https://www.qiju.info/#/qijuData/1</a>
-              
+
               div(style="width: 8.5rem" v-if=" gameid === 151 ")
                 div
                   p 腾讯赛车，每期开奖号码以【腾讯在线人数】、【统计时间】与【在线人数数字之和】为基础，使用哈希算法（SHA512）得到对应的哈希值，再以哈希值中每个数字（0到9） 第一次出现的先后顺序作为赛车比赛的结果，数字【0】代表【10号赛车】。
@@ -68,20 +68,20 @@
                   p 例如：线上人数227415242人，则末4码为5242
                   br
                   p 腾讯QQ的线用户人数数据可参见齐聚数据网：
-                  p 
+                  p
                     <a class="default" target="_blank" href="https://www.qiju.info/#/qijuData/2">https://www.qiju.info/#/qijuData/2</a>
 
         .vm.inlb
           span.WaitingDraw.text-oblue(v-if="!lucknumbers.join('').length") 等待开奖
           RollingNumbers(v-if="lucknumbers.join('').length" v-bind:numbers=" $props.lucknumbers " v-bind:game-type="gameType" v-bind:hl=" ccs ? ccs.pos : '' ")
           p.pl20.ft12(v-if=" fromold && preissue ")
-            | 取自 
-            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆欢乐生肖' : '' }} 
+            | 取自
+            span.text-blue {{ gameid === 155 ? '重庆欢乐生肖' : gameid === 156 ? '新疆时时彩' : gameid === 157 ? '重庆欢乐生肖' : '' }}
             | 第
             span {{ preissue }}
-            | 期开奖 
+            | 期开奖
 
-        el-popover(ref="popover5" placement="bottom"  trigger="hover" v-bind:popper-class=" 'hot-rank' " v-bind:visible-arrow=" va ") 
+        el-popover(ref="popover5" placement="bottom"  trigger="hover" v-bind:popper-class=" 'hot-rank' " v-bind:visible-arrow=" va ")
           span(slot="reference" v-if=" gameid === 150 " @mouseover=" getWeiBoHot ") 热搜排名 >
           slot
             div(style="width: 5rem")
@@ -96,12 +96,12 @@
                   .th.inlb {{ r.rank }}
                   .th.inlb {{ r.title }}
                   .th.inlb.t_r {{ r.num }}
-        
-        .WinningReminder.absolute(@click="ClickWinningReminder")
-          .ds-checkbox(:class=" {'active': WinningReminder} ") 
+
+        .WinningReminder.absolute(@click="ClickWinningReminder" v-if="!isLotteryHistory")
+          .ds-checkbox(:class=" {'active': WinningReminder} ")
           | 中奖提醒
-      
-        
+
+
 </template>
 
 <script>
@@ -118,7 +118,12 @@ export default {
     lucknumbers: Array, // 开奖号码
     methodid: String,
     overtime: Boolean,
-    gameid: Number
+    gameid: Number,
+    isLotteryHistory: {
+      type: Boolean,
+      default: false
+    },
+    game: Object
   },
   components: {
     RollingNumbers
@@ -222,6 +227,12 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
     clearInterval(this.interval)
   },
   methods: {
+    // 去购彩页
+    goBet() {
+      if (this.game) {
+        this.$router.push('/game/' + this.game.id)
+      }
+    },
     // 点击中奖提醒
     ClickWinningReminder () {
       this.WinningReminder = !this.WinningReminder;
@@ -274,22 +285,22 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
 <style lang="stylus">
   @import '../var.stylus'
   .game-header
-    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 qqtxffc ln115 qqtxwfc qqtxsfc 
+    for n, i in chq xj tj hlj hlffc cb120 ffctx ffc_aly '11ydj' jx115 gd hb115 js115 sh115 ah115 kt115 kt115 ahK3 jsK3 jlK3 bjK3 xfK3 bjpk10 pk10sc pk10ft kl8 fc hl3d shssl pl35 lhc lhc pcdd wbwfc hnwfc hnyfc txsc alysc tx2fcjs tx2fcos cqhjssc hlsx_cq xjhjssc cqhjffc fj115 fjK3 sx115 qqtxffc ln115 qqtxwfc qqtxsfc adl50 adl100
       &.game-header-ds-icon-game-{n}
         .wrap
           background-image url('../assets/gameheader/ng/' + n '.png')
       &.game-header-ds-icon-game-wbwfc .wrap
           background-size 1.85rem
-          
+
 
     .wrap
       height .8rem
       background-color #fff
       background-repeat no-repeat
-      background-position left .2rem center      
+      background-position left .2rem center
       background-size 2.3rem
       padding-left 2.5rem
-    
+
     .volume
       position absolute
       left 2.3rem
@@ -300,7 +311,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
       background url(../assets/gameheader/off.png) center no-repeat
       &.on
           background url(../assets/gameheader/on.png) center no-repeat
-      
+
       &:hover
         border: solid 1px #d8dee8;
         background-color #fefefe
@@ -308,11 +319,11 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
 
     .vm
       vertical-align middle
-    
+
     .game-countdow
       padding .12rem .25rem
       height .56rem
-      
+
     .time-box
       height 100%
       line-height .56rem
@@ -325,16 +336,16 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
       letter-spacing: 0px;
     .time-dot
       padding 0 .04rem
-      
+
     .game-win
       // padding .12rem 0
-      
+
   .wb-intro.el-popover
     margin-top 25px
-    background-color #fffde8   
+    background-color #fffde8
     &.g_29
       transform translateX(17%)
-    
+
   .hot-rank.el-popover
     margin-top 35px
     transform translateX(-1.86rem)
@@ -344,7 +355,7 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
     dt
       height .36rem
       line-height .36rem
-      
+
     dd:nth-child(even)
       background-color #f7f1da
     .th
@@ -373,4 +384,44 @@ bbb423f614b61460fc24de045fac2b02085d2b30f316b22c774794cf642d6b88a8e23ed602021b78
     right 0
     margin-top 0.3em
     margin-right 0.3em
+</style>
+
+<style lang="stylus">
+  // 开奖中心 头部样式
+  .is-lottery-history
+    .wrap
+      border-radius 4px
+      padding-left 2.38rem
+    .rolling-numbers
+      &.PK10
+        padding 0 0 0 .1rem
+      .number
+        background-image: linear-gradient(
+          #f17d0b,
+          #f17d0b),
+        linear-gradient(0deg,
+          #f3f3f3 0%,
+          #ffffff 100%);
+        background-blend-mode: normal,
+          normal;
+        color: #fff;
+        border-color: #f17d0b;
+    .bet-now
+      width 1.5rem
+      height .42rem
+      line-height .42rem
+      text-align center
+      background-image: linear-gradient(90deg,
+        #f17d0b 0%,
+        #ff5429 100%),
+      linear-gradient(
+        #000000,
+        #000000);
+      background-blend-mode: normal,
+        normal;
+      border-radius: 4px;
+      color #fff
+      display inline-block
+      margin-right .12rem
+      cursor pointer
 </style>

@@ -106,6 +106,22 @@ export default [
         TotalNumberPeriods: '1440期' //总期数
     },
     {
+      lottery: '奥地利50秒',
+      SalesTime: '24小时',
+      FirstDeadline: '0:00:47',
+      FinalDeadline: '23:59:57',
+      IntervalInterval: '50秒',
+      TotalNumberPeriods: '1728期'
+    },
+    {
+      lottery: '奥地利100秒',
+      SalesTime: '24小时',
+      FirstDeadline: '0:01:37',
+      FinalDeadline: '23:59:57',
+      IntervalInterval: '100秒',
+      TotalNumberPeriods: '864期'
+    },
+    {
         lottery: '11运夺金', //彩种
         SalesTime: '08:59:30-22:59:30', //销售时间
         FirstDeadline: '8:59:30', //第一期截止时间

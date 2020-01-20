@@ -232,25 +232,28 @@ export default {
               // id: 2,
               // width: '8rem',
               items: [
-                { class: 'ds-icon-game-hlsx_cq sign hot', id: '1-1-1', menuid: '11', title: '重庆欢乐生肖', volume: true, gameid: 1 },
-                { class: 'ds-icon-game-cqhjssc sign old new', id: '1-1-12', menuid: '116', title: '重庆怀旧时时彩', atitle: '重庆时时彩', subTitle: '怀旧', volume: true, gameid: 155 },
-                { class: 'ds-icon-game-cqhjffc sign old new', id: '1-1-14', menuid: '118', title: '重庆怀旧分分彩', atitle: '重庆分分彩', subTitle: '怀旧', volume: true, gameid: 157 },
-                { class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29 },
-                { class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17 },
-                { class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21 },
-                { class: 'ds-icon-game-wbwfc sign new', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150 },
-                { class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3 },
-                { class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156 },
-                { class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4 },
-                { class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35 },
-                { class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161 },
-                { class: 'ds-icon-game-hnwfc sign new', id: '1-1-119', menuid: '119', title: '河内5分彩', volume: true, gameid: 158 },
-                { class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163 },
-                { class: 'ds-icon-game-qqtxffc sign hot', id: '1-1-127', menuid: '127', title: '奇趣腾讯分分彩', volume: false, gameid: 164 },
-                { class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152 },
-                { class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153 },
-                { class: 'ds-icon-game-qqtxwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣腾讯5分彩', volume: true, gameid: 165 },
-                { class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166 }
+                // menuid 表示彩票的 权限id
+                {class: 'ds-icon-game-hlsx_cq sign hot', id: '1-1-1', menuid: '11', title: '重庆欢乐生肖', volume: true, gameid: 1},
+                {class: 'ds-icon-game-cqhjssc sign old new', id: '1-1-12', menuid: '116', title: '重庆怀旧时时彩', atitle: '重庆时时彩', subTitle: '怀旧', volume: true, gameid: 155},
+                {class: 'ds-icon-game-cqhjffc sign old new', id: '1-1-14', menuid: '118', title: '重庆怀旧分分彩', atitle: '重庆分分彩', subTitle: '怀旧', volume: true, gameid: 157},
+                {class: 'ds-icon-game-ffctx sign hot', id: '1-1-7', menuid: '96', title: '腾讯分分彩', volume: false, gameid: 29},
+                {class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17},
+                {class: 'ds-icon-game-cb120 sign hot', id: '1-2-3', menuid: '80', title: '幸福三分彩', gameid: 21},
+                {class: 'ds-icon-game-wbwfc sign new', id: '1-1-9', menuid: '75', title: '微博5分彩', volume: false, gameid: 150},
+                {class: 'ds-icon-game-xj', id: '1-1-2', menuid: '12', title: '新疆时时彩', volume: true, gameid: 3},
+                {class: 'ds-icon-game-xjhjssc sign old new', id: '1-1-13', menuid: '117', title: '新疆怀旧时时彩', atitle: '新疆时时彩', subTitle: '怀旧', volume: true, gameid: 156},
+                {class: 'ds-icon-game-tj', id: '1-1-3', menuid: '9', title: '天津时时彩', volume: true, gameid: 4},
+                {class: 'ds-icon-game-hlj', id: '1-1-5', menuid: '101', title: '黑龙江时时彩', volume: true, gameid: 35},
+                {class: 'ds-icon-game-ffc_aly sign new', id: '1-1-122', menuid: '122', title: '阿里云分分彩', volume: false, gameid: 161},
+                {class: 'ds-icon-game-hnwfc sign new', id: '1-1-119', menuid: '119', title: '河内5分彩', volume: true, gameid: 158},
+                {class: 'ds-icon-game-hnyfc sign new', id: '1-1-126', menuid: '126', title: '河内1分彩', volume: true, gameid: 163},
+                {class: 'ds-icon-game-qqtxffc sign hot', id: '1-1-127', menuid: '127', title: '奇趣腾讯分分彩', volume: false, gameid: 164},
+                {class: 'ds-icon-game-tx2fcjs sign odd', id: '1-1-10', menuid: '113', title: '腾讯2分彩', subTitle: '奇数', volume: true, gameid: 152},
+                {class: 'ds-icon-game-tx2fcos sign even', id: '1-1-11', menuid: '114', title: '腾讯2分彩', subTitle: '偶数', volume: true, gameid: 153},
+                {class: 'ds-icon-game-qqtxwfc sign new', id: '1-1-16', menuid: '132', title: '奇趣腾讯5分彩', volume: true, gameid: 165},
+                {class: 'ds-icon-game-qqtxsfc sign new', id: '1-1-15', menuid: '133', title: '奇趣腾讯10分彩', volume: true, gameid: 166},
+                {class: 'ds-icon-game-adl50 sign new', id: '1-1-17', menuid: '141', title: '奥地利50秒', volume: true, gameid: 201},
+                {class: 'ds-icon-game-adl100 sign new', id: '1-1-18', menuid: '142', title: '奥地利100秒', volume: true, gameid: 202}
               ]
             },
             {
@@ -329,6 +332,16 @@ export default {
                 { url: 'PCDD', class: 'ds-icon-game-pcdd', id: '1-5-21', menuid: '112', title: 'PC蛋蛋', volume: false, gameid: 45 },
                 { menuid: '98', class: 'ds-icon-game-jn sign hot', id: '1-5-22', title: '基诺彩', fn: '18:203' }
               ]
+            },
+            {
+              title: '其他',
+              class: 'icon-menu-other2',
+              url: 'OTHER2',
+              hideLeft: true, // 隐藏左侧导航
+              items: [
+                {url: 'OTHER2', title: '开奖中心', pathname: '/lotterycenter'},
+                {url: 'OTHER2', title: '挂机软件', pathname: '/help/7-1-1'}
+              ]
             }
             // {
             //   title: '基诺彩票',
@@ -356,13 +369,12 @@ export default {
           title: '棋牌',
           big: true,
           info: [
-            { menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限' },
-            { menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:202' },
-            { menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:202' },
-            { menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:202' },
-            // {menuid: '98', class: 'ds-icon-logo-vg ', id: '9-9-9', fn: '27:202'}, //27 平台ID  财神
-            { menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:202' },
-            { menuid: '98', class: 'ds-icon-logo-happygaming ', id: '9-9-9', fn: '44:69' }//欢乐棋牌  平台id：44,gameId:  69
+            {menuid: '98', class: 'ds-icon-game-bg4 ', title: '棋牌游戏', descrb: '多人对战，畅玩无限'},
+            {menuid: '98', class: 'ds-icon-logo-ky ', id: '9-9-9', fn: '7:8'},
+            {menuid: '98', class: 'ds-icon-logo-ly ', id: '9-9-9', fn: '15:25'},
+            {menuid: '98', class: 'ds-icon-logo-xy ', id: '9-9-9', fn: '22:32'},
+            {menuid: '98', class: 'ds-icon-logo-ds ', id: '9-9-9', fn: '28:33'}, //27 平台ID
+            {menuid: '98', class: 'ds-icon-logo-hl ', id: '9-9-9', fn: '44:46'}
           ]
         },
         {
@@ -370,13 +382,13 @@ export default {
           title: '真人',
           big: true,
           info: [
-            { class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云' },
-            { menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2' },
-            { menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:0' },
-            { menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:201' },
-            { menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:201' },
-            { menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '31:35' },
-            { menuid: '98', class: 'ds-icon-logo-og', id: '9-9-9', fn: '34:41' }
+            {class: 'ds-icon-game-bg1 ', title: '真人娱乐大厅', descrb: '真人娱乐场，美女如云'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:10'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:1'},
+            {menuid: '98', class: 'ds-icon-logo-gd ', id: '9-9-9', fn: '26:22'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '31:35'},
+            {menuid: '98', class: 'ds-icon-logo-og', id: '9-9-9', fn: '34:41'}
           ]
         },
         {
@@ -384,12 +396,12 @@ export default {
           title: '老虎机',
           big: true,
           info: [
-            { class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典' },
-            { menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2' },
-            { menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:500' },
-            { menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', ff: '/egame/1', fn: '2:203:iframe:/egame/1' },
-            { menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', ff: '/egame/3', fn: '21:203:iframe:/egame/3' },
-            { menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:37' }
+            {class: 'ds-icon-game-bg2 ', title: '老虎机', descrb: '趣味玩法 回味经典'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:11'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:3'},
+            {menuid: '98', class: 'ds-icon-logo-lg ', id: '9-9-9', fn: '21:31'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:39'}
           ]
         },
         {
@@ -415,8 +427,8 @@ export default {
           info: [
             { class: 'ds-icon-game-egaming ', title: '电竞赛事', descrb: '众多盘口，超高赔率' },
             // {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203:iframe:/egaming'}
-            { menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:203' },
-            { menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:203' }
+            {menuid: '98', class: 'ds-icon-logo-uwin ', id: '9-9-9', fn: '17:27'},
+            {menuid: '98', class: 'ds-icon-logo-xa ', id: '9-9-9', fn: '29:34'}
           ]
         },
         {
@@ -424,11 +436,13 @@ export default {
           title: '捕鱼',
           big: true,
           info: [
-            { class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀' },
-            { menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/egame/2', fn: '5:203:iframe:/egame/2' },
-            { menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:6' },
-            { menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:202' },
-            { menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:EG-FISHING-001' }
+            {class: 'ds-icon-game-bg3 ', title: '捕鱼达人', descrb: '一炮万金，畅快秒杀'},
+            {menuid: '98', class: 'ds-icon-logo-pt ', id: '9-9-9', ff: '/ptgame', fn: '5:203:iframe:/egame/2'},
+            {menuid: '98', class: 'ds-icon-logo-ag ', id: '9-9-9', fn: '4:13'},
+            {menuid: '98', class: 'ds-icon-logo-bg ', id: '9-9-9', fn: '2:2'},
+            {menuid: '98', class: 'ds-icon-logo-sa ', id: '9-9-9', fn: '32:38'},
+            {menuid: '98', class: 'ds-icon-logo-kyby', id: '9-9-9', fn: '7:47'},
+            {menuid: '98', class: 'ds-icon-logo-lyby', id: '9-9-9', fn: '15:48'}
           ]
         },
         {
