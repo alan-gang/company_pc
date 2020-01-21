@@ -256,7 +256,7 @@ export default {
         return
       }
       setTimeout(() => {
-        this.currentList();
+        // this.currentList(); // 服务器压力大暂时去掉菜单倒计时
         let url = this.getUrlNameByMenuId(this.$route.params.url)
         // console.log(url);
         this.defaultSubMenus = url ? [url] : this.defaultSubMenus
