@@ -873,7 +873,4 @@ export default {
           transform translateY(-50%) rotateY(180deg)
 
 
-
-
-
 </style>

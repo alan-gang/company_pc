@@ -4,26 +4,27 @@
       .expand-left.skins.text-black  &nbsp;&nbsp;可选皮肤
         br
         .skin(v-for=" (s, i) in skins" v-bind:style="{ background: 'url(' + s + ')' + ' center no-repeat' }" v-bind:class="{ checked: Me.skin === i }" @click=" store.actions.setUser({ skin: i }) ")
-    
+
     .ds-icon-classic(:class=" { off: Me.mode === 'classic' } " @click=" store.actions.setUser({ mode: Me.mode === 'fashion' ? 'classic' : 'fashion' }) ")
       .expand-left {{ Me.mode !== 'fashion' ? '时尚模式' : '经典模式' }}
     //- .ds-icon-day(:class=" { off: Me.model === 'day' } " @click=" store.actions.setUser({ model: Me.model === 'day' ? 'night' : 'day' }) ")
       .expand-left  {{ Me.model !== 'day' ? ' 日间模式 ': '夜间模式' }}
-    
+
     .ds-icon-helpcenter(@click="$router.push('/help/6-1-1')")
       .expand-left  帮助中心
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
     .ds-icon-(v-show="Me.login")
       .expand-left 联系上级
-    .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID=80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
+    .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID =80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
-    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click=" amount&&__setCall({fn: '__setGGL'})" v-on:mouseover=" __getUserScratch " v-if="Me.login")
-      span.badge {{ amount }} 
+    .ds-icon-ggl(:class=" { gray: amount === 0 } " @click="showStractCard" v-on:mouseover=" __getUserScratch " v-if="Me.login")
+      span.badge {{ amount }}
+      span.badge_arrow(v-if="showBadge")
       .expand-left 刮刮乐
     .ds-icon-guanji(@click="$router.push('/help/7-1-1')")
     RightQuickThirdGame(v-on:click="clickHandler")
-      
+
     //- .absolute.a.pointer(@click=" __setCall({fn: '__showTask'}) " v-if=" Me.showIngots ")
       el-button.close.absolute(icon="close" size="small" @click.native.stop=" store.actions.setUser({ showIngots: false }) ")
       span.absolute.text-blue(style="bottom: .11rem; left: .43rem") {{ timeFormat(time).slice(0, 5) }}后消失
@@ -36,76 +37,84 @@
 </template>
 
 <script>
-  import store from '../store'
-  import api from '../http/api'
-  import { timeFormat } from '../util/Date'
-  import RightQuickThirdGame from './RightQuickThirdGame'
-  export default {
-    data () {
-      return {
-        time: 0,
-        window: window,
-        timeFormat: timeFormat,
-        Me: store.state.user,
-        store: store,
-        amount: 0,
-        skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
-        // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
+import store from '../store'
+import api from '../http/api'
+import { timeFormat } from '../util/Date'
+import RightQuickThirdGame from './RightQuickThirdGame'
+export default {
+  data () {
+    return {
+      time: 0,
+      window: window,
+      timeFormat: timeFormat,
+      Me: store.state.user,
+      store: store,
+      amount: 0,
+      showBadge: false,
+      skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
+      // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
+    }
+  },
+  components: {
+    RightQuickThirdGame
+  },
+  watch: {
+    Me: {
+      deep: true,
+      handler () {
+        // document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
+        document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
+        document.body.className = this.Me.css
       }
     },
-    components: {
-      RightQuickThirdGame
+    'Me.taskTime' (n, o) {
+      this.time = parseInt(this.Me.taskTime / 1000)
+      if (!o) this.countDown()
     },
-    watch: {
-      Me: {
-        deep: true,
-        handler () {
-          // document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
-          document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
-          document.body.className = this.Me.css
-        }
-      },
-      'Me.taskTime' (n, o) {
-        this.time = parseInt(this.Me.taskTime / 1000)
-        if (!o) this.countDown()
-      },
-      // 'Me.css' () {
-      //   document.body.className = this.Me.css
-      // },
-      'Me.login' () {
-        this.__getUserScratch()
-      }
-    },
-    mounted () {
+    // 'Me.css' () {
+    //   document.body.className = this.Me.css
+    // },
+    'Me.login' () {
       this.__getUserScratch()
+    }
+  },
+  mounted () {
+    this.__getUserScratch()
+  },
+  methods: {
+    showStractCard () {
+      this.showBadge = false
+      this.amount && this.__setCall({ fn: '__setGGL' })
     },
-    methods: {
-      countDown () {
-        if (this.time > 0) {
-          setTimeout(() => {
-            this.time -= 60
-            if (this.time < 0) {
-              this.time = 0
-              store.actions.setUser({ showIngots: false })
-            }
-            this.countDown()
-          }, 1000 * 60)
-        }
-      },
-      __getUserScratch () {
-        if (!this.Me.login) return
-        this.$http.get(api.getUserScratch).then(({data}) => {
-          // success
-          if (data.success === 1) {
-            this.amount = data.remainingNumber
+    changeBadgeStatus () {
+      this.showBadge = true
+    },
+    countDown () {
+      if (this.time > 0) {
+        setTimeout(() => {
+          this.time -= 60
+          if (this.time < 0) {
+            this.time = 0
+            store.actions.setUser({ showIngots: false })
           }
-        })
-      },
-      clickHandler (type, data) {
-        this.$emit('click', type, data)
+          this.countDown()
+        }, 1000 * 60)
       }
+    },
+    __getUserScratch () {
+      if (!this.Me.login) return
+      this.$http.get(api.getUserScratch).then(({ data }) => {
+        // success
+        if (data.success === 1) {
+          this.amount = data.remainingNumber
+        }
+      })
+    },
+    clickHandler (type, data) {
+      this.$emit('click', type, data)
     }
   }
+}
 </script>
 
 
@@ -210,7 +219,7 @@
         &:hover
           background-color rgba(255, 255, 255, .5)
           color DANGER
-        
+
 
 </style>
 <style lang="stylus" scoped>
@@ -246,7 +255,7 @@
       background url(../assets/righter/04.png) center no-repeat
     .isvip
       background url(../assets/righter/vipChat.png) center no-repeat
-        
+
     .ds-icon-ggl
       background url(../assets/righter/06.png) center no-repeat
       position relative
@@ -263,6 +272,15 @@
         position absolute
         right .05rem
         top .1rem
+        z-index 2
+      .badge_arrow
+        position absolute
+        width .24rem
+        height .24rem
+        left: .24rem
+        top: .24rem
+        z-index 1
+        background url(../assets/righter/badge.png) center no-repeat
     .ds-icon-guanji
       background url(../assets/righter/gj.png) center no-repeat
     .right-quick-third-game

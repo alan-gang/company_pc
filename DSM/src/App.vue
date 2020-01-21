@@ -4,7 +4,7 @@
     // header
     // transition(name="slide-up" appear=true)
       dsHeader(:tabs="tabs" v-bind:starTabs="starTabs" v-on:open-tab="openTab" v-on:close-tab="closeTab" v-if="state.hasHeader && tabs.length > 0")
-    
+
     // pages
     // keep-alive
     transition(name="fade" appear=true)
@@ -13,7 +13,7 @@
     // footer
     // transition(name="slide-down" appear=true)
       dsFooter(:menus="menus" v-bind:name="state.user.name" v-bind:money="state.user.amoney" v-bind:free="state.user.free" v-on:open-page="openTab" v-if="state.hasFooter" v-on:logout="logout")
-      
+
     // Chat
 
     // lefter
@@ -601,7 +601,7 @@ export default {
     },
     // 1: pre !== current 2: pre.size !== 'minus'
     prev () {
-      let prev = {prev: 0, href: '/'}
+      let prev = { prev: 0, href: '/' }
       this.tabs.find(t => {
         if (t.prev > prev.prev && t.id !== (this.currentab[0] || {}).id && t.size !== 'minus') prev = t
       })
@@ -648,10 +648,10 @@ export default {
     // api.api = ndsapi
     window.NProgress.done()
     api.suffix = '&isTop=1'
-    this.setUser({model: 'night', platform: 'dsm'})
+    this.setUser({ model: 'night', platform: 'dsm' })
     document.body.className = this.state.user.css
     this.setPages(this._getPages())
-    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || {meta: {login: false}}).meta.login) this.tryLogin()
+    if ((this.$router.options.routes.find(r => r.path.split('/')[1] === window.location.hash.split('/')[1].split('?')[0]) || { meta: { login: false } }).meta.login) this.tryLogin()
   },
   methods: {
     __print (data) {
@@ -671,7 +671,7 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.validate, {timeout: 2000}).then(({data}) => {
+      this.$http.get(api.validate, { timeout: 2000 }).then(({ data }) => {
         // success
         if (data.success === 1) {
           setTimeout(() => {
@@ -680,11 +680,11 @@ export default {
           }, 500)
           setTimeout(M._close, 1000)
         } else {
-          this.setUser({login: false})
+          this.setUser({ login: false })
           M._close()
         }
       }, (rep) => {
-        this.setUser({login: false})
+        this.setUser({ login: false })
         M._close()
       }).finally(() => {
       })
@@ -698,7 +698,7 @@ export default {
       this.getUserPrefence(() => {
         // this.getUserPrefence()
         this.__getUserFund()
-        this.setUser({login: true,
+        this.setUser({          login: true,
           name: data.nickName,
           pwd: data.hasLogPwd === '1',
           cashPwd: data.hasSecurityPwd === '1',
@@ -811,7 +811,7 @@ export default {
       // }
     },
     closeTab (url, nurl) {
-      this.updatePage(url, {opened: false, position: null})
+      this.updatePage(url, { opened: false, position: null })
       this.$nextTick(() => {
         // after close open the pre one
         if (this.tabs.length === 0) {
@@ -829,7 +829,7 @@ export default {
     logout (args) {
       this.$http.get(api.logout)
       this.setUser()
-      this.setUser({model: 'night', platform: 'dsm'})
+      this.setUser({ model: 'night', platform: 'dsm' })
       cookie.remove('JSESSIONID')
       if (!args) this.$router.push('/login')
       if (args && args.fn) args.fn()
@@ -851,12 +851,12 @@ export default {
         },
         O: this
       })
-      this.$http.get(api.getUserPrefence).then(({data}) => {
+      this.$http.get(api.getUserPrefence).then(({ data }) => {
         // success
         if (data.success === 1) {
           this.menuids = data.menuList
-          this.setUser({canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1})
-           // this.setPages(
+          this.setUser({ canTopUp: data.menuList.indexOf('30') !== -1, canWithDraw: data.menuList.indexOf('32') !== -1 })
+          // this.setPages(
           let pages = this._getPages()
           let x = []
           this.tabs.forEach((t, i) => {
@@ -865,7 +865,7 @@ export default {
             } else {
               // console.log(t.id)
               // this.tabs.splice(i, 1, Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'}))
-              x.push[Object.assign(pages.find(x => x.id === t.id), {opened: true, size: 'minus'})]
+              x.push[Object.assign(pages.find(x => x.id === t.id), { opened: true, size: 'minus' })]
             }
           })
           this.tabs = x
@@ -881,7 +881,7 @@ export default {
           // })
           this.$nextTick(() => {
             data.favoriteList.forEach((d, i) => {
-              store.actions.updatePage(d.menuId + '', {star: true})
+              store.actions.updatePage(d.menuId + '', { star: true })
             })
             // data.deskList.forEach((d, i) => {
             //   store.actions.updatePage(d.menuId + '', {desk: true})
@@ -897,10 +897,10 @@ export default {
     },
     // 6、用户资金信息  ALL
     __getUserFund () {
-      this.$http.get(api.getUserFund).then(({data}) => {
+      this.$http.get(api.getUserFund).then(({ data }) => {
         // success
         if (data.success) {
-          this.setUser({amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance, smoney: data.specialBalance})
+          this.setUser({ amoney: data.availableBalance, money: data.channelBalance, free: data.freeBalance, smoney: data.specialBalance })
         }
       }, (rep) => {
         // error
@@ -926,7 +926,7 @@ export default {
     min-height 600px
     min-width 800px
     font-family Arial, Helvetica, sans-serif, "Microsoft YaHei"
-  
+
   body
     height 100%
     font-size .14rem
@@ -936,7 +936,7 @@ export default {
     background-size cover
     &.login
       background url(/static/skins/bg.jpg) center center no-repeat
-  
+
   body:fullscreen #app > * {
     background url(/static/skins/bg.jpg) center center no-repeat
   }
@@ -953,11 +953,11 @@ export default {
   @import './var.stylus'
   // @import '../../src/main.stylus'
   @import './main.stylus'
-  
+
   // @import './chat.night.stylus'
-  
-  
-    
+
+
+
   header
     position absolute
     top 0
@@ -973,13 +973,13 @@ export default {
     left 0
     right 0
     min-width 8.5rem
-    
-     
+
+
   // .lefter
   //   right auto
   //   width LW
   //   z-index 1
-  
+
     // z-index 1
   .scroll-content
     position absolute
@@ -997,11 +997,11 @@ export default {
       left LW
       padding-bottom .5rem
       // bottom FH
-      
+
     &.has-footer + footer
       left LW
-    
-      
+
+
 
 // define transition common timming function and time
 [class*=-enter]
@@ -1014,11 +1014,11 @@ export default {
     // transform perspective(500px) translateZ(-5000px)
     opacity .2
     transform perspective(500px) translateZ(-1000px)
-    
+
 .slide-enter, .slide-leave-active
   opacity 0
   transform translateX(100%)
-  
+
 .slide-up-enter, .slide-up-leave-active
   opacity 0
   transform translateY(-100%)
@@ -1031,20 +1031,20 @@ export default {
 .fade-enter, .fade-leave-active
   opacity 0
 
-  
-  
+
+
 
 // define for main page
 .page
   &[class*=-leave]
     // transition-delay .5s
-  
+
   // &[adjusting]
   //   top 0
   //   bottom 0
-    
+
 .back
-  // define for main page when back 
+  // define for main page when back
   &>.page
     &[class*=-leave]
       transition-delay 0s
@@ -1052,5 +1052,5 @@ export default {
     &[class*=-enter]
       transform none
 
-  
+
 </style>

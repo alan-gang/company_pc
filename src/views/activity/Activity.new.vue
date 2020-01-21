@@ -11,7 +11,7 @@
           img(:src=" a.webPicPath ")
           h4.text-black {{ a.title }}
           h5 {{ a.subTitle }}
-      
+
       iframe.iframe(:src="href" v-if="href" @load="load" ref="iframe" scrolling="no")
 
       .empty(v-if=" activities.length === 0 " style="padding: .15rem") 活动列表空空如也
@@ -35,9 +35,13 @@
     mounted () {
       this.getAllActivityList()
       window.closeIFrame = ({action}) => {
+        console.log(action)
         switch (action) {
           case 'goToCoupon':
             this.$router.push('/activity/5-1-3') //优惠券列表
+            break
+          case 'IncreaseBadge':
+           this.__setCall({fn: 'changeBadgeStatus'})
             break
           case 'goToBag':
             this.$router.push('/activity/5-1-2')
@@ -121,5 +125,5 @@
       width CTW
       min-height 12rem
       border none
-      
+
   </style>

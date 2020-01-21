@@ -16,6 +16,9 @@
       span.bb.f_r.pointer(@click=" ME.login ? goTrend() : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
 
     .c.t_c.ft12(:class=" gameType ")
+      .advertising-wp(v-if="isShowAdvertising" @click="linkAnotherPage")
+          img(:src="require(`../assets/advertising/${imgSrc}.png`)")
+          .advertising-close(@click.prevent.stop="closeAdvertising")
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd" v-bind:class=" { nostyle: !ccs } ")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
@@ -85,7 +88,23 @@ export default {
         // {name: '222jxief3994', game: '重庆时时彩', prize: 188888.88},
         // {name: '333jxief3994', game: '重庆时时彩', prize: 188888.88}
       ],
-      wi: 0
+      wi: 0,
+      isShowAdvertising: false,
+      officLottery: {
+        G115: {
+          matchArr: [6, 7, 8, 36, 46, 38, 159],
+          targetObj: { url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11 }
+        },
+        SSC: {
+          matchArr: [1, 3, 4, 35],
+          targetObj: { class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17 }
+        },
+        PK10: {
+          matchArr: [13],
+          targetObj: { url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43 }
+        }
+      },
+      currentData: (new Date()).getDate()
     }
   },
   computed: {
@@ -113,9 +132,48 @@ export default {
   },
   created () {
     this.getWinners()
+    this.AdvertisingIsShow()
   },
   methods: {
-    goTrend() {
+    linkAnotherPage () {
+      this.closeAdvertising()
+      this.__setCall({ fn: 'openTab', args: this.linkData.id })
+    },
+    closeAdvertising () {
+      this.isShowAdvertising = false
+      let saveDay = JSON.parse(window.localStorage.getItem(this.currentData))
+      saveDay.forEach(item => { item.hasOwnProperty(this.gameid) && (item[this.gameid] = true) })
+      window.localStorage[this.currentData] = JSON.stringify(saveDay)
+    },
+    AdvertisingIsShow () {
+      Object.keys(this.officLottery).forEach((key) => {
+        this.officLottery[key].matchArr.forEach(item => {
+          if (item === this.gameid) {
+            let saveDay = JSON.parse(window.localStorage.getItem(this.currentData)) || []
+            if (saveDay.length) {
+              let arr = []
+              saveDay.forEach(item => {
+                arr.push(...(Object.keys(item)))
+              })
+              if (!arr.includes(this.gameid.toString())) {
+                saveDay.push({ [this.gameid]: false })
+                window.localStorage[this.currentData] = JSON.stringify(saveDay)
+              }
+              this.isShowAdvertising = !saveDay.some((item) => item[this.gameid])
+            } else {
+              this.isShowAdvertising = true;
+              saveDay.push({ [this.gameid]: false })
+              window.localStorage[this.currentData] = JSON.stringify(saveDay)
+            }
+            if (this.isShowAdvertising) {
+              this.imgSrc = key
+              this.linkData = this.officLottery[key].targetObj
+            }
+          }
+        })
+      })
+    },
+    goTrend () {
       if (this.gameType === 'OTHER') {
         this.$router.push('/form/4-5-3?gameid=' + this.gameid)
       } else {
@@ -145,7 +203,7 @@ export default {
       }
     },
     getWinners () {
-      this.$http.get(api.rewardInfo).then(({data: {success, winners}}) => {
+      this.$http.get(api.rewardInfo).then(({ data: { success, winners } }) => {
         if (success === 1) {
           this.wi = 0
           this.winners = winners
@@ -405,7 +463,7 @@ export default {
         width 25%
       .cac
         width 50%
-      
+
 
 
 
@@ -447,7 +505,7 @@ export default {
     color #f17d0b
   .type-color-6
     color #000
-  
+
   .type-color-blue
     color blue
   .type-color-red
@@ -455,4 +513,23 @@ export default {
   .type-color-green
     color green
 
+</style>
+
+<style lang="stylus">
+  .advertising-wp
+    position absolute
+    z-index 999
+    left 0
+    bottom 0
+    img
+      width 100%
+      cursor pointer
+    .advertising-close
+      background-image url('~@/assets/advertising/close.png')
+      width 52px
+      height 20px
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
 </style>

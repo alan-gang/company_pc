@@ -28,7 +28,7 @@
                     dt
                       span.title(v-if="group.title && group.items.filter(function(x){return !x.removed})[0]")  {{ group.title }}
 
-                    dd(v-for="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide")
+                    dd(v-for ="item in group.items"  @click="open(item, index)" v-if="item.title && !item.removed && !item.hide")
 
                       .ds-button.card(style="position: relative; " v-bind:class="[item.class]") {{ item.atitle || item.title }}
 
@@ -36,7 +36,7 @@
                         span.text-gold {{ item.pretitle }}
                         | {{ item.title }}
                 div.recomment-game-wp(v-if="menu.url =='game'")
-                  div.game-img-list(v-for="(item,index) in recommendList" @click="open(item,item.index)")
+      div.game-img-list(v-for="(item,index) in recommendList" @click="open(item,item.index)")
 
 
 
@@ -52,7 +52,7 @@
 
 export default {
   props: ["menus"],
-  data() {
+  data () {
     return {
       recommendList: [
         { src: "/static/pic/home/recomend_game/qq.png", id: "1-1-7", index: 6 },
@@ -78,17 +78,17 @@ export default {
     }
   },
   watch: {},
-  mounted() {
+  mounted () {
     this.initShows();
   },
   methods: {
-    initShows() {
+    initShows () {
       this.shows = this.menus.reduce((p, m, i) => {
         p[i] = false;
         return p;
       }, {});
     },
-    mouseover(menu) {
+    mouseover (menu) {
       if (menu.url === "game") {
         menu.hideIconOnHover = menu.hideIcon;
         this.__setCall({
@@ -113,10 +113,10 @@ export default {
         }
       }
     },
-    __openThirdPart(item) {
+    __openThirdPart (item) {
       this.open(item);
     },
-    open(item, index) {
+    open (item, index) {
       this.__setCall({
         fn: "__closeGuide"
       });
@@ -124,7 +124,6 @@ export default {
       //   this.shows[index] = false
       //   this.openPage(item.id)
       // })
-
       if (item.id) {
         if (item.ff) {
           return this.$router.push(item.ff);
@@ -146,7 +145,7 @@ export default {
         }, 0)
       }
     },
-    openPage(url) {
+    openPage (url) {
       this.$emit("open-page", url);
     }
   }
