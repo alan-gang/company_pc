@@ -64,6 +64,31 @@ export default (Vue) => {
       }
     })
   })
+
+  function isShowErrMsg(request) {
+    let showErrMsg = true;
+    if (request) {
+      let queryStrings = (request.data && request.data.length > 0) ? request.data.split('&') : [];
+      let pItem;
+      queryStrings.forEach(qs => {
+        pItem = qs.split('=');
+        if (pItem.length >= 1) {
+          if (pItem[0] === 'showErrMsg' && pItem[1] === 'false') {
+            showErrMsg = false;
+          }
+        }
+      });
+      if (typeof request.params === 'object') {
+        for (let p in request.params) {
+          if (p === 'showErrMsg' && request.params[p] === 'false') {
+            showErrMsg = false;
+          }
+        }
+      }
+    }
+    return showErrMsg;
+  }
+
   let M = null
   let VM = null
   Vue.http.interceptors.push((request) => {
