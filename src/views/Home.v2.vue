@@ -194,270 +194,262 @@ import Unloginbar from 'components/Unloginbar'
 import MyMenu from 'components/Menu'
 import Chess from './outer/chess'
 export default {
-  name: 'Home',
-  mixins: [base],
-  props: ['menus', 'pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money'],
-  data () {
-    return {
-      hasFooter: true,
-      me: store.state.user,
-      sources: [
-      ],
-      topgames: [
-        {class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖'},
-        {class: 'index_icon_02', id: '1-3-1', title: '广东11选5'},
-        {class: 'index_icon_03', id: '1-4-1', title: '安徽快三'},
-        {class: 'index_icon_04', id: '1-5-2', title: '福彩3D'},
-        {class: 'index_icon_06', id: '1-5-1', title: '北京PK10'},
-        {class: 'index_icon_07', id: '1-3-4', title: '11运夺金'},
-        {class: 'index_icon_09', id: '1-5-3', title: '排列三、五'},
-        {class: 'index_icon_10', id: '1-5-6', title: '六合彩'}
-      ],
-      formData: {
-      },
-      ns: [1, 2, 3, 4, 5],
-      ifsrc: '',
-      sports: false,
-      rank: [
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'ab***01', settlement: 18215},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182},
-        {username: 'xx***88', settlement: 52182}
-      ],
-      smpics: [
-        '/static/pic/newhome/index_aboutus_01.jpg',
-        '/static/pic/newhome/index_aboutus_02.jpg',
-        '/static/pic/newhome/index_aboutus_03.jpg',
-        '/static/pic/newhome/index_aboutus_04.jpg'
-      ],
-      bigpics: [
-        '/static/pic/newhome/index_aboutus_big_01.jpg',
-        '/static/pic/newhome/index_aboutus_big_02.jpg',
-        '/static/pic/newhome/index_aboutus_big_03.jpg',
-        '/static/pic/newhome/index_aboutus_big_04.jpg'
-      ],
-      bigpici: 0,
-      showbigpic: false,
-      ri: 0,
-      t1: 0,
-      t2: 0,
-      thirdGame: {
-        gameId: '202',
-        platId: '7'
-      }
+    name: 'Home',
+    mixins: [base],
+    props: ['menus', 'pages', 'prehref', 'loop', 'maxPages', 'transition', 'free', 'money'],
+    data() {
+        return {
+            hasFooter: true,
+            me: store.state.user,
+            sources: [],
+            topgames: [
+                { class: 'index_icon_01', id: '1-1-1', title: '重庆欢乐生肖' },
+                { class: 'index_icon_02', id: '1-3-1', title: '广东11选5' },
+                { class: 'index_icon_03', id: '1-4-1', title: '安徽快三' },
+                { class: 'index_icon_04', id: '1-5-2', title: '福彩3D' },
+                { class: 'index_icon_06', id: '1-5-1', title: '北京PK10' },
+                { class: 'index_icon_07', id: '1-3-4', title: '11运夺金' },
+                { class: 'index_icon_09', id: '1-5-3', title: '排列三、五' },
+                { class: 'index_icon_10', id: '1-5-6', title: '六合彩' }
+            ],
+            formData: {},
+            ns: [1, 2, 3, 4, 5],
+            ifsrc: '',
+            sports: false,
+            rank: [
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'ab***01', settlement: 18215 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 },
+                { username: 'xx***88', settlement: 52182 }
+            ],
+            smpics: [
+                '/static/pic/newhome/index_aboutus_01.jpg',
+                '/static/pic/newhome/index_aboutus_02.jpg',
+                '/static/pic/newhome/index_aboutus_03.jpg',
+                '/static/pic/newhome/index_aboutus_04.jpg'
+            ],
+            bigpics: [
+                '/static/pic/newhome/index_aboutus_big_01.jpg',
+                '/static/pic/newhome/index_aboutus_big_02.jpg',
+                '/static/pic/newhome/index_aboutus_big_03.jpg',
+                '/static/pic/newhome/index_aboutus_big_04.jpg'
+            ],
+            bigpici: 0,
+            showbigpic: false,
+            ri: 0,
+            t1: 0,
+            t2: 0,
+            thirdGame: {
+                gameId: '202',
+                platId: '7'
+            }
+        }
+    },
+    computed: {},
+    watch: {
+        '$route' ({ path, query: { sports } }) {
+            if (sports && path === '/') {
+                this.sports = true
+                this.ssports = true
+            } else {
+                this.sports = false
+                this.ssports = false
+            }
+        }
+    },
+    mounted() {
+        this.getActivityBanner()
+        this.__recentlyCode()
+        this.leaderBoard()
+        this.onResize()
+        this.t1 = setInterval(() => {
+            if (this.ri === 0) this.ri = 1
+            else this.ri = 0
+        }, 10 * 1000)
+        this.t2 = setInterval(this.leaderBoard, 5 * 60 * 1000)
+    },
+    beforeDestroy() {
+        clearInterval(this.t1)
+        this.t1 = 0
+        clearInterval(this.t2)
+        this.t2 = 0
+    },
+    methods: {
+        goPt() {
+            this.$router.push('/ptgame')
+            this.__setCall({ fn: '__openWindowWithPost', args: '5:203:iframe:/egame/2' })
+        },
+        getActivityBanner() {
+            this.$http.get(api.getActivityBanner).then(({ data }) => {
+                if (data.success === 1) {
+                    this.sources = data.webBanner || 0
+                } else {}
+            }).catch(rep => {})
+        },
+        openBanner() {
+            this.$router.push('/activity/5-1-1')
+        },
+        scrollHander(evt) {
+            this.lefter = (this.lefter || document.getElementsByClassName('lefter')[0])
+            if (this.lefter && document.querySelector('#app.game')) {
+                this.lefter.style.transition = 'transform linear 0s'
+                this.lefter.style.transform = 'translateX(-7.2rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
+            }
+            this.onScroll()
+        },
+        // 获得当前已开奖信息
+        __recentlyCode(noloop) {
+            this.$http.mypost(api.recentlyCodeNew, { gameid: 1, pageNum: 1, size: 30 }).then(({ data }) => {
+                // success
+                if (data.success > 0 && data.items.length > 0) {
+                    let lst = data.items.find(x => { return x.code }) || { code: '0,0,0,0,0' }
+                    this.ns = lst.code.split(',')
+                }
+            }, (rep) => {
+                // error
+            })
+        },
+        openHomeTab(item) {
+            if (item.fn) return this.__openWindowWithPost(item.fn)
+            else this.openTab(item.id)
+        },
+        openTab(url) {
+            this.$emit('open-tab', url)
+        },
+        closeTab(furl, url) {
+            this.$emit('close-tab', furl, url)
+        },
+        // TODO 获取推荐游戏
+        getUserPrefence() {
+            this.$http.get(api.getUserPrefence).then(({ data }) => {
+                // success
+                if (data.success === 1) {}
+            }, (rep) => {
+                // error
+            })
+        },
+        openExternal(fn) {
+            if (fn.split(':')[1]) return this.openBG(fn)
+            // this.formData = {}
+            this.$http.get(api.loginVr, { channelId: fn || 12 }).then(({ data }) => {
+                //
+                this.formData[fn] = data.vrurl
+                this.__openWindowWithPost(fn)
+            }).catch(rep => {})
+        },
+        openBG(fn) {
+            if (fn !== '5:203:iframe:/egame/2' && fn.split(':')[2] === 'iframe') {
+                let path = fn.split(':')[3]
+                path = path === '/sports' ? '/sportsevent' : path
+                this.$router.push(path || '/game/1-8-1')
+            }
+            this.$http.get(api.gameUrl, { gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0] }).then(({ data }) => {
+                //
+                if (data.success) {
+                    // data.url && (data.url.iframe = true)
+                    if (data.userName && data.password) {
+                        data.url = '?un=' + data.userName + '&pwd=' + data.password
+                    }
+                    this.formData[fn] = data.url
+                    this.__openWindowWithPost(fn)
+                }
+            }).catch(rep => {})
+        },
+        openWindowWithPost({ data, version, id, vrurl, msg }) {
+            if (!data) return this.$message.error({ target: this.$el, message: msg || '第三方游戏获取失败！' }) && false
+            let f = document.getElementById('TheForm')
+            f.data.value = data
+            f.version.value = version
+            f.id.value = id
+            f.action = vrurl
+            window.open('', 'TheWindow')
+            f.submit()
+        },
+        __openWindowWithPost(fn) {
+            if (typeof this.formData[fn] === 'string') {
+                if (fn.split(':')[2] === 'iframe') {
+                    this.ifsrc = this.formData[fn]
+                    this.formData[fn] = undefined
+                    this.__setCall({ fn: '__setIframeSrc', args: this.ifsrc })
+                    this.__setCall({ fn: '__setIframeSrcKey', args: fn })
+                    if (fn !== '5:203:iframe:/egame/2') {
+                        let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
+                        gameUrl += encodeURIComponent(this.ifsrc)
+                        window.open(gameUrl)
+                    }
+                    return false
+                }
+                // 东方真人 设置了 sameorigin  所以不能使用iframe嵌套
+                if (fn === '34:41') {
+                    return window.open(this.formData[fn])
+                }
+                let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
+                gameUrl += encodeURIComponent(this.formData[fn])
+                window.open(gameUrl)
+                this.formData[fn] = undefined
+                return false
+            }
+            return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
+        },
+        leaderBoard() {
+            this.$http.get(api.leaderBoard).then(({ data: { data, success } }) => {
+                if (success === 1) {
+                    this.rank = data
+                }
+            })
+        },
+        onResize(evt) {
+            let w = this.$el
+            let e = this.$el
+            let g = this.$el
+            let x = w.innerWidth || e.clientWidth || g.clientWidth
+            let y = w.innerHeight || e.clientHeight || g.clientHeight
+            this.__setGlobal({
+                width: x,
+                height: y,
+                scale: x / y
+            })
+        },
+        onScroll(evt) {
+            this.__setGlobal({
+                st: this.$el.scrollTop || this.$el.scrollY,
+                sl: this.$el.scrollLeft || this.$el.scrollX,
+                sh: this.$el.scrollHeight,
+                sw: this.$el.scrollWidth
+            })
+        }
+    },
+    components: {
+        Guide,
+        Pages,
+        CopyRight,
+        Me,
+        MyMenu,
+        Unloginbar,
+        Chess
     }
-  },
-  computed: {
-  },
-  watch: {
-    '$route' ({path, query: {sports}}) {
-      if (sports && path === '/') {
-        this.sports = true
-        this.ssports = true
-      } else {
-        this.sports = false
-        this.ssports = false
-      }
-    }
-  },
-  mounted () {
-    this.getActivityBanner()
-    this.__recentlyCode()
-    this.leaderBoard()
-    this.onResize()
-    this.t1 = setInterval(() => {
-      if (this.ri === 0) this.ri = 1
-      else this.ri = 0
-    }, 10 * 1000)
-    this.t2 = setInterval(this.leaderBoard, 5 * 60 * 1000)
-  },
-  beforeDestroy () {
-    clearInterval(this.t1)
-    this.t1 = 0
-    clearInterval(this.t2)
-    this.t2 = 0
-  },
-  methods: {
-    goPt() {
-      this.$router.push('/ptgame')
-      this.__setCall({fn: '__openWindowWithPost', args: '5:203:iframe:/egame/2'})
-    },
-    getActivityBanner () {
-      this.$http.get(api.getActivityBanner).then(({data}) => {
-        if (data.success === 1) {
-          this.sources = data.webBanner || 0
-        } else {
-        }
-      }).catch(rep => {
-      })
-    },
-    openBanner () {
-      this.$router.push('/activity/5-1-1')
-    },
-    scrollHander (evt) {
-      this.lefter = (this.lefter || document.getElementsByClassName('lefter')[0])
-      if (this.lefter && document.querySelector('#app.game')) {
-        this.lefter.style.transition = 'transform linear 0s'
-        this.lefter.style.transform = 'translateX(-7.2rem) translateY(-' + Math.min(115, this.$el.scrollTop) + 'px)'
-      }
-      this.onScroll()
-    },
-    // 获得当前已开奖信息
-    __recentlyCode (noloop) {
-      this.$http.mypost(api.recentlyCodeNew, {gameid: 1, pageNum: 1, size: 30}).then(({data}) => {
-        // success
-        if (data.success > 0 && data.items.length > 0) {
-          let lst = data.items.find(x => { return x.code }) || {code: '0,0,0,0,0'}
-          this.ns = lst.code.split(',')
-        }
-      }, (rep) => {
-        // error
-      })
-    },
-    openHomeTab (item) {
-      if (item.fn) return this.__openWindowWithPost(item.fn)
-      else this.openTab(item.id)
-    },
-    openTab (url) {
-      this.$emit('open-tab', url)
-    },
-    closeTab (furl, url) {
-      this.$emit('close-tab', furl, url)
-    },
-    // TODO 获取推荐游戏
-    getUserPrefence () {
-      this.$http.get(api.getUserPrefence).then(({data}) => {
-        // success
-        if (data.success === 1) {
-        }
-      }, (rep) => {
-        // error
-      })
-    },
-    openExternal (fn) {
-      if (fn.split(':')[1]) return this.openBG(fn)
-      // this.formData = {}
-      this.$http.get(api.loginVr, {channelId: fn || 12}).then(({data}) => {
-        //
-        this.formData[fn] = data.vrurl
-        this.__openWindowWithPost(fn)
-      }).catch(rep => {
-      })
-    },
-    openBG (fn) {
-      if (fn !== '5:203:iframe:/egame/2' && fn.split(':')[2] === 'iframe') {
-        let path = fn.split(':')[3]
-        path = path === '/sports' ? '/sportsevent' : path
-        this.$router.push(path || '/game/1-8-1')
-      }
-      this.$http.get(api.gameUrl, {gameid: fn.split(':')[1] || 201, platid: fn.split(':')[0]}).then(({data}) => {
-        //
-        if (data.success) {
-          // data.url && (data.url.iframe = true)
-          if (data.userName && data.password) {
-            data.url = '?un=' + data.userName + '&pwd=' + data.password
-          }
-          this.formData[fn] = data.url
-          this.__openWindowWithPost(fn)
-        }
-      }).catch(rep => {
-      })
-    },
-    openWindowWithPost ({data, version, id, vrurl, msg}) {
-      if (!data) return this.$message.error({target: this.$el, message: msg || '第三方游戏获取失败！'}) && false
-      let f = document.getElementById('TheForm')
-      f.data.value = data
-      f.version.value = version
-      f.id.value = id
-      f.action = vrurl
-      window.open('', 'TheWindow')
-      f.submit()
-    },
-    __openWindowWithPost (fn) {
-      if (typeof this.formData[fn] === 'string') {
-        if (fn.split(':')[2] === 'iframe') {
-          this.ifsrc = this.formData[fn]
-          this.formData[fn] = undefined
-          this.__setCall({fn: '__setIframeSrc', args: this.ifsrc})
-          this.__setCall({fn: '__setIframeSrcKey', args: fn})
-          if (fn !== '5:203:iframe:/egame/2') {
-            let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
-            gameUrl += encodeURIComponent(this.ifsrc)
-            window.open(gameUrl)
-          }
-          return false
-        }
-        // 东方真人 设置了 sameorigin  所以不能使用iframe嵌套
-        if (fn === '34:41') {
-          return window.open(this.formData[fn])
-        }
-        let gameUrl = window.location.origin + '/static/sanfang/index.html?platId=' + fn.split(':')[0] + '&gameUrl='
-        gameUrl += encodeURIComponent(this.formData[fn])
-        window.open(gameUrl)
-        this.formData[fn] = undefined
-        return false
-      }
-      return this.formData[fn] ? this.openWindowWithPost(this.formData[fn] || {}) : this.openExternal(fn)
-    },
-    leaderBoard () {
-      this.$http.get(api.leaderBoard).then(({data: {data, success}}) => {
-        if (success === 1) {
-          this.rank = data
-        }
-      })
-    },
-    onResize (evt) {
-      let w = this.$el
-      let e = this.$el
-      let g = this.$el
-      let x = w.innerWidth || e.clientWidth || g.clientWidth
-      let y = w.innerHeight || e.clientHeight || g.clientHeight
-      this.__setGlobal({
-        width: x,
-        height: y,
-        scale: x / y
-      })
-    },
-    onScroll (evt) {
-      this.__setGlobal({
-        st: this.$el.scrollTop || this.$el.scrollY,
-        sl: this.$el.scrollLeft || this.$el.scrollX,
-        sh: this.$el.scrollHeight,
-        sw: this.$el.scrollWidth
-      })
-    }
-  },
-  components: {
-    Guide,
-    Pages,
-    CopyRight,
-    Me,
-    MyMenu,
-    Unloginbar,
-    Chess
-  }
 }
 </script>
 
@@ -497,9 +489,13 @@ export default {
     z-index 3
   .ad
   .box
-    background url(../assets/newhome/index_bg.jpg) no-repeat
+    // background url(../assets/newhome/index_bg.jpg) no-repeat
+    background url(../assets/newhome/bg.png) no-repeat
     background-repeat no-repeat
-    background-size 100% 100%
+    // background-size 100% 100%
+    background-size cover;
+    background-position-y -22.55vw
+
     padding-top .3rem
     &.ad
       padding-top 0
@@ -881,4 +877,3 @@ export default {
 
 
 </style>
-
