@@ -130,17 +130,20 @@ export default {
       return r && r.timeStr ? r : { timeStr: "", timeLast: "99999" };
     },
     // 多个彩种同时获取正在销售的奖期
-    currentList() {
+    currentList(paramIds) {
       if (this.$props.menus.length < 2 && this.$props.menus[0] && this.$props.menus[0].url === "game") {
         let ids = [];
-        this.$props.menus[0].groups.forEach(a => {
-          a.items.forEach(b => {
-            b.gameid && ids.push(b.gameid);
+        if (!paramIds) {
+          this.$props.menus[0].groups.forEach(a => {
+            a.items.forEach(b => {
+              b.gameid && ids.push(b.gameid);
+            });
           });
-        });
-        // console.log(ids);
+        } else {
+          ids = paramIds;
+        }
         this.$http
-          .post(api.currentList, {
+          .mypost(api.currentList, {
             gameid: ids.join(",")
           })
           .then(
@@ -152,21 +155,23 @@ export default {
                   a["timeLast"] = time;
                   a["timeStr"] = util.timeFormat(parseInt(time / 1000));
                 });
-                this.curList = data.items;
-                //-
-                this.Timer && clearInterval(this.Timer);
-                this.Timer = setInterval(() => {
-                  this.curList.forEach(a => {
-                    let time = a.saleend - this.curTime;
-                    time <= 1000 && this.currentList(); // 多并发bug由 拦截器拦截
-                    time < 0 && (time = 0);
-                    a["timeLast"] = time;
-                    a["timeStr"] = util.timeFormat(parseInt(time / 1000));
-                  });
-                  this.curTime += 1000;
-                  this.MYmenus.splice(0, 0);
-                  // console.log(JSON.stringify(this.curList[0]))
-                }, 1000);
+                // console.log('res=', data.items)
+                this.menusTimer(data.items);
+                // this.curList = data.items;
+                // // -
+                // this.Timer && clearInterval(this.Timer);
+                // this.Timer = setInterval(() => {
+                //   this.curList.forEach(a => {
+                //     let time = a.saleend - this.curTime;
+                //     time <= 1000 && this.currentList(); // 多并发bug由 拦截器拦截
+                //     time < 0 && (time = 0);
+                //     a["timeLast"] = time;
+                //     a["timeStr"] = util.timeFormat(parseInt(time / 1000));
+                //   });
+                //   this.curTime += 1000;
+                //   this.MYmenus.splice(0, 0);
+                //   // console.log(JSON.stringify(this.curList[0]))
+                // }, 1000);
               }
             },
             rep => {
@@ -174,6 +179,35 @@ export default {
             }
           );
       }
+    },
+    getIssueIndexOfCurList(gameId) {
+      return this.curList.findIndex((item) => item.lotteryid === gameId);
+    },
+    menusTimer(issueList = []) {
+      let pos;
+      // 检查是否存在，存在更新，不存在则添加
+      issueList.forEach((issue) => {
+        pos = this.getIssueIndexOfCurList(issue.lotteryid);
+        if (pos !== -1) {
+          this.curList.splice(pos, 1, issue);
+        } else {
+          this.curList.push(issue);
+        }
+      });
+      // 倒计时
+      this.Timer && clearInterval(this.Timer);
+      this.Timer = setInterval(() => {
+        this.curList = this.curList.map(a => {
+          let time = a.saleend - this.curTime;
+          time <= 1000 && this.currentList([a.lotteryid]); // 多并发bug由 拦截器拦截
+          time < 0 && (time = 0);
+          a["timeLast"] = time;
+          a["timeStr"] = util.timeFormat(parseInt(time / 1000));
+          return a;
+        });
+        this.curTime += 1000;
+        this.MYmenus.splice(0, 0);
+      }, 1000);
     },
     handleopen () {
     },
