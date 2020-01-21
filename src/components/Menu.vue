@@ -36,7 +36,7 @@
                         span.text-gold {{ item.pretitle }}
                         | {{ item.title }}
                 div.recomment-game-wp(v-if="menu.url =='game'")
-      div.game-img-list(v-for="(item,index) in recommendList" @click="open(item,item.index)")
+                  div.game-img-list(v-for="(item,index) in recommendList" @click="open(item,item.index)")
 
 
 
