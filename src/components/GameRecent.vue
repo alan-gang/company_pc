@@ -16,9 +16,9 @@
       span.bb.f_r.pointer(@click=" ME.login ? goTrend() : __setCall({fn: '__popLogin', args: 'Login'}) ") 走势图>
 
     .c.t_c.ft12(:class=" gameType ")
-      .advertising-wp(v-if="isShowAdvertising" @click="__setCall({fn:'openTab',args:linkData.id})")
+      .advertising-wp(v-if="isShowAdvertising" @click="linkAnotherPage")
           img(:src="require(`../assets/advertising/${imgSrc}.png`)")
-          .advertising-close(@click.prevent.stop="isShowAdvertising=false")
+          .advertising-close(@click.prevent.stop="closeAdvertising")
       .ca.hlh36.text-999(style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd" v-bind:class=" { nostyle: !ccs } ")
         span.caa.inlb 期号
         span.cab.inlb 开奖号码
@@ -103,7 +103,8 @@ export default {
           matchArr: [13],
           targetObj: { url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43 }
         }
-      }
+      },
+      currentData: (new Date()).getDate()
     }
   },
   computed: {
@@ -131,30 +132,48 @@ export default {
   },
   created () {
     this.getWinners()
-     this.AdvertisingIsShow()
+    this.AdvertisingIsShow()
   },
   methods: {
-        AdvertisingIsShow () {
+    linkAnotherPage () {
+      this.closeAdvertising()
+      this.__setCall({ fn: 'openTab', args: this.linkData.id })
+    },
+    closeAdvertising () {
+      this.isShowAdvertising = false
+      let saveDay = JSON.parse(window.localStorage.getItem(this.currentData))
+      saveDay.forEach(item => { item.hasOwnProperty(this.gameid) && (item[this.gameid] = true) })
+      window.localStorage[this.currentData] = JSON.stringify(saveDay)
+    },
+    AdvertisingIsShow () {
       Object.keys(this.officLottery).forEach((key) => {
         this.officLottery[key].matchArr.forEach(item => {
           if (item === this.gameid) {
-            let currentData = (new Date()).getDate()
-
-            let saveDay = JSON.parse(window.localStorage.getItem(currentData)) || []
-            console.log(saveDay)
-            // [{1:true,3:true}]
-            this.isShowAdvertising = !saveDay.includes(this.gameid)
+            let saveDay = JSON.parse(window.localStorage.getItem(this.currentData)) || []
+            if (saveDay.length) {
+              let arr = []
+              saveDay.forEach(item => {
+                arr.push(...(Object.keys(item)))
+              })
+              if (!arr.includes(this.gameid.toString())) {
+                saveDay.push({ [this.gameid]: false })
+                window.localStorage[this.currentData] = JSON.stringify(saveDay)
+              }
+              this.isShowAdvertising = !saveDay.some((item) => item[this.gameid])
+            } else {
+              this.isShowAdvertising = true;
+              saveDay.push({ [this.gameid]: false })
+              window.localStorage[this.currentData] = JSON.stringify(saveDay)
+            }
             if (this.isShowAdvertising) {
               this.imgSrc = key
               this.linkData = this.officLottery[key].targetObj
-              saveDay.push(this.gameid)
-              window.localStorage[currentData] = JSON.stringify(saveDay)
             }
           }
         })
       })
     },
-    goTrend() {
+    goTrend () {
       if (this.gameType === 'OTHER') {
         this.$router.push('/form/4-5-3?gameid=' + this.gameid)
       } else {
@@ -184,7 +203,7 @@ export default {
       }
     },
     getWinners () {
-      this.$http.get(api.rewardInfo).then(({data: {success, winners}}) => {
+      this.$http.get(api.rewardInfo).then(({ data: { success, winners } }) => {
         if (success === 1) {
           this.wi = 0
           this.winners = winners
