@@ -220,7 +220,8 @@ export default {
       notifyshow: true,
       hasUnable: false,
       // missCodeHot
-      MCH: {}
+      MCH: {},
+      tryInvokeCount: 3
     }
   },
   computed: {
@@ -406,6 +407,7 @@ export default {
   created () {
   },
   mounted () {
+    this.tryInvokeCount = 3
     // 显示休市提示
     this.checkIsShowDialog()
     // 获得当前奖期
@@ -506,6 +508,11 @@ export default {
           // }
           // this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
+          if (this.tryInvokeCount <= 0) {
+            if (this.lucknumbersTimeout)  clearTimeout(this.lucknumbersTimeout)
+            return
+          }
+          this.tryInvokeCount--
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
             this.__recentlyCode()

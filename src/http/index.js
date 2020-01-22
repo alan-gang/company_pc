@@ -1,5 +1,32 @@
 // import store from '../store'
 import router from '../router/index.v2.js'
+
+function isShowErrMsg(request) {
+  let showErrMsg = true;
+  if (request) {
+    let queryStrings = (typeof request.data === 'string' && request.data.length > 0) ? request.data.split('&') : [];
+    let pItem;
+    for (let i = 0; i < queryStrings.length; i++) {
+      pItem = queryStrings[i].split('=');
+      if (pItem.length >= 1) {
+        if (pItem[0] === 'showErrMsg' && pItem[1] === 'false') {
+          showErrMsg = false;
+          break;
+        }
+      }
+    }
+    if (typeof request.params === 'object') {
+      for (let p in request.params) {
+        if (p === 'showErrMsg' && (request.params[p] === 'false' || request.params[p] === false)) {
+          showErrMsg = false;
+          break;
+        }
+      }
+    }
+  }
+  return showErrMsg;
+}
+
 export default (Vue) => {
   Vue.http.options.root = ''
   Vue.http.options.emulateJSON = true
@@ -65,30 +92,6 @@ export default (Vue) => {
     })
   })
 
-  function isShowErrMsg(request) {
-    let showErrMsg = true;
-    if (request) {
-      let queryStrings = (request.data && request.data.length > 0) ? request.data.split('&') : [];
-      let pItem;
-      queryStrings.forEach(qs => {
-        pItem = qs.split('=');
-        if (pItem.length >= 1) {
-          if (pItem[0] === 'showErrMsg' && pItem[1] === 'false') {
-            showErrMsg = false;
-          }
-        }
-      });
-      if (typeof request.params === 'object') {
-        for (let p in request.params) {
-          if (p === 'showErrMsg' && request.params[p] === 'false') {
-            showErrMsg = false;
-          }
-        }
-      }
-    }
-    return showErrMsg;
-  }
-
   let M = null
   let VM = null
   Vue.http.interceptors.push((request) => {
@@ -98,6 +101,7 @@ export default (Vue) => {
       //   return req
       // },
       response (rep) {
+        let showErrMsg = isShowErrMsg(rep.request);
         if (rep && rep.headers && rep.headers('date')) {
           window.lstt = (new Date(rep.headers('date'))).getTime()
         }
@@ -111,7 +115,7 @@ export default (Vue) => {
         } else if (rep.data && rep.data.success === -3) {
           this.$router.push('/login/forbidden')
         // 忽略没意义的消息
-        } else if (rep.data && rep.data.success === 0 && rep.data.msg && !M && rep.data.msg.match(/^[\u4e00-\u9fa5]+/)) {
+        } else if (rep.data && rep.data.success === 0 && rep.data.msg && !M && rep.data.msg.match(/^[\u4e00-\u9fa5]+/) && showErrMsg) {
           VM && (M = VM.$modal.warn({
             // target: VM.$el,
             content: rep.data.msg,
