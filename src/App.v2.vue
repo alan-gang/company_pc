@@ -56,7 +56,8 @@
     .modal.check-in-modal(v-if="showCheckInDialog")
       .mask
       CheckIn(@on-close="closeCheckInHandler")
-
+    //-分红契约弹窗提醒
+    dialog-deed(v-if="Me.login")
 </template>
 
 <script>
@@ -80,6 +81,7 @@ import store from './store'
 // import cookie from 'js-cookie'
 import api from './http/api'
 import Socket from './socket'
+import dialogDeed from '@/components/dialog-deed.vue'//-分红契约弹窗
 export default {
   name: 'App',
   mixins: [base],
@@ -1621,6 +1623,7 @@ export default {
     }
   },
   components: {
+    dialogDeed,
     Task,
     dsHeader,
     // dsFooter,
