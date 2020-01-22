@@ -465,7 +465,7 @@ export default {
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCodeNew, { gameid: this.page.gameid, pageNum: 1, size: 100 }).then(({ data }) => {
+      this.$http.mypost(api.recentlyCodeNew, { gameid: this.page.gameid, pageNum: 1, size: 100, showErrMsg: false }).then(({ data }) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
