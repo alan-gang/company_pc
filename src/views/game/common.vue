@@ -220,7 +220,8 @@ export default {
       notifyshow: true,
       hasUnable: false,
       // missCodeHot
-      MCH: {}
+      MCH: {},
+      tryInvokeCount: 3
     }
   },
   computed: {
@@ -406,6 +407,7 @@ export default {
   created () {
   },
   mounted () {
+    this.tryInvokeCount = 3
     // 显示休市提示
     this.checkIsShowDialog()
     // 获得当前奖期
@@ -465,7 +467,7 @@ export default {
     // 获得当前已开奖信息
     __recentlyCode (noloop) {
       if (!noloop && this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
-      this.$http.mypost(api.recentlyCodeNew, { gameid: this.page.gameid, pageNum: 1, size: 100 }).then(({ data }) => {
+      this.$http.mypost(api.recentlyCodeNew, { gameid: this.page.gameid, pageNum: 1, size: 100, showErrMsg: false }).then(({ data }) => {
         // success
         if (data.success > 0 && data.items.length > 0) {
           data.items.forEach(d => {
@@ -506,6 +508,11 @@ export default {
           // }
           // this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
+          if (this.tryInvokeCount <= 0) {
+            if (this.lucknumbersTimeout)  clearTimeout(this.lucknumbersTimeout)
+            return
+          }
+          this.tryInvokeCount--
           this.overtime = true
           this.lucknumbersTimeout = setTimeout(() => {
             this.__recentlyCode()
