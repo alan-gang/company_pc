@@ -262,7 +262,7 @@ export default {
             t1: 0,
             t2: 0,
             thirdGame: {
-                gameId: '202',
+                gameId: '8',
                 platId: '7'
             }
         }
