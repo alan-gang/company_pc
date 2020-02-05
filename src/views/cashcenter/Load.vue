@@ -41,6 +41,7 @@
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
+            i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
           .bank-ls(v-show="quotaList.length < 1")
             span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="choiceBank(bank, i)")
           .quota-ls(v-show="quotaList.length > 0")
@@ -57,7 +58,7 @@
           i.fc-o(v-html="rechargeRange")
           | ，充值手续费：
           i.fc-o {{perRate}}%
-
+          i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
         .form
           .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
@@ -426,7 +427,9 @@ export default {
       responseWait: false,           // 支付结果-暂未到账
       responseFailed: false,        // 支付结果-失败
 
-      billNo: ''
+      billNo: '',
+
+      showFeeTipForwWeixin: false
     }
   },
   computed: {
@@ -818,6 +821,7 @@ export default {
       this.curPayType = ptype
       this.bankList = this.curPayType.range
       this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
+      this.showFeeTipForwWeixin = this.curPayType.saveWay === 'weixin'
       if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
         let item = this.bankList[0]
         this.quotaList = item.range
