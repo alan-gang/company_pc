@@ -92,15 +92,15 @@ export default {
       isShowAdvertising: false,
       officLottery: {
         G115: {
-          matchArr: [6, 7, 8, 36, 46, 38, 159],
+          matchArr: [6, 7, 8, 40, 22, 37, 36, 46, 38, 159],
           targetObj: { url: 'G115', class: 'ds-icon-game-kt115 sign hot', id: '1-3-5', menuid: '14', title: '夺金120秒', gameid: 11 }
         },
         SSC: {
-          matchArr: [1, 3, 4, 35],
+          matchArr: [1, 155, 157, 29, 21, 150, 156, 3, 4, 35, 161, 158, 163, 164, 152, 153, 165, 166, 201, 202],
           targetObj: { class: 'ds-icon-game-hlffc sign hot', id: '1-1-4', menuid: '79', title: '欢乐分分彩', volume: false, gameid: 17 }
         },
         PK10: {
-          matchArr: [13],
+          matchArr: [39, 151, 162, 13],
           targetObj: { url: 'PK10', class: 'ds-icon-game-pk10sc sign hot', id: '1-5-10', menuid: '109', title: '幸运赛车', volume: true, gameid: 43 }
         }
       },
