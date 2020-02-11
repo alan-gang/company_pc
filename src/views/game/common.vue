@@ -283,7 +283,6 @@ export default {
     //     return (p.methodid + '') === this.methodid
     //   }) || {maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0}
     // },
-    // newUserPoint
     P () {
       return (this.PS[this.methodid] || [{ maxprize: 0, minprize: 0, scale: 0, maxpoint: 0.00, minpoint: 0 }])[0]
     },
@@ -461,7 +460,6 @@ export default {
     },
     getLottSets () {
       this.$http.myget(api.getLottSets).then(({ data }) => {
-        // console.log(data)
       })
     },
     // 获得当前已开奖信息
@@ -509,7 +507,7 @@ export default {
           // this.allLuckyNumbers = data.items || []
         } else if (data.success >= 0) {
           if (this.tryInvokeCount <= 0) {
-            if (this.lucknumbersTimeout)  clearTimeout(this.lucknumbersTimeout)
+            if (this.lucknumbersTimeout) clearTimeout(this.lucknumbersTimeout)
             return
           }
           this.tryInvokeCount--
@@ -914,6 +912,7 @@ export default {
           userpoint: Number(this.point).toFixed(4)
         })
       }
+      parseInt(this.page.gameid) === 28 && (items[0].userpoint = " 0.0000")
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
