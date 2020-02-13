@@ -912,7 +912,7 @@ export default {
           userpoint: Number(this.point).toFixed(4)
         })
       }
-      parseInt(this.page.gameid) === 28 && (items[0].userpoint = " 0.0000")
+      parseInt(((this.page.gameid === 28) || (this.page.gameid === 45)) && (items[0].userpoint = " 0.0000"))
       this.$http.post(api.booking, {
         gameid: parseInt(this.page.gameid), // 游戏代码
         issue: String(this.CNPER), // 起始期号
