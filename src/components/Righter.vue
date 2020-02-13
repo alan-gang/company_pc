@@ -118,12 +118,10 @@ export default {
     goChat() {
       let host = window.location.host
       let url = 'https://iweb.ichatos.com/#/?platCode='
-      if (host.indexOf('192.168') !== -1) {
+      if (host.indexOf('192.168') !== -1 || host.indexOf('www.game.com') !== -1) {
         url = 'http://192.168.169.84/#/?platCode='
-      } else if (host.indexOf('test') !== -1) {
+      } else if (host.indexOf('xy-test') !== -1) {
         url = 'https://iweb.xy-test.net/#/?platCode='
-      } else if (host.indexOf('www.game.com') !== -1) {
-        url = 'http://localhost:3000/#/?platCode='
       }
       url += this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
       // let url = 'http://localhost:3000/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
