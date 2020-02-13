@@ -24,8 +24,8 @@
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 充值模式：
-          span.top-up-type(:class="{active: !topupType}" @click="topupType = 0") 智能充值
-          span.top-up-type(:class="{active: topupType}" @click="topupType = 1") 手动充值
+          span.top-up-type(:class="{active: !topupType}" @click="changeTopupType(0)") 智能充值
+          span.top-up-type(:class="{active: topupType}" @click="changeTopupType(1)") 手动充值
         p.mt20 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
@@ -34,13 +34,16 @@
         nav.pay-type-wp.mt20.tb
           span.tb-cell 支付方式：
           div.btns.tb-cell
-            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
+            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in topupType ? znPayTypes : payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="topupType ? znChoicePayType(pt, i) : choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
 
         .icon-pointer-wp(v-show="canShowPayTypeDetail")
           .icon-pointer.fc-o.el-icon-caret-top(ref="iconPointer")
 
         .pay-type-detail(v-show="canShowPayTypeDetail")
-          .tip 提示：充值金额范围
+          template(v-if="znPayTypes.length")
+            p.save-list(v-show="topupType")
+              span.item(v-for="channel in znCurPayType.channels") {{channel.channelName}}
+          .tip.mt20 提示：充值金额范围
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
@@ -413,6 +416,7 @@ export default {
       payTypes: [],
       quotaList: [], // 定额
       curPayType: {},
+      znCurPayType: {},
       curBank: null,
       curBankIdx: 0,
       showBankList: false,
@@ -436,7 +440,9 @@ export default {
       // 充值模式 0 智能  1手动
       topupType: 0,
       // 智能支付渠道
-      znPlayTypes: []
+      znPayTypes: [],
+      // 渠道下标
+      channelIndex: 0
     }
   },
   computed: {
@@ -472,8 +478,8 @@ export default {
   },
   watch: {
     topupType (val) {
-      if (!this.znPlayTypes.length) {
-
+      if (!this.znPayTypes.length) {
+        this.saveRanges(2)
       }
     },
     amount () {
@@ -526,6 +532,12 @@ export default {
     this.saveRanges()
   },
   methods: {
+    changeTopupType (type) {
+      this.topupType = type
+      this.curPayTypeIdx = 0
+      this.curBankIdx = 0
+      this.channelIndex = 0
+    },
     replaceToNum (v) {
       return String(v).replace(/^0|\D/g, '')
     },
@@ -718,12 +730,19 @@ export default {
         this.type = 2
       })
     },
-    saveRanges (fn) {
-      this.$http.get(api.saveRanges, {chanType: 'web'}).then(({data: { success, saveRange }}) => {
-        if (success === 1) {
-          this.payTypes = saveRange
-          if (this.payTypes.length > 0) {
-            this.choicePayType(this.payTypes[0], 0)
+    saveRanges (type) {
+      let params = {chanType: 'web'}
+      if (type) params.mod = 2
+      this.$http.get(api.saveRanges, type ? {chanType: 'web', mod: 2} : {chanType: 'web'}).then(({data}) => {
+        if (data.success === 1) {
+          if (type) {
+            this.znPayTypes = data.saveList
+            this.znChoicePayType(this.znPayTypes[0], 0)
+          } else {
+            this.payTypes = data.saveRange
+            if (this.payTypes.length > 0) {
+              this.choicePayType(this.payTypes[0], 0)
+            }
           }
         }
       }).catch(rpe => {
@@ -832,6 +851,28 @@ export default {
       this.curPayTypeIdx = i
       this.curPayType = ptype
       this.bankList = this.curPayType.range
+      this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
+      this.showFeeTipForwWeixin = this.curPayType.saveWay === 'weixin'
+      if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
+        let item = this.bankList[0]
+        this.quotaList = item.range
+        this.amount = this.quotaList[0]
+        this.showAmountInput = false
+      } else {
+        this.amount = ''
+        this.showAmountInput = true
+        this.quotaList = []
+      }
+      this.choiceBank(this.bankList[0], 0)
+      this.$nextTick(() => {
+        let curPayTypeEl = this.$refs[`pay-type-${this.curPayType.saveWay}`][0]
+        this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
+      })
+    },
+    znChoicePayType (ptype, i) {
+      this.curPayTypeIdx = i
+      this.znCurPayType = ptype
+      // this.bankList = this.znCurPayType.
       this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
       this.showFeeTipForwWeixin = this.curPayType.saveWay === 'weixin'
       if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
