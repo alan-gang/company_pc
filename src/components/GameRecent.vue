@@ -198,7 +198,6 @@ export default {
           attr = process.env.NODE_ENV_PATH
         }
         let url = map[attr]
-        console.log(process.env.NODE_ENV_PATH)
         window.open(url + '/?gameid=' + this.gameid + '&typeName=' + typeName + '&navName=' + navName)
       }
     },

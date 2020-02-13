@@ -14,7 +14,8 @@
       .expand-left  帮助中心
     .ds-icon-downloadcenter(@click="$router.push('/help/7-1-1')")
       .expand-left  下载中心
-    .ds-icon-(v-show="Me.login")
+    .ds-icon-(v-show="Me.login" @click="goChat")
+      span.badge(v-show="unread") {{ unread > 99 ? '99+' : unread }}
       .expand-left 联系上级
     .jnewWin.ds-icon-contact-(:class=" { isvip: Me.vipChatUrl } " @click=" window.open(Me.chatUrlSlave || Me.vipChatUrl || Me.chatUrl || 'https://chat68.providenow.net/chat/chatClient/chatbox.jsp?companyID =80002207&configID=1262', 'newwindow', 'width=920,height=700,left=400,top=200') ")
       .expand-left  {{  Me.vipChatUrl ? 'VIP客服' : '联系客服' }}
@@ -51,6 +52,7 @@ export default {
       store: store,
       amount: 0,
       showBadge: false,
+      unread: '',
       skins: ['/static/skins/big_bg.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg']
       // skins: ['/static/skins/bg.jpg', '/static/skins/bg_01.jpg', '/static/skins/bg_02.jpg', '/static/skins/bg_03.jpg', '/static/skins/bg_04.jpg', '/static/skins/bg_05.jpg', '/static/skins/bg_06.jpg', '/static/skins/bg_07.jpg', '/static/skins/bg_08.jpg']
     }
@@ -61,10 +63,22 @@ export default {
   watch: {
     Me: {
       deep: true,
-      handler () {
+      handler (user) {
         // document.body.style.background = 'url(' + this.skins[this.Me.skin] + ')'
         document.body.style.backgroundImage = 'url(' + this.skins[this.Me.skin] + ')'
         document.body.className = this.Me.css
+        if (user && user.login) {
+          if (!this.timer) {
+            this.getMessageCount(user.token)
+            this.timer = setInterval(() => {
+              this.getMessageCount(user.token)
+            }, 10000)
+          }
+        } else {
+          clearInterval(this.timer)
+          this.timer = null
+          this.unread = ''
+        }
       }
     },
     'Me.taskTime' (n, o) {
@@ -88,6 +102,32 @@ export default {
     },
     changeBadgeStatus () {
       this.showBadge = true
+    },
+    getMessageCount(token) {
+      this.$http.get(api.getChatUnread, {token: token})
+      .then(res => {
+        if (res.status === 200 && res.data.success === 1) {
+          if (res.data.unReadNumber === -1) {
+            clearInterval(this.timer)
+          } else {
+            this.unread = res.data.unReadNumber
+          }
+        }
+      })
+    },
+    goChat() {
+      let host = window.location.host
+      let url = 'https://iweb.ichatos.com/#/?platCode='
+      if (host.indexOf('192.168') !== -1) {
+        url = 'http://192.168.169.84/#/?platCode='
+      } else if (host.indexOf('test') !== -1) {
+        url = 'https://iweb.xy-test.net/#/?platCode='
+      } else if (host.indexOf('www.game.com') !== -1) {
+        url = 'http://localhost:3000/#/?platCode='
+      }
+      url += this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+      // let url = 'http://localhost:3000/#/?platCode=' + this.Me.platId + '&platUserId=' + this.Me.userId + '&token=' + this.Me.token
+      window.open(url, 'chatwindow', 'width=800,height=520,resizable=no')
     },
     countDown () {
       if (this.time > 0) {
@@ -194,7 +234,14 @@ export default {
           font-size .14rem
           overflow hidden
 
-
+    .ds-icon-
+      width RW
+      height RW
+      margin 0
+      background-image url(../assets/righter/05.png) !important
+      background-position center
+      cursor pointer !important
+      background-repeat no-repeat
 
 
 </style>
@@ -257,7 +304,7 @@ export default {
       background url(../assets/righter/vipChat.png) center no-repeat
 
     .ds-icon-ggl
-      background url(../assets/righter/06.png) center no-repeat
+    .ds-icon-
       position relative
       .badge
         background-color red
@@ -281,6 +328,9 @@ export default {
         top: .24rem
         z-index 1
         background url(../assets/righter/badge.png) center no-repeat
+      &.ds-icon-ggl
+        background url(../assets/righter/06.png) center no-repeat
+
     .ds-icon-guanji
       background url(../assets/righter/gj.png) center no-repeat
     .right-quick-third-game
