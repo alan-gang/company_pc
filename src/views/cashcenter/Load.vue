@@ -23,7 +23,10 @@
 
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
-        p 用户名：
+        p 充值模式：
+          span.top-up-type(:class="{active: !topupType}" @click="topupType = 0") 智能充值
+          span.top-up-type(:class="{active: topupType}" @click="topupType = 1") 手动充值
+        p.mt20 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
           span.fc-o.u-balance {{numberWithCommas(me.amoney)}}
@@ -32,12 +35,12 @@
           span.tb-cell 支付方式：
           div.btns.tb-cell
             span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
-        
+
         .icon-pointer-wp(v-show="canShowPayTypeDetail")
           .icon-pointer.fc-o.el-icon-caret-top(ref="iconPointer")
-        
+
         .pay-type-detail(v-show="canShowPayTypeDetail")
-          .tip 提示：充值金额范围 
+          .tip 提示：充值金额范围
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
@@ -54,7 +57,7 @@
 
         .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：
           template(v-if="['zfb', 'zfb_base'].indexOf(curPayType.saveWay) !== -1") 付款时请尽量选择支付宝绑定的银行卡付款，使用支付宝余额或余额宝付款可能导致付款失败．<br/>
-          | 充值金额范围 
+          | 充值金额范围
           i.fc-o(v-html="rechargeRange")
           | ，充值手续费：
           i.fc-o {{perRate}}%
@@ -83,7 +86,7 @@
             .ml90 4.线下支付有一定延时，请耐心等待，如果超过 10 分钟还没有到帐，请与客服联系。
 
 
-      
+
       .tab-recharge-records(v-if="tabIdx === TAB_RECHARGE_RECORDS")
         .form
 
@@ -95,7 +98,7 @@
           //-label.item(style="margin-left: .2rem") 状态
             el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-          
+
           .search-wp
             SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
             //- span.mr10 时间
@@ -135,7 +138,7 @@
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
 
-    
+
     .modal(v-show="show" )
       .mask
       .box-wrapper
@@ -180,14 +183,14 @@
         p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p(v-if="this.canShowTruthName") 
+        p(v-if="this.canShowTruthName")
           span 支付宝
-          span 
+          span
             .QR.ds-icon-QR.bank-qr-wp(:style="myQR")
         p.rs-modal-btns-wp(v-show="dataXnowStep2")
           el-button(type="success" @click="btnResponseConfirm(1)") 已完成付款
           el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
-          el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
+          el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款
 
 
     .modal(v-show="showRequest" )
@@ -285,9 +288,9 @@
                 span.text-green(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 0") 待处理
                 span.text-danger(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 2") 失败，{{ detail.backReson }}
 
-    
-    
-    
+
+
+
     .modal.res-c-modal.res-confirm-modal(v-show="isShowResponseConfirm" )
       .mask
       .box-wrapper
@@ -299,7 +302,7 @@
             p.mt15.faild-wp
               el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
             p.mt15.cancel-wp
-              el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
+              el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款
 
     .modal.res-c-modal.res-confirm-rs-modal(v-show="isShowResponseConfirmRs" )
       .mask
@@ -320,7 +323,7 @@
               el-button(type="success" @click="isShowResponseConfirmRs = false") 确定
             p.faild-wp(v-show="responseFailed")
               el-button(type="warning" @click="isShowResponseConfirmRs = false") 确定
-            
+
 </template>
 
 <script>
@@ -429,7 +432,11 @@ export default {
 
       billNo: '',
 
-      showFeeTipForwWeixin: false
+      showFeeTipForwWeixin: false,
+      // 充值模式 0 智能  1手动
+      topupType: 0,
+      // 智能支付渠道
+      znPlayTypes: []
     }
   },
   computed: {
@@ -464,6 +471,11 @@ export default {
     }
   },
   watch: {
+    topupType (val) {
+      if (!this.znPlayTypes.length) {
+
+      }
+    },
     amount () {
       if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
       if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
@@ -938,6 +950,33 @@ export default {
       text-decoration none !important
   .u-name
     padding-left 0.42rem
+  .top-up-type
+    display inline-block
+    width 1.55rem
+    height .42rem
+    line-height .42rem
+    border-radius .02rem
+    border solid 1px #d4d4d4
+    box-sizing border-box
+    text-align center
+    margin-right .15rem
+    cursor pointer
+    padding-left .28rem
+    font-size 14px
+    color #000
+    transition .2s ease
+    &.active
+      background-color #fef2e6
+      border-color #f5a260
+    &:first-child
+    &:last-child
+      background-repeat no-repeat
+      background-position .3rem center
+    &:first-child
+      margin-left .28rem
+      background-image url('../../assets/v2/cz_icon_zncz.png')
+    &:last-child
+      background-image url('../../assets/v2/cz_icon_sdcz.png')
   .u-balance
     padding 0 0.02rem 0 0.1rem
   .icon-pointer-wp
@@ -994,7 +1033,7 @@ export default {
       margin 0 0 0.0745rem 0.0745rem
     .text-button
       textButton()
- 
+
   .bank-qr-wp
     margin-bottom 0 !important
     height 1.5rem !important
@@ -1144,7 +1183,7 @@ export default {
 
   elButtonSuccess()
     background-color #65c014
-    border-color #65c014 
+    border-color #65c014
   elButtonWarning()
     background-color #e71c1c
     border-color #e71c1c
@@ -1169,7 +1208,7 @@ export default {
           elButtonWarning()
         .el-button--info
           elButtonInfo()
-  
+
   .rs-modal-btns-wp
     text-align center
     padding 0.2rem 0 0.3rem 0
@@ -1188,7 +1227,7 @@ export default {
         margin 0.58rem 0 0.32rem
         font-size 0.18rem
 
-  
+
   .res-confirm-rs-modal
     .box
       // &.wait
@@ -1256,7 +1295,7 @@ export default {
           font-size .12rem
           padding 0 .1rem
           color #f37e0c
-          
+
       &.unionpay
         &:after
           content '送0.2%-0.5%'
