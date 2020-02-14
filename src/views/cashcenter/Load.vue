@@ -47,7 +47,7 @@
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
-            i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
+            i.text-danger.ft12(v-show="showFeeTipForwWeixin && perRate")（微信官方渠道收取）
           .bank-ls(v-show="quotaList.length < 1")
             span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="topupType ? znChoiceBank(bank, i) : choiceBank(bank, i)")
           .quota-ls(v-show="quotaList.length > 0")
@@ -832,7 +832,7 @@ export default {
       if (this.canShowTruthName && !this.name) return this.$message.warning({message: '请输入您的真实姓名!'})
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
-      if (!this.curPayType.saveWay) return this.$message.warning({message: '请选择支付方式!'})
+      if (!(this.topupType ? this.znCurPayType : this.curPayType).saveWay) return this.$message.warning({message: '请选择支付方式!'})
       // if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
       // if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
       // if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转账' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
@@ -885,7 +885,7 @@ export default {
       this.curPayTypeIdx = i
       this.znCurPayType = ptype
       this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
-      this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.znCurPayType.saveWay)
+      this.canShowPayTypeDetail = true
       this.showFeeTipForwWeixin = this.znCurPayType.saveWay === 'weixin'
       if (this.znCurPayType.saveWay === 'weixinquota' || this.znCurPayType.saveWay === 'zfbquota') {
         this.quotaList = this.znCurPayType.channels[this.channelIndex].quota.split(',')
@@ -906,6 +906,17 @@ export default {
       this.channelIndex = index
       this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
       this.znChoiceBank(this.bankList[0], 0)
+      // 修改实际到账金额
+      if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
+      if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
+        this.amount = parseFloat(this.amount, 10)
+        this.actualAmount = this.MMath.sub(this.amount, this.MMath.mul(this.amount, this.MMath.div(this.perRate, 100))).toFixed(2)
+        // setTimeout(() => {
+        //   typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+        // }, 300)
+      } else {
+        this.actualAmount = 0
+      }
     },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
@@ -926,7 +937,8 @@ export default {
         bankCode: bank ? bank.bankCode : '',
         bankName: bank ? bank.bankName : '',
         fee: temp.fee,
-        range: temp.quota ? temp.quota.split(',') : temp.range
+        range: temp.quota ? temp.quota.split(',') : temp.range,
+        commitAdd: temp.commitAdd
       }
       this.rechargeRange = typeof this.curBank.range === 'string' ? this.curBank.range : this.curBank.range.map((item) => {
         item = item.split('~')
