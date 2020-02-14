@@ -66,7 +66,7 @@
           i.fc-o {{perRate}}%
           i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
         .form
-          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && (topupType ? znCurPayType : curPayType).saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -77,7 +77,7 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
-          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && (topupType ? znCurPayType : curPayType).saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 2.5rem" placeholder="转账银行卡/支付宝/微信的真实姓名")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
@@ -470,7 +470,7 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      return ['zfb2bank', 'offline'].includes(this.curPayType.saveWay)
+      return ['zfb2bank', 'offline'].includes((this.topupType ? this.znCurPayType : this.curPayType).saveWay)
     },
     btnConfirmDisable () {
       return !this.amount || this.amount === '0'
@@ -538,7 +538,7 @@ export default {
       this.curBankIdx = 0
       this.channelIndex = 0
       if (type) {
-        if (this.znPayTypes.lenght) this.znChoicePayType(this.znPayTypes[0], 0)
+        if (this.znPayTypes.length) this.znChoicePayType(this.znPayTypes[0], 0)
       } else {
         this.choicePayType(this.payTypes[0], 0)
       }
@@ -763,12 +763,17 @@ export default {
       }, 10000, '充值申请超时...')
       let params = {
         chanType: 'web',
-        saveWay: this.curPayType.saveWay,
+        saveWay: (this.topupType ? this.znCurPayType : this.curPayType).saveWay,
         bankCode: bankCode,
         amount: this.amount
       }
       if (this.canShowTruthName) {
         params.cardName = this.name
+      }
+      if (this.topupType) {
+        params.mod = 2
+        params.channelCode = this.znCurPayType.channels[this.channelIndex].channelCode
+        if (!bankCode) params.bankCode = this.znCurPayType.saveWay
       }
       this.$http.post(api.commit, params).then(({data}) => {
         if (data.success === 1) {
@@ -876,6 +881,7 @@ export default {
     },
     znChoicePayType (ptype, i) {
       console.log('znChoicePayType')
+      this.channelIndex = 0
       this.curPayTypeIdx = i
       this.znCurPayType = ptype
       this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
@@ -890,7 +896,7 @@ export default {
         this.showAmountInput = true
         this.quotaList = []
       }
-      this.znChoiceBank(this.znCurPayType, 0)
+      this.znChoiceBank(this.znCurPayType.channels[this.channelIndex].bankList[this.curBankIdx], 0)
       this.$nextTick(() => {
         let curPayTypeEl = this.$refs[`pay-type-${this.znCurPayType.saveWay}`][0]
         this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
