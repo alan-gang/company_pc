@@ -42,14 +42,14 @@
         .pay-type-detail(v-show="canShowPayTypeDetail")
           template(v-if="znPayTypes.length")
             p.save-list(v-show="topupType")
-              span.item(v-for="channel in znCurPayType.channels") {{channel.channelName}}
+              span.item(v-for="(channel, idx) in znCurPayType.channels" v-bind:class="{active: channelIndex === idx}" @click="changeChannelIndex(idx)") {{channel.channelName}}
           .tip.mt20 提示：充值金额范围
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
             i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
           .bank-ls(v-show="quotaList.length < 1")
-            span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="choiceBank(bank, i)")
+            span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="topupType ? znChoiceBank(bank, i) : choiceBank(bank, i)")
           .quota-ls(v-show="quotaList.length > 0")
             .btns
               .ds-button.text-button.quota-item.mr15(v-for=" (v, i) in quotaList " v-bind:class="{ selected: quotaIdx === i }" @click="choiceQuota(v, i)" ) {{ v }}
@@ -537,6 +537,11 @@ export default {
       this.curPayTypeIdx = 0
       this.curBankIdx = 0
       this.channelIndex = 0
+      if (type) {
+        if (this.znPayTypes.lenght) this.znChoicePayType(this.znPayTypes[0], 0)
+      } else {
+        this.choicePayType(this.payTypes[0], 0)
+      }
     },
     replaceToNum (v) {
       return String(v).replace(/^0|\D/g, '')
@@ -870,14 +875,14 @@ export default {
       })
     },
     znChoicePayType (ptype, i) {
+      console.log('znChoicePayType')
       this.curPayTypeIdx = i
       this.znCurPayType = ptype
-      // this.bankList = this.znCurPayType.
-      this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.curPayType.saveWay)
-      this.showFeeTipForwWeixin = this.curPayType.saveWay === 'weixin'
-      if (this.curPayType.saveWay === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') {
-        let item = this.bankList[0]
-        this.quotaList = item.range
+      this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
+      this.canShowPayTypeDetail = this.checkCanShowPayTypeDetail(this.bankList, this.znCurPayType.saveWay)
+      this.showFeeTipForwWeixin = this.znCurPayType.saveWay === 'weixin'
+      if (this.znCurPayType.saveWay === 'weixinquota' || this.znCurPayType.saveWay === 'zfbquota') {
+        this.quotaList = this.znCurPayType.channels[this.channelIndex].quota.split(',')
         this.amount = this.quotaList[0]
         this.showAmountInput = false
       } else {
@@ -885,19 +890,43 @@ export default {
         this.showAmountInput = true
         this.quotaList = []
       }
-      this.choiceBank(this.bankList[0], 0)
+      this.znChoiceBank(this.znCurPayType, 0)
       this.$nextTick(() => {
-        let curPayTypeEl = this.$refs[`pay-type-${this.curPayType.saveWay}`][0]
+        let curPayTypeEl = this.$refs[`pay-type-${this.znCurPayType.saveWay}`][0]
         this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
       })
     },
+    changeChannelIndex (index) {
+      this.channelIndex = index
+      this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
+      this.znChoiceBank(this.bankList[0], 0)
+    },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
-      if (payType === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') return true
+      if (payType === 'weixinquota' || (this.topupType ? this.znCurPayType : this.curPayType).saveWay === 'zfbquota') return true
+      let flag = false
       if (bankList.length > 1) {
-        return toString.call(bankList[0]) === '[object Object]'
+        flag = toString.call(bankList[0]) === '[object Object]'
       }
-      return false
+      if (this.topupType && !flag && this.znCurPayType.channels.length > 1) {
+        flag = toString.call(this.znCurPayType.channels[0]) === '[object Object]'
+      }
+      return flag
+    },
+    znChoiceBank (bank, i) {
+      this.curBankIdx = i
+      let temp = this.znCurPayType.channels[this.channelIndex]
+      this.curBank = {
+        bankCode: bank ? bank.bankCode : '',
+        bankName: bank ? bank.bankName : '',
+        fee: temp.fee,
+        range: temp.quota ? temp.quota.split(',') : temp.range
+      }
+      this.rechargeRange = typeof this.curBank.range === 'string' ? this.curBank.range : this.curBank.range.map((item) => {
+        item = item.split('~')
+        return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
+      }).join(';  &nbsp;')
+      this.perRate = this.curBank.fee
     },
     choiceBank (bank, i) {
       this.curBankIdx = i
@@ -991,7 +1020,12 @@ export default {
       text-decoration none !important
   .u-name
     padding-left 0.42rem
-  .top-up-type
+  .save-list
+    .item
+      display inline-block
+
+  .top-up-type,
+  .save-list .item
     display inline-block
     width 1.55rem
     height .42rem
@@ -999,25 +1033,30 @@ export default {
     border-radius .02rem
     border solid 1px #d4d4d4
     box-sizing border-box
-    text-align center
     margin-right .15rem
     cursor pointer
-    padding-left .28rem
+    padding-left .55rem
     font-size 14px
     color #000
     transition .2s ease
     &.active
       background-color #fef2e6
       border-color #f5a260
-    &:first-child
-    &:last-child
+    &.top-up-type
+      &:first-child
+      &:last-child
+        background-repeat no-repeat
+        background-position .25rem center
+      &:first-child
+        margin-left .28rem
+        background-image url('../../assets/v2/cz_icon_zncz.png')
+      &:last-child
+        background-image url('../../assets/v2/cz_icon_sdcz.png')
+    &.item
+      background-image url('../../assets/v2/cz_icon_qd.png')
       background-repeat no-repeat
-      background-position .3rem center
-    &:first-child
-      margin-left .28rem
-      background-image url('../../assets/v2/cz_icon_zncz.png')
-    &:last-child
-      background-image url('../../assets/v2/cz_icon_sdcz.png')
+      background-position .25rem center
+
   .u-balance
     padding 0 0.02rem 0 0.1rem
   .icon-pointer-wp
