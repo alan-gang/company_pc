@@ -1334,6 +1334,7 @@ export default {
         Socket.sockets.user && this.connected(Socket.sockets.user)
         // this.showMenuGuide = !window.localStorage.getItem('menu_guide') // 关闭新功能引导
       })
+      this.getLotterys() // 登录后重新加载
       // this.canGetIngots()
       if (this.$route.path.indexOf('game') !== -1) this.__setCall({ fn: '__upDatePoints', callId: undefined })
     },
