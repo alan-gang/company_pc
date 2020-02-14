@@ -24,8 +24,10 @@
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 充值模式：
-          span.top-up-type(:class="{active: !topupType}" @click="changeTopupType(0)") 智能充值
-          span.top-up-type(:class="{active: topupType}" @click="changeTopupType(1)") 手动充值
+          span.top-up-type(:class="{active: !topupType}" @click="changeTopupType(0)")
+            i 智能充值
+          span.top-up-type(:class="{active: topupType}" @click="changeTopupType(1)")
+            i 手动充值
         p.mt20 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
@@ -42,7 +44,8 @@
         .pay-type-detail(v-show="canShowPayTypeDetail")
           template(v-if="znPayTypes.length")
             p.save-list(v-show="topupType")
-              span.item(v-for="(channel, idx) in znCurPayType.channels" v-bind:class="{active: channelIndex === idx}" @click="changeChannelIndex(idx)") {{channel.channelName}}
+              span.item(v-for="(channel, idx) in znCurPayType.channels" v-bind:class="{active: channelIndex === idx}" @click="changeChannelIndex(idx)")
+                i {{channel.channelName}}
           .tip.mt20 提示：充值金额范围
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
@@ -1039,6 +1042,7 @@ export default {
   .u-name
     padding-left 0.42rem
   .save-list
+    margin-left .0745rem
     .item
       display inline-block
 
@@ -1053,27 +1057,33 @@ export default {
     box-sizing border-box
     margin-right .15rem
     cursor pointer
-    padding-left .55rem
     font-size 14px
     color #000
     transition .2s ease
+    text-align center
+    i
+      font-style normal
+      display inline-block
+      padding-left .32rem
+
     &.active
       background-color #fef2e6
       border-color #f5a260
     &.top-up-type
-      &:first-child
-      &:last-child
+      &:first-child i
+      &:last-child i
         background-repeat no-repeat
-        background-position .25rem center
+        background-position 0 center
       &:first-child
         margin-left .28rem
-        background-image url('../../assets/v2/cz_icon_zncz.png')
-      &:last-child
+        i
+          background-image url('../../assets/v2/cz_icon_zncz.png')
+      &:last-child i
         background-image url('../../assets/v2/cz_icon_sdcz.png')
-    &.item
+    &.item i
       background-image url('../../assets/v2/cz_icon_qd.png')
       background-repeat no-repeat
-      background-position .25rem center
+      background-position 0 center
 
   .u-balance
     padding 0 0.02rem 0 0.1rem
