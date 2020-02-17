@@ -481,9 +481,7 @@ export default {
   },
   watch: {
     topupType (val) {
-      console.log(2222222)
       if (!this.znPayTypes.length) {
-        console.log(333333)
         this.saveRanges(2)
       }
     },
@@ -741,8 +739,6 @@ export default {
       })
     },
     saveRanges (type) {
-      let params = {chanType: 'web'}
-      if (type) params.mod = 2
       this.$http.myget(api.saveRanges, type ? {chanType: 'web', mod: 2} : {chanType: 'web'}).then(({data}) => {
         if (data.success === 1) {
           if (type) {
