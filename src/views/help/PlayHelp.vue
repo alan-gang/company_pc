@@ -11,9 +11,15 @@
       .ds-button-group
         .ds-button.text-button(:class="{ selected: index === i }" @click=" index = i " v-for=" (g, i) in games ") {{ g.tagname }}
       //- 彩种玩法说明
-      .content(v-if=" gcontent && gid!=9999")
-        p.title &nbsp;&nbsp;&nbsp;&nbsp;{{ gcontent.content }}
 
+      div.desc
+        div.content {{ gcontent.content }}
+        div.play-btn-group
+          el-button(:class="{selected:index == 7 }" @click="index =7") 开奖时间
+          el-button(:class="{selected:index < 7 }" @click="index =0") 玩法介绍
+
+      .content(v-if="gid!=9999")
+        //-
         el-row.row-title.text-black
           el-col(:span="4" style="padding-left: .2rem;" ) 玩法组
           el-col(:span="4") 玩法
@@ -25,7 +31,7 @@
           el-col(:span="16" style="padding-right: .2rem") {{ g.content }}
       //- 彩种开奖时间
       .content(v-if=" gid==9999 ")
-        p.title &nbsp;&nbsp;&nbsp;&nbsp;彩种开奖时间
+        //- p.title &nbsp;&nbsp;&nbsp;&nbsp;彩种开奖时间
 
         el-row.row-title.text-black
           el-col(:span="4" style="padding-left: .2rem;" ) 彩种
@@ -42,36 +48,38 @@
           el-col(:span="4" style="padding-right: .2rem") {{ g.FinalDeadline }}
           el-col(:span="4" style="padding-right: .2rem") {{ g.IntervalInterval }}
           el-col(:span="4" style="padding-right: .2rem") {{ g.TotalNumberPeriods }}
-        
 
-    
+
+
 </template>
 
 <script>
 import api from "../../http/api";
 import PlayHelp_LotteryTime from "./PlayHelp_LotteryTime.js";
 export default {
-  data() {
+  data () {
     return {
       PlayHelp_LotteryTime: PlayHelp_LotteryTime,
       games: [{}],
-      index: 0,
-      content: []
+      games1: [],
+      index: 7,
+      content: [],
+      lotteryTime: null
     };
   },
   computed: {
-    gid() {
-      return this.games[this.index].id;
+    gid () {
+      return this.games1.length && this.games1[this.index].id;
     },
-    gcontent() {
+    gcontent () {
       return (
-        this.content.filter(c => c.key === this.gid)[0] || { value: [{}] }
+        this.content.filter(c => c.key === this.gid)[0] || { value: [{ content: '平台彩种丰富，包括时时彩，十一选五，快三，低频3D和排列三、五等多种游戏' }] }
       ).value[0];
     },
-    groups() {
+    groups () {
       return (this.gcontent.subList || []).filter(g => g.level === 2);
     },
-    items() {
+    items () {
       return this.groups.reduce((p, na) => {
         na && na.subList && na.subList[0] && (na.subList[0].ptitle = na.title);
         p = p.concat(na.subList || []);
@@ -79,11 +87,11 @@ export default {
       }, []);
     }
   },
-  mounted() {
+  mounted () {
     this.getHelpTag();
   },
   methods: {
-    getHelpInfo() {
+    getHelpInfo () {
       this.$http.myget(api.getHelpInfo, { subject: "game" }).then(
         ({ data }) => {
           if (data.success === 1) {
@@ -104,11 +112,12 @@ export default {
         }
       );
     },
-    getHelpTag() {
+    getHelpTag () {
       this.$http.myget(api.getHelpTag, { subject: "game" }).then(
         ({ data }) => {
           if (data.success === 1) {
-            this.games = data.tagList.concat({
+            this.games = data.tagList
+            this.games1 = data.tagList.concat({
               id: 9999,
               tagname: "彩种开奖时间"
             });
@@ -218,4 +227,22 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="stylus">
+    .play-btn-group
+        display block
+        display flex
+        margin .2rem 0
+        .el-button.selected
+          background-color: #f17d0b;
+          color: #fff;
+        .el-button:hover
+          border-color #f17d0b
+          color #1f2d3d
+        .el-button.selected:hover
+          border-color #f17d0b
+          color #fff
+        .el-button:active,.el-button:focus,.el-button:hover
+          border-color: #f17d0b
 </style>
