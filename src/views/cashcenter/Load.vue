@@ -996,7 +996,7 @@ export default {
       let rs = BANKS.filter((item) => {
         return item.apiName === bankCode
       })
-      return (rs && rs[0].class) || ''
+      return (rs[0] && rs[0].class) || ''
     },
     search () {
       this.qryRecharge()
