@@ -23,7 +23,12 @@
 
 
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
-        p 用户名：
+        p 充值模式：
+          span.top-up-type(:class="{active: !topupType}" @click="changeTopupType(0)")
+            i 系统智能充值版
+          span.top-up-type(:class="{active: topupType}" @click="changeTopupType(1)")
+            i 手动选择充值版
+        p.mt20 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
           span.fc-o.u-balance {{numberWithCommas(me.amoney)}}
@@ -31,19 +36,23 @@
         nav.pay-type-wp.mt20.tb
           span.tb-cell 支付方式：
           div.btns.tb-cell
-            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
-        
+            span.ds-icon-bank-card.mr15(v-for=" (pt, i) in topupType ? znPayTypes : payTypes " v-bind:class="{ selected: curPayTypeIdx === i, [getBankConfig(pt.saveWay)]: true }" @click="topupType ? znChoicePayType(pt, i) : choicePayType(pt, i)" v-bind:ref="'pay-type-'+pt.saveWay" ) {{ '' }}
+
         .icon-pointer-wp(v-show="canShowPayTypeDetail")
           .icon-pointer.fc-o.el-icon-caret-top(ref="iconPointer")
-        
+
         .pay-type-detail(v-show="canShowPayTypeDetail")
-          .tip 提示：充值金额范围 
+          template(v-if="znPayTypes.length")
+            p.save-list(v-show="topupType")
+              span.item(v-for="(channel, idx) in znCurPayType.channels" v-bind:class="{active: channelIndex === idx}" @click="changeChannelIndex(idx)")
+                i {{channel.channelName}}
+          .tip.mt20 提示：充值金额范围
             i.fc-o(v-html="rechargeRange")
             | ，充值手续费：
             i.fc-o {{perRate}}%
-            i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
+            i.text-danger.ft12(v-show="showFeeTipForwWeixin && perRate")（微信官方渠道收取）
           .bank-ls(v-show="quotaList.length < 1")
-            span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="choiceBank(bank, i)")
+            span.ds-icon-bank-card(v-bind:class="{[getBankConfig(bank.bankCode)]: true, selected: curBankIdx === i}" v-for="(bank, i) in bankList" v-bind:key="i" @click="topupType ? znChoiceBank(bank, i) : choiceBank(bank, i)")
           .quota-ls(v-show="quotaList.length > 0")
             .btns
               .ds-button.text-button.quota-item.mr15(v-for=" (v, i) in quotaList " v-bind:class="{ selected: quotaIdx === i }" @click="choiceQuota(v, i)" ) {{ v }}
@@ -54,13 +63,13 @@
 
         .tip.ml90.mt20(v-show="!canShowPayTypeDetail") 提示：
           template(v-if="['zfb', 'zfb_base'].indexOf(curPayType.saveWay) !== -1") 付款时请尽量选择支付宝绑定的银行卡付款，使用支付宝余额或余额宝付款可能导致付款失败．<br/>
-          | 充值金额范围 
+          | 充值金额范围
           i.fc-o(v-html="rechargeRange")
           | ，充值手续费：
           i.fc-o {{perRate}}%
           i.text-danger.ft12(v-show="showFeeTipForwWeixin")（微信官方渠道收取）
         .form
-          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && (topupType ? znCurPayType : curPayType).saveWay!='offline'") 支付姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 1.8rem" v-bind:placeholder="namePlaceHolder")
 
           .item(v-show="showAmountInput") 充值金额：&nbsp;&nbsp;&nbsp;&nbsp;
@@ -71,7 +80,7 @@
               i 实际到账：
               i.fc-o {{actualAmount}}
               i &nbsp;元
-          .item(style="line-height: .5rem" v-if=" canShowTruthName && curPayType.saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
+          .item(style="line-height: .5rem" v-if=" canShowTruthName && (topupType ? znCurPayType : curPayType).saveWay=='offline'") 充值姓名：&nbsp;&nbsp;&nbsp;&nbsp;
             input.ds-input(v-model="name" style="width: 2.5rem" placeholder="转账银行卡/支付宝/微信的真实姓名")
           .buttons.mt20(style="margin-left: .85rem;")
             .ds-button.primary.large(@click="topUpNow" v-bind:class="{disable: btnConfirmDisable}") 确认
@@ -83,7 +92,7 @@
             .ml90 4.线下支付有一定延时，请耐心等待，如果超过 10 分钟还没有到帐，请与客服联系。
 
 
-      
+
       .tab-recharge-records(v-if="tabIdx === TAB_RECHARGE_RECORDS")
         .form
 
@@ -95,7 +104,7 @@
           //-label.item(style="margin-left: .2rem") 状态
             el-select(clearable v-bind:disabled=" !STATUS[0] "  v-model="status" style="width: .8rem" placeholder="全")
             el-option(v-for="(S, i) in STATUS" v-bind:label="S" v-bind:value="i")
-          
+
           .search-wp
             SearchConditions(v-bind:showBtnSearch="true" @choiced="choicedSearchCondition" @search="search")
             //- span.mr10 时间
@@ -135,7 +144,7 @@
           el-pagination(:total="total" v-bind:page-size="pageSize" layout="prev, pager, next, total" v-bind:page-sizes="[5, 10, 15, 20]" v-bind:current-page="currentPage" small v-if=" total > 20 " v-on:current-change="pageChanged")
 
 
-    
+
     .modal(v-show="show" )
       .mask
       .box-wrapper
@@ -180,14 +189,14 @@
         p 附言：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           span.text-black {{ dataXappendix }}
           span.ds-button.text-button.green(v-clipboard:copy=" dataXappendix " v-clipboard:success="copySuccess" v-clipboard:error="copyError") 复制
-        p(v-if="this.canShowTruthName") 
+        p(v-if="this.canShowTruthName")
           span 支付宝
-          span 
+          span
             .QR.ds-icon-QR.bank-qr-wp(:style="myQR")
         p.rs-modal-btns-wp(v-show="dataXnowStep2")
           el-button(type="success" @click="btnResponseConfirm(1)") 已完成付款
           el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
-          el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
+          el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款
 
 
     .modal(v-show="showRequest" )
@@ -285,9 +294,9 @@
                 span.text-green(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 0") 待处理
                 span.text-danger(style="width: 3rem; display: inline-block; text-align: left" v-if=" detail.isDone === 2") 失败，{{ detail.backReson }}
 
-    
-    
-    
+
+
+
     .modal.res-c-modal.res-confirm-modal(v-show="isShowResponseConfirm" )
       .mask
       .box-wrapper
@@ -299,7 +308,7 @@
             p.mt15.faild-wp
               el-button(type="warning" @click="btnResponseConfirm(2)") 付款失败
             p.mt15.cancel-wp
-              el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款 
+              el-button(type="info" @click="btnResponseConfirm(3)") 已取消付款
 
     .modal.res-c-modal.res-confirm-rs-modal(v-show="isShowResponseConfirmRs" )
       .mask
@@ -320,7 +329,7 @@
               el-button(type="success" @click="isShowResponseConfirmRs = false") 确定
             p.faild-wp(v-show="responseFailed")
               el-button(type="warning" @click="isShowResponseConfirmRs = false") 确定
-            
+
 </template>
 
 <script>
@@ -410,6 +419,7 @@ export default {
       payTypes: [],
       quotaList: [], // 定额
       curPayType: {},
+      znCurPayType: {},
       curBank: null,
       curBankIdx: 0,
       showBankList: false,
@@ -429,7 +439,13 @@ export default {
 
       billNo: '',
 
-      showFeeTipForwWeixin: false
+      showFeeTipForwWeixin: false,
+      // 充值模式 0 智能  1手动
+      topupType: 0,
+      // 智能支付渠道
+      znPayTypes: [],
+      // 渠道下标
+      channelIndex: 0
     }
   },
   computed: {
@@ -457,13 +473,18 @@ export default {
       return this.showAllBank ? this.avaibleBanks : this.avaibleBanks.slice(0, 3)
     },
     canShowTruthName () {
-      return ['zfb2bank', 'offline'].includes(this.curPayType.saveWay)
+      return ['zfb2bank', 'offline'].includes((this.topupType ? this.znCurPayType : this.curPayType).saveWay)
     },
     btnConfirmDisable () {
       return !this.amount || this.amount === '0'
     }
   },
   watch: {
+    topupType (val) {
+      if (!this.znPayTypes.length) {
+        this.saveRanges(2)
+      }
+    },
     amount () {
       if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
       if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
@@ -514,6 +535,17 @@ export default {
     this.saveRanges()
   },
   methods: {
+    changeTopupType (type) {
+      this.topupType = type
+      this.curPayTypeIdx = 0
+      this.curBankIdx = 0
+      this.channelIndex = 0
+      if (type) {
+        if (this.znPayTypes.length) this.znChoicePayType(this.znPayTypes[0], 0)
+      } else {
+        this.choicePayType(this.payTypes[0], 0)
+      }
+    },
     replaceToNum (v) {
       return String(v).replace(/^0|\D/g, '')
     },
@@ -706,12 +738,17 @@ export default {
         this.type = 2
       })
     },
-    saveRanges (fn) {
-      this.$http.get(api.saveRanges, {chanType: 'web'}).then(({data: { success, saveRange }}) => {
-        if (success === 1) {
-          this.payTypes = saveRange
-          if (this.payTypes.length > 0) {
-            this.choicePayType(this.payTypes[0], 0)
+    saveRanges (type) {
+      this.$http.myget(api.saveRanges, type ? {chanType: 'web', mod: 2} : {chanType: 'web'}).then(({data}) => {
+        if (data.success === 1) {
+          if (type) {
+            this.znPayTypes = data.saveList
+            this.znChoicePayType(this.znPayTypes[0], 0)
+          } else {
+            this.payTypes = data.saveRange
+            if (this.payTypes.length > 0) {
+              this.choicePayType(this.payTypes[0], 0)
+            }
           }
         }
       }).catch(rpe => {
@@ -727,12 +764,17 @@ export default {
       }, 10000, '充值申请超时...')
       let params = {
         chanType: 'web',
-        saveWay: this.curPayType.saveWay,
+        saveWay: (this.topupType ? this.znCurPayType : this.curPayType).saveWay,
         bankCode: bankCode,
         amount: this.amount
       }
       if (this.canShowTruthName) {
         params.cardName = this.name
+      }
+      if (this.topupType) {
+        params.mod = 2
+        params.channelCode = this.znCurPayType.channels[this.channelIndex].channelCode
+        if (!bankCode) params.bankCode = this.znCurPayType.saveWay
       }
       this.$http.post(api.commit, params).then(({data}) => {
         if (data.success === 1) {
@@ -791,7 +833,7 @@ export default {
       if (this.canShowTruthName && !this.name) return this.$message.warning({message: '请输入您的真实姓名!'})
       if (!this.amount) this.$el.querySelector('input').focus()
       if (this.amount <= 0) return this.$message.warning({message: '请输入充值金额!'})
-      if (!this.curPayType.saveWay) return this.$message.warning({message: '请选择支付方式!'})
+      if (!(this.topupType ? this.znCurPayType : this.curPayType).saveWay) return this.$message.warning({message: '请选择支付方式!'})
       // if (this.amount > this.max || this.amount < this.min) return this.$message.warning({message: '充值金额过小或过大，请检查!'})
       // if (!this.selectBank.bankCode) return this.$message.warning({message: '请选择支付方式!'})
       // if (this.type >= 3 && this.epay[this.type - 3].title === '支付宝转账' && !this.name) return this.$message.warning({message: '请输入您支付宝真实姓名!'})
@@ -838,17 +880,78 @@ export default {
         this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
       })
     },
+    znChoicePayType (ptype, i) {
+      console.log('znChoicePayType')
+      this.channelIndex = 0
+      this.curPayTypeIdx = i
+      this.znCurPayType = ptype
+      this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
+      this.canShowPayTypeDetail = true
+      this.showFeeTipForwWeixin = this.znCurPayType.saveWay === 'weixin'
+      if (this.znCurPayType.saveWay === 'weixinquota' || this.znCurPayType.saveWay === 'zfbquota') {
+        this.quotaList = this.znCurPayType.channels[this.channelIndex].quota.split(',')
+        this.amount = this.quotaList[0]
+        this.showAmountInput = false
+      } else {
+        this.amount = ''
+        this.showAmountInput = true
+        this.quotaList = []
+      }
+      this.znChoiceBank(this.znCurPayType.channels[this.channelIndex].bankList[this.curBankIdx], 0)
+      this.$nextTick(() => {
+        let curPayTypeEl = this.$refs[`pay-type-${this.znCurPayType.saveWay}`][0]
+        this.iconPointerPosition(curPayTypeEl.offsetLeft + (curPayTypeEl.offsetWidth / 2))
+      })
+    },
+    changeChannelIndex (index) {
+      this.channelIndex = index
+      this.bankList = this.znCurPayType.channels[this.channelIndex].bankList
+      this.znChoiceBank(this.bankList[0], 0)
+      // 修改实际到账金额
+      if (this.amount.length > 1 && String(this.amount).indexOf('.') === this.amount.length - 1) return
+      if (/^\d+\.?\d{0,2}$/g.test(this.amount)) {
+        this.amount = parseFloat(this.amount, 10)
+        this.actualAmount = this.MMath.sub(this.amount, this.MMath.mul(this.amount, this.MMath.div(this.perRate, 100))).toFixed(2)
+        // setTimeout(() => {
+        //   typeof this.amount === 'number' && (this.amount + '') !== (this.amount.toFixed(2)) && (this.amount = (this.amount.toFixed(2)))
+        // }, 300)
+      } else {
+        this.actualAmount = 0
+      }
+    },
     checkCanShowPayTypeDetail (bankList = [], payType) {
       // 银行列表人大于1并且列表元素为对象类型, 微信定额
-      if (payType === 'weixinquota' || this.curPayType.saveWay === 'zfbquota') return true
+      if (payType === 'weixinquota' || (this.topupType ? this.znCurPayType : this.curPayType).saveWay === 'zfbquota') return true
+      let flag = false
       if (bankList.length > 1) {
-        return toString.call(bankList[0]) === '[object Object]'
+        flag = toString.call(bankList[0]) === '[object Object]'
       }
-      return false
+      if (this.topupType && !flag && this.znCurPayType.channels.length > 1) {
+        flag = toString.call(this.znCurPayType.channels[0]) === '[object Object]'
+      }
+      return flag
+    },
+    znChoiceBank (bank, i) {
+      this.curBankIdx = i
+      let temp = this.znCurPayType.channels[this.channelIndex]
+      this.quotaIdx = 0
+      this.curBank = {
+        bankCode: bank ? bank.bankCode : '',
+        bankName: bank ? bank.bankName : '',
+        fee: temp.fee,
+        range: temp.quota ? temp.quota.split(',') : temp.range,
+        commitAdd: temp.commitAdd
+      }
+      this.rechargeRange = typeof this.curBank.range === 'string' ? this.curBank.range : this.curBank.range.map((item) => {
+        item = item.split('~')
+        return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
+      }).join(';  &nbsp;')
+      this.perRate = this.curBank.fee
     },
     choiceBank (bank, i) {
       this.curBankIdx = i
       this.curBank = bank
+      this.quotaIdx = 0
       this.rechargeRange = this.curBank.range.map((item) => {
         item = item.split('~')
         return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
@@ -895,7 +998,7 @@ export default {
       let rs = BANKS.filter((item) => {
         return item.apiName === bankCode
       })
-      return (rs && rs[0].class) || ''
+      return (rs[0] && rs[0].class) || ''
     },
     search () {
       this.qryRecharge()
@@ -938,6 +1041,50 @@ export default {
       text-decoration none !important
   .u-name
     padding-left 0.42rem
+  .save-list
+    margin-left .0745rem
+    .item
+      display inline-block
+
+  .top-up-type,
+  .save-list .item
+    display inline-block
+    width 1.55rem
+    height .42rem
+    line-height .42rem
+    border-radius .02rem
+    border solid 1px #d4d4d4
+    box-sizing border-box
+    margin-right .15rem
+    cursor pointer
+    font-size 14px
+    color #000
+    transition .2s ease
+    text-align center
+    i
+      font-style normal
+      display inline-block
+      padding-left .32rem
+
+    &.active
+      background-color #fef2e6
+      border-color #f5a260
+    &.top-up-type
+      &:first-child i
+      &:last-child i
+        background-repeat no-repeat
+        background-position 0 center
+      &:first-child
+        margin-left .28rem
+        i
+          background-image url('../../assets/v2/cz_icon_zncz.png')
+      &:last-child i
+        background-image url('../../assets/v2/cz_icon_sdcz.png')
+    &.item i
+      background-image url('../../assets/v2/cz_icon_qd.png')
+      background-repeat no-repeat
+      background-position 0 center
+
   .u-balance
     padding 0 0.02rem 0 0.1rem
   .icon-pointer-wp
@@ -994,7 +1141,7 @@ export default {
       margin 0 0 0.0745rem 0.0745rem
     .text-button
       textButton()
- 
+
   .bank-qr-wp
     margin-bottom 0 !important
     height 1.5rem !important
@@ -1144,7 +1291,7 @@ export default {
 
   elButtonSuccess()
     background-color #65c014
-    border-color #65c014 
+    border-color #65c014
   elButtonWarning()
     background-color #e71c1c
     border-color #e71c1c
@@ -1169,7 +1316,7 @@ export default {
           elButtonWarning()
         .el-button--info
           elButtonInfo()
-  
+
   .rs-modal-btns-wp
     text-align center
     padding 0.2rem 0 0.3rem 0
@@ -1188,7 +1335,7 @@ export default {
         margin 0.58rem 0 0.32rem
         font-size 0.18rem
 
-  
+
   .res-confirm-rs-modal
     .box
       // &.wait
@@ -1256,7 +1403,7 @@ export default {
           font-size .12rem
           padding 0 .1rem
           color #f37e0c
-          
+
       &.unionpay
         &:after
           content '送0.2%-0.5%'
