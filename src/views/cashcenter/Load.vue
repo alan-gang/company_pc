@@ -25,9 +25,9 @@
         p.fc-o.mb20 友情提示：请优先选择Google谷歌,Firefox火狐,IE浏览器
         p 充值模式：
           span.top-up-type(:class="{active: !topupType}" @click="changeTopupType(0)")
-            i 智能充值
+            i 系统智能充值版
           span.top-up-type(:class="{active: topupType}" @click="changeTopupType(1)")
-            i 手动充值
+            i 手动选择充值版
         p.mt20 用户名：
           span.u-name {{me.account}}
         p.mt20 主账户余额：
