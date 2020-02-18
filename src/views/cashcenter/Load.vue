@@ -934,6 +934,7 @@ export default {
     znChoiceBank (bank, i) {
       this.curBankIdx = i
       let temp = this.znCurPayType.channels[this.channelIndex]
+      this.quotaIdx = 0
       this.curBank = {
         bankCode: bank ? bank.bankCode : '',
         bankName: bank ? bank.bankName : '',
@@ -950,6 +951,7 @@ export default {
     choiceBank (bank, i) {
       this.curBankIdx = i
       this.curBank = bank
+      this.quotaIdx = 0
       this.rechargeRange = this.curBank.range.map((item) => {
         item = item.split('~')
         return `${this.numberWithCommas(item[0])}${item.length > 1 ? ('~' + this.numberWithCommas(item[1])) : ''}`
